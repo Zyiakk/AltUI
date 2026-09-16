@@ -1,0 +1,6 @@
+{
+  "FileVersion": 3, "Version": 1, "VersionName": "0.1", "FriendlyName": "TKA BPGen",
+  "Description": "Generates Blueprints from JSON (editor-only commandlet)", "Category": "Editor",
+  "CreatedBy": "Zyiakk", "CanContainContent": false, "IsBetaVersion": true, "Installed": false,
+  "Modules": [ { "Name": "TKA_BPGen", "Type": "Editor", "LoadingPhase": "Default" } ]
+}

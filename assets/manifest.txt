@@ -1,0 +1,7 @@
+# Reihenfolge: Stubs -> Manager (Daten+Signaturen) -> Widgets -> Manager-UI (Bodies, augment) -> Hook
+10_stubs.json
+05_textures.json
+20_hook.json
+30_manager.json
+40_widgets.json
+50_manager_ui.json

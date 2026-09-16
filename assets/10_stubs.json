@@ -1,0 +1,1199 @@
+{
+ "assets": [
+  {
+   "type": "struct",
+   "path": "/Game/Project/Classes/Struct/Outfit_Struct",
+   "members": [
+    {
+     "name": "clothes",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.Color",
+     "internal_name": "clothes_5_E1AD9C5C4635FD04BF2E71A226121A33"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/Outfits_Save",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "outfits",
+     "type": "struct:/Game/Project/Classes/Struct/Outfit_Struct",
+     "container": "array"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Add Preset",
+     "inputs": [
+      {
+       "name": "player",
+       "type": "object:/Game/Project/Character/Jodi/Jodi"
+      }
+     ]
+    },
+    {
+     "name": "Apply Preset to Player",
+     "inputs": [
+      {
+       "name": "player",
+       "type": "object:/Game/Project/Character/Jodi/Jodi"
+      },
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Tables/MakeupDataStruct",
+   "members": [
+    {
+     "name": "List",
+     "type": "name",
+     "container": "array",
+     "internal_name": "List_3_E7EA677E4463B28539E691AC9F180706"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Tables/MakeupTypeStruct",
+   "members": [
+    {
+     "name": "Caption",
+     "type": "text",
+     "internal_name": "Caption_2_0E996EBA487974C09D613892192A99FF"
+    },
+    {
+     "name": "Single",
+     "type": "bool",
+     "internal_name": "Single_5_D22B0C314B5AA7105E3979B0D67B603E"
+    },
+    {
+     "name": "Animation",
+     "type": "name",
+     "internal_name": "Animation_15_9696C0334F9C1EC26BD342902846ED50"
+    },
+    {
+     "name": "EyeTable",
+     "type": "bool",
+     "internal_name": "EyeTable_17_DF63FF92407675E8F12582B42622DD3D"
+    },
+    {
+     "name": "CameraPosition",
+     "type": "int",
+     "internal_name": "CameraPosition_20_A53A425B432771FB8C19C2A0FD6AA255"
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Hairstyle/HairstyleTable",
+   "row_struct": "/Game/Project/Hairstyle/HairstyleStruct",
+   "composite": false,
+   "rows": {
+    "Hair": {
+     "MirrorID": 0
+    },
+    "TestHair": {
+     "MirrorID": -1
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/SkinTable",
+   "row_struct": "/Game/Project/Tables/SkinStruct",
+   "composite": false,
+   "rows": {
+    "Skin_Default": {}
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/MakeupTable",
+   "row_struct": "/Game/Project/Tables/MakeupStruct",
+   "composite": false,
+   "rows": {
+    "Eyebrow_01": {
+     "Type": "Eyebrow"
+    },
+    "Lips_01": {
+     "Type": "Lips"
+    },
+    "Lips_02": {
+     "Type": "Lips"
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/EyeTable",
+   "row_struct": "/Game/Project/Tables/EyeStruct",
+   "composite": false,
+   "rows": {
+    "Eye_1": {
+     "Type": "Eye"
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/MakeupTypeTable",
+   "row_struct": "/Game/Project/Tables/MakeupTypeStruct",
+   "composite": false,
+   "rows": {
+    "Eyebrow": {
+     "Single": true
+    },
+    "Eye": {
+     "Single": true,
+     "EyeTable": true
+    },
+    "Lips": {
+     "Single": true,
+     "Caption": "Lippen",
+     "CameraPosition": 983
+    },
+    "Cheeks": {
+     "Single": false
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/DLC_MainTable",
+   "row_struct": "/Game/Project/Tables/DLC_Struct",
+   "composite": false,
+   "rows": {
+    "Body_TestBody": {
+     "Caption": "Test Body"
+    },
+    "SomeMod": {
+     "Caption": "Some Mod"
+    }
+   }
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Classes/Struct/MakeupPreset_Struct",
+   "members": [
+    {
+     "name": "HairstyleName",
+     "type": "name",
+     "internal_name": "HairstyleName_7_3260D22B43C665CF63750083BF1D2497"
+    },
+    {
+     "name": "MakeupData",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Project/Tables/MakeupDataStruct",
+     "internal_name": "MakeupData_8_229DF3ED46B7F843D59714B8DA28DCAE"
+    },
+    {
+     "name": "SkinName",
+     "type": "name",
+     "internal_name": "SkinName_10_D161C58143EEB746BDE0E195450CF92E"
+    },
+    {
+     "name": "HairColor",
+     "type": "struct:/Script/CoreUObject.LinearColor",
+     "internal_name": "HairColor_13_2E49FD134AECED2C74BDBAA0B64005A2"
+    },
+    {
+     "name": "Waist",
+     "type": "float",
+     "internal_name": "Waist_16_877B264E42032AC07B0C5CA9A580981B"
+    },
+    {
+     "name": "Hip",
+     "type": "float",
+     "internal_name": "Hip_18_490CBF024F5D99374AFAB1897BB84E09"
+    },
+    {
+     "name": "BoobsSize",
+     "type": "float",
+     "internal_name": "BoobsSize_20_C70E33614D1991B60A6A16B1B45926E7"
+    },
+    {
+     "name": "IconNumber",
+     "type": "int",
+     "internal_name": "IconNumber_25_BAE5A8904A8F0BE67275D6908C7D51AB"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/Makeup_Save",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Makeup Data",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Project/Tables/MakeupDataStruct"
+    },
+    {
+     "name": "Hairstyle Name",
+     "type": "name"
+    },
+    {
+     "name": "Hair Color",
+     "type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "Skin Name",
+     "type": "name"
+    },
+    {
+     "name": "Waist",
+     "type": "float"
+    },
+    {
+     "name": "Hip",
+     "type": "float"
+    },
+    {
+     "name": "Boobs Size",
+     "type": "float"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Save Makeup"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/MakeupPreset_Save",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Data",
+     "type": "struct:/Game/Project/Classes/Struct/MakeupPreset_Struct",
+     "container": "array"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Save Makeup Preset"
+    },
+    {
+     "name": "Get Available Icon Number",
+     "outputs": [
+      {
+       "name": "number",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Add New Preset",
+     "inputs": [
+      {
+       "name": "makeup",
+       "type": "object:/Game/Project/Classes/Save/Makeup_Save"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "number",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Remove A Preset",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "number",
+       "type": "int"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/Hairstyle_Save",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Hairstyles",
+     "type": "name",
+     "container": "set"
+    },
+    {
+     "name": "Hair Colors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.Color"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/Player_Save",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Wear Clothes",
+     "type": "name",
+     "container": "array"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/TKA_GameInstance",
+   "mode": "create",
+   "parent": "/Script/Engine.GameInstance",
+   "variables": [
+    {
+     "name": "Hairstyles Save",
+     "type": "object:/Game/Project/Classes/Save/Hairstyle_Save"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Save Hair Color Data",
+     "inputs": [
+      {
+       "name": "player",
+       "type": "object:/Game/Project/Character/Jodi/Jodi"
+      }
+     ]
+    },
+    {
+     "name": "Add Hairstyles",
+     "inputs": [
+      {
+       "name": "hairstyle name",
+       "type": "name"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/UserInterface/Widgets/Paletter",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "Image_Color",
+     "type": "object:/Script/UMG.Image"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/UserInterface/PaletteUI",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "Paletter",
+     "type": "object:/Game/Project/UserInterface/Widgets/Paletter"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Show Palette",
+     "inputs": [
+      {
+       "name": "panel",
+       "type": "object:/Script/UMG.Widget"
+      },
+      {
+       "name": "button",
+       "type": "object:/Script/UMG.Widget"
+      },
+      {
+       "name": "flag",
+       "type": "int"
+      },
+      {
+       "name": "initial color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Close Frame"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Misc/WardrobeData",
+   "mode": "create",
+   "parent": "/Script/CoreUObject.Object",
+   "variables": [
+    {
+     "name": "Clothes",
+     "type": "name",
+     "container": "array"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Has This Clothes",
+     "inputs": [
+      {
+       "name": "clothes",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Add Item And Save",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "new clothes",
+       "type": "bool"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Misc/Clothes_Comp",
+   "mode": "create",
+   "parent": "/Script/Engine.SkeletalMeshComponent",
+   "variables": [
+    {
+     "name": "Color Adjustable",
+     "type": "bool"
+    },
+    {
+     "name": "Clothes Name",
+     "type": "name"
+    },
+    {
+     "name": "Type",
+     "type": "name"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Change Color",
+     "inputs": [
+      {
+       "name": "Color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Clothes/ClothesTable",
+   "row_struct": "/Game/Project/Clothes/ClothesStruct",
+   "composite": false,
+   "rows": {
+    "Briefs03": {
+     "TypeName": "Briefs",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Dress05": {
+     "TypeName": "Dress",
+     "Group": "Lace",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Casual_Mina_Neck": {
+     "TypeName": "Neck",
+     "Group": "Kpop",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Casual_Mina_Necklace": {
+     "TypeName": "Necklace",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "SpikeBoots": {
+     "TypeName": "Boots",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Weird": {
+     "TypeName": "Nonsense",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Zeta_Neck": {
+     "TypeName": "Neck",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Alpha_Neck": {
+     "TypeName": "Neck",
+     "Group": "Kpop",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Sock_g": {
+     "TypeName": "Socks",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Sock_a": {
+     "TypeName": "Socks",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Sock_e": {
+     "TypeName": "Socks",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Sock_c": {
+     "TypeName": "Socks",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Sock_b": {
+     "TypeName": "Socks",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Sock_f": {
+     "TypeName": "Socks",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Sock_d": {
+     "TypeName": "Socks",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Sock_Same_Prefix_Twenty4_B": {
+     "TypeName": "Socks",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    },
+    "Sock_Same_Prefix_Twenty4_A": {
+     "TypeName": "Socks",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/SomeMod/Mod_ClothesTable",
+   "row_struct": "/Game/Project/Clothes/ClothesStruct",
+   "composite": false,
+   "rows": {
+    "ModThing": {
+     "TypeName": "Top",
+     "Group": "None",
+     "ColorAdjustable": true,
+     "Quality": 2
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Clothes/com_ClothesTable",
+   "row_struct": "/Game/Project/Clothes/ClothesStruct",
+   "composite": true,
+   "parent_tables": [
+    "/Game/Project/Clothes/ClothesTable",
+    "/Game/Mod/SomeMod/Mod_ClothesTable"
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Clothes/ClothesTypeStruct",
+   "members": [
+    {
+     "name": "CameraFocus",
+     "type": "int",
+     "internal_name": "CameraFocus_17_DE98CCDE4FA8319FE550EC814F334C53"
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Clothes/ClothesTypeTable",
+   "row_struct": "/Game/Project/Clothes/ClothesTypeStruct",
+   "composite": false,
+   "rows": {
+    "Bra": {
+     "CameraFocus": 365
+    },
+    "Shirt": {},
+    "Top": {},
+    "Sweater": {},
+    "Loose": {},
+    "Suit": {},
+    "Dress": {},
+    "Leotard": {},
+    "Swim": {},
+    "Coat": {},
+    "Corset": {},
+    "Briefs": {},
+    "Pants": {},
+    "Panties": {},
+    "Leggings": {},
+    "Skirt": {},
+    "Garter": {},
+    "Socks": {},
+    "Shoes": {},
+    "Boots": {
+     "CameraFocus": 105
+    },
+    "Belt": {},
+    "Arms": {},
+    "Gloves": {},
+    "Neck": {},
+    "Necklace": {},
+    "Glasses": {},
+    "Ears": {},
+    "Headwear": {},
+    "Mask": {},
+    "Tail": {},
+    "Backpack": {},
+    "Holster": {},
+    "Acc": {}
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Clothes/ClothesGroup",
+   "row_struct": "/Game/Project/Clothes/ClothesGroupStruct",
+   "composite": false,
+   "rows": {
+    "Lace": {
+     "GroupName": "Spitze",
+     "Owning": false
+    },
+    "Kpop": {
+     "GroupName": "KPOP",
+     "Owning": false
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Clothes/com_ClothesGroup",
+   "row_struct": "/Game/Project/Clothes/ClothesGroupStruct",
+   "composite": true,
+   "parent_tables": [
+    "/Game/Project/Clothes/ClothesGroup"
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Character_Player_Base",
+   "mode": "augment",
+   "functions": [
+    {
+     "name": "Wear The Clothes",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "check covering",
+       "type": "bool"
+      },
+      {
+       "name": "update mask",
+       "type": "bool"
+      },
+      {
+       "name": "ignore compatible",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "successed",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Take off this clothes",
+     "inputs": [
+      {
+       "name": "clothes name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Get Wearing Clothes Names",
+     "outputs": [
+      {
+       "name": "clothes list",
+       "type": "name",
+       "container": "array"
+      }
+     ]
+    },
+    {
+     "name": "is clothes wearing",
+     "inputs": [
+      {
+       "name": "clothes name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Find Clothes Component With Name",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "clothes comp",
+       "type": "object:/Game/Project/Classes/Misc/Clothes_Comp"
+      }
+     ]
+    },
+    {
+     "name": "Get Clothes Color",
+     "inputs": [
+      {
+       "name": "clothes name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "found",
+       "type": "bool"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Save Clothes Color",
+     "inputs": [
+      {
+       "name": "clothes name",
+       "type": "name"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Restore Clothes Color",
+     "inputs": [
+      {
+       "name": "clothes",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Is Clothes Damaged",
+     "inputs": [
+      {
+       "name": "clothes",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Remove Clothing From Bag",
+     "inputs": [
+      {
+       "name": "clothing name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Reset Clothes Physics"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Character/Jodi/Jodi",
+   "mode": "augment",
+   "variables": [
+    {
+     "name": "Camera",
+     "type": "object:/Script/Engine.CameraComponent"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Save Appearance"
+    },
+    {
+     "name": "Is Input Enabled ?",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Use Clothes from Bag",
+     "inputs": [
+      {
+       "name": "clothes name",
+       "type": "name"
+      },
+      {
+       "name": "is wear",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Got Clothes",
+     "inputs": [
+      {
+       "name": "clothes name",
+       "type": "name"
+      },
+      {
+       "name": "wear",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Get Makeup Data",
+     "outputs": [
+      {
+       "name": "Makeup Data",
+       "type": "object:/Game/Project/Classes/Save/Makeup_Save"
+      }
+     ]
+    },
+    {
+     "name": "Change Skin",
+     "inputs": [
+      {
+       "name": "SkinName",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Update Makeup Texture"
+    },
+    {
+     "name": "Update Eyes Style"
+    },
+    {
+     "name": "Save Makeup Data to File"
+    },
+    {
+     "name": "Load Player Makeup"
+    },
+    {
+     "name": "Play Montage With Name",
+     "inputs": [
+      {
+       "name": "montage name",
+       "type": "name"
+      },
+      {
+       "name": "ignore when the montage playing",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Get Hairstyle Name",
+     "outputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Get Hairstyle Color",
+     "outputs": [
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Change Hairstyle",
+     "inputs": [
+      {
+       "name": "Hairstyle",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Change Hairstyle Color",
+     "inputs": [
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor",
+       "ref": true
+      }
+     ]
+    },
+    {
+     "name": "Apply Makeup Preset",
+     "inputs": [
+      {
+       "name": "data",
+       "type": "struct:/Game/Project/Classes/Struct/MakeupPreset_Struct",
+       "ref": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/GameMode/TKA_GameState_Base",
+   "mode": "augment",
+   "functions": [
+    {
+     "name": "Get Wardrobe Data",
+     "outputs": [
+      {
+       "name": "wardrobe data",
+       "type": "object:/Game/Project/Classes/Misc/WardrobeData"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Misc/Bag_Comp",
+   "mode": "augment",
+   "variables": [
+    {
+     "name": "Clothes in bag",
+     "type": "name",
+     "container": "array"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Has this Clothes ?",
+     "inputs": [
+      {
+       "name": "clothes name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Is Bag Full ?",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/UserInterface/Widgets/InventoryPanel",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "functions": [
+    {
+     "name": "Repair Clothes",
+     "inputs": [
+      {
+       "name": "clothes",
+       "type": "name"
+      },
+      {
+       "name": "all",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "done",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Remove all undressed clothes"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/UserInterface/PlayingHud",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "InventoryPanel",
+     "type": "object:/Game/Project/UserInterface/Widgets/InventoryPanel"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/GameMode/TKA_GameState",
+   "mode": "augment",
+   "variables": [
+    {
+     "name": "UserInterface",
+     "type": "object:/Game/Project/UserInterface/PlayingHud"
+    },
+    {
+     "name": "Default Underwear",
+     "type": "name",
+     "container": "array"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Set Nude Allowed",
+     "inputs": [
+      {
+       "name": "allow",
+       "type": "bool"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/TKA_Controller",
+   "mode": "augment",
+   "functions": [
+    {
+     "name": "ShowMouseCursor",
+     "inputs": [
+      {
+       "name": "show",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Set Widget Focus",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ]
+    },
+    {
+     "name": "Enable Player Control",
+     "inputs": [
+      {
+       "name": "Base",
+       "type": "bool"
+      },
+      {
+       "name": "Playing",
+       "type": "bool"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

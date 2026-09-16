@@ -1,0 +1,1247 @@
+{
+ "assets": [
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/TKA_PlayerCameraManager",
+   "mode": "create",
+   "parent": "/Script/Engine.PlayerCameraManager",
+   "variables": [
+    {
+     "name": "Spawned",
+     "type": "bool"
+    },
+    {
+     "name": "ViewShift",
+     "type": "float"
+    },
+    {
+     "name": "FovScale",
+     "type": "float",
+     "default": "0.8"
+    },
+    {
+     "name": "DistScale",
+     "type": "float",
+     "default": "1.0"
+    },
+    {
+     "name": "Cam",
+     "type": "object:/Script/Engine.CameraComponent"
+    },
+    {
+     "name": "ShiftWorld",
+     "type": "float"
+    },
+    {
+     "name": "ShiftInit",
+     "type": "bool"
+    },
+    {
+     "name": "FocusOn",
+     "type": "bool"
+    },
+    {
+     "name": "FocusZ",
+     "type": "float"
+    },
+    {
+     "name": "FocusZoom",
+     "type": "float",
+     "default": "1.0"
+    },
+    {
+     "name": "CurZ",
+     "type": "float"
+    },
+    {
+     "name": "CurZoom",
+     "type": "float",
+     "default": "1.0"
+    },
+    {
+     "name": "ShiftUp",
+     "type": "float"
+    }
+   ],
+   "functions": [
+    {
+     "name": "BlueprintUpdateCamera",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gvs",
+        "kind": "get",
+        "var": "ViewShift"
+       },
+       {
+        "id": "gt0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@gvs.ViewShift",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "bk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gt0.ReturnValue"
+        }
+       },
+       {
+        "id": "cams",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_GetComponentsByClass",
+        "in": {
+         "self": "@entry.CameraTarget",
+         "ComponentClass": "/Script/Engine.CameraComponent"
+        }
+       },
+       {
+        "id": "c0",
+        "kind": "set",
+        "var": "Cam",
+        "in": {
+         "Cam": "None"
+        }
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@cams.ReturnValue"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "cast",
+        "class": "/Script/Engine.CameraComponent",
+        "pure": true,
+        "in": {
+         "Object": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "act",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "IsActive",
+        "in": {
+         "self": "@cc.AsCamera Component"
+        }
+       },
+       {
+        "id": "gc0",
+        "kind": "get",
+        "var": "Cam"
+       },
+       {
+        "id": "cv0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gc0.Cam"
+        }
+       },
+       {
+        "id": "ncv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@cv0.ReturnValue"
+        }
+       },
+       {
+        "id": "pick",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@act.ReturnValue",
+         "B": "@ncv.ReturnValue"
+        }
+       },
+       {
+        "id": "bp",
+        "kind": "branch",
+        "in": {
+         "Condition": "@pick.ReturnValue"
+        }
+       },
+       {
+        "id": "sc",
+        "kind": "set",
+        "var": "Cam",
+        "in": {
+         "Cam": "@cc.AsCamera Component"
+        }
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Cam"
+       },
+       {
+        "id": "cv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gc.Cam"
+        }
+       },
+       {
+        "id": "bc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@cv.ReturnValue"
+        }
+       },
+       {
+        "id": "gc2",
+        "kind": "get",
+        "var": "Cam"
+       },
+       {
+        "id": "gv",
+        "kind": "call",
+        "class": "/Script/Engine.CameraComponent",
+        "function": "GetCameraView",
+        "in": {
+         "self": "@gc2.Cam",
+         "DeltaTime": "0.0"
+        }
+       },
+       {
+        "id": "bm",
+        "kind": "break",
+        "struct": "/Script/Engine.MinimalViewInfo",
+        "in": {
+         "MinimalViewInfo": "@gv.DesiredView"
+        }
+       },
+       {
+        "id": "dt",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetWorldDeltaSeconds"
+       },
+       {
+        "id": "gfo",
+        "kind": "get",
+        "var": "FocusOn"
+       },
+       {
+        "id": "gfz",
+        "kind": "get",
+        "var": "FocusZ"
+       },
+       {
+        "id": "gfm",
+        "kind": "get",
+        "var": "FocusZoom"
+       },
+       {
+        "id": "tz",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@gfz.FocusZ",
+         "B": "0.0",
+         "bPickA": "@gfo.FocusOn"
+        }
+       },
+       {
+        "id": "tm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@gfm.FocusZoom",
+         "B": "1.0",
+         "bPickA": "@gfo.FocusOn"
+        }
+       },
+       {
+        "id": "gcz",
+        "kind": "get",
+        "var": "CurZ"
+       },
+       {
+        "id": "iz",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FInterpTo",
+        "in": {
+         "Current": "@gcz.CurZ",
+         "Target": "@tz.ReturnValue",
+         "DeltaTime": "@dt.ReturnValue",
+         "InterpSpeed": "4.0"
+        }
+       },
+       {
+        "id": "scz",
+        "kind": "set",
+        "var": "CurZ",
+        "in": {
+         "CurZ": "@iz.ReturnValue"
+        }
+       },
+       {
+        "id": "gcm",
+        "kind": "get",
+        "var": "CurZoom"
+       },
+       {
+        "id": "im",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FInterpTo",
+        "in": {
+         "Current": "@gcm.CurZoom",
+         "Target": "@tm.ReturnValue",
+         "DeltaTime": "@dt.ReturnValue",
+         "InterpSpeed": "4.0"
+        }
+       },
+       {
+        "id": "scm",
+        "kind": "set",
+        "var": "CurZoom",
+        "in": {
+         "CurZoom": "@im.ReturnValue"
+        }
+       },
+       {
+        "id": "aloc0",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_GetActorLocation",
+        "in": {
+         "self": "@entry.CameraTarget"
+        }
+       },
+       {
+        "id": "gcz2",
+        "kind": "get",
+        "var": "CurZ"
+       },
+       {
+        "id": "zv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "0.0",
+         "Y": "0.0",
+         "Z": "@gcz2.CurZ"
+        }
+       },
+       {
+        "id": "aloc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_VectorVector",
+        "in": {
+         "A": "@aloc0.ReturnValue",
+         "B": "@zv.ReturnValue"
+        }
+       },
+       {
+        "id": "fwd0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GetForwardVector",
+        "in": {
+         "InRot": "@bm.Rotation"
+        }
+       },
+       {
+        "id": "dvec",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_VectorVector",
+        "in": {
+         "A": "@aloc.ReturnValue",
+         "B": "@bm.Location"
+        }
+       },
+       {
+        "id": "dist",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Dot_VectorVector",
+        "in": {
+         "A": "@dvec.ReturnValue",
+         "B": "@fwd0.ReturnValue"
+        }
+       },
+       {
+        "id": "half",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@bm.FOV",
+         "B": "2.0"
+        }
+       },
+       {
+        "id": "tan",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "DegTan",
+        "in": {
+         "A": "@half.ReturnValue"
+        }
+       },
+       {
+        "id": "gfs",
+        "kind": "get",
+        "var": "FovScale"
+       },
+       {
+        "id": "nfov",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@bm.FOV",
+         "B": "@gfs.FovScale"
+        }
+       },
+       {
+        "id": "nhalf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@nfov.ReturnValue",
+         "B": "2.0"
+        }
+       },
+       {
+        "id": "ntan",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "DegTan",
+        "in": {
+         "A": "@nhalf.ReturnValue"
+        }
+       },
+       {
+        "id": "halfw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@dist.ReturnValue",
+         "B": "@tan.ReturnValue"
+        }
+       },
+       {
+        "id": "ndist0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@halfw.ReturnValue",
+         "B": "@ntan.ReturnValue"
+        }
+       },
+       {
+        "id": "gds",
+        "kind": "get",
+        "var": "DistScale"
+       },
+       {
+        "id": "ndist1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@ndist0.ReturnValue",
+         "B": "@gds.DistScale"
+        }
+       },
+       {
+        "id": "gcm2",
+        "kind": "get",
+        "var": "CurZoom"
+       },
+       {
+        "id": "ndist",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@ndist1.ReturnValue",
+         "B": "@gcm2.CurZoom"
+        }
+       },
+       {
+        "id": "back",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@ndist.ReturnValue",
+         "B": "@dist.ReturnValue"
+        }
+       },
+       {
+        "id": "fwd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GetForwardVector",
+        "in": {
+         "InRot": "@bm.Rotation"
+        }
+       },
+       {
+        "id": "boff",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_VectorFloat",
+        "in": {
+         "A": "@fwd.ReturnValue",
+         "B": "@back.ReturnValue"
+        }
+       },
+       {
+        "id": "nhalfw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@ndist.ReturnValue",
+         "B": "@ntan.ReturnValue"
+        }
+       },
+       {
+        "id": "right",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GetRightVector",
+        "in": {
+         "InRot": "@bm.Rotation"
+        }
+       },
+       {
+        "id": "lat",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Dot_VectorVector",
+        "in": {
+         "A": "@dvec.ReturnValue",
+         "B": "@right.ReturnValue"
+        }
+       },
+       {
+        "id": "m1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@nhalfw.ReturnValue",
+         "B": "@gvs.ViewShift"
+        }
+       },
+       {
+        "id": "m0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@lat.ReturnValue",
+         "B": "@m1.ReturnValue"
+        }
+       },
+       {
+        "id": "gsi",
+        "kind": "get",
+        "var": "ShiftInit"
+       },
+       {
+        "id": "bsi",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gsi.ShiftInit"
+        }
+       },
+       {
+        "id": "ss0",
+        "kind": "set",
+        "var": "ShiftWorld",
+        "in": {
+         "ShiftWorld": "@m0.ReturnValue"
+        }
+       },
+       {
+        "id": "ssi",
+        "kind": "set",
+        "var": "ShiftInit",
+        "in": {
+         "ShiftInit": "true"
+        }
+       },
+       {
+        "id": "pc",
+        "kind": "call",
+        "class": "/Script/Engine.PlayerCameraManager",
+        "function": "GetOwningPlayerController"
+       },
+       {
+        "id": "prj",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "ProjectWorldToScreen",
+        "in": {
+         "Player": "@pc.ReturnValue",
+         "WorldPosition": "@aloc.ReturnValue",
+         "bPlayerViewportRelative": "false"
+        }
+       },
+       {
+        "id": "bpj",
+        "kind": "branch",
+        "in": {
+         "Condition": "@prj.ReturnValue"
+        }
+       },
+       {
+        "id": "vp",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetLayoutLibrary",
+        "function": "GetViewportSize"
+       },
+       {
+        "id": "bvp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@vp.ReturnValue"
+        }
+       },
+       {
+        "id": "bsl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@prj.ScreenPosition"
+        }
+       },
+       {
+        "id": "nx0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@bsl.X",
+         "B": "@bvp.X"
+        }
+       },
+       {
+        "id": "nx1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@nx0.ReturnValue",
+         "B": "2.0"
+        }
+       },
+       {
+        "id": "nx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@nx1.ReturnValue",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "tgt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@gvs.ViewShift",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "err",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@nx.ReturnValue",
+         "B": "@tgt.ReturnValue"
+        }
+       },
+       {
+        "id": "e1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@err.ReturnValue",
+         "B": "@nhalfw.ReturnValue"
+        }
+       },
+       {
+        "id": "e2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@e1.ReturnValue",
+         "B": "0.6"
+        }
+       },
+       {
+        "id": "gsw",
+        "kind": "get",
+        "var": "ShiftWorld"
+       },
+       {
+        "id": "nsw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@gsw.ShiftWorld",
+         "B": "@e2.ReturnValue"
+        }
+       },
+       {
+        "id": "ssw",
+        "kind": "set",
+        "var": "ShiftWorld",
+        "in": {
+         "ShiftWorld": "@nsw.ReturnValue"
+        }
+       },
+       {
+        "id": "ny0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@bsl.Y",
+         "B": "@bvp.Y"
+        }
+       },
+       {
+        "id": "ny1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@ny0.ReturnValue",
+         "B": "2.0"
+        }
+       },
+       {
+        "id": "ny",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@ny1.ReturnValue",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "asp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@bvp.X",
+         "B": "@bvp.Y"
+        }
+       },
+       {
+        "id": "halfh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@nhalfw.ReturnValue",
+         "B": "@asp.ReturnValue"
+        }
+       },
+       {
+        "id": "ey1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@ny.ReturnValue",
+         "B": "@halfh.ReturnValue"
+        }
+       },
+       {
+        "id": "ey2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@ey1.ReturnValue",
+         "B": "-0.6"
+        }
+       },
+       {
+        "id": "gsu",
+        "kind": "get",
+        "var": "ShiftUp"
+       },
+       {
+        "id": "nsu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@gsu.ShiftUp",
+         "B": "@ey2.ReturnValue"
+        }
+       },
+       {
+        "id": "gsu2",
+        "kind": "get",
+        "var": "ShiftUp"
+       },
+       {
+        "id": "dsu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FInterpTo",
+        "in": {
+         "Current": "@gsu2.ShiftUp",
+         "Target": "0.0",
+         "DeltaTime": "@dt.ReturnValue",
+         "InterpSpeed": "4.0"
+        }
+       },
+       {
+        "id": "gfo2",
+        "kind": "get",
+        "var": "FocusOn"
+       },
+       {
+        "id": "selu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@nsu.ReturnValue",
+         "B": "@dsu.ReturnValue",
+         "bPickA": "@gfo2.FocusOn"
+        }
+       },
+       {
+        "id": "ssu",
+        "kind": "set",
+        "var": "ShiftUp",
+        "in": {
+         "ShiftUp": "@selu.ReturnValue"
+        }
+       },
+       {
+        "id": "gsw2",
+        "kind": "get",
+        "var": "ShiftWorld"
+       },
+       {
+        "id": "off",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_VectorFloat",
+        "in": {
+         "A": "@right.ReturnValue",
+         "B": "@gsw2.ShiftWorld"
+        }
+       },
+       {
+        "id": "up",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GetUpVector",
+        "in": {
+         "InRot": "@bm.Rotation"
+        }
+       },
+       {
+        "id": "gsu3",
+        "kind": "get",
+        "var": "ShiftUp"
+       },
+       {
+        "id": "offu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_VectorFloat",
+        "in": {
+         "A": "@up.ReturnValue",
+         "B": "@gsu3.ShiftUp"
+        }
+       },
+       {
+        "id": "loc0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_VectorVector",
+        "in": {
+         "A": "@bm.Location",
+         "B": "@boff.ReturnValue"
+        }
+       },
+       {
+        "id": "loc1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_VectorVector",
+        "in": {
+         "A": "@loc0.ReturnValue",
+         "B": "@off.ReturnValue"
+        }
+       },
+       {
+        "id": "loc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_VectorVector",
+        "in": {
+         "A": "@loc1.ReturnValue",
+         "B": "@offu.ReturnValue"
+        }
+       },
+       {
+        "id": "t",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "true",
+         "B": "true"
+        }
+       },
+       {
+        "id": "r2",
+        "kind": "return_new"
+       },
+       {
+        "id": "f",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "false",
+         "B": "false"
+        }
+       },
+       {
+        "id": "rsi",
+        "kind": "set",
+        "var": "ShiftInit",
+        "in": {
+         "ShiftInit": "false"
+        }
+       },
+       {
+        "id": "rsu",
+        "kind": "set",
+        "var": "ShiftUp",
+        "in": {
+         "ShiftUp": "0.0"
+        }
+       },
+       {
+        "id": "rcz",
+        "kind": "set",
+        "var": "CurZ",
+        "in": {
+         "CurZ": "0.0"
+        }
+       },
+       {
+        "id": "rcm",
+        "kind": "set",
+        "var": "CurZoom",
+        "in": {
+         "CurZoom": "1.0"
+        }
+       }
+      ],
+      "links": [
+       [
+        "loc.ReturnValue",
+        "return.NewCameraLocation"
+       ],
+       [
+        "bm.Rotation",
+        "return.NewCameraRotation"
+       ],
+       [
+        "nfov.ReturnValue",
+        "return.NewCameraFOV"
+       ],
+       [
+        "t.ReturnValue",
+        "return.ReturnValue"
+       ],
+       [
+        "f.ReturnValue",
+        "r2.ReturnValue"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bk",
+        "c0",
+        "fe"
+       ],
+       [
+        "fe",
+        "bp",
+        "sc"
+       ],
+       [
+        "fe:Completed",
+        "bc",
+        "gv",
+        "scz",
+        "scm",
+        "bsi",
+        "bpj",
+        "ssw",
+        "ssu",
+        "return"
+       ],
+       [
+        "bsi:else",
+        "ss0",
+        "ssi",
+        "return"
+       ],
+       [
+        "bpj:else",
+        "return"
+       ],
+       [
+        "bk:else",
+        "rsi",
+        "rsu",
+        "rcz",
+        "rcm",
+        "r2"
+       ],
+       [
+        "bc:else",
+        "r2"
+       ]
+      ]
+     }
+    }
+   ],
+   "event_graph": {
+    "nodes": [
+     {
+      "id": "bp",
+      "kind": "event",
+      "class": "/Script/Engine.Actor",
+      "name": "ReceiveBeginPlay"
+     },
+     {
+      "id": "me",
+      "kind": "self"
+     },
+     {
+      "id": "tm",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_SetTimer",
+      "in": {
+       "Object": "@me.self",
+       "FunctionName": "TryInit",
+       "Time": "0.5",
+       "bLooping": "true"
+      }
+     },
+     {
+      "id": "ev",
+      "kind": "custom_event",
+      "name": "TryInit",
+      "inputs": []
+     },
+     {
+      "id": "gsp",
+      "kind": "get",
+      "var": "Spawned"
+     },
+     {
+      "id": "br",
+      "kind": "branch",
+      "in": {
+       "Condition": "@gsp.Spawned"
+      }
+     },
+     {
+      "id": "pc",
+      "kind": "call",
+      "class": "/Script/Engine.PlayerCameraManager",
+      "function": "GetOwningPlayerController"
+     },
+     {
+      "id": "pawn",
+      "kind": "call",
+      "class": "/Script/Engine.Controller",
+      "function": "K2_GetPawn",
+      "in": {
+       "self": "@pc.ReturnValue"
+      }
+     },
+     {
+      "id": "cj",
+      "kind": "cast",
+      "class": "/Game/Project/Character/Jodi/Jodi",
+      "pure": false,
+      "in": {
+       "Object": "@pawn.ReturnValue"
+      },
+      "miss": "ignore"
+     },
+     {
+      "id": "ld",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "LoadClassAsset_Blocking",
+      "in": {
+       "AssetClass": "/Game/Mod/AltUI/BP_AltUIManager.BP_AltUIManager_C"
+      }
+     },
+     {
+      "id": "cc",
+      "kind": "class_cast",
+      "pure": true,
+      "class": "/Script/Engine.Actor",
+      "in": {
+       "Class": "@ld.ReturnValue"
+      }
+     },
+     {
+      "id": "iv",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "IsValidClass",
+      "in": {
+       "Class": "@cc.AsActor"
+      }
+     },
+     {
+      "id": "br2",
+      "kind": "branch",
+      "in": {
+       "Condition": "@iv.ReturnValue"
+      }
+     },
+     {
+      "id": "tr",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "MakeTransform",
+      "in": {
+       "Scale": "1,1,1"
+      }
+     },
+     {
+      "id": "sp",
+      "kind": "spawn",
+      "in": {
+       "SpawnTransform": "@tr.ReturnValue",
+       "Class": "@cc.AsActor",
+       "Owner": "@pc.ReturnValue"
+      }
+     },
+     {
+      "id": "ssp",
+      "kind": "set",
+      "var": "Spawned",
+      "in": {
+       "Spawned": "true"
+      }
+     },
+     {
+      "id": "me2",
+      "kind": "self"
+     },
+     {
+      "id": "ct",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_ClearTimer",
+      "in": {
+       "Object": "@me2.self",
+       "FunctionName": "TryInit"
+      }
+     },
+     {
+      "id": "me3",
+      "kind": "self"
+     },
+     {
+      "id": "ct2",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_ClearTimer",
+      "in": {
+       "Object": "@me3.self",
+       "FunctionName": "TryInit"
+      }
+     }
+    ],
+    "links": [],
+    "exec": [
+     [
+      "bp",
+      "tm"
+     ],
+     [
+      "ev",
+      "br"
+     ],
+     [
+      "br:else",
+      "cj",
+      "ld",
+      "br2",
+      "sp",
+      "ssp",
+      "ct"
+     ],
+     [
+      "br2:else",
+      "ct2"
+     ]
+    ]
+   },
+   "defaults": {
+    "ViewPitchMin": "-80.0",
+    "ViewPitchMax": "70.0"
+   }
+  }
+ ]
+}

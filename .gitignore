@@ -1,0 +1,13 @@
+# local configuration (copy config.example.sh)
+config.sh
+# build artefacts
+build/
+*.pak
+!versions/**/*.pak
+__pycache__/
+bpgen/Binaries/
+bpgen/Intermediate/
+tools/bpdump/bin/
+tools/bpdump/obj/
+# fetched by tools/fetch_ooz.sh
+tools/ooz/

@@ -1,0 +1,74 @@
+# AltUI
+
+A replacement wardrobe and appearance UI for *The Killing Antidote* (game version 0.6.x). The vanilla wardrobe gives every mod author their own tab, so with a few clothing mods installed the same kind of item is scattered across a dozen tabs and there is no way to search. AltUI sorts every item from the game and from all installed mods into **one list per slot** (tops, skirts, shoes, …), with search, filters, favourites and hiding – and puts hair, makeup, body and outfits into the same panel. It opens anywhere in a level with **B**; no trips to the wardrobe or the mirror.
+
+## Installation
+
+Two files from the [latest release](../../releases), two folders (paths relative to the game installation, e.g. `Steam/steamapps/common/TheKillingAntidote/`):
+
+| File | Copy to |
+|---|---|
+| `AltUI.pak` | `TheKillingAntidote/Mods/` |
+| `AltUI_Hook_P.pak` | `TheKillingAntidote/Content/Paks/~mods/` (create the folder; the name starts with a tilde) |
+
+Both are required. The hook replaces the game's `TKA_PlayerCameraManager` blueprint (it spawns the panel and moves the camera); without it **B does nothing**. It conflicts with any other mod that replaces the same blueprint (none known).
+
+Uninstall: delete the two files. The mod's own saves may go too: `Saved/SaveGames/AltUI.sav`, `AltUI_Looks.sav` and the look photos in `Saved/SaveGames/AltUI/`. Nothing else is touched – clothes, outfits, makeup and hair are written through the game's own save files.
+
+## What it does
+
+| Tab | Content |
+|---|---|
+| **Clothes** | Every item the game and your mods know, grouped by slot, sub-tabs per mod, search, "owned only" / "favourites only" filters, favourites, colour via the game's palette, colour reset, backpack in/out, hide items. |
+| **Outfits** | The game's outfit presets, with names (right-click → rename). |
+| **Looks** | A complete look – clothes with colours, hairstyle and colour, makeup, eyes, skin, body sliders, body mod – saved with an in-game full-body photo. Apply, update, rename, delete. |
+| **Backpack** | What Jodi wears and carries: wear, remove, repair, back to wardrobe, clean up. |
+| **Coiffure** | All hairstyles, hair colour, factory reset. |
+| **Appearance** | Skin, every makeup type, eyes, makeup presets with icons. |
+| **Body Shape** | Breast / waist / hip sliders and a switcher for installed body mods (below). |
+| **Options** | Panel key, language, scroll speed, tile size, screen share kept free for Jodi, camera FOV / distance / pan, colour scheme and opacity, "underwear may be taken off". |
+
+Undo / redo (5 steps) in the status bar; tooltips show which mod an item comes from. Languages: English, German, Chinese, Russian, Spanish (auto-detected, switchable).
+
+**Controls:** **B** opens / closes (changeable in Options), **Esc** closes. Left click selects / wears / applies, right click opens the context menu, mouse wheel scrolls. While the panel is open Jodi cannot walk; drag on the background to turn the camera, +/− changes the distance.
+
+## Body mods
+
+Body replacer paks all overwrite the same game file, so only one can be active and nothing can switch between them. `bodypak.pyz` (in the release, Python 3.8+, no packages) converts a replacer into a regular mod pak that keeps the mesh under its own path; any number of converted bodies can be installed side by side and appear as chips in the Body Shape tab. The choice is remembered and re-applied on every level load.
+
+```
+python3 bodypak.pyz <Original.pak> [--name Body_<Name>] [--title "Display name"] [--out <folder>] [--force]
+python3 bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title "Some body"
+```
+
+`--name` must match `Body_[A-Za-z0-9_]+` (default: derived from the file name); `--title` is the chip text. Copy the resulting `Body_<Name>.pak` to `TheKillingAntidote/Mods/` and remove the original replacer from `Mods/` or `~mods/` (or keep it in `~mods/` – it then becomes the "Standard" chip). Only the mesh is taken, byte for byte; skin textures shipped in the same pak are left out. Pak versions 3–11, uncompressed / zlib / Oodle.
+
+## Building from source
+
+Everything in the paks is generated – no game assets are included.
+
+### Requirements
+
+* Unreal Engine 4.27 built from source.
+* Python 3.
+* The official sample project *TKA_Workshop* linked in the Steam guide [Workshop Mod Creation](https://steamcommunity.com/sharedfiles/filedetails/?id=3360997448) – it contains the game's class blueprints the mod compiles against.
+
+### Build
+
+* Copy `bpgen/` to `<sample project>/Plugins/TKA_BPGen` and build the project once. Copy `config.example.sh` to `config.sh` and set the paths.
+* `./build.sh` – runs the generators (`assets/gen/*.py` → `assets/*.json`), the BPGen commandlet (adds the missing function stubs to the sample project's game classes and creates the widgets and the manager blueprint), cook, pak, verify, deploy (`--no-deploy` to skip).
+* Tests: `python3 -m unittest discover -s tests/unit`, editor tests `scripts/edtest.sh $PWD/tests/editor/test_<name>.py`.
+* `scripts/bodypak_dist.sh` builds `bodypak.pyz`. `tools/fetch_ooz.sh` fetches and builds [ooz](https://github.com/powzix/ooz) (GPL-3), needed only to read Oodle-compressed paks in the body-pak tests.
+
+## Screenshots
+
+| | |
+|---|---|
+| **Clothes** – one list per slot, search, filters ![Clothes](versions/1.1.0/screenshots/clothes.jpg) | **Outfits** – the game's presets with names ![Outfits](versions/1.1.0/screenshots/outfits.jpg) |
+| **Looks** – complete looks with photo ![Looks](versions/1.1.0/screenshots/looks.jpg) | **Backpack** – worn and carried items ![Backpack](versions/1.1.0/screenshots/backpack.jpg) |
+| **Coiffure** – hairstyles and hair colour ![Coiffure](versions/1.1.0/screenshots/coiffure.jpg) | **Appearance** – skin, makeup, eyes, presets ![Appearance](versions/1.1.0/screenshots/appearance.jpg) |
+| **Body Shape** – sliders and body switcher ![Body Shape](versions/1.1.0/screenshots/body-shape.jpg) | **Options** – key, language, camera, colours ![Options](versions/1.1.0/screenshots/options.jpg) |
+
+## License
+
+MIT – see `LICENSE`. AltUI is a fan project and not affiliated with the game's developer.
