@@ -4,6 +4,8 @@ Versión en español de la descripción de la [página del Workshop de Steam](ht
 
 El vestuario del juego da a cada autor de mods su propia pestaña, así que con unos cuantos mods de ropa instalados el mismo tipo de prenda queda repartido por una docena de pestañas y no hay forma de buscar. AltUI ordena cada prenda del juego y de todos los mods instalados en **una lista por ranura** (tops, faldas, zapatos, …), con búsqueda, filtros, favoritos y ocultación – y mete peinado, maquillaje, cuerpo y conjuntos en el mismo panel. Se abre en cualquier punto de un nivel con **B**; no hace falta ir al vestuario ni al espejo.
 
+También en [Nexus Mods](https://www.nexusmods.com/thekillingantidote/mods/988) (los dos archivos en un solo paquete). El mismo mod – elige una fuente, no las dos.
+
 > ⚠️ **Aviso:** hecho para la versión 0.6.x del juego. Una actualización del juego que cambie las tablas de ropa / maquillaje o el gestor de cámara puede romper el mod. Steam solo actualiza automáticamente la mitad del mod (el pak del Workshop); el archivo hook en `~mods` lo gestionas tú – en «Actualizaciones del mod y el archivo hook», más abajo, se explica cuándo hay que sustituirlo.
 
 ## ⚠ Instalación – léelo primero

@@ -1,6 +1,6 @@
 # AltUI – panel de vestuario y apariencia
 
-Versión en español de la descripción de la página de AltUI en Nexus Mods. El original en inglés de la página de Nexus es el que manda.
+Versión en español de la descripción de la [página de AltUI en Nexus Mods](https://www.nexusmods.com/thekillingantidote/mods/988). El original en inglés de la página de Nexus es el que manda.
 
 El vestuario del juego da a cada autor de mods su propia pestaña, así que con unos cuantos mods de ropa instalados el mismo tipo de prenda queda repartido por una docena de pestañas y no hay forma de buscar. AltUI ordena cada prenda del juego y de todos los mods instalados en **una lista por ranura** (tops, faldas, zapatos, …), con búsqueda, filtros, favoritos y ocultación – y mete peinado, maquillaje, cuerpo y conjuntos en el mismo panel. Se abre en cualquier punto de un nivel con **B**; no hace falta ir al vestuario ni al espejo.
 

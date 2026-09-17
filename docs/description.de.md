@@ -4,6 +4,8 @@ Deutsche Fassung der Beschreibung des [Steam-Workshop-Eintrags](https://steamcom
 
 Die Garderobe des Spiels gibt jedem Mod-Autor einen eigenen Reiter. Mit ein paar Kleidungs-Mods ist dieselbe Art von Teil über ein Dutzend Reiter verstreut, und suchen kann man nicht. AltUI sortiert jedes Teil aus dem Spiel und aus allen installierten Mods in **eine Liste pro Slot** (Oberteile, Röcke, Schuhe, …), mit Suche, Filtern, Favoriten und Ausblenden – und holt Frisur, Makeup, Körper und Outfits in dasselbe Panel. Es öffnet sich überall im Level mit **B**; kein Weg mehr zur Garderobe oder zum Spiegel.
 
+Auch auf [Nexus Mods](https://www.nexusmods.com/thekillingantidote/mods/988) (beide Dateien in einem Archiv). Derselbe Mod – eine Quelle wählen, nicht beide.
+
 > ⚠️ **Warnung:** Gemacht für Spielversion 0.6.x. Ein Spiel-Update, das die Kleidungs-/Makeup-Tabellen oder den Kamera-Manager ändert, kann den Mod kaputt machen. Steam aktualisiert nur die Hälfte des Mods automatisch (das Workshop-Pak); die Hook-Datei in `~mods` verwaltest du selbst – siehe „Mod-Updates und die Hook-Datei“ unten, wann sie ersetzt werden muss.
 
 ## ⚠ Installation – zuerst lesen

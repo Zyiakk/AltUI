@@ -1,6 +1,6 @@
 # AltUI – Garderobe- und Aussehen-Panel
 
-Deutsche Fassung der Beschreibung der AltUI-Seite auf Nexus Mods. Maßgeblich ist das englische Original auf der Nexus-Seite.
+Deutsche Fassung der Beschreibung der [AltUI-Seite auf Nexus Mods](https://www.nexusmods.com/thekillingantidote/mods/988). Maßgeblich ist das englische Original auf der Nexus-Seite.
 
 Die Garderobe des Spiels gibt jedem Mod-Autor einen eigenen Reiter. Mit ein paar Kleidungs-Mods ist dieselbe Art von Teil über ein Dutzend Reiter verstreut, und suchen kann man nicht. AltUI sortiert jedes Teil aus dem Spiel und aus allen installierten Mods in **eine Liste pro Slot** (Oberteile, Röcke, Schuhe, …), mit Suche, Filtern, Favoriten und Ausblenden – und holt Frisur, Makeup, Körper und Outfits in dasselbe Panel. Es öffnet sich überall im Level mit **B**; kein Weg mehr zur Garderobe oder zum Spiegel.
 
