@@ -29,7 +29,7 @@ Deinstallation: die zwei Dateien löschen. Die eigenen Speicherdateien des Mods 
 * **Looks** – ein kompletter Look (Kleidung mit Farben, Frisur und Haarfarbe, Makeup, Augen, Haut, Körper-Regler, Body-Mod), gespeichert mit einem Ganzkörperfoto aus dem Spiel. Anwenden, aktualisieren, umbenennen, löschen.
 * **Rucksack** – was Jodi trägt und dabeihat: anziehen, ausziehen, reparieren, zurück in die Garderobe, aufräumen.
 * **Frisur** – alle Frisuren, Haarfarbe, Werkseinstellung.
-* **Aussehen** – Haut, jeder Makeup-Typ, Augen, Makeup-Vorlagen mit Symbolen.
+* **Aussehen** – Haut, jeder Makeup-Typ, Augen, Aussehen-Vorlagen mit Symbolen.
 * **Körperform** – Regler für Brust / Taille und ein Umschalter für installierte Body-Mods.
 * **Optionen** – Taste für das Panel, Sprache, Scroll-Geschwindigkeit, Kachelgröße, freier Bildschirmanteil für Jodi, Kamera-FOV / -Abstand / -Schwenk, Farbschema und Deckkraft, „Unterwäsche darf ausgezogen werden“.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips zeigen, aus welchem Mod ein Teil stammt.

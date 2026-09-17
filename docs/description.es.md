@@ -28,7 +28,7 @@ El hook sustituye *TKA_PlayerCameraManager* y entra en conflicto con cualquier o
 * **Looks** – un look completo (ropa con colores, peinado y su color, maquillaje, ojos, piel, deslizadores del cuerpo, mod de cuerpo) guardado con una foto de cuerpo entero hecha en el juego. Aplicar, actualizar, renombrar, borrar.
 * **Mochila** – lo que Jodi lleva puesto y encima: ponerse, quitarse, reparar, devolver al vestuario, ordenar.
 * **Peinado** – todos los peinados, color de pelo, valores de fábrica.
-* **Apariencia** – piel, todos los tipos de maquillaje, ojos, maquillajes predefinidos con iconos.
+* **Apariencia** – piel, todos los tipos de maquillaje, ojos, apariencias predefinidas con iconos.
 * **Curvas** – deslizadores de pecho / cintura y un selector de los mods de cuerpo instalados.
 * **Opciones** – tecla del panel, idioma, velocidad de desplazamiento, tamaño de las casillas, parte de la pantalla reservada para Jodi, FOV / distancia / seguimiento de la cámara, esquema de colores y opacidad, «se puede quitar la ropa interior».
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
