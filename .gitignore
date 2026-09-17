@@ -11,3 +11,4 @@ tools/bpdump/bin/
 tools/bpdump/obj/
 # fetched by tools/fetch_ooz.sh
 tools/ooz/
+.idea
