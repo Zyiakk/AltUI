@@ -702,6 +702,11 @@ UI_SIGNATURES = [
     fn("Rebuild Looks"), fn("On Look Clicked", [param("index", "int")]), fn("On Look Context", [param("index", "int")]), fn("Start Look Rename", [param("index", "int")]),
     fn("Look Icon", [param("id", "int")], [param("tex", "object:" + E_TEX2D)]), fn("Capture Look Photo", [param("id", "int")]),
     fn("Capture Photo", [param("target", "struct:/Script/CoreUObject.Vector"), param("distance", "float"), param("rise", "float"), param("width", "int"), param("height", "int"), param("dir", "string"), param("file", "string")]), fn("Finish Photo"),
+    # content view
+    fn("Content Open", [param("page", "name")], [param("yes", "bool")]), fn("Open Content", [param("kind", "name"), param("index", "int")]),
+    fn("Open Outfit Content", [param("index", "int")]), fn("Open Look Content", [param("index", "int")]), fn("Open Preset Content", [param("index", "int")]), fn("Close Content"),
+    fn("Content Snapshot", [param("kind", "name"), param("index", "int")], [param("ok", "bool")]), fn("Rebuild Content"),
+    fn("On Content Item Context", [param("name", "name")]), fn("Go To Item", [param("name", "name")]), fn("Scroll To Highlight"),
 ]
 
 
@@ -768,13 +773,17 @@ assets = [
                          var("Favorites", "name", "array"), var("HiddenItems", "name", "array"), var("TmpText", "text"), var("TmpStrings", "string", "array"), var("TmpStr2", "string"), var("Settings", "object:" + M + "/SG_AltUI"), var("ContextItem", "name"), var("LastButton", "object:" + E_WIDGET), var("CachedOnlyOwned", "bool"), var("CachedOnlyFav", "bool"),
                          var("ItemByName", "name", "map", value_type=T_ITEM), var("TmpSlotItems", T_ITEM, "array"), var("AllItems", T_ITEM, "array"), var("Outfits", "object:" + P_OUTFITS), var("Page", "name", default="Clothes"), var("ContextOutfit", "int"),
                          var("LookCat", "name", default="Skin"), var("MakeupDirty", "bool"), var("BoobsChanged", "bool"), var("ColorMode", "name", default="Clothes"),
-                         var("BodyBreast", "float"), var("BodyWaist", "float"), var("BodyHip", "float"), var("TmpNames2", "name", "array"), var("TmpNames3", "name", "array"), var("TmpNames4", "name", "array"), var("TmpName2", "name"), var("TmpBool", "bool"),
+                         var("BodyBreast", "float"), var("BodyWaist", "float"), var("TmpNames2", "name", "array"), var("TmpNames3", "name", "array"), var("TmpNames4", "name", "array"), var("TmpName2", "name"), var("TmpBool", "bool"),
                          var("TmpColor", S_LINCOLOR), var("TmpColors", "name", "map", value_type=S_LINCOLOR), var("ItemOrigin", "name", "map", value_type="text"),
                          var("LooksSave", "object:" + SG_LOOKS), var("TmpLook", "struct:" + S_LOOK), var("ContextLook", "int"), var("LookIcons", "int", "map", value_type="object:" + E_TEX2D),
                          var("PhotoRT", "object:/Script/Engine.TextureRenderTarget2D"), var("PhotoKind", "name"), var("PhotoDir", "string"), var("PhotoFile", "string"), var("ScrollMult", "float", default="4.0"), var("TileScale", "float", default="1.0"), var("OptScroll", "float"), var("OptScale", "float"),
                          var("Presets", "object:" + P_PRESET_SAVE), 
                          var("IconFrames", "int"), var("IconActor", "object:/Script/Engine.SceneCapture2D"), var("IconNumber", "int"),
                          var("Unlimited", "bool"), var("LeftFree", "int"), var("ViewShift", "float"), var("CamFov", "float", default="0.8"), var("CamDist", "float", default="1.0"), var("OptFov", "float"), var("OptDist", "float"), var("IconLight", "object:/Script/Engine.SpotLight"), var("UndoStack", "struct:" + S_SNAP, "array"), var("RedoStack", "struct:" + S_SNAP, "array"), var("TmpSnap", "struct:" + S_SNAP), var("TmpSnap2", "struct:" + S_SNAP), var("PresetIcons", "int", "map", value_type="object:" + E_TEX2D), var("TmpPreset", "struct:" + P_PRESET_S), var("ContextPreset", "int"), var("TmpIcons", "object:" + E_TEX2D, "array"),
+                         # content view (View content): open index per tab (-1 = closed), the rendered snapshot + title, tile origin for "Show in tab", highlight/scroll target
+                         var("ViewOutfit", "int", default="-1"), var("ViewLook", "int", default="-1"), var("ViewPreset", "int", default="-1"), var("ViewSnap", "struct:" + S_SNAP), var("ViewTitle", "string"),
+                         var("ContextSlot", "name"), var("HighlightItem", "name"), var("KeepHighlight", "bool"), var("ScrollWidget", "object:" + E_WIDGET),   # TmpSection (W_ContentSection) lives in the augment: the widget class exists only after 40_widgets
+                         var("TmpFColors", "name", "map", value_type=S_COLOR),
                          var("BodyMods", "name", "array"), var("BodyCaptions", "name", "map", value_type="text"), var("StandardMesh", "object:" + E_SKELMESH),
                          var("BodyMesh", "object:" + E_SKELMESH), var("CurrentBody", "name"), var("BodyVariant", "name"),
                          var("Lang", "int"), var("LangChoice", "int"), var("Strings", "name", "map", value_type="text"),

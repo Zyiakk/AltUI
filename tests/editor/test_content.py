@@ -1,0 +1,72 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import unreal
+from edtest_lib import *
+M = "/Game/Mod/AltUI"
+
+def content_open(mgr, page):
+    mgr.call_method("Test Content Open", args=(page,)); return mgr.get_editor_property("TmpBool")
+
+def snap(mgr, kind, index):
+    mgr.call_method("Test Content Snapshot", args=(kind, index))
+    return (mgr.get_editor_property("TmpBool"), str(mgr.get_editor_property("TmpStr2")), mgr.get_editor_property("TmpI"), mgr.get_editor_property("TmpIdx"),
+            str(mgr.get_editor_property("TmpName")), str(mgr.get_editor_property("TmpName2")))
+
+def main():
+    mgr = cdo(M + "/BP_AltUIManager.BP_AltUIManager_C")
+    mgr.call_method("Test Build"); mgr.call_method("Test Strings", args=(1,)); mgr.set_editor_property("PanelOpen", False)
+    mgr.set_editor_property("HiddenItems", []); mgr.set_editor_property("Favorites", [])
+    for v in ("ViewOutfit", "ViewLook", "ViewPreset"): expect("%s closed by default" % v, mgr.get_editor_property(v), -1)
+    # --- Content Snapshot: outfit (keys, own name), preset (skin), look (body), out-of-range index, unknown kind
+    mgr.set_editor_property("Outfits", None); mgr.call_method("Test Load Outfits"); mgr.call_method("Test Load Settings")
+    mgr.call_method("Test Add Outfit", args=(["Zeta_Neck", "SpikeBoots"],))
+    ok, title, worn, makeup, skin, body = snap(mgr, "Outfit", 0)
+    expect("outfit ok", ok, True); expect("outfit title", title, "Outfit 1"); expect("outfit worn", worn, 2); expect("outfit makeup empty", makeup, 0)
+    mgr.call_method("Test Set Outfit Name", args=("Zeta_Neck|SpikeBoots", "Office")); expect("outfit own name", snap(mgr, "Outfit", 0)[1], "Office")
+    mgr.call_method("Test Set Outfit Name", args=("Zeta_Neck|SpikeBoots", ""))
+    expect("outfit out of range", snap(mgr, "Outfit", 1)[0], False); expect("outfit negative", snap(mgr, "Outfit", -1)[0], False); expect("unknown kind", snap(mgr, "Foo", 0)[0], False)
+    mgr.set_editor_property("Presets", None); mgr.call_method("Test Load Presets"); mgr.call_method("Test Add Preset", args=("Skin_Default", "TestHair"))
+    ok, title, worn, makeup, skin, body = snap(mgr, "Preset", 0)
+    expect("preset ok", ok, True); expect("preset title", title, "Preset 1"); expect("preset skin", skin, "Skin_Default"); expect("preset worn empty", worn, 0)
+    expect("preset out of range", snap(mgr, "Preset", 3)[0], False)
+    mgr.set_editor_property("LooksSave", None); mgr.call_method("Test Load Looks"); mgr.set_editor_property("CurrentBody", "Body_TestBody"); mgr.call_method("Test Add Look")
+    ok, title, worn, makeup, skin, body = snap(mgr, "Look", 0)
+    expect("look ok", ok, True); expect("look title", title, "Look 1"); expect("look body", body, "Body_TestBody")
+    expect("look out of range", snap(mgr, "Look", 1)[0], False)
+    # --- open / close per tab (Select Page runs without a panel: "Accessed None" warnings only); indices point at the entries created above
+    mgr.set_editor_property("Page", "Outfits"); mgr.call_method("Test Open Content", args=("Outfit", 0))
+    expect("view outfit index", mgr.get_editor_property("ViewOutfit"), 0)
+    expect("open on outfits", content_open(mgr, "Outfits"), True); expect("closed on looks", content_open(mgr, "Looks"), False); expect("closed on appearance", content_open(mgr, "Look"), False)
+    mgr.call_method("Test Close Content"); expect("closed", mgr.get_editor_property("ViewOutfit"), -1); expect("open false after close", content_open(mgr, "Outfits"), False)
+    mgr.set_editor_property("Page", "Look"); mgr.call_method("Test Open Content", args=("Preset", 0)); expect("view preset index", mgr.get_editor_property("ViewPreset"), 0)
+    expect("open on appearance", content_open(mgr, "Look"), True); mgr.call_method("Test Close Content"); expect("preset closed", mgr.get_editor_property("ViewPreset"), -1)
+    mgr.set_editor_property("Page", "Looks"); mgr.call_method("Test Open Content", args=("Look", 0)); expect("view look index", mgr.get_editor_property("ViewLook"), 0)
+    mgr.call_method("Test Close Content"); expect("look closed", mgr.get_editor_property("ViewLook"), -1)
+    mgr.set_editor_property("Page", "Looks"); mgr.call_method("Test Open Content", args=("Look", 7)); expect("invalid index closes the view", mgr.get_editor_property("ViewLook"), -1)
+    mgr.call_method("Test Open Content", args=("Foo", 4)); expect("unknown kind ignored", content_open(mgr, "Looks"), False)
+    mgr.call_method("Test Delete Look", args=(0,))
+    # --- Go To Item: clothes (slot + group chip, search cleared, a filter that would hide the piece is switched off), hidden piece, hair, makeup type, skin, body
+    mgr.set_editor_property("SearchText", "abc"); mgr.set_editor_property("CachedOnlyOwned", True); mgr.set_editor_property("CachedOnlyFav", True)
+    mgr.call_method("Test Go To", args=("Alpha_Neck", "Neck"))
+    expect("goto page", str(mgr.get_editor_property("Page")), "Clothes"); expect("goto slot", str(mgr.get_editor_property("CurrentSlot")), "Neck")
+    expect("goto group", str(mgr.get_editor_property("CurrentGroup")), "Kpop"); expect("goto search cleared", str(mgr.get_editor_property("SearchText")), "")
+    expect("goto highlight kept through Select Page", str(mgr.get_editor_property("HighlightItem")), "Alpha_Neck"); expect("keep flag consumed", mgr.get_editor_property("KeepHighlight"), False)
+    expect("owned filter off (not owned)", mgr.get_editor_property("CachedOnlyOwned"), False); expect("fav filter off (no favourite)", mgr.get_editor_property("CachedOnlyFav"), False)
+    mgr.call_method("Test Toggle Fav", args=("Zeta_Neck",)); mgr.set_editor_property("CachedOnlyFav", True)
+    mgr.call_method("Test Go To", args=("Zeta_Neck", "Neck"))
+    expect("group None -> Basis chip", str(mgr.get_editor_property("CurrentGroup")), "Basis")
+    mgr.call_method("Test Load Settings")   # without a panel Rebuild List resets the caches from the (missing) check boxes -> read back what Go To Item saved
+    expect("fav filter kept (favourite)", mgr.get_editor_property("CachedOnlyFav"), True); expect("owned filter still off", mgr.get_editor_property("CachedOnlyOwned"), False)
+    mgr.call_method("Test Toggle Fav", args=("Zeta_Neck",))
+    mgr.call_method("Test Go To", args=("SpikeBoots", "Boots")); expect("single group -> All", str(mgr.get_editor_property("CurrentGroup")), "None")
+    mgr.call_method("Test Toggle Hidden", args=("Alpha_Neck",)); mgr.call_method("Test Go To", args=("Alpha_Neck", "Neck"))
+    expect("hidden -> Hidden chip", str(mgr.get_editor_property("CurrentGroup")), "Hidden"); mgr.call_method("Test Toggle Hidden", args=("Alpha_Neck",))
+    mgr.call_method("Test Go To", args=("TestHair", "Hair")); expect("hair page", str(mgr.get_editor_property("Page")), "Hair"); expect("hair highlight", str(mgr.get_editor_property("HighlightItem")), "TestHair")
+    mgr.call_method("Test Go To", args=("Lips_01", "Lips")); expect("appearance page", str(mgr.get_editor_property("Page")), "Look"); expect("look cat", str(mgr.get_editor_property("LookCat")), "Lips")
+    mgr.call_method("Test Go To", args=("Skin_Default", "Skin")); expect("skin cat", str(mgr.get_editor_property("LookCat")), "Skin")
+    # Show in tab from a preset's content view: the target page must not stay hidden behind the view
+    mgr.set_editor_property("Page", "Look"); mgr.call_method("Test Open Content", args=("Preset", 0)); expect("preset view open", mgr.get_editor_property("ViewPreset"), 0)
+    mgr.call_method("Test Go To", args=("Lips_01", "Lips")); expect("goto closes the preset view", mgr.get_editor_property("ViewPreset"), -1)
+    mgr.call_method("Test Open Content", args=("Preset", 0)); mgr.call_method("Test Go To", args=("Skin_Default", "Skin")); expect("goto skin closes the preset view", mgr.get_editor_property("ViewPreset"), -1)
+    mgr.call_method("Test Go To", args=("Body_TestBody", "Body")); expect("body page", str(mgr.get_editor_property("Page")), "Body"); expect("body: no highlight", str(mgr.get_editor_property("HighlightItem")), "None")
+    mgr.set_editor_property("Page", "Clothes"); mgr.set_editor_property("HiddenItems", []); mgr.set_editor_property("Favorites", []); mgr.set_editor_property("CachedOnlyOwned", False); mgr.set_editor_property("CachedOnlyFav", False); mgr.call_method("Test Save Settings")
+run(main)

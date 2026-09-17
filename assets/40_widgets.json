@@ -330,6 +330,277 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Mod/AltUI/W_ContentSection",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "Manager",
+     "type": "object:/Game/Mod/AltUI/BP_AltUIManager"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Init",
+     "inputs": [
+      {
+       "name": "caption",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "Header"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gh.Header",
+         "InText": "@entry.caption"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call_self",
+        "function": "Compute Colors"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "st",
+        "cc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Tile",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "Tiles"
+       },
+       {
+        "id": "ad",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@gt.Tiles",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ad"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Note",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "Note"
+       },
+       {
+        "id": "sn",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gn.Note",
+         "InText": "@entry.text"
+        }
+       },
+       {
+        "id": "gn2",
+        "kind": "get",
+        "var": "Note"
+       },
+       {
+        "id": "vn",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gn2.Note",
+         "InVisibility": "Visible"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sn",
+        "vn"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Compute Colors",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ch_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ch",
+        "kind": "get",
+        "var": "ColHead",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "th_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@ch.ColHead"
+        }
+       },
+       {
+        "id": "th_w",
+        "kind": "get",
+        "var": "Header"
+       },
+       {
+        "id": "th",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@th_w.Header",
+         "InColorAndOpacity": "@th_sc.SlateColor"
+        }
+       },
+       {
+        "id": "cn_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cn",
+        "kind": "get",
+        "var": "ColTextDim",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tn_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@cn.ColTextDim"
+        }
+       },
+       {
+        "id": "tn_w",
+        "kind": "get",
+        "var": "Note"
+       },
+       {
+        "id": "tn",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tn_w.Note",
+         "InColorAndOpacity": "@tn_sc.SlateColor"
+        }
+       }
+      ],
+      "links": [
+       [
+        "ch_m.Manager",
+        "ch.self"
+       ],
+       [
+        "cn_m.Manager",
+        "cn.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "th",
+        "tn"
+       ]
+      ]
+     }
+    }
+   ],
+   "widget_tree": {
+    "class": "/Script/UMG.VerticalBox",
+    "name": "VB",
+    "children": [
+     {
+      "class": "/Script/UMG.TextBlock",
+      "name": "Header",
+      "props": {
+       "Text": "Section",
+       "Font": "(Size=27)",
+       "ColorAndOpacity": "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))"
+      },
+      "slot": {
+       "Padding": "(Left=0,Top=23,Right=0,Bottom=11)"
+      }
+     },
+     {
+      "class": "/Script/UMG.WrapBox",
+      "name": "Tiles",
+      "props": {
+       "InnerSlotPadding": "(X=12,Y=12)"
+      }
+     },
+     {
+      "class": "/Script/UMG.TextBlock",
+      "name": "Note",
+      "props": {
+       "Text": "",
+       "Font": "(Size=23)",
+       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+       "Visibility": "Collapsed"
+      },
+      "slot": {
+       "Padding": "(Left=0,Top=11,Right=0,Bottom=0)"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Mod/AltUI/W_SlotTab",
    "mode": "create",
    "parent": "/Script/UMG.UserWidget",
@@ -1195,11 +1466,19 @@
      "type": "name"
     },
     {
+     "name": "ItemSlot",
+     "type": "name"
+    },
+    {
      "name": "Worn",
      "type": "bool"
     },
     {
      "name": "Owned",
+     "type": "bool"
+    },
+    {
+     "name": "Highlight",
      "type": "bool"
     },
     {
@@ -1412,6 +1691,56 @@
         }
        },
        {
+        "id": "tw_SwatchBox",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "38.0",
+         "B": "@tsv.TileScale"
+        }
+       },
+       {
+        "id": "th_SwatchBox",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "38.0",
+         "B": "@tsv.TileScale"
+        }
+       },
+       {
+        "id": "tg_SwatchBox",
+        "kind": "get",
+        "var": "SwatchBox"
+       },
+       {
+        "id": "tsw_SwatchBox",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetWidthOverride",
+        "in": {
+         "self": "@tg_SwatchBox.SwatchBox",
+         "InWidthOverride": "@tw_SwatchBox.ReturnValue"
+        }
+       },
+       {
+        "id": "tg2_SwatchBox",
+        "kind": "get",
+        "var": "SwatchBox"
+       },
+       {
+        "id": "tsh_SwatchBox",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetHeightOverride",
+        "in": {
+         "self": "@tg2_SwatchBox.SwatchBox",
+         "InHeightOverride": "@th_SwatchBox.ReturnValue"
+        }
+       },
+       {
         "id": "bi",
         "kind": "break",
         "struct": "/Game/Mod/AltUI/S_ClothesItem",
@@ -1478,6 +1807,63 @@
         "var": "Owned",
         "in": {
          "Owned": "@entry.owned"
+        }
+       },
+       {
+        "id": "sis",
+        "kind": "set",
+        "var": "ItemSlot",
+        "in": {
+         "ItemSlot": "@bi.Slot"
+        }
+       },
+       {
+        "id": "hl_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "hl",
+        "kind": "get",
+        "var": "HighlightItem",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "hle",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bi.Name",
+         "B": "@hl.HighlightItem"
+        }
+       },
+       {
+        "id": "hln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@bi.Name",
+         "B": "None"
+        }
+       },
+       {
+        "id": "hla",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@hle.ReturnValue",
+         "B": "@hln.ReturnValue"
+        }
+       },
+       {
+        "id": "shl",
+        "kind": "set",
+        "var": "Highlight",
+        "in": {
+         "Highlight": "@hla.ReturnValue"
         }
        },
        {
@@ -1774,6 +2160,10 @@
        [
         "tsm.Manager",
         "tsv.self"
+       ],
+       [
+        "hl_m.Manager",
+        "hl.self"
        ]
       ],
       "exec": [
@@ -1785,11 +2175,15 @@
         "tsh_IconBox",
         "tsw_ColorizeBox",
         "tsh_ColorizeBox",
+        "tsw_SwatchBox",
+        "tsh_SwatchBox",
         "sn",
         "bca",
         "vcz",
         "sw",
         "sow",
+        "sis",
+        "shl",
         "stn",
         "ctt",
         "stm",
@@ -1950,6 +2344,44 @@
         }
        },
        {
+        "id": "ghl",
+        "kind": "get",
+        "var": "Highlight"
+       },
+       {
+        "id": "cac_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cac",
+        "kind": "get",
+        "var": "ColAccent",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "f3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@cac.ColAccent",
+         "B": "@f2.ReturnValue",
+         "bPickA": "@ghl.Highlight"
+        }
+       },
+       {
+        "id": "cac2_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cac2",
+        "kind": "get",
+        "var": "ColAccent",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
         "id": "cfrh_m",
         "kind": "get",
         "var": "Manager"
@@ -1961,11 +2393,22 @@
         "class": "/Game/Mod/AltUI/BP_AltUIManager"
        },
        {
+        "id": "f4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@cac2.ColAccent",
+         "B": "@cfrh.ColFrameHover",
+         "bPickA": "@ghl.Highlight"
+        }
+       },
+       {
         "id": "sbFrame",
         "kind": "set",
         "var": "BaseFrame",
         "in": {
-         "BaseFrame": "@f2.ReturnValue"
+         "BaseFrame": "@f3.ReturnValue"
         }
        },
        {
@@ -1973,7 +2416,7 @@
         "kind": "set",
         "var": "HoverFrame",
         "in": {
-         "HoverFrame": "@cfrh.ColFrameHover"
+         "HoverFrame": "@f4.ReturnValue"
         }
        },
        {
@@ -2055,6 +2498,14 @@
        [
         "cfh_m.Manager",
         "cfh.self"
+       ],
+       [
+        "cac_m.Manager",
+        "cac.self"
+       ],
+       [
+        "cac2_m.Manager",
+        "cac2.self"
        ],
        [
         "cfrh_m.Manager",
@@ -2192,6 +2643,73 @@
         "b:else",
         "l",
         "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Color Swatch",
+     "inputs": [
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gsw",
+        "kind": "get",
+        "var": "Swatch"
+       },
+       {
+        "id": "sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@gsw.Swatch",
+         "InBrushColor": "@entry.color"
+        }
+       },
+       {
+        "id": "gsb",
+        "kind": "get",
+        "var": "SwatchBox"
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gsb.SwatchBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "gcb",
+        "kind": "get",
+        "var": "ColorizeBox"
+       },
+       {
+        "id": "cv",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gcb.ColorizeBox",
+         "InVisibility": "Collapsed"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sb",
+        "sv",
+        "cv"
        ]
       ]
      }
@@ -2419,6 +2937,43 @@
                  "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_Colorize.T_Colorize',ImageSize=(X=48,Y=48),DrawAs=Image)",
                  "Visibility": "Collapsed"
                 }
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.SizeBox",
+              "name": "SwatchBox",
+              "props": {
+               "bOverride_WidthOverride": true,
+               "WidthOverride": 38,
+               "bOverride_HeightOverride": true,
+               "HeightOverride": 38,
+               "Visibility": "Collapsed"
+              },
+              "slot": {
+               "HorizontalAlignment": "HAlign_Right",
+               "VerticalAlignment": "VAlign_Bottom"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Border",
+                "name": "SwatchFrame",
+                "props": {
+                 "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                 "BrushColor": "(R=1,G=1,B=1,A=0.35)",
+                 "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.Border",
+                  "name": "Swatch",
+                  "props": {
+                   "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                   "BrushColor": "(R=1,G=1,B=1,A=1)",
+                   "Padding": "(Left=0,Top=0,Right=0,Bottom=0)"
+                  }
+                 }
+                ]
                }
               ]
              }
@@ -4682,12 +5237,23 @@
         }
        },
        {
-        "id": "ls",
+        "id": "sadd",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectString",
         "in": {
          "A": "@sso_2s.ReturnValue",
+         "B": "@ct.ReturnValue",
+         "bPickA": "@ce.ReturnValue"
+        }
+       },
+       {
+        "id": "ls",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@sadd.ReturnValue",
          "B": "@l4.ReturnValue",
          "bPickA": "@neg.ReturnValue"
         }
@@ -10272,6 +10838,304 @@
      }
     },
     {
+     "name": "Clear Content",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ContentList"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ContentList"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Content Section",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ContentList"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.VerticalBox",
+        "function": "AddChildToVerticalBox",
+        "in": {
+         "self": "@g.ContentList",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Content Links",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ContentLinks"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ContentLinks"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Content Link",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ContentLinks"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@g.ContentLinks",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Content Title",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ContentTitle"
+       },
+       {
+        "id": "s",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@g.ContentTitle",
+         "InText": "@entry.text"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Scroll Into View",
+     "inputs": [
+      {
+       "name": "page",
+       "type": "name"
+      },
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "e0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Clothes"
+        }
+       },
+       {
+        "id": "b0",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e0.ReturnValue"
+        }
+       },
+       {
+        "id": "g0",
+        "kind": "get",
+        "var": "ListScroll"
+       },
+       {
+        "id": "s0",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "ScrollWidgetIntoView",
+        "in": {
+         "self": "@g0.ListScroll",
+         "WidgetToFind": "@entry.widget",
+         "AnimateScroll": "false",
+         "ScrollDestination": "Center"
+        }
+       },
+       {
+        "id": "e1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Hair"
+        }
+       },
+       {
+        "id": "b1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e1.ReturnValue"
+        }
+       },
+       {
+        "id": "g1",
+        "kind": "get",
+        "var": "HairScroll"
+       },
+       {
+        "id": "s1",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "ScrollWidgetIntoView",
+        "in": {
+         "self": "@g1.HairScroll",
+         "WidgetToFind": "@entry.widget",
+         "AnimateScroll": "false",
+         "ScrollDestination": "Center"
+        }
+       },
+       {
+        "id": "e2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Look"
+        }
+       },
+       {
+        "id": "b2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e2.ReturnValue"
+        }
+       },
+       {
+        "id": "g2",
+        "kind": "get",
+        "var": "LookScroll"
+       },
+       {
+        "id": "s2",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "ScrollWidgetIntoView",
+        "in": {
+         "self": "@g2.LookScroll",
+         "WidgetToFind": "@entry.widget",
+         "AnimateScroll": "false",
+         "ScrollDestination": "Center"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b0",
+        "s0"
+       ],
+       [
+        "b0:else",
+        "b1",
+        "s1"
+       ],
+       [
+        "b1:else",
+        "b2",
+        "s2"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Apply Theme",
      "graph": {
       "nodes": [
@@ -10480,6 +11344,29 @@
         "in": {
          "self": "@t_LblTheme_w.LblTheme",
          "InColorAndOpacity": "@t_LblTheme_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_ContentTitle_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColHead.ColHead"
+        }
+       },
+       {
+        "id": "t_ContentTitle_w",
+        "kind": "get",
+        "var": "ContentTitle"
+       },
+       {
+        "id": "t_ContentTitle",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ContentTitle_w.ContentTitle",
+         "InColorAndOpacity": "@t_ContentTitle_sc.SlateColor"
         }
        },
        {
@@ -10767,29 +11654,6 @@
         "in": {
          "self": "@t_ValWaist_w.ValWaist",
          "InColorAndOpacity": "@t_ValWaist_sc.SlateColor"
-        }
-       },
-       {
-        "id": "t_ValHip_sc",
-        "kind": "make",
-        "struct": "/Script/SlateCore.SlateColor",
-        "in": {
-         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
-        }
-       },
-       {
-        "id": "t_ValHip_w",
-        "kind": "get",
-        "var": "ValHip"
-       },
-       {
-        "id": "t_ValHip",
-        "kind": "call",
-        "class": "/Script/UMG.TextBlock",
-        "function": "SetColorAndOpacity",
-        "in": {
-         "self": "@t_ValHip_w.ValHip",
-         "InColorAndOpacity": "@t_ValHip_sc.SlateColor"
         }
        },
        {
@@ -11172,29 +12036,6 @@
         }
        },
        {
-        "id": "t_LblHip_sc",
-        "kind": "make",
-        "struct": "/Script/SlateCore.SlateColor",
-        "in": {
-         "SpecifiedColor": "@c_ColText.ColText"
-        }
-       },
-       {
-        "id": "t_LblHip_w",
-        "kind": "get",
-        "var": "LblHip"
-       },
-       {
-        "id": "t_LblHip",
-        "kind": "call",
-        "class": "/Script/UMG.TextBlock",
-        "function": "SetColorAndOpacity",
-        "in": {
-         "self": "@t_LblHip_w.LblHip",
-         "InColorAndOpacity": "@t_LblHip_sc.SlateColor"
-        }
-       },
-       {
         "id": "c_slider_m",
         "kind": "get",
         "var": "Manager"
@@ -11322,21 +12163,6 @@
         "function": "SetSliderBarColor",
         "in": {
          "self": "@gs_Waist.SldWaist",
-         "InValue": "@c_slider.ColSlider"
-        }
-       },
-       {
-        "id": "gs_Hip",
-        "kind": "get",
-        "var": "SldHip"
-       },
-       {
-        "id": "ss_Hip",
-        "kind": "call",
-        "class": "/Script/UMG.Slider",
-        "function": "SetSliderBarColor",
-        "in": {
-         "self": "@gs_Hip.SldHip",
          "InValue": "@c_slider.ColSlider"
         }
        },
@@ -11991,6 +12817,7 @@
         "t_BagListHeader",
         "t_FavHeader",
         "t_LblTheme",
+        "t_ContentTitle",
         "t_AllHeader",
         "t_ListHint",
         "t_BagEmpty",
@@ -12003,7 +12830,6 @@
         "t_ValTileAlpha",
         "t_ValBreast",
         "t_ValWaist",
-        "t_ValHip",
         "t_LblOwned",
         "t_LblFav",
         "t_LblUnlimited",
@@ -12020,7 +12846,6 @@
         "t_LblTileAlpha",
         "t_LblBreast",
         "t_LblWaist",
-        "t_LblHip",
         "ss_Scroll",
         "ss_Scale",
         "ss_Fov",
@@ -12028,11 +12853,10 @@
         "ss_BgAlpha",
         "ss_TileAlpha",
         "ss_Breast",
-        "ss_Waist",
-        "ss_Hip"
+        "ss_Waist"
        ],
        [
-        "ss_Hip",
+        "ss_Waist",
         "rf0"
        ],
        [
@@ -13318,6 +14142,61 @@
         }
        },
        {
+        "id": "eq8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Content"
+        }
+       },
+       {
+        "id": "b8",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq8.ReturnValue"
+        }
+       },
+       {
+        "id": "g8",
+        "kind": "get",
+        "var": "ContentBox"
+       },
+       {
+        "id": "v8",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g8.ContentBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "k8",
+        "kind": "set",
+        "var": "TmpKnown",
+        "in": {
+         "TmpKnown": "true"
+        }
+       },
+       {
+        "id": "h8",
+        "kind": "get",
+        "var": "ContentBox"
+       },
+       {
+        "id": "c8",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@h8.ContentBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
         "id": "gk",
         "kind": "get",
         "var": "TmpKnown"
@@ -13492,10 +14371,27 @@
        ],
        [
         "k7",
-        "bk"
+        "b8"
        ],
        [
         "c7",
+        "b8"
+       ],
+       [
+        "b8",
+        "v8",
+        "k8"
+       ],
+       [
+        "b8:else",
+        "c8"
+       ],
+       [
+        "k8",
+        "bk"
+       ],
+       [
+        "c8",
         "bk"
        ],
        [
@@ -15017,10 +15913,6 @@
        "type": "text"
       },
       {
-       "name": "hip",
-       "type": "text"
-      },
-      {
        "name": "scroll",
        "type": "text"
       },
@@ -15242,21 +16134,6 @@
         "in": {
          "self": "@gwaist.LblWaist",
          "InText": "@entry.waist"
-        }
-       },
-       {
-        "id": "ghip",
-        "kind": "get",
-        "var": "LblHip"
-       },
-       {
-        "id": "ship",
-        "kind": "call",
-        "class": "/Script/UMG.TextBlock",
-        "function": "SetText",
-        "in": {
-         "self": "@ghip.LblHip",
-         "InText": "@entry.hip"
         }
        },
        {
@@ -15485,7 +16362,6 @@
         "sbagempty",
         "sbreast",
         "swaist",
-        "ship",
         "sscroll",
         "sscale",
         "sfov",
@@ -15984,7 +16860,7 @@
        {
         "id": "g4",
         "kind": "get",
-        "var": "BagScroll"
+        "var": "ContentScroll"
        },
        {
         "id": "s4",
@@ -15992,14 +16868,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g4.BagScroll",
+         "self": "@g4.ContentScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g5",
         "kind": "get",
-        "var": "HairScroll"
+        "var": "BagScroll"
        },
        {
         "id": "s5",
@@ -16007,14 +16883,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g5.HairScroll",
+         "self": "@g5.BagScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g6",
         "kind": "get",
-        "var": "LookCatScroll"
+        "var": "HairScroll"
        },
        {
         "id": "s6",
@@ -16022,14 +16898,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g6.LookCatScroll",
+         "self": "@g6.HairScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g7",
         "kind": "get",
-        "var": "LookScroll"
+        "var": "LookCatScroll"
        },
        {
         "id": "s7",
@@ -16037,14 +16913,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g7.LookScroll",
+         "self": "@g7.LookCatScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g8",
         "kind": "get",
-        "var": "OptionsScroll"
+        "var": "LookScroll"
        },
        {
         "id": "s8",
@@ -16052,7 +16928,22 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g8.OptionsScroll",
+         "self": "@g8.LookScroll",
+         "NewWheelScrollMultiplier": "@entry.mult"
+        }
+       },
+       {
+        "id": "g9",
+        "kind": "get",
+        "var": "OptionsScroll"
+       },
+       {
+        "id": "s9",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetWheelScrollMultiplier",
+        "in": {
+         "self": "@g9.OptionsScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        }
@@ -16069,7 +16960,8 @@
         "s5",
         "s6",
         "s7",
-        "s8"
+        "s8",
+        "s9"
        ]
       ]
      }
@@ -16083,10 +16975,6 @@
       },
       {
        "name": "waist",
-       "type": "float"
-      },
-      {
-       "name": "hip",
        "type": "float"
       }
      ],
@@ -16119,20 +17007,6 @@
         "in": {
          "self": "@gWaist.SldWaist"
         }
-       },
-       {
-        "id": "gHip",
-        "kind": "get",
-        "var": "SldHip"
-       },
-       {
-        "id": "vHip",
-        "kind": "call",
-        "class": "/Script/UMG.Slider",
-        "function": "GetValue",
-        "in": {
-         "self": "@gHip.SldHip"
-        }
        }
       ],
       "links": [
@@ -16143,10 +17017,6 @@
        [
         "vWaist.ReturnValue",
         "return.waist"
-       ],
-       [
-        "vHip.ReturnValue",
-        "return.hip"
        ]
       ],
       "exec": [
@@ -16166,10 +17036,6 @@
       },
       {
        "name": "waist",
-       "type": "float"
-      },
-      {
-       "name": "hip",
        "type": "float"
       }
      ],
@@ -16328,83 +17194,6 @@
          "self": "@gvWaist.ValWaist",
          "InText": "@tWaist.ReturnValue"
         }
-       },
-       {
-        "id": "gHip",
-        "kind": "get",
-        "var": "SldHip"
-       },
-       {
-        "id": "sHip",
-        "kind": "call",
-        "class": "/Script/UMG.Slider",
-        "function": "SetValue",
-        "in": {
-         "self": "@gHip.SldHip",
-         "InValue": "@entry.hip"
-        }
-       },
-       {
-        "id": "mHip",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Multiply_FloatFloat",
-        "in": {
-         "A": "@entry.hip",
-         "B": "100.0"
-        }
-       },
-       {
-        "id": "rHip",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Round",
-        "in": {
-         "A": "@mHip.ReturnValue"
-        }
-       },
-       {
-        "id": "iHip",
-        "kind": "call",
-        "class": "/Script/Engine.KismetStringLibrary",
-        "function": "Conv_IntToString",
-        "in": {
-         "InInt": "@rHip.ReturnValue"
-        }
-       },
-       {
-        "id": "cHip",
-        "kind": "call",
-        "class": "/Script/Engine.KismetStringLibrary",
-        "function": "Concat_StrStr",
-        "in": {
-         "A": "@iHip.ReturnValue",
-         "B": " %"
-        }
-       },
-       {
-        "id": "tHip",
-        "kind": "call",
-        "class": "/Script/Engine.KismetTextLibrary",
-        "function": "Conv_StringToText",
-        "in": {
-         "InString": "@cHip.ReturnValue"
-        }
-       },
-       {
-        "id": "gvHip",
-        "kind": "get",
-        "var": "ValHip"
-       },
-       {
-        "id": "stHip",
-        "kind": "call",
-        "class": "/Script/UMG.TextBlock",
-        "function": "SetText",
-        "in": {
-         "self": "@gvHip.ValHip",
-         "InText": "@tHip.ReturnValue"
-        }
        }
       ],
       "links": [],
@@ -16414,9 +17203,7 @@
         "sBreast",
         "stBreast",
         "sWaist",
-        "stWaist",
-        "sHip",
-        "stHip"
+        "stWaist"
        ]
       ]
      }
@@ -17321,6 +18108,63 @@
           ]
          },
          {
+          "class": "/Script/UMG.VerticalBox",
+          "name": "ContentBox",
+          "props": {
+           "Visibility": "Collapsed"
+          },
+          "slot": {
+           "Size": "(SizeRule=Fill,Value=1)"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.HorizontalBox",
+            "name": "ContentHead",
+            "slot": {
+             "Padding": "(Left=0,Top=0,Right=0,Bottom=15)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.HorizontalBox",
+              "name": "ContentLinks",
+              "slot": {
+               "VerticalAlignment": "VAlign_Center"
+              }
+             },
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "ContentTitle",
+              "props": {
+               "Text": "",
+               "Font": "(Size=27)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))"
+              },
+              "slot": {
+               "VerticalAlignment": "VAlign_Center",
+               "Padding": "(Left=23,Top=0,Right=0,Bottom=0)"
+              }
+             }
+            ]
+           },
+           {
+            "class": "/Script/UMG.ScrollBox",
+            "name": "ContentScroll",
+            "props": {
+             "WheelScrollMultiplier": 2.0
+            },
+            "slot": {
+             "Size": "(SizeRule=Fill,Value=1)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.VerticalBox",
+              "name": "ContentList"
+             }
+            ]
+           }
+          ]
+         },
+         {
           "class": "/Script/UMG.ScrollBox",
           "name": "PlaceholderScroll",
           "props": {
@@ -17622,96 +18466,6 @@
                {
                 "class": "/Script/UMG.TextBlock",
                 "name": "ValWaist",
-                "props": {
-                 "Text": "50 %",
-                 "Font": "(Size=23)",
-                 "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
-                },
-                "slot": {
-                 "VerticalAlignment": "VAlign_Center"
-                }
-               }
-              ]
-             }
-            ]
-           },
-           {
-            "class": "/Script/UMG.HorizontalBox",
-            "name": "RowHip",
-            "slot": {
-             "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
-            },
-            "children": [
-             {
-              "class": "/Script/UMG.SizeBox",
-              "name": "LblHipBox",
-              "props": {
-               "bOverride_WidthOverride": true,
-               "WidthOverride": 228,
-               "bOverride_HeightOverride": true,
-               "HeightOverride": 46
-              },
-              "slot": {
-               "VerticalAlignment": "VAlign_Center"
-              },
-              "children": [
-               {
-                "class": "/Script/UMG.TextBlock",
-                "name": "LblHip",
-                "props": {
-                 "Text": "Hip",
-                 "Font": "(Size=25)",
-                 "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
-                },
-                "slot": {
-                 "VerticalAlignment": "VAlign_Center"
-                }
-               }
-              ]
-             },
-             {
-              "class": "/Script/UMG.SizeBox",
-              "name": "SldHipBox",
-              "props": {
-               "bOverride_WidthOverride": true,
-               "WidthOverride": 798,
-               "bOverride_HeightOverride": true,
-               "HeightOverride": 46
-              },
-              "slot": {
-               "VerticalAlignment": "VAlign_Center"
-              },
-              "children": [
-               {
-                "class": "/Script/UMG.Slider",
-                "name": "SldHip",
-                "props": {
-                 "Value": 0.5,
-                 "StepSize": 0.01,
-                 "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                 "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                 "WidgetStyle": "(BarThickness=5.0)"
-                }
-               }
-              ]
-             },
-             {
-              "class": "/Script/UMG.SizeBox",
-              "name": "ValHipBox",
-              "props": {
-               "bOverride_WidthOverride": true,
-               "WidthOverride": 133,
-               "bOverride_HeightOverride": true,
-               "HeightOverride": 46
-              },
-              "slot": {
-               "VerticalAlignment": "VAlign_Center",
-               "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-              },
-              "children": [
-               {
-                "class": "/Script/UMG.TextBlock",
-                "name": "ValHip",
                 "props": {
                  "Text": "50 %",
                  "Font": "(Size=23)",

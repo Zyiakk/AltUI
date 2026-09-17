@@ -653,13 +653,6 @@
      "ru": "Талия",
      "es": "Cintura"
     },
-    "Lbl_Hip": {
-     "en": "Hip",
-     "de": "Hüfte",
-     "zh": "臀部",
-     "ru": "Бедра",
-     "es": "Cadera"
-    },
     "Lbl_Scroll": {
      "en": "Scroll speed",
      "de": "Scroll-Geschwindigkeit",
@@ -969,11 +962,11 @@
      "es": "Rehacer"
     },
     "Btn_SavePreset": {
-     "en": "Save current makeup as preset",
-     "de": "Aktuelles Makeup als Preset speichern",
-     "zh": "将当前妆容保存为预设",
-     "ru": "Сохранить текущий макияж как предустановку",
-     "es": "Guardar el maquillaje actual como preajuste"
+     "en": "Save current appearance",
+     "de": "Aktuelles Aussehen speichern",
+     "zh": "保存当前外观",
+     "ru": "Сохранить текущую внешность",
+     "es": "Guardar la apariencia actual"
     },
     "Btn_SaveOutfit": {
      "en": "Save current outfit",
@@ -988,6 +981,13 @@
      "zh": "保存当前造型",
      "ru": "Сохранить текущий образ",
      "es": "Guardar el look actual"
+    },
+    "Btn_Back": {
+     "en": "← Back",
+     "de": "← Zurück",
+     "zh": "← 返回",
+     "ru": "← Назад",
+     "es": "← Atrás"
     },
     "Menu_FavAdd": {
      "en": "Add to favourites",
@@ -1107,6 +1107,20 @@
      "zh": "更新",
      "ru": "Обновить",
      "es": "Actualizar"
+    },
+    "Menu_ViewContent": {
+     "en": "View content",
+     "de": "Inhalt anzeigen",
+     "zh": "查看内容",
+     "ru": "Показать содержимое",
+     "es": "Ver contenido"
+    },
+    "Menu_ShowIn": {
+     "en": "Show in tab",
+     "de": "Im Reiter anzeigen",
+     "zh": "在选项卡中显示",
+     "ru": "Показать во вкладке",
+     "es": "Mostrar en la pestaña"
     },
     "Menu_Cancel": {
      "en": "Cancel",
@@ -1683,10 +1697,6 @@
      "type": "float"
     },
     {
-     "name": "BodyHip",
-     "type": "float"
-    },
-    {
      "name": "TmpNames2",
      "type": "name",
      "container": "array"
@@ -1863,6 +1873,51 @@
      "name": "TmpIcons",
      "type": "object:/Script/Engine.Texture2D",
      "container": "array"
+    },
+    {
+     "name": "ViewOutfit",
+     "type": "int",
+     "default": "-1"
+    },
+    {
+     "name": "ViewLook",
+     "type": "int",
+     "default": "-1"
+    },
+    {
+     "name": "ViewPreset",
+     "type": "int",
+     "default": "-1"
+    },
+    {
+     "name": "ViewSnap",
+     "type": "struct:/Game/Mod/AltUI/S_Snapshot"
+    },
+    {
+     "name": "ViewTitle",
+     "type": "string"
+    },
+    {
+     "name": "ContextSlot",
+     "type": "name"
+    },
+    {
+     "name": "HighlightItem",
+     "type": "name"
+    },
+    {
+     "name": "KeepHighlight",
+     "type": "bool"
+    },
+    {
+     "name": "ScrollWidget",
+     "type": "object:/Script/UMG.Widget"
+    },
+    {
+     "name": "TmpFColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.Color"
     },
     {
      "name": "BodyMods",
@@ -11851,6 +11906,107 @@
     },
     {
      "name": "Finish Photo"
+    },
+    {
+     "name": "Content Open",
+     "inputs": [
+      {
+       "name": "page",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Open Content",
+     "inputs": [
+      {
+       "name": "kind",
+       "type": "name"
+      },
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Open Outfit Content",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Open Look Content",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Open Preset Content",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Close Content"
+    },
+    {
+     "name": "Content Snapshot",
+     "inputs": [
+      {
+       "name": "kind",
+       "type": "name"
+      },
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "ok",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Rebuild Content"
+    },
+    {
+     "name": "On Content Item Context",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Go To Item",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Scroll To Highlight"
     }
    ]
   }

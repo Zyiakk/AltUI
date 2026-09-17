@@ -12,7 +12,7 @@ W_BTN = M + "/W_ClothesButton"
 W_SUB = M + "/W_SubTab"
 W_ROUND = M + "/W_RoundButton"; T_PLUS = M + "/T_Plus"; T_MINUS = M + "/T_Minus"; T_COLORIZE = M + "/T_Colorize"
 W_TOP = M + "/W_TopTab"
-W_OUTFIT = M + "/W_OutfitButton"; W_LOOK = M + "/W_LookButton"; W_TOOLTIP = M + "/W_Tooltip"
+W_OUTFIT = M + "/W_OutfitButton"; W_LOOK = M + "/W_LookButton"; W_TOOLTIP = M + "/W_Tooltip"; W_SECTION = M + "/W_ContentSection"
 U_OVERLAY = "/Script/UMG.Overlay"
 U_VBOX = "/Script/UMG.VerticalBox"; U_HBOX = "/Script/UMG.HorizontalBox"; U_SCROLL = "/Script/UMG.ScrollBox"
 U_WRAP = "/Script/UMG.WrapBox"; U_SCALE = "/Script/UMG.ScaleBox"; U_SIZE = "/Script/UMG.SizeBox"; U_CANVAS = "/Script/UMG.CanvasPanel"; U_PANELW = "/Script/UMG.PanelWidget"
@@ -209,6 +209,22 @@ def w_group_header():
                      functions=[fn("Init", [param("caption", "text")], graph=g), compute_fn(c)], widget_tree=tree)
 
 
+# ---------------- W_ContentSection (content view: heading + tiles + optional note line) ----------------
+def w_content_section():
+    tree = w(U_VBOX, "VB", children=[
+        text("Header", "Section", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(12), sz(6))}),
+        w(U_WRAP, "Tiles", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)}),
+        w(E_TEXT, "Note", props={"Text": "", "Font": "(Size=%d)" % sz(12), "ColorAndOpacity": GREY, "Visibility": "Collapsed"}, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(6)})])
+    g = G(); g.get("gh", "Header"); g.call("st", E_TEXT, "SetText", inp={"self": "@gh.Header", "InText": "@entry.caption"}); g.n("cc", "call_self", function="Compute Colors"); g.chain("entry", "st", "cc")
+    a = G(); a.get("gt", "Tiles"); a.call("ad", U_WRAP, "AddChildToWrapBox", inp={"self": "@gt.Tiles", "Content": "@entry.widget"}); a.chain("entry", "ad")
+    n = G(); n.get("gn", "Note"); n.call("sn", E_TEXT, "SetText", inp={"self": "@gn.Note", "InText": "@entry.text"})
+    n.get("gn2", "Note"); n.call("vn", E_WIDGET, "SetVisibility", inp={"self": "@gn2.Note", "InVisibility": "Visible"}); n.chain("entry", "sn", "vn")
+    c = G(); tail = ["entry"]; text_color(c, "th", "Header", mcol(c, "ch", "ColHead"), tail); text_color(c, "tn", "Note", mcol(c, "cn", "ColTextDim"), tail); c.chain(*tail)
+    return blueprint(W_SECTION, E_USERWIDGET, variables=[var("Manager", "object:" + MGR)],
+                     functions=[fn("Init", [param("caption", "text")], graph=g), fn("Add Tile", [param("widget", "object:" + E_WIDGET)], graph=a),
+                                fn("Set Note", [param("text", "text")], graph=n), compute_fn(c)], widget_tree=tree)
+
+
 # ---------------- W_SlotTab ----------------
 def w_slot_tab():
     tree = w(E_BORDER, "Fill", props={"BrushColor": COL_ROW, "Padding": "(Left=0,Top=0,Right=0,Bottom=0)"}, children=[
@@ -264,19 +280,28 @@ def w_clothes_button():
                     w(U_OVERLAY, "IconOv", slot={"HorizontalAlignment": "HAlign_Center"}, children=[
                         fit_image("Icon", 88, 88),
                         sizebox("ColorizeBox", 20, 20, [w(E_IMAGE, "Colorize", props={"Brush": "(ResourceObject=Texture2D'%s.T_Colorize',ImageSize=(X=48,Y=48),DrawAs=Image)" % T_COLORIZE, "Visibility": "Collapsed"})],
-                                slot={"HorizontalAlignment": "HAlign_Right", "VerticalAlignment": "VAlign_Bottom"})]),
+                                slot={"HorizontalAlignment": "HAlign_Right", "VerticalAlignment": "VAlign_Bottom"}),
+                        # stored colour of a piece in the content view (replaces the "colour adjustable" symbol there)
+                        w(U_SIZE, "SwatchBox", props={"bOverride_WidthOverride": True, "WidthOverride": sz(20), "bOverride_HeightOverride": True, "HeightOverride": sz(20), "Visibility": "Collapsed"},
+                          slot={"HorizontalAlignment": "HAlign_Right", "VerticalAlignment": "VAlign_Bottom"},
+                          children=[roundbox("SwatchFrame", COL_FRAME, 1, [roundbox("Swatch", "(R=1,G=1,B=1,A=1)", 0, [])])])]),
                     text("Name", "Name", 11, WHITE, wrap=True, center=True, break_all=True, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)}),
                     text("Badge", "", 9, "(SpecifiedColor=(R=1,G=0.6,B=0.3,A=1))", center=True),
                 ])])])])
     hv, hf, eg = hover_parts(W_BTN, "Frame", "Fill")
     g = G(); tail = ["entry"]
-    tile_scale(g, tail, [("Box", 104, 160), ("IconBox", 88, 88), ("ColorizeBox", 20, 20)])
+    tile_scale(g, tail, [("Box", 104, 160), ("IconBox", 88, 88), ("ColorizeBox", 20, 20), ("SwatchBox", 20, 20)])
     g.brk("bi", S_ITEM, "@entry.item")
     g.set("sn", "ItemName", inp={"ItemName": "@bi.Name"}); tail.append("sn")
     g.branch("bca", "@bi.ColorAdjustable"); tail.append("bca")
     g.get("gcz", "Colorize"); g.call("vcz", E_WIDGET, "SetVisibility", inp={"self": "@gcz.Colorize", "InVisibility": "Visible"})
     g.get("gcz2", "Colorize"); g.call("ccz", E_WIDGET, "SetVisibility", inp={"self": "@gcz2.Colorize", "InVisibility": "Collapsed"})
     g.set("sw", "Worn", inp={"Worn": "@entry.worn"}); g.set("sow", "Owned", inp={"Owned": "@entry.owned"}); tail += ["sw", "sow"]
+    # origin slot (content view: Hair / Skin / <makeup type> / Body / clothes slot) + highlight of a "Show in tab" jump
+    g.set("sis", "ItemSlot", inp={"ItemSlot": "@bi.Slot"}); tail.append("sis")
+    g.call("hle", K_MATH, "EqualEqual_NameName", inp={"A": "@bi.Name", "B": mcol(g, "hl", "HighlightItem")})
+    g.call("hln", K_MATH, "NotEqual_NameName", inp={"A": "@bi.Name", "B": "None"}); g.call("hla", K_MATH, "BooleanAND", inp={"A": "@hle.ReturnValue", "B": "@hln.ReturnValue"})
+    g.set("shl", "Highlight", inp={"Highlight": "@hla.ReturnValue"}); tail.append("shl")
     g.call("t", K_TXT, "Conv_StringToText", inp={"InString": "@bi.DisplayName"})
     g.get("gn", "Name"); g.call("stn", E_TEXT, "SetText", inp={"self": "@gn.Name", "InText": "@t.ReturnValue"}); tail.append("stn")
     g.call("gop", E_USERWIDGET, "GetOwningPlayer"); g.call("ctt", K_WBL, "Create", inp={"WidgetType": W_TOOLTIP, "OwningPlayer": "@gop.ReturnValue"}); g.cast("ctc", W_TOOLTIP, "@ctt.ReturnValue")
@@ -305,11 +330,19 @@ def w_clothes_button():
     c.call("f2", K_MATH, "SelectColor", inp={"A": mcol(c, "cfw", "ColFrameWorn"), "B": "@f1.ReturnValue", "bPickA": "@gw.Worn"})
     c.call("c1", K_MATH, "SelectColor", inp={"A": mcol(c, "cw", "ColFillWorn"), "B": mcol(c, "cfi", "ColFill"), "bPickA": "@gw.Worn"})
     c.call("c2", K_MATH, "SelectColor", inp={"A": mcol(c, "cwh", "ColFillWornHover"), "B": mcol(c, "cfh", "ColFillHover"), "bPickA": "@gw.Worn"})
-    set_colors(c, "Frame", "@f2.ReturnValue", mcol(c, "cfrh", "ColFrameHover"), tail)
+    c.get("ghl", "Highlight")   # "Show in tab" target: accent frame
+    c.call("f3", K_MATH, "SelectColor", inp={"A": mcol(c, "cac", "ColAccent"), "B": "@f2.ReturnValue", "bPickA": "@ghl.Highlight"})
+    c.call("f4", K_MATH, "SelectColor", inp={"A": mcol(c, "cac2", "ColAccent"), "B": mcol(c, "cfrh", "ColFrameHover"), "bPickA": "@ghl.Highlight"})
+    set_colors(c, "Frame", "@f3.ReturnValue", "@f4.ReturnValue", tail)
     set_colors(c, "Fill", "@c1.ReturnValue", "@c2.ReturnValue", tail)
     text_color(c, "tn", "Name", mcol(c, "ct", "ColText"), tail); c.chain(*tail)
-    return blueprint(W_BTN, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("ItemName", "name"), var("Worn", "bool"), var("Owned", "bool")] + hv,
-                     functions=[init, compute_fn(c), mouse_down_override("On Item Clicked", "On Item Context", "ItemName")] + hf, event_graph=eg, widget_tree=tree, defaults=HAND)
+    # Set Color Swatch(color): show the stored colour bottom right instead of the "colour adjustable" symbol (content view only)
+    sc = G(); sc.get("gsw", "Swatch"); sc.call("sb", E_BORDER, "SetBrushColor", inp={"self": "@gsw.Swatch", "InBrushColor": "@entry.color"})
+    sc.get("gsb", "SwatchBox"); sc.call("sv", E_WIDGET, "SetVisibility", inp={"self": "@gsb.SwatchBox", "InVisibility": "Visible"})
+    sc.get("gcb", "ColorizeBox"); sc.call("cv", E_WIDGET, "SetVisibility", inp={"self": "@gcb.ColorizeBox", "InVisibility": "Collapsed"}); sc.chain("entry", "sb", "sv", "cv")
+    return blueprint(W_BTN, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("ItemName", "name"), var("ItemSlot", "name"), var("Worn", "bool"), var("Owned", "bool"), var("Highlight", "bool")] + hv,
+                     functions=[init, compute_fn(c), mouse_down_override("On Item Clicked", "On Item Context", "ItemName"), fn("Set Color Swatch", [param("color", S_LINCOLOR)], graph=sc)] + hf,
+                     event_graph=eg, widget_tree=tree, defaults=HAND)
 
 
 # ---------------- W_SubTab ----------------
@@ -413,7 +446,9 @@ def w_outfit_button():
     g.call("l2", K_STR, "Concat_StrStr", inp={"A": "@head.ReturnValue", "B": " \u00b7 "})
     g.call("l3", K_STR, "Concat_StrStr", inp={"A": "@l2.ReturnValue", "B": "@cs.ReturnValue"}); g.call("l3b", K_STR, "Concat_StrStr", inp={"A": "@l3.ReturnValue", "B": " "})
     g.call("l4", K_STR, "Concat_StrStr", inp={"A": "@l3b.ReturnValue", "B": mts(g, "lpc", "Lbl_Pieces")})
-    g.call("ls", K_MATH, "SelectString", inp={"A": mts(g, "sso", "Btn_SaveOutfit"), "B": "@l4.ReturnValue", "bPickA": "@neg.ReturnValue"})
+    # "+" tile: the caller's caption (presets page: "Save current appearance"), default "Save current outfit"
+    g.call("sadd", K_MATH, "SelectString", inp={"A": mts(g, "sso", "Btn_SaveOutfit"), "B": "@ct.ReturnValue", "bPickA": "@ce.ReturnValue"})
+    g.call("ls", K_MATH, "SelectString", inp={"A": "@sadd.ReturnValue", "B": "@l4.ReturnValue", "bPickA": "@neg.ReturnValue"})
     g.call("lt", K_TXT, "Conv_StringToText", inp={"InString": "@ls.ReturnValue"})
     g.get("gl", "Label"); g.call("stl", E_TEXT, "SetText", inp={"self": "@gl.Label", "InText": "@lt.ReturnValue"})
     # icons 0..5: set the existing ones, hide the rest (layout stays)
@@ -640,19 +675,19 @@ def w_color_swatch():
 
 
 # ---------------- W_AltUI (Panel) ----------------
-BODY_ROWS = [("Breast", "Breast"), ("Waist", "Waist"), ("Hip", "Hip")]
+BODY_ROWS = [("Breast", "Breast"), ("Waist", "Waist")]   # the game has no hip morph (Makeup_Save.Hip is an unused remnant)
 OPTION_ROWS = [("Scroll", "Scroll speed"), ("Scale", "Tile size"), ("Fov", "Camera FOV (Jodi view)"), ("Dist", "Camera distance (Jodi view)"),
                ("BgAlpha", "Background opacity"), ("TileAlpha", "Tile opacity")]   # sliders of Get/Set Option Values (the last two sit in the theme block)
 PANEL_TEXTS = [("search", "Search"), ("onlyowned", "LblOwned"), ("onlyfav", "LblFav"), ("favorites", "FavHeader"), ("all", "AllHeader"), ("listhint", "ListHint"),
-               ("worn", "BagWornHeader"), ("inbag", "BagListHeader"), ("bagempty", "BagEmpty"), ("breast", "LblBreast"), ("waist", "LblWaist"), ("hip", "LblHip"),
+               ("worn", "BagWornHeader"), ("inbag", "BagListHeader"), ("bagempty", "BagEmpty"), ("breast", "LblBreast"), ("waist", "LblWaist"),
                ("scroll", "LblScroll"), ("scale", "LblScale"), ("fov", "LblFov"), ("dist", "LblDist"), ("unlimited", "LblUnlimited"), ("layout", "LblLayout"),
                ("language", "LblLanguage"), ("placeholder", "PlaceholderText"), ("pan", "LblPan"), ("nude", "LblNude"),
                ("theme", "LblTheme"), ("bgalpha", "LblBgAlpha"), ("tilealpha", "LblTileAlpha"), ("key", "LblKey")]   # parameter of Set Strings -> widget name (order = gen_manager_ui.PANEL_STRINGS)
 THEME_COLS = 5   # theme grid: fixed columns (entries fill column-wise), the wrap box wraps whole columns on narrow panels
 THEME_REFRESH = [("TopTabs", W_TOP), ("LayoutChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("ThemeLinks", W_TXT), ("StatusLinks", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
-SCROLL_PAGES = ["LeftScroll", "ListScroll", "OutfitScroll", "LooksScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll"]
+SCROLL_PAGES = ["LeftScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll"]
 # panel-owned texts coloured by Apply Theme: widget -> derived colour
-PANEL_TEXT_COLORS = {"ColHead": ["BagWornHeader", "BagListHeader", "FavHeader", "LblTheme"],
+PANEL_TEXT_COLORS = {"ColHead": ["BagWornHeader", "BagListHeader", "FavHeader", "LblTheme", "ContentTitle"],
                      "ColTextDim": ["AllHeader", "ListHint", "BagEmpty", "PlaceholderText"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS],
                      "ColText": ["LblOwned", "LblFav", "LblUnlimited", "LblPan", "LblNude", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS]}
 
@@ -680,6 +715,12 @@ def w_panel():
             w(U_HBOX, "TopTabs", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(10)}),
             w(U_SCROLL, "OutfitScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_WRAP, "OutfitList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)})]),
             w(U_SCROLL, "LooksScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_WRAP, "LooksList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)})]),
+            # content view (outfit / preset / look): back link + title, sections below
+            w(U_VBOX, "ContentBox", props={"Visibility": "Collapsed"}, slot=FILL, children=[
+                w(U_HBOX, "ContentHead", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(8)}, children=[
+                    w(U_HBOX, "ContentLinks", slot={"VerticalAlignment": "VAlign_Center"}),
+                    text("ContentTitle", "", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(12)})]),
+                w(U_SCROLL, "ContentScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "ContentList")])]),
             w(U_SCROLL, "PlaceholderScroll", props={"Visibility": "Collapsed"}, slot=FILL, children=[text("PlaceholderText", "This tab is not finished yet.", 13, GREY)]),
             # Coiffure: link row (hair colour) + tiles
             w(U_SCROLL, "HairScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "HairVB", children=[
@@ -802,7 +843,7 @@ def w_panel():
     pm = G(); pm.get("gm", "Manager"); pm.call("cm", MGR, "Close Menu", inp={"self": "@gm.Manager"})
     pm.call("u", K_WBL, "Unhandled"); pm.link("u.ReturnValue", "return.ReturnValue"); pm.chain("entry", "cm", "return")
     # Set Page(page): exactly one page visible (Clothes = HB, Outfits = OutfitScroll, Bag = BagScroll)
-    sp = G(); pages = [("HB", "Clothes"), ("OutfitScroll", "Outfits"), ("LooksScroll", "Looks"), ("BagScroll", "Bag"), ("HairScroll", "Hair"), ("LookHB", "Look"), ("BodyBox", "Body"), ("OptionsScroll", "Options")]
+    sp = G(); pages = [("HB", "Clothes"), ("OutfitScroll", "Outfits"), ("LooksScroll", "Looks"), ("BagScroll", "Bag"), ("HairScroll", "Hair"), ("LookHB", "Look"), ("BodyBox", "Body"), ("OptionsScroll", "Options"), ("ContentBox", "Content")]
     sp.set("sk", "TmpKnown", inp={"TmpKnown": "false"})
     for i, (wn, page) in enumerate(pages):
         sp.call("eq%d" % i, K_MATH, "EqualEqual_NameName", inp={"A": "@entry.page", "B": page}); sp.branch("b%d" % i, "@eq%d.ReturnValue" % i)
@@ -932,7 +973,17 @@ def w_panel():
         ats.get("g%d" % i, "ThemeCol%d" % i); ats.call("a%d" % i, U_VBOX, "AddChildToVerticalBox", inp={"self": "@g%d.ThemeCol%d" % (i, i), "Content": "@entry.widget"})
         ats.call("p%d" % i, "/Script/UMG.VerticalBoxSlot", "SetPadding", inp={"self": "@a%d.ReturnValue" % i, "InPadding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(6)})
         ats.chain(prev, "b%d" % i, "a%d" % i, "p%d" % i); prev = "b%d:else" % i
+    # content view: title + scroll a tile into view on the page's scroll box (Show in tab)
+    ct = G(); ct.get("g", "ContentTitle"); ct.call("s", E_TEXT, "SetText", inp={"self": "@g.ContentTitle", "InText": "@entry.text"}); ct.chain("entry", "s")
+    si = G(); prev = "entry"
+    for i, (page, box) in enumerate([("Clothes", "ListScroll"), ("Hair", "HairScroll"), ("Look", "LookScroll")]):
+        si.call("e%d" % i, K_MATH, "EqualEqual_NameName", inp={"A": "@entry.page", "B": page}); si.branch("b%d" % i, "@e%d.ReturnValue" % i)
+        si.get("g%d" % i, box); si.call("s%d" % i, U_SCROLL, "ScrollWidgetIntoView", inp={"self": "@g%d.%s" % (i, box), "WidgetToFind": "@entry.widget", "AnimateScroll": "false", "ScrollDestination": "Center"})
+        si.chain(prev, "b%d" % i, "s%d" % i); prev = "b%d:else" % i
     funcs = [clear("Clear Left", "LeftBox"), add("Add Left", "LeftBox", U_VBOX, "AddChildToVerticalBox"),
+             clear("Clear Content", "ContentList"), add("Add Content Section", "ContentList", U_VBOX, "AddChildToVerticalBox"),
+             clear("Clear Content Links", "ContentLinks"), add("Add Content Link", "ContentLinks", U_HBOX, "AddChildToHorizontalBox"),
+             fn("Set Content Title", [param("text", "text")], graph=ct), fn("Scroll Into View", [param("page", "name"), param("widget", "object:" + E_WIDGET)], graph=si),
              fn("Apply Theme", graph=at), fn("Clear Theme Swatches", graph=cts), fn("Add Theme Swatch", [param("widget", "object:" + E_WIDGET), param("column", "int")], graph=ats),
              clear("Clear Theme Links", "ThemeLinks"), add("Add Theme Link", "ThemeLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear TopTabs", "TopTabs"), add("Add TopTab", "TopTabs", U_HBOX, "AddChildToHorizontalBox"),
@@ -958,8 +1009,8 @@ def w_panel():
              clear("Clear Status", "StatusLinks"), add("Add Status", "StatusLinks", U_HBOX, "AddChildToHorizontalBox"),
              fn("Set Option Values", [param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param(k.lower() + " text", "text") for k, _ in OPTION_ROWS], graph=sov),
              fn("Set Scroll Mult", [param("mult", "float")], graph=sm),
-             fn("Get Body Values", outputs=[param("breast", "float"), param("waist", "float"), param("hip", "float")], graph=gb),
-             fn("Set Body Values", [param("breast", "float"), param("waist", "float"), param("hip", "float")], graph=sb),
+             fn("Get Body Values", outputs=[param("breast", "float"), param("waist", "float")], graph=gb),
+             fn("Set Body Values", [param("breast", "float"), param("waist", "float")], graph=sb),
              clear("Clear Fav", "FavList"), add("Add Fav", "FavList", U_WRAP, "AddChildToWrapBox"),
              fn("Set Fav Visible", [param("visible", "bool")], graph=fv2), fn("OnMouseButtonDown", override=True, graph=pm),
              clear("Clear List", "List"), add("Add Item", "List", U_WRAP, "AddChildToWrapBox"),
@@ -973,5 +1024,5 @@ def w_panel():
                      defaults={"bIsFocusable": "true"})
 
 
-assets = [w_tooltip(), w_group_header(), w_slot_tab(), w_clothes_button(), w_sub_tab(), w_top_tab(), w_outfit_button(), w_look_button(), w_text_button(), w_round_button(), w_menu_row(), w_context_menu(), w_color_swatch(), w_panel()]
+assets = [w_tooltip(), w_group_header(), w_content_section(), w_slot_tab(), w_clothes_button(), w_sub_tab(), w_top_tab(), w_outfit_button(), w_look_button(), w_text_button(), w_round_button(), w_menu_row(), w_context_menu(), w_color_swatch(), w_panel()]
 write(os.path.join(os.path.dirname(__file__), "..", "40_widgets.json"), assets)

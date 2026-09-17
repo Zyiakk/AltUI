@@ -74,7 +74,6 @@ STRINGS = {
     "Lbl_BagEmpty": ("Backpack is empty", "Rucksack ist leer", "背包是空的", "Рюкзак пуст", "La mochila está vacía"),
     "Lbl_Breast": ("Breast", "Brust", "胸部", "Грудь", "Pecho"),
     "Lbl_Waist": ("Waist", "Taille", "腰", "Талия", "Cintura"),
-    "Lbl_Hip": ("Hip", "Hüfte", "臀部", "Бедра", "Cadera"),
     "Lbl_Scroll": ("Scroll speed", "Scroll-Geschwindigkeit", "滚动速度", "Скорость прокрутки", "Velocidad de desplazamiento"),
     "Lbl_Scale": ("Tile size", "Kachelgröße", "图块大小", "Размер плиток", "Tamaño de las casillas"),
     "Lbl_Fov": ("Camera FOV (Jodi view)", "Kamera-FOV (Jodi-Ansicht)", "相机视野（Jodi 视图）", "Угол обзора камеры (вид Jodi)", "FOV de la cámara (vista de Jodi)"),
@@ -120,9 +119,10 @@ STRINGS = {
     "Btn_BagCleanup": ("Tidy up backpack", "Rucksack aufräumen", "整理背包", "Разобрать рюкзак", "Ordenar la mochila"),
     "Btn_Undo": ("Undo", "Rückgängig", "撤销", "Отменить", "Deshacer"),
     "Btn_Redo": ("Redo", "Wiederherstellen", "重做", "Повторить", "Rehacer"),
-    "Btn_SavePreset": ("Save current makeup as preset", "Aktuelles Makeup als Preset speichern", "将当前妆容保存为预设", "Сохранить текущий макияж как предустановку", "Guardar el maquillaje actual como preajuste"),
+    "Btn_SavePreset": ("Save current appearance", "Aktuelles Aussehen speichern", "保存当前外观", "Сохранить текущую внешность", "Guardar la apariencia actual"),
     "Btn_SaveOutfit": ("Save current outfit", "Aktuelles Outfit speichern", "保存当前搭配", "Сохранить текущий комплект", "Guardar el conjunto actual"),
     "Btn_SaveLook": ("Save current look", "Aktuellen Look speichern", "保存当前造型", "Сохранить текущий образ", "Guardar el look actual"),
+    "Btn_Back": ("\u2190 Back", "\u2190 Zurück", "\u2190 返回", "\u2190 Назад", "\u2190 Atrás"),
     # Context menus
     "Menu_FavAdd": ("Add to favourites", "Favorit hinzufügen", "加入收藏", "В избранное", "Añadir a favoritos"),
     "Menu_FavRemove": ("Remove from favourites", "Favorit entfernen", "取消收藏", "Убрать из избранного", "Quitar de favoritos"),
@@ -141,6 +141,8 @@ STRINGS = {
     "Menu_Delete": ("Delete", "Löschen", "删除", "Удалить", "Borrar"),
     "Menu_Rename": ("Rename…", "Umbenennen…", "重命名…", "Переименовать…", "Renombrar…"),
     "Menu_UpdateLook": ("Update", "Aktualisieren", "更新", "Обновить", "Actualizar"),
+    "Menu_ViewContent": ("View content", "Inhalt anzeigen", "查看内容", "Показать содержимое", "Ver contenido"),
+    "Menu_ShowIn": ("Show in tab", "Im Reiter anzeigen", "在选项卡中显示", "Показать во вкладке", "Mostrar en la pestaña"),
     "Menu_Cancel": ("Cancel", "Abbrechen", "取消", "Отмена", "Cancelar"),
     # Tile states
     "State_NotOwned": ("not owned", "nicht im Besitz", "未拥有", "нет в наличии", "no poseído"),

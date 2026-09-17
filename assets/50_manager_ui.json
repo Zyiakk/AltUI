@@ -45,6 +45,10 @@
     {
      "name": "OptTileAlpha",
      "type": "float"
+    },
+    {
+     "name": "TmpSection",
+     "type": "object:/Game/Mod/AltUI/W_ContentSection"
     }
    ],
    "functions": [
@@ -1113,6 +1117,30 @@
         }
        },
        {
+        "id": "svo",
+        "kind": "set",
+        "var": "ViewOutfit",
+        "in": {
+         "ViewOutfit": "-1"
+        }
+       },
+       {
+        "id": "svl",
+        "kind": "set",
+        "var": "ViewLook",
+        "in": {
+         "ViewLook": "-1"
+        }
+       },
+       {
+        "id": "svp",
+        "kind": "set",
+        "var": "ViewPreset",
+        "in": {
+         "ViewPreset": "-1"
+        }
+       },
+       {
         "id": "gp5",
         "kind": "get",
         "var": "Panel"
@@ -1292,6 +1320,9 @@
         "lp",
         "ao",
         "spo",
+        "svo",
+        "svl",
+        "svp",
         "spg",
         "rtt",
         "rst",
@@ -2480,10 +2511,95 @@
         }
        },
        {
+        "id": "ghl0",
+        "kind": "get",
+        "var": "HighlightItem"
+       },
+       {
+        "id": "ishc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bi.Name",
+         "B": "@ghl0.HighlightItem"
+        }
+       },
+       {
+        "id": "orc2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@orc.ReturnValue",
+         "B": "@ishc.ReturnValue"
+        }
+       },
+       {
         "id": "bcap",
         "kind": "branch",
         "in": {
-         "Condition": "@orc.ReturnValue"
+         "Condition": "@orc2.ReturnValue"
+        }
+       },
+       {
+        "id": "ghlf",
+        "kind": "get",
+        "var": "HighlightItem"
+       },
+       {
+        "id": "ishf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@fb.Name",
+         "B": "@ghlf.HighlightItem"
+        }
+       },
+       {
+        "id": "bhlf",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ishf.ReturnValue"
+        }
+       },
+       {
+        "id": "sswf",
+        "kind": "set",
+        "var": "ScrollWidget",
+        "in": {
+         "ScrollWidget": "@cf1.AsW_ClothesButton"
+        }
+       },
+       {
+        "id": "ghl",
+        "kind": "get",
+        "var": "HighlightItem"
+       },
+       {
+        "id": "ish",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bi.Name",
+         "B": "@ghl.HighlightItem"
+        }
+       },
+       {
+        "id": "bhl",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ish.ReturnValue"
+        }
+       },
+       {
+        "id": "ssw",
+        "kind": "set",
+        "var": "ScrollWidget",
+        "in": {
+         "ScrollWidget": "@cb.AsW_ClothesButton"
         }
        },
        {
@@ -2596,6 +2712,12 @@
         "fti",
         "fin",
         "af",
+        "bhlf",
+        "sswf",
+        "sn"
+       ],
+       [
+        "bhlf:else",
         "sn"
        ],
        [
@@ -2612,6 +2734,12 @@
         "bti",
         "bin",
         "ai",
+        "bhl",
+        "ssw",
+        "sci"
+       ],
+       [
+        "bhl:else",
         "sci"
        ],
        [
@@ -2961,6 +3089,14 @@
         "id": "uf",
         "kind": "call_self",
         "function": "Update Focus"
+       },
+       {
+        "id": "hlc",
+        "kind": "set",
+        "var": "HighlightItem",
+        "in": {
+         "HighlightItem": "None"
+        }
        }
       ],
       "links": [],
@@ -2972,6 +3108,7 @@
        ],
        [
         "bpl:else",
+        "hlc",
         "s",
         "sg",
         "rl",
@@ -3079,6 +3216,26 @@
      ],
      "graph": {
       "nodes": [
+       {
+        "id": "gpg0",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "cop",
+        "kind": "call_self",
+        "function": "Content Open",
+        "in": {
+         "page": "@gpg0.Page"
+        }
+       },
+       {
+        "id": "bcv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@cop.yes"
+        }
+       },
        {
         "id": "gpg",
         "kind": "get",
@@ -3306,6 +3463,11 @@
       "exec": [
        [
         "entry",
+        "cop",
+        "bcv"
+       ],
+       [
+        "bcv:else",
         "bpg",
         "btw"
        ],
@@ -3356,6 +3518,34 @@
         "var": "ContextItem",
         "in": {
          "ContextItem": "@entry.name"
+        }
+       },
+       {
+        "id": "gpg0",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "cop",
+        "kind": "call_self",
+        "function": "Content Open",
+        "in": {
+         "page": "@gpg0.Page"
+        }
+       },
+       {
+        "id": "bcv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@cop.yes"
+        }
+       },
+       {
+        "id": "occ",
+        "kind": "call_self",
+        "function": "On Content Item Context",
+        "in": {
+         "name": "@entry.name"
         }
        },
        {
@@ -4272,6 +4462,12 @@
        [
         "entry",
         "sci",
+        "cop",
+        "bcv",
+        "occ"
+       ],
+       [
+        "bcv:else",
         "bpg",
         "obc"
        ],
@@ -5213,7 +5409,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "Undo"
+         "B": "OutfitView"
         }
        },
        {
@@ -5224,9 +5420,17 @@
         }
        },
        {
+        "id": "gc22",
+        "kind": "get",
+        "var": "ContextOutfit"
+       },
+       {
         "id": "fa22",
         "kind": "call_self",
-        "function": "Undo"
+        "function": "Open Outfit Content",
+        "in": {
+         "index": "@gc22.ContextOutfit"
+        }
        },
        {
         "id": "ia23",
@@ -5235,7 +5439,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "Redo"
+         "B": "LookView"
         }
        },
        {
@@ -5246,7 +5450,141 @@
         }
        },
        {
+        "id": "gc23",
+        "kind": "get",
+        "var": "ContextLook"
+       },
+       {
         "id": "fa23",
+        "kind": "call_self",
+        "function": "Open Look Content",
+        "in": {
+         "index": "@gc23.ContextLook"
+        }
+       },
+       {
+        "id": "ia24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "PresetView"
+        }
+       },
+       {
+        "id": "ba24",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ia24.ReturnValue"
+        }
+       },
+       {
+        "id": "gc24",
+        "kind": "get",
+        "var": "ContextPreset"
+       },
+       {
+        "id": "fa24",
+        "kind": "call_self",
+        "function": "Open Preset Content",
+        "in": {
+         "index": "@gc24.ContextPreset"
+        }
+       },
+       {
+        "id": "ia25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "ContentBack"
+        }
+       },
+       {
+        "id": "ba25",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ia25.ReturnValue"
+        }
+       },
+       {
+        "id": "fa25",
+        "kind": "call_self",
+        "function": "Close Content"
+       },
+       {
+        "id": "ia26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "GoTo"
+        }
+       },
+       {
+        "id": "ba26",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ia26.ReturnValue"
+        }
+       },
+       {
+        "id": "gc26",
+        "kind": "get",
+        "var": "ContextItem"
+       },
+       {
+        "id": "fa26",
+        "kind": "call_self",
+        "function": "Go To Item",
+        "in": {
+         "name": "@gc26.ContextItem"
+        }
+       },
+       {
+        "id": "ia27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "Undo"
+        }
+       },
+       {
+        "id": "ba27",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ia27.ReturnValue"
+        }
+       },
+       {
+        "id": "fa27",
+        "kind": "call_self",
+        "function": "Undo"
+       },
+       {
+        "id": "ia28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "Redo"
+        }
+       },
+       {
+        "id": "ba28",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ia28.ReturnValue"
+        }
+       },
+       {
+        "id": "fa28",
         "kind": "call_self",
         "function": "Redo"
        }
@@ -5386,6 +5724,31 @@
         "ba22:else",
         "ba23",
         "fa23"
+       ],
+       [
+        "ba23:else",
+        "ba24",
+        "fa24"
+       ],
+       [
+        "ba24:else",
+        "ba25",
+        "fa25"
+       ],
+       [
+        "ba25:else",
+        "ba26",
+        "fa26"
+       ],
+       [
+        "ba26:else",
+        "ba27",
+        "fa27"
+       ],
+       [
+        "ba27:else",
+        "ba28",
+        "fa28"
        ]
       ]
      }
@@ -5558,6 +5921,14 @@
         "in": {
          "name": "@entry.name"
         }
+       },
+       {
+        "id": "hlc",
+        "kind": "set",
+        "var": "HighlightItem",
+        "in": {
+         "HighlightItem": "None"
+        }
        }
       ],
       "links": [],
@@ -5584,6 +5955,7 @@
        ],
        [
         "bb:else",
+        "hlc",
         "s",
         "rt",
         "rli"
@@ -5644,6 +6016,14 @@
         "id": "rli",
         "kind": "call_self",
         "function": "Rebuild List"
+       },
+       {
+        "id": "hlc",
+        "kind": "set",
+        "var": "HighlightItem",
+        "in": {
+         "HighlightItem": "None"
+        }
        }
       ],
       "links": [],
@@ -5651,6 +6031,7 @@
        [
         "entry",
         "b",
+        "hlc",
         "s",
         "rli"
        ]
@@ -6580,6 +6961,34 @@
      "graph": {
       "nodes": [
        {
+        "id": "gkh",
+        "kind": "get",
+        "var": "KeepHighlight"
+       },
+       {
+        "id": "bkh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gkh.KeepHighlight"
+        }
+       },
+       {
+        "id": "skh",
+        "kind": "set",
+        "var": "KeepHighlight",
+        "in": {
+         "KeepHighlight": "false"
+        }
+       },
+       {
+        "id": "shl",
+        "kind": "set",
+        "var": "HighlightItem",
+        "in": {
+         "HighlightItem": "None"
+        }
+       },
+       {
         "id": "sp",
         "kind": "set",
         "var": "Page",
@@ -6611,6 +7020,41 @@
         "id": "uf",
         "kind": "call_self",
         "function": "Update Focus"
+       },
+       {
+        "id": "co",
+        "kind": "call_self",
+        "function": "Content Open",
+        "in": {
+         "page": "@entry.name"
+        }
+       },
+       {
+        "id": "bco",
+        "kind": "branch",
+        "in": {
+         "Condition": "@co.yes"
+        }
+       },
+       {
+        "id": "gpc",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "spc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Page",
+        "in": {
+         "self": "@gpc.Panel",
+         "page": "Content"
+        }
+       },
+       {
+        "id": "rcn",
+        "kind": "call_self",
+        "function": "Rebuild Content"
        },
        {
         "id": "iso",
@@ -6813,11 +7257,28 @@
       "exec": [
        [
         "entry",
+        "bkh",
+        "skh",
+        "cmn"
+       ],
+       [
+        "bkh:else",
+        "shl",
+        "cmn"
+       ],
+       [
         "cmn",
         "sp",
         "spg",
         "rtt",
         "uf",
+        "co",
+        "bco",
+        "spc",
+        "rcn"
+       ],
+       [
+        "bco:else",
         "bo",
         "ro"
        ],
@@ -7632,7 +8093,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_Rename"
+         "key": "Menu_ViewContent"
         }
        },
        {
@@ -7642,7 +8103,7 @@
         "function": "Init",
         "in": {
          "self": "@cr1.AsW_MenuRow",
-         "action": "OutfitRename",
+         "action": "OutfitView",
          "caption": "@t1.text"
         }
        },
@@ -7704,7 +8165,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_Delete"
+         "key": "Menu_Rename"
         }
        },
        {
@@ -7714,7 +8175,7 @@
         "function": "Init",
         "in": {
          "self": "@cr2.AsW_MenuRow",
-         "action": "OutfitDelete",
+         "action": "OutfitRename",
          "caption": "@t2.text"
         }
        },
@@ -7776,7 +8237,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_Cancel"
+         "key": "Menu_Delete"
         }
        },
        {
@@ -7786,7 +8247,7 @@
         "function": "Init",
         "in": {
          "self": "@cr3.AsW_MenuRow",
-         "action": "Cancel",
+         "action": "OutfitDelete",
          "caption": "@t3.text"
         }
        },
@@ -7803,6 +8264,78 @@
         "in": {
          "self": "@gm13.Menu",
          "widget": "@cr3.AsW_MenuRow"
+        }
+       },
+       {
+        "id": "cr4_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "cr4_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_MenuRow",
+         "OwningPlayer": "@cr4_pc.PC"
+        }
+       },
+       {
+        "id": "cr4",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "pure": true,
+        "in": {
+         "Object": "@cr4_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "sr4_me",
+        "kind": "self"
+       },
+       {
+        "id": "sr4",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "in": {
+         "self": "@cr4.AsW_MenuRow",
+         "Manager": "@sr4_me.self"
+        }
+       },
+       {
+        "id": "t4",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Menu_Cancel"
+        }
+       },
+       {
+        "id": "ri4",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "function": "Init",
+        "in": {
+         "self": "@cr4.AsW_MenuRow",
+         "action": "Cancel",
+         "caption": "@t4.text"
+        }
+       },
+       {
+        "id": "gm14",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "ar4",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContextMenu",
+        "function": "Add Row",
+        "in": {
+         "self": "@gm14.Menu",
+         "widget": "@cr4.AsW_MenuRow"
         }
        },
        {
@@ -7881,6 +8414,10 @@
         "sr3",
         "ri3",
         "ar3",
+        "cr4_cr",
+        "sr4",
+        "ri4",
+        "ar4",
         "atv",
         "mp",
         "spv"
@@ -10584,6 +11121,36 @@
          "self": "@th_gp.Panel",
          "widget": "@th.AsW_ClothesButton"
         }
+       },
+       {
+        "id": "ghl",
+        "kind": "get",
+        "var": "HighlightItem"
+       },
+       {
+        "id": "ish",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@fe.Array Element",
+         "B": "@ghl.HighlightItem"
+        }
+       },
+       {
+        "id": "bhl",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ish.ReturnValue"
+        }
+       },
+       {
+        "id": "ssw",
+        "kind": "set",
+        "var": "ScrollWidget",
+        "in": {
+         "ScrollWidget": "@th.AsW_ClothesButton"
+        }
        }
       ],
       "links": [
@@ -10616,7 +11183,9 @@
         "th_cr",
         "th_sm",
         "th_i",
-        "th_a"
+        "th_a",
+        "bhl",
+        "ssw"
        ]
       ]
      }
@@ -11964,12 +12533,21 @@
         "id": "uf",
         "kind": "call_self",
         "function": "Update Focus"
+       },
+       {
+        "id": "hlc",
+        "kind": "set",
+        "var": "HighlightItem",
+        "in": {
+         "HighlightItem": "None"
+        }
        }
       ],
       "links": [],
       "exec": [
        [
         "entry",
+        "hlc",
         "s",
         "rc",
         "rl",
@@ -12828,6 +13406,96 @@
          "self": "@tm_gp.Panel",
          "widget": "@tm.AsW_ClothesButton"
         }
+       },
+       {
+        "id": "hl_ts",
+        "kind": "get",
+        "var": "HighlightItem"
+       },
+       {
+        "id": "eq_ts",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@fs.Array Element",
+         "B": "@hl_ts.HighlightItem"
+        }
+       },
+       {
+        "id": "b_ts",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq_ts.ReturnValue"
+        }
+       },
+       {
+        "id": "sw_ts",
+        "kind": "set",
+        "var": "ScrollWidget",
+        "in": {
+         "ScrollWidget": "@ts.AsW_ClothesButton"
+        }
+       },
+       {
+        "id": "hl_te",
+        "kind": "get",
+        "var": "HighlightItem"
+       },
+       {
+        "id": "eq_te",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@fe.Array Element",
+         "B": "@hl_te.HighlightItem"
+        }
+       },
+       {
+        "id": "b_te",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq_te.ReturnValue"
+        }
+       },
+       {
+        "id": "sw_te",
+        "kind": "set",
+        "var": "ScrollWidget",
+        "in": {
+         "ScrollWidget": "@te.AsW_ClothesButton"
+        }
+       },
+       {
+        "id": "hl_tm",
+        "kind": "get",
+        "var": "HighlightItem"
+       },
+       {
+        "id": "eq_tm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@fm.Array Element",
+         "B": "@hl_tm.HighlightItem"
+        }
+       },
+       {
+        "id": "b_tm",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq_tm.ReturnValue"
+        }
+       },
+       {
+        "id": "sw_tm",
+        "kind": "set",
+        "var": "ScrollWidget",
+        "in": {
+         "ScrollWidget": "@tm.AsW_ClothesButton"
+        }
        }
       ],
       "links": [
@@ -12871,7 +13539,9 @@
         "ts_cr",
         "ts_sm",
         "ts_i",
-        "ts_a"
+        "ts_a",
+        "b_ts",
+        "sw_ts"
        ],
        [
         "bs:else",
@@ -12889,7 +13559,9 @@
         "te_cr",
         "te_sm",
         "te_i",
-        "te_a"
+        "te_a",
+        "b_te",
+        "sw_te"
        ],
        [
         "be:else",
@@ -12905,7 +13577,9 @@
         "tm_cr",
         "tm_sm",
         "tm_i",
-        "tm_a"
+        "tm_a",
+        "b_tm",
+        "sw_tm"
        ]
       ]
      }
@@ -13604,12 +14278,6 @@
         "class": "/Game/Project/Classes/Save/Makeup_Save"
        },
        {
-        "id": "gh",
-        "kind": "get",
-        "var": "Hip",
-        "class": "/Game/Project/Classes/Save/Makeup_Save"
-       },
-       {
         "id": "cb",
         "kind": "set",
         "var": "BodyBreast",
@@ -13626,14 +14294,6 @@
         }
        },
        {
-        "id": "ch",
-        "kind": "set",
-        "var": "BodyHip",
-        "in": {
-         "BodyHip": "@gh.Hip"
-        }
-       },
-       {
         "id": "gp",
         "kind": "get",
         "var": "Panel"
@@ -13646,8 +14306,7 @@
         "in": {
          "self": "@gp.Panel",
          "breast": "@gb.Boobs Size",
-         "waist": "@gw.Waist",
-         "hip": "@gh.Hip"
+         "waist": "@gw.Waist"
         }
        },
        {
@@ -13873,10 +14532,6 @@
        [
         "md.Makeup Data",
         "gw.self"
-       ],
-       [
-        "md.Makeup Data",
-        "gh.self"
        ]
       ],
       "exec": [
@@ -13885,7 +14540,6 @@
         "md",
         "cb",
         "cw",
-        "ch",
         "sv",
         "scan",
         "cl",
@@ -13934,11 +14588,6 @@
         "var": "BodyWaist"
        },
        {
-        "id": "ch",
-        "kind": "get",
-        "var": "BodyHip"
-       },
-       {
         "id": "nb",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
@@ -13961,17 +14610,6 @@
         }
        },
        {
-        "id": "nh",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NearlyEqual_FloatFloat",
-        "in": {
-         "A": "@gv.hip",
-         "B": "@ch.BodyHip",
-         "ErrorTolerance": "0.0001"
-        }
-       },
-       {
         "id": "a1",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
@@ -13982,20 +14620,10 @@
         }
        },
        {
-        "id": "a2",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanAND",
-        "in": {
-         "A": "@a1.ReturnValue",
-         "B": "@nh.ReturnValue"
-        }
-       },
-       {
         "id": "bsame",
         "kind": "branch",
         "in": {
-         "Condition": "@a2.ReturnValue"
+         "Condition": "@a1.ReturnValue"
         }
        },
        {
@@ -14030,16 +14658,6 @@
         "in": {
          "self": "@md.Makeup Data",
          "Waist": "@gv.waist"
-        }
-       },
-       {
-        "id": "sh",
-        "kind": "set",
-        "var": "Hip",
-        "class": "/Game/Project/Classes/Save/Makeup_Save",
-        "in": {
-         "self": "@md.Makeup Data",
-         "Hip": "@gv.hip"
         }
        },
        {
@@ -14099,14 +14717,6 @@
         }
        },
        {
-        "id": "ch2",
-        "kind": "set",
-        "var": "BodyHip",
-        "in": {
-         "BodyHip": "@gv.hip"
-        }
-       },
-       {
         "id": "gp2",
         "kind": "get",
         "var": "Panel"
@@ -14119,8 +14729,7 @@
         "in": {
          "self": "@gp2.Panel",
          "breast": "@gv.breast",
-         "waist": "@gv.waist",
-         "hip": "@gv.hip"
+         "waist": "@gv.waist"
         }
        }
       ],
@@ -14136,12 +14745,10 @@
         "md",
         "sb",
         "sw",
-        "sh",
         "sbc",
         "sd",
         "cb2",
         "cw2",
-        "ch2",
         "sv"
        ]
       ]
@@ -14981,14 +15588,6 @@
         }
        },
        {
-        "id": "t_hip",
-        "kind": "call_self",
-        "function": "T",
-        "in": {
-         "key": "Lbl_Hip"
-        }
-       },
-       {
         "id": "t_scroll",
         "kind": "call_self",
         "function": "T",
@@ -15118,7 +15717,6 @@
          "bagempty": "@t_bagempty.text",
          "breast": "@t_breast.text",
          "waist": "@t_waist.text",
-         "hip": "@t_hip.text",
          "scroll": "@t_scroll.text",
          "scale": "@t_scale.text",
          "fov": "@t_fov.text",
@@ -24778,7 +25376,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_Delete"
+         "key": "Menu_ViewContent"
         }
        },
        {
@@ -24826,7 +25424,7 @@
         "function": "Init",
         "in": {
          "self": "@mr1.AsW_MenuRow",
-         "action": "PresetDelete",
+         "action": "PresetView",
          "caption": "@t1.text"
         }
        },
@@ -24850,7 +25448,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_Cancel"
+         "key": "Menu_Delete"
         }
        },
        {
@@ -24898,7 +25496,7 @@
         "function": "Init",
         "in": {
          "self": "@mr2.AsW_MenuRow",
-         "action": "Cancel",
+         "action": "PresetDelete",
          "caption": "@t2.text"
         }
        },
@@ -24915,6 +25513,78 @@
         "in": {
          "self": "@mg2.Menu",
          "widget": "@mr2.AsW_MenuRow"
+        }
+       },
+       {
+        "id": "t3",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Menu_Cancel"
+        }
+       },
+       {
+        "id": "mr3_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr3_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_MenuRow",
+         "OwningPlayer": "@mr3_pc.PC"
+        }
+       },
+       {
+        "id": "mr3",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr3_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "ms3_me",
+        "kind": "self"
+       },
+       {
+        "id": "ms3",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "in": {
+         "self": "@mr3.AsW_MenuRow",
+         "Manager": "@ms3_me.self"
+        }
+       },
+       {
+        "id": "mi3",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr3.AsW_MenuRow",
+         "action": "Cancel",
+         "caption": "@t3.text"
+        }
+       },
+       {
+        "id": "mg3",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "ma3",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContextMenu",
+        "function": "Add Row",
+        "in": {
+         "self": "@mg3.Menu",
+         "widget": "@mr3.AsW_MenuRow"
         }
        },
        {
@@ -24984,6 +25654,10 @@
         "ms2",
         "mi2",
         "ma2",
+        "mr3_cr",
+        "ms3",
+        "mi3",
+        "ma3",
         "atv",
         "mp",
         "spv"
@@ -27603,7 +28277,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_Rename"
+         "key": "Menu_ViewContent"
         }
        },
        {
@@ -27651,7 +28325,7 @@
         "function": "Init",
         "in": {
          "self": "@mr0.AsW_MenuRow",
-         "action": "LookRename",
+         "action": "LookView",
          "caption": "@t0.text"
         }
        },
@@ -27675,7 +28349,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_UpdateLook"
+         "key": "Menu_Rename"
         }
        },
        {
@@ -27723,7 +28397,7 @@
         "function": "Init",
         "in": {
          "self": "@mr1.AsW_MenuRow",
-         "action": "LookUpdate",
+         "action": "LookRename",
          "caption": "@t1.text"
         }
        },
@@ -27747,7 +28421,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_Delete"
+         "key": "Menu_UpdateLook"
         }
        },
        {
@@ -27795,7 +28469,7 @@
         "function": "Init",
         "in": {
          "self": "@mr2.AsW_MenuRow",
-         "action": "LookDelete",
+         "action": "LookUpdate",
          "caption": "@t2.text"
         }
        },
@@ -27819,7 +28493,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_Cancel"
+         "key": "Menu_Delete"
         }
        },
        {
@@ -27867,7 +28541,7 @@
         "function": "Init",
         "in": {
          "self": "@mr3.AsW_MenuRow",
-         "action": "Cancel",
+         "action": "LookDelete",
          "caption": "@t3.text"
         }
        },
@@ -27884,6 +28558,78 @@
         "in": {
          "self": "@mg3.Menu",
          "widget": "@mr3.AsW_MenuRow"
+        }
+       },
+       {
+        "id": "t4",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Menu_Cancel"
+        }
+       },
+       {
+        "id": "mr4_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr4_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_MenuRow",
+         "OwningPlayer": "@mr4_pc.PC"
+        }
+       },
+       {
+        "id": "mr4",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr4_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "ms4_me",
+        "kind": "self"
+       },
+       {
+        "id": "ms4",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "in": {
+         "self": "@mr4.AsW_MenuRow",
+         "Manager": "@ms4_me.self"
+        }
+       },
+       {
+        "id": "mi4",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr4.AsW_MenuRow",
+         "action": "Cancel",
+         "caption": "@t4.text"
+        }
+       },
+       {
+        "id": "mg4",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "ma4",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContextMenu",
+        "function": "Add Row",
+        "in": {
+         "self": "@mg4.Menu",
+         "widget": "@mr4.AsW_MenuRow"
         }
        },
        {
@@ -27962,6 +28708,10 @@
         "ms3",
         "mi3",
         "ma3",
+        "mr4_cr",
+        "ms4",
+        "mi4",
+        "ma4",
         "atv",
         "mp",
         "spv"
@@ -29508,14 +30258,6 @@
         }
        },
        {
-        "id": "ch2",
-        "kind": "set",
-        "var": "BodyHip",
-        "in": {
-         "BodyHip": "@bs.Hip"
-        }
-       },
-       {
         "id": "sbc",
         "kind": "set",
         "var": "BoobsChanged",
@@ -30101,7 +30843,6 @@
         "shi",
         "cb2",
         "cw2",
-        "ch2",
         "sbc",
         "bsk",
         "cs",
@@ -30451,6 +31192,4418 @@
         "rm",
         "ap",
         "rst"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Content Open",
+     "inputs": [
+      {
+       "name": "page",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "isO",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Outfits"
+        }
+       },
+       {
+        "id": "isL",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Looks"
+        }
+       },
+       {
+        "id": "isA",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Look"
+        }
+       },
+       {
+        "id": "gvo",
+        "kind": "get",
+        "var": "ViewOutfit"
+       },
+       {
+        "id": "gvl",
+        "kind": "get",
+        "var": "ViewLook"
+       },
+       {
+        "id": "gvp",
+        "kind": "get",
+        "var": "ViewPreset"
+       },
+       {
+        "id": "v1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "@gvp.ViewPreset",
+         "B": "-1",
+         "bPickA": "@isA.ReturnValue"
+        }
+       },
+       {
+        "id": "v2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "@gvl.ViewLook",
+         "B": "@v1.ReturnValue",
+         "bPickA": "@isL.ReturnValue"
+        }
+       },
+       {
+        "id": "v3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "@gvo.ViewOutfit",
+         "B": "@v2.ReturnValue",
+         "bPickA": "@isO.ReturnValue"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@v3.ReturnValue",
+         "B": "0"
+        }
+       }
+      ],
+      "links": [
+       [
+        "ge.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Open Content",
+     "inputs": [
+      {
+       "name": "kind",
+       "type": "name"
+      },
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "isO",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.kind",
+         "B": "Outfit"
+        }
+       },
+       {
+        "id": "bO",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isO.ReturnValue"
+        }
+       },
+       {
+        "id": "so",
+        "kind": "set",
+        "var": "ViewOutfit",
+        "in": {
+         "ViewOutfit": "@entry.index"
+        }
+       },
+       {
+        "id": "isL",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.kind",
+         "B": "Look"
+        }
+       },
+       {
+        "id": "bL",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isL.ReturnValue"
+        }
+       },
+       {
+        "id": "sl",
+        "kind": "set",
+        "var": "ViewLook",
+        "in": {
+         "ViewLook": "@entry.index"
+        }
+       },
+       {
+        "id": "isP",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.kind",
+         "B": "Preset"
+        }
+       },
+       {
+        "id": "bP",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isP.ReturnValue"
+        }
+       },
+       {
+        "id": "sp",
+        "kind": "set",
+        "var": "ViewPreset",
+        "in": {
+         "ViewPreset": "@entry.index"
+        }
+       },
+       {
+        "id": "gpg",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "spg",
+        "kind": "call_self",
+        "function": "Select Page",
+        "in": {
+         "name": "@gpg.Page"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bO",
+        "so",
+        "spg"
+       ],
+       [
+        "bO:else",
+        "bL",
+        "sl",
+        "spg"
+       ],
+       [
+        "bL:else",
+        "bP",
+        "sp",
+        "spg"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Content Snapshot",
+     "inputs": [
+      {
+       "name": "kind",
+       "type": "name"
+      },
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "ok",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ok0",
+        "kind": "set",
+        "var": "TmpBool",
+        "in": {
+         "TmpBool": "false"
+        }
+       },
+       {
+        "id": "isO",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.kind",
+         "B": "Outfit"
+        }
+       },
+       {
+        "id": "bO",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isO.ReturnValue"
+        }
+       },
+       {
+        "id": "go",
+        "kind": "get",
+        "var": "Outfits"
+       },
+       {
+        "id": "goa",
+        "kind": "get",
+        "var": "outfits",
+        "class": "/Game/Project/Classes/Save/Outfits_Save"
+       },
+       {
+        "id": "ol",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@goa.outfits"
+        }
+       },
+       {
+        "id": "oin",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_IntInt",
+        "in": {
+         "A": "@entry.index",
+         "B": "@ol.ReturnValue"
+        }
+       },
+       {
+        "id": "ge0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@entry.index",
+         "B": "0"
+        }
+       },
+       {
+        "id": "oin2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@oin.ReturnValue",
+         "B": "@ge0.ReturnValue"
+        }
+       },
+       {
+        "id": "bOi",
+        "kind": "branch",
+        "in": {
+         "Condition": "@oin2.ReturnValue"
+        }
+       },
+       {
+        "id": "oget",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@goa.outfits",
+         "Index": "@entry.index"
+        }
+       },
+       {
+        "id": "obr",
+        "kind": "break",
+        "struct": "/Game/Project/Classes/Struct/Outfit_Struct",
+        "in": {
+         "Outfit_Struct": "@oget.Item"
+        }
+       },
+       {
+        "id": "okeys",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Keys",
+        "in": {
+         "TargetMap": "@obr.clothes"
+        }
+       },
+       {
+        "id": "sokeys",
+        "kind": "set",
+        "var": "TmpNames",
+        "in": {
+         "TmpNames": "@okeys.Keys"
+        }
+       },
+       {
+        "id": "gtc0",
+        "kind": "get",
+        "var": "TmpColors"
+       },
+       {
+        "id": "cclr",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Clear",
+        "in": {
+         "TargetMap": "@gtc0.TmpColors"
+        }
+       },
+       {
+        "id": "gtn",
+        "kind": "get",
+        "var": "TmpNames"
+       },
+       {
+        "id": "fo",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gtn.TmpNames"
+        }
+       },
+       {
+        "id": "ofind",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@obr.clothes",
+         "Key": "@fo.Array Element"
+        }
+       },
+       {
+        "id": "olin",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_ColorToLinearColor",
+        "in": {
+         "InColor": "@ofind.Value"
+        }
+       },
+       {
+        "id": "gtc1",
+        "kind": "get",
+        "var": "TmpColors"
+       },
+       {
+        "id": "oadd",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@gtc1.TmpColors",
+         "Key": "@fo.Array Element",
+         "Value": "@olin.ReturnValue"
+        }
+       },
+       {
+        "id": "gtn2",
+        "kind": "get",
+        "var": "TmpNames"
+       },
+       {
+        "id": "gtc2",
+        "kind": "get",
+        "var": "TmpColors"
+       },
+       {
+        "id": "omk",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_Snapshot",
+        "in": {
+         "Worn": "@gtn2.TmpNames",
+         "Colors": "@gtc2.TmpColors"
+        }
+       },
+       {
+        "id": "osn",
+        "kind": "set",
+        "var": "ViewSnap",
+        "in": {
+         "ViewSnap": "@omk.S_Snapshot"
+        }
+       },
+       {
+        "id": "oname",
+        "kind": "call_self",
+        "function": "Outfit Name",
+        "in": {
+         "index": "@entry.index"
+        }
+       },
+       {
+        "id": "olen",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Len",
+        "in": {
+         "S": "@oname.name"
+        }
+       },
+       {
+        "id": "oemp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@olen.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "oi1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@entry.index",
+         "B": "1"
+        }
+       },
+       {
+        "id": "ois",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@oi1.ReturnValue"
+        }
+       },
+       {
+        "id": "odt",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_Outfit"
+        }
+       },
+       {
+        "id": "odt_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@odt.text"
+        }
+       },
+       {
+        "id": "od1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@odt_2s.ReturnValue",
+         "B": " "
+        }
+       },
+       {
+        "id": "od2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@od1.ReturnValue",
+         "B": "@ois.ReturnValue"
+        }
+       },
+       {
+        "id": "osel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@od2.ReturnValue",
+         "B": "@oname.name",
+         "bPickA": "@oemp.ReturnValue"
+        }
+       },
+       {
+        "id": "ost",
+        "kind": "set",
+        "var": "ViewTitle",
+        "in": {
+         "ViewTitle": "@osel.ReturnValue"
+        }
+       },
+       {
+        "id": "ook",
+        "kind": "set",
+        "var": "TmpBool",
+        "in": {
+         "TmpBool": "true"
+        }
+       },
+       {
+        "id": "isP",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.kind",
+         "B": "Preset"
+        }
+       },
+       {
+        "id": "bP",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isP.ReturnValue"
+        }
+       },
+       {
+        "id": "pd_p",
+        "kind": "get",
+        "var": "Presets"
+       },
+       {
+        "id": "pd",
+        "kind": "get",
+        "var": "Data",
+        "class": "/Game/Project/Classes/Save/MakeupPreset_Save"
+       },
+       {
+        "id": "pl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@pd.Data"
+        }
+       },
+       {
+        "id": "pin",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_IntInt",
+        "in": {
+         "A": "@entry.index",
+         "B": "@pl.ReturnValue"
+        }
+       },
+       {
+        "id": "ge1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@entry.index",
+         "B": "0"
+        }
+       },
+       {
+        "id": "pin2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@pin.ReturnValue",
+         "B": "@ge1.ReturnValue"
+        }
+       },
+       {
+        "id": "bPi",
+        "kind": "branch",
+        "in": {
+         "Condition": "@pin2.ReturnValue"
+        }
+       },
+       {
+        "id": "pget",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@pd.Data",
+         "Index": "@entry.index"
+        }
+       },
+       {
+        "id": "pbr",
+        "kind": "break",
+        "struct": "/Game/Project/Classes/Struct/MakeupPreset_Struct",
+        "in": {
+         "MakeupPreset_Struct": "@pget.Item"
+        }
+       },
+       {
+        "id": "pmk",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_Snapshot",
+        "in": {
+         "Makeup": "@pbr.MakeupData",
+         "Skin": "@pbr.SkinName",
+         "Hair": "@pbr.HairstyleName",
+         "HairColor": "@pbr.HairColor",
+         "Boobs": "@pbr.BoobsSize",
+         "Waist": "@pbr.Waist",
+         "Hip": "@pbr.Hip"
+        }
+       },
+       {
+        "id": "psn",
+        "kind": "set",
+        "var": "ViewSnap",
+        "in": {
+         "ViewSnap": "@pmk.S_Snapshot"
+        }
+       },
+       {
+        "id": "pi1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@entry.index",
+         "B": "1"
+        }
+       },
+       {
+        "id": "pis",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@pi1.ReturnValue"
+        }
+       },
+       {
+        "id": "pt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "Preset ",
+         "B": "@pis.ReturnValue"
+        }
+       },
+       {
+        "id": "pst",
+        "kind": "set",
+        "var": "ViewTitle",
+        "in": {
+         "ViewTitle": "@pt.ReturnValue"
+        }
+       },
+       {
+        "id": "pok",
+        "kind": "set",
+        "var": "TmpBool",
+        "in": {
+         "TmpBool": "true"
+        }
+       },
+       {
+        "id": "isL",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.kind",
+         "B": "Look"
+        }
+       },
+       {
+        "id": "bL",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isL.ReturnValue"
+        }
+       },
+       {
+        "id": "el_g",
+        "kind": "get",
+        "var": "LooksSave"
+       },
+       {
+        "id": "el_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@el_g.LooksSave"
+        }
+       },
+       {
+        "id": "el_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@el_v.ReturnValue"
+        }
+       },
+       {
+        "id": "el_l",
+        "kind": "call_self",
+        "function": "Load Looks"
+       },
+       {
+        "id": "la_s",
+        "kind": "get",
+        "var": "LooksSave"
+       },
+       {
+        "id": "la",
+        "kind": "get",
+        "var": "Looks",
+        "class": "/Game/Mod/AltUI/SG_Looks"
+       },
+       {
+        "id": "ll",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@la.Looks"
+        }
+       },
+       {
+        "id": "lin",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_IntInt",
+        "in": {
+         "A": "@entry.index",
+         "B": "@ll.ReturnValue"
+        }
+       },
+       {
+        "id": "ge2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@entry.index",
+         "B": "0"
+        }
+       },
+       {
+        "id": "lin2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@lin.ReturnValue",
+         "B": "@ge2.ReturnValue"
+        }
+       },
+       {
+        "id": "bLi",
+        "kind": "branch",
+        "in": {
+         "Condition": "@lin2.ReturnValue"
+        }
+       },
+       {
+        "id": "lget",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@la.Looks",
+         "Index": "@entry.index"
+        }
+       },
+       {
+        "id": "lbr",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Look",
+        "in": {
+         "S_Look": "@lget.Item"
+        }
+       },
+       {
+        "id": "lsn",
+        "kind": "set",
+        "var": "ViewSnap",
+        "in": {
+         "ViewSnap": "@lbr.Snap"
+        }
+       },
+       {
+        "id": "lst",
+        "kind": "set",
+        "var": "ViewTitle",
+        "in": {
+         "ViewTitle": "@lbr.Name"
+        }
+       },
+       {
+        "id": "lok",
+        "kind": "set",
+        "var": "TmpBool",
+        "in": {
+         "TmpBool": "true"
+        }
+       },
+       {
+        "id": "gok",
+        "kind": "get",
+        "var": "TmpBool"
+       }
+      ],
+      "links": [
+       [
+        "go.Outfits",
+        "goa.self"
+       ],
+       [
+        "pd_p.Presets",
+        "pd.self"
+       ],
+       [
+        "la_s.LooksSave",
+        "la.self"
+       ],
+       [
+        "gok.TmpBool",
+        "return.ok"
+       ]
+      ],
+      "exec": [
+       [
+        "el_b:else",
+        "el_l"
+       ],
+       [
+        "entry",
+        "ok0",
+        "bO",
+        "bOi",
+        "okeys",
+        "sokeys",
+        "cclr",
+        "fo"
+       ],
+       [
+        "fo",
+        "oadd"
+       ],
+       [
+        "fo:Completed",
+        "osn",
+        "oname",
+        "ost",
+        "ook",
+        "return"
+       ],
+       [
+        "bOi:else",
+        "return"
+       ],
+       [
+        "bO:else",
+        "bP",
+        "bPi",
+        "psn",
+        "pst",
+        "pok",
+        "return"
+       ],
+       [
+        "bPi:else",
+        "return"
+       ],
+       [
+        "bP:else",
+        "bL",
+        "el_b"
+       ],
+       [
+        "el_l",
+        "bLi"
+       ],
+       [
+        "el_b",
+        "bLi"
+       ],
+       [
+        "bLi",
+        "lsn",
+        "lst",
+        "lok",
+        "return"
+       ],
+       [
+        "bLi:else",
+        "return"
+       ],
+       [
+        "bL:else",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Open Outfit Content",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "oc",
+        "kind": "call_self",
+        "function": "Open Content",
+        "in": {
+         "kind": "Outfit",
+         "index": "@entry.index"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "oc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Open Look Content",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "oc",
+        "kind": "call_self",
+        "function": "Open Content",
+        "in": {
+         "kind": "Look",
+         "index": "@entry.index"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "oc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Open Preset Content",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "oc",
+        "kind": "call_self",
+        "function": "Open Content",
+        "in": {
+         "kind": "Preset",
+         "index": "@entry.index"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "oc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Close Content",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gpg",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "isO",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpg.Page",
+         "B": "Outfits"
+        }
+       },
+       {
+        "id": "bO",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isO.ReturnValue"
+        }
+       },
+       {
+        "id": "so",
+        "kind": "set",
+        "var": "ViewOutfit",
+        "in": {
+         "ViewOutfit": "-1"
+        }
+       },
+       {
+        "id": "isL",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpg.Page",
+         "B": "Looks"
+        }
+       },
+       {
+        "id": "bL",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isL.ReturnValue"
+        }
+       },
+       {
+        "id": "sl",
+        "kind": "set",
+        "var": "ViewLook",
+        "in": {
+         "ViewLook": "-1"
+        }
+       },
+       {
+        "id": "isA",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpg.Page",
+         "B": "Look"
+        }
+       },
+       {
+        "id": "bA",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isA.ReturnValue"
+        }
+       },
+       {
+        "id": "sp",
+        "kind": "set",
+        "var": "ViewPreset",
+        "in": {
+         "ViewPreset": "-1"
+        }
+       },
+       {
+        "id": "gpg2",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "spg",
+        "kind": "call_self",
+        "function": "Select Page",
+        "in": {
+         "name": "@gpg2.Page"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bO",
+        "so",
+        "spg"
+       ],
+       [
+        "bO:else",
+        "bL",
+        "sl",
+        "spg"
+       ],
+       [
+        "bL:else",
+        "bA",
+        "sp",
+        "spg"
+       ],
+       [
+        "bA:else",
+        "spg"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Rebuild Content",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gpg",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "isO",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpg.Page",
+         "B": "Outfits"
+        }
+       },
+       {
+        "id": "gpg2",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "isL",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpg2.Page",
+         "B": "Looks"
+        }
+       },
+       {
+        "id": "k1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Look",
+         "B": "Preset",
+         "bPickA": "@isL.ReturnValue"
+        }
+       },
+       {
+        "id": "k2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Outfit",
+         "B": "@k1.ReturnValue",
+         "bPickA": "@isO.ReturnValue"
+        }
+       },
+       {
+        "id": "k2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@k2s.ReturnValue"
+        }
+       },
+       {
+        "id": "gvo",
+        "kind": "get",
+        "var": "ViewOutfit"
+       },
+       {
+        "id": "gvl",
+        "kind": "get",
+        "var": "ViewLook"
+       },
+       {
+        "id": "gvp",
+        "kind": "get",
+        "var": "ViewPreset"
+       },
+       {
+        "id": "i1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "@gvl.ViewLook",
+         "B": "@gvp.ViewPreset",
+         "bPickA": "@isL.ReturnValue"
+        }
+       },
+       {
+        "id": "i2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "@gvo.ViewOutfit",
+         "B": "@i1.ReturnValue",
+         "bPickA": "@isO.ReturnValue"
+        }
+       },
+       {
+        "id": "cs",
+        "kind": "call_self",
+        "function": "Content Snapshot",
+        "in": {
+         "kind": "@k2.ReturnValue",
+         "index": "@i2.ReturnValue"
+        }
+       },
+       {
+        "id": "bok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@cs.ok"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call_self",
+        "function": "Close Content"
+       },
+       {
+        "id": "gp0",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "clc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Content",
+        "in": {
+         "self": "@gp0.Panel"
+        }
+       },
+       {
+        "id": "gp1",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "cll",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Content Links",
+        "in": {
+         "self": "@gp1.Panel"
+        }
+       },
+       {
+        "id": "clk_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "clk_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_TextButton",
+         "OwningPlayer": "@clk_pc.PC"
+        }
+       },
+       {
+        "id": "clk",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "pure": true,
+        "in": {
+         "Object": "@clk_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "sml_me",
+        "kind": "self"
+       },
+       {
+        "id": "sml",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "in": {
+         "self": "@clk.AsW_TextButton",
+         "Manager": "@sml_me.self"
+        }
+       },
+       {
+        "id": "lt",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Btn_Back"
+        }
+       },
+       {
+        "id": "li",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "function": "Init",
+        "in": {
+         "self": "@clk.AsW_TextButton",
+         "action": "ContentBack",
+         "caption": "@lt.text"
+        }
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "al",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Content Link",
+        "in": {
+         "self": "@gp2.Panel",
+         "widget": "@clk.AsW_TextButton"
+        }
+       },
+       {
+        "id": "gvt",
+        "kind": "get",
+        "var": "ViewTitle"
+       },
+       {
+        "id": "tt1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@gvt.ViewTitle"
+        }
+       },
+       {
+        "id": "gp3",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "sct",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Content Title",
+        "in": {
+         "self": "@gp3.Panel",
+         "text": "@tt1.ReturnValue"
+        }
+       },
+       {
+        "id": "gvs",
+        "kind": "get",
+        "var": "ViewSnap"
+       },
+       {
+        "id": "bv",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Snapshot",
+        "in": {
+         "S_Snapshot": "@gvs.ViewSnap"
+        }
+       },
+       {
+        "id": "wl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@bv.Worn"
+        }
+       },
+       {
+        "id": "wgt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@wl.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@wgt.ReturnValue"
+        }
+       },
+       {
+        "id": "s1t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tab_Clothes"
+        }
+       },
+       {
+        "id": "s1_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "s1_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ContentSection",
+         "OwningPlayer": "@s1_pc.PC"
+        }
+       },
+       {
+        "id": "s1",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "pure": true,
+        "in": {
+         "Object": "@s1_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "s1_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "s1_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "in": {
+         "self": "@s1.AsW_ContentSection",
+         "Manager": "@s1_sm_me.self"
+        }
+       },
+       {
+        "id": "s1_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Init",
+        "in": {
+         "self": "@s1.AsW_ContentSection",
+         "caption": "@s1t.text"
+        }
+       },
+       {
+        "id": "s1_ss",
+        "kind": "set",
+        "var": "TmpSection",
+        "in": {
+         "TmpSection": "@s1.AsW_ContentSection"
+        }
+       },
+       {
+        "id": "s1_gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "s1_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "s1_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Content Section",
+        "in": {
+         "self": "@s1_gp.Panel",
+         "widget": "@s1_gs.TmpSection"
+        }
+       },
+       {
+        "id": "fw",
+        "kind": "foreach",
+        "in": {
+         "Array": "@bv.Worn"
+        }
+       },
+       {
+        "id": "fi",
+        "kind": "call_self",
+        "function": "Find Item",
+        "in": {
+         "name": "@fw.Array Element"
+        }
+       },
+       {
+        "id": "bfi",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fi.found"
+        }
+       },
+       {
+        "id": "sti",
+        "kind": "set",
+        "var": "TmpItem",
+        "in": {
+         "TmpItem": "@fi.item"
+        }
+       },
+       {
+        "id": "mph_n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fw.Array Element"
+        }
+       },
+       {
+        "id": "mph",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@fw.Array Element",
+         "DisplayName": "@mph_n.ReturnValue",
+         "Icon": "None"
+        }
+       },
+       {
+        "id": "stp",
+        "kind": "set",
+        "var": "TmpItem",
+        "in": {
+         "TmpItem": "@mph.S_ClothesItem"
+        }
+       },
+       {
+        "id": "gti",
+        "kind": "get",
+        "var": "TmpItem"
+       },
+       {
+        "id": "iw",
+        "kind": "call_self",
+        "function": "Is Worn",
+        "in": {
+         "name": "@fw.Array Element"
+        }
+       },
+       {
+        "id": "io",
+        "kind": "call_self",
+        "function": "Is Owned",
+        "in": {
+         "name": "@fw.Array Element"
+        }
+       },
+       {
+        "id": "ifv",
+        "kind": "call_self",
+        "function": "Is Favorite",
+        "in": {
+         "name": "@fw.Array Element"
+        }
+       },
+       {
+        "id": "idm",
+        "kind": "call_self",
+        "function": "Is Damaged",
+        "in": {
+         "name": "@fw.Array Element"
+        }
+       },
+       {
+        "id": "own1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@io.yes",
+         "B": "@fi.found"
+        }
+       },
+       {
+        "id": "tip",
+        "kind": "call_self",
+        "function": "Item Tip",
+        "in": {
+         "item": "@gti.TmpItem"
+        }
+       },
+       {
+        "id": "t1_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "t1_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ClothesButton",
+         "OwningPlayer": "@t1_pc.PC"
+        }
+       },
+       {
+        "id": "t1",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "pure": true,
+        "in": {
+         "Object": "@t1_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "t1_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "t1_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "in": {
+         "self": "@t1.AsW_ClothesButton",
+         "Manager": "@t1_sm_me.self"
+        }
+       },
+       {
+        "id": "t1_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "function": "Init",
+        "in": {
+         "self": "@t1.AsW_ClothesButton",
+         "item": "@gti.TmpItem",
+         "worn": "@iw.yes",
+         "owned": "@own1.ReturnValue",
+         "fav": "@ifv.yes",
+         "damaged": "@idm.yes",
+         "tip": "@tip.tip"
+        }
+       },
+       {
+        "id": "t1_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "t1_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Add Tile",
+        "in": {
+         "self": "@t1_gs.TmpSection",
+         "widget": "@t1.AsW_ClothesButton"
+        }
+       },
+       {
+        "id": "cf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@bv.Colors",
+         "Key": "@fw.Array Element"
+        }
+       },
+       {
+        "id": "bcf",
+        "kind": "branch",
+        "in": {
+         "Condition": "@cf.ReturnValue"
+        }
+       },
+       {
+        "id": "scs",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "function": "Set Color Swatch",
+        "in": {
+         "self": "@t1.AsW_ClothesButton",
+         "color": "@cf.Value"
+        }
+       },
+       {
+        "id": "hn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@bv.Hair",
+         "B": "None"
+        }
+       },
+       {
+        "id": "bh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hn.ReturnValue"
+        }
+       },
+       {
+        "id": "s2t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tab_Hair"
+        }
+       },
+       {
+        "id": "s2_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "s2_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ContentSection",
+         "OwningPlayer": "@s2_pc.PC"
+        }
+       },
+       {
+        "id": "s2",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "pure": true,
+        "in": {
+         "Object": "@s2_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "s2_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "s2_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "in": {
+         "self": "@s2.AsW_ContentSection",
+         "Manager": "@s2_sm_me.self"
+        }
+       },
+       {
+        "id": "s2_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Init",
+        "in": {
+         "self": "@s2.AsW_ContentSection",
+         "caption": "@s2t.text"
+        }
+       },
+       {
+        "id": "s2_ss",
+        "kind": "set",
+        "var": "TmpSection",
+        "in": {
+         "TmpSection": "@s2.AsW_ContentSection"
+        }
+       },
+       {
+        "id": "s2_gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "s2_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "s2_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Content Section",
+        "in": {
+         "self": "@s2_gp.Panel",
+         "widget": "@s2_gs.TmpSection"
+        }
+       },
+       {
+        "id": "hrow",
+        "kind": "get_row",
+        "table": "/Game/Project/Hairstyle/HairstyleTable",
+        "in": {
+         "RowName": "@bv.Hair"
+        }
+       },
+       {
+        "id": "hbr",
+        "kind": "break",
+        "struct": "/Game/Project/Hairstyle/HairstyleStruct",
+        "in": {
+         "HairstyleStruct": "@hrow.OutRow"
+        }
+       },
+       {
+        "id": "mhi_n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@bv.Hair"
+        }
+       },
+       {
+        "id": "mhi",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@bv.Hair",
+         "DisplayName": "@mhi_n.ReturnValue",
+         "Icon": "@hbr.icon",
+         "Slot": "Hair"
+        }
+       },
+       {
+        "id": "shi",
+        "kind": "set",
+        "var": "TmpItem",
+        "in": {
+         "TmpItem": "@mhi.S_ClothesItem"
+        }
+       },
+       {
+        "id": "mhp_n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@bv.Hair"
+        }
+       },
+       {
+        "id": "mhp",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@bv.Hair",
+         "DisplayName": "@mhp_n.ReturnValue",
+         "Icon": "None",
+         "Slot": "Hair"
+        }
+       },
+       {
+        "id": "shp",
+        "kind": "set",
+        "var": "TmpItem",
+        "in": {
+         "TmpItem": "@mhp.S_ClothesItem"
+        }
+       },
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "cur",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jodi/Jodi",
+        "function": "Get Hairstyle Name",
+        "in": {
+         "self": "@gpl.Player"
+        }
+       },
+       {
+        "id": "hsel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@cur.name",
+         "B": "@bv.Hair"
+        }
+       },
+       {
+        "id": "hown_g_gi",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetGameInstance"
+       },
+       {
+        "id": "hown_g",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/TKA_GameInstance",
+        "pure": true,
+        "in": {
+         "Object": "@hown_g_gi.ReturnValue"
+        }
+       },
+       {
+        "id": "hown_hs",
+        "kind": "get",
+        "var": "Hairstyles Save",
+        "class": "/Game/Project/Classes/TKA_GameInstance"
+       },
+       {
+        "id": "hown_set",
+        "kind": "get",
+        "var": "Hairstyles",
+        "class": "/Game/Project/Classes/Save/Hairstyle_Save"
+       },
+       {
+        "id": "hown_c",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintSetLibrary",
+        "function": "Set_Contains",
+        "in": {
+         "TargetSet": "@hown_set.Hairstyles",
+         "ItemToFind": "@bv.Hair"
+        }
+       },
+       {
+        "id": "hown_m",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@hbr.MirrorID",
+         "B": "-1"
+        }
+       },
+       {
+        "id": "hown",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@hown_c.ReturnValue",
+         "B": "@hown_m.ReturnValue"
+        }
+       },
+       {
+        "id": "gti2",
+        "kind": "get",
+        "var": "TmpItem"
+       },
+       {
+        "id": "t2t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tab_Hair"
+        }
+       },
+       {
+        "id": "t2_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "t2_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ClothesButton",
+         "OwningPlayer": "@t2_pc.PC"
+        }
+       },
+       {
+        "id": "t2",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "pure": true,
+        "in": {
+         "Object": "@t2_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "t2_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "t2_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "in": {
+         "self": "@t2.AsW_ClothesButton",
+         "Manager": "@t2_sm_me.self"
+        }
+       },
+       {
+        "id": "t2_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "function": "Init",
+        "in": {
+         "self": "@t2.AsW_ClothesButton",
+         "item": "@gti2.TmpItem",
+         "worn": "@hsel.ReturnValue",
+         "owned": "@hown.ReturnValue",
+         "fav": "false",
+         "damaged": "false",
+         "tip": "@t2t.text"
+        }
+       },
+       {
+        "id": "t2_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "t2_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Add Tile",
+        "in": {
+         "self": "@t2_gs.TmpSection",
+         "widget": "@t2.AsW_ClothesButton"
+        }
+       },
+       {
+        "id": "shc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "function": "Set Color Swatch",
+        "in": {
+         "self": "@t2.AsW_ClothesButton",
+         "color": "@bv.HairColor"
+        }
+       },
+       {
+        "id": "skn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@bv.Skin",
+         "B": "None"
+        }
+       },
+       {
+        "id": "bsk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@skn.ReturnValue"
+        }
+       },
+       {
+        "id": "s3t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Look_Skin"
+        }
+       },
+       {
+        "id": "s3_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "s3_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ContentSection",
+         "OwningPlayer": "@s3_pc.PC"
+        }
+       },
+       {
+        "id": "s3",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "pure": true,
+        "in": {
+         "Object": "@s3_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "s3_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "s3_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "in": {
+         "self": "@s3.AsW_ContentSection",
+         "Manager": "@s3_sm_me.self"
+        }
+       },
+       {
+        "id": "s3_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Init",
+        "in": {
+         "self": "@s3.AsW_ContentSection",
+         "caption": "@s3t.text"
+        }
+       },
+       {
+        "id": "s3_ss",
+        "kind": "set",
+        "var": "TmpSection",
+        "in": {
+         "TmpSection": "@s3.AsW_ContentSection"
+        }
+       },
+       {
+        "id": "s3_gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "s3_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "s3_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Content Section",
+        "in": {
+         "self": "@s3_gp.Panel",
+         "widget": "@s3_gs.TmpSection"
+        }
+       },
+       {
+        "id": "srow",
+        "kind": "get_row",
+        "table": "/Game/Project/Tables/SkinTable",
+        "in": {
+         "RowName": "@bv.Skin"
+        }
+       },
+       {
+        "id": "sbr",
+        "kind": "break",
+        "struct": "/Game/Project/Tables/SkinStruct",
+        "in": {
+         "SkinStruct": "@srow.OutRow"
+        }
+       },
+       {
+        "id": "msi_n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@bv.Skin"
+        }
+       },
+       {
+        "id": "msi",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@bv.Skin",
+         "DisplayName": "@msi_n.ReturnValue",
+         "Icon": "@sbr.icon",
+         "Slot": "Skin"
+        }
+       },
+       {
+        "id": "ssi",
+        "kind": "set",
+        "var": "TmpItem",
+        "in": {
+         "TmpItem": "@msi.S_ClothesItem"
+        }
+       },
+       {
+        "id": "msp_n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@bv.Skin"
+        }
+       },
+       {
+        "id": "msp",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@bv.Skin",
+         "DisplayName": "@msp_n.ReturnValue",
+         "Icon": "None",
+         "Slot": "Skin"
+        }
+       },
+       {
+        "id": "ssp",
+        "kind": "set",
+        "var": "TmpItem",
+        "in": {
+         "TmpItem": "@msp.S_ClothesItem"
+        }
+       },
+       {
+        "id": "ssel",
+        "kind": "call_self",
+        "function": "Is Look Selected",
+        "in": {
+         "type": "Skin",
+         "style": "@bv.Skin"
+        }
+       },
+       {
+        "id": "gti3",
+        "kind": "get",
+        "var": "TmpItem"
+       },
+       {
+        "id": "t3t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Look_Skin"
+        }
+       },
+       {
+        "id": "t3_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "t3_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ClothesButton",
+         "OwningPlayer": "@t3_pc.PC"
+        }
+       },
+       {
+        "id": "t3",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "pure": true,
+        "in": {
+         "Object": "@t3_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "t3_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "t3_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "in": {
+         "self": "@t3.AsW_ClothesButton",
+         "Manager": "@t3_sm_me.self"
+        }
+       },
+       {
+        "id": "t3_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "function": "Init",
+        "in": {
+         "self": "@t3.AsW_ClothesButton",
+         "item": "@gti3.TmpItem",
+         "worn": "@ssel.yes",
+         "owned": "true",
+         "fav": "false",
+         "damaged": "false",
+         "tip": "@t3t.text"
+        }
+       },
+       {
+        "id": "t3_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "t3_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Add Tile",
+        "in": {
+         "self": "@t3_gs.TmpSection",
+         "widget": "@t3.AsW_ClothesButton"
+        }
+       },
+       {
+        "id": "mk",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Keys",
+        "in": {
+         "TargetMap": "@bv.Makeup"
+        }
+       },
+       {
+        "id": "fm",
+        "kind": "foreach",
+        "in": {
+         "Array": "@mk.Keys"
+        }
+       },
+       {
+        "id": "mf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@bv.Makeup",
+         "Key": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "mbl",
+        "kind": "break",
+        "struct": "/Game/Project/Tables/MakeupDataStruct",
+        "in": {
+         "MakeupDataStruct": "@mf.Value"
+        }
+       },
+       {
+        "id": "mll",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@mbl.List"
+        }
+       },
+       {
+        "id": "mgt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@mll.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bml",
+        "kind": "branch",
+        "in": {
+         "Condition": "@mgt.ReturnValue"
+        }
+       },
+       {
+        "id": "mcap",
+        "kind": "call_self",
+        "function": "Look Caption",
+        "in": {
+         "type": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "s4_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "s4_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ContentSection",
+         "OwningPlayer": "@s4_pc.PC"
+        }
+       },
+       {
+        "id": "s4",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "pure": true,
+        "in": {
+         "Object": "@s4_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "s4_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "s4_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "in": {
+         "self": "@s4.AsW_ContentSection",
+         "Manager": "@s4_sm_me.self"
+        }
+       },
+       {
+        "id": "s4_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Init",
+        "in": {
+         "self": "@s4.AsW_ContentSection",
+         "caption": "@mcap.caption"
+        }
+       },
+       {
+        "id": "s4_ss",
+        "kind": "set",
+        "var": "TmpSection",
+        "in": {
+         "TmpSection": "@s4.AsW_ContentSection"
+        }
+       },
+       {
+        "id": "s4_gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "s4_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "s4_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Content Section",
+        "in": {
+         "self": "@s4_gp.Panel",
+         "widget": "@s4_gs.TmpSection"
+        }
+       },
+       {
+        "id": "trow",
+        "kind": "get_row",
+        "table": "/Game/Project/Tables/MakeupTypeTable",
+        "in": {
+         "RowName": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "tbr",
+        "kind": "break",
+        "struct": "/Game/Project/Tables/MakeupTypeStruct",
+        "in": {
+         "MakeupTypeStruct": "@trow.OutRow"
+        }
+       },
+       {
+        "id": "sey",
+        "kind": "set",
+        "var": "TmpFound",
+        "in": {
+         "TmpFound": "@tbr.EyeTable"
+        }
+       },
+       {
+        "id": "sey0",
+        "kind": "set",
+        "var": "TmpFound",
+        "in": {
+         "TmpFound": "false"
+        }
+       },
+       {
+        "id": "smln",
+        "kind": "set",
+        "var": "TmpNames3",
+        "in": {
+         "TmpNames3": "@mbl.List"
+        }
+       },
+       {
+        "id": "gml",
+        "kind": "get",
+        "var": "TmpNames3"
+       },
+       {
+        "id": "fs",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gml.TmpNames3"
+        }
+       },
+       {
+        "id": "gey",
+        "kind": "get",
+        "var": "TmpFound"
+       },
+       {
+        "id": "bey",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gey.TmpFound"
+        }
+       },
+       {
+        "id": "erow",
+        "kind": "get_row",
+        "table": "/Game/Project/Tables/EyeTable",
+        "in": {
+         "RowName": "@fs.Array Element"
+        }
+       },
+       {
+        "id": "ebr",
+        "kind": "break",
+        "struct": "/Game/Project/Tables/EyeStruct",
+        "in": {
+         "EyeStruct": "@erow.OutRow"
+        }
+       },
+       {
+        "id": "mrow",
+        "kind": "get_row",
+        "table": "/Game/Project/Tables/MakeupTable",
+        "in": {
+         "RowName": "@fs.Array Element"
+        }
+       },
+       {
+        "id": "mbr",
+        "kind": "break",
+        "struct": "/Game/Project/Tables/MakeupStruct",
+        "in": {
+         "MakeupStruct": "@mrow.OutRow"
+        }
+       },
+       {
+        "id": "mei_n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fs.Array Element"
+        }
+       },
+       {
+        "id": "mei",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@fs.Array Element",
+         "DisplayName": "@mei_n.ReturnValue",
+         "Icon": "@ebr.Icon",
+         "Slot": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "sei",
+        "kind": "set",
+        "var": "TmpItem",
+        "in": {
+         "TmpItem": "@mei.S_ClothesItem"
+        }
+       },
+       {
+        "id": "mmi_n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fs.Array Element"
+        }
+       },
+       {
+        "id": "mmi",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@fs.Array Element",
+         "DisplayName": "@mmi_n.ReturnValue",
+         "Icon": "@mbr.Icon",
+         "Slot": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "smi",
+        "kind": "set",
+        "var": "TmpItem",
+        "in": {
+         "TmpItem": "@mmi.S_ClothesItem"
+        }
+       },
+       {
+        "id": "mpi_n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fs.Array Element"
+        }
+       },
+       {
+        "id": "mpi",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@fs.Array Element",
+         "DisplayName": "@mpi_n.ReturnValue",
+         "Icon": "None",
+         "Slot": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "spi",
+        "kind": "set",
+        "var": "TmpItem",
+        "in": {
+         "TmpItem": "@mpi.S_ClothesItem"
+        }
+       },
+       {
+        "id": "msel",
+        "kind": "call_self",
+        "function": "Is Look Selected",
+        "in": {
+         "type": "@fm.Array Element",
+         "style": "@fs.Array Element"
+        }
+       },
+       {
+        "id": "gti4",
+        "kind": "get",
+        "var": "TmpItem"
+       },
+       {
+        "id": "t4_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "t4_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ClothesButton",
+         "OwningPlayer": "@t4_pc.PC"
+        }
+       },
+       {
+        "id": "t4",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "pure": true,
+        "in": {
+         "Object": "@t4_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "t4_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "t4_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "in": {
+         "self": "@t4.AsW_ClothesButton",
+         "Manager": "@t4_sm_me.self"
+        }
+       },
+       {
+        "id": "t4_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "function": "Init",
+        "in": {
+         "self": "@t4.AsW_ClothesButton",
+         "item": "@gti4.TmpItem",
+         "worn": "@msel.yes",
+         "owned": "true",
+         "fav": "false",
+         "damaged": "false",
+         "tip": "@mcap.caption"
+        }
+       },
+       {
+        "id": "t4_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "t4_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Add Tile",
+        "in": {
+         "self": "@t4_gs.TmpSection",
+         "widget": "@t4.AsW_ClothesButton"
+        }
+       },
+       {
+        "id": "bn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@bv.Body",
+         "B": "None"
+        }
+       },
+       {
+        "id": "b1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bv.Boobs",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "b2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bv.Waist",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "bo2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@b1.ReturnValue",
+         "B": "@b2.ReturnValue"
+        }
+       },
+       {
+        "id": "bany",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@bn.ReturnValue",
+         "B": "@bo2.ReturnValue"
+        }
+       },
+       {
+        "id": "bb",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bany.ReturnValue"
+        }
+       },
+       {
+        "id": "s5t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tab_Body"
+        }
+       },
+       {
+        "id": "s5_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "s5_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ContentSection",
+         "OwningPlayer": "@s5_pc.PC"
+        }
+       },
+       {
+        "id": "s5",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "pure": true,
+        "in": {
+         "Object": "@s5_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "s5_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "s5_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "in": {
+         "self": "@s5.AsW_ContentSection",
+         "Manager": "@s5_sm_me.self"
+        }
+       },
+       {
+        "id": "s5_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Init",
+        "in": {
+         "self": "@s5.AsW_ContentSection",
+         "caption": "@s5t.text"
+        }
+       },
+       {
+        "id": "s5_ss",
+        "kind": "set",
+        "var": "TmpSection",
+        "in": {
+         "TmpSection": "@s5.AsW_ContentSection"
+        }
+       },
+       {
+        "id": "s5_gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "s5_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "s5_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Content Section",
+        "in": {
+         "self": "@s5_gp.Panel",
+         "widget": "@s5_gs.TmpSection"
+        }
+       },
+       {
+        "id": "bbn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bn.ReturnValue"
+        }
+       },
+       {
+        "id": "scan",
+        "kind": "call_self",
+        "function": "Scan Body Mods"
+       },
+       {
+        "id": "gcp",
+        "kind": "get",
+        "var": "BodyCaptions"
+       },
+       {
+        "id": "cap",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gcp.BodyCaptions",
+         "Key": "@bv.Body"
+        }
+       },
+       {
+        "id": "caps",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@cap.Value"
+        }
+       },
+       {
+        "id": "bns",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@bv.Body"
+        }
+       },
+       {
+        "id": "bsel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@caps.ReturnValue",
+         "B": "@bns.ReturnValue",
+         "bPickA": "@cap.ReturnValue"
+        }
+       },
+       {
+        "id": "mbi",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@bv.Body",
+         "Slot": "Body",
+         "DisplayName": "@bsel.ReturnValue"
+        }
+       },
+       {
+        "id": "gcb",
+        "kind": "get",
+        "var": "CurrentBody"
+       },
+       {
+        "id": "bcur",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gcb.CurrentBody",
+         "B": "@bv.Body"
+        }
+       },
+       {
+        "id": "t5t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tab_Body"
+        }
+       },
+       {
+        "id": "t5_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "t5_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ClothesButton",
+         "OwningPlayer": "@t5_pc.PC"
+        }
+       },
+       {
+        "id": "t5",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "pure": true,
+        "in": {
+         "Object": "@t5_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "t5_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "t5_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "in": {
+         "self": "@t5.AsW_ClothesButton",
+         "Manager": "@t5_sm_me.self"
+        }
+       },
+       {
+        "id": "t5_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "function": "Init",
+        "in": {
+         "self": "@t5.AsW_ClothesButton",
+         "item": "@mbi.S_ClothesItem",
+         "worn": "@bcur.ReturnValue",
+         "owned": "true",
+         "fav": "false",
+         "damaged": "false",
+         "tip": "@t5t.text"
+        }
+       },
+       {
+        "id": "t5_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "t5_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Add Tile",
+        "in": {
+         "self": "@t5_gs.TmpSection",
+         "widget": "@t5.AsW_ClothesButton"
+        }
+       },
+       {
+        "id": "bsl",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bo2.ReturnValue"
+        }
+       },
+       {
+        "id": "lb",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_Breast"
+        }
+       },
+       {
+        "id": "lb_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@lb.text"
+        }
+       },
+       {
+        "id": "pb_m",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@bv.Boobs",
+         "B": "100.0"
+        }
+       },
+       {
+        "id": "pb_r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@pb_m.ReturnValue"
+        }
+       },
+       {
+        "id": "pb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@pb_r.ReturnValue"
+        }
+       },
+       {
+        "id": "lw",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_Waist"
+        }
+       },
+       {
+        "id": "lw_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@lw.text"
+        }
+       },
+       {
+        "id": "pw_m",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@bv.Waist",
+         "B": "100.0"
+        }
+       },
+       {
+        "id": "pw_r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@pw_m.ReturnValue"
+        }
+       },
+       {
+        "id": "pw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@pw_r.ReturnValue"
+        }
+       },
+       {
+        "id": "nc0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@lb_2s.ReturnValue",
+         "B": " "
+        }
+       },
+       {
+        "id": "nc1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@nc0.ReturnValue",
+         "B": "@pb.ReturnValue"
+        }
+       },
+       {
+        "id": "nc2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@nc1.ReturnValue",
+         "B": " % · "
+        }
+       },
+       {
+        "id": "nc3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@nc2.ReturnValue",
+         "B": "@lw_2s.ReturnValue"
+        }
+       },
+       {
+        "id": "nc4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@nc3.ReturnValue",
+         "B": " "
+        }
+       },
+       {
+        "id": "nc5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@nc4.ReturnValue",
+         "B": "@pw.ReturnValue"
+        }
+       },
+       {
+        "id": "nc6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@nc5.ReturnValue",
+         "B": " %"
+        }
+       },
+       {
+        "id": "nt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@nc6.ReturnValue"
+        }
+       },
+       {
+        "id": "gs5",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "sn5",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Set Note",
+        "in": {
+         "self": "@gs5.TmpSection",
+         "text": "@nt.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "hown_g.AsTKA Game Instance",
+        "hown_hs.self"
+       ],
+       [
+        "hown_hs.Hairstyles Save",
+        "hown_set.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "cs",
+        "bok",
+        "clc",
+        "cll",
+        "clk_cr",
+        "sml",
+        "li",
+        "al",
+        "sct",
+        "bw"
+       ],
+       [
+        "bok:else",
+        "cc"
+       ],
+       [
+        "bw",
+        "s1_cr",
+        "s1_sm",
+        "s1_i",
+        "s1_ss",
+        "s1_a",
+        "fw"
+       ],
+       [
+        "fw",
+        "fi",
+        "bfi",
+        "sti",
+        "idm",
+        "tip",
+        "t1_cr",
+        "t1_sm",
+        "t1_i",
+        "t1_a",
+        "bcf",
+        "scs"
+       ],
+       [
+        "bfi:else",
+        "stp",
+        "idm"
+       ],
+       [
+        "fw:Completed",
+        "bh"
+       ],
+       [
+        "bw:else",
+        "bh"
+       ],
+       [
+        "bh",
+        "s2_cr",
+        "s2_sm",
+        "s2_i",
+        "s2_ss",
+        "s2_a",
+        "hrow",
+        "shi",
+        "t2_cr",
+        "t2_sm",
+        "t2_i",
+        "t2_a",
+        "shc",
+        "bsk"
+       ],
+       [
+        "hrow:Row Not Found",
+        "shp",
+        "t2_cr"
+       ],
+       [
+        "bh:else",
+        "bsk"
+       ],
+       [
+        "bsk",
+        "s3_cr",
+        "s3_sm",
+        "s3_i",
+        "s3_ss",
+        "s3_a",
+        "srow",
+        "ssi",
+        "ssel",
+        "t3_cr",
+        "t3_sm",
+        "t3_i",
+        "t3_a",
+        "mk"
+       ],
+       [
+        "srow:Row Not Found",
+        "ssp",
+        "ssel"
+       ],
+       [
+        "bsk:else",
+        "mk"
+       ],
+       [
+        "mk",
+        "fm"
+       ],
+       [
+        "fm",
+        "bml",
+        "mcap",
+        "s4_cr",
+        "s4_sm",
+        "s4_i",
+        "s4_ss",
+        "s4_a",
+        "trow",
+        "sey",
+        "smln"
+       ],
+       [
+        "trow:Row Not Found",
+        "sey0",
+        "smln"
+       ],
+       [
+        "smln",
+        "fs"
+       ],
+       [
+        "fs",
+        "bey",
+        "erow",
+        "sei",
+        "msel"
+       ],
+       [
+        "erow:Row Not Found",
+        "spi",
+        "msel"
+       ],
+       [
+        "bey:else",
+        "mrow",
+        "smi",
+        "msel"
+       ],
+       [
+        "mrow:Row Not Found",
+        "spi"
+       ],
+       [
+        "msel",
+        "t4_cr",
+        "t4_sm",
+        "t4_i",
+        "t4_a"
+       ],
+       [
+        "fm:Completed",
+        "bb"
+       ],
+       [
+        "bb",
+        "s5_cr",
+        "s5_sm",
+        "s5_i",
+        "s5_ss",
+        "s5_a",
+        "bbn",
+        "scan",
+        "t5_cr",
+        "t5_sm",
+        "t5_i",
+        "t5_a",
+        "bsl",
+        "sn5"
+       ],
+       [
+        "bbn:else",
+        "bsl"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "On Content Item Context",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "glb",
+        "kind": "get",
+        "var": "LastButton"
+       },
+       {
+        "id": "cb",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "pure": true,
+        "in": {
+         "Object": "@glb.LastButton"
+        }
+       },
+       {
+        "id": "gsl",
+        "kind": "get",
+        "var": "ItemSlot",
+        "class": "/Game/Mod/AltUI/W_ClothesButton"
+       },
+       {
+        "id": "scs",
+        "kind": "set",
+        "var": "ContextSlot",
+        "in": {
+         "ContextSlot": "@gsl.ItemSlot"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gm.Menu"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "cm_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "cm_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ContextMenu",
+         "OwningPlayer": "@cm_pc.PC"
+        }
+       },
+       {
+        "id": "cm",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ContextMenu",
+        "pure": true,
+        "in": {
+         "Object": "@cm_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "sm",
+        "kind": "set",
+        "var": "Menu",
+        "in": {
+         "Menu": "@cm.AsW_ContextMenu"
+        }
+       },
+       {
+        "id": "smm_me",
+        "kind": "self"
+       },
+       {
+        "id": "smm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ContextMenu",
+        "in": {
+         "self": "@cm.AsW_ContextMenu",
+         "Manager": "@smm_me.self"
+        }
+       },
+       {
+        "id": "gm2",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "clr",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContextMenu",
+        "function": "Clear Rows",
+        "in": {
+         "self": "@gm2.Menu"
+        }
+       },
+       {
+        "id": "gcs",
+        "kind": "get",
+        "var": "ContextSlot"
+       },
+       {
+        "id": "has",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@gcs.ContextSlot",
+         "B": "None"
+        }
+       },
+       {
+        "id": "bh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@has.ReturnValue"
+        }
+       },
+       {
+        "id": "t0",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Menu_ShowIn"
+        }
+       },
+       {
+        "id": "mr0_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr0_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_MenuRow",
+         "OwningPlayer": "@mr0_pc.PC"
+        }
+       },
+       {
+        "id": "mr0",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr0_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "ms0_me",
+        "kind": "self"
+       },
+       {
+        "id": "ms0",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "in": {
+         "self": "@mr0.AsW_MenuRow",
+         "Manager": "@ms0_me.self"
+        }
+       },
+       {
+        "id": "mi0",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr0.AsW_MenuRow",
+         "action": "GoTo",
+         "caption": "@t0.text"
+        }
+       },
+       {
+        "id": "mg0",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "ma0",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContextMenu",
+        "function": "Add Row",
+        "in": {
+         "self": "@mg0.Menu",
+         "widget": "@mr0.AsW_MenuRow"
+        }
+       },
+       {
+        "id": "t1",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Menu_Cancel"
+        }
+       },
+       {
+        "id": "mr1_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr1_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_MenuRow",
+         "OwningPlayer": "@mr1_pc.PC"
+        }
+       },
+       {
+        "id": "mr1",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr1_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "ms1_me",
+        "kind": "self"
+       },
+       {
+        "id": "ms1",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "in": {
+         "self": "@mr1.AsW_MenuRow",
+         "Manager": "@ms1_me.self"
+        }
+       },
+       {
+        "id": "mi1",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr1.AsW_MenuRow",
+         "action": "Cancel",
+         "caption": "@t1.text"
+        }
+       },
+       {
+        "id": "mg1",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "ma1",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContextMenu",
+        "function": "Add Row",
+        "in": {
+         "self": "@mg1.Menu",
+         "widget": "@mr1.AsW_MenuRow"
+        }
+       },
+       {
+        "id": "gm6",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "atv",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "AddToViewport",
+        "in": {
+         "self": "@gm6.Menu",
+         "ZOrder": "110"
+        }
+       },
+       {
+        "id": "mp",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetLayoutLibrary",
+        "function": "GetMousePositionOnViewport"
+       },
+       {
+        "id": "gm7",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "spv",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "SetPositionInViewport",
+        "in": {
+         "self": "@gm7.Menu",
+         "Position": "@mp.ReturnValue",
+         "bRemoveDPIScale": "false"
+        }
+       }
+      ],
+      "links": [
+       [
+        "cb.AsW_ClothesButton",
+        "gsl.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "scs",
+        "b",
+        "clr"
+       ],
+       [
+        "b:else",
+        "cm_cr",
+        "sm",
+        "smm",
+        "clr"
+       ],
+       [
+        "clr",
+        "bh",
+        "mr0_cr",
+        "ms0",
+        "mi0",
+        "ma0",
+        "mr1_cr"
+       ],
+       [
+        "bh:else",
+        "mr1_cr"
+       ],
+       [
+        "mr1_cr",
+        "ms1",
+        "mi1",
+        "ma1",
+        "atv",
+        "mp",
+        "spv"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Go To Item",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gcs",
+        "kind": "get",
+        "var": "ContextSlot"
+       },
+       {
+        "id": "isH",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gcs.ContextSlot",
+         "B": "Hair"
+        }
+       },
+       {
+        "id": "bH",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isH.ReturnValue"
+        }
+       },
+       {
+        "id": "hh",
+        "kind": "set",
+        "var": "HighlightItem",
+        "in": {
+         "HighlightItem": "@entry.name"
+        }
+       },
+       {
+        "id": "hk",
+        "kind": "set",
+        "var": "KeepHighlight",
+        "in": {
+         "KeepHighlight": "true"
+        }
+       },
+       {
+        "id": "hsp",
+        "kind": "call_self",
+        "function": "Select Page",
+        "in": {
+         "name": "Hair"
+        }
+       },
+       {
+        "id": "hsc",
+        "kind": "call_self",
+        "function": "Scroll To Highlight"
+       },
+       {
+        "id": "isB",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gcs.ContextSlot",
+         "B": "Body"
+        }
+       },
+       {
+        "id": "bB",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isB.ReturnValue"
+        }
+       },
+       {
+        "id": "bsp",
+        "kind": "call_self",
+        "function": "Select Page",
+        "in": {
+         "name": "Body"
+        }
+       },
+       {
+        "id": "isS",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gcs.ContextSlot",
+         "B": "Skin"
+        }
+       },
+       {
+        "id": "bS",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isS.ReturnValue"
+        }
+       },
+       {
+        "id": "trow",
+        "kind": "get_row",
+        "table": "/Game/Project/Tables/MakeupTypeTable",
+        "in": {
+         "RowName": "@gcs.ContextSlot"
+        }
+       },
+       {
+        "id": "lc",
+        "kind": "set",
+        "var": "LookCat",
+        "in": {
+         "LookCat": "@gcs.ContextSlot"
+        }
+       },
+       {
+        "id": "lh",
+        "kind": "set",
+        "var": "HighlightItem",
+        "in": {
+         "HighlightItem": "@entry.name"
+        }
+       },
+       {
+        "id": "lk",
+        "kind": "set",
+        "var": "KeepHighlight",
+        "in": {
+         "KeepHighlight": "true"
+        }
+       },
+       {
+        "id": "lcv",
+        "kind": "set",
+        "var": "ViewPreset",
+        "in": {
+         "ViewPreset": "-1"
+        }
+       },
+       {
+        "id": "lsp",
+        "kind": "call_self",
+        "function": "Select Page",
+        "in": {
+         "name": "Look"
+        }
+       },
+       {
+        "id": "lsc",
+        "kind": "call_self",
+        "function": "Scroll To Highlight"
+       },
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "pcs",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Search",
+        "in": {
+         "self": "@gp.Panel"
+        }
+       },
+       {
+        "id": "sst",
+        "kind": "set",
+        "var": "SearchText",
+        "in": {
+         "SearchText": ""
+        }
+       },
+       {
+        "id": "io",
+        "kind": "call_self",
+        "function": "Is Owned",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "gco",
+        "kind": "get",
+        "var": "CachedOnlyOwned"
+       },
+       {
+        "id": "no",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gco.CachedOnlyOwned",
+         "B": "@io.yes"
+        }
+       },
+       {
+        "id": "ifv",
+        "kind": "call_self",
+        "function": "Is Favorite",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "gcf",
+        "kind": "get",
+        "var": "CachedOnlyFav"
+       },
+       {
+        "id": "nf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gcf.CachedOnlyFav",
+         "B": "@ifv.yes"
+        }
+       },
+       {
+        "id": "sco",
+        "kind": "set",
+        "var": "CachedOnlyOwned",
+        "in": {
+         "CachedOnlyOwned": "@no.ReturnValue"
+        }
+       },
+       {
+        "id": "scf",
+        "kind": "set",
+        "var": "CachedOnlyFav",
+        "in": {
+         "CachedOnlyFav": "@nf.ReturnValue"
+        }
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "gco2",
+        "kind": "get",
+        "var": "CachedOnlyOwned"
+       },
+       {
+        "id": "gcf2",
+        "kind": "get",
+        "var": "CachedOnlyFav"
+       },
+       {
+        "id": "sft",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Filter Toggles",
+        "in": {
+         "self": "@gp2.Panel",
+         "owned": "@gco2.CachedOnlyOwned",
+         "fav": "@gcf2.CachedOnlyFav"
+        }
+       },
+       {
+        "id": "svs",
+        "kind": "call_self",
+        "function": "Save Settings"
+       },
+       {
+        "id": "scs",
+        "kind": "set",
+        "var": "CurrentSlot",
+        "in": {
+         "CurrentSlot": "@gcs.ContextSlot"
+        }
+       },
+       {
+        "id": "ih",
+        "kind": "call_self",
+        "function": "Is Item Hidden",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "bih",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ih.yes"
+        }
+       },
+       {
+        "id": "sgh",
+        "kind": "set",
+        "var": "CurrentGroup",
+        "in": {
+         "CurrentGroup": "Hidden"
+        }
+       },
+       {
+        "id": "grp",
+        "kind": "call_self",
+        "function": "Groups Of Slot",
+        "in": {
+         "slot": "@gcs.ContextSlot"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@grp.groups"
+        }
+       },
+       {
+        "id": "gt1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@gl.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "bg1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gt1.ReturnValue"
+        }
+       },
+       {
+        "id": "fi",
+        "kind": "call_self",
+        "function": "Find Item",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "bi",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "S_ClothesItem": "@fi.item"
+        }
+       },
+       {
+        "id": "gn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bi.Group",
+         "B": "None"
+        }
+       },
+       {
+        "id": "gns",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@bi.Group"
+        }
+       },
+       {
+        "id": "gsel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Basis",
+         "B": "@gns.ReturnValue",
+         "bPickA": "@gn.ReturnValue"
+        }
+       },
+       {
+        "id": "gseln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@gsel.ReturnValue"
+        }
+       },
+       {
+        "id": "sgg",
+        "kind": "set",
+        "var": "CurrentGroup",
+        "in": {
+         "CurrentGroup": "@gseln.ReturnValue"
+        }
+       },
+       {
+        "id": "sgn",
+        "kind": "set",
+        "var": "CurrentGroup",
+        "in": {
+         "CurrentGroup": "None"
+        }
+       },
+       {
+        "id": "ch",
+        "kind": "set",
+        "var": "HighlightItem",
+        "in": {
+         "HighlightItem": "@entry.name"
+        }
+       },
+       {
+        "id": "ck",
+        "kind": "set",
+        "var": "KeepHighlight",
+        "in": {
+         "KeepHighlight": "true"
+        }
+       },
+       {
+        "id": "csp",
+        "kind": "call_self",
+        "function": "Select Page",
+        "in": {
+         "name": "Clothes"
+        }
+       },
+       {
+        "id": "csc",
+        "kind": "call_self",
+        "function": "Scroll To Highlight"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bH",
+        "hh",
+        "hk",
+        "hsp",
+        "hsc"
+       ],
+       [
+        "bH:else",
+        "bB",
+        "bsp"
+       ],
+       [
+        "bB:else",
+        "bS",
+        "lc"
+       ],
+       [
+        "bS:else",
+        "trow",
+        "lc"
+       ],
+       [
+        "lc",
+        "lh",
+        "lk",
+        "lcv",
+        "lsp",
+        "lsc"
+       ],
+       [
+        "trow:Row Not Found",
+        "pcs"
+       ],
+       [
+        "pcs",
+        "sst",
+        "sco",
+        "scf",
+        "sft",
+        "svs",
+        "scs",
+        "bih",
+        "sgh",
+        "ch"
+       ],
+       [
+        "bih:else",
+        "grp",
+        "bg1",
+        "fi",
+        "sgg",
+        "ch"
+       ],
+       [
+        "bg1:else",
+        "sgn",
+        "ch"
+       ],
+       [
+        "ch",
+        "ck",
+        "csp",
+        "csc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Scroll To Highlight",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "ScrollWidget"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gw.ScrollWidget"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "gpg",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "gw2",
+        "kind": "get",
+        "var": "ScrollWidget"
+       },
+       {
+        "id": "siv",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Scroll Into View",
+        "in": {
+         "self": "@gp.Panel",
+         "page": "@gpg.Page",
+         "widget": "@gw2.ScrollWidget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "siv"
        ]
       ]
      }
@@ -32235,12 +37388,370 @@
       "in": {
        "TmpText": "@tcap_f.Value"
       }
+     },
+     {
+      "id": "tcop",
+      "kind": "custom_event",
+      "name": "Test Content Open",
+      "inputs": [
+       {
+        "name": "page",
+        "type": "name"
+       }
+      ]
+     },
+     {
+      "id": "tcop_c",
+      "kind": "call_self",
+      "function": "Content Open",
+      "in": {
+       "page": "@tcop.page"
+      }
+     },
+     {
+      "id": "tcop_s",
+      "kind": "set",
+      "var": "TmpBool",
+      "in": {
+       "TmpBool": "@tcop_c.yes"
+      }
+     },
+     {
+      "id": "toc",
+      "kind": "custom_event",
+      "name": "Test Open Content",
+      "inputs": [
+       {
+        "name": "kind",
+        "type": "name"
+       },
+       {
+        "name": "index",
+        "type": "int"
+       }
+      ]
+     },
+     {
+      "id": "toc_o",
+      "kind": "call_self",
+      "function": "Open Content",
+      "in": {
+       "kind": "@toc.kind",
+       "index": "@toc.index"
+      }
+     },
+     {
+      "id": "tcc",
+      "kind": "custom_event",
+      "name": "Test Close Content",
+      "inputs": []
+     },
+     {
+      "id": "tcc_c",
+      "kind": "call_self",
+      "function": "Close Content"
+     },
+     {
+      "id": "tcs",
+      "kind": "custom_event",
+      "name": "Test Content Snapshot",
+      "inputs": [
+       {
+        "name": "kind",
+        "type": "name"
+       },
+       {
+        "name": "index",
+        "type": "int"
+       }
+      ]
+     },
+     {
+      "id": "tcs_c",
+      "kind": "call_self",
+      "function": "Content Snapshot",
+      "in": {
+       "kind": "@tcs.kind",
+       "index": "@tcs.index"
+      }
+     },
+     {
+      "id": "tcs_ok",
+      "kind": "set",
+      "var": "TmpBool",
+      "in": {
+       "TmpBool": "@tcs_c.ok"
+      }
+     },
+     {
+      "id": "tcs_gt",
+      "kind": "get",
+      "var": "ViewTitle"
+     },
+     {
+      "id": "tcs_st",
+      "kind": "set",
+      "var": "TmpStr2",
+      "in": {
+       "TmpStr2": "@tcs_gt.ViewTitle"
+      }
+     },
+     {
+      "id": "tcs_gs",
+      "kind": "get",
+      "var": "ViewSnap"
+     },
+     {
+      "id": "tcs_b",
+      "kind": "break",
+      "struct": "/Game/Mod/AltUI/S_Snapshot",
+      "in": {
+       "S_Snapshot": "@tcs_gs.ViewSnap"
+      }
+     },
+     {
+      "id": "tcs_wl",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Length",
+      "in": {
+       "TargetArray": "@tcs_b.Worn"
+      }
+     },
+     {
+      "id": "tcs_si",
+      "kind": "set",
+      "var": "TmpI",
+      "in": {
+       "TmpI": "@tcs_wl.ReturnValue"
+      }
+     },
+     {
+      "id": "tcs_ml",
+      "kind": "call",
+      "class": "/Script/Engine.BlueprintMapLibrary",
+      "function": "Map_Length",
+      "in": {
+       "TargetMap": "@tcs_b.Makeup"
+      }
+     },
+     {
+      "id": "tcs_sx",
+      "kind": "set",
+      "var": "TmpIdx",
+      "in": {
+       "TmpIdx": "@tcs_ml.ReturnValue"
+      }
+     },
+     {
+      "id": "tcs_sn",
+      "kind": "set",
+      "var": "TmpName",
+      "in": {
+       "TmpName": "@tcs_b.Skin"
+      }
+     },
+     {
+      "id": "tcs_sn2",
+      "kind": "set",
+      "var": "TmpName2",
+      "in": {
+       "TmpName2": "@tcs_b.Body"
+      }
+     },
+     {
+      "id": "tao",
+      "kind": "custom_event",
+      "name": "Test Add Outfit",
+      "inputs": [
+       {
+        "name": "names",
+        "type": "name",
+        "container": "array"
+       }
+      ]
+     },
+     {
+      "id": "tao_g0",
+      "kind": "get",
+      "var": "TmpFColors"
+     },
+     {
+      "id": "tao_clr",
+      "kind": "call",
+      "class": "/Script/Engine.BlueprintMapLibrary",
+      "function": "Map_Clear",
+      "in": {
+       "TargetMap": "@tao_g0.TmpFColors"
+      }
+     },
+     {
+      "id": "tao_fe",
+      "kind": "foreach",
+      "in": {
+       "Array": "@tao.names"
+      }
+     },
+     {
+      "id": "tao_lc",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Conv_LinearColorToColor",
+      "in": {
+       "InLinearColor": "(R=1,G=1,B=1,A=1)"
+      }
+     },
+     {
+      "id": "tao_g1",
+      "kind": "get",
+      "var": "TmpFColors"
+     },
+     {
+      "id": "tao_add",
+      "kind": "call",
+      "class": "/Script/Engine.BlueprintMapLibrary",
+      "function": "Map_Add",
+      "in": {
+       "TargetMap": "@tao_g1.TmpFColors",
+       "Key": "@tao_fe.Array Element",
+       "Value": "@tao_lc.ReturnValue"
+      }
+     },
+     {
+      "id": "tao_g2",
+      "kind": "get",
+      "var": "TmpFColors"
+     },
+     {
+      "id": "tao_mk",
+      "kind": "make",
+      "struct": "/Game/Project/Classes/Struct/Outfit_Struct",
+      "in": {
+       "clothes": "@tao_g2.TmpFColors"
+      }
+     },
+     {
+      "id": "tao_go",
+      "kind": "get",
+      "var": "Outfits"
+     },
+     {
+      "id": "tao_goa",
+      "kind": "get",
+      "var": "outfits",
+      "class": "/Game/Project/Classes/Save/Outfits_Save"
+     },
+     {
+      "id": "tao_aa",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Add",
+      "in": {
+       "TargetArray": "@tao_goa.outfits",
+       "NewItem": "@tao_mk.Outfit_Struct"
+      }
+     },
+     {
+      "id": "tadp",
+      "kind": "custom_event",
+      "name": "Test Add Preset",
+      "inputs": [
+       {
+        "name": "skin",
+        "type": "name"
+       },
+       {
+        "name": "hair",
+        "type": "name"
+       }
+      ]
+     },
+     {
+      "id": "tadp_mk",
+      "kind": "make",
+      "struct": "/Game/Project/Classes/Struct/MakeupPreset_Struct",
+      "in": {
+       "SkinName": "@tadp.skin",
+       "HairstyleName": "@tadp.hair",
+       "Waist": "0.4"
+      }
+     },
+     {
+      "id": "tadp_pd_p",
+      "kind": "get",
+      "var": "Presets"
+     },
+     {
+      "id": "tadp_pd",
+      "kind": "get",
+      "var": "Data",
+      "class": "/Game/Project/Classes/Save/MakeupPreset_Save"
+     },
+     {
+      "id": "tadp_aa",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Add",
+      "in": {
+       "TargetArray": "@tadp_pd.Data",
+       "NewItem": "@tadp_mk.MakeupPreset_Struct"
+      }
+     },
+     {
+      "id": "tldp",
+      "kind": "custom_event",
+      "name": "Test Load Presets",
+      "inputs": []
+     },
+     {
+      "id": "tldp_l",
+      "kind": "call_self",
+      "function": "Load Presets"
+     },
+     {
+      "id": "tgt",
+      "kind": "custom_event",
+      "name": "Test Go To",
+      "inputs": [
+       {
+        "name": "name",
+        "type": "name"
+       },
+       {
+        "name": "slot",
+        "type": "name"
+       }
+      ]
+     },
+     {
+      "id": "tgt_s",
+      "kind": "set",
+      "var": "ContextSlot",
+      "in": {
+       "ContextSlot": "@tgt.slot"
+      }
+     },
+     {
+      "id": "tgt_g",
+      "kind": "call_self",
+      "function": "Go To Item",
+      "in": {
+       "name": "@tgt.name"
+      }
      }
     ],
     "links": [
      [
       "tli_a_s.LooksSave",
       "tli_a.self"
+     ],
+     [
+      "tao_go.Outfits",
+      "tao_goa.self"
+     ],
+     [
+      "tadp_pd_p.Presets",
+      "tadp_pd.self"
      ]
     ],
     "exec": [
@@ -32525,6 +38036,55 @@
      [
       "tcap",
       "tcap_s"
+     ],
+     [
+      "tcop",
+      "tcop_c",
+      "tcop_s"
+     ],
+     [
+      "toc",
+      "toc_o"
+     ],
+     [
+      "tcc",
+      "tcc_c"
+     ],
+     [
+      "tcs",
+      "tcs_c",
+      "tcs_ok",
+      "tcs_st",
+      "tcs_si",
+      "tcs_sx",
+      "tcs_sn",
+      "tcs_sn2"
+     ],
+     [
+      "tao",
+      "tao_clr",
+      "tao_fe"
+     ],
+     [
+      "tao_fe",
+      "tao_add"
+     ],
+     [
+      "tao_fe:Completed",
+      "tao_aa"
+     ],
+     [
+      "tadp",
+      "tadp_aa"
+     ],
+     [
+      "tldp",
+      "tldp_l"
+     ],
+     [
+      "tgt",
+      "tgt_s",
+      "tgt_g"
      ]
     ]
    }
