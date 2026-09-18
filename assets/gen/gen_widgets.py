@@ -243,7 +243,13 @@ def w_slot_tab():
     g.set("ss", "SlotName", inp={"SlotName": "@entry.slot"}); tail.append("ss")
     g.set("ssl", "Selected", inp={"Selected": "@entry.selected"}); tail.append("ssl")
     g.get("gn", "Name"); g.call("stn", E_TEXT, "SetText", inp={"self": "@gn.Name", "InText": "@entry.caption"}); tail.append("stn")
-    g.call("cnt", K_TXT, "Conv_IntToText", inp={"Value": "@entry.count"})
+    # count: "N", or "N (M)" with M = pieces passing the current filters (filtered < 0: no filter active)
+    g.call("cs", K_STR, "Conv_IntToString", inp={"InInt": "@entry.count"}); g.call("fs", K_STR, "Conv_IntToString", inp={"InInt": "@entry.filtered"})
+    g.call("c1", K_STR, "Concat_StrStr", inp={"A": "@cs.ReturnValue", "B": " ("}); g.call("c2", K_STR, "Concat_StrStr", inp={"A": "@c1.ReturnValue", "B": "@fs.ReturnValue"})
+    g.call("c3", K_STR, "Concat_StrStr", inp={"A": "@c2.ReturnValue", "B": ")"})
+    g.call("hasf", K_MATH, "GreaterEqual_IntInt", inp={"A": "@entry.filtered", "B": "0"})
+    g.call("csel", K_MATH, "SelectString", inp={"A": "@c3.ReturnValue", "B": "@cs.ReturnValue", "bPickA": "@hasf.ReturnValue"})
+    g.call("cnt", K_TXT, "Conv_StringToText", inp={"InString": "@csel.ReturnValue"})
     g.get("gc", "Count"); g.call("stc", E_TEXT, "SetText", inp={"self": "@gc.Count", "InText": "@cnt.ReturnValue"}); tail.append("stc")
     # empty slots: dimmed text instead of a grey area
     g.call("op", K_MATH, "SelectFloat", inp={"A": "1.0", "B": "0.45", "bPickA": "@entry.has items"})
@@ -257,7 +263,7 @@ def w_slot_tab():
     g.get("gt3", "Thumb"); g.call("sh", E_WIDGET, "SetVisibility", inp={"self": "@gt3.Thumb", "InVisibility": "Hidden"})
     g.chain(*tail, "sb", "sv"); g.chain("b:else", "sh")
     init = fn("Init", [param("slot", "name"), param("caption", "text"), param("count", "int"), param("worn icon", "object:" + E_TEX2D),
-                       param("selected", "bool"), param("has items", "bool")], graph=g)
+                       param("selected", "bool"), param("has items", "bool"), param("filtered", "int")], graph=g)
     # colours from the manager theme: red accent bar + lighter row when selected; line, text
     c = G(); tail = ["entry"]; c.get("gsl", "Selected")
     c.call("ac", K_MATH, "SelectColor", inp={"A": mcol(c, "ca", "ColAccent"), "B": COL_NONE, "bPickA": "@gsl.Selected"}); brush(c, "sac", "Accent", "@ac.ReturnValue", tail)
@@ -676,20 +682,21 @@ def w_color_swatch():
 
 # ---------------- W_AltUI (Panel) ----------------
 BODY_ROWS = [("Breast", "Breast"), ("Waist", "Waist")]   # the game has no hip morph (Makeup_Save.Hip is an unused remnant)
-OPTION_ROWS = [("Scroll", "Scroll speed"), ("Scale", "Tile size"), ("Fov", "Camera FOV (Jodi view)"), ("Dist", "Camera distance (Jodi view)"),
+OPTION_ROWS = [("Scroll", "Scroll speed"), ("Scale", "Tile size"), ("Fov", "Camera FOV (Jodi view)"), ("Dist", "Camera distance (Jodi view)"), ("GroupLen", "Group names: max. characters"), ("ChipH", "Group chip area: max. height"),
                ("BgAlpha", "Background opacity"), ("TileAlpha", "Tile opacity")]   # sliders of Get/Set Option Values (the last two sit in the theme block)
-PANEL_TEXTS = [("search", "Search"), ("onlyowned", "LblOwned"), ("onlyfav", "LblFav"), ("favorites", "FavHeader"), ("all", "AllHeader"), ("listhint", "ListHint"),
+PANEL_TEXTS = [("search", "Search"), ("onlyowned", "LblOwned"), ("onlyfav", "LblFav"), ("onlyvanilla", "LblVanilla"), ("favorites", "FavHeader"), ("all", "AllHeader"), ("listhint", "ListHint"),
                ("worn", "BagWornHeader"), ("inbag", "BagListHeader"), ("bagempty", "BagEmpty"), ("breast", "LblBreast"), ("waist", "LblWaist"),
-               ("scroll", "LblScroll"), ("scale", "LblScale"), ("fov", "LblFov"), ("dist", "LblDist"), ("unlimited", "LblUnlimited"), ("layout", "LblLayout"),
+               ("scroll", "LblScroll"), ("scale", "LblScale"), ("fov", "LblFov"), ("dist", "LblDist"), ("grouplen", "LblGroupLen"), ("chiph", "LblChipH"), ("unlimited", "LblUnlimited"), ("layout", "LblLayout"),
                ("language", "LblLanguage"), ("placeholder", "PlaceholderText"), ("pan", "LblPan"), ("nude", "LblNude"),
                ("theme", "LblTheme"), ("bgalpha", "LblBgAlpha"), ("tilealpha", "LblTileAlpha"), ("key", "LblKey")]   # parameter of Set Strings -> widget name (order = gen_manager_ui.PANEL_STRINGS)
 THEME_COLS = 5   # theme grid: fixed columns (entries fill column-wise), the wrap box wraps whole columns on narrow panels
 THEME_REFRESH = [("TopTabs", W_TOP), ("LayoutChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("ThemeLinks", W_TXT), ("StatusLinks", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
-SCROLL_PAGES = ["LeftScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll"]
+SUBTABS_MAX_H, SUBTABS_MAX_H_MAX = 112, 500   # default ~3.5 chip rows (80 showed 2.5); option range (unscaled units, x SC at runtime)
+SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll"]
 # panel-owned texts coloured by Apply Theme: widget -> derived colour
 PANEL_TEXT_COLORS = {"ColHead": ["BagWornHeader", "BagListHeader", "FavHeader", "LblTheme", "ContentTitle"],
                      "ColTextDim": ["AllHeader", "ListHint", "BagEmpty", "PlaceholderText"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS],
-                     "ColText": ["LblOwned", "LblFav", "LblUnlimited", "LblPan", "LblNude", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS]}
+                     "ColText": ["LblOwned", "LblFav", "LblVanilla", "LblUnlimited", "LblPan", "LblNude", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS]}
 
 
 def body_row(key, caption, lbl_w=120):
@@ -736,7 +743,7 @@ def w_panel():
                 w(U_WRAP, "BodyChips", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(14)})] +
               [body_row(k, cap) for k, cap in BODY_ROWS]),
             # Options: sliders (scroll speed, tile size, camera), checks, chips, theme block (scrollable: the theme block makes the page tall)
-            w(U_SCROLL, "OptionsScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "OptionsBox", children=[body_row(k, cap, 330) for k, cap in OPTION_ROWS[:4]] + [
+            w(U_SCROLL, "OptionsScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "OptionsBox", children=[body_row(k, cap, 330) for k, cap in OPTION_ROWS[:6]] + [
                 w(U_HBOX, "RowUnlimited", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptUnlimited", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblUnlimited", "show unlimited items at once", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
@@ -759,7 +766,7 @@ def w_panel():
                 text("LblTheme", "Colours", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(16), sz(6))}),
                 w(U_WRAP, "ThemeGrid", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(10) + 1, sz(6) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(18)},
                   children=[w(U_VBOX, "ThemeCol%d" % i) for i in range(THEME_COLS)])] +
-                [body_row(k, cap, 330) for k, cap in OPTION_ROWS[4:]] + [
+                [body_row(k, cap, 330) for k, cap in OPTION_ROWS[6:]] + [
                 w(U_HBOX, "ThemeLinks", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(16)})])]),
             w(U_SCROLL, "BagScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "BagVB", children=[
                 text("BagWornHeader", "Worn", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(6)}),
@@ -773,7 +780,10 @@ def w_panel():
                 sizebox("LeftSize", 340, 100, [w(U_SCROLL, "LeftScroll", props={"WheelScrollMultiplier": 2.0}, children=[w(U_VBOX, "LeftBox")])],
                         slot={"Size": "(SizeRule=Automatic)", "VerticalAlignment": "VAlign_Fill", "Padding": "(Left=0,Top=0,Right=30,Bottom=0)"}),
                 w(U_VBOX, "RightBox", slot=FILL, children=[
-                    w(U_WRAP, "SubTabs", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=15)"}),
+                    # group chips: at most ~3 rows, then the box scrolls (one tab per mod gets long)
+                    w(U_SIZE, "SubTabsBox", props={"bOverride_MaxDesiredHeight": True, "MaxDesiredHeight": sz(SUBTABS_MAX_H)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=15)"}, children=[
+                        w(U_SCROLL, "SubTabsScroll", props={"WheelScrollMultiplier": 2.0}, children=[
+                            w(U_WRAP, "SubTabs", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)})])]),
                     w(U_HBOX, "Filters", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=15)"}, children=[
                         roundbox("SearchFrame", COL_CHIP_FRAME, 1, slot=FILL, children=[roundbox("SearchFill", COL_CHIP, 0, children=[w(U_HBOX, "SearchHB", children=[
                             w(E_EDIT, "Search", props={"HintText": "Search...", "WidgetStyle": "(Font=(Size=%d),Padding=(Left=%d,Top=%d,Right=%d,Bottom=%d),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))" % (sz(SEARCH_FONT), sz(10), sz(SEARCH_PAD), sz(10), sz(SEARCH_PAD))}, slot=FILL),
@@ -784,6 +794,9 @@ def w_panel():
                         sizebox("FavBox", 34, 34, [w(U_SCALE, "FavScale", props={"Stretch": "ScaleToFit"}, children=[w(E_CHECK, "OnlyFav", props={"WidgetStyle": check_style(CHECK_SIZE)})])],
                                 slot={"Padding": "(Left=30,Top=0,Right=10,Bottom=0)", "VerticalAlignment": "VAlign_Center"}),
                         text("LblFav", "only\nfavourites", 11, slot={"VerticalAlignment": "VAlign_Center"}),
+                        sizebox("VanillaBox", 34, 34, [w(U_SCALE, "VanillaScale", props={"Stretch": "ScaleToFit"}, children=[w(E_CHECK, "OnlyVanilla", props={"WidgetStyle": check_style(CHECK_SIZE)})])],
+                                slot={"Padding": "(Left=30,Top=0,Right=10,Bottom=0)", "VerticalAlignment": "VAlign_Center"}),
+                        text("LblVanilla", "only\nvanilla", 11, slot={"VerticalAlignment": "VAlign_Center"}),
                     ]),
                     w(U_SCROLL, "ListScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "ListVB", children=[
                         text("FavHeader", "Favourites", 13, "(SpecifiedColor=(R=0.95,G=0.8,B=0.3,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
@@ -806,6 +819,7 @@ def w_panel():
     gs = G(); gs.get("g", "Search"); gs.call("t", E_EDIT, "GetText", inp={"self": "@g.Search"}); gs.link("t.ReturnValue", "return.text")
     go = G(); go.get("g", "OnlyOwned"); go.call("c", E_CHECK, "IsChecked", inp={"self": "@g.OnlyOwned"}); go.link("c.ReturnValue", "return.yes")
     gf = G(); gf.get("g", "OnlyFav"); gf.call("c", E_CHECK, "IsChecked", inp={"self": "@g.OnlyFav"}); gf.link("c.ReturnValue", "return.yes")
+    gv = G(); gv.get("g", "OnlyVanilla"); gv.call("c", E_CHECK, "IsChecked", inp={"self": "@g.OnlyVanilla"}); gv.link("c.ReturnValue", "return.yes")
     # keyboard: game actions (Esc, HideUI=Backspace, Inventory=Tab, Screenshot=F9) are bound to IE_Released in the controller.
     # Hence: swallow all key-downs AND key-ups while the panel is open; close only on key-up (Esc / K),
     # so no release slips through to the game. K does not close while the search field has focus (typing).
@@ -918,6 +932,9 @@ def w_panel():
         sov.get("g" + k, "Sld" + k); sov.call("s" + k, E_SLIDER, "SetValue", inp={"self": "@g%s.Sld%s" % (k, k), "InValue": "@entry." + k.lower()}); tail.append("s" + k)
         sov.get("gv" + k, "Val" + k); sov.call("st" + k, E_TEXT, "SetText", inp={"self": "@gv%s.Val%s" % (k, k), "InText": "@entry." + k.lower() + " text"}); tail.append("st" + k)
     sov.chain(*tail)
+    # max height of the group chip area (option; unscaled units -> x SC)
+    sth = G(); sth.call("m", K_MATH, "Multiply_FloatFloat", inp={"A": "@entry.height", "B": str(SC)})
+    sth.get("gb", "SubTabsBox"); sth.call("s", U_SIZE, "SetMaxDesiredHeight", inp={"self": "@gb.SubTabsBox", "InMaxDesiredHeight": "@m.ReturnValue"}); sth.chain("entry", "s")
     # scroll multiplier for all scroll areas
     sm = G(); tail = ["entry"]
     for i, wn in enumerate(SCROLL_PAGES):
@@ -944,7 +961,8 @@ def w_panel():
     be.get("h0", "BagEmpty"); be.call("c0", E_WIDGET, "SetVisibility", inp={"self": "@h0.BagEmpty", "InVisibility": "Collapsed"})
     be.chain("entry", "b", "v0"); be.chain("b:else", "c0")
     ft = G(); ft.get("g1", "OnlyOwned"); ft.call("c1", E_CHECK, "SetIsChecked", inp={"self": "@g1.OnlyOwned", "InIsChecked": "@entry.owned"})
-    ft.get("g2", "OnlyFav"); ft.call("c2", E_CHECK, "SetIsChecked", inp={"self": "@g2.OnlyFav", "InIsChecked": "@entry.fav"}); ft.chain("entry", "c1", "c2")
+    ft.get("g2", "OnlyFav"); ft.call("c2", E_CHECK, "SetIsChecked", inp={"self": "@g2.OnlyFav", "InIsChecked": "@entry.fav"})
+    ft.get("g3", "OnlyVanilla"); ft.call("c3", E_CHECK, "SetIsChecked", inp={"self": "@g3.OnlyVanilla", "InIsChecked": "@entry.vanilla"}); ft.chain("entry", "c1", "c2", "c3")
     # Apply Theme: panel-owned parts from Manager.Col* (background, status line, search box, headings, labels, slider bars)
     at = G(); tail = ["entry"]
     brush(at, "sbg", "Bg", mcol(at, "cbg", "ColBg"), tail); brush(at, "ssl", "StatusLine", mcol(at, "csl", "ColStatusLine"), tail)
@@ -1009,6 +1027,7 @@ def w_panel():
              clear("Clear Status", "StatusLinks"), add("Add Status", "StatusLinks", U_HBOX, "AddChildToHorizontalBox"),
              fn("Set Option Values", [param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param(k.lower() + " text", "text") for k, _ in OPTION_ROWS], graph=sov),
              fn("Set Scroll Mult", [param("mult", "float")], graph=sm),
+             fn("Set SubTabs Height", [param("height", "float")], graph=sth),
              fn("Get Body Values", outputs=[param("breast", "float"), param("waist", "float")], graph=gb),
              fn("Set Body Values", [param("breast", "float"), param("waist", "float")], graph=sb),
              clear("Clear Fav", "FavList"), add("Add Fav", "FavList", U_WRAP, "AddChildToWrapBox"),
@@ -1018,7 +1037,8 @@ def w_panel():
              fn("Get Search", outputs=[param("text", "text")], graph=gs, pure=True),
              fn("Get Only Owned", outputs=[param("yes", "bool")], graph=go, pure=True),
              fn("Get Only Fav", outputs=[param("yes", "bool")], graph=gf, pure=True),
-             fn("Set Filter Toggles", [param("owned", "bool"), param("fav", "bool")], graph=ft),
+             fn("Get Only Vanilla", outputs=[param("yes", "bool")], graph=gv, pure=True),
+             fn("Set Filter Toggles", [param("owned", "bool"), param("fav", "bool"), param("vanilla", "bool")], graph=ft),
              fn("OnKeyDown", override=True, graph=kd), fn("OnKeyUp", override=True, graph=ku), fn("OnPreviewKeyDown", override=True, graph=pk)]
     return blueprint(W_PANEL, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("TmpKnown", "bool"), var("CheckSize", "float")], functions=funcs, widget_tree=tree,
                      defaults={"bIsFocusable": "true"})

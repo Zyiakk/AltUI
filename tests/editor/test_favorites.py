@@ -4,7 +4,7 @@ from edtest_lib import *
 M = "/Game/Mod/AltUI"
 
 def filtered(mgr, slot, only_fav):
-    mgr.call_method("Test Filter", args=(slot, "None", "", False, only_fav))
+    mgr.call_method("Test Filter", args=(slot, "None", "", False, only_fav, False))
     return [str(n) for n in mgr.get_editor_property("TmpNames")]
 
 def main():

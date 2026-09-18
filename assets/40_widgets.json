@@ -653,6 +653,10 @@
       {
        "name": "has items",
        "type": "bool"
+      },
+      {
+       "name": "filtered",
+       "type": "int"
       }
      ],
      "graph": {
@@ -689,12 +693,81 @@
         }
        },
        {
+        "id": "cs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@entry.count"
+        }
+       },
+       {
+        "id": "fs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@entry.filtered"
+        }
+       },
+       {
+        "id": "c1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@cs.ReturnValue",
+         "B": " ("
+        }
+       },
+       {
+        "id": "c2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@c1.ReturnValue",
+         "B": "@fs.ReturnValue"
+        }
+       },
+       {
+        "id": "c3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@c2.ReturnValue",
+         "B": ")"
+        }
+       },
+       {
+        "id": "hasf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@entry.filtered",
+         "B": "0"
+        }
+       },
+       {
+        "id": "csel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@c3.ReturnValue",
+         "B": "@cs.ReturnValue",
+         "bPickA": "@hasf.ReturnValue"
+        }
+       },
+       {
         "id": "cnt",
         "kind": "call",
         "class": "/Script/Engine.KismetTextLibrary",
-        "function": "Conv_IntToText",
+        "function": "Conv_StringToText",
         "in": {
-         "Value": "@entry.count"
+         "InString": "@csel.ReturnValue"
         }
        },
        {
@@ -11565,6 +11638,52 @@
         }
        },
        {
+        "id": "t_ValGroupLen_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValGroupLen_w",
+        "kind": "get",
+        "var": "ValGroupLen"
+       },
+       {
+        "id": "t_ValGroupLen",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValGroupLen_w.ValGroupLen",
+         "InColorAndOpacity": "@t_ValGroupLen_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_ValChipH_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValChipH_w",
+        "kind": "get",
+        "var": "ValChipH"
+       },
+       {
+        "id": "t_ValChipH",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValChipH_w.ValChipH",
+         "InColorAndOpacity": "@t_ValChipH_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_ValBgAlpha_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -11711,6 +11830,29 @@
         "in": {
          "self": "@t_LblFav_w.LblFav",
          "InColorAndOpacity": "@t_LblFav_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblVanilla_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblVanilla_w",
+        "kind": "get",
+        "var": "LblVanilla"
+       },
+       {
+        "id": "t_LblVanilla",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblVanilla_w.LblVanilla",
+         "InColorAndOpacity": "@t_LblVanilla_sc.SlateColor"
         }
        },
        {
@@ -11944,6 +12086,52 @@
         }
        },
        {
+        "id": "t_LblGroupLen_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblGroupLen_w",
+        "kind": "get",
+        "var": "LblGroupLen"
+       },
+       {
+        "id": "t_LblGroupLen",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblGroupLen_w.LblGroupLen",
+         "InColorAndOpacity": "@t_LblGroupLen_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblChipH_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblChipH_w",
+        "kind": "get",
+        "var": "LblChipH"
+       },
+       {
+        "id": "t_LblChipH",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblChipH_w.LblChipH",
+         "InColorAndOpacity": "@t_LblChipH_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_LblBgAlpha_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -12103,6 +12291,36 @@
         "function": "SetSliderBarColor",
         "in": {
          "self": "@gs_Dist.SldDist",
+         "InValue": "@c_slider.ColSlider"
+        }
+       },
+       {
+        "id": "gs_GroupLen",
+        "kind": "get",
+        "var": "SldGroupLen"
+       },
+       {
+        "id": "ss_GroupLen",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gs_GroupLen.SldGroupLen",
+         "InValue": "@c_slider.ColSlider"
+        }
+       },
+       {
+        "id": "gs_ChipH",
+        "kind": "get",
+        "var": "SldChipH"
+       },
+       {
+        "id": "ss_ChipH",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gs_ChipH.SldChipH",
          "InValue": "@c_slider.ColSlider"
         }
        },
@@ -12826,12 +13044,15 @@
         "t_ValScale",
         "t_ValFov",
         "t_ValDist",
+        "t_ValGroupLen",
+        "t_ValChipH",
         "t_ValBgAlpha",
         "t_ValTileAlpha",
         "t_ValBreast",
         "t_ValWaist",
         "t_LblOwned",
         "t_LblFav",
+        "t_LblVanilla",
         "t_LblUnlimited",
         "t_LblPan",
         "t_LblNude",
@@ -12842,6 +13063,8 @@
         "t_LblScale",
         "t_LblFov",
         "t_LblDist",
+        "t_LblGroupLen",
+        "t_LblChipH",
         "t_LblBgAlpha",
         "t_LblTileAlpha",
         "t_LblBreast",
@@ -12850,6 +13073,8 @@
         "ss_Scale",
         "ss_Fov",
         "ss_Dist",
+        "ss_GroupLen",
+        "ss_ChipH",
         "ss_BgAlpha",
         "ss_TileAlpha",
         "ss_Breast",
@@ -15123,6 +15348,14 @@
        "type": "float"
       },
       {
+       "name": "grouplen",
+       "type": "float"
+      },
+      {
+       "name": "chiph",
+       "type": "float"
+      },
+      {
        "name": "bgalpha",
        "type": "float"
       },
@@ -15199,6 +15432,34 @@
         "function": "GetValue",
         "in": {
          "self": "@gDist.SldDist"
+        }
+       },
+       {
+        "id": "gGroupLen",
+        "kind": "get",
+        "var": "SldGroupLen"
+       },
+       {
+        "id": "vGroupLen",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gGroupLen.SldGroupLen"
+        }
+       },
+       {
+        "id": "gChipH",
+        "kind": "get",
+        "var": "SldChipH"
+       },
+       {
+        "id": "vChipH",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gChipH.SldChipH"
         }
        },
        {
@@ -15288,6 +15549,14 @@
        [
         "vDist.ReturnValue",
         "return.dist"
+       ],
+       [
+        "vGroupLen.ReturnValue",
+        "return.grouplen"
+       ],
+       [
+        "vChipH.ReturnValue",
+        "return.chiph"
        ],
        [
         "vBgAlpha.ReturnValue",
@@ -15881,6 +16150,10 @@
        "type": "text"
       },
       {
+       "name": "onlyvanilla",
+       "type": "text"
+      },
+      {
        "name": "favorites",
        "type": "text"
       },
@@ -15926,6 +16199,14 @@
       },
       {
        "name": "dist",
+       "type": "text"
+      },
+      {
+       "name": "grouplen",
+       "type": "text"
+      },
+      {
+       "name": "chiph",
        "type": "text"
       },
       {
@@ -16014,6 +16295,21 @@
         "in": {
          "self": "@gonlyfav.LblFav",
          "InText": "@entry.onlyfav"
+        }
+       },
+       {
+        "id": "gonlyvanilla",
+        "kind": "get",
+        "var": "LblVanilla"
+       },
+       {
+        "id": "sonlyvanilla",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gonlyvanilla.LblVanilla",
+         "InText": "@entry.onlyvanilla"
         }
        },
        {
@@ -16197,6 +16493,36 @@
         }
        },
        {
+        "id": "ggrouplen",
+        "kind": "get",
+        "var": "LblGroupLen"
+       },
+       {
+        "id": "sgrouplen",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ggrouplen.LblGroupLen",
+         "InText": "@entry.grouplen"
+        }
+       },
+       {
+        "id": "gchiph",
+        "kind": "get",
+        "var": "LblChipH"
+       },
+       {
+        "id": "schiph",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gchiph.LblChipH",
+         "InText": "@entry.chiph"
+        }
+       },
+       {
         "id": "gunlimited",
         "kind": "get",
         "var": "LblUnlimited"
@@ -16354,6 +16680,7 @@
         "ssearch",
         "sonlyowned",
         "sonlyfav",
+        "sonlyvanilla",
         "sfavorites",
         "sall",
         "slisthint",
@@ -16366,6 +16693,8 @@
         "sscale",
         "sfov",
         "sdist",
+        "sgrouplen",
+        "schiph",
         "sunlimited",
         "slayout",
         "slanguage",
@@ -16552,6 +16881,14 @@
        "type": "float"
       },
       {
+       "name": "grouplen",
+       "type": "float"
+      },
+      {
+       "name": "chiph",
+       "type": "float"
+      },
+      {
        "name": "bgalpha",
        "type": "float"
       },
@@ -16573,6 +16910,14 @@
       },
       {
        "name": "dist text",
+       "type": "text"
+      },
+      {
+       "name": "grouplen text",
+       "type": "text"
+      },
+      {
+       "name": "chiph text",
        "type": "text"
       },
       {
@@ -16707,6 +17052,66 @@
         }
        },
        {
+        "id": "gGroupLen",
+        "kind": "get",
+        "var": "SldGroupLen"
+       },
+       {
+        "id": "sGroupLen",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gGroupLen.SldGroupLen",
+         "InValue": "@entry.grouplen"
+        }
+       },
+       {
+        "id": "gvGroupLen",
+        "kind": "get",
+        "var": "ValGroupLen"
+       },
+       {
+        "id": "stGroupLen",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gvGroupLen.ValGroupLen",
+         "InText": "@entry.grouplen text"
+        }
+       },
+       {
+        "id": "gChipH",
+        "kind": "get",
+        "var": "SldChipH"
+       },
+       {
+        "id": "sChipH",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gChipH.SldChipH",
+         "InValue": "@entry.chiph"
+        }
+       },
+       {
+        "id": "gvChipH",
+        "kind": "get",
+        "var": "ValChipH"
+       },
+       {
+        "id": "stChipH",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gvChipH.ValChipH",
+         "InText": "@entry.chiph text"
+        }
+       },
+       {
         "id": "gBgAlpha",
         "kind": "get",
         "var": "SldBgAlpha"
@@ -16779,6 +17184,10 @@
         "stFov",
         "sDist",
         "stDist",
+        "sGroupLen",
+        "stGroupLen",
+        "sChipH",
+        "stChipH",
         "sBgAlpha",
         "stBgAlpha",
         "sTileAlpha",
@@ -16815,7 +17224,7 @@
        {
         "id": "g1",
         "kind": "get",
-        "var": "ListScroll"
+        "var": "SubTabsScroll"
        },
        {
         "id": "s1",
@@ -16823,14 +17232,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g1.ListScroll",
+         "self": "@g1.SubTabsScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g2",
         "kind": "get",
-        "var": "OutfitScroll"
+        "var": "ListScroll"
        },
        {
         "id": "s2",
@@ -16838,14 +17247,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g2.OutfitScroll",
+         "self": "@g2.ListScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g3",
         "kind": "get",
-        "var": "LooksScroll"
+        "var": "OutfitScroll"
        },
        {
         "id": "s3",
@@ -16853,14 +17262,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g3.LooksScroll",
+         "self": "@g3.OutfitScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g4",
         "kind": "get",
-        "var": "ContentScroll"
+        "var": "LooksScroll"
        },
        {
         "id": "s4",
@@ -16868,14 +17277,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g4.ContentScroll",
+         "self": "@g4.LooksScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g5",
         "kind": "get",
-        "var": "BagScroll"
+        "var": "ContentScroll"
        },
        {
         "id": "s5",
@@ -16883,14 +17292,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g5.BagScroll",
+         "self": "@g5.ContentScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g6",
         "kind": "get",
-        "var": "HairScroll"
+        "var": "BagScroll"
        },
        {
         "id": "s6",
@@ -16898,14 +17307,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g6.HairScroll",
+         "self": "@g6.BagScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g7",
         "kind": "get",
-        "var": "LookCatScroll"
+        "var": "HairScroll"
        },
        {
         "id": "s7",
@@ -16913,14 +17322,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g7.LookCatScroll",
+         "self": "@g7.HairScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g8",
         "kind": "get",
-        "var": "LookScroll"
+        "var": "LookCatScroll"
        },
        {
         "id": "s8",
@@ -16928,14 +17337,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g8.LookScroll",
+         "self": "@g8.LookCatScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g9",
         "kind": "get",
-        "var": "OptionsScroll"
+        "var": "LookScroll"
        },
        {
         "id": "s9",
@@ -16943,7 +17352,22 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g9.OptionsScroll",
+         "self": "@g9.LookScroll",
+         "NewWheelScrollMultiplier": "@entry.mult"
+        }
+       },
+       {
+        "id": "g10",
+        "kind": "get",
+        "var": "OptionsScroll"
+       },
+       {
+        "id": "s10",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetWheelScrollMultiplier",
+        "in": {
+         "self": "@g10.OptionsScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        }
@@ -16961,7 +17385,53 @@
         "s6",
         "s7",
         "s8",
-        "s9"
+        "s9",
+        "s10"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set SubTabs Height",
+     "inputs": [
+      {
+       "name": "height",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "m",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@entry.height",
+         "B": "1.9"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "SubTabsBox"
+       },
+       {
+        "id": "s",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetMaxDesiredHeight",
+        "in": {
+         "self": "@gb.SubTabsBox",
+         "InMaxDesiredHeight": "@m.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s"
        ]
       ]
      }
@@ -17670,6 +18140,41 @@
      }
     },
     {
+     "name": "Get Only Vanilla",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "OnlyVanilla"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@g.OnlyVanilla"
+        }
+       }
+      ],
+      "links": [
+       [
+        "c.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
      "name": "Set Filter Toggles",
      "inputs": [
       {
@@ -17678,6 +18183,10 @@
       },
       {
        "name": "fav",
+       "type": "bool"
+      },
+      {
+       "name": "vanilla",
        "type": "bool"
       }
      ],
@@ -17712,6 +18221,21 @@
          "self": "@g2.OnlyFav",
          "InIsChecked": "@entry.fav"
         }
+       },
+       {
+        "id": "g3",
+        "kind": "get",
+        "var": "OnlyVanilla"
+       },
+       {
+        "id": "c3",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@g3.OnlyVanilla",
+         "InIsChecked": "@entry.vanilla"
+        }
        }
       ],
       "links": [],
@@ -17719,7 +18243,8 @@
        [
         "entry",
         "c1",
-        "c2"
+        "c2",
+        "c3"
        ]
       ]
      }
@@ -18858,6 +19383,186 @@
              },
              {
               "class": "/Script/UMG.HorizontalBox",
+              "name": "RowGroupLen",
+              "slot": {
+               "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.SizeBox",
+                "name": "LblGroupLenBox",
+                "props": {
+                 "bOverride_WidthOverride": true,
+                 "WidthOverride": 627,
+                 "bOverride_HeightOverride": true,
+                 "HeightOverride": 46
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "LblGroupLen",
+                  "props": {
+                   "Text": "Group names: max. characters",
+                   "Font": "(Size=25)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                  },
+                  "slot": {
+                   "VerticalAlignment": "VAlign_Center"
+                  }
+                 }
+                ]
+               },
+               {
+                "class": "/Script/UMG.SizeBox",
+                "name": "SldGroupLenBox",
+                "props": {
+                 "bOverride_WidthOverride": true,
+                 "WidthOverride": 798,
+                 "bOverride_HeightOverride": true,
+                 "HeightOverride": 46
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.Slider",
+                  "name": "SldGroupLen",
+                  "props": {
+                   "Value": 0.5,
+                   "StepSize": 0.01,
+                   "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                   "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                   "WidgetStyle": "(BarThickness=5.0)"
+                  }
+                 }
+                ]
+               },
+               {
+                "class": "/Script/UMG.SizeBox",
+                "name": "ValGroupLenBox",
+                "props": {
+                 "bOverride_WidthOverride": true,
+                 "WidthOverride": 133,
+                 "bOverride_HeightOverride": true,
+                 "HeightOverride": 46
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center",
+                 "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "ValGroupLen",
+                  "props": {
+                   "Text": "50 %",
+                   "Font": "(Size=23)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                  },
+                  "slot": {
+                   "VerticalAlignment": "VAlign_Center"
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.HorizontalBox",
+              "name": "RowChipH",
+              "slot": {
+               "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.SizeBox",
+                "name": "LblChipHBox",
+                "props": {
+                 "bOverride_WidthOverride": true,
+                 "WidthOverride": 627,
+                 "bOverride_HeightOverride": true,
+                 "HeightOverride": 46
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "LblChipH",
+                  "props": {
+                   "Text": "Group chip area: max. height",
+                   "Font": "(Size=25)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                  },
+                  "slot": {
+                   "VerticalAlignment": "VAlign_Center"
+                  }
+                 }
+                ]
+               },
+               {
+                "class": "/Script/UMG.SizeBox",
+                "name": "SldChipHBox",
+                "props": {
+                 "bOverride_WidthOverride": true,
+                 "WidthOverride": 798,
+                 "bOverride_HeightOverride": true,
+                 "HeightOverride": 46
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.Slider",
+                  "name": "SldChipH",
+                  "props": {
+                   "Value": 0.5,
+                   "StepSize": 0.01,
+                   "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                   "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                   "WidgetStyle": "(BarThickness=5.0)"
+                  }
+                 }
+                ]
+               },
+               {
+                "class": "/Script/UMG.SizeBox",
+                "name": "ValChipHBox",
+                "props": {
+                 "bOverride_WidthOverride": true,
+                 "WidthOverride": 133,
+                 "bOverride_HeightOverride": true,
+                 "HeightOverride": 46
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center",
+                 "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "ValChipH",
+                  "props": {
+                   "Text": "50 %",
+                   "Font": "(Size=23)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                  },
+                  "slot": {
+                   "VerticalAlignment": "VAlign_Center"
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.HorizontalBox",
               "name": "RowUnlimited",
               "slot": {
                "Padding": "(Left=0,Top=19,Right=0,Bottom=11)"
@@ -19447,14 +20152,33 @@
             },
             "children": [
              {
-              "class": "/Script/UMG.WrapBox",
-              "name": "SubTabs",
+              "class": "/Script/UMG.SizeBox",
+              "name": "SubTabsBox",
               "props": {
-               "InnerSlotPadding": "(X=9,Y=9)"
+               "bOverride_MaxDesiredHeight": true,
+               "MaxDesiredHeight": 213
               },
               "slot": {
                "Padding": "(Left=0,Top=0,Right=0,Bottom=15)"
-              }
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.ScrollBox",
+                "name": "SubTabsScroll",
+                "props": {
+                 "WheelScrollMultiplier": 2.0
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.WrapBox",
+                  "name": "SubTabs",
+                  "props": {
+                   "InnerSlotPadding": "(X=9,Y=9)"
+                  }
+                 }
+                ]
+               }
+              ]
              },
              {
               "class": "/Script/UMG.HorizontalBox",
@@ -19594,6 +20318,50 @@
                 "name": "LblFav",
                 "props": {
                  "Text": "only\nfavourites",
+                 "Font": "(Size=21)",
+                 "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center"
+                }
+               },
+               {
+                "class": "/Script/UMG.SizeBox",
+                "name": "VanillaBox",
+                "props": {
+                 "bOverride_WidthOverride": true,
+                 "WidthOverride": 65,
+                 "bOverride_HeightOverride": true,
+                 "HeightOverride": 65
+                },
+                "slot": {
+                 "Padding": "(Left=30,Top=0,Right=10,Bottom=0)",
+                 "VerticalAlignment": "VAlign_Center"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.ScaleBox",
+                  "name": "VanillaScale",
+                  "props": {
+                   "Stretch": "ScaleToFit"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.CheckBox",
+                    "name": "OnlyVanilla",
+                    "props": {
+                     "WidgetStyle": "(UncheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0))"
+                    }
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "class": "/Script/UMG.TextBlock",
+                "name": "LblVanilla",
+                "props": {
+                 "Text": "only\nvanilla",
                  "Font": "(Size=21)",
                  "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
                 },

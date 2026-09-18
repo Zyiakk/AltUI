@@ -24,14 +24,14 @@ Para desinstalar: borra los dos archivos. Los guardados propios del mod (*Saved\
 
 ## Qué hace
 
-* **Vestimenta** – cada prenda que conocen el juego y tus mods, agrupada por ranura, subpestañas por mod, búsqueda, filtros «solo poseídos» / «solo favoritos», favoritos, color con la paleta del juego, restablecer color, meter en la mochila y sacar, ocultar prendas.
+* **Vestimenta** – cada prenda que conocen el juego y tus mods, agrupada por ranura, subpestañas por mod (plegables), búsqueda, filtros «solo poseídos» / «solo favoritos» / «solo vanilla», favoritos, color con la paleta del juego, restablecer color, meter en la mochila y sacar, ocultar prendas.
 * **Conjuntos** – los conjuntos predefinidos del juego, con nombre (clic derecho → renombrar).
 * **Looks** – un look completo (ropa con colores, peinado y su color, maquillaje, ojos, piel, deslizadores del cuerpo, mod de cuerpo) guardado con una foto de cuerpo entero hecha en el juego. Aplicar, actualizar, renombrar, borrar.
 * **Mochila** – lo que Jodi lleva puesto y encima: ponerse, quitarse, reparar, devolver al vestuario, ordenar.
 * **Peinado** – todos los peinados, color de pelo, valores de fábrica.
 * **Apariencia** – piel, todos los tipos de maquillaje, ojos, apariencias predefinidas con iconos.
 * **Curvas** – deslizadores de pecho / cintura y un selector de los mods de cuerpo instalados.
-* **Opciones** – tecla del panel, idioma, velocidad de desplazamiento, tamaño de las casillas, parte de la pantalla reservada para Jodi, FOV / distancia / seguimiento de la cámara, esquema de colores y opacidad, «se puede quitar la ropa interior».
+* **Opciones** – tecla del panel, idioma, velocidad de desplazamiento, tamaño de las casillas, longitud de los nombres de grupo y altura de la fila de grupos, parte de la pantalla reservada para Jodi, FOV / distancia / seguimiento de la cámara, esquema de colores y opacidad, «se puede quitar la ropa interior».
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
 Idiomas: inglés, alemán, chino, ruso, español (detección automática, cambiable en Opciones).

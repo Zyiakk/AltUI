@@ -18,8 +18,9 @@ STRINGS = {
     "Tab_Options": ("Options", "Optionen", "选项", "Настройки", "Opciones"),
     # Chips / groups
     "Chip_All": ("All", "Alle", "全部", "Все", "Todo"),
+    "Chip_More": ("...", "...", "...", "...", "..."),   # collapses / expands the group chips (long mod lists)
     "Chip_Standard": ("Standard", "Standard", "默认", "Стандарт", "Estándar"),
-    "Group_Basis": ("Base", "Basis", "基础", "Основа", "Base"),
+    "Group_Basis": ("No group", "Ohne Gruppe", "无分组", "Без группы", "Sin grupo"),
     "Group_Tops": ("Tops", "Oberteile", "上装", "Верх", "Superiores"),
     "Group_Bottoms": ("Bottoms", "Unterteile", "下装", "Низ", "Inferiores"),
     "Group_Dresses": ("Dresses", "Kleider", "连衣裙", "Платья", "Vestidos"),
@@ -66,6 +67,7 @@ STRINGS = {
     "Lbl_Search": ("Search...", "Suche...", "搜索...", "Поиск...", "Buscar..."),
     "Lbl_OnlyOwned": ("only\nowned", "nur\nBesessene", "仅\n已拥有", "только\nв наличии", "solo\nposeídos"),
     "Lbl_OnlyFav": ("only\nfavourites", "nur\nFavoriten", "仅\n收藏", "только\nизбранное", "solo\nfavoritos"),
+    "Lbl_OnlyVanilla": ("only\nvanilla", "nur\nVanilla", "仅\n原版", "только\nоригинал", "solo\nvanilla"),
     "Lbl_Favorites": ("Favourites", "Favoriten", "收藏", "Избранное", "Favoritos"),
     "Lbl_All": ("All", "Alle", "全部", "Все", "Todo"),
     "Lbl_ListHint": ("Only the first {n} matches are shown - please narrow the search.", "Nur die ersten {n} Treffer werden angezeigt – bitte Suche eingrenzen.", "仅显示前 {n} 个结果，请缩小搜索范围。", "Показаны только первые {n} результатов – уточните поиск.", "Solo se muestran los primeros {n} resultados: acota la búsqueda."),
@@ -74,6 +76,9 @@ STRINGS = {
     "Lbl_BagEmpty": ("Backpack is empty", "Rucksack ist leer", "背包是空的", "Рюкзак пуст", "La mochila está vacía"),
     "Lbl_Breast": ("Breast", "Brust", "胸部", "Грудь", "Pecho"),
     "Lbl_Waist": ("Waist", "Taille", "腰", "Талия", "Cintura"),
+    "Lbl_GroupLen": ("Group names: max. characters", "Gruppennamen: max. Zeichen", "分组名称：最多字符数", "Названия групп: макс. символов", "Nombres de grupo: máx. caracteres"),
+    "Lbl_ChipH": ("Group chip area: max. height", "Gruppen-Chips: max. Höhe", "分组标签区域：最大高度", "Область групп: макс. высота", "Área de grupos: altura máx."),
+    "Opt_Unlimited": ("unlimited", "unbegrenzt", "不限", "без ограничения", "sin límite"),
     "Lbl_Scroll": ("Scroll speed", "Scroll-Geschwindigkeit", "滚动速度", "Скорость прокрутки", "Velocidad de desplazamiento"),
     "Lbl_Scale": ("Tile size", "Kachelgröße", "图块大小", "Размер плиток", "Tamaño de las casillas"),
     "Lbl_Fov": ("Camera FOV (Jodi view)", "Kamera-FOV (Jodi-Ansicht)", "相机视野（Jodi 视图）", "Угол обзора камеры (вид Jodi)", "FOV de la cámara (vista de Jodi)"),

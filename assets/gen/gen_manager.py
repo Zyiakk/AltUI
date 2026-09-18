@@ -239,6 +239,26 @@ def f_slot_count():
     return fn("Slot Count", [param("slot", "name")], [param("n", "int")], graph=g, pure=True)
 
 
+# ---------------- Filtered Counts(search, onlyOwned, onlyFav, onlyVanilla) ----------------
+# FilteredCounts: slot -> number of pieces that pass the filters (left list "total (filtered)"); one pass over
+# Filtered Items("All"), slots without a match stay absent (Map_Find -> 0). "All" = length of the result.
+def f_filtered_counts():
+    g = G()
+    g.get("gfc0", "FilteredCounts"); g.call("mc", K_MAP, "Map_Clear", inp={"TargetMap": "@gfc0.FilteredCounts"})
+    g.n("it", "call_self", function="Filtered Items", inp={"slot": "All", "group": "None", "search": "@entry.search", "onlyOwned": "@entry.onlyOwned", "onlyFav": "@entry.onlyFav", "onlyVanilla": "@entry.onlyVanilla"})
+    g.set("sti", "TmpItems3", inp={"TmpItems3": "@it.items"}); g.get("gti", "TmpItems3")
+    g.foreach("fe", "@gti.TmpItems3"); g.brk("b", S_ITEM, "@fe.Array Element")
+    g.get("gis", "ItemSlot"); g.call("sf", K_MAP, "Map_Find", inp={"TargetMap": "@gis.ItemSlot", "Key": "@b.Name"})
+    g.get("gfc1", "FilteredCounts"); g.call("cf", K_MAP, "Map_Find", inp={"TargetMap": "@gfc1.FilteredCounts", "Key": "@sf.Value"})
+    g.call("inc", K_MATH, "Add_IntInt", inp={"A": "@cf.Value", "B": "1"})
+    g.get("gfc2", "FilteredCounts"); g.call("ma", K_MAP, "Map_Add", inp={"TargetMap": "@gfc2.FilteredCounts", "Key": "@sf.Value", "Value": "@inc.ReturnValue"})
+    g.get("gti2", "TmpItems3"); g.call("len", K_ARR, "Array_Length", inp={"TargetArray": "@gti2.TmpItems3"})
+    alln = g.lit_name("la", "All")
+    g.get("gfc3", "FilteredCounts"); g.call("maa", K_MAP, "Map_Add", inp={"TargetMap": "@gfc3.FilteredCounts", "Key": alln, "Value": "@len.ReturnValue"})
+    g.chain("entry", "mc", "it", "sti", "fe"); g.chain("fe", "ma"); g.chain("fe:Completed", "maa")
+    return fn("Filtered Counts", [param("search", "string"), param("onlyOwned", "bool"), param("onlyFav", "bool"), param("onlyVanilla", "bool")], graph=g)
+
+
 def f_item_slot():
     g = G()
     g.get("g", "ItemSlot"); g.call("find", K_MAP, "Map_Find", inp={"TargetMap": "@g.ItemSlot", "Key": "@entry.name"})
@@ -344,8 +364,8 @@ def f_is_favorite():
     return fn("Is Favorite", [param("name", "name")], [param("yes", "bool")], graph=g, pure=True)
 
 
-# ---------------- Filtered Items(slot, group, search, onlyOwned, onlyFav) -> items ----------------
-# group: None = all groups; "Basis" = pieces without a group (Group == None)
+# ---------------- Filtered Items(slot, group, search, onlyOwned, onlyFav, onlyVanilla) -> items ----------------
+# group: None = all groups; "Basis" = pieces without a group (Group == None); onlyVanilla drops pieces from mod tables (IsVanilla)
 def f_filtered_items():
     g = G()
     g.n("it", "call_self", function="Items For Slot", inp={"slot": "@entry.slot"})
@@ -375,15 +395,17 @@ def f_filtered_items():
     g.n("io", "call_self", function="Is Owned", inp={"name": "@b.Name"}); g.n("ifv", "call_self", function="Is Favorite", inp={"name": "@b.Name"})
     g.call("nO", K_MATH, "Not_PreBool", inp={"A": "@entry.onlyOwned"}); g.call("oOk", K_MATH, "BooleanOR", inp={"A": "@nO.ReturnValue", "B": "@io.yes"})
     g.call("nF", K_MATH, "Not_PreBool", inp={"A": "@entry.onlyFav"}); g.call("fOk", K_MATH, "BooleanOR", inp={"A": "@nF.ReturnValue", "B": "@ifv.yes"})
+    g.call("nV", K_MATH, "Not_PreBool", inp={"A": "@entry.onlyVanilla"}); g.call("vOk", K_MATH, "BooleanOR", inp={"A": "@nV.ReturnValue", "B": "@b.IsVanilla"})
     g.call("a1", K_MATH, "BooleanAND", inp={"A": "@gOkH.ReturnValue", "B": "@sOk.ReturnValue"})
     g.call("a2", K_MATH, "BooleanAND", inp={"A": "@oOk.ReturnValue", "B": "@fOk.ReturnValue"})
-    g.call("a3", K_MATH, "BooleanAND", inp={"A": "@a2.ReturnValue", "B": "@hEq.ReturnValue"})
+    g.call("a3a", K_MATH, "BooleanAND", inp={"A": "@a2.ReturnValue", "B": "@hEq.ReturnValue"})
+    g.call("a3", K_MATH, "BooleanAND", inp={"A": "@a3a.ReturnValue", "B": "@vOk.ReturnValue"})
     g.call("all", K_MATH, "BooleanAND", inp={"A": "@a1.ReturnValue", "B": "@a3.ReturnValue"})
     g.branch("br", "@all.ReturnValue")
     g.get("gt1", "TmpItems"); g.call("add", K_ARR, "Array_Add", inp={"TargetArray": "@gt1.TmpItems", "NewItem": "@fe.Array Element"})
     g.get("gt2", "TmpItems"); g.link("gt2.TmpItems", "return.items")
     g.chain("entry", "sti", "clr", "ss", "fe"); g.chain("fe", "br", "add"); g.chain("fe:Completed", "return")
-    return fn("Filtered Items", [param("slot", "name"), param("group", "name"), param("search", "string"), param("onlyOwned", "bool"), param("onlyFav", "bool")],
+    return fn("Filtered Items", [param("slot", "name"), param("group", "name"), param("search", "string"), param("onlyOwned", "bool"), param("onlyFav", "bool"), param("onlyVanilla", "bool")],
               [param("items", T_ITEM, "array")], graph=g)
 
 
@@ -417,12 +439,36 @@ def f_group_caption():
     g.n("tb", "call_self", function="T", inp={"key": "Group_Basis"}); g.set("s1", "TmpText", inp={"TmpText": "@tb.text"})
     g.call("isH", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.group", "B": "Hidden"}); g.branch("bh", "@isH.ReturnValue")
     g.n("th", "call_self", function="T", inp={"key": "Group_Hidden"}); g.set("s4", "TmpText", inp={"TmpText": "@th.text"})
+    g.call("isM", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.group", "B": "AltUI_More"}); g.branch("bm", "@isM.ReturnValue")
+    g.n("tm", "call_self", function="T", inp={"key": "Chip_More"}); g.set("s5", "TmpText", inp={"TmpText": "@tm.text"})
     g.n("row", "get_row", table=P_CG, inp={"RowName": "@entry.group"})
     g.brk("br", P_CGS, "@row.OutRow"); g.set("s2", "TmpText", inp={"TmpText": "@br.GroupName"})
     g.call("tn", K_TXT, "Conv_NameToText", inp={"InName": "@entry.group"}); g.set("s3", "TmpText", inp={"TmpText": "@tn.ReturnValue"})
     g.get("gt", "TmpText"); g.link("gt.TmpText", "return.caption")
-    g.chain("entry", "bb", "s1", "return"); g.chain("bb:else", "bh", "s4", "return"); g.chain("bh:else", "row", "s2", "return"); g.chain("row:Row Not Found", "s3", "return")
+    g.chain("entry", "bb", "s1", "return"); g.chain("bb:else", "bh", "s4", "return"); g.chain("bh:else", "bm", "s5", "return"); g.chain("bm:else", "row", "s2", "return"); g.chain("row:Row Not Found", "s3", "return")
     return fn("Group Caption", [param("group", "name")], [param("caption", "text")], graph=g)
+
+
+# ---------------- Chip Caption(group) -> caption: Group Caption shortened to GroupLen characters (0 = unlimited) ----------------
+# Cut in the middle: head (the longer half) + ".." + tail, the dots do not count - groups that share a prefix stay apart.
+# full: never cut (the selected chip while the row is collapsed - it is the only group chip, so there is room).
+def f_chip_caption():
+    g = G()
+    g.n("gc", "call_self", function="Group Caption", inp={"group": "@entry.group"})
+    g.call("t2s", K_TXT, "Conv_TextToString", inp={"InText": "@gc.caption"}); g.call("len", K_STR, "Len", inp={"S": "@t2s.ReturnValue"})
+    g.get("gl", "GroupLen"); g.call("lim", K_MATH, "Greater_IntInt", inp={"A": "@gl.GroupLen", "B": "0"})
+    g.get("gl2", "GroupLen"); g.call("over", K_MATH, "Greater_IntInt", inp={"A": "@len.ReturnValue", "B": "@gl2.GroupLen"})
+    g.call("cut0", K_MATH, "BooleanAND", inp={"A": "@lim.ReturnValue", "B": "@over.ReturnValue"})
+    g.call("nfull", K_MATH, "Not_PreBool", inp={"A": "@entry.full"}); g.call("cut", K_MATH, "BooleanAND", inp={"A": "@cut0.ReturnValue", "B": "@nfull.ReturnValue"})
+    g.get("gl3", "GroupLen"); g.call("h1", K_MATH, "Add_IntInt", inp={"A": "@gl3.GroupLen", "B": "1"}); g.call("head", K_MATH, "Divide_IntInt", inp={"A": "@h1.ReturnValue", "B": "2"})
+    g.get("gl4", "GroupLen"); g.call("tailn", K_MATH, "Subtract_IntInt", inp={"A": "@gl4.GroupLen", "B": "@head.ReturnValue"})
+    g.call("left", K_STR, "Left", inp={"SourceString": "@t2s.ReturnValue", "Count": "@head.ReturnValue"}); g.call("right", K_STR, "Right", inp={"SourceString": "@t2s.ReturnValue", "Count": "@tailn.ReturnValue"})
+    g.call("c1", K_STR, "Concat_StrStr", inp={"A": "@left.ReturnValue", "B": ".."}); g.call("c2", K_STR, "Concat_StrStr", inp={"A": "@c1.ReturnValue", "B": "@right.ReturnValue"})
+    g.call("sel", K_MATH, "SelectString", inp={"A": "@c2.ReturnValue", "B": "@t2s.ReturnValue", "bPickA": "@cut.ReturnValue"})
+    g.call("s2t", K_TXT, "Conv_StringToText", inp={"InString": "@sel.ReturnValue"}); g.set("st", "TmpText", inp={"TmpText": "@s2t.ReturnValue"})
+    g.get("gt", "TmpText"); g.link("gt.TmpText", "return.caption")
+    g.chain("entry", "gc", "st", "return")
+    return fn("Chip Caption", [param("group", "name"), param("full", "bool")], [param("caption", "text")], graph=g)
 
 
 # ---------------- Item Tip(item) -> tip: display name, slot label, origin (Vanilla / Mod [· group]), row name ----------------
@@ -506,9 +552,9 @@ def f_init_strings():
 # camera distance 0 %, opacity 0 %). Both Load Settings and Save Settings are generated from this table.
 SAVE_VERSION = 1
 SETTINGS = [("Favorites", "Favorites", "copy", None), ("HiddenItems", "HiddenItems", "copy", None),
-            ("CachedOnlyOwned", "OnlyOwned", "copy", None), ("CachedOnlyFav", "OnlyFav", "copy", None),
+            ("CachedOnlyOwned", "OnlyOwned", "copy", None), ("CachedOnlyFav", "OnlyFav", "copy", None), ("CachedOnlyVanilla", "OnlyVanilla", "copy", None),
             ("ScrollMult", "ScrollMult", "float0", 4.0), ("TileScale", "TileScale", "float0", 1.0),
-            ("Unlimited", "Unlimited", "copy", None), ("LeftFree", "LeftFree", "copy", None),
+            ("Unlimited", "Unlimited", "copy", None), ("LeftFree", "LeftFree", "copy", None), ("SubTabsCollapsed", "SubTabsCollapsed", "copy", None), ("GroupLen", "GroupLen", "copy", None), ("ChipH", "ChipH", "copy", None),
             ("CamFov", "CamFov", "float0", 0.8), ("CamDist", "CamDist", "float0", 1.0),
             ("BodyVariant", "BodyVariant", "copy", None), ("LangChoice", "LangChoice", "copy", None),
             ("PanToSlot", "PanToSlot", "copy", None), ("AllowNude", "AllowNude", "copy", None), ("ToggleKey", "ToggleKey", "name", None)]
@@ -755,7 +801,7 @@ assets = [
     datatable(T_STRINGS, S_STR, rows=string_rows()),
     datatable(M + "/TKA_Mod_Table", "/Game/Project/Tables/DLC_Struct"),
     blueprint(M + "/SG_AltUI", "/Script/Engine.SaveGame",
-              variables=[var("Favorites", "name", "array"), var("HiddenItems", "name", "array"), var("OnlyOwned", "bool"), var("OnlyFav", "bool"), var("LastSlot", "name"),
+              variables=[var("Favorites", "name", "array"), var("HiddenItems", "name", "array"), var("OnlyOwned", "bool"), var("OnlyFav", "bool"), var("OnlyVanilla", "bool"), var("SubTabsCollapsed", "bool"), var("GroupLen", "int"), var("ChipH", "int"), var("LastSlot", "name"),
                          var("ScrollMult", "float", default="0"), var("TileScale", "float", default="0"),   # 0 = never set -> default
                          var("Unlimited", "bool"), var("LeftFree", "int"), var("CamFov", "float", default="0"), var("CamDist", "float", default="0"), var("BodyVariant", "name"), var("LangChoice", "int"), var("PanToSlot", "bool"), var("AllowNude", "bool"), var("OutfitNames", "string", "map", value_type="string"),
                          var("ThemeSet", "bool"), var("BgAlpha", "float", default="0"), var("TileAlpha", "float", default="0"), var("ToggleKey", "name"),
@@ -766,11 +812,11 @@ assets = [
                          var("Catalog", "name", "map", value_type=T_LIST), var("ItemSlot", "name", "map", value_type="name"),
                          var("CatalogRows", "int"), var("Worn", "name", "array"), var("Owned", "name", "array"), var("OwnedSet", "name", "set"), var("SlotCounts", "name", "map", value_type="int"), var("SlotNames", "name", "map", value_type="struct:" + S_NAMES),
                          var("Alphabet", "string", default="0123456789abcdefghijklmnopqrstuvwxyz"),
-                         var("TmpI", "int"), var("TmpKey", "int64"), var("TmpKey1", "int64"), var("TmpKey2", "int64"), var("TmpKeys", "int64", "array"), var("TmpKeys2", "int64", "array"), var("TmpStr", "string"), var("TmpItems", T_ITEM, "array"),
+                         var("TmpI", "int"), var("TmpKey", "int64"), var("TmpKey1", "int64"), var("TmpKey2", "int64"), var("TmpKeys", "int64", "array"), var("TmpKeys2", "int64", "array"), var("TmpStr", "string"), var("TmpItems", T_ITEM, "array"), var("TmpItems3", T_ITEM, "array"), var("FilteredCounts", "name", "map", value_type="int"),
                          var("TmpIdx", "int"), var("TmpFound", "bool"), var("TmpName", "name"), var("TmpNames", "name", "array"), var("TmpItem", T_ITEM),
                          var("TmpGroup", "name"), var("PanelOpen", "bool"),
                          var("CurrentSlot", "name"), var("CurrentGroup", "name"), var("SearchText", "string"), var("LockStrategy", "int", default="0"),
-                         var("Favorites", "name", "array"), var("HiddenItems", "name", "array"), var("TmpText", "text"), var("TmpStrings", "string", "array"), var("TmpStr2", "string"), var("Settings", "object:" + M + "/SG_AltUI"), var("ContextItem", "name"), var("LastButton", "object:" + E_WIDGET), var("CachedOnlyOwned", "bool"), var("CachedOnlyFav", "bool"),
+                         var("Favorites", "name", "array"), var("HiddenItems", "name", "array"), var("TmpText", "text"), var("TmpStrings", "string", "array"), var("TmpStr2", "string"), var("Settings", "object:" + M + "/SG_AltUI"), var("ContextItem", "name"), var("LastButton", "object:" + E_WIDGET), var("CachedOnlyOwned", "bool"), var("CachedOnlyFav", "bool"), var("CachedOnlyVanilla", "bool"), var("SubTabsCollapsed", "bool"), var("GroupLen", "int"), var("OptGroupLen", "float"), var("ChipH", "int"), var("OptChipH", "float"),
                          var("ItemByName", "name", "map", value_type=T_ITEM), var("TmpSlotItems", T_ITEM, "array"), var("AllItems", T_ITEM, "array"), var("Outfits", "object:" + P_OUTFITS), var("Page", "name", default="Clothes"), var("ContextOutfit", "int"),
                          var("LookCat", "name", default="Skin"), var("MakeupDirty", "bool"), var("BoobsChanged", "bool"), var("ColorMode", "name", default="Clothes"),
                          var("BodyBreast", "float"), var("BodyWaist", "float"), var("TmpNames2", "name", "array"), var("TmpNames3", "name", "array"), var("TmpNames4", "name", "array"), var("TmpName2", "name"), var("TmpBool", "bool"),
@@ -791,7 +837,7 @@ assets = [
                          var("ThemeVersion", "int"), var("ToggleKey", "name", default="B"), var("BgAlpha", "float", default=str(BG_ALPHA)), var("TileAlpha", "float", default=str(TILE_ALPHA)), var("ThemeKey", "name")]
                         + [var("Theme" + k, S_LINCOLOR) for k, _, _ in THEME] + [var(n, S_LINCOLOR) for n in DERIVED_NAMES],
               functions=[f_init_slot_groups(), f_order_slots(), f_sort_key(), f_display_name(), f_scan_mod_items(), f_build_catalog(),
-                         f_items_for_slot(), f_slot_count(), f_item_slot(), f_is_worn(), f_is_owned(), f_worn_in_slot(),
+                         f_items_for_slot(), f_slot_count(), f_filtered_counts(), f_chip_caption(), f_item_slot(), f_is_worn(), f_is_owned(), f_worn_in_slot(),
                          f_refresh_state(), f_wear(), f_take_off(), f_debug_status(), f_find_item(), f_is_favorite(), f_filtered_items(),
                          f_groups_of_slot(), f_group_caption(), f_item_tip(), f_load_settings(), f_save_settings(), f_toggle_favorite(), f_is_item_hidden(), f_toggle_item_hidden(), f_t(), f_detect_language(), f_init_strings(),
                          f_reset_theme(), f_theme_color(), f_set_theme_color(), f_layout_fraction()] + UI_SIGNATURES),

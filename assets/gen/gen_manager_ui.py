@@ -66,8 +66,8 @@ def f_open():
     pw = create_widget(g, "cw", W_PANEL)
     g.set("sp", "Panel", inp={"Panel": pw})
     set_manager(g, "sm", W_PANEL, "@sp.Output_Get")
-    g.get("gp9", "Panel"); g.get("gco", "CachedOnlyOwned"); g.get("gcf", "CachedOnlyFav")
-    g.call("sft", W_PANEL, "Set Filter Toggles", inp={"self": "@gp9.Panel", "owned": "@gco.CachedOnlyOwned", "fav": "@gcf.CachedOnlyFav"})
+    g.get("gp9", "Panel"); g.get("gco", "CachedOnlyOwned"); g.get("gcf", "CachedOnlyFav"); g.get("gcv", "CachedOnlyVanilla")
+    g.call("sft", W_PANEL, "Set Filter Toggles", inp={"self": "@gp9.Panel", "owned": "@gco.CachedOnlyOwned", "fav": "@gcf.CachedOnlyFav", "vanilla": "@gcv.CachedOnlyVanilla"})
     g.get("gp2", "Panel"); g.call("atv", E_USERWIDGET, "AddToViewport", inp={"self": "@gp2.Panel", "ZOrder": "100"})
     g.set("so", "PanelOpen", inp={"PanelOpen": "true"})
     g.get("gpc", "PC"); g.call("cur", P_PC, "ShowMouseCursor", inp={"self": "@gpc.PC", "show": "true"})
@@ -124,6 +124,14 @@ def f_close():
 def f_rebuild_left():
     g = G()
     g.get("gp", "Panel"); g.call("cl", W_PANEL, "Clear Left", inp={"self": "@gp.Panel"})
+    # filters as the panel shows them (the caches are refreshed by Rebuild List, which runs after this)
+    g.get("gpo", "Panel"); g.call("oo", W_PANEL, "Get Only Owned", inp={"self": "@gpo.Panel"})
+    g.get("gpf", "Panel"); g.call("of", W_PANEL, "Get Only Fav", inp={"self": "@gpf.Panel"})
+    g.get("gpv", "Panel"); g.call("ov", W_PANEL, "Get Only Vanilla", inp={"self": "@gpv.Panel"})
+    g.get("gst", "SearchText"); g.call("sne", K_STR, "IsEmpty", inp={"InString": "@gst.SearchText"}); g.call("sact", K_MATH, "Not_PreBool", inp={"A": "@sne.ReturnValue"})
+    g.call("fa1", K_MATH, "BooleanOR", inp={"A": "@oo.yes", "B": "@of.yes"}); g.call("fa2", K_MATH, "BooleanOR", inp={"A": "@fa1.ReturnValue", "B": "@ov.yes"})
+    g.call("fact", K_MATH, "BooleanOR", inp={"A": "@fa2.ReturnValue", "B": "@sact.ReturnValue"}); g.set("sfa", "TmpBool", inp={"TmpBool": "@fact.ReturnValue"})
+    g.get("gst2", "SearchText"); g.n("fc", "call_self", function="Filtered Counts", inp={"search": "@gst2.SearchText", "onlyOwned": "@oo.yes", "onlyFav": "@of.yes", "onlyVanilla": "@ov.yes"})
     g.set("sg0", "TmpGroup", inp={"TmpGroup": "None"})
     g.get("gsl", "Slots"); g.foreach("fe", "@gsl.Slots")
     g.get("gsg", "SlotGroup"); g.call("grp", K_MAP, "Map_Find", inp={"TargetMap": "@gsg.SlotGroup", "Key": "@fe.Array Element"})
@@ -140,16 +148,20 @@ def f_rebuild_left():
     g.n("cnt", "call_self", function="Slot Count", inp={"slot": "@fe.Array Element"})
     g.call("has", K_MATH, "Greater_IntInt", inp={"A": "@cnt.n", "B": "0"})
     g.get("gcs", "CurrentSlot"); g.call("sel", K_MATH, "EqualEqual_NameName", inp={"A": "@fe.Array Element", "B": "@gcs.CurrentSlot"})
+    g.get("gfc", "FilteredCounts"); g.call("fcf", K_MAP, "Map_Find", inp={"TargetMap": "@gfc.FilteredCounts", "Key": "@fe.Array Element"})
+    g.get("gfa", "TmpBool"); g.call("fsel", K_MATH, "SelectInt", inp={"A": "@fcf.Value", "B": "-1", "bPickA": "@gfa.TmpBool"})
     g.call("ti", W_TAB, "Init", inp={"self": tw, "slot": "@fe.Array Element", "caption": key_text(g, "tt", "Slot_", "@fe.Array Element"), "count": "@cnt.n",
-                                     "worn icon": "@bi.Icon", "selected": "@sel.ReturnValue", "has items": "@has.ReturnValue"})
+                                     "worn icon": "@bi.Icon", "selected": "@sel.ReturnValue", "has items": "@has.ReturnValue", "filtered": "@fsel.ReturnValue"})
     g.get("gp3", "Panel"); g.call("at", W_PANEL, "Add Left", inp={"self": "@gp3.Panel", "widget": tw})
     # "All" at the very top (pseudo slot All, no thumbnail)
     aw = create_widget(g, "ca", W_TAB); set_manager(g, "sma", W_TAB, aw)
     g.n("acnt", "call_self", function="Slot Count", inp={"slot": "All"})
     g.get("gcsa", "CurrentSlot"); g.call("asel", K_MATH, "EqualEqual_NameName", inp={"A": "All", "B": "@gcsa.CurrentSlot"})
-    g.call("ai", W_TAB, "Init", inp={"self": aw, "slot": "All", "caption": tt(g, "at0", "Slot_All"), "count": "@acnt.n", "selected": "@asel.ReturnValue", "has items": "true"})
+    g.get("gfca", "FilteredCounts"); g.call("fcfa", K_MAP, "Map_Find", inp={"TargetMap": "@gfca.FilteredCounts", "Key": g.lit_name("lfa", "All")})   # wildcard pin: typed literal, a plain default arrives as None
+    g.get("gfaa", "TmpBool"); g.call("fsela", K_MATH, "SelectInt", inp={"A": "@fcfa.Value", "B": "-1", "bPickA": "@gfaa.TmpBool"})
+    g.call("ai", W_TAB, "Init", inp={"self": aw, "slot": "All", "caption": tt(g, "at0", "Slot_All"), "count": "@acnt.n", "selected": "@asel.ReturnValue", "has items": "true", "filtered": "@fsela.ReturnValue"})
     g.get("gpa", "Panel"); g.call("aa", W_PANEL, "Add Left", inp={"self": "@gpa.Panel", "widget": aw})
-    g.chain("entry", "cl", "sg0", "ca_cr", "sma", "ai", "aa", "fe"); g.chain("fe", "bh", "ch_cr", "chm", "hi", "ah", "sg", "ct_cr"); g.chain("bh:else", "ct_cr")
+    g.chain("entry", "cl", "sfa", "fc", "sg0", "ca_cr", "sma", "ai", "aa", "fe"); g.chain("fe", "bh", "ch_cr", "chm", "hi", "ah", "sg", "ct_cr"); g.chain("bh:else", "ct_cr")
     g.chain("ct_cr", "smt", "win", "fi", "ti", "at")
     return fn("Rebuild Left", graph=g)
 
@@ -161,10 +173,11 @@ def f_rebuild_list():
     g.get("gpf", "Panel"); g.call("clf", W_PANEL, "Clear Fav", inp={"self": "@gpf.Panel"})
     g.get("gp1", "Panel"); g.call("oo", W_PANEL, "Get Only Owned", inp={"self": "@gp1.Panel"})
     g.get("gp2", "Panel"); g.call("of", W_PANEL, "Get Only Fav", inp={"self": "@gp2.Panel"})
-    g.set("co", "CachedOnlyOwned", inp={"CachedOnlyOwned": "@oo.yes"}); g.set("cf", "CachedOnlyFav", inp={"CachedOnlyFav": "@of.yes"})
+    g.get("gpv", "Panel"); g.call("ov", W_PANEL, "Get Only Vanilla", inp={"self": "@gpv.Panel"})
+    g.set("co", "CachedOnlyOwned", inp={"CachedOnlyOwned": "@oo.yes"}); g.set("cf", "CachedOnlyFav", inp={"CachedOnlyFav": "@of.yes"}); g.set("cv", "CachedOnlyVanilla", inp={"CachedOnlyVanilla": "@ov.yes"})
     g.set("nf", "TmpIdx", inp={"TmpIdx": "0"})
     g.get("gcs", "CurrentSlot"); g.get("gcg", "CurrentGroup"); g.get("gst", "SearchText")
-    g.n("it", "call_self", function="Filtered Items", inp={"slot": "@gcs.CurrentSlot", "group": "@gcg.CurrentGroup", "search": "@gst.SearchText", "onlyOwned": "@oo.yes", "onlyFav": "@of.yes"})
+    g.n("it", "call_self", function="Filtered Items", inp={"slot": "@gcs.CurrentSlot", "group": "@gcg.CurrentGroup", "search": "@gst.SearchText", "onlyOwned": "@oo.yes", "onlyFav": "@of.yes", "onlyVanilla": "@ov.yes"})
     g.set("sti", "TmpItems2", inp={"TmpItems2": "@it.items"})
     # pass 1: favourites block
     g.get("gti", "TmpItems2"); g.foreach("ff", "@gti.TmpItems2"); g.brk("fb", S_ITEM, "@ff.Array Element")
@@ -200,7 +213,7 @@ def f_rebuild_list():
     g.call("over0", K_MATH, "Greater_IntInt", inp={"A": "@tlen.ReturnValue", "B": str(LIST_CAP)})
     g.get("gun2", "Unlimited"); g.call("nun", K_MATH, "Not_PreBool", inp={"A": "@gun2.Unlimited"}); g.call("over", K_MATH, "BooleanAND", inp={"A": "@over0.ReturnValue", "B": "@nun.ReturnValue"})
     g.get("gp6", "Panel"); g.call("slh", W_PANEL, "Set List Hint", inp={"self": "@gp6.Panel", "visible": "@over.ReturnValue"})
-    g.chain("entry", "cl", "clf", "co", "cf", "nf", "ci0", "it", "sti", "ff"); g.chain("ff", "fbr", "cf1_cr", "smf", "fdm", "fti", "fin", "af", "bhlf", "sswf", "sn"); g.chain("bhlf:else", "sn")
+    g.chain("entry", "cl", "clf", "co", "cf", "cv", "nf", "ci0", "it", "sti", "ff"); g.chain("ff", "fbr", "cf1_cr", "smf", "fdm", "fti", "fin", "af", "bhlf", "sswf", "sn"); g.chain("bhlf:else", "sn")
     g.chain("ff:Completed", "sfv", "fe"); g.chain("fe", "bcap", "cb_cr", "smb", "dm", "bti", "bin", "ai", "bhl", "ssw", "sci"); g.chain("bhl:else", "sci"); g.chain("fe:Completed", "slh")
     return fn("Rebuild List", graph=g)
 
@@ -216,26 +229,37 @@ def f_rebuild_subtabs():
     g.get("gcg", "CurrentGroup"); g.call("selA", K_MATH, "EqualEqual_NameName", inp={"A": "@gcg.CurrentGroup", "B": "None"})
     g.call("ia", W_SUB, "Init", inp={"self": aw, "group": "None", "caption": tt(g, "ta", "Chip_All"), "selected": "@selA.ReturnValue"})
     g.get("gp2", "Panel"); g.call("aa", W_PANEL, "Add SubTab", inp={"self": "@gp2.Panel", "widget": aw})
-    # per group
+    # "..." right of All: collapses / expands the group chips (highlighted while collapsed)
+    mw = create_widget(g, "cm", W_SUB); set_manager(g, "smm", W_SUB, mw)
+    g.get("gcol", "SubTabsCollapsed")
+    g.call("im", W_SUB, "Init", inp={"self": mw, "group": "AltUI_More", "caption": tt(g, "tm", "Chip_More"), "selected": "@gcol.SubTabsCollapsed"})
+    g.get("gpm", "Panel"); g.call("am", W_PANEL, "Add SubTab", inp={"self": "@gpm.Panel", "widget": mw})
+    # per group; collapsed: only the selected group stays visible
     g.foreach("fe", "@gr.groups")
+    g.get("gcol2", "SubTabsCollapsed"); g.call("ncol", K_MATH, "Not_PreBool", inp={"A": "@gcol2.SubTabsCollapsed"})
+    g.call("show", K_MATH, "BooleanOR", inp={"A": "@ncol.ReturnValue", "B": "@selG.ReturnValue"}); g.branch("bs", "@show.ReturnValue")
     sw = create_widget(g, "cs", W_SUB); set_manager(g, "sms", W_SUB, sw)
-    g.n("cap", "call_self", function="Group Caption", inp={"group": "@fe.Array Element"})
+    g.get("gcol3", "SubTabsCollapsed"); g.call("fullc", K_MATH, "BooleanAND", inp={"A": "@gcol3.SubTabsCollapsed", "B": "@selG.ReturnValue"})
+    g.n("cap", "call_self", function="Chip Caption", inp={"group": "@fe.Array Element", "full": "@fullc.ReturnValue"})
     g.get("gcg2", "CurrentGroup"); g.call("selG", K_MATH, "EqualEqual_NameName", inp={"A": "@gcg2.CurrentGroup", "B": "@fe.Array Element"})
     g.call("is", W_SUB, "Init", inp={"self": sw, "group": "@fe.Array Element", "caption": "@cap.caption", "selected": "@selG.ReturnValue"})
     g.get("gp3", "Panel"); g.call("as", W_PANEL, "Add SubTab", inp={"self": "@gp3.Panel", "widget": sw})
-    g.chain("entry", "cl", "gr", "b", "ca_cr", "sma", "ia", "aa", "fe"); g.chain("fe", "cs_cr", "sms", "cap", "is", "as")
+    g.chain("entry", "cl", "gr", "b", "ca_cr", "sma", "ia", "aa", "cm_cr", "smm", "im", "am", "fe"); g.chain("fe", "bs", "cs_cr", "sms", "cap", "is", "as")
     return fn("Rebuild SubTabs", graph=g)
 
 
 # ---------------- Interaction ----------------
 def f_select_slot():
+    """Slot click: the group chip stays selected when the new slot has that group too, otherwise back to All."""
     g = G(); g.set("s", "CurrentSlot", inp={"CurrentSlot": "@entry.name"}); g.set("sg", "CurrentGroup", inp={"CurrentGroup": "None"})
+    g.n("gr", "call_self", function="Groups Of Slot", inp={"slot": "@entry.name"})
+    g.get("gcg", "CurrentGroup"); g.call("has", K_ARR, "Array_Contains", inp={"TargetArray": "@gr.groups", "ItemToFind": "@gcg.CurrentGroup"}); g.branch("bk", "@has.ReturnValue")
     g.n("rl", "call_self", function="Rebuild Left"); g.n("rt", "call_self", function="Rebuild SubTabs"); g.n("rli", "call_self", function="Rebuild List")
     g.get("gpg", "Page"); g.call("isl", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg.Page", "B": "Look"}); g.branch("bpl", "@isl.ReturnValue")
     g.n("slc", "call_self", function="Select Look Cat", inp={"name": "@entry.name"})
     g.n("uf", "call_self", function="Update Focus")
     g.set("hlc", "HighlightItem", inp={"HighlightItem": "None"})
-    g.chain("entry", "bpl", "slc"); g.chain("bpl:else", "hlc", "s", "sg", "rl", "rt", "rli", "uf"); return fn("Select Slot", [param("name", "name")], graph=g)
+    g.chain("entry", "bpl", "slc"); g.chain("bpl:else", "hlc", "s", "gr", "bk", "rl", "rt", "rli", "uf"); g.chain("bk:else", "sg", "rl"); return fn("Select Slot", [param("name", "name")], graph=g)
 
 
 def f_take_off_slot():
@@ -413,6 +437,16 @@ TOGGLE_KEYS = ["B", "G", "H", "I", "J", "K", "N", "O", "P", "U", "Y", "Z"]   # p
 TILE_MIN, TILE_MAX = 0.6, 2.0    # tile size 60..200 %
 FOV_MIN, FOV_MAX = 0.3, 1.0      # camera FOV scale 30..100 %
 DIST_MIN, DIST_MAX = 0.0, 3.0    # camera distance scale 0..300 %
+GROUPLEN_MIN, GROUPLEN_MAX = 3, 20   # chip caption length; slider step 18 (past GROUPLEN_MAX) = unlimited (GroupLen 0)
+GROUPLEN_STEPS = GROUPLEN_MAX - GROUPLEN_MIN + 1
+from gen_widgets import SUBTABS_MAX_H, SUBTABS_MAX_H_MAX
+CHIPH_STEP = 4   # chip area height snaps to 4 units; ChipH 0 = default SUBTABS_MAX_H
+
+
+def chip_h(g, id):
+    """ChipH (0 = default) -> effective height as int pin."""
+    g.get(id + "_v", "ChipH"); g.call(id + "_z", K_MATH, "EqualEqual_IntInt", inp={"A": "@%s_v.ChipH" % id, "B": "0"})
+    g.call(id + "_s", K_MATH, "SelectInt", inp={"A": str(SUBTABS_MAX_H), "B": "@%s_v.ChipH" % id, "bPickA": "@%s_z.ReturnValue" % id}); return "@%s_s.ReturnValue" % id
 
 
 def opt_texts(g):
@@ -424,7 +458,13 @@ def opt_texts(g):
         g.get(id + "_v", var); g.call(id + "_m", K_MATH, "Multiply_FloatFloat", inp={"A": "@%s_v.%s" % (id, var), "B": "100.0"}); g.call(id + "_r", K_MATH, "Round", inp={"A": "@%s_m.ReturnValue" % id})
         g.call(id + "_i", K_STR, "Conv_IntToString", inp={"InInt": "@%s_r.ReturnValue" % id}); g.call(id + "_c", K_STR, "Concat_StrStr", inp={"A": "@%s_i.ReturnValue" % id, "B": " %"}); g.call(id + "_t", K_TXT, "Conv_StringToText", inp={"InString": "@%s_c.ReturnValue" % id})
         return "@%s_t.ReturnValue" % id
-    return "@ox_t.ReturnValue", "@ox_t2.ReturnValue", pct("CamFov", "ox_f2"), pct("CamDist", "ox_d2"), pct("BgAlpha", "ox_ba"), pct("TileAlpha", "ox_ta")
+    # group name length: "12" or "unlimited"
+    g.get("ox_gl", "GroupLen"); g.call("ox_gli", K_STR, "Conv_IntToString", inp={"InInt": "@ox_gl.GroupLen"})
+    g.get("ox_gl2", "GroupLen"); g.call("ox_glz", K_MATH, "EqualEqual_IntInt", inp={"A": "@ox_gl2.GroupLen", "B": "0"})
+    g.call("ox_gls", K_MATH, "SelectString", inp={"A": ts(g, "ox_glu", "Opt_Unlimited"), "B": "@ox_gli.ReturnValue", "bPickA": "@ox_glz.ReturnValue"})
+    g.call("ox_glt", K_TXT, "Conv_StringToText", inp={"InString": "@ox_gls.ReturnValue"})
+    g.call("ox_cht", K_TXT, "Conv_IntToText", inp={"Value": chip_h(g, "ox_ch")})
+    return "@ox_t.ReturnValue", "@ox_t2.ReturnValue", pct("CamFov", "ox_f2"), pct("CamDist", "ox_d2"), pct("BgAlpha", "ox_ba"), pct("TileAlpha", "ox_ta"), "@ox_glt.ReturnValue", "@ox_cht.ReturnValue"
 
 
 def f_rebuild_options():
@@ -436,16 +476,24 @@ def f_rebuild_options():
     g.get("gcf", "CamFov"); g.call("f1", K_MATH, "Subtract_FloatFloat", inp={"A": "@gcf.CamFov", "B": str(FOV_MIN)}); g.call("f2", K_MATH, "Divide_FloatFloat", inp={"A": "@f1.ReturnValue", "B": str(FOV_MAX - FOV_MIN)})
     g.get("gcd", "CamDist"); g.call("d1", K_MATH, "Subtract_FloatFloat", inp={"A": "@gcd.CamDist", "B": str(DIST_MIN)}); g.call("d2", K_MATH, "Divide_FloatFloat", inp={"A": "@d1.ReturnValue", "B": str(DIST_MAX - DIST_MIN)})
     g.get("gba", "BgAlpha"); g.get("gta", "TileAlpha")
-    g.set("os", "OptScroll", inp={"OptScroll": "@s2.ReturnValue"}); g.set("oc", "OptScale", inp={"OptScale": "@t1.ReturnValue"})
+    # group name length: 0 (unlimited) -> slider 1.0, else (len - min) / steps
+    g.get("ggl", "GroupLen"); g.call("gl0", K_MATH, "EqualEqual_IntInt", inp={"A": "@ggl.GroupLen", "B": "0"})
+    g.call("gl1", K_MATH, "Subtract_IntInt", inp={"A": "@ggl.GroupLen", "B": str(GROUPLEN_MIN)}); g.call("gl2", K_MATH, "Conv_IntToFloat", inp={"InInt": "@gl1.ReturnValue"})
+    g.call("gl3", K_MATH, "Divide_FloatFloat", inp={"A": "@gl2.ReturnValue", "B": str(float(GROUPLEN_STEPS))})
+    g.call("gl4", K_MATH, "SelectFloat", inp={"A": "1.0", "B": "@gl3.ReturnValue", "bPickA": "@gl0.ReturnValue"})
+    # chip area height SUBTABS_MAX_H..SUBTABS_MAX_H_MAX -> slider
+    g.call("ch1", K_MATH, "Subtract_IntInt", inp={"A": chip_h(g, "rch"), "B": str(SUBTABS_MAX_H)}); g.call("ch2", K_MATH, "Conv_IntToFloat", inp={"InInt": "@ch1.ReturnValue"})
+    g.call("ch3", K_MATH, "Divide_FloatFloat", inp={"A": "@ch2.ReturnValue", "B": str(float(SUBTABS_MAX_H_MAX - SUBTABS_MAX_H))})
+    g.set("os", "OptScroll", inp={"OptScroll": "@s2.ReturnValue"}); g.set("oc", "OptScale", inp={"OptScale": "@t1.ReturnValue"}); g.set("ogl", "OptGroupLen", inp={"OptGroupLen": "@gl4.ReturnValue"}); g.set("och", "OptChipH", inp={"OptChipH": "@ch3.ReturnValue"})
     g.set("of", "OptFov", inp={"OptFov": "@f2.ReturnValue"}); g.set("od", "OptDist", inp={"OptDist": "@d2.ReturnValue"})
     g.set("oba", "OptBgAlpha", inp={"OptBgAlpha": "@gba.BgAlpha"}); g.set("ota", "OptTileAlpha", inp={"OptTileAlpha": "@gta.TileAlpha"})
-    t1, t2, t3, t4, t5, t6 = opt_texts(g)
+    t1, t2, t3, t4, t5, t6, t7, t8 = opt_texts(g)
     g.get("gp", "Panel"); g.call("sv", W_PANEL, "Set Option Values", inp={"self": "@gp.Panel", "scroll": "@s2.ReturnValue", "scale": "@t1.ReturnValue", "fov": "@f2.ReturnValue", "dist": "@d2.ReturnValue",
-                                                                            "bgalpha": "@gba.BgAlpha", "tilealpha": "@gta.TileAlpha",
-                                                                            "scroll text": t1, "scale text": t2, "fov text": t3, "dist text": t4, "bgalpha text": t5, "tilealpha text": t6})
+                                                                            "bgalpha": "@gba.BgAlpha", "tilealpha": "@gta.TileAlpha", "grouplen": "@gl4.ReturnValue", "chiph": "@ch3.ReturnValue",
+                                                                            "scroll text": t1, "scale text": t2, "fov text": t3, "dist text": t4, "bgalpha text": t5, "tilealpha text": t6, "grouplen text": t7, "chiph text": t8})
     g.get("gp2", "Panel"); g.get("gun", "Unlimited"); g.get("gpn", "PanToSlot"); g.get("gan", "AllowNude"); g.call("su", W_PANEL, "Set Option Checks", inp={"self": "@gp2.Panel", "unlimited": "@gun.Unlimited", "pan": "@gpn.PanToSlot", "nude": "@gan.AllowNude"})
     # layout chips (W_SubTab: click -> Select SubTab -> Select Layout), display order by size, stable indices
-    g.get("gp3", "Panel"); g.call("cl", W_PANEL, "Clear Layout Chips", inp={"self": "@gp3.Panel"}); tail = ["entry", "os", "oc", "of", "od", "oba", "ota", "sv", "su", "cl"]
+    g.get("gp3", "Panel"); g.call("cl", W_PANEL, "Clear Layout Chips", inp={"self": "@gp3.Panel"}); tail = ["entry", "os", "oc", "of", "od", "oba", "ota", "ogl", "och", "sv", "su", "cl"]
     for i, (idx, key) in enumerate(LAYOUTS):
         cw = create_widget(g, "cc%d" % i, W_SUB); set_manager(g, "cm%d" % i, W_SUB, cw)
         g.get("glf%d" % i, "LeftFree"); g.call("eq%d" % i, K_MATH, "EqualEqual_IntInt", inp={"A": "@glf%d.LeftFree" % i, "B": str(idx)})
@@ -496,13 +544,14 @@ def f_select_layout():
 
 def f_apply_options():
     g = G(); g.get("gp", "Panel"); g.get("gsm", "ScrollMult"); g.call("ssm", W_PANEL, "Set Scroll Mult", inp={"self": "@gp.Panel", "mult": "@gsm.ScrollMult"})
+    g.call("chf", K_MATH, "Conv_IntToFloat", inp={"InInt": chip_h(g, "ach")}); g.get("gp4", "Panel"); g.call("sth", W_PANEL, "Set SubTabs Height", inp={"self": "@gp4.Panel", "height": "@chf.ReturnValue"})
     g.get("glf", "LeftFree"); g.n("lf", "call_self", function="Layout Fraction", inp={"index": "@glf.LeftFree"})
     g.get("gp2", "Panel"); g.call("slf", W_PANEL, "Set Left Free", inp={"self": "@gp2.Panel", "fraction": "@lf.fraction"})
     # camera: Jodi in the centre of the free area (NDC x = -(1 - fraction): third -> 2/3, half -> 1/2, quarter -> 3/4, fifth -> 4/5); none -> 0
     g.call("k1", K_MATH, "Subtract_FloatFloat", inp={"A": "1.0", "B": "@lf.fraction"}); g.call("gt0", K_MATH, "Greater_FloatFloat", inp={"A": "@lf.fraction", "B": "0.0"})
     g.call("k2", K_MATH, "SelectFloat", inp={"A": "@k1.ReturnValue", "B": "0.0", "bPickA": "@gt0.ReturnValue"})
     g.set("svs", "ViewShift", inp={"ViewShift": "@k2.ReturnValue"}); g.n("svc", "call_self", function="Set View Shift")
-    g.chain("entry", "ssm", "lf", "slf", "svs", "svc"); return fn("Apply Options", graph=g)
+    g.chain("entry", "ssm", "sth", "lf", "slf", "svs", "svc"); return fn("Apply Options", graph=g)
 
 
 def f_set_view_shift():
@@ -521,7 +570,9 @@ def f_set_view_shift():
 def f_poll_options():
     g = G()
     g.get("gp", "Panel"); g.call("gv", W_PANEL, "Get Option Values", inp={"self": "@gp.Panel"})
-    g.get("cs", "OptScroll"); g.get("cc", "OptScale"); g.get("cf", "OptFov"); g.get("cd", "OptDist"); g.get("cba", "OptBgAlpha"); g.get("cta", "OptTileAlpha")
+    g.get("cs", "OptScroll"); g.get("cc", "OptScale"); g.get("cf", "OptFov"); g.get("cd", "OptDist"); g.get("cba", "OptBgAlpha"); g.get("cta", "OptTileAlpha"); g.get("cgl", "OptGroupLen"); g.get("cch", "OptChipH")
+    g.call("ngl", K_MATH, "NearlyEqual_FloatFloat", inp={"A": "@gv.grouplen", "B": "@cgl.OptGroupLen", "ErrorTolerance": "0.0001"})
+    g.call("nch", K_MATH, "NearlyEqual_FloatFloat", inp={"A": "@gv.chiph", "B": "@cch.OptChipH", "ErrorTolerance": "0.0001"})
     g.call("ns", K_MATH, "NearlyEqual_FloatFloat", inp={"A": "@gv.scroll", "B": "@cs.OptScroll", "ErrorTolerance": "0.0001"})
     g.call("nc", K_MATH, "NearlyEqual_FloatFloat", inp={"A": "@gv.scale", "B": "@cc.OptScale", "ErrorTolerance": "0.0001"})
     g.call("nf", K_MATH, "NearlyEqual_FloatFloat", inp={"A": "@gv.fov", "B": "@cf.OptFov", "ErrorTolerance": "0.0001"})
@@ -530,14 +581,24 @@ def f_poll_options():
     g.call("nta", K_MATH, "NearlyEqual_FloatFloat", inp={"A": "@gv.tilealpha", "B": "@cta.OptTileAlpha", "ErrorTolerance": "0.0001"})
     g.call("a0", K_MATH, "BooleanAND", inp={"A": "@ns.ReturnValue", "B": "@nc.ReturnValue"}); g.call("a1", K_MATH, "BooleanAND", inp={"A": "@a0.ReturnValue", "B": "@nf.ReturnValue"})
     g.call("a2", K_MATH, "BooleanAND", inp={"A": "@a1.ReturnValue", "B": "@nd.ReturnValue"}); g.call("a3", K_MATH, "BooleanAND", inp={"A": "@a2.ReturnValue", "B": "@nba.ReturnValue"})
-    g.call("a", K_MATH, "BooleanAND", inp={"A": "@a3.ReturnValue", "B": "@nta.ReturnValue"}); g.branch("bsame", "@a.ReturnValue")
+    g.call("a4", K_MATH, "BooleanAND", inp={"A": "@a3.ReturnValue", "B": "@nta.ReturnValue"})
+    g.call("a5", K_MATH, "BooleanAND", inp={"A": "@a4.ReturnValue", "B": "@ngl.ReturnValue"})
+    g.call("a", K_MATH, "BooleanAND", inp={"A": "@a5.ReturnValue", "B": "@nch.ReturnValue"}); g.branch("bsame", "@a.ReturnValue")
     g.set("sun", "Unlimited", inp={"Unlimited": "@gv.unlimited"})
     g.get("gpn", "PanToSlot"); g.call("pne", K_MATH, "NotEqual_BoolBool", inp={"A": "@gv.pan", "B": "@gpn.PanToSlot"}); g.branch("bpn", "@pne.ReturnValue")
     g.set("spn", "PanToSlot", inp={"PanToSlot": "@gv.pan"}); g.n("upf", "call_self", function="Update Focus")
     g.get("gan", "AllowNude"); g.call("nne", K_MATH, "NotEqual_BoolBool", inp={"A": "@gv.nude", "B": "@gan.AllowNude"}); g.branch("bnn", "@nne.ReturnValue")
     g.set("san", "AllowNude", inp={"AllowNude": "@gv.nude"}); g.n("apn", "call_self", function="Apply Nude"); g.n("svn", "call_self", function="Save Settings")
     g.set("os", "OptScroll", inp={"OptScroll": "@gv.scroll"}); g.set("oc", "OptScale", inp={"OptScale": "@gv.scale"}); g.set("of", "OptFov", inp={"OptFov": "@gv.fov"}); g.set("od", "OptDist", inp={"OptDist": "@gv.dist"})
-    g.set("oba", "OptBgAlpha", inp={"OptBgAlpha": "@gv.bgalpha"}); g.set("ota", "OptTileAlpha", inp={"OptTileAlpha": "@gv.tilealpha"})
+    g.set("oba", "OptBgAlpha", inp={"OptBgAlpha": "@gv.bgalpha"}); g.set("ota", "OptTileAlpha", inp={"OptTileAlpha": "@gv.tilealpha"}); g.set("ogl", "OptGroupLen", inp={"OptGroupLen": "@gv.grouplen"}); g.set("och", "OptChipH", inp={"OptChipH": "@gv.chiph"})
+    # chip area height: min + Round(slider * span / step) * step
+    g.call("cha", K_MATH, "Multiply_FloatFloat", inp={"A": "@gv.chiph", "B": str(float(SUBTABS_MAX_H_MAX - SUBTABS_MAX_H) / CHIPH_STEP)}); g.call("chb", K_MATH, "Round", inp={"A": "@cha.ReturnValue"})
+    g.call("chc", K_MATH, "Multiply_IntInt", inp={"A": "@chb.ReturnValue", "B": str(CHIPH_STEP)}); g.call("chd", K_MATH, "Add_IntInt", inp={"A": "@chc.ReturnValue", "B": str(SUBTABS_MAX_H)})
+    g.set("sch", "ChipH", inp={"ChipH": "@chd.ReturnValue"})
+    # group name length: step = Round(slider * steps); step >= steps -> unlimited (0), else min + step
+    g.call("gla", K_MATH, "Multiply_FloatFloat", inp={"A": "@gv.grouplen", "B": str(float(GROUPLEN_STEPS))}); g.call("glb", K_MATH, "Round", inp={"A": "@gla.ReturnValue"})
+    g.call("glc", K_MATH, "GreaterEqual_IntInt", inp={"A": "@glb.ReturnValue", "B": str(GROUPLEN_STEPS)}); g.call("gld", K_MATH, "Add_IntInt", inp={"A": "@glb.ReturnValue", "B": str(GROUPLEN_MIN)})
+    g.call("gle", K_MATH, "SelectInt", inp={"A": "0", "B": "@gld.ReturnValue", "bPickA": "@glc.ReturnValue"}); g.set("sgl", "GroupLen", inp={"GroupLen": "@gle.ReturnValue"})
     # FOV FOV_MIN..FOV_MAX and distance DIST_MIN..DIST_MAX in steps of 5 %; opacities 0..100 % in steps of 5 %
     def snap(id, expr, lo, span):
         g.call(id + "a", K_MATH, "Multiply_FloatFloat", inp={"A": expr, "B": str(span)}); g.call(id + "b", K_MATH, "Add_FloatFloat", inp={"A": "@%sa.ReturnValue" % id, "B": str(lo)})
@@ -552,12 +613,12 @@ def f_poll_options():
     g.set("ssm", "ScrollMult", inp={"ScrollMult": "@m6.ReturnValue"})
     g.set("sts", "TileScale", inp={"TileScale": snap("t", "@gv.scale", TILE_MIN, TILE_MAX - TILE_MIN)})   # 5 % steps
     g.n("ap", "call_self", function="Apply Options"); g.n("ath", "call_self", function="Apply Theme")
-    tx1, tx2, tx3, tx4, tx5, tx6 = opt_texts(g)
+    tx1, tx2, tx3, tx4, tx5, tx6, tx7, tx8 = opt_texts(g)
     g.get("gp2", "Panel"); g.call("sv", W_PANEL, "Set Option Values", inp={"self": "@gp2.Panel", "scroll": "@gv.scroll", "scale": "@gv.scale", "fov": "@gv.fov", "dist": "@gv.dist",
-                                                                             "bgalpha": "@gv.bgalpha", "tilealpha": "@gv.tilealpha",
-                                                                             "scroll text": tx1, "scale text": tx2, "fov text": tx3, "dist text": tx4, "bgalpha text": tx5, "tilealpha text": tx6})
+                                                                             "bgalpha": "@gv.bgalpha", "tilealpha": "@gv.tilealpha", "grouplen": "@gv.grouplen", "chiph": "@gv.chiph",
+                                                                             "scroll text": tx1, "scale text": tx2, "fov text": tx3, "dist text": tx4, "bgalpha text": tx5, "tilealpha text": tx6, "grouplen text": tx7, "chiph text": tx8})
     g.chain("entry", "gv", "sun", "bpn", "spn", "upf", "bnn"); g.chain("bpn:else", "bnn"); g.chain("bnn", "san", "apn", "svn", "bsame"); g.chain("bnn:else", "bsame")
-    g.chain("bsame:else", "os", "oc", "of", "od", "oba", "ota", "ssm", "sts", "scf", "scd", "sba", "sta", "ap", "ath", "sv")
+    g.chain("bsame:else", "os", "oc", "of", "od", "oba", "ota", "ogl", "och", "ssm", "sts", "scf", "scd", "sba", "sta", "sgl", "sch", "ap", "ath", "sv")
     return fn("Poll Options", graph=g)
 
 
@@ -1600,7 +1661,13 @@ def f_select_subtab():
     g.get("gpg2", "Page"); g.call("isb", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg2.Page", "B": "Body"}); g.branch("bb", "@isb.ReturnValue")
     g.n("sb", "call_self", function="Select Body", inp={"name": "@entry.name"})
     g.set("hlc", "HighlightItem", inp={"HighlightItem": "None"})
-    g.chain("entry", "bo", "bl", "slg"); g.chain("bl:else", "bk", "sk"); g.chain("bk:else", "sl"); g.chain("bo:else", "bb", "sb"); g.chain("bb:else", "hlc", "s", "rt", "rli"); return fn("Select SubTab", [param("name", "name")], graph=g)
+    g.call("ism", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.name", "B": "AltUI_More"})
+    g.get("gpg3", "Page"); g.call("isc", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg3.Page", "B": "Clothes"})
+    g.call("mok", K_MATH, "BooleanAND", inp={"A": "@ism.ReturnValue", "B": "@isc.ReturnValue"}); g.branch("bm", "@mok.ReturnValue")
+    g.get("gcol", "SubTabsCollapsed"); g.call("ncol", K_MATH, "Not_PreBool", inp={"A": "@gcol.SubTabsCollapsed"}); g.set("scol", "SubTabsCollapsed", inp={"SubTabsCollapsed": "@ncol.ReturnValue"})
+    g.n("svm", "call_self", function="Save Settings"); g.n("rtm", "call_self", function="Rebuild SubTabs")
+    g.chain("entry", "bo", "bl", "slg"); g.chain("bl:else", "bk", "sk"); g.chain("bk:else", "sl"); g.chain("bo:else", "bb", "sb"); g.chain("bb:else", "bm", "scol", "svm", "rtm"); g.chain("bm:else", "hlc", "s", "rt", "rli")
+    return fn("Select SubTab", [param("name", "name")], graph=g)
 
 
 def f_select_key():
@@ -1614,8 +1681,8 @@ def f_select_key():
 def f_on_search_changed():
     g = G(); g.call("t2s", K_TXT, "Conv_TextToString", inp={"InText": "@entry.text"})
     g.get("gst", "SearchText"); g.call("neq", K_STR, "NotEqual_StrStr", inp={"A": "@t2s.ReturnValue", "B": "@gst.SearchText"}); g.branch("b", "@neq.ReturnValue")
-    g.set("s", "SearchText", inp={"SearchText": "@t2s.ReturnValue"}); g.n("rli", "call_self", function="Rebuild List"); g.set("hlc", "HighlightItem", inp={"HighlightItem": "None"})
-    g.chain("entry", "b", "hlc", "s", "rli"); return fn("On Search Changed", [param("text", "text")], graph=g)
+    g.set("s", "SearchText", inp={"SearchText": "@t2s.ReturnValue"}); g.n("rl", "call_self", function="Rebuild Left"); g.n("rli", "call_self", function="Rebuild List"); g.set("hlc", "HighlightItem", inp={"HighlightItem": "None"})
+    g.chain("entry", "b", "hlc", "s", "rl", "rli"); return fn("On Search Changed", [param("text", "text")], graph=g)
 
 
 def f_open_color():
@@ -2120,9 +2187,11 @@ def f_go_to_item():
     g.get("gp", "Panel"); g.call("pcs", W_PANEL, "Clear Search", inp={"self": "@gp.Panel"}); g.set("sst", "SearchText", inp={"SearchText": ""})
     g.n("io", "call_self", function="Is Owned", inp={"name": "@entry.name"}); g.get("gco", "CachedOnlyOwned"); g.call("no", K_MATH, "BooleanAND", inp={"A": "@gco.CachedOnlyOwned", "B": "@io.yes"})
     g.n("ifv", "call_self", function="Is Favorite", inp={"name": "@entry.name"}); g.get("gcf", "CachedOnlyFav"); g.call("nf", K_MATH, "BooleanAND", inp={"A": "@gcf.CachedOnlyFav", "B": "@ifv.yes"})
-    g.set("sco", "CachedOnlyOwned", inp={"CachedOnlyOwned": "@no.ReturnValue"}); g.set("scf", "CachedOnlyFav", inp={"CachedOnlyFav": "@nf.ReturnValue"})
-    g.get("gp2", "Panel"); g.get("gco2", "CachedOnlyOwned"); g.get("gcf2", "CachedOnlyFav")
-    g.call("sft", W_PANEL, "Set Filter Toggles", inp={"self": "@gp2.Panel", "owned": "@gco2.CachedOnlyOwned", "fav": "@gcf2.CachedOnlyFav"}); g.n("svs", "call_self", function="Save Settings")
+    g.n("gfi", "call_self", function="Find Item", inp={"name": "@entry.name"}); g.brk("gfb", S_ITEM, "@gfi.item")
+    g.get("gcv", "CachedOnlyVanilla"); g.call("nv", K_MATH, "BooleanAND", inp={"A": "@gcv.CachedOnlyVanilla", "B": "@gfb.IsVanilla"})
+    g.set("sco", "CachedOnlyOwned", inp={"CachedOnlyOwned": "@no.ReturnValue"}); g.set("scf", "CachedOnlyFav", inp={"CachedOnlyFav": "@nf.ReturnValue"}); g.set("scv", "CachedOnlyVanilla", inp={"CachedOnlyVanilla": "@nv.ReturnValue"})
+    g.get("gp2", "Panel"); g.get("gco2", "CachedOnlyOwned"); g.get("gcf2", "CachedOnlyFav"); g.get("gcv2", "CachedOnlyVanilla")
+    g.call("sft", W_PANEL, "Set Filter Toggles", inp={"self": "@gp2.Panel", "owned": "@gco2.CachedOnlyOwned", "fav": "@gcf2.CachedOnlyFav", "vanilla": "@gcv2.CachedOnlyVanilla"}); g.n("svs", "call_self", function="Save Settings")
     g.set("scs", "CurrentSlot", inp={"CurrentSlot": "@gcs.ContextSlot"})
     g.n("ih", "call_self", function="Is Item Hidden", inp={"name": "@entry.name"}); g.branch("bih", "@ih.yes"); g.set("sgh", "CurrentGroup", inp={"CurrentGroup": "Hidden"})
     g.n("grp", "call_self", function="Groups Of Slot", inp={"slot": "@gcs.ContextSlot"}); g.call("gl", K_ARR, "Array_Length", inp={"TargetArray": "@grp.groups"})
@@ -2134,7 +2203,7 @@ def f_go_to_item():
     g.set("ch", "HighlightItem", inp={"HighlightItem": "@entry.name"}); g.set("ck", "KeepHighlight", inp={"KeepHighlight": "true"})
     g.n("csp", "call_self", function="Select Page", inp={"name": "Clothes"}); g.n("csc", "call_self", function="Scroll To Highlight")
     g.chain("entry", "bH", "hh", "hk", "hsp", "hsc"); g.chain("bH:else", "bB", "bsp"); g.chain("bB:else", "bS", "lc"); g.chain("bS:else", "trow", "lc"); g.chain("lc", "lh", "lk", "lcv", "lsp", "lsc")
-    g.chain("trow:Row Not Found", "pcs"); g.chain("pcs", "sst", "sco", "scf", "sft", "svs", "scs", "bih", "sgh", "ch"); g.chain("bih:else", "grp", "bg1", "fi", "sgg", "ch"); g.chain("bg1:else", "sgn", "ch")
+    g.chain("trow:Row Not Found", "pcs"); g.chain("pcs", "sst", "gfi", "sco", "scf", "scv", "sft", "svs", "scs", "bih", "sgh", "ch"); g.chain("bih:else", "grp", "bg1", "fi", "sgg", "ch"); g.chain("bg1:else", "sgn", "ch")
     g.chain("ch", "ck", "csp", "csc")
     return fn("Go To Item", [param("name", "name")], graph=g)
 
@@ -2193,9 +2262,9 @@ def f_update_focus():
 
 
 # ---------------- Language: static panel texts, language choice ----------------
-PANEL_STRINGS = [("search", "Lbl_Search"), ("onlyowned", "Lbl_OnlyOwned"), ("onlyfav", "Lbl_OnlyFav"), ("favorites", "Lbl_Favorites"), ("all", "Lbl_All"), ("listhint", "Lbl_ListHint"),
+PANEL_STRINGS = [("search", "Lbl_Search"), ("onlyowned", "Lbl_OnlyOwned"), ("onlyfav", "Lbl_OnlyFav"), ("onlyvanilla", "Lbl_OnlyVanilla"), ("favorites", "Lbl_Favorites"), ("all", "Lbl_All"), ("listhint", "Lbl_ListHint"),
                  ("worn", "Lbl_Worn"), ("inbag", "Lbl_InBag"), ("bagempty", "Lbl_BagEmpty"), ("breast", "Lbl_Breast"), ("waist", "Lbl_Waist"),
-                 ("scroll", "Lbl_Scroll"), ("scale", "Lbl_Scale"), ("fov", "Lbl_Fov"), ("dist", "Lbl_Dist"), ("unlimited", "Lbl_Unlimited"), ("layout", "Lbl_Layout"),
+                 ("scroll", "Lbl_Scroll"), ("scale", "Lbl_Scale"), ("fov", "Lbl_Fov"), ("dist", "Lbl_Dist"), ("grouplen", "Lbl_GroupLen"), ("chiph", "Lbl_ChipH"), ("unlimited", "Lbl_Unlimited"), ("layout", "Lbl_Layout"),
                  ("language", "Lbl_Language"), ("placeholder", "Lbl_Placeholder"), ("pan", "Lbl_Pan"), ("nude", "Lbl_Nude"),
                  ("theme", "Lbl_Theme"), ("bgalpha", "Lbl_BgAlpha"), ("tilealpha", "Lbl_TileAlpha"), ("key", "Lbl_ToggleKey")]
 from gen_widgets import PANEL_TEXTS, THEME_COLS
@@ -2310,11 +2379,14 @@ def event_graph():
     g.get("tpo", "PanelOpen"); g.branch("tb0", "@tpo.PanelOpen")
     g.get("tp1", "Panel"); g.call("too", W_PANEL, "Get Only Owned", inp={"self": "@tp1.Panel"})
     g.get("tp2", "Panel"); g.call("tof", W_PANEL, "Get Only Fav", inp={"self": "@tp2.Panel"})
-    g.get("tco", "CachedOnlyOwned"); g.get("tcf", "CachedOnlyFav")
+    g.get("tp3", "Panel"); g.call("tov", W_PANEL, "Get Only Vanilla", inp={"self": "@tp3.Panel"})
+    g.get("tco", "CachedOnlyOwned"); g.get("tcf", "CachedOnlyFav"); g.get("tcv", "CachedOnlyVanilla")
     g.call("tn1", K_MATH, "NotEqual_BoolBool", inp={"A": "@too.yes", "B": "@tco.CachedOnlyOwned"})
     g.call("tn2", K_MATH, "NotEqual_BoolBool", inp={"A": "@tof.yes", "B": "@tcf.CachedOnlyFav"})
-    g.call("tor", K_MATH, "BooleanOR", inp={"A": "@tn1.ReturnValue", "B": "@tn2.ReturnValue"}); g.branch("tb1", "@tor.ReturnValue")
-    g.n("trl", "call_self", function="Rebuild List"); g.n("tsv", "call_self", function="Save Settings")   # Rebuild List refreshes the caches -> persist
+    g.call("tn3", K_MATH, "NotEqual_BoolBool", inp={"A": "@tov.yes", "B": "@tcv.CachedOnlyVanilla"})
+    g.call("tor0", K_MATH, "BooleanOR", inp={"A": "@tn1.ReturnValue", "B": "@tn2.ReturnValue"})
+    g.call("tor", K_MATH, "BooleanOR", inp={"A": "@tor0.ReturnValue", "B": "@tn3.ReturnValue"}); g.branch("tb1", "@tor.ReturnValue")
+    g.n("trlf", "call_self", function="Rebuild Left"); g.n("trl", "call_self", function="Rebuild List"); g.n("tsv", "call_self", function="Save Settings")   # Rebuild List refreshes the caches -> persist
     g.get("tco2", "ColorOpen"); g.branch("tbc", "@tco2.ColorOpen"); g.n("tap", "call_self", function="Apply Preview")
     g.get("tpg", "Page"); g.call("tib", K_MATH, "EqualEqual_NameName", inp={"A": "@tpg.Page", "B": "Body"}); g.branch("tbb", "@tib.ReturnValue"); g.n("tpb", "call_self", function="Poll Body")
     g.get("tpg2", "Page"); g.call("tio", K_MATH, "EqualEqual_NameName", inp={"A": "@tpg2.Page", "B": "Options"}); g.branch("tbo", "@tio.ReturnValue"); g.n("tpo2", "call_self", function="Poll Options")
@@ -2323,7 +2395,7 @@ def event_graph():
     g.get("tif3", "IconFrames"); g.call("tiz", K_MATH, "EqualEqual_IntInt", inp={"A": "@tif3.IconFrames", "B": "0"}); g.branch("tbz", "@tiz.ReturnValue"); g.n("tfi", "call_self", function="Finish Photo")
     g.chain("tick", "tbi", "tis", "tbz", "tfi", "tb0"); g.chain("tbz:else", "tb0"); g.chain("tbi:else", "tb0")
     g.get("tpx", "Panel"); g.call("tsc", W_PANEL, "Sync Check Size", inp={"self": "@tpx.Panel"})
-    g.chain("tb0", "tsc", "tbb"); g.chain("tbb", "tpb", "tb1"); g.chain("tbb:else", "tbo", "tpo2", "tb1"); g.chain("tbo:else", "tb1"); g.chain("tb1", "trl", "tsv"); g.chain("tb0:else", "tbc", "tap"); g.chain("tb1:else", "tbc")
+    g.chain("tb0", "tsc", "tbb"); g.chain("tbb", "tpb", "tb1"); g.chain("tbb:else", "tbo", "tpo2", "tb1"); g.chain("tbo:else", "tb1"); g.chain("tb1", "trlf", "trl", "tsv"); g.chain("tb0:else", "tbc", "tap"); g.chain("tb1:else", "tbc")
     # test entry points (editor Python)
     g.custom("tb", "Test Build"); g.n("tb_i", "call_self", function="Init Slot Groups"); g.n("tb_b", "call_self", function="Build Catalog"); g.chain("tb", "tb_i", "tb_b")
     g.custom("tk", "Test Sort Key", [param("s", "string")]); g.n("tk_k", "call_self", function="Sort Key", inp={"s": "@tk.s"})
@@ -2338,12 +2410,18 @@ def event_graph():
     g.call("ti_eq0", K_MATH, "EqualEqual_IntInt", inp={"A": "@ti_fe.Array Index", "B": "0"}); g.branch("ti_bb", "@ti_eq0.ReturnValue")
     g.set("ti_sg", "TmpName", inp={"TmpName": "@ti_b.Group"}); g.set("ti_sv", "TmpFound", inp={"TmpFound": "@ti_b.IsVanilla"})
     g.chain("ti", "ti_si", "ti_clr", "ti_cnt", "ti_n0", "ti_f0", "ti_fe"); g.chain("ti_fe", "ti_add", "ti_bb", "ti_sg", "ti_sv")
-    g.custom("tf", "Test Filter", [param("slot", "name"), param("group", "name"), param("search", "string"), param("onlyOwned", "bool"), param("onlyFav", "bool")])
-    g.n("tf_it", "call_self", function="Filtered Items", inp={"slot": "@tf.slot", "group": "@tf.group", "search": "@tf.search", "onlyOwned": "@tf.onlyOwned", "onlyFav": "@tf.onlyFav"})
+    g.custom("tf", "Test Filter", [param("slot", "name"), param("group", "name"), param("search", "string"), param("onlyOwned", "bool"), param("onlyFav", "bool"), param("onlyVanilla", "bool")])
+    g.n("tf_it", "call_self", function="Filtered Items", inp={"slot": "@tf.slot", "group": "@tf.group", "search": "@tf.search", "onlyOwned": "@tf.onlyOwned", "onlyFav": "@tf.onlyFav", "onlyVanilla": "@tf.onlyVanilla"})
     g.get("tf_gn", "TmpNames"); g.call("tf_clr", K_ARR, "Array_Clear", inp={"TargetArray": "@tf_gn.TmpNames"})
     g.foreach("tf_fe", "@tf_it.items"); g.brk("tf_b", S_ITEM, "@tf_fe.Array Element")
     g.get("tf_gn2", "TmpNames"); g.call("tf_add", K_ARR, "Array_Add", inp={"TargetArray": "@tf_gn2.TmpNames", "NewItem": "@tf_b.Name"})
     g.chain("tf", "tf_it", "tf_clr", "tf_fe"); g.chain("tf_fe", "tf_add")
+    g.custom("tfn", "Test Filtered Counts", [param("search", "string"), param("onlyOwned", "bool"), param("onlyFav", "bool"), param("onlyVanilla", "bool")])
+    g.n("tfn_c", "call_self", function="Filtered Counts", inp={"search": "@tfn.search", "onlyOwned": "@tfn.onlyOwned", "onlyFav": "@tfn.onlyFav", "onlyVanilla": "@tfn.onlyVanilla"}); g.chain("tfn", "tfn_c")
+    g.custom("tchc", "Test Chip Caption", [param("group", "name"), param("full", "bool")]); g.n("tchc_c", "call_self", function="Chip Caption", inp={"group": "@tchc.group", "full": "@tchc.full"})
+    g.set("tchc_s", "TmpText", inp={"TmpText": "@tchc_c.caption"}); g.chain("tchc", "tchc_c", "tchc_s")
+    g.custom("tssl", "Test Select Slot", [param("name", "name")]); g.n("tssl_s", "call_self", function="Select Slot", inp={"name": "@tssl.name"}); g.chain("tssl", "tssl_s")
+    g.custom("tsst", "Test Select SubTab", [param("name", "name")]); g.n("tsst_s", "call_self", function="Select SubTab", inp={"name": "@tsst.name"}); g.chain("tsst", "tsst_s")
     g.custom("tg", "Test Groups", [param("slot", "name")]); g.n("tg_g", "call_self", function="Groups Of Slot", inp={"slot": "@tg.slot"})
     g.get("tg_gn", "TmpNames"); g.call("tg_clr", K_ARR, "Array_Clear", inp={"TargetArray": "@tg_gn.TmpNames"})
     g.foreach("tg_fe", "@tg_g.groups"); g.get("tg_gn2", "TmpNames"); g.call("tg_add", K_ARR, "Array_Add", inp={"TargetArray": "@tg_gn2.TmpNames", "NewItem": "@tg_fe.Array Element"})

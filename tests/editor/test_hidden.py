@@ -4,7 +4,7 @@ from edtest_lib import *
 M = "/Game/Mod/AltUI"
 
 def filtered(mgr, slot, group):
-    mgr.call_method("Test Filter", args=(slot, group, "", False, False))
+    mgr.call_method("Test Filter", args=(slot, group, "", False, False, False))
     return [str(n) for n in mgr.get_editor_property("TmpNames")]
 
 def groups(mgr, slot):
@@ -13,7 +13,7 @@ def groups(mgr, slot):
 
 def main():
     mgr = cdo(M + "/BP_AltUIManager.BP_AltUIManager_C")
-    mgr.call_method("Test Build"); mgr.call_method("Test Strings", args=(1,))   # English strings -> captions "Base"/"Hidden"
+    mgr.call_method("Test Build"); mgr.call_method("Test Strings", args=(1,))   # English strings -> captions "No group"/"Hidden"
     mgr.set_editor_property("HiddenItems", []); mgr.set_editor_property("Favorites", []); mgr.set_editor_property("PanelOpen", False)
     expect("neck groups before", sorted(groups(mgr, "Neck")), ["Basis", "Kpop"])
     mgr.call_method("Test Toggle Hidden", args=("Zeta_Neck",))

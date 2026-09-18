@@ -275,6 +275,13 @@
      "ru": "Все",
      "es": "Todo"
     },
+    "Chip_More": {
+     "en": "...",
+     "de": "...",
+     "zh": "...",
+     "ru": "...",
+     "es": "..."
+    },
     "Chip_Standard": {
      "en": "Standard",
      "de": "Standard",
@@ -283,11 +290,11 @@
      "es": "Estándar"
     },
     "Group_Basis": {
-     "en": "Base",
-     "de": "Basis",
-     "zh": "基础",
-     "ru": "Основа",
-     "es": "Base"
+     "en": "No group",
+     "de": "Ohne Gruppe",
+     "zh": "无分组",
+     "ru": "Без группы",
+     "es": "Sin grupo"
     },
     "Group_Tops": {
      "en": "Tops",
@@ -597,6 +604,13 @@
      "ru": "только\nизбранное",
      "es": "solo\nfavoritos"
     },
+    "Lbl_OnlyVanilla": {
+     "en": "only\nvanilla",
+     "de": "nur\nVanilla",
+     "zh": "仅\n原版",
+     "ru": "только\nоригинал",
+     "es": "solo\nvanilla"
+    },
     "Lbl_Favorites": {
      "en": "Favourites",
      "de": "Favoriten",
@@ -652,6 +666,27 @@
      "zh": "腰",
      "ru": "Талия",
      "es": "Cintura"
+    },
+    "Lbl_GroupLen": {
+     "en": "Group names: max. characters",
+     "de": "Gruppennamen: max. Zeichen",
+     "zh": "分组名称：最多字符数",
+     "ru": "Названия групп: макс. символов",
+     "es": "Nombres de grupo: máx. caracteres"
+    },
+    "Lbl_ChipH": {
+     "en": "Group chip area: max. height",
+     "de": "Gruppen-Chips: max. Höhe",
+     "zh": "分组标签区域：最大高度",
+     "ru": "Область групп: макс. высота",
+     "es": "Área de grupos: altura máx."
+    },
+    "Opt_Unlimited": {
+     "en": "unlimited",
+     "de": "unbegrenzt",
+     "zh": "不限",
+     "ru": "без ограничения",
+     "es": "sin límite"
     },
     "Lbl_Scroll": {
      "en": "Scroll speed",
@@ -1323,6 +1358,22 @@
      "type": "bool"
     },
     {
+     "name": "OnlyVanilla",
+     "type": "bool"
+    },
+    {
+     "name": "SubTabsCollapsed",
+     "type": "bool"
+    },
+    {
+     "name": "GroupLen",
+     "type": "int"
+    },
+    {
+     "name": "ChipH",
+     "type": "int"
+    },
+    {
      "name": "LastSlot",
      "type": "name"
     },
@@ -1553,6 +1604,17 @@
      "container": "array"
     },
     {
+     "name": "TmpItems3",
+     "type": "struct:/Game/Mod/AltUI/S_ClothesItem",
+     "container": "array"
+    },
+    {
+     "name": "FilteredCounts",
+     "type": "name",
+     "container": "map",
+     "value_type": "int"
+    },
+    {
      "name": "TmpIdx",
      "type": "int"
     },
@@ -1640,6 +1702,30 @@
     {
      "name": "CachedOnlyFav",
      "type": "bool"
+    },
+    {
+     "name": "CachedOnlyVanilla",
+     "type": "bool"
+    },
+    {
+     "name": "SubTabsCollapsed",
+     "type": "bool"
+    },
+    {
+     "name": "GroupLen",
+     "type": "int"
+    },
+    {
+     "name": "OptGroupLen",
+     "type": "float"
+    },
+    {
+     "name": "ChipH",
+     "type": "int"
+    },
+    {
+     "name": "OptChipH",
+     "type": "float"
     },
     {
      "name": "ItemByName",
@@ -5564,6 +5650,434 @@
      }
     },
     {
+     "name": "Filtered Counts",
+     "inputs": [
+      {
+       "name": "search",
+       "type": "string"
+      },
+      {
+       "name": "onlyOwned",
+       "type": "bool"
+      },
+      {
+       "name": "onlyFav",
+       "type": "bool"
+      },
+      {
+       "name": "onlyVanilla",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gfc0",
+        "kind": "get",
+        "var": "FilteredCounts"
+       },
+       {
+        "id": "mc",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Clear",
+        "in": {
+         "TargetMap": "@gfc0.FilteredCounts"
+        }
+       },
+       {
+        "id": "it",
+        "kind": "call_self",
+        "function": "Filtered Items",
+        "in": {
+         "slot": "All",
+         "group": "None",
+         "search": "@entry.search",
+         "onlyOwned": "@entry.onlyOwned",
+         "onlyFav": "@entry.onlyFav",
+         "onlyVanilla": "@entry.onlyVanilla"
+        }
+       },
+       {
+        "id": "sti",
+        "kind": "set",
+        "var": "TmpItems3",
+        "in": {
+         "TmpItems3": "@it.items"
+        }
+       },
+       {
+        "id": "gti",
+        "kind": "get",
+        "var": "TmpItems3"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gti.TmpItems3"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "S_ClothesItem": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "gis",
+        "kind": "get",
+        "var": "ItemSlot"
+       },
+       {
+        "id": "sf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gis.ItemSlot",
+         "Key": "@b.Name"
+        }
+       },
+       {
+        "id": "gfc1",
+        "kind": "get",
+        "var": "FilteredCounts"
+       },
+       {
+        "id": "cf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gfc1.FilteredCounts",
+         "Key": "@sf.Value"
+        }
+       },
+       {
+        "id": "inc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@cf.Value",
+         "B": "1"
+        }
+       },
+       {
+        "id": "gfc2",
+        "kind": "get",
+        "var": "FilteredCounts"
+       },
+       {
+        "id": "ma",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@gfc2.FilteredCounts",
+         "Key": "@sf.Value",
+         "Value": "@inc.ReturnValue"
+        }
+       },
+       {
+        "id": "gti2",
+        "kind": "get",
+        "var": "TmpItems3"
+       },
+       {
+        "id": "len",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@gti2.TmpItems3"
+        }
+       },
+       {
+        "id": "la",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "All"
+        }
+       },
+       {
+        "id": "gfc3",
+        "kind": "get",
+        "var": "FilteredCounts"
+       },
+       {
+        "id": "maa",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@gfc3.FilteredCounts",
+         "Key": "@la.ReturnValue",
+         "Value": "@len.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "mc",
+        "it",
+        "sti",
+        "fe"
+       ],
+       [
+        "fe",
+        "ma"
+       ],
+       [
+        "fe:Completed",
+        "maa"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Chip Caption",
+     "inputs": [
+      {
+       "name": "group",
+       "type": "name"
+      },
+      {
+       "name": "full",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "caption",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gc",
+        "kind": "call_self",
+        "function": "Group Caption",
+        "in": {
+         "group": "@entry.group"
+        }
+       },
+       {
+        "id": "t2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@gc.caption"
+        }
+       },
+       {
+        "id": "len",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Len",
+        "in": {
+         "S": "@t2s.ReturnValue"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "GroupLen"
+       },
+       {
+        "id": "lim",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@gl.GroupLen",
+         "B": "0"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "GroupLen"
+       },
+       {
+        "id": "over",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@len.ReturnValue",
+         "B": "@gl2.GroupLen"
+        }
+       },
+       {
+        "id": "cut0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@lim.ReturnValue",
+         "B": "@over.ReturnValue"
+        }
+       },
+       {
+        "id": "nfull",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@entry.full"
+        }
+       },
+       {
+        "id": "cut",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@cut0.ReturnValue",
+         "B": "@nfull.ReturnValue"
+        }
+       },
+       {
+        "id": "gl3",
+        "kind": "get",
+        "var": "GroupLen"
+       },
+       {
+        "id": "h1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@gl3.GroupLen",
+         "B": "1"
+        }
+       },
+       {
+        "id": "head",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_IntInt",
+        "in": {
+         "A": "@h1.ReturnValue",
+         "B": "2"
+        }
+       },
+       {
+        "id": "gl4",
+        "kind": "get",
+        "var": "GroupLen"
+       },
+       {
+        "id": "tailn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@gl4.GroupLen",
+         "B": "@head.ReturnValue"
+        }
+       },
+       {
+        "id": "left",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Left",
+        "in": {
+         "SourceString": "@t2s.ReturnValue",
+         "Count": "@head.ReturnValue"
+        }
+       },
+       {
+        "id": "right",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Right",
+        "in": {
+         "SourceString": "@t2s.ReturnValue",
+         "Count": "@tailn.ReturnValue"
+        }
+       },
+       {
+        "id": "c1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@left.ReturnValue",
+         "B": ".."
+        }
+       },
+       {
+        "id": "c2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@c1.ReturnValue",
+         "B": "@right.ReturnValue"
+        }
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@c2.ReturnValue",
+         "B": "@t2s.ReturnValue",
+         "bPickA": "@cut.ReturnValue"
+        }
+       },
+       {
+        "id": "s2t",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@sel.ReturnValue"
+        }
+       },
+       {
+        "id": "st",
+        "kind": "set",
+        "var": "TmpText",
+        "in": {
+         "TmpText": "@s2t.ReturnValue"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "TmpText"
+       }
+      ],
+      "links": [
+       [
+        "gt.TmpText",
+        "return.caption"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "gc",
+        "st",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Item Slot",
      "inputs": [
       {
@@ -6398,6 +6912,10 @@
       {
        "name": "onlyFav",
        "type": "bool"
+      },
+      {
+       "name": "onlyVanilla",
+       "type": "bool"
       }
      ],
      "outputs": [
@@ -6689,6 +7207,25 @@
         }
        },
        {
+        "id": "nV",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@entry.onlyVanilla"
+        }
+       },
+       {
+        "id": "vOk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@nV.ReturnValue",
+         "B": "@b.IsVanilla"
+        }
+       },
+       {
         "id": "a1",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
@@ -6709,13 +7246,23 @@
         }
        },
        {
-        "id": "a3",
+        "id": "a3a",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanAND",
         "in": {
          "A": "@a2.ReturnValue",
          "B": "@hEq.ReturnValue"
+        }
+       },
+       {
+        "id": "a3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a3a.ReturnValue",
+         "B": "@vOk.ReturnValue"
         }
        },
        {
@@ -7119,6 +7666,39 @@
         }
        },
        {
+        "id": "isM",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.group",
+         "B": "AltUI_More"
+        }
+       },
+       {
+        "id": "bm",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isM.ReturnValue"
+        }
+       },
+       {
+        "id": "tm",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Chip_More"
+        }
+       },
+       {
+        "id": "s5",
+        "kind": "set",
+        "var": "TmpText",
+        "in": {
+         "TmpText": "@tm.text"
+        }
+       },
+       {
         "id": "row",
         "kind": "get_row",
         "table": "/Game/Project/Clothes/com_ClothesGroup",
@@ -7186,6 +7766,12 @@
        ],
        [
         "bh:else",
+        "bm",
+        "s5",
+        "return"
+       ],
+       [
+        "bm:else",
         "row",
         "s2",
         "return"
@@ -7752,46 +8338,15 @@
        {
         "id": "lg4",
         "kind": "get",
-        "var": "ScrollMult",
+        "var": "OnlyVanilla",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz4",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg4.ScrollMult",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv4",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz4.ReturnValue"
-        }
-       },
-       {
-        "id": "ld4",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg4.ScrollMult",
-         "B": "4.0",
-         "bPickA": "@lv4.ReturnValue"
-        }
        },
        {
         "id": "ls4",
         "kind": "set",
-        "var": "ScrollMult",
+        "var": "CachedOnlyVanilla",
         "in": {
-         "ScrollMult": "@ld4.ReturnValue"
+         "CachedOnlyVanilla": "@lg4.OnlyVanilla"
         }
        },
        {
@@ -7802,7 +8357,7 @@
        {
         "id": "lg5",
         "kind": "get",
-        "var": "TileScale",
+        "var": "ScrollMult",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -7811,7 +8366,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg5.TileScale",
+         "A": "@lg5.ScrollMult",
          "B": "0.0"
         }
        },
@@ -7831,17 +8386,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg5.TileScale",
-         "B": "1.0",
+         "A": "@lg5.ScrollMult",
+         "B": "4.0",
          "bPickA": "@lv5.ReturnValue"
         }
        },
        {
         "id": "ls5",
         "kind": "set",
-        "var": "TileScale",
+        "var": "ScrollMult",
         "in": {
-         "TileScale": "@ld5.ReturnValue"
+         "ScrollMult": "@ld5.ReturnValue"
         }
        },
        {
@@ -7852,15 +8407,46 @@
        {
         "id": "lg6",
         "kind": "get",
-        "var": "Unlimited",
+        "var": "TileScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg6.TileScale",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz6.ReturnValue"
+        }
+       },
+       {
+        "id": "ld6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg6.TileScale",
+         "B": "1.0",
+         "bPickA": "@lv6.ReturnValue"
+        }
        },
        {
         "id": "ls6",
         "kind": "set",
-        "var": "Unlimited",
+        "var": "TileScale",
         "in": {
-         "Unlimited": "@lg6.Unlimited"
+         "TileScale": "@ld6.ReturnValue"
         }
        },
        {
@@ -7871,15 +8457,15 @@
        {
         "id": "lg7",
         "kind": "get",
-        "var": "LeftFree",
+        "var": "Unlimited",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls7",
         "kind": "set",
-        "var": "LeftFree",
+        "var": "Unlimited",
         "in": {
-         "LeftFree": "@lg7.LeftFree"
+         "Unlimited": "@lg7.Unlimited"
         }
        },
        {
@@ -7890,46 +8476,15 @@
        {
         "id": "lg8",
         "kind": "get",
-        "var": "CamFov",
+        "var": "LeftFree",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz8",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg8.CamFov",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv8",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz8.ReturnValue"
-        }
-       },
-       {
-        "id": "ld8",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg8.CamFov",
-         "B": "0.8",
-         "bPickA": "@lv8.ReturnValue"
-        }
        },
        {
         "id": "ls8",
         "kind": "set",
-        "var": "CamFov",
+        "var": "LeftFree",
         "in": {
-         "CamFov": "@ld8.ReturnValue"
+         "LeftFree": "@lg8.LeftFree"
         }
        },
        {
@@ -7940,46 +8495,15 @@
        {
         "id": "lg9",
         "kind": "get",
-        "var": "CamDist",
+        "var": "SubTabsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz9",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg9.CamDist",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv9",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz9.ReturnValue"
-        }
-       },
-       {
-        "id": "ld9",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg9.CamDist",
-         "B": "1.0",
-         "bPickA": "@lv9.ReturnValue"
-        }
        },
        {
         "id": "ls9",
         "kind": "set",
-        "var": "CamDist",
+        "var": "SubTabsCollapsed",
         "in": {
-         "CamDist": "@ld9.ReturnValue"
+         "SubTabsCollapsed": "@lg9.SubTabsCollapsed"
         }
        },
        {
@@ -7990,15 +8514,15 @@
        {
         "id": "lg10",
         "kind": "get",
-        "var": "BodyVariant",
+        "var": "GroupLen",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls10",
         "kind": "set",
-        "var": "BodyVariant",
+        "var": "GroupLen",
         "in": {
-         "BodyVariant": "@lg10.BodyVariant"
+         "GroupLen": "@lg10.GroupLen"
         }
        },
        {
@@ -8009,15 +8533,15 @@
        {
         "id": "lg11",
         "kind": "get",
-        "var": "LangChoice",
+        "var": "ChipH",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls11",
         "kind": "set",
-        "var": "LangChoice",
+        "var": "ChipH",
         "in": {
-         "LangChoice": "@lg11.LangChoice"
+         "ChipH": "@lg11.ChipH"
         }
        },
        {
@@ -8028,15 +8552,46 @@
        {
         "id": "lg12",
         "kind": "get",
-        "var": "PanToSlot",
+        "var": "CamFov",
         "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg12.CamFov",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz12.ReturnValue"
+        }
+       },
+       {
+        "id": "ld12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg12.CamFov",
+         "B": "0.8",
+         "bPickA": "@lv12.ReturnValue"
+        }
        },
        {
         "id": "ls12",
         "kind": "set",
-        "var": "PanToSlot",
+        "var": "CamFov",
         "in": {
-         "PanToSlot": "@lg12.PanToSlot"
+         "CamFov": "@ld12.ReturnValue"
         }
        },
        {
@@ -8047,15 +8602,46 @@
        {
         "id": "lg13",
         "kind": "get",
-        "var": "AllowNude",
+        "var": "CamDist",
         "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg13.CamDist",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz13.ReturnValue"
+        }
+       },
+       {
+        "id": "ld13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg13.CamDist",
+         "B": "1.0",
+         "bPickA": "@lv13.ReturnValue"
+        }
        },
        {
         "id": "ls13",
         "kind": "set",
-        "var": "AllowNude",
+        "var": "CamDist",
         "in": {
-         "AllowNude": "@lg13.AllowNude"
+         "CamDist": "@ld13.ReturnValue"
         }
        },
        {
@@ -8066,32 +8652,108 @@
        {
         "id": "lg14",
         "kind": "get",
-        "var": "ToggleKey",
+        "var": "BodyVariant",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls14",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "BodyVariant",
         "in": {
-         "ToggleKey": "@lg14.ToggleKey"
+         "BodyVariant": "@lg14.BodyVariant"
         }
        },
        {
-        "id": "ln14",
+        "id": "lg15_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg15",
+        "kind": "get",
+        "var": "LangChoice",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls15",
+        "kind": "set",
+        "var": "LangChoice",
+        "in": {
+         "LangChoice": "@lg15.LangChoice"
+        }
+       },
+       {
+        "id": "lg16_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg16",
+        "kind": "get",
+        "var": "PanToSlot",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls16",
+        "kind": "set",
+        "var": "PanToSlot",
+        "in": {
+         "PanToSlot": "@lg16.PanToSlot"
+        }
+       },
+       {
+        "id": "lg17_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg17",
+        "kind": "get",
+        "var": "AllowNude",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls17",
+        "kind": "set",
+        "var": "AllowNude",
+        "in": {
+         "AllowNude": "@lg17.AllowNude"
+        }
+       },
+       {
+        "id": "lg18_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg18",
+        "kind": "get",
+        "var": "ToggleKey",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls18",
+        "kind": "set",
+        "var": "ToggleKey",
+        "in": {
+         "ToggleKey": "@lg18.ToggleKey"
+        }
+       },
+       {
+        "id": "ln18",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg14.ToggleKey",
+         "A": "@lg18.ToggleKey",
          "B": "None"
         }
        },
        {
-        "id": "lb14",
+        "id": "lb18",
         "kind": "branch",
         "in": {
-         "Condition": "@ln14.ReturnValue"
+         "Condition": "@ln18.ReturnValue"
         }
        },
        {
@@ -8113,82 +8775,6 @@
         }
        },
        {
-        "id": "lg15_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg15",
-        "kind": "get",
-        "var": "ThemeBg",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls15",
-        "kind": "set",
-        "var": "ThemeBg",
-        "in": {
-         "ThemeBg": "@lg15.ThemeBg"
-        }
-       },
-       {
-        "id": "lg16_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg16",
-        "kind": "get",
-        "var": "ThemeAccent",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls16",
-        "kind": "set",
-        "var": "ThemeAccent",
-        "in": {
-         "ThemeAccent": "@lg16.ThemeAccent"
-        }
-       },
-       {
-        "id": "lg17_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg17",
-        "kind": "get",
-        "var": "ThemeFill",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls17",
-        "kind": "set",
-        "var": "ThemeFill",
-        "in": {
-         "ThemeFill": "@lg17.ThemeFill"
-        }
-       },
-       {
-        "id": "lg18_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg18",
-        "kind": "get",
-        "var": "ThemeFrame",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls18",
-        "kind": "set",
-        "var": "ThemeFrame",
-        "in": {
-         "ThemeFrame": "@lg18.ThemeFrame"
-        }
-       },
-       {
         "id": "lg19_s",
         "kind": "get",
         "var": "Settings"
@@ -8196,15 +8782,15 @@
        {
         "id": "lg19",
         "kind": "get",
-        "var": "ThemeWorn",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls19",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeBg",
         "in": {
-         "ThemeWorn": "@lg19.ThemeWorn"
+         "ThemeBg": "@lg19.ThemeBg"
         }
        },
        {
@@ -8215,15 +8801,15 @@
        {
         "id": "lg20",
         "kind": "get",
-        "var": "ThemeRow",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls20",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeAccent",
         "in": {
-         "ThemeRow": "@lg20.ThemeRow"
+         "ThemeAccent": "@lg20.ThemeAccent"
         }
        },
        {
@@ -8234,15 +8820,15 @@
        {
         "id": "lg21",
         "kind": "get",
-        "var": "ThemeText",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls21",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeFill",
         "in": {
-         "ThemeText": "@lg21.ThemeText"
+         "ThemeFill": "@lg21.ThemeFill"
         }
        },
        {
@@ -8253,15 +8839,15 @@
        {
         "id": "lg22",
         "kind": "get",
-        "var": "ThemeHead",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls22",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeFrame",
         "in": {
-         "ThemeHead": "@lg22.ThemeHead"
+         "ThemeFrame": "@lg22.ThemeFrame"
         }
        },
        {
@@ -8272,15 +8858,15 @@
        {
         "id": "lg23",
         "kind": "get",
-        "var": "ThemeLink",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls23",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeWorn",
         "in": {
-         "ThemeLink": "@lg23.ThemeLink"
+         "ThemeWorn": "@lg23.ThemeWorn"
         }
        },
        {
@@ -8291,15 +8877,15 @@
        {
         "id": "lg24",
         "kind": "get",
-        "var": "ThemeLine",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls24",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeRow",
         "in": {
-         "ThemeLine": "@lg24.ThemeLine"
+         "ThemeRow": "@lg24.ThemeRow"
         }
        },
        {
@@ -8310,46 +8896,15 @@
        {
         "id": "lg25",
         "kind": "get",
-        "var": "BgAlpha",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz25",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg25.BgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv25",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz25.ReturnValue"
-        }
-       },
-       {
-        "id": "ld25",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg25.BgAlpha",
-         "B": "0.88",
-         "bPickA": "@lv25.ReturnValue"
-        }
        },
        {
         "id": "ls25",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeText",
         "in": {
-         "BgAlpha": "@ld25.ReturnValue"
+         "ThemeText": "@lg25.ThemeText"
         }
        },
        {
@@ -8360,46 +8915,153 @@
        {
         "id": "lg26",
         "kind": "get",
-        "var": "TileAlpha",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "lz26",
+        "id": "ls26",
+        "kind": "set",
+        "var": "ThemeHead",
+        "in": {
+         "ThemeHead": "@lg26.ThemeHead"
+        }
+       },
+       {
+        "id": "lg27_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg27",
+        "kind": "get",
+        "var": "ThemeLink",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls27",
+        "kind": "set",
+        "var": "ThemeLink",
+        "in": {
+         "ThemeLink": "@lg27.ThemeLink"
+        }
+       },
+       {
+        "id": "lg28_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg28",
+        "kind": "get",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls28",
+        "kind": "set",
+        "var": "ThemeLine",
+        "in": {
+         "ThemeLine": "@lg28.ThemeLine"
+        }
+       },
+       {
+        "id": "lg29_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg29",
+        "kind": "get",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz29",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg26.TileAlpha",
+         "A": "@lg29.BgAlpha",
          "B": "0.0"
         }
        },
        {
-        "id": "lv26",
+        "id": "lv29",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@ver.ReturnValue",
-         "B": "@lz26.ReturnValue"
+         "B": "@lz29.ReturnValue"
         }
        },
        {
-        "id": "ld26",
+        "id": "ld29",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg26.TileAlpha",
-         "B": "1.0",
-         "bPickA": "@lv26.ReturnValue"
+         "A": "@lg29.BgAlpha",
+         "B": "0.88",
+         "bPickA": "@lv29.ReturnValue"
         }
        },
        {
-        "id": "ls26",
+        "id": "ls29",
+        "kind": "set",
+        "var": "BgAlpha",
+        "in": {
+         "BgAlpha": "@ld29.ReturnValue"
+        }
+       },
+       {
+        "id": "lg30_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg30",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz30",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg30.TileAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv30",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz30.ReturnValue"
+        }
+       },
+       {
+        "id": "ld30",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg30.TileAlpha",
+         "B": "1.0",
+         "bPickA": "@lv30.ReturnValue"
+        }
+       },
+       {
+        "id": "ls30",
         "kind": "set",
         "var": "TileAlpha",
         "in": {
-         "TileAlpha": "@ld26.ReturnValue"
+         "TileAlpha": "@ld30.ReturnValue"
         }
        },
        {
@@ -8515,10 +9177,6 @@
         "lg14.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg15_s.Settings",
         "lg15.self"
        ],
@@ -8533,6 +9191,10 @@
        [
         "lg18_s.Settings",
         "lg18.self"
+       ],
+       [
+        "gth_s.Settings",
+        "gth.self"
        ],
        [
         "lg19_s.Settings",
@@ -8567,6 +9229,22 @@
         "lg26.self"
        ],
        [
+        "lg27_s.Settings",
+        "lg27.self"
+       ],
+       [
+        "lg28_s.Settings",
+        "lg28.self"
+       ],
+       [
+        "lg29_s.Settings",
+        "lg29.self"
+       ],
+       [
+        "lg30_s.Settings",
+        "lg30.self"
+       ],
+       [
         "gls.Settings",
         "gl.self"
        ]
@@ -8588,8 +9266,12 @@
         "ls11",
         "ls12",
         "ls13",
-        "lb14",
-        "ls14"
+        "ls14",
+        "ls15",
+        "ls16",
+        "ls17",
+        "lb18",
+        "ls18"
        ],
        [
         "entry",
@@ -8610,19 +9292,15 @@
         "cr"
        ],
        [
-        "ls14",
+        "ls18",
         "bth"
        ],
        [
-        "lb14:else",
+        "lb18:else",
         "bth"
        ],
        [
         "bth",
-        "ls15",
-        "ls16",
-        "ls17",
-        "ls18",
         "ls19",
         "ls20",
         "ls21",
@@ -8631,6 +9309,10 @@
         "ls24",
         "ls25",
         "ls26",
+        "ls27",
+        "ls28",
+        "ls29",
+        "ls30",
         "ath"
        ],
        [
@@ -8788,16 +9470,16 @@
        {
         "id": "g4",
         "kind": "get",
-        "var": "ScrollMult"
+        "var": "CachedOnlyVanilla"
        },
        {
         "id": "w4",
         "kind": "set",
-        "var": "ScrollMult",
+        "var": "OnlyVanilla",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs4.Settings",
-         "ScrollMult": "@g4.ScrollMult"
+         "OnlyVanilla": "@g4.CachedOnlyVanilla"
         }
        },
        {
@@ -8808,16 +9490,16 @@
        {
         "id": "g5",
         "kind": "get",
-        "var": "TileScale"
+        "var": "ScrollMult"
        },
        {
         "id": "w5",
         "kind": "set",
-        "var": "TileScale",
+        "var": "ScrollMult",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs5.Settings",
-         "TileScale": "@g5.TileScale"
+         "ScrollMult": "@g5.ScrollMult"
         }
        },
        {
@@ -8828,16 +9510,16 @@
        {
         "id": "g6",
         "kind": "get",
-        "var": "Unlimited"
+        "var": "TileScale"
        },
        {
         "id": "w6",
         "kind": "set",
-        "var": "Unlimited",
+        "var": "TileScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs6.Settings",
-         "Unlimited": "@g6.Unlimited"
+         "TileScale": "@g6.TileScale"
         }
        },
        {
@@ -8848,16 +9530,16 @@
        {
         "id": "g7",
         "kind": "get",
-        "var": "LeftFree"
+        "var": "Unlimited"
        },
        {
         "id": "w7",
         "kind": "set",
-        "var": "LeftFree",
+        "var": "Unlimited",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs7.Settings",
-         "LeftFree": "@g7.LeftFree"
+         "Unlimited": "@g7.Unlimited"
         }
        },
        {
@@ -8868,16 +9550,16 @@
        {
         "id": "g8",
         "kind": "get",
-        "var": "CamFov"
+        "var": "LeftFree"
        },
        {
         "id": "w8",
         "kind": "set",
-        "var": "CamFov",
+        "var": "LeftFree",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs8.Settings",
-         "CamFov": "@g8.CamFov"
+         "LeftFree": "@g8.LeftFree"
         }
        },
        {
@@ -8888,16 +9570,16 @@
        {
         "id": "g9",
         "kind": "get",
-        "var": "CamDist"
+        "var": "SubTabsCollapsed"
        },
        {
         "id": "w9",
         "kind": "set",
-        "var": "CamDist",
+        "var": "SubTabsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs9.Settings",
-         "CamDist": "@g9.CamDist"
+         "SubTabsCollapsed": "@g9.SubTabsCollapsed"
         }
        },
        {
@@ -8908,16 +9590,16 @@
        {
         "id": "g10",
         "kind": "get",
-        "var": "BodyVariant"
+        "var": "GroupLen"
        },
        {
         "id": "w10",
         "kind": "set",
-        "var": "BodyVariant",
+        "var": "GroupLen",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs10.Settings",
-         "BodyVariant": "@g10.BodyVariant"
+         "GroupLen": "@g10.GroupLen"
         }
        },
        {
@@ -8928,16 +9610,16 @@
        {
         "id": "g11",
         "kind": "get",
-        "var": "LangChoice"
+        "var": "ChipH"
        },
        {
         "id": "w11",
         "kind": "set",
-        "var": "LangChoice",
+        "var": "ChipH",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs11.Settings",
-         "LangChoice": "@g11.LangChoice"
+         "ChipH": "@g11.ChipH"
         }
        },
        {
@@ -8948,16 +9630,16 @@
        {
         "id": "g12",
         "kind": "get",
-        "var": "PanToSlot"
+        "var": "CamFov"
        },
        {
         "id": "w12",
         "kind": "set",
-        "var": "PanToSlot",
+        "var": "CamFov",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs12.Settings",
-         "PanToSlot": "@g12.PanToSlot"
+         "CamFov": "@g12.CamFov"
         }
        },
        {
@@ -8968,16 +9650,16 @@
        {
         "id": "g13",
         "kind": "get",
-        "var": "AllowNude"
+        "var": "CamDist"
        },
        {
         "id": "w13",
         "kind": "set",
-        "var": "AllowNude",
+        "var": "CamDist",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs13.Settings",
-         "AllowNude": "@g13.AllowNude"
+         "CamDist": "@g13.CamDist"
         }
        },
        {
@@ -8988,16 +9670,16 @@
        {
         "id": "g14",
         "kind": "get",
-        "var": "ToggleKey"
+        "var": "BodyVariant"
        },
        {
         "id": "w14",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "BodyVariant",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs14.Settings",
-         "ToggleKey": "@g14.ToggleKey"
+         "BodyVariant": "@g14.BodyVariant"
         }
        },
        {
@@ -9008,16 +9690,16 @@
        {
         "id": "g15",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "LangChoice"
        },
        {
         "id": "w15",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "LangChoice",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs15.Settings",
-         "ThemeBg": "@g15.ThemeBg"
+         "LangChoice": "@g15.LangChoice"
         }
        },
        {
@@ -9028,16 +9710,16 @@
        {
         "id": "g16",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "PanToSlot"
        },
        {
         "id": "w16",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "PanToSlot",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs16.Settings",
-         "ThemeAccent": "@g16.ThemeAccent"
+         "PanToSlot": "@g16.PanToSlot"
         }
        },
        {
@@ -9048,16 +9730,16 @@
        {
         "id": "g17",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "AllowNude"
        },
        {
         "id": "w17",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "AllowNude",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs17.Settings",
-         "ThemeFill": "@g17.ThemeFill"
+         "AllowNude": "@g17.AllowNude"
         }
        },
        {
@@ -9068,16 +9750,16 @@
        {
         "id": "g18",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "ToggleKey"
        },
        {
         "id": "w18",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs18.Settings",
-         "ThemeFrame": "@g18.ThemeFrame"
+         "ToggleKey": "@g18.ToggleKey"
         }
        },
        {
@@ -9088,16 +9770,16 @@
        {
         "id": "g19",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "ThemeBg"
        },
        {
         "id": "w19",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs19.Settings",
-         "ThemeWorn": "@g19.ThemeWorn"
+         "ThemeBg": "@g19.ThemeBg"
         }
        },
        {
@@ -9108,16 +9790,16 @@
        {
         "id": "g20",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "ThemeAccent"
        },
        {
         "id": "w20",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs20.Settings",
-         "ThemeRow": "@g20.ThemeRow"
+         "ThemeAccent": "@g20.ThemeAccent"
         }
        },
        {
@@ -9128,16 +9810,16 @@
        {
         "id": "g21",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "ThemeFill"
        },
        {
         "id": "w21",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs21.Settings",
-         "ThemeText": "@g21.ThemeText"
+         "ThemeFill": "@g21.ThemeFill"
         }
        },
        {
@@ -9148,16 +9830,16 @@
        {
         "id": "g22",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "ThemeFrame"
        },
        {
         "id": "w22",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs22.Settings",
-         "ThemeHead": "@g22.ThemeHead"
+         "ThemeFrame": "@g22.ThemeFrame"
         }
        },
        {
@@ -9168,16 +9850,16 @@
        {
         "id": "g23",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "ThemeWorn"
        },
        {
         "id": "w23",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs23.Settings",
-         "ThemeLink": "@g23.ThemeLink"
+         "ThemeWorn": "@g23.ThemeWorn"
         }
        },
        {
@@ -9188,16 +9870,16 @@
        {
         "id": "g24",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "ThemeRow"
        },
        {
         "id": "w24",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs24.Settings",
-         "ThemeLine": "@g24.ThemeLine"
+         "ThemeRow": "@g24.ThemeRow"
         }
        },
        {
@@ -9208,16 +9890,16 @@
        {
         "id": "g25",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "ThemeText"
        },
        {
         "id": "w25",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs25.Settings",
-         "BgAlpha": "@g25.BgAlpha"
+         "ThemeText": "@g25.ThemeText"
         }
        },
        {
@@ -9228,16 +9910,96 @@
        {
         "id": "g26",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "ThemeHead"
        },
        {
         "id": "w26",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs26.Settings",
-         "TileAlpha": "@g26.TileAlpha"
+         "ThemeHead": "@g26.ThemeHead"
+        }
+       },
+       {
+        "id": "gs27",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g27",
+        "kind": "get",
+        "var": "ThemeLink"
+       },
+       {
+        "id": "w27",
+        "kind": "set",
+        "var": "ThemeLink",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs27.Settings",
+         "ThemeLink": "@g27.ThemeLink"
+        }
+       },
+       {
+        "id": "gs28",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g28",
+        "kind": "get",
+        "var": "ThemeLine"
+       },
+       {
+        "id": "w28",
+        "kind": "set",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs28.Settings",
+         "ThemeLine": "@g28.ThemeLine"
+        }
+       },
+       {
+        "id": "gs29",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g29",
+        "kind": "get",
+        "var": "BgAlpha"
+       },
+       {
+        "id": "w29",
+        "kind": "set",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs29.Settings",
+         "BgAlpha": "@g29.BgAlpha"
+        }
+       },
+       {
+        "id": "gs30",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g30",
+        "kind": "get",
+        "var": "TileAlpha"
+       },
+       {
+        "id": "w30",
+        "kind": "set",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs30.Settings",
+         "TileAlpha": "@g30.TileAlpha"
         }
        },
        {
@@ -9339,6 +10101,10 @@
         "w24",
         "w25",
         "w26",
+        "w27",
+        "w28",
+        "w29",
+        "w30",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",

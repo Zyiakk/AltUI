@@ -855,6 +855,11 @@
         "var": "CachedOnlyFav"
        },
        {
+        "id": "gcv",
+        "kind": "get",
+        "var": "CachedOnlyVanilla"
+       },
+       {
         "id": "sft",
         "kind": "call",
         "class": "/Game/Mod/AltUI/W_AltUI",
@@ -862,7 +867,8 @@
         "in": {
          "self": "@gp9.Panel",
          "owned": "@gco.CachedOnlyOwned",
-         "fav": "@gcf.CachedOnlyFav"
+         "fav": "@gcf.CachedOnlyFav",
+         "vanilla": "@gcv.CachedOnlyVanilla"
         }
        },
        {
@@ -1577,6 +1583,125 @@
         }
        },
        {
+        "id": "gpo",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "oo",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Get Only Owned",
+        "in": {
+         "self": "@gpo.Panel"
+        }
+       },
+       {
+        "id": "gpf",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "of",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Get Only Fav",
+        "in": {
+         "self": "@gpf.Panel"
+        }
+       },
+       {
+        "id": "gpv",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "ov",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Get Only Vanilla",
+        "in": {
+         "self": "@gpv.Panel"
+        }
+       },
+       {
+        "id": "gst",
+        "kind": "get",
+        "var": "SearchText"
+       },
+       {
+        "id": "sne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "IsEmpty",
+        "in": {
+         "InString": "@gst.SearchText"
+        }
+       },
+       {
+        "id": "sact",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@sne.ReturnValue"
+        }
+       },
+       {
+        "id": "fa1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@oo.yes",
+         "B": "@of.yes"
+        }
+       },
+       {
+        "id": "fa2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@fa1.ReturnValue",
+         "B": "@ov.yes"
+        }
+       },
+       {
+        "id": "fact",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@fa2.ReturnValue",
+         "B": "@sact.ReturnValue"
+        }
+       },
+       {
+        "id": "sfa",
+        "kind": "set",
+        "var": "TmpBool",
+        "in": {
+         "TmpBool": "@fact.ReturnValue"
+        }
+       },
+       {
+        "id": "gst2",
+        "kind": "get",
+        "var": "SearchText"
+       },
+       {
+        "id": "fc",
+        "kind": "call_self",
+        "function": "Filtered Counts",
+        "in": {
+         "search": "@gst2.SearchText",
+         "onlyOwned": "@oo.yes",
+         "onlyFav": "@of.yes",
+         "onlyVanilla": "@ov.yes"
+        }
+       },
+       {
         "id": "sg0",
         "kind": "set",
         "var": "TmpGroup",
@@ -1836,6 +1961,37 @@
         }
        },
        {
+        "id": "gfc",
+        "kind": "get",
+        "var": "FilteredCounts"
+       },
+       {
+        "id": "fcf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gfc.FilteredCounts",
+         "Key": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "gfa",
+        "kind": "get",
+        "var": "TmpBool"
+       },
+       {
+        "id": "fsel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "@fcf.Value",
+         "B": "-1",
+         "bPickA": "@gfa.TmpBool"
+        }
+       },
+       {
         "id": "tt_s",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -1883,7 +2039,8 @@
          "count": "@cnt.n",
          "worn icon": "@bi.Icon",
          "selected": "@sel.ReturnValue",
-         "has items": "@has.ReturnValue"
+         "has items": "@has.ReturnValue",
+         "filtered": "@fsel.ReturnValue"
         }
        },
        {
@@ -1963,6 +2120,46 @@
         }
        },
        {
+        "id": "gfca",
+        "kind": "get",
+        "var": "FilteredCounts"
+       },
+       {
+        "id": "lfa",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "All"
+        }
+       },
+       {
+        "id": "fcfa",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gfca.FilteredCounts",
+         "Key": "@lfa.ReturnValue"
+        }
+       },
+       {
+        "id": "gfaa",
+        "kind": "get",
+        "var": "TmpBool"
+       },
+       {
+        "id": "fsela",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "@fcfa.Value",
+         "B": "-1",
+         "bPickA": "@gfaa.TmpBool"
+        }
+       },
+       {
         "id": "at0",
         "kind": "call_self",
         "function": "T",
@@ -1981,7 +2178,8 @@
          "caption": "@at0.text",
          "count": "@acnt.n",
          "selected": "@asel.ReturnValue",
-         "has items": "true"
+         "has items": "true",
+         "filtered": "@fsela.ReturnValue"
         }
        },
        {
@@ -2005,6 +2203,8 @@
        [
         "entry",
         "cl",
+        "sfa",
+        "fc",
         "sg0",
         "ca_cr",
         "sma",
@@ -2098,6 +2298,20 @@
         }
        },
        {
+        "id": "gpv",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "ov",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Get Only Vanilla",
+        "in": {
+         "self": "@gpv.Panel"
+        }
+       },
+       {
         "id": "co",
         "kind": "set",
         "var": "CachedOnlyOwned",
@@ -2111,6 +2325,14 @@
         "var": "CachedOnlyFav",
         "in": {
          "CachedOnlyFav": "@of.yes"
+        }
+       },
+       {
+        "id": "cv",
+        "kind": "set",
+        "var": "CachedOnlyVanilla",
+        "in": {
+         "CachedOnlyVanilla": "@ov.yes"
         }
        },
        {
@@ -2145,7 +2367,8 @@
          "group": "@gcg.CurrentGroup",
          "search": "@gst.SearchText",
          "onlyOwned": "@oo.yes",
-         "onlyFav": "@of.yes"
+         "onlyFav": "@of.yes",
+         "onlyVanilla": "@ov.yes"
         }
        },
        {
@@ -2697,6 +2920,7 @@
         "clf",
         "co",
         "cf",
+        "cv",
         "nf",
         "ci0",
         "it",
@@ -2895,10 +3119,119 @@
         }
        },
        {
+        "id": "cm_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "cm_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_SubTab",
+         "OwningPlayer": "@cm_pc.PC"
+        }
+       },
+       {
+        "id": "cm",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_SubTab",
+        "pure": true,
+        "in": {
+         "Object": "@cm_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "smm_me",
+        "kind": "self"
+       },
+       {
+        "id": "smm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_SubTab",
+        "in": {
+         "self": "@cm.AsW_SubTab",
+         "Manager": "@smm_me.self"
+        }
+       },
+       {
+        "id": "gcol",
+        "kind": "get",
+        "var": "SubTabsCollapsed"
+       },
+       {
+        "id": "tm",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Chip_More"
+        }
+       },
+       {
+        "id": "im",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_SubTab",
+        "function": "Init",
+        "in": {
+         "self": "@cm.AsW_SubTab",
+         "group": "AltUI_More",
+         "caption": "@tm.text",
+         "selected": "@gcol.SubTabsCollapsed"
+        }
+       },
+       {
+        "id": "gpm",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "am",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add SubTab",
+        "in": {
+         "self": "@gpm.Panel",
+         "widget": "@cm.AsW_SubTab"
+        }
+       },
+       {
         "id": "fe",
         "kind": "foreach",
         "in": {
          "Array": "@gr.groups"
+        }
+       },
+       {
+        "id": "gcol2",
+        "kind": "get",
+        "var": "SubTabsCollapsed"
+       },
+       {
+        "id": "ncol",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@gcol2.SubTabsCollapsed"
+        }
+       },
+       {
+        "id": "show",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ncol.ReturnValue",
+         "B": "@selG.ReturnValue"
+        }
+       },
+       {
+        "id": "bs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@show.ReturnValue"
         }
        },
        {
@@ -2940,11 +3273,27 @@
         }
        },
        {
+        "id": "gcol3",
+        "kind": "get",
+        "var": "SubTabsCollapsed"
+       },
+       {
+        "id": "fullc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gcol3.SubTabsCollapsed",
+         "B": "@selG.ReturnValue"
+        }
+       },
+       {
         "id": "cap",
         "kind": "call_self",
-        "function": "Group Caption",
+        "function": "Chip Caption",
         "in": {
-         "group": "@fe.Array Element"
+         "group": "@fe.Array Element",
+         "full": "@fullc.ReturnValue"
         }
        },
        {
@@ -3001,10 +3350,15 @@
         "sma",
         "ia",
         "aa",
+        "cm_cr",
+        "smm",
+        "im",
+        "am",
         "fe"
        ],
        [
         "fe",
+        "bs",
         "cs_cr",
         "sms",
         "cap",
@@ -3038,6 +3392,36 @@
         "var": "CurrentGroup",
         "in": {
          "CurrentGroup": "None"
+        }
+       },
+       {
+        "id": "gr",
+        "kind": "call_self",
+        "function": "Groups Of Slot",
+        "in": {
+         "slot": "@entry.name"
+        }
+       },
+       {
+        "id": "gcg",
+        "kind": "get",
+        "var": "CurrentGroup"
+       },
+       {
+        "id": "has",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@gr.groups",
+         "ItemToFind": "@gcg.CurrentGroup"
+        }
+       },
+       {
+        "id": "bk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@has.ReturnValue"
         }
        },
        {
@@ -3110,11 +3494,17 @@
         "bpl:else",
         "hlc",
         "s",
-        "sg",
+        "gr",
+        "bk",
         "rl",
         "rt",
         "rli",
         "uf"
+       ],
+       [
+        "bk:else",
+        "sg",
+        "rl"
        ]
       ]
      }
@@ -5929,6 +6319,80 @@
         "in": {
          "HighlightItem": "None"
         }
+       },
+       {
+        "id": "ism",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "AltUI_More"
+        }
+       },
+       {
+        "id": "gpg3",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "isc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpg3.Page",
+         "B": "Clothes"
+        }
+       },
+       {
+        "id": "mok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ism.ReturnValue",
+         "B": "@isc.ReturnValue"
+        }
+       },
+       {
+        "id": "bm",
+        "kind": "branch",
+        "in": {
+         "Condition": "@mok.ReturnValue"
+        }
+       },
+       {
+        "id": "gcol",
+        "kind": "get",
+        "var": "SubTabsCollapsed"
+       },
+       {
+        "id": "ncol",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@gcol.SubTabsCollapsed"
+        }
+       },
+       {
+        "id": "scol",
+        "kind": "set",
+        "var": "SubTabsCollapsed",
+        "in": {
+         "SubTabsCollapsed": "@ncol.ReturnValue"
+        }
+       },
+       {
+        "id": "svm",
+        "kind": "call_self",
+        "function": "Save Settings"
+       },
+       {
+        "id": "rtm",
+        "kind": "call_self",
+        "function": "Rebuild SubTabs"
        }
       ],
       "links": [],
@@ -5955,6 +6419,13 @@
        ],
        [
         "bb:else",
+        "bm",
+        "scol",
+        "svm",
+        "rtm"
+       ],
+       [
+        "bm:else",
         "hlc",
         "s",
         "rt",
@@ -6013,6 +6484,11 @@
         }
        },
        {
+        "id": "rl",
+        "kind": "call_self",
+        "function": "Rebuild Left"
+       },
+       {
         "id": "rli",
         "kind": "call_self",
         "function": "Rebuild List"
@@ -6033,6 +6509,7 @@
         "b",
         "hlc",
         "s",
+        "rl",
         "rli"
        ]
       ]
@@ -15524,6 +16001,14 @@
         }
        },
        {
+        "id": "t_onlyvanilla",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_OnlyVanilla"
+        }
+       },
+       {
         "id": "t_favorites",
         "kind": "call_self",
         "function": "T",
@@ -15620,6 +16105,22 @@
         }
        },
        {
+        "id": "t_grouplen",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_GroupLen"
+        }
+       },
+       {
+        "id": "t_chiph",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_ChipH"
+        }
+       },
+       {
         "id": "t_unlimited",
         "kind": "call_self",
         "function": "T",
@@ -15709,6 +16210,7 @@
          "search": "@t_search.text",
          "onlyowned": "@t_onlyowned.text",
          "onlyfav": "@t_onlyfav.text",
+         "onlyvanilla": "@t_onlyvanilla.text",
          "favorites": "@t_favorites.text",
          "all": "@t_all.text",
          "listhint": "@t_listhint.text",
@@ -15721,6 +16223,8 @@
          "scale": "@t_scale.text",
          "fov": "@t_fov.text",
          "dist": "@t_dist.text",
+         "grouplen": "@t_grouplen.text",
+         "chiph": "@t_chiph.text",
          "unlimited": "@t_unlimited.text",
          "layout": "@t_layout.text",
          "language": "@t_language.text",
@@ -19522,6 +20026,116 @@
         "var": "TileAlpha"
        },
        {
+        "id": "ggl",
+        "kind": "get",
+        "var": "GroupLen"
+       },
+       {
+        "id": "gl0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@ggl.GroupLen",
+         "B": "0"
+        }
+       },
+       {
+        "id": "gl1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@ggl.GroupLen",
+         "B": "3"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@gl1.ReturnValue"
+        }
+       },
+       {
+        "id": "gl3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@gl2.ReturnValue",
+         "B": "18.0"
+        }
+       },
+       {
+        "id": "gl4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "@gl3.ReturnValue",
+         "bPickA": "@gl0.ReturnValue"
+        }
+       },
+       {
+        "id": "rch_v",
+        "kind": "get",
+        "var": "ChipH"
+       },
+       {
+        "id": "rch_z",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@rch_v.ChipH",
+         "B": "0"
+        }
+       },
+       {
+        "id": "rch_s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "112",
+         "B": "@rch_v.ChipH",
+         "bPickA": "@rch_z.ReturnValue"
+        }
+       },
+       {
+        "id": "ch1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@rch_s.ReturnValue",
+         "B": "112"
+        }
+       },
+       {
+        "id": "ch2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@ch1.ReturnValue"
+        }
+       },
+       {
+        "id": "ch3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@ch2.ReturnValue",
+         "B": "388.0"
+        }
+       },
+       {
         "id": "os",
         "kind": "set",
         "var": "OptScroll",
@@ -19535,6 +20149,22 @@
         "var": "OptScale",
         "in": {
          "OptScale": "@t1.ReturnValue"
+        }
+       },
+       {
+        "id": "ogl",
+        "kind": "set",
+        "var": "OptGroupLen",
+        "in": {
+         "OptGroupLen": "@gl4.ReturnValue"
+        }
+       },
+       {
+        "id": "och",
+        "kind": "set",
+        "var": "OptChipH",
+        "in": {
+         "OptChipH": "@ch3.ReturnValue"
         }
        },
        {
@@ -19652,6 +20282,107 @@
         "function": "Conv_StringToText",
         "in": {
          "InString": "@ox_c2.ReturnValue"
+        }
+       },
+       {
+        "id": "ox_gl",
+        "kind": "get",
+        "var": "GroupLen"
+       },
+       {
+        "id": "ox_gli",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@ox_gl.GroupLen"
+        }
+       },
+       {
+        "id": "ox_gl2",
+        "kind": "get",
+        "var": "GroupLen"
+       },
+       {
+        "id": "ox_glz",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@ox_gl2.GroupLen",
+         "B": "0"
+        }
+       },
+       {
+        "id": "ox_glu",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Opt_Unlimited"
+        }
+       },
+       {
+        "id": "ox_glu_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@ox_glu.text"
+        }
+       },
+       {
+        "id": "ox_gls",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@ox_glu_2s.ReturnValue",
+         "B": "@ox_gli.ReturnValue",
+         "bPickA": "@ox_glz.ReturnValue"
+        }
+       },
+       {
+        "id": "ox_glt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@ox_gls.ReturnValue"
+        }
+       },
+       {
+        "id": "ox_ch_v",
+        "kind": "get",
+        "var": "ChipH"
+       },
+       {
+        "id": "ox_ch_z",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@ox_ch_v.ChipH",
+         "B": "0"
+        }
+       },
+       {
+        "id": "ox_ch_s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "112",
+         "B": "@ox_ch_v.ChipH",
+         "bPickA": "@ox_ch_z.ReturnValue"
+        }
+       },
+       {
+        "id": "ox_cht",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_IntToText",
+        "in": {
+         "Value": "@ox_ch_s.ReturnValue"
         }
        },
        {
@@ -19880,12 +20611,16 @@
          "dist": "@d2.ReturnValue",
          "bgalpha": "@gba.BgAlpha",
          "tilealpha": "@gta.TileAlpha",
+         "grouplen": "@gl4.ReturnValue",
+         "chiph": "@ch3.ReturnValue",
          "scroll text": "@ox_t.ReturnValue",
          "scale text": "@ox_t2.ReturnValue",
          "fov text": "@ox_f2_t.ReturnValue",
          "dist text": "@ox_d2_t.ReturnValue",
          "bgalpha text": "@ox_ba_t.ReturnValue",
-         "tilealpha text": "@ox_ta_t.ReturnValue"
+         "tilealpha text": "@ox_ta_t.ReturnValue",
+         "grouplen text": "@ox_glt.ReturnValue",
+         "chiph text": "@ox_cht.ReturnValue"
         }
        },
        {
@@ -23276,6 +24011,8 @@
         "od",
         "oba",
         "ota",
+        "ogl",
+        "och",
         "sv",
         "su",
         "cl",
@@ -23471,6 +24208,56 @@
         }
        },
        {
+        "id": "ach_v",
+        "kind": "get",
+        "var": "ChipH"
+       },
+       {
+        "id": "ach_z",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@ach_v.ChipH",
+         "B": "0"
+        }
+       },
+       {
+        "id": "ach_s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "112",
+         "B": "@ach_v.ChipH",
+         "bPickA": "@ach_z.ReturnValue"
+        }
+       },
+       {
+        "id": "chf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@ach_s.ReturnValue"
+        }
+       },
+       {
+        "id": "gp4",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "sth",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set SubTabs Height",
+        "in": {
+         "self": "@gp4.Panel",
+         "height": "@chf.ReturnValue"
+        }
+       },
+       {
         "id": "glf",
         "kind": "get",
         "var": "LeftFree"
@@ -23548,6 +24335,7 @@
        [
         "entry",
         "ssm",
+        "sth",
         "lf",
         "slf",
         "svs",
@@ -23603,6 +24391,38 @@
         "id": "cta",
         "kind": "get",
         "var": "OptTileAlpha"
+       },
+       {
+        "id": "cgl",
+        "kind": "get",
+        "var": "OptGroupLen"
+       },
+       {
+        "id": "cch",
+        "kind": "get",
+        "var": "OptChipH"
+       },
+       {
+        "id": "ngl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NearlyEqual_FloatFloat",
+        "in": {
+         "A": "@gv.grouplen",
+         "B": "@cgl.OptGroupLen",
+         "ErrorTolerance": "0.0001"
+        }
+       },
+       {
+        "id": "nch",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NearlyEqual_FloatFloat",
+        "in": {
+         "A": "@gv.chiph",
+         "B": "@cch.OptChipH",
+         "ErrorTolerance": "0.0001"
+        }
        },
        {
         "id": "ns",
@@ -23711,13 +24531,33 @@
         }
        },
        {
-        "id": "a",
+        "id": "a4",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanAND",
         "in": {
          "A": "@a3.ReturnValue",
          "B": "@nta.ReturnValue"
+        }
+       },
+       {
+        "id": "a5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a4.ReturnValue",
+         "B": "@ngl.ReturnValue"
+        }
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a5.ReturnValue",
+         "B": "@nch.ReturnValue"
         }
        },
        {
@@ -23856,6 +24696,127 @@
         "var": "OptTileAlpha",
         "in": {
          "OptTileAlpha": "@gv.tilealpha"
+        }
+       },
+       {
+        "id": "ogl",
+        "kind": "set",
+        "var": "OptGroupLen",
+        "in": {
+         "OptGroupLen": "@gv.grouplen"
+        }
+       },
+       {
+        "id": "och",
+        "kind": "set",
+        "var": "OptChipH",
+        "in": {
+         "OptChipH": "@gv.chiph"
+        }
+       },
+       {
+        "id": "cha",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@gv.chiph",
+         "B": "97.0"
+        }
+       },
+       {
+        "id": "chb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@cha.ReturnValue"
+        }
+       },
+       {
+        "id": "chc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_IntInt",
+        "in": {
+         "A": "@chb.ReturnValue",
+         "B": "4"
+        }
+       },
+       {
+        "id": "chd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@chc.ReturnValue",
+         "B": "112"
+        }
+       },
+       {
+        "id": "sch",
+        "kind": "set",
+        "var": "ChipH",
+        "in": {
+         "ChipH": "@chd.ReturnValue"
+        }
+       },
+       {
+        "id": "gla",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@gv.grouplen",
+         "B": "18.0"
+        }
+       },
+       {
+        "id": "glb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@gla.ReturnValue"
+        }
+       },
+       {
+        "id": "glc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@glb.ReturnValue",
+         "B": "18"
+        }
+       },
+       {
+        "id": "gld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@glb.ReturnValue",
+         "B": "3"
+        }
+       },
+       {
+        "id": "gle",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "0",
+         "B": "@gld.ReturnValue",
+         "bPickA": "@glc.ReturnValue"
+        }
+       },
+       {
+        "id": "sgl",
+        "kind": "set",
+        "var": "GroupLen",
+        "in": {
+         "GroupLen": "@gle.ReturnValue"
         }
        },
        {
@@ -24350,6 +25311,107 @@
         }
        },
        {
+        "id": "ox_gl",
+        "kind": "get",
+        "var": "GroupLen"
+       },
+       {
+        "id": "ox_gli",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@ox_gl.GroupLen"
+        }
+       },
+       {
+        "id": "ox_gl2",
+        "kind": "get",
+        "var": "GroupLen"
+       },
+       {
+        "id": "ox_glz",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@ox_gl2.GroupLen",
+         "B": "0"
+        }
+       },
+       {
+        "id": "ox_glu",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Opt_Unlimited"
+        }
+       },
+       {
+        "id": "ox_glu_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@ox_glu.text"
+        }
+       },
+       {
+        "id": "ox_gls",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@ox_glu_2s.ReturnValue",
+         "B": "@ox_gli.ReturnValue",
+         "bPickA": "@ox_glz.ReturnValue"
+        }
+       },
+       {
+        "id": "ox_glt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@ox_gls.ReturnValue"
+        }
+       },
+       {
+        "id": "ox_ch_v",
+        "kind": "get",
+        "var": "ChipH"
+       },
+       {
+        "id": "ox_ch_z",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@ox_ch_v.ChipH",
+         "B": "0"
+        }
+       },
+       {
+        "id": "ox_ch_s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "112",
+         "B": "@ox_ch_v.ChipH",
+         "bPickA": "@ox_ch_z.ReturnValue"
+        }
+       },
+       {
+        "id": "ox_cht",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_IntToText",
+        "in": {
+         "Value": "@ox_ch_s.ReturnValue"
+        }
+       },
+       {
         "id": "ox_f2_v",
         "kind": "get",
         "var": "CamFov"
@@ -24575,12 +25637,16 @@
          "dist": "@gv.dist",
          "bgalpha": "@gv.bgalpha",
          "tilealpha": "@gv.tilealpha",
+         "grouplen": "@gv.grouplen",
+         "chiph": "@gv.chiph",
          "scroll text": "@ox_t.ReturnValue",
          "scale text": "@ox_t2.ReturnValue",
          "fov text": "@ox_f2_t.ReturnValue",
          "dist text": "@ox_d2_t.ReturnValue",
          "bgalpha text": "@ox_ba_t.ReturnValue",
-         "tilealpha text": "@ox_ta_t.ReturnValue"
+         "tilealpha text": "@ox_ta_t.ReturnValue",
+         "grouplen text": "@ox_glt.ReturnValue",
+         "chiph text": "@ox_cht.ReturnValue"
         }
        }
       ],
@@ -24618,12 +25684,16 @@
         "od",
         "oba",
         "ota",
+        "ogl",
+        "och",
         "ssm",
         "sts",
         "scf",
         "scd",
         "sba",
         "sta",
+        "sgl",
+        "sch",
         "ap",
         "ath",
         "sv"
@@ -35263,6 +36333,37 @@
         }
        },
        {
+        "id": "gfi",
+        "kind": "call_self",
+        "function": "Find Item",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "gfb",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "S_ClothesItem": "@gfi.item"
+        }
+       },
+       {
+        "id": "gcv",
+        "kind": "get",
+        "var": "CachedOnlyVanilla"
+       },
+       {
+        "id": "nv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gcv.CachedOnlyVanilla",
+         "B": "@gfb.IsVanilla"
+        }
+       },
+       {
         "id": "sco",
         "kind": "set",
         "var": "CachedOnlyOwned",
@@ -35276,6 +36377,14 @@
         "var": "CachedOnlyFav",
         "in": {
          "CachedOnlyFav": "@nf.ReturnValue"
+        }
+       },
+       {
+        "id": "scv",
+        "kind": "set",
+        "var": "CachedOnlyVanilla",
+        "in": {
+         "CachedOnlyVanilla": "@nv.ReturnValue"
         }
        },
        {
@@ -35294,6 +36403,11 @@
         "var": "CachedOnlyFav"
        },
        {
+        "id": "gcv2",
+        "kind": "get",
+        "var": "CachedOnlyVanilla"
+       },
+       {
         "id": "sft",
         "kind": "call",
         "class": "/Game/Mod/AltUI/W_AltUI",
@@ -35301,7 +36415,8 @@
         "in": {
          "self": "@gp2.Panel",
          "owned": "@gco2.CachedOnlyOwned",
-         "fav": "@gcf2.CachedOnlyFav"
+         "fav": "@gcf2.CachedOnlyFav",
+         "vanilla": "@gcv2.CachedOnlyVanilla"
         }
        },
        {
@@ -35515,8 +36630,10 @@
        [
         "pcs",
         "sst",
+        "gfi",
         "sco",
         "scf",
+        "scv",
         "sft",
         "svs",
         "scs",
@@ -35887,6 +37004,20 @@
       }
      },
      {
+      "id": "tp3",
+      "kind": "get",
+      "var": "Panel"
+     },
+     {
+      "id": "tov",
+      "kind": "call",
+      "class": "/Game/Mod/AltUI/W_AltUI",
+      "function": "Get Only Vanilla",
+      "in": {
+       "self": "@tp3.Panel"
+      }
+     },
+     {
       "id": "tco",
       "kind": "get",
       "var": "CachedOnlyOwned"
@@ -35895,6 +37026,11 @@
       "id": "tcf",
       "kind": "get",
       "var": "CachedOnlyFav"
+     },
+     {
+      "id": "tcv",
+      "kind": "get",
+      "var": "CachedOnlyVanilla"
      },
      {
       "id": "tn1",
@@ -35917,7 +37053,17 @@
       }
      },
      {
-      "id": "tor",
+      "id": "tn3",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "NotEqual_BoolBool",
+      "in": {
+       "A": "@tov.yes",
+       "B": "@tcv.CachedOnlyVanilla"
+      }
+     },
+     {
+      "id": "tor0",
       "kind": "call",
       "class": "/Script/Engine.KismetMathLibrary",
       "function": "BooleanOR",
@@ -35927,11 +37073,26 @@
       }
      },
      {
+      "id": "tor",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "BooleanOR",
+      "in": {
+       "A": "@tor0.ReturnValue",
+       "B": "@tn3.ReturnValue"
+      }
+     },
+     {
       "id": "tb1",
       "kind": "branch",
       "in": {
        "Condition": "@tor.ReturnValue"
       }
+     },
+     {
+      "id": "trlf",
+      "kind": "call_self",
+      "function": "Rebuild Left"
      },
      {
       "id": "trl",
@@ -36314,6 +37475,10 @@
        {
         "name": "onlyFav",
         "type": "bool"
+       },
+       {
+        "name": "onlyVanilla",
+        "type": "bool"
        }
       ]
      },
@@ -36326,7 +37491,8 @@
        "group": "@tf.group",
        "search": "@tf.search",
        "onlyOwned": "@tf.onlyOwned",
-       "onlyFav": "@tf.onlyFav"
+       "onlyFav": "@tf.onlyFav",
+       "onlyVanilla": "@tf.onlyVanilla"
       }
      },
      {
@@ -36371,6 +37537,110 @@
       "in": {
        "TargetArray": "@tf_gn2.TmpNames",
        "NewItem": "@tf_b.Name"
+      }
+     },
+     {
+      "id": "tfn",
+      "kind": "custom_event",
+      "name": "Test Filtered Counts",
+      "inputs": [
+       {
+        "name": "search",
+        "type": "string"
+       },
+       {
+        "name": "onlyOwned",
+        "type": "bool"
+       },
+       {
+        "name": "onlyFav",
+        "type": "bool"
+       },
+       {
+        "name": "onlyVanilla",
+        "type": "bool"
+       }
+      ]
+     },
+     {
+      "id": "tfn_c",
+      "kind": "call_self",
+      "function": "Filtered Counts",
+      "in": {
+       "search": "@tfn.search",
+       "onlyOwned": "@tfn.onlyOwned",
+       "onlyFav": "@tfn.onlyFav",
+       "onlyVanilla": "@tfn.onlyVanilla"
+      }
+     },
+     {
+      "id": "tchc",
+      "kind": "custom_event",
+      "name": "Test Chip Caption",
+      "inputs": [
+       {
+        "name": "group",
+        "type": "name"
+       },
+       {
+        "name": "full",
+        "type": "bool"
+       }
+      ]
+     },
+     {
+      "id": "tchc_c",
+      "kind": "call_self",
+      "function": "Chip Caption",
+      "in": {
+       "group": "@tchc.group",
+       "full": "@tchc.full"
+      }
+     },
+     {
+      "id": "tchc_s",
+      "kind": "set",
+      "var": "TmpText",
+      "in": {
+       "TmpText": "@tchc_c.caption"
+      }
+     },
+     {
+      "id": "tssl",
+      "kind": "custom_event",
+      "name": "Test Select Slot",
+      "inputs": [
+       {
+        "name": "name",
+        "type": "name"
+       }
+      ]
+     },
+     {
+      "id": "tssl_s",
+      "kind": "call_self",
+      "function": "Select Slot",
+      "in": {
+       "name": "@tssl.name"
+      }
+     },
+     {
+      "id": "tsst",
+      "kind": "custom_event",
+      "name": "Test Select SubTab",
+      "inputs": [
+       {
+        "name": "name",
+        "type": "name"
+       }
+      ]
+     },
+     {
+      "id": "tsst_s",
+      "kind": "call_self",
+      "function": "Select SubTab",
+      "in": {
+       "name": "@tsst.name"
       }
      },
      {
@@ -37816,6 +39086,7 @@
      ],
      [
       "tb1",
+      "trlf",
       "trl",
       "tsv"
      ],
@@ -37863,6 +39134,23 @@
      [
       "tf_fe",
       "tf_add"
+     ],
+     [
+      "tfn",
+      "tfn_c"
+     ],
+     [
+      "tchc",
+      "tchc_c",
+      "tchc_s"
+     ],
+     [
+      "tssl",
+      "tssl_s"
+     ],
+     [
+      "tsst",
+      "tsst_s"
      ],
      [
       "tg",
