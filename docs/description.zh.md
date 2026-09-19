@@ -55,6 +55,8 @@ python bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title SomeBody
 
 把生成的 *Body_Some.pak* 复制到 *TheKillingAntidote\Mods\*，并移除原来的替换版（或留在 *~mods* 里——它就会变成「标准」芯片）。
 
+分步教程，含 Windows 和 Linux 示例（英文）：[BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
+
 ## 兼容性
 
 面向游戏版本 0.6.x 制作。兼容创意工坊和 Nexus 上的服装、发型、妆容和地图模组——它们会直接出现在列表里。如果游戏更新改动了服装/妆容数据表或相机管理器，本模组可能失效。

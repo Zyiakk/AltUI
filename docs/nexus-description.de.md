@@ -52,6 +52,8 @@ python bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title SomeBody
 
 Das erzeugte *Body_Some.pak* nach *TheKillingAntidote\Mods\* kopieren und den ursprünglichen Replacer entfernen (oder in *~mods* lassen – er wird dann zum Chip „Standard“).
 
+Schritt-für-Schritt-Anleitung mit je einem Beispiel für Windows und Linux (englisch): [BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
+
 ## Kompatibilität
 
 Gemacht für Spielversion 0.6.x. Funktioniert mit Kleidungs-, Frisur-, Makeup- und Karten-Mods von Nexus und aus dem Workshop – sie erscheinen einfach in den Listen.
