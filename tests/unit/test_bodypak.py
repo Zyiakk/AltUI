@@ -163,10 +163,14 @@ class Dist(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr); self.assertTrue(os.path.exists(os.path.join(d, "Body_Zip.pak")))
         r = subprocess.run([sys.executable, "-I", "-S", pyz, OG, "--name", "Body_ZipV3", "--out", d], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stderr)
-        # Oodle-compressed source with a companion asset: the decoder bundled in the zip is unpacked and used (no tools/ooz next to the pyz)
+        # Oodle-compressed source with a companion asset: decoded by the pure-Python oodle_kraken inside the zip – no native
+        # library in the pyz (antivirus false positive in 1.3.1), no tools/ooz, no environment variable
         import zipfile
-        self.assertLessEqual({"ooz.dll", "libooz.so"}, set(zipfile.ZipFile(pyz).namelist()))
-        env = {k: v for k, v in os.environ.items() if k != "OOZ"}
+        names = zipfile.ZipFile(pyz).namelist()
+        self.assertIn("oodle_kraken.py", names); self.assertIn("LICENSE-GPL-3.0.txt", names)
+        self.assertFalse([n for n in names if n.endswith((".dll", ".so", ".dylib"))], names)
+        self.assertNotIn("oodle_native.py", names)   # the ctypes accelerator stays in the dev repo
+        env = {k: v for k, v in os.environ.items() if k not in ("OOZ", "PYTHONPATH")}
         r = subprocess.run([sys.executable, "-I", "-S", pyz, THICC, "--name", "Body_ZipThicc", "--out", d], capture_output=True, text=True, env=env)
         self.assertEqual(r.returncode, 0, r.stderr); self.assertIn("companion asset used by the mesh: /Game/Project/Character/Jodi/Body/TESTABP", r.stdout)
         self.assertEqual(json.load(open(os.path.join(d, "Body_ZipThicc_convert.json")))["companions"], {"/Game/Project/Character/Jodi/Body/TESTABP": "/Game/Mod/Body_ZipThicc/Project/Character/Jodi/Body/TESTABP"})

@@ -19,3 +19,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+Exception: scripts/oodle_kraken.py is a port of kraken.cpp from ooz (https://github.com/powzix/ooz,
+Copyright (C) 2016 Powzix) and is licensed under the GNU General Public License v3.0 or later
+(LICENSE-GPL-3.0.txt). bodypak.pyz, which contains it, is therefore GPL-3.0-or-later as a whole.
+Everything else in this repository, including AltUI.pak and AltUI_Hook_P.pak, is MIT as above.

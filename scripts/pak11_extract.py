@@ -1,4 +1,9 @@
-import struct, sys, re, os, zlib, ctypes
+import struct, sys, re, os, zlib
+import oodle_kraken
+try:
+    import oodle_native as _native   # dev repo: ooz via ctypes, ~100x faster; not in bodypak.pyz (scripts/bodypak_dist.sh)
+except ImportError:
+    _native = None
 
 KEY = bytes.fromhex("020B81BE21191FCBDAE94F381EBB525F6F5556FCEA51243C99D26E42481D968D")
 
@@ -21,42 +26,15 @@ def rstr(b, pos):
     return s, pos
 
 
-_ooz = None
-OOZ_LIB = "ooz.dll" if sys.platform == "win32" else "libooz.so"
-
-
-def find_ooz():
-    """Path of the ooz decoder (powzix/ooz, GPL-3, built by tools/fetch_ooz.sh): $OOZ, next to this module, tools/ooz/ – or,
-    when running from bodypak.pyz, the copy bundled in the zip (unpacked to the temp dir once)."""
-    here = os.path.dirname(os.path.abspath(__file__))
-    for c in (os.environ.get("OOZ"), os.path.join(here, OOZ_LIB), os.path.join(here, "..", "tools", "ooz", "libooz.so")):
-        if c and os.path.exists(c):
-            return c
-    import pkgutil, tempfile
-    try:
-        data = pkgutil.get_data(__name__, OOZ_LIB)
-    except (OSError, ImportError):
-        data = None
-    if not data:
-        raise SystemExit("Oodle decoder %s not found (this pak is Oodle-compressed): build it with tools/fetch_ooz.sh or set OOZ=<path>" % OOZ_LIB)
-    p = os.path.join(tempfile.gettempdir(), "bodypak_ooz", OOZ_LIB)
-    os.makedirs(os.path.dirname(p), exist_ok=True)
-    if not (os.path.exists(p) and open(p, "rb").read() == data):
-        open(p, "wb").write(data)
-    return p
-
-
 def oodle(d, usz):
-    global _ooz
-    if _ooz is None:
-        _ooz = ctypes.CDLL(find_ooz())
-        _ooz.ooz_decompress.restype = ctypes.c_int
-        _ooz.ooz_decompress.argtypes = [ctypes.c_char_p, ctypes.c_size_t, ctypes.c_char_p, ctypes.c_size_t]
-    out = ctypes.create_string_buffer(usz + 64)
-    r = _ooz.ooz_decompress(d, len(d), out, usz)
-    if r != usz:
-        raise Exception("oodle fail %d/%d" % (r, usz))
-    return out.raw[:usz]
+    """One Oodle block -> its |usz| uncompressed bytes: ooz when the dev repo has it, else the pure-Python Kraken decoder
+    (scripts/oodle_kraken.py – the only path inside bodypak.pyz)."""
+    try:
+        if _native is not None and _native.available():
+            return _native.decompress(d, usz)
+        return oodle_kraken.decompress(d, usz)
+    except oodle_kraken.OodleError as e:
+        raise SystemExit("Oodle: %s" % e)
 
 
 class Pak:

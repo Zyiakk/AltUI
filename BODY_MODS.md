@@ -242,7 +242,7 @@ The Body Shape tab then shows **Standard**, **Slim**, **Curvy**, **Athletic** (p
 | `invalid name (allowed: Body_[A-Za-z0-9_]+): …` | `--name` contains a space, hyphen, dot or other character, or does not start with `Body_`. Use letters, digits and `_` only – put the pretty text into `--title`. |
 | `target already exists (--force to overwrite): …` | A `Body_<Name>.pak` is already in the output folder. Add `--force`, or pick another `--name` / `--out`. |
 | `encrypted entries are not supported: …` | The pak is encrypted. Mod paks normally are not; ask the modder. |
-| `Oodle decoder … not found` | Should not happen with the release `bodypak.pyz` – the decoder for Windows and Linux is bundled and unpacked to your temp folder on first use. If it does: the temp folder is not writable, or you are on another platform (macOS is not covered). |
+| `Oodle: unsupported Oodle codec …` | The pak was compressed with an Oodle codec other than Kraken (Mermaid, Leviathan …). Every TKA mod pak seen so far is Kraken; please open an issue with the name of the mod. |
 | `verify failed: …` | The written pak did not read back correctly. Please open an issue with the `Body_<Name>_convert.json` and the name of the mod. |
 | `python: command not found` / the Store opens / `'python' is not recognized` | Python is not installed or not on PATH (section 2). On Windows try `py` instead of `python`; on Linux the command is `python3`. |
 | `can't open file '…bodypak.pyz'` | The path to `bodypak.pyz` is wrong for the folder you are in. Use `.\bodypak.pyz` when it is in the current folder, or its full path. |
@@ -269,4 +269,4 @@ For the curious. `Body_<Name>.pak` is an unencrypted pak in the format of the ga
 | `<path>/<Asset>.uasset` + `.uexp` for each companion | Assets the mesh imports from the same pak (its animation blueprint, materials). Copied as they are; the mesh's import table is pointed at the new location. |
 | `TKA_Mod_Table.uasset`, `.uexp` | The mod table the game reads at start: one row named `Body_<Name>`, caption = your `--title`, description = "Body mod, converted from `<original file>`". |
 
-Supported input: pak versions 3–11, uncompressed, zlib or Oodle. Oodle-compressed data is passed through unchanged; the bundled Oodle decoder ([ooz](https://github.com/powzix/ooz), GPL-3) is only used to *read* the mesh's import table so companion assets can be found.
+Supported input: pak versions 3–11, uncompressed, zlib or Oodle. Oodle-compressed data is passed through unchanged; the built-in Oodle decoder (pure Python, ported from [ooz](https://github.com/powzix/ooz), GPL-3) is only used to *read* the mesh's import table so companion assets can be found.

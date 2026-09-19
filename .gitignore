@@ -12,3 +12,5 @@ tools/bpdump/obj/
 # fetched by tools/fetch_ooz.sh
 tools/ooz/
 .idea
+# test fixtures (Kraken decoder): small Oodle pak built with UnrealPak
+!tests/unit/fixtures/*.pak

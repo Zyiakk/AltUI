@@ -36,7 +36,7 @@ Undo / redo (5 steps) in the status bar; tooltips show which mod an item comes f
 
 ## Body mods
 
-Body replacer paks all overwrite the same game file, so only one can be active and nothing can switch between them. `bodypak.pyz` (in the release, Python 3.8+, no packages; GPL-3, see LICENSE) converts a replacer into a regular mod pak that keeps the mesh under its own path; any number of converted bodies can be installed side by side and appear as chips in the Body Shape tab. The choice is remembered and re-applied on every level load. Step-by-step instructions with a Windows and a Linux walk-through: [BODY_MODS.md](BODY_MODS.md).
+Body replacer paks all overwrite the same game file, so only one can be active and nothing can switch between them. `bodypak.pyz` (in the release, Python 3.8+, no packages; GPL-3, see LICENSE) converts a replacer into a regular mod pak that keeps the mesh under its own path; any number of converted bodies can be installed side by side and appear as chips in the Body Shape tab. The choice is remembered and re-applied on every level load.
 
 ```
 python3 bodypak.pyz <Original.pak> [--name Body_<Name>] [--title "Display name"] [--out <folder>] [--force]
