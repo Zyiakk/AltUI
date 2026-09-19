@@ -13,9 +13,11 @@ H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, H)
 from pak11_extract import Pak
 from pakio import open_pak, norm_key
 from uasset_datatable import make_mod_table
+from uasset_pkg import Package
 
 MAGIC = 0x5A6F12E1; VERSION = 11
 MOUNT_PREFIX = "../../../TheKillingAntidote/Content/Mod/"
+CONTENT = "TheKillingAntidote/Content/"
 MESH_SUFFIX = "project/character/jodi/body/female.uasset"
 
 
@@ -125,13 +127,64 @@ def find_mesh(pk):
     raise SystemExit("no body mesh (…/Project/Character/Jodi/Body/Female.uasset) in this pak")
 
 
+def pkg_path(pk, key):
+    """Entry key -> package path ("/Game/Project/.../TESTABP") for .uasset entries under Content/, else None."""
+    p = norm_key(pk.mount, key)
+    if p.lower().startswith(CONTENT.lower()) and p.lower().endswith(".uasset"):
+        return "/Game/" + p[len(CONTENT):-len(".uasset")]
+
+
+def load_pkg(pk, key):
+    ux_key = key[:-len(".uasset")] + ".uexp"
+    return Package.from_bytes(pk.read(key), pk.read(ux_key) if ux_key in pk.files else b"")
+
+
+def companions(pk, mesh_key, name):
+    """Packages of the source pak that the mesh imports, transitively (a body's own PostProcessAnimBlueprint, materials …).
+    They move into the mod folder: /Game/X/Y -> /Game/Mod/<name>/X/Y. Returns {old package path: (entry key, new package path)}."""
+    by_pkg = {}
+    for k in pk.files:
+        p = pkg_path(pk, k)
+        if p and k != mesh_key:
+            by_pkg[p] = k
+    found = {}; todo = [mesh_key]
+    while todo:
+        for im in load_pkg(pk, todo.pop()).imports:
+            if im.class_name == "Package" and im.object_name in by_pkg and im.object_name not in found:
+                found[im.object_name] = (by_pkg[im.object_name], "/Game/Mod/" + name + im.object_name[len("/Game"):])
+                todo.append(by_pkg[im.object_name])
+    return found
+
+
+def package_entries(pk, key, rel, relocate):
+    """Entries (rel + .uasset/.uexp/.ubulk) for one package. Imports of relocated packages are rewritten (new name appended to the
+    name table, so the export data's name indices stay valid); untouched packages are copied byte-identically."""
+    out = []
+    pkg = load_pkg(pk, key)
+    hits = [im for im in pkg.imports if im.class_name == "Package" and im.object_name in relocate]
+    if hits:
+        for im in hits:
+            im.object_name = relocate[im.object_name][1]
+        ua, ux = pkg.write()
+        if ux != pk.read(key[:-len(".uasset")] + ".uexp"):
+            raise SystemExit("rewriting %s changed its export data" % key)
+        out.append((rel + ".uasset",) + plain_entry(ua))
+    else:
+        out.append((rel + ".uasset",) + (raw_entry(pk, key) if isinstance(pk, Pak) else plain_entry(pk.read(key))))
+    for ext in (".uexp", ".ubulk"):
+        k = key[:-len(".uasset")] + ext
+        if k in pk.files:
+            out.append((rel + ext,) + (raw_entry(pk, k) if isinstance(pk, Pak) else plain_entry(pk.read(k))))
+    return out
+
+
 def verify(out_pak, name, entries):
     errs = []
     pk = Pak(out_pak)
     if pk.mount != MOUNT_PREFIX + name + "/":
         errs.append("mount point: " + pk.mount)
     for rel, region, e in entries:
-        key = "/" + rel
+        key = rel if "/" in rel else "/" + rel     # Pak keys: root files "/X", subdirectory files "A/B/X"
         if key not in pk.files:
             errs.append("missing: " + rel); continue
         en = pk.entry(pk.files[key]); pk.f.seek(en["off"])
@@ -163,13 +216,12 @@ def convert(src, name=None, title=None, out_dir=None, force=False):
     if os.path.exists(out_pak) and not force:
         raise SystemExit("target already exists (--force to overwrite): " + out_pak)
     mesh_key = find_mesh(pk)
-    entries = []
-    for ext in (".uasset", ".uexp", ".ubulk"):
-        key = mesh_key[:-len(".uasset")] + ext
-        if key not in pk.files:
-            continue
-        region, e = raw_entry(pk, key) if isinstance(pk, Pak) else plain_entry(pk.read(key))
-        entries.append(("Female" + ext, region, e))
+    relocate = companions(pk, mesh_key, name)
+    entries = package_entries(pk, mesh_key, "Female", relocate)
+    for old, (key, new) in sorted(relocate.items()):
+        entries += package_entries(pk, key, new[len("/Game/Mod/" + name + "/"):], relocate)
+    taken = {key[:-len(".uasset")] + ext for key in [mesh_key] + [k for k, _ in relocate.values()] for ext in (".uasset", ".uexp", ".ubulk")}
+    dropped = sorted(k.lstrip("/") for k in pk.files if k not in taken)
     ua, ux = make_mod_table("/Game/Mod/" + name, title, "Body mod, converted from " + os.path.basename(src), []).write()
     entries.append(("TKA_Mod_Table.uasset",) + plain_entry(ua)); entries.append(("TKA_Mod_Table.uexp",) + plain_entry(ux))
     comps = list(pk.comps) if isinstance(pk, Pak) else []
@@ -177,7 +229,8 @@ def convert(src, name=None, title=None, out_dir=None, force=False):
     write_pak(out_pak, MOUNT_PREFIX + name + "/", comps, entries, zlib.crc32(name.lower().encode()))
     errs = verify(out_pak, name, entries)
     log = {"name": name, "title": title, "source": os.path.abspath(src), "source_sha256": sha256_file(src), "source_pak_version": pk.ver,
-           "pak": out_pak, "size": os.path.getsize(out_pak), "files": [rel for rel, _, _ in entries], "verify": errs, "status": "ok" if not errs else "verify-failed"}
+           "pak": out_pak, "size": os.path.getsize(out_pak), "files": [rel for rel, _, _ in entries],
+           "companions": {old: new for old, (_, new) in relocate.items()}, "dropped": dropped, "verify": errs, "status": "ok" if not errs else "verify-failed"}
     json.dump(log, open(os.path.join(out_dir, name + "_convert.json"), "w"), indent=1, ensure_ascii=False)
     if errs:
         raise SystemExit("verify failed: " + "; ".join(errs))
@@ -190,6 +243,10 @@ def main(argv=None):
     a = ap.parse_args(argv)
     out, log = convert(a.pak, a.name, a.title, a.out, a.force)
     print("%s (%d bytes, %s) -> copy to <game>/TheKillingAntidote/Mods/" % (out, log["size"], ", ".join(log["files"])))
+    for old, new in sorted(log["companions"].items()):
+        print("companion asset used by the mesh: %s -> %s" % (old, new))
+    if log["dropped"]:
+        print("not used by the mesh, left out: " + ", ".join(log["dropped"]))
 
 
 if __name__ == "__main__":
