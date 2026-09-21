@@ -4,6 +4,7 @@
 #include "BPGenCommandlet.h"
 #include "AssetRegistryModule.h"
 #include "Engine/Blueprint.h"
+#include "HAL/PlatformTime.h"
 #include "Engine/BlueprintGeneratedClass.h"
 #include "Engine/UserDefinedEnum.h"
 #include "Engine/UserDefinedStruct.h"
@@ -28,6 +29,17 @@
 #include "Misc/PackageName.h"
 #include "Serialization/JsonWriter.h"
 #include "Serialization/JsonSerializer.h"
+#include "Animation/AnimBlueprint.h"
+#include "Animation/AnimBlueprintGeneratedClass.h"
+#include "Animation/AnimInstance.h"
+#include "Animation/Skeleton.h"
+#include "AnimationGraph.h"
+#include "AnimGraphNode_Root.h"
+#include "AnimGraphNode_LinkedInputPose.h"
+#include "AnimGraphNode_LocalToComponentSpace.h"
+#include "AnimGraphNode_ComponentToLocalSpace.h"
+#include "AnimGraphNode_ModifyBone.h"
+#include "K2Node_VariableGet.h"
 
 UPackage* BPGenAssets::MakePackage(const FString& PackagePath, FString& OutName) {
   OutName = FPackageName::GetShortName(PackagePath);
@@ -188,6 +200,7 @@ static UBlueprint* EnsureBlueprint(const TSharedPtr<FJsonObject>& A, FString& Er
     FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);
   }
   // function signatures (+ optional body)
+  const double TSig = FPlatformTime::Seconds();
   if (const auto* Funcs = JArr(A, TEXT("functions"))) for (const auto& FV : *Funcs) {
     const TSharedPtr<FJsonObject> F = FV->AsObject(); const FName FnName(*JStr(F, TEXT("name")));
     const bool bOverride = JBool(F, TEXT("override"));
@@ -231,6 +244,7 @@ static UBlueprint* EnsureBlueprint(const TSharedPtr<FJsonObject>& A, FString& Er
     }
   }
   FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);   // skeleton with all new signatures/pins
+  const double TBody = FPlatformTime::Seconds();
   // pass 2: function bodies (all signatures now exist in the skeleton -> call_self possible)
   if (const auto* Funcs = JArr(A, TEXT("functions"))) for (const auto& FV : *Funcs) {
     const TSharedPtr<FJsonObject> F = FV->AsObject(); const FName FnName(*JStr(F, TEXT("name")));
@@ -246,9 +260,12 @@ static UBlueprint* EnsureBlueprint(const TSharedPtr<FJsonObject>& A, FString& Er
   if (A->TryGetObjectField(TEXT("event_graph"), EG)) {
     if (!BPGenGraph::BuildGraph(BP, FBlueprintEditorUtils::FindEventGraph(BP), *EG, Err)) return nullptr;
   }
+  const double TComp = FPlatformTime::Seconds();
   FCompilerResultsLog Results; Results.bSilentMode = false;
   FKismetEditorUtilities::CompileBlueprint(BP, EBlueprintCompileOptions::SkipGarbageCollection, &Results);
   UE_LOG(LogBPGen, Display, TEXT("BPGEN compiled %s errors=%d warnings=%d"), *Path, Results.NumErrors, Results.NumWarnings);
+  UE_LOG(LogBPGen, Display, TEXT("BPGEN timing %s signatures=%.1fs bodies=%.1fs (create=%.1f defaults=%.1f links=%.1f) compile=%.1fs"), *Path, TBody - TSig, TComp - TBody, BPGenGraph::TCreate, BPGenGraph::TDefaults, BPGenGraph::TLinks, FPlatformTime::Seconds() - TComp);
+  BPGenGraph::TCreate = BPGenGraph::TDefaults = BPGenGraph::TLinks = 0;
   if (BP->Status == BS_Error || Results.NumErrors > 0) { Err = FString::Printf(TEXT("compile errors (%d) in %s"), Results.NumErrors, *Path); return nullptr; }
   // CDO defaults after compiling
   const TSharedPtr<FJsonObject>* Defs = nullptr;
@@ -263,6 +280,72 @@ static UBlueprint* EnsureBlueprint(const TSharedPtr<FJsonObject>& A, FString& Er
     CDO->MarkPackageDirty();
   }
   return BP;
+}
+
+// ---------- animblueprint (post-process ABP: InputPose -> LocalToComponent -> ModifyBone... -> ComponentToLocal -> Output) ----------
+static UEdGraphPin* PosePin(UEdGraphNode* N, EEdGraphPinDirection Dir) {
+  for (UEdGraphPin* P : N->Pins) {
+    if (P->Direction != Dir) continue;
+    UObject* Sub = P->PinType.PinSubCategoryObject.Get();
+    if (Sub == FPoseLink::StaticStruct() || Sub == FComponentSpacePoseLink::StaticStruct()) return P;
+  }
+  return nullptr;
+}
+
+static bool MakeAnimBlueprint(const TSharedPtr<FJsonObject>& A, FString& Err) {
+  FString Name; const FString Path = JStr(A, TEXT("path")); UPackage* Pkg = BPGenAssets::MakePackage(Path, Name);
+  USkeleton* Skel = Cast<USkeleton>(BPGenTypes::LoadObj(JStr(A, TEXT("skeleton"))));
+  if (!Skel) { Err = TEXT("animblueprint: skeleton not found ") + JStr(A, TEXT("skeleton")); return false; }
+  if (FindObject<UAnimBlueprint>(Pkg, *Name)) { Err = TEXT("animblueprint: exists (bpgen.sh deletes Mod/AltUI before the run) ") + Path; return false; }
+  UAnimBlueprint* BP = Cast<UAnimBlueprint>(FKismetEditorUtilities::CreateBlueprint(UAnimInstance::StaticClass(), Pkg, *Name, BPTYPE_Normal,
+      UAnimBlueprint::StaticClass(), UAnimBlueprintGeneratedClass::StaticClass(), FName("BPGen")));
+  if (!BP) { Err = TEXT("animblueprint: CreateBlueprint failed ") + Path; return false; }
+  BP->TargetSkeleton = Skel;
+  if (const auto* Vars = JArr(A, TEXT("variables"))) for (const auto& VV : *Vars) {
+    const TSharedPtr<FJsonObject> V = VV->AsObject(); const FName VName(*JStr(V, TEXT("name")));
+    FEdGraphPinType T; if (!BPGenTypes::PinTypeFromSpec(JStr(V, TEXT("type")), JStr(V, TEXT("container")), JStr(V, TEXT("value_type")), T, Err)) return false;
+    if (!FBlueprintEditorUtils::AddMemberVariable(BP, VName, T, JStr(V, TEXT("default")))) { Err = TEXT("animblueprint: AddMemberVariable failed ") + VName.ToString(); return false; }
+  }
+  FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);   // variables in the skeleton class before the Get nodes reference them
+  UEdGraph* G = nullptr; for (UEdGraph* FG : BP->FunctionGraphs) if (FG->IsA<UAnimationGraph>()) G = FG;
+  if (!G) { Err = TEXT("animblueprint: no AnimGraph in ") + Path; return false; }
+  TArray<UAnimGraphNode_Root*> Roots; G->GetNodesOfClass(Roots);
+  if (Roots.Num() == 0) { Err = TEXT("animblueprint: no Output Pose node"); return false; }
+  const UEdGraphSchema* Schema = G->GetSchema();
+  int32 X = -400;
+  FGraphNodeCreator<UAnimGraphNode_LinkedInputPose> CIn(*G); UAnimGraphNode_LinkedInputPose* In = CIn.CreateNode(); In->NodePosX = X; CIn.Finalize();
+  X += 300;
+  FGraphNodeCreator<UAnimGraphNode_LocalToComponentSpace> CL2C(*G); UAnimGraphNode_LocalToComponentSpace* L2C = CL2C.CreateNode(); L2C->NodePosX = X; CL2C.Finalize();
+  if (!Schema->TryCreateConnection(PosePin(In, EGPD_Output), PosePin(L2C, EGPD_Input))) { Err = TEXT("animblueprint: link InputPose->LocalToComponent failed"); return false; }
+  UEdGraphNode* Prev = L2C;
+  if (const auto* Nodes = JArr(A, TEXT("nodes"))) for (const auto& NV : *Nodes) {
+    const TSharedPtr<FJsonObject> N = NV->AsObject(); X += 300;
+    FGraphNodeCreator<UAnimGraphNode_ModifyBone> CM(*G); UAnimGraphNode_ModifyBone* M = CM.CreateNode(); M->NodePosX = X;
+    M->Node.BoneToModify.BoneName = FName(*JStr(N, TEXT("bone")));
+    const bool bTranslate = JStr(N, TEXT("kind")) == TEXT("translate");   // "translate": additive component-space translation from the variable instead of a scale
+    M->Node.TranslationMode = bTranslate ? BMM_Additive : BMM_Ignore; M->Node.RotationMode = BMM_Ignore;
+    M->Node.ScaleMode = bTranslate ? BMM_Ignore : (JStr(N, TEXT("mode")) == TEXT("Replace") ? BMM_Replace : BMM_Additive);
+    M->Node.TranslationSpace = BCS_ComponentSpace; M->Node.RotationSpace = BCS_ComponentSpace; M->Node.ScaleSpace = BCS_ComponentSpace;
+    CM.Finalize();
+    if (!Schema->TryCreateConnection(PosePin(Prev, EGPD_Output), PosePin(M, EGPD_Input))) { Err = TEXT("animblueprint: pose link failed at ") + JStr(N, TEXT("bone")); return false; }
+    UEdGraphPin* ScalePin = M->FindPin(bTranslate ? TEXT("Translation") : TEXT("Scale"));
+    if (!ScalePin) { Err = TEXT("animblueprint: ModifyBone has no Scale / Translation pin (PinShownByDefault expected)"); return false; }
+    FGraphNodeCreator<UK2Node_VariableGet> CG(*G); UK2Node_VariableGet* GetV = CG.CreateNode(); GetV->NodePosX = X; GetV->NodePosY = 300;
+    GetV->VariableReference.SetSelfMember(FName(*JStr(N, TEXT("var")))); CG.Finalize();
+    UEdGraphPin* Out = nullptr; for (UEdGraphPin* P : GetV->Pins) if (P->Direction == EGPD_Output) Out = P;
+    if (!Out || !Schema->TryCreateConnection(Out, ScalePin)) { Err = TEXT("animblueprint: variable->Scale link failed: ") + JStr(N, TEXT("var")); return false; }
+    Prev = M;
+  }
+  X += 300;
+  FGraphNodeCreator<UAnimGraphNode_ComponentToLocalSpace> CC2L(*G); UAnimGraphNode_ComponentToLocalSpace* C2L = CC2L.CreateNode(); C2L->NodePosX = X; CC2L.Finalize();
+  if (!Schema->TryCreateConnection(PosePin(Prev, EGPD_Output), PosePin(C2L, EGPD_Input))) { Err = TEXT("animblueprint: link ->ComponentToLocal failed"); return false; }
+  Roots[0]->NodePosX = X + 300;
+  if (!Schema->TryCreateConnection(PosePin(C2L, EGPD_Output), PosePin(Roots[0], EGPD_Input))) { Err = TEXT("animblueprint: link ->Output Pose failed"); return false; }
+  FCompilerResultsLog Results; Results.bSilentMode = false;
+  FKismetEditorUtilities::CompileBlueprint(BP, EBlueprintCompileOptions::SkipGarbageCollection, &Results);
+  UE_LOG(LogBPGen, Display, TEXT("BPGEN compiled %s errors=%d warnings=%d"), *Path, Results.NumErrors, Results.NumWarnings);
+  if (BP->Status == BS_Error || Results.NumErrors > 0) { Err = FString::Printf(TEXT("compile errors (%d) in %s"), Results.NumErrors, *Path); return false; }
+  return BPGenAssets::SaveAsset(BP);
 }
 
 // ---------- texture (PNG -> UTexture2D, UI settings via "props") ----------
@@ -297,6 +380,7 @@ bool BPGenAssets::Process(const TSharedPtr<FJsonObject>& A, FString& Err) {
   if (Type == TEXT("struct")) return MakeStruct(A, Err);
   if (Type == TEXT("datatable")) return MakeDataTable(A, Err);
   if (Type == TEXT("texture")) return MakeTexture(A, Err);
+  if (Type == TEXT("animblueprint")) return MakeAnimBlueprint(A, Err);
   if (Type == TEXT("blueprint")) { UBlueprint* BP = EnsureBlueprint(A, Err); return BP && SaveAsset(BP); }
   Err = TEXT("unknown asset type ") + Type; return false;
 }

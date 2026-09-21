@@ -34,6 +34,7 @@ S_COLOR = "struct:/Script/CoreUObject.Color"
 
 # Game stubs
 P_CPB = "/Game/Project/Classes/Character_Player_Base"
+P_CB = "/Game/Project/Classes/Character_Base"
 P_JODI = "/Game/Project/Character/Jodi/Jodi"
 P_GS = "/Game/Project/Classes/GameMode/TKA_GameState_Base"
 P_GS2 = "/Game/Project/Classes/GameMode/TKA_GameState"
@@ -53,6 +54,7 @@ P_MDATA_S = "/Game/Project/Tables/MakeupDataStruct"
 P_PRESET_SAVE = "/Game/Project/Classes/Save/MakeupPreset_Save"; P_PRESET_S = "/Game/Project/Classes/Struct/MakeupPreset_Struct"
 P_DLC_T = "/Game/Project/Tables/DLC_MainTable"; P_DLC_S = "/Game/Project/Tables/DLC_Struct"   # filled by the game loader: one row per mounted mod (pak base name)
 E_SKELMESH = "/Script/Engine.SkeletalMesh"; E_CHARACTER = "/Script/Engine.Character"; E_SKINNED = "/Script/Engine.SkinnedMeshComponent"
+E_SKELMESHCOMP = "/Script/Engine.SkeletalMeshComponent"; E_SCENECOMP = "/Script/Engine.SceneComponent"
 K_PATHS = "/Script/Engine.BlueprintPathsLibrary"; K_REND = "/Script/Engine.KismetRenderingLibrary"
 P_PC = "/Game/Project/Classes/TKA_Controller"
 P_WD = "/Game/Project/Classes/Misc/WardrobeData"
@@ -69,6 +71,8 @@ P_OUTFITS = "/Game/Project/Classes/Save/Outfits_Save"
 P_OUTFIT_S = "/Game/Project/Classes/Struct/Outfit_Struct"
 OUTFIT_MEMBER = "clothes"   # internal name in the game: clothes_5_E1AD9C5C4635FD04BF2E71A226121A33
 M = "/Game/Mod/AltUI"
+P_ABP = M + "/ABP_BodyScale"          # post-process ABP with the bone-scale variables (gen_bodyscale.py)
+S_BODYSCALE = M + "/S_BodyScale"; S_FLOATS = M + "/S_Floats"
 
 
 class G:
@@ -116,6 +120,10 @@ class G:
     def lit_name(self, id, value):
         """Typed Name literal (for wildcard pins like Map_Add/Array_Add instead of a pin default)."""
         self.call(id, K_SYS, "MakeLiteralName", inp={"Value": value}); return "@" + id + ".ReturnValue"
+
+    def lit_float(self, id, value):
+        """Typed float literal (for wildcard pins like Array_Add: a pin default is dropped when the wildcard resolves)."""
+        self.call(id, K_SYS, "MakeLiteralFloat", inp={"Value": value}); return "@" + id + ".ReturnValue"
 
     def link(self, a, b): self.links.append([a, b])
     def chain(self, *ids): self.exec.append(list(ids))
@@ -176,6 +184,11 @@ def struct(path, members):
         out.append(m)
     return {"type": "struct", "path": path, "members": out}
 def enum(path, values): return {"type": "enum", "path": path, "values": list(values)}
+
+
+def animblueprint(path, skeleton, variables, nodes):
+    """Post-process AnimBlueprint: variables (Vector) + a chain of ModifyBone nodes (scale only, component space), see BPGenAssets MakeAnimBlueprint."""
+    return {"type": "animblueprint", "path": path, "skeleton": skeleton, "variables": list(variables), "nodes": list(nodes)}
 
 
 def datatable(path, row_struct, composite=False, rows=None, parent_tables=None):

@@ -1,0 +1,198 @@
+{
+ "assets": [
+  {
+   "type": "animblueprint",
+   "path": "/Game/Mod/AltUI/ABP_BodyScale",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "variables": [
+    {
+     "name": "Breasts",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "GlutesHips",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "Thighs",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "LowerThighs",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "UpperCalfs",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "LowerCalfs",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "Upperarms",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "Lowerarms",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "Hands",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "Feet",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "Waist",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "RootShift",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "FeetShift",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    }
+   ],
+   "nodes": [
+    {
+     "bone": "root",
+     "kind": "translate",
+     "var": "RootShift"
+    },
+    {
+     "bone": "foot_l",
+     "kind": "translate",
+     "var": "FeetShift"
+    },
+    {
+     "bone": "foot_r",
+     "kind": "translate",
+     "var": "FeetShift"
+    },
+    {
+     "bone": "Breast_L",
+     "mode": "Additive",
+     "var": "Breasts"
+    },
+    {
+     "bone": "Breast_R",
+     "mode": "Additive",
+     "var": "Breasts"
+    },
+    {
+     "bone": "Hip_L",
+     "mode": "Additive",
+     "var": "GlutesHips"
+    },
+    {
+     "bone": "Hip_R",
+     "mode": "Additive",
+     "var": "GlutesHips"
+    },
+    {
+     "bone": "thigh_l",
+     "mode": "Additive",
+     "var": "Thighs"
+    },
+    {
+     "bone": "thigh_r",
+     "mode": "Additive",
+     "var": "Thighs"
+    },
+    {
+     "bone": "thigh_twist_01_l",
+     "mode": "Additive",
+     "var": "LowerThighs"
+    },
+    {
+     "bone": "thigh_twist_01_r",
+     "mode": "Additive",
+     "var": "LowerThighs"
+    },
+    {
+     "bone": "calf_l",
+     "mode": "Additive",
+     "var": "UpperCalfs"
+    },
+    {
+     "bone": "calf_r",
+     "mode": "Additive",
+     "var": "UpperCalfs"
+    },
+    {
+     "bone": "calf_twist_01_l",
+     "mode": "Additive",
+     "var": "LowerCalfs"
+    },
+    {
+     "bone": "calf_twist_01_r",
+     "mode": "Additive",
+     "var": "LowerCalfs"
+    },
+    {
+     "bone": "upperarm_l",
+     "mode": "Additive",
+     "var": "Upperarms"
+    },
+    {
+     "bone": "upperarm_r",
+     "mode": "Additive",
+     "var": "Upperarms"
+    },
+    {
+     "bone": "lowerarm_l",
+     "mode": "Additive",
+     "var": "Lowerarms"
+    },
+    {
+     "bone": "lowerarm_r",
+     "mode": "Additive",
+     "var": "Lowerarms"
+    },
+    {
+     "bone": "hand_l",
+     "mode": "Additive",
+     "var": "Hands"
+    },
+    {
+     "bone": "hand_r",
+     "mode": "Additive",
+     "var": "Hands"
+    },
+    {
+     "bone": "foot_l",
+     "mode": "Additive",
+     "var": "Feet"
+    },
+    {
+     "bone": "foot_r",
+     "mode": "Additive",
+     "var": "Feet"
+    },
+    {
+     "bone": "Morph_Waist",
+     "mode": "Additive",
+     "var": "Waist"
+    }
+   ]
+  }
+ ]
+}

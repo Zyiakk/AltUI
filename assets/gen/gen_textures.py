@@ -7,7 +7,7 @@ T_ROUNDBOX = M + "/T_RoundBox"
 T_CHECK_ON = M + "/T_CheckOn"
 T_UNDO = M + "/T_Undo"; T_REDO = M + "/T_Redo"
 T_CHECK_OFF = M + "/T_CheckOff"
-T_PLUS = M + "/T_Plus"; T_MINUS = M + "/T_Minus"
+T_PLUS = M + "/T_Plus"; T_MINUS = M + "/T_Minus"; T_CAM = M + "/T_Cam"; T_PHOTO = M + "/T_Photo"
 T_COLORIZE = M + "/T_Colorize"
 TEX_PROPS = {"CompressionSettings": "TC_EditorIcon", "LODGroup": "TEXTUREGROUP_UI", "MipGenSettings": "TMGS_NoMipmaps",
              "NeverStream": True, "SRGB": True, "Filter": "TF_Bilinear"}
@@ -69,6 +69,29 @@ def circle_glyph(path, plus, size=128, ss=4):
     big.resize((size, size), Image.LANCZOS).save(path)
 
 
+def circle_cam(path, size=64, ss=4):
+    """Camera glyph in a white ring: body (rounded rect) with a hump on top and a lens ring (free camera button)."""
+    S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 255)
+    w = int(S * 0.08); m = w // 2; d.ellipse((m, m, S - 1 - m, S - 1 - m), outline=W, width=w)
+    d.rounded_rectangle((S * 0.26, S * 0.40, S * 0.74, S * 0.68), radius=int(S * 0.05), fill=W)
+    d.rounded_rectangle((S * 0.40, S * 0.33, S * 0.60, S * 0.42), radius=int(S * 0.03), fill=W)   # hump
+    d.ellipse((S * 0.42, S * 0.46, S * 0.58, S * 0.62), fill=(255, 255, 255, 0))                    # lens hole
+    d.ellipse((S * 0.455, S * 0.495, S * 0.545, S * 0.585), fill=W)                                 # lens
+    big.resize((size, size), Image.LANCZOS).save(path)
+
+
+def circle_photo(path, size=64, ss=4):
+    """Aperture glyph in a white ring: circle with six blades (photo mode button)."""
+    import math
+    S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 255)
+    w = int(S * 0.08); m = w // 2; d.ellipse((m, m, S - 1 - m, S - 1 - m), outline=W, width=w)
+    cx = cy = S / 2; r = S * 0.24; d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=W, width=int(S * 0.05))
+    for i in range(6):
+        a = math.radians(60 * i); b = math.radians(60 * i + 110)
+        d.line([(cx + r * 0.95 * math.cos(a), cy + r * 0.95 * math.sin(a)), (cx + r * 0.45 * math.cos(b), cy + r * 0.45 * math.sin(b))], fill=W, width=int(S * 0.04))
+    big.resize((size, size), Image.LANCZOS).save(path)
+
+
 def color_glyph(path, size=48, ss=4):
     """Three overlapping pastel discs (red top, green left, blue right) with a light centre - the vanilla "colour adjustable" subscript."""
     S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big)
@@ -89,6 +112,7 @@ def build(assets_dir):
     circle_arrow(os.path.join(assets_dir, "tex", "undo.png"), False); circle_arrow(os.path.join(assets_dir, "tex", "redo.png"), True)
     circle_glyph(os.path.join(assets_dir, "tex", "plus.png"), True); circle_glyph(os.path.join(assets_dir, "tex", "minus.png"), False)
     color_glyph(os.path.join(assets_dir, "tex", "colorize.png"))
+    circle_cam(os.path.join(assets_dir, "tex", "cam.png")); circle_photo(os.path.join(assets_dir, "tex", "photo.png"))
     return [{"type": "texture", "path": T_ROUNDBOX, "file": "tex/roundbox.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_ON, "file": "tex/check_on.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_OFF, "file": "tex/check_off.png", "props": TEX_PROPS},
@@ -96,7 +120,9 @@ def build(assets_dir):
             {"type": "texture", "path": T_REDO, "file": "tex/redo.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_PLUS, "file": "tex/plus.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_MINUS, "file": "tex/minus.png", "props": TEX_PROPS},
-            {"type": "texture", "path": T_COLORIZE, "file": "tex/colorize.png", "props": TEX_PROPS}]
+            {"type": "texture", "path": T_COLORIZE, "file": "tex/colorize.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_CAM, "file": "tex/cam.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_PHOTO, "file": "tex/photo.png", "props": TEX_PROPS}]
 
 
 if __name__ == "__main__":

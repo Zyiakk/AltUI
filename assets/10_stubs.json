@@ -359,6 +359,17 @@
      "type": "name",
      "container": "array"
     }
+   ],
+   "functions": [
+    {
+     "name": "Collect Player Data",
+     "inputs": [
+      {
+       "name": "player",
+       "type": "object:/Game/Project/Character/Jodi/Jodi"
+      }
+     ]
+    }
    ]
   },
   {
@@ -638,7 +649,7 @@
    "rows": {
     "ModThing": {
      "TypeName": "Top",
-     "Group": "None",
+     "Group": "SomeGroup",
      "ColorAdjustable": true,
      "Quality": 2
     }
@@ -662,6 +673,12 @@
      "name": "CameraFocus",
      "type": "int",
      "internal_name": "CameraFocus_17_DE98CCDE4FA8319FE550EC814F334C53"
+    },
+    {
+     "name": "IncompatibleTypes",
+     "type": "name",
+     "container": "array",
+     "internal_name": "IncompatibleTypes_24_3AC6063A4AB0269D2379B6ADBE2FC2B0"
     }
    ]
   },
@@ -675,17 +692,31 @@
      "CameraFocus": 365
     },
     "Shirt": {},
-    "Top": {},
+    "Top": {
+     "IncompatibleTypes": [
+      "Bra"
+     ]
+    },
     "Sweater": {},
     "Loose": {},
     "Suit": {},
-    "Dress": {},
+    "Dress": {
+     "IncompatibleTypes": [
+      "Bra",
+      "Panties",
+      "Top"
+     ]
+    },
     "Leotard": {},
     "Swim": {},
     "Coat": {},
     "Corset": {},
     "Briefs": {},
-    "Pants": {},
+    "Pants": {
+     "IncompatibleTypes": [
+      "Socks"
+     ]
+    },
     "Panties": {},
     "Leggings": {},
     "Skirt": {},
@@ -739,6 +770,12 @@
    "type": "blueprint",
    "path": "/Game/Project/Classes/Character_Player_Base",
    "mode": "augment",
+   "variables": [
+    {
+     "name": "Breast Morph Weight",
+     "type": "float"
+    }
+   ],
    "functions": [
     {
      "name": "Wear The Clothes",
@@ -773,6 +810,19 @@
       {
        "name": "clothes name",
        "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "take off clothes",
+     "inputs": [
+      {
+       "name": "type",
+       "type": "name"
+      },
+      {
+       "name": "update mask",
+       "type": "bool"
       }
      ]
     },
@@ -885,6 +935,31 @@
     },
     {
      "name": "Reset Clothes Physics"
+    },
+    {
+     "name": "Change Breast Constraint Profile",
+     "inputs": [
+      {
+       "name": "morph",
+       "type": "float"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Character_Base",
+   "mode": "augment",
+   "functions": [
+    {
+     "name": "Enable Boobs Physics",
+     "inputs": [
+      {
+       "name": "hip",
+       "type": "bool"
+      }
+     ]
     }
    ]
   },
@@ -1151,6 +1226,21 @@
      "inputs": [
       {
        "name": "allow",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Enter Photo Mode"
+    },
+    {
+     "name": "Try Exit Photo Mode"
+    },
+    {
+     "name": "Is In Photo Mode",
+     "outputs": [
+      {
+       "name": "yes",
        "type": "bool"
       }
      ]

@@ -25,12 +25,18 @@ def unwired_exits(g):
 
 
 EXEC_KINDS = {"set", "branch", "foreach", "spawn", "macro"}
+# engine calls with an exec pin that are easy to mistake for pure ones (the editor then "prunes" them and reads the
+# output as default - 2026-09-21: `Save Worn` saved a null object). Extend when it happens again.
+IMPURE_CALLS = {"CreateSaveGameObject", "LoadGameFromSlot", "SaveGameToSlot", "SphereTraceSingle", "LineTraceSingle", "K2_SetActorLocation",
+                "K2_SetActorRotation", "K2_DestroyActor", "SetViewTargetWithBlend", "EnableInput", "DisableInput", "SetVisibility", "SetKeyboardFocus",
+                "SetInputMode_GameOnly", "SetInputMode_GameAndUIEx", "K2_SetTimer", "K2_ClearTimer", "AddToViewport", "RemoveFromParent", "Array_Add",
+                "Array_Clear", "Array_Remove", "Set_Add", "Set_Remove", "Set_Clear", "Set_AddItems", "Map_Add", "Map_Remove", "Map_Clear", "ExecuteConsoleCommand"}
 
 
 def unchained_nodes(g):
     """ids of exec-carrying nodes that appear in no exec chain"""
     chained = {step.split(":")[0] for chain in g["exec"] for step in chain}
-    return [n["id"] for n in g["nodes"] if n["kind"] in EXEC_KINDS and n["id"] not in chained]
+    return [n["id"] for n in g["nodes"] if (n["kind"] in EXEC_KINDS or (n["kind"] == "call" and n.get("function") in IMPURE_CALLS)) and n["id"] not in chained]
 
 
 class GraphPaths(unittest.TestCase):
@@ -55,3 +61,16 @@ class GraphPaths(unittest.TestCase):
         for f in files:
             for g in graphs(json.load(open(f))):
                 self.assertEqual(unwired_exits(g), [], os.path.basename(f) + " " + ", ".join(n["id"] for n in g["nodes"][:3]))
+
+    def test_generated_function_chains_start_at_entry(self):
+        """A function graph whose exec chains never leave `entry` runs nothing (2026-09-20: `Rebuild Conflicts` chained from the panel
+        guard instead of `entry` - the options block stayed empty). Event graphs (custom events / events as sources) are exempt."""
+        files = sorted(glob.glob(os.path.join(ASSETS, "*.json"))); self.assertTrue(files)
+        for f in files:
+            for a in json.load(open(f)).get("assets", []):
+                for fn in a.get("functions", []):
+                    g = fn.get("graph")
+                    if not g or not g.get("exec"): continue
+                    starts = {chain[0].split(":")[0] for chain in g["exec"]}
+                    self.assertIn("entry", starts, "%s %s: no chain starts at entry" % (a.get("path", "?").rsplit("/", 1)[-1], fn["name"]))
+

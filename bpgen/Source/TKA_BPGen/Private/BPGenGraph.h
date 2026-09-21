@@ -6,4 +6,5 @@ namespace BPGenGraph {
   void PickBlueprintClasses(UClass* Parent, UClass*& BPClass, UClass*& GenClass);
   bool BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonObject>& J, FString& Err);
   bool BuildWidgetTree(UBlueprint* BP, const TSharedPtr<FJsonObject>& J, FString& Err);
+  extern double TCreate, TDefaults, TLinks;   // cumulative BuildGraph phase times (BPGEN timing lines)
 }

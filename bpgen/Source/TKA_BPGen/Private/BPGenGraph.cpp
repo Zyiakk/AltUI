@@ -1,4 +1,5 @@
 #include "BPGenGraph.h"
+#include "HAL/PlatformTime.h"
 #include "BPGenTypes.h"
 #include "BPGenCommandlet.h"
 #include "Engine/Blueprint.h"
@@ -64,15 +65,17 @@ static UEdGraphPin* FindPinFuzzy(UEdGraphNode* N, const FString& Name, EEdGraphP
 }
 static FString PinList(UEdGraphNode* N) { FString S; for (UEdGraphPin* P : N->Pins) S += FString::Printf(TEXT("%s%s "), P->Direction == EGPD_Input ? TEXT("<") : TEXT(">"), *P->PinName.ToString()); return S; }
 
+// bMarkAsModified = false: FBlueprintEditorUtils::MarkBlueprintAsModified walks every node of every graph of the blueprint
+// (ClearCachedBlueprintData) - per pin default / per link that is O(pins x nodes) and cost ~90 s on the manager. BuildGraph marks once at the end.
 static bool SetPinDefault(const UEdGraphSchema_K2* Schema, UEdGraphPin* Pin, const FString& Val, FString& Err) {
   const FName Cat = Pin->PinType.PinCategory;
   if ((Cat == UEdGraphSchema_K2::PC_Object || Cat == UEdGraphSchema_K2::PC_Class) && Val.StartsWith(TEXT("/"))) {
     UObject* O = BPGenTypes::LoadObj(Val);
     if (!O) { Err = TEXT("default object not found ") + Val; return false; }
-    Schema->TrySetDefaultObject(*Pin, O); return true;
+    Schema->TrySetDefaultObject(*Pin, O, /*bMarkAsModified*/ false); return true;
   }
-  if (Cat == UEdGraphSchema_K2::PC_Text) { Schema->TrySetDefaultText(*Pin, FText::FromString(Val)); return true; }
-  Schema->TrySetDefaultValue(*Pin, Val); return true;
+  if (Cat == UEdGraphSchema_K2::PC_Text) { Schema->TrySetDefaultText(*Pin, FText::FromString(Val), /*bMarkAsModified*/ false); return true; }
+  Schema->TrySetDefaultValue(*Pin, Val, /*bMarkAsModified*/ false); return true;
 }
 
 static UEdGraph* FindMacro(const FString& Name) {
@@ -86,8 +89,11 @@ template<typename T> static T* NewNode(UEdGraph* G, int32 X, int32 Y, TFunction<
   FGraphNodeCreator<T> C(*G); T* N = C.CreateNode(); N->NodePosX = X; N->NodePosY = Y; if (Init) Init(N); C.Finalize(); return N;
 }
 
+double BPGenGraph::TCreate = 0, BPGenGraph::TDefaults = 0, BPGenGraph::TLinks = 0;
+
 bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonObject>& J, FString& Err) {
   if (!G) { Err = TEXT("graph is null"); return false; }
+  double T0 = FPlatformTime::Seconds();
   const UEdGraphSchema_K2* Schema = GetDefault<UEdGraphSchema_K2>();
   // clear the graph (keep entry/result) – we own these graphs completely
   for (UEdGraphNode* N : TArray<UEdGraphNode*>(G->Nodes))
@@ -140,10 +146,12 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
       if (UEdGraphPin* CP = S->GetClassPin()) { const FString Cls = JS(N, TEXT("class")); if (!Cls.IsEmpty()) { if (!SetPinDefault(Schema, CP, Cls, Err)) return false; S->ReconstructNode(); } }
       Node = S; }
     else if (Kind == TEXT("get_row")) {
-      UDataTable* DT = Cast<UDataTable>(BPGenTypes::LoadObj(JS(N, TEXT("table"))));
-      if (!DT) { Err = TEXT("get_row: table not found ") + JS(N, TEXT("table")); return false; }
       UK2Node_GetDataTableRow* R = NewNode<UK2Node_GetDataTableRow>(G, X, Y, nullptr);
-      UEdGraphPin* TP = R->GetDataTablePin(); Schema->TrySetDefaultObject(*TP, DT); R->PinDefaultValueChanged(TP);
+      if (N->HasField(TEXT("table"))) {   // static table: default object sets the row struct; otherwise the Table pin gets linked and the struct comes from the linked Row pin
+        UDataTable* DT = Cast<UDataTable>(BPGenTypes::LoadObj(JS(N, TEXT("table"))));
+        if (!DT) { Err = TEXT("get_row: table not found ") + JS(N, TEXT("table")); return false; }
+        UEdGraphPin* TP = R->GetDataTablePin(); Schema->TrySetDefaultObject(*TP, DT); R->PinDefaultValueChanged(TP);
+      }
       Node = R; }
     else if (Kind == TEXT("macro")) { UEdGraph* M = FindMacro(JS(N, TEXT("name"))); if (!M) { Err = TEXT("macro not found ") + JS(N, TEXT("name")); return false; }
       Node = NewNode<UK2Node_MacroInstance>(G, X, Y, [&](UK2Node_MacroInstance* MI) { MI->SetMacroGraph(M); }); }
@@ -185,6 +193,7 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
         P->PinType.PinSubCategoryObject = C; }
   }
   // short form "in": {"Pin": "@node.pin" | "literal"} -> link or default
+  TCreate += FPlatformTime::Seconds() - T0; T0 = FPlatformTime::Seconds();
   TArray<TPair<FString, FString>> ExtraLinks;
   if (Nodes) for (const auto& NV : *Nodes) {
     const TSharedPtr<FJsonObject> N = NV->AsObject(); const FString Id = JS(N, TEXT("id"));
@@ -199,6 +208,7 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
       if (!SetPinDefault(Schema, P, V, Err)) return false;
     }
   }
+  TDefaults += FPlatformTime::Seconds() - T0; T0 = FPlatformTime::Seconds();
   // short form "exec": [["a","b:Completed","c"], ...] -> connect the first exec pins ("id:pin" selects the output pin)
   const TArray<TSharedPtr<FJsonValue>>* Chains = nullptr; J->TryGetArrayField(TEXT("exec"), Chains);
   if (Chains) for (const auto& CV : *Chains) {
@@ -227,9 +237,12 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
     UEdGraphPin* PA = FindPinFuzzy(A, APin, EGPD_Output); UEdGraphPin* PB = FindPinFuzzy(B, BPin, EGPD_Input);
     if (!PA) { Err = FString::Printf(TEXT("link: pin %s.%s not found; pins: %s"), *AId, *APin, *PinList(A)); return false; }
     if (!PB) { Err = FString::Printf(TEXT("link: pin %s.%s not found; pins: %s"), *BId, *BPin, *PinList(B)); return false; }
-    if (!Schema->TryCreateConnection(PA, PB)) { Err = FString::Printf(TEXT("link refused %s.%s -> %s.%s: %s"), *AId, *APin, *BId, *BPin, *Schema->CanCreateConnection(PA, PB).Message.ToString()); return false; }
+    // base-class version: CanCreateConnection (virtual, K2 rules) + pin notifications, but no MarkBlueprintAsModified per link (see SetPinDefault)
+    if (!Schema->UEdGraphSchema::TryCreateConnection(PA, PB)) { Err = FString::Printf(TEXT("link refused %s.%s -> %s.%s: %s"), *AId, *APin, *BId, *BPin, *Schema->CanCreateConnection(PA, PB).Message.ToString()); return false; }
     UE_LOG(LogBPGen, Verbose, TEXT("BPGEN link %s.%s -> %s.%s (linked=%d/%d)"), *AId, *PA->PinName.ToString(), *BId, *PB->PinName.ToString(), PA->LinkedTo.Num(), PB->LinkedTo.Num());
   }
+  TLinks += FPlatformTime::Seconds() - T0;
+  FBlueprintEditorUtils::MarkBlueprintAsModified(BP);   // once per graph (defaults and links above skip it)
   return true;
 }
 

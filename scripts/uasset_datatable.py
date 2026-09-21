@@ -40,6 +40,12 @@ def float_prop(pkg, tag, v):
     return _tag(pkg, tag, "FloatProperty", 4) + struct.pack("<f", v)
 
 
+def vector_prop(pkg, tag, xyz):
+    """StructProperty Vector: tag + struct name + zero struct GUID, then 3 floats (native serialisation)."""
+    v = struct.pack("<fff", *xyz)
+    return _tag(pkg, tag, "StructProperty", len(v), _fn(pkg, "Vector") + b"\0" * 16) + v
+
+
 def name_array_prop(pkg, tag, values):
     v = struct.pack("<i", len(values)) + b"".join(_fn(pkg, x) for x in values)
     return _tag(pkg, tag, "ArrayProperty", len(v), _fn(pkg, "NameProperty")) + v
@@ -97,3 +103,11 @@ def make_mod_table(package_dir, caption, desc, tables, version=1.0):
     row = text_prop(pkg, T["Caption"], caption) + text_prop(pkg, T["Desc"], desc) + float_prop(pkg, T["Version"], version) \
         + name_array_prop(pkg, T["Tables"], tables) + end_props(pkg)
     return finish_table(pkg, s, [(package_dir.rsplit("/", 1)[1], row)])
+
+
+def make_body_scale_table(package_dir, defaults):
+    """Body_Scale (row struct S_BodyScale from AltUI.pak): one row 'Default' with the body's bone-scale defaults (ABP_BodyScale variables)."""
+    import bodyscale_groups as bg
+    pkg, s = new_datatable(package_dir + "/" + bg.TABLE_NAME, bg.TABLE_NAME, bg.STRUCT_PATH, "S_BodyScale")
+    row = b"".join(vector_prop(pkg, internal, defaults[var]) for var, internal in bg.struct_members()) + end_props(pkg)
+    return finish_table(pkg, s, [(bg.ROW_NAME, row)])

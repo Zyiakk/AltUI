@@ -75,6 +75,10 @@ class Convert(unittest.TestCase):
     def setUp(self):
         self.d = tempfile.mkdtemp(); self.addCleanup(shutil.rmtree, self.d, ignore_errors=True)
 
+    def assertTagAdded(self, out_uexp, src_uexp):
+        """Mesh without its own ABP: the export data grew by the 29-byte PostProcessAnimBlueprint tag, the mesh data behind it is unchanged."""
+        self.assertEqual(len(out_uexp), len(src_uexp) + 29); self.assertEqual(out_uexp[-4096:], src_uexp[-4096:])
+
     def test_derive_name(self):
         self.assertEqual(bodypak.derive_name("/x/TKA-UN_Dv1-fix1.3d.pak"), "Body_TKA_UN_Dv1_fix1_3d")
         self.assertEqual(bodypak.derive_name("Body_Foo.pak"), "Body_Foo")
@@ -85,10 +89,9 @@ class Convert(unittest.TestCase):
         self.assertEqual(log["title"], "TKA_UN_Dv1_fix1_3d")
         pk = Pak(out); src = Pak(DV1)
         self.assertEqual(pk.mount, "../../../TheKillingAntidote/Content/Mod/Body_TKA_UN_Dv1_fix1_3d/")
-        self.assertEqual(sorted(pk.files), ["/Female.uasset", "/Female.uexp", "/TKA_Mod_Table.uasset", "/TKA_Mod_Table.uexp"])
-        for k in ("/Female.uasset", "/Female.uexp"):
-            self.assertEqual(pk.read(k), src.read(k))
-        self.assertEqual(pk.entry(pk.files["/Female.uexp"])["comp"], src.entry(src.files["/Female.uexp"])["comp"])
+        self.assertEqual(sorted(pk.files), ["/Body_Scale.uasset", "/Body_Scale.uexp", "/Female.uasset", "/Female.uexp", "/TKA_Mod_Table.uasset", "/TKA_Mod_Table.uexp"])
+        self.assertTagAdded(pk.read("/Female.uexp"), src.read("/Female.uexp"))   # the uasset gets the ABP imports (test_abp_added_dv1)
+        self.assertEqual(pk.entry(pk.files["/Female.uexp"])["comp"], 0)   # tag inserted -> stored uncompressed (raw block copy: test_abp_attached_783)
         self.assertTrue(os.path.exists(os.path.join(self.d, "Body_TKA_UN_Dv1_fix1_3d_convert.json")))
         # mod table: row = name, Caption = title, no tables
         import uasset_props
@@ -100,9 +103,9 @@ class Convert(unittest.TestCase):
     def test_v11_nested_mount(self):
         out, log = bodypak.convert(PUSSY, name="Body_NewPussy", title="New Pussy", out_dir=self.d)
         pk = Pak(out); src = Pak(PUSSY)
-        self.assertEqual(sorted(pk.files), ["/Female.uasset", "/Female.uexp", "/TKA_Mod_Table.uasset", "/TKA_Mod_Table.uexp"])   # skin_hye/Eyelashes are left out
-        self.assertEqual(pk.read("/Female.uexp"), src.read("Jodi/Body/Female.uexp")); self.assertEqual(log["title"], "New Pussy")
-        self.assertEqual(log["companions"], {})
+        self.assertEqual(sorted(pk.files), ["/Body_Scale.uasset", "/Body_Scale.uexp", "/Female.uasset", "/Female.uexp", "/TKA_Mod_Table.uasset", "/TKA_Mod_Table.uexp"])   # skin_hye/Eyelashes are left out
+        self.assertTagAdded(pk.read("/Female.uexp"), src.read("Jodi/Body/Female.uexp")); self.assertEqual(log["title"], "New Pussy")
+        self.assertEqual(log["companions"], {}); self.assertEqual(log["abp"], "AltUI")
         self.assertEqual(sorted(log["dropped"]), ["Jodi/Body/Skin/skin_hye.uasset", "Jodi/Body/Skin/skin_hye.ubulk", "Jodi/Body/Skin/skin_hye.uexp",
                                                   "Makeup/Eyelashes_1.uasset", "Makeup/Eyelashes_1.ubulk", "Makeup/Eyelashes_1.uexp"])
 
@@ -111,7 +114,7 @@ class Convert(unittest.TestCase):
         mod pak. Without it the body loads without its bone scaling = looks like vanilla. The companion is relocated into the mod
         folder and the mesh import is rewritten; TESTABP itself (imports only vanilla) stays byte-identical."""
         from uasset_pkg import Package
-        out, log = bodypak.convert(THICC, name="Body_Thicc", title="Thicc", out_dir=self.d)
+        out, log = bodypak.convert(THICC, name="Body_Thicc", title="Thicc", out_dir=self.d, keep_abp=True)
         pk = Pak(out); src = Pak(THICC)
         new = "/Game/Mod/Body_Thicc/Project/Character/Jodi/Body/TESTABP"
         self.assertEqual(sorted(pk.files), ["/Female.uasset", "/Female.uexp", "/TKA_Mod_Table.uasset", "/TKA_Mod_Table.uexp",
@@ -127,11 +130,63 @@ class Convert(unittest.TestCase):
         self.assertEqual(mesh.names[:len(orig.names)], orig.names)          # name indices used by the export data are unchanged
         self.assertEqual([e.data for e in mesh.exports], [e.data for e in orig.exports])
 
+    def test_abp_attached_783(self):
+        """Default: the mod's ABP import is redirected to AltUI's ABP_BodyScale, its defaults land in Body_Scale, TESTABP is not shipped."""
+        from uasset_pkg import Package
+        import bodyscale_groups as bg, uasset_props
+        out, log = bodypak.convert(THICC, name="Body_Thicc", title="Thicc", out_dir=self.d)
+        pk = Pak(out); src = Pak(THICC)
+        self.assertEqual(sorted(pk.files), ["/Body_Scale.uasset", "/Body_Scale.uexp", "/Female.uasset", "/Female.uexp", "/TKA_Mod_Table.uasset", "/TKA_Mod_Table.uexp"])
+        self.assertEqual(log["abp"], "AltUI"); self.assertEqual(log["warnings"], []); self.assertEqual(log["companions"], {})
+        self.assertEqual([round(x, 3) for x in log["scale_defaults"]["GlutesHips"]], [2.5, 1.5, 2.0])
+        mesh = Package.from_bytes(pk.read("/Female.uasset"), pk.read("/Female.uexp"))
+        pkgs = [im.object_name for im in mesh.imports if im.class_name == "Package"]
+        self.assertIn(bg.ABP_PATH, pkgs); self.assertFalse(any("TESTABP" in p for p in pkgs))
+        self.assertTrue(any(im.class_name == "AnimBlueprintGeneratedClass" and im.object_name == bg.ABP_CLASS for im in mesh.imports))
+        self.assertTrue(any(im.class_name == bg.ABP_CLASS and im.object_name == "Default__" + bg.ABP_CLASS and im.class_package == bg.ABP_PATH for im in mesh.imports))
+        self.assertEqual(pk.read("/Female.uexp"), src.read("/Female.uexp"))          # export data untouched: the tag already existed
+        p = os.path.join(self.d, "Body_Scale.uasset"); open(p, "wb").write(pk.read("/Body_Scale.uasset")); open(p[:-7] + ".uexp", "wb").write(pk.read("/Body_Scale.uexp"))
+        row = next(iter(uasset_props.dump(p).values()))["rows"]["Default"]
+        self.assertEqual([round(row[bg.member_internal(0, "Breasts")][k], 3) for k in "xyz"], [1.3, 1.2, 1.15])
+
+    def test_abp_added_dv1(self):
+        """A mesh without a post-process ABP gets the imports and the PostProcessAnimBlueprint tag; every other tag stays byte-identical."""
+        from uasset_pkg import Package
+        import bodyscale_groups as bg, uasset_props
+        out, log = bodypak.convert(DV1, name="Body_Dv1", out_dir=self.d)
+        pk = Pak(out); src = Pak(DV1)
+        self.assertEqual(log["abp"], "AltUI"); self.assertEqual(log["scale_defaults"], {v: [1.0, 1.0, 1.0] for v, _, _ in bg.GROUPS})
+        a = Package.from_bytes(pk.read("/Female.uasset"), pk.read("/Female.uexp")); b = Package.from_bytes(src.read("/Female.uasset"), src.read("/Female.uexp"))
+        fa = next(e for e in a.exports if e.object_name == "Female"); fb = next(e for e in b.exports if e.object_name == "Female")
+        self.assertEqual(len(a.imports), len(b.imports) + 3)
+        cls_idx = -(next(k for k, im in enumerate(a.imports) if im.object_name == bg.ABP_CLASS and im.class_name == "AnimBlueprintGeneratedClass") + 1)
+        self.assertIn(cls_idx, fa.deps_create_before_ser)
+        # tags: same as before plus PostProcessAnimBlueprint -> class import
+        def tags(p, e):
+            r = uasset_props.Reader(e.data, p.names, p.imports, p.exports); out = []
+            while True:
+                t = r.tag()
+                if t is None: return out
+                out.append((t["name"], e.data[r.p:r.p + t["size"]])); r.p += t["size"]
+        ta, tb = tags(a, fa), tags(b, fb)
+        self.assertEqual([t for t in ta if t[0] != "PostProcessAnimBlueprint"], tb)
+        self.assertEqual(dict(ta)["PostProcessAnimBlueprint"], struct.pack("<i", cls_idx))
+        # the rest of the export (mesh data after the tags) is unchanged
+        self.assertEqual(fa.data[-1000:], fb.data[-1000:]); self.assertEqual(len(fa.data) - len(fb.data), 29)   # tag: name 8 + type 8 + size/index 8 + guid flag 1 + int32 4
+        self.assertEqual([e.data for e in a.exports if e.object_name != "Female"], [e.data for e in b.exports if e.object_name != "Female"])
+
+    def test_keep_abp(self):
+        out, log = bodypak.convert(THICC, name="Body_Keep", out_dir=self.d, keep_abp=True)
+        pk = Pak(out); src = Pak(THICC)
+        self.assertEqual(log["abp"], "kept"); self.assertNotIn("scale_defaults", log)
+        self.assertIn("Project/Character/Jodi/Body/TESTABP.uexp", pk.files); self.assertNotIn("/Body_Scale.uasset", pk.files)
+        self.assertEqual(pk.read("/Female.uexp"), src.read("/Female.uexp"))
+
     def test_v3_source_stored_uncompressed(self):
         out, log = bodypak.convert(OG, name="Body_OGMORPH", title="OGMORPH 0.6", out_dir=self.d)
         pk = Pak(out); src = open_pak(OG); self.assertEqual(src.ver, 3)
         self.assertEqual(pk.entry(pk.files["/Female.uexp"])["comp"], 0)
-        self.assertEqual(pk.read("/Female.uexp"), src.read("Female.uexp")); self.assertEqual(pk.read("/Female.uasset"), src.read("Female.uasset"))
+        self.assertTagAdded(pk.read("/Female.uexp"), src.read("Female.uexp"))
 
     def test_errors(self):
         with self.assertRaises(SystemExit): bodypak.convert(SHOES, out_dir=self.d)                       # no body mesh
@@ -147,7 +202,7 @@ class Convert(unittest.TestCase):
 
     @unittest.skipUnless(os.path.exists(UNREALPAK), "UnrealPak fehlt")
     def test_unrealpak_test_passes(self):
-        for src, name in ((DV1, "Body_A"), (OG, "Body_B")):
+        for src, name in ((DV1, "Body_A"), (OG, "Body_B"), (THICC, "Body_C"), (PUSSY, "Body_D")):
             out, _ = bodypak.convert(src, name=name, out_dir=self.d)
             r = subprocess.run([UNREALPAK, out, "-Test"], capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-3000:])
@@ -172,8 +227,8 @@ class Dist(unittest.TestCase):
         self.assertNotIn("oodle_native.py", names)   # the ctypes accelerator stays in the dev repo
         env = {k: v for k, v in os.environ.items() if k not in ("OOZ", "PYTHONPATH")}
         r = subprocess.run([sys.executable, "-I", "-S", pyz, THICC, "--name", "Body_ZipThicc", "--out", d], capture_output=True, text=True, env=env)
-        self.assertEqual(r.returncode, 0, r.stderr); self.assertIn("companion asset used by the mesh: /Game/Project/Character/Jodi/Body/TESTABP", r.stdout)
-        self.assertEqual(json.load(open(os.path.join(d, "Body_ZipThicc_convert.json")))["companions"], {"/Game/Project/Character/Jodi/Body/TESTABP": "/Game/Mod/Body_ZipThicc/Project/Character/Jodi/Body/TESTABP"})
+        self.assertEqual(r.returncode, 0, r.stderr); self.assertIn("ABP_BodyScale", r.stdout)
+        self.assertEqual(json.load(open(os.path.join(d, "Body_ZipThicc_convert.json")))["abp"], "AltUI")
 
 
 if __name__ == "__main__":

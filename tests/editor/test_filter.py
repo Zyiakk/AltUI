@@ -32,6 +32,8 @@ def main():
     c = counts("", False, False, False); expect("counts unfiltered", (c.get("Neck"), c.get("Top"), c.get("All")), (3, 1, 18))
     c = counts("", False, False, True); expect("counts only vanilla", (c.get("Neck"), c.get("Top"), c.get("All")), (3, None, 17))
     c = counts("neck", True, False, False); expect("counts search + owned", (c.get("Neck"), c.get("Necklace"), c.get("All")), (2, None, 2))
+    mgr.set_editor_property("CurrentGroup", "Kpop"); c = counts("", False, False, False); expect("counts with a group chip", (c.get("Neck"), c.get("Top"), c.get("All")), (2, None, 2))
+    mgr.set_editor_property("CurrentGroup", "None")
     mgr.call_method("Test Groups", args=("Neck",))
     expect("groups of slot", sorted(str(n) for n in mgr.get_editor_property("TmpNames")), ["Basis", "Kpop"])
     # "..." chip (pseudo group AltUI_More): toggles SubTabsCollapsed, keeps the current group; only on the clothes page
@@ -61,6 +63,28 @@ def main():
     mgr.call_method("Test Chip Caption", args=("Lace", True)); expect("chip full (selected while collapsed)", str(mgr.get_editor_property("TmpText")), "Spitze")
     mgr.set_editor_property("GroupLen", 0)
     mgr.call_method("Test Chip Caption", args=("Lace", False)); expect("chip unlimited", str(mgr.get_editor_property("TmpText")), "Spitze")
+    # search over custom names, row names and mod captions (Names loaded from AltUI_Names.sav; Set Custom Name marks the catalog dirty)
+    mgr.call_method("Test Load Names"); mgr.call_method("Test Set Custom Name", args=("item", "ModThing", "Fancy Thing"))
+    mgr.call_method("Test Build")   # the catalog carries the shown names
+    expect("search custom name", filtered(mgr, "Top", "None", "fancy", False, False), ["ModThing"])
+    expect("search row name", filtered(mgr, "Top", "None", "modthing", False, False), ["ModThing"])
+    expect("search mod caption", filtered(mgr, "Top", "None", "some mod", False, False), ["ModThing"])
+    expect("search mod caption misses vanilla", filtered(mgr, "Neck", "None", "some mod", False, False), [])
+    mgr.call_method("Test Custom Name", args=("item", "ModThing")); expect("custom name stored", str(mgr.get_editor_property("TmpStr2")), "Fancy Thing")
+    mgr.call_method("Test Set Custom Name", args=("item", "ModThing", "")); mgr.call_method("Test Custom Name", args=("item", "ModThing")); expect("custom name removed", mgr.get_editor_property("TmpBool"), False)
+    mgr.call_method("Test Build")
+    # MergeGroups: two group ids with the same shown caption share one chip and one filter
+    def alias(group):
+        mgr.call_method("Test Group Alias", args=(group,)); return str(mgr.get_editor_property("TmpName"))
+    mgr.call_method("Test Load Names"); mgr.call_method("Test Set Custom Name", args=("group", "Kpop", "Spitze"))
+    mgr.set_editor_property("MergeGroups", True); mgr.call_method("Test Build")
+    expect("merge: same alias", alias("Kpop") == alias("Lace") and alias("Kpop") in ("Kpop", "Lace"), True)
+    mgr.call_method("Test Groups", args=("All",)); expect("merge: one chip", sorted(str(n) for n in mgr.get_editor_property("TmpNames")), sorted(["Basis", alias("Lace"), "SomeGroup"]))   # Kpop gone, the mod group stays
+    expect("merge: filter joins both ids", filtered(mgr, "Neck", alias("Lace"), "", False, False), ["Alpha_Neck", "Casual_Mina_Neck"])
+    expect("merge: untouched group", alias("Basis"), "Basis")
+    mgr.set_editor_property("MergeGroups", False); mgr.call_method("Test Build")
+    expect("merge off: identity", alias("Kpop"), "Kpop")
+    mgr.call_method("Test Set Custom Name", args=("group", "Kpop", ""))
     # the "..." chip saved the settings: leave a clean save behind (test_content loads the slot and toggles favourites)
     mgr.set_editor_property("Favorites", []); mgr.set_editor_property("SubTabsCollapsed", False); mgr.set_editor_property("CurrentGroup", "None"); mgr.call_method("Test Save Settings")
 run(main)

@@ -12,8 +12,10 @@ import os, sys, re, json, struct, hashlib, zlib, argparse
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, H)
 from pak11_extract import Pak
 from pakio import open_pak, norm_key
-from uasset_datatable import make_mod_table
+from uasset_datatable import make_mod_table, make_body_scale_table
 from uasset_pkg import Package
+import bodypak_abp
+import bodyscale_groups as bg
 
 MAGIC = 0x5A6F12E1; VERSION = 11
 MOUNT_PREFIX = "../../../TheKillingAntidote/Content/Mod/"
@@ -205,7 +207,7 @@ def sha256_file(path):
     return h.hexdigest()
 
 
-def convert(src, name=None, title=None, out_dir=None, force=False):
+def convert(src, name=None, title=None, out_dir=None, force=False, keep_abp=False):
     pk = open_pak(src)
     name = name or derive_name(src)
     if not re.fullmatch(r"Body_[A-Za-z0-9_]+", name):
@@ -216,11 +218,46 @@ def convert(src, name=None, title=None, out_dir=None, force=False):
     if os.path.exists(out_pak) and not force:
         raise SystemExit("target already exists (--force to overwrite): " + out_pak)
     mesh_key = find_mesh(pk)
-    relocate = companions(pk, mesh_key, name)
-    entries = package_entries(pk, mesh_key, "Female", relocate)
-    for old, (key, new) in sorted(relocate.items()):
-        entries += package_entries(pk, key, new[len("/Game/Mod/" + name + "/"):], relocate)
-    taken = {key[:-len(".uasset")] + ext for key in [mesh_key] + [k for k, _ in relocate.values()] for ext in (".uasset", ".uexp", ".ubulk")}
+    warnings = []; defaults = None; abp = "kept"
+    relocate = companions(pk, mesh_key, name)          # before attach_abp: the mod's own ABP package is still referenced under its old path
+    if keep_abp:
+        entries = package_entries(pk, mesh_key, "Female", relocate)
+        for old, (key, new) in sorted(relocate.items()):
+            entries += package_entries(pk, key, new[len("/Game/Mod/" + name + "/"):], relocate)
+        taken_keys = [mesh_key] + [k for k, _ in relocate.values()]
+    else:
+        abp = "AltUI"
+        mesh = load_pkg(pk, mesh_key)
+        had_abp, old_pkg = bodypak_abp.attach_abp(mesh)
+        defaults = {v: [1.0, 1.0, 1.0] for v, _, _ in bg.GROUPS}
+        if had_abp:
+            if old_pkg in relocate:
+                k = relocate[old_pkg][0]; defaults, warnings = bodypak_abp.read_abp_defaults(pk.read(k), pk.read(k[:-len(".uasset")] + ".uexp"))
+            else:
+                warnings.append("the mesh's animation blueprint %s is not in this pak - defaults 1.0" % old_pkg)
+        other = {k: v for k, v in relocate.items() if k != old_pkg}   # materials etc. still travel along; the replaced ABP does not
+        for im in mesh.imports:
+            if im.class_name == "Package" and im.object_name in other:
+                im.object_name = other[im.object_name][1]
+        ua, ux = mesh.write()
+        ux_key = mesh_key[:-len(".uasset")] + ".uexp"
+        if had_abp and ux != pk.read(ux_key):
+            raise SystemExit("rewriting the ABP import changed the mesh's export data")
+        entries = [("Female.uasset",) + plain_entry(ua)]
+        if had_abp:
+            entries.append(("Female.uexp",) + (raw_entry(pk, ux_key) if isinstance(pk, Pak) else plain_entry(ux)))
+        else:
+            entries.append(("Female.uexp",) + plain_entry(ux))        # tag inserted -> export data changed, stored uncompressed
+        bk = mesh_key[:-len(".uasset")] + ".ubulk"
+        if bk in pk.files:
+            entries.append(("Female.ubulk",) + (raw_entry(pk, bk) if isinstance(pk, Pak) else plain_entry(pk.read(bk))))
+        for old, (key, new) in sorted(other.items()):
+            entries += package_entries(pk, key, new[len("/Game/Mod/" + name + "/"):], other)
+        sa, sx = make_body_scale_table("/Game/Mod/" + name, defaults).write()
+        entries.append(("Body_Scale.uasset",) + plain_entry(sa)); entries.append(("Body_Scale.uexp",) + plain_entry(sx))
+        taken_keys = [mesh_key] + [k for k, _ in other.values()] + ([relocate[old_pkg][0]] if had_abp and old_pkg in relocate else [])
+        relocate = other
+    taken = {key[:-len(".uasset")] + ext for key in taken_keys for ext in (".uasset", ".uexp", ".ubulk")}
     dropped = sorted(k.lstrip("/") for k in pk.files if k not in taken)
     ua, ux = make_mod_table("/Game/Mod/" + name, title, "Body mod, converted from " + os.path.basename(src), []).write()
     entries.append(("TKA_Mod_Table.uasset",) + plain_entry(ua)); entries.append(("TKA_Mod_Table.uexp",) + plain_entry(ux))
@@ -230,7 +267,10 @@ def convert(src, name=None, title=None, out_dir=None, force=False):
     errs = verify(out_pak, name, entries)
     log = {"name": name, "title": title, "source": os.path.abspath(src), "source_sha256": sha256_file(src), "source_pak_version": pk.ver,
            "pak": out_pak, "size": os.path.getsize(out_pak), "files": [rel for rel, _, _ in entries],
-           "companions": {old: new for old, (_, new) in relocate.items()}, "dropped": dropped, "verify": errs, "status": "ok" if not errs else "verify-failed"}
+           "companions": {old: new for old, (_, new) in relocate.items()}, "dropped": dropped, "abp": abp, "warnings": warnings,
+           "verify": errs, "status": "ok" if not errs else "verify-failed"}
+    if defaults is not None:
+        log["scale_defaults"] = defaults
     json.dump(log, open(os.path.join(out_dir, name + "_convert.json"), "w"), indent=1, ensure_ascii=False)
     if errs:
         raise SystemExit("verify failed: " + "; ".join(errs))
@@ -240,9 +280,15 @@ def convert(src, name=None, title=None, out_dir=None, force=False):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Body mod pak -> Body_<Name>.pak for AltUI")
     ap.add_argument("pak"); ap.add_argument("--name"); ap.add_argument("--title"); ap.add_argument("--out"); ap.add_argument("--force", action="store_true")
+    ap.add_argument("--keep-abp", action="store_true", help="keep the mod's own post-process animation blueprint (no Body Shape sliders, works without AltUI)")
     a = ap.parse_args(argv)
-    out, log = convert(a.pak, a.name, a.title, a.out, a.force)
+    out, log = convert(a.pak, a.name, a.title, a.out, a.force, a.keep_abp)
     print("%s (%d bytes, %s) -> copy to <game>/TheKillingAntidote/Mods/" % (out, log["size"], ", ".join(log["files"])))
+    if log["abp"] == "AltUI":
+        custom = ", ".join("%s=%s" % (k, "/".join("%.2f" % x for x in v)) for k, v in log["scale_defaults"].items() if v != [1.0, 1.0, 1.0])
+        print("post-process blueprint: AltUI ABP_BodyScale (Body Shape sliders); defaults: " + (custom or "all 1.0"))
+    for w_ in log["warnings"]:
+        print("warning: " + w_)
     for old, new in sorted(log["companions"].items()):
         print("companion asset used by the mesh: %s -> %s" % (old, new))
     if log["dropped"]:

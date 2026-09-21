@@ -4,7 +4,7 @@ public class TKA_BPGen : ModuleRules {
     PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
     PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine" });
     PrivateDependencyModuleNames.AddRange(new string[] {
-      "UnrealEd", "Kismet", "KismetCompiler", "BlueprintGraph", "UMG", "UMGEditor",
+      "UnrealEd", "Kismet", "KismetCompiler", "BlueprintGraph", "UMG", "UMGEditor", "AnimGraph", "AnimGraphRuntime",
       "Json", "JsonUtilities", "AssetRegistry", "AssetTools", "DataTableEditor", "InputCore", "Slate", "SlateCore", "ImageWrapper" });
   }
 }

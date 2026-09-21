@@ -5,6 +5,7 @@ Makeup categories (Look_*) reuse the game's terms; MakeupTypeTable.Caption is on
 RU/ES also follow the game locres (Брови/Cejas, Тени для век/Sombra de ojos, Глаза/Pupilas, Гардероб/Armario, Рюкзак/Mochila, Форма тела/Curvas, Комплекты/Conjuntos)."""
 LANGS = ["en", "de", "zh", "ru", "es"]
 LIST_CAP = 400   # tiles per list page (Rebuild List); also inserted into Lbl_ListHint
+import hair_colors
 
 STRINGS = {
     # Tabs
@@ -76,6 +77,20 @@ STRINGS = {
     "Lbl_BagEmpty": ("Backpack is empty", "Rucksack ist leer", "背包是空的", "Рюкзак пуст", "La mochila está vacía"),
     "Lbl_Breast": ("Breast", "Brust", "胸部", "Грудь", "Pecho"),
     "Lbl_Waist": ("Waist", "Taille", "腰", "Талия", "Cintura"),
+    "Lbl_ScaleHint": ("The sliders below only work with converted bodies (bodypak.pyz).", "Die folgenden Regler wirken nur bei konvertierten Bodies (bodypak.pyz).", "以下滑块仅对已转换的身体（bodypak.pyz）有效。", "Ползунки ниже работают только с конвертированными телами (bodypak.pyz).", "Los deslizadores siguientes solo funcionan con cuerpos convertidos (bodypak.pyz)."),
+    "Lbl_ScBreast": ("Bust", "Busen", "胸围", "Бюст", "Busto"),
+    "Lbl_ScWaist": ("Waist Extra", "Taille Extra", "腰围 Extra", "Талия Extra", "Cintura Extra"),   # bone slider on Morph_Waist (beyond the game's own waist slider)
+    "Lbl_ScGlutes": ("Hips / glutes", "Hüfte / Po", "臀部 / 髋部", "Таз / ягодицы", "Caderas / glúteos"),
+    "Lbl_ScThighs": ("Thighs", "Oberschenkel", "大腿", "Бёдра", "Muslos"),
+    "Lbl_ScCalves": ("Calves", "Waden", "小腿", "Икры", "Pantorrillas"),
+    "Lbl_ScArms": ("Arms", "Arme", "手臂", "Руки", "Brazos"),
+    "Lbl_ScHands": ("Hands", "Hände", "手", "Кисти", "Manos"),
+    "Lbl_ScFeet": ("Feet", "Füße", "脚", "Стопы", "Pies"),
+    "Lbl_ScHeight": ("Scale", "Skalierung", "缩放", "Масштаб", "Escala"),
+    "Btn_ScReset": ("Reset shape", "Form zurücksetzen", "重置体型", "Сбросить форму", "Restablecer forma"),
+    "Msg_NoScale": ("This body has no shape sliders – convert it again with bodypak 1.4", "Dieser Body hat keine Form-Regler – mit bodypak 1.4 neu konvertieren",
+                    "此身体没有体型滑块 – 请用 bodypak 1.4 重新转换", "У этого тела нет ползунков формы – сконвертируйте его заново с bodypak 1.4",
+                    "Este cuerpo no tiene deslizadores de forma – conviértelo de nuevo con bodypak 1.4"),
     "Lbl_GroupLen": ("Group names: max. characters", "Gruppennamen: max. Zeichen", "分组名称：最多字符数", "Названия групп: макс. символов", "Nombres de grupo: máx. caracteres"),
     "Lbl_ChipH": ("Group chip area: max. height", "Gruppen-Chips: max. Höhe", "分组标签区域：最大高度", "Область групп: макс. высота", "Área de grupos: altura máx."),
     "Opt_Unlimited": ("unlimited", "unbegrenzt", "不限", "без ограничения", "sin límite"),
@@ -87,6 +102,22 @@ STRINGS = {
     "Lbl_Layout": ("Space for Jodi", "Platz für Jodi", "为 Jodi 留出空间", "Место для Jodi", "Espacio para Jodi"),
     "Lbl_Pan": ("Camera follows slot / face", "Kamera folgt Slot / Gesicht", "相机跟随部位 / 面部", "Камера следует за слотом / лицом", "La cámara sigue la ranura / la cara"),
     "Lbl_Nude": ("Underwear may be taken off", "Unterwäsche darf ausgezogen werden", "允许脱下内衣", "Нижнее белье можно снять", "Se puede quitar la ropa interior"),
+    "Lbl_Conflicts": ("Slot conflicts", "Slot-Konflikte", "部位冲突", "Конфликты слотов", "Conflictos de ranuras"),
+    "Lbl_ConflictsHint": ("Active = allowed in combo. The mirror wardrobe follows the game; meshes may clip.",
+                          "Aktiv = Kombination erlaubt. Die Spiegel-Garderobe folgt weiter dem Spiel; Meshes können sich durchdringen.",
+                          "激活 = 允许搭配。镜子衣柜仍按游戏规则；模型可能穿模。",
+                          "Активно = сочетание разрешено. Гардероб у зеркала следует игре; модели могут пересекаться.",
+                          "Activo = combinación permitida. El armario del espejo sigue al juego; las mallas pueden atravesarse."),
+    "Btn_FreeAll": ("all free", "alle frei", "全部允许", "всё разрешить", "todo libre"),
+    "Btn_Vanilla": ("Vanilla", "Vanilla", "原版", "Оригинал", "Vanilla"),
+    "Lbl_Merge": ("Merge groups with the same name (clothes)", "Gruppen mit gleichem Namen zusammenlegen (Kleidung)", "合并同名分组（服装）", "Объединять группы с одинаковым именем (одежда)", "Fusionar grupos con el mismo nombre (ropa)"),
+    "Lbl_MergeMods": ("Merge mods with the same name (appearance)", "Mods mit gleichem Namen zusammenlegen (Aussehen)", "合并同名模组（外观）", "Объединять моды с одинаковым именем (внешность)", "Fusionar mods con el mismo nombre (apariencia)"),
+    "Lbl_Unowned": ("Not owned items", "Nicht im Besitz", "未拥有的物品", "Предметы не в наличии", "Objetos no poseídos"),
+    "Chip_Unowned0": ("locked", "gesperrt", "锁定", "заблокировано", "bloqueado"),
+    "Chip_Unowned1": ("greyed", "ausgegraut", "变灰", "затемнено", "atenuado"),
+    "Chip_Unowned2": ("like owned", "wie im Besitz", "视为已拥有", "как в наличии", "como poseído"),
+    "Lbl_TipNoPrefix": ("Tooltips without prefixes", "Tooltips ohne Präfixe", "提示不显示前缀", "Подсказки без префиксов", "Tooltips sin prefijos"),
+    "Lbl_TipNoIds": ("Tooltips: display names only", "Tooltips nur mit Anzeigenamen", "提示仅显示名称", "Подсказки: только отображаемые имена", "Tooltips: solo nombres visibles"),
     "Lbl_LayoutNone": ("None", "Kein Platz", "无", "Нет", "Ninguno"),
     "Lbl_LayoutThird": ("One third", "Ein Drittel", "三分之一", "Треть", "Un tercio"),
     "Lbl_LayoutHalf": ("One half", "Eine Hälfte", "一半", "Половина", "La mitad"),
@@ -122,6 +153,7 @@ STRINGS = {
     # Links / buttons
     "Btn_HairColor": ("Hair colour...", "Haarfarbe...", "发色...", "Цвет волос...", "Color de pelo..."),
     "Btn_BagCleanup": ("Tidy up backpack", "Rucksack aufräumen", "整理背包", "Разобрать рюкзак", "Ordenar la mochila"),
+    "Btn_BagAll": ("Everything into the backpack", "Alles in den Rucksack", "全部放入背包", "Всё в рюкзак", "Todo a la mochila"),
     "Btn_Undo": ("Undo", "Rückgängig", "撤销", "Отменить", "Deshacer"),
     "Btn_Redo": ("Redo", "Wiederherstellen", "重做", "Повторить", "Rehacer"),
     "Btn_SavePreset": ("Save current appearance", "Aktuelles Aussehen speichern", "保存当前外观", "Сохранить текущую внешность", "Guardar la apariencia actual"),
@@ -165,6 +197,8 @@ STRINGS = {
     "Msg_LookMissing": ("Not available: ", "Nicht verfügbar: ", "不可用：", "Недоступно: ", "No disponible: "),
     # Appearance categories (makeup types: exact game terms from Localization/Game/<lang>/Game.locres;
     # MakeupTypeTable.Caption only showed English in game and now serves as fallback for unknown types from mods)
+    "Look_All": ("All", "Alle", "全部", "Все", "Todo"),
+    "Menu_LookOnlyMod": ("Only this mod", "Nur dieser Mod", "仅此模组", "Только этот мод", "Solo este mod"),
     "Look_Presets": ("Presets", "Presets", "预设", "Предустановки", "Preajustes"),
     "Look_Skin": ("Skin", "Haut", "肌肤", "Кожа", "Piel"),
     "Look_Eyebrow": ("Eyebrows", "Augenbrauen", "眉毛", "Брови", "Cejas"),
@@ -177,7 +211,50 @@ STRINGS = {
     "Look_Nose": ("Nose Shadow", "Nasenschatten", "鼻影", "Тени для носа", "Sombra de la nariz"),
     "Look_Nails": ("Manicure", "Maniküre", "美甲", "Маникюр", "Manicura"),
     "Look_Tattoo": ("Tattoos", "Tattoo", "纹身", "Тату", "Tatuajes"),
+    # --- custom display names (Verwaltung tab), mod content view, group filter, natural hair colours (1.4.0)
+    "Tab_Manage": ("Manage", "Verwaltung", "管理", "Управление", "Gestión"),
+    "Cat_Mods": ("Mods", "Mods", "模组", "Моды", "Mods"),
+    "Cat_Clothes": ("Clothes", "Kleidung", "服装", "Одежда", "Ropa"),
+    "Cat_Vanilla": ("Vanilla", "Vanilla", "原版", "Оригинал", "Vanilla"),   # Manage category: groups used by vanilla pieces
+    "Cat_Hair": ("Hairstyles", "Frisuren", "发型", "Причёски", "Peinados"),
+    "Cat_Skin": ("Skins", "Skins", "皮肤", "Скины", "Pieles"),
+    "Lbl_OnlyMods": ("only\nmods", "nur\nMods", "仅\n模组", "только\nмоды", "solo\nmods"),
+    "Lbl_CaseSens": ("case-\nsensitive", "Groß-/\nKlein", "区分\n大小写", "учёт\nрегистра", "mayús./\nminús."),   # Manage search checkbox
+    "Lbl_AlsoAffects": ("also affects:", "betrifft auch:", "同时影响：", "также затрагивает:", "también afecta a:"),   # shared group: the other paks, one per line
+    "Lbl_Vanilla": ("Vanilla", "Vanilla", "原版", "Оригинал", "Vanilla"),
+    "Btn_Revert": ("↺", "↺", "↺", "↺", "↺"),
+    "Tip_DistPlus": ("Camera closer", "Kamera näher", "相机拉近", "Камера ближе", "Cámara más cerca"),
+    "Tip_DistMinus": ("Camera farther", "Kamera weiter weg", "相机拉远", "Камера дальше", "Cámara más lejos"),
+    "Tip_FreeCam": ("Free camera – mouse looks, W A S D move, Q / E down / up, Shift fast, wheel = speed, Esc back",
+                    "Freie Kamera – Maus dreht, W A S D bewegen, Q / E runter / hoch, Shift schnell, Rad = Tempo, Esc zurück",
+                    "自由相机 – 鼠标转向，W A S D 移动，Q / E 下 / 上，Shift 加速，滚轮 = 速度，Esc 返回",
+                    "Свободная камера – мышь поворачивает, W A S D движение, Q / E вниз / вверх, Shift быстро, колесо = скорость, Esc назад",
+                    "Cámara libre – el ratón gira, W A S D mueven, Q / E bajar / subir, Shift rápido, rueda = velocidad, Esc volver"),
+    "Tip_PhotoMode": ("The game's photo mode – Esc back", "Foto-Modus des Spiels – Esc zurück", "游戏的拍照模式 – Esc 返回", "Фоторежим игры – Esc назад", "Modo foto del juego – Esc volver"),
+    "Tip_Revert": ("Back to the default name", "Zurück zum Standardnamen", "恢复默认名称", "Вернуть стандартное имя", "Volver al nombre por defecto"),
+    "Hint_Name": ("display name…", "Anzeigename…", "显示名称…", "отображаемое имя…", "nombre mostrado…"),
+    "Btn_ModContent": ("View content", "Inhalt anzeigen", "查看内容", "Показать содержимое", "Ver contenido"),
+    "Btn_SearchName": ("search", "suchen", "搜索", "искать", "buscar"),          # Manage row link: display name -> search box
+    "Btn_LikePak": ("like pak", "wie pak", "同 pak", "как pak", "como pak"),     # Manage mod row link: pak name -> display name
+    "Btn_LikeGroup": ("like g", "wie g", "同 g", "как g", "como g"),           # Manage group row link: group id -> display name
+    "Tip_Default": ("Default: ", "Standard: ", "默认：", "Стандарт: ", "Por defecto: "),
+    "Tip_Id": ("id: ", "id: ", "id: ", "id: ", "id: "),
+    "Tip_Pak": ("pak: ", "pak: ", "pak: ", "pak: ", "pak: "),
+    "Tip_Grp": ("g: ", "g: ", "g: ", "g: ", "g: "),
+    "Tip_Slot": ("s: ", "s: ", "s: ", "s: ", "s: "),
+    "Lbl_HdrName": ("Default name", "Standardname", "默认名称", "Стандартное имя", "Nombre por defecto"),
+    "Lbl_KindMod": ("PAK", "PAK", "PAK", "PAK", "PAK"),   # title prefixes (upper case = display name, settable) - lower-case id:/pak:/g: mark identifiers (fixed)
+    "Lbl_KindGroup": ("G", "G", "G", "G", "G"),
+    "Lbl_HdrDisplay": ("Display name", "Anzeigename", "显示名称", "Отображаемое имя", "Nombre mostrado"),
+    "Lbl_HdrIds": ("Identifiers", "Bezeichner", "标识符", "Идентификаторы", "Identificadores"),
+    "Menu_OnlyGroup": ("Only this group", "Nur diese Gruppe", "仅此分组", "Только эта группа", "Solo este grupo"),
+    "Menu_ModContent": ("View mod content", "Mod-Inhalt anzeigen", "查看模组内容", "Содержимое мода", "Ver contenido del mod"),
+    "Menu_Rename": ("Rename…", "Umbenennen…", "重命名…", "Переименовать…", "Renombrar…"),                       # tile: inline display name
+    "Menu_RenameMod": ("Rename mod…", "Mod umbenennen…", "重命名模组…", "Переименовать мод…", "Renombrar mod…"),   # -> Manage row
+    "Menu_RenameGroup": ("Rename group…", "Gruppe umbenennen…", "重命名分组…", "Переименовать группу…", "Renombrar grupo…"),
+    "Btn_HairNatural": ("Natural hair colours", "Natürliche Haarfarben", "自然发色", "Естественные цвета волос", "Colores de pelo naturales"),
 }
+STRINGS.update(hair_colors.string_rows())   # tooltips of the natural hair colour swatches
 
 
 def rows():

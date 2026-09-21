@@ -4,6 +4,8 @@
 #include "Misc/Paths.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
+#include "HAL/PlatformMisc.h"
+#include "HAL/PlatformTime.h"
 DEFINE_LOG_CATEGORY(LogBPGen);
 UBPGenCommandlet::UBPGenCommandlet() { IsClient = false; IsServer = false; IsEditor = true; LogToConsole = true; }
 
@@ -33,6 +35,13 @@ int32 UBPGenCommandlet::Main(const FString& Params) {
       for (FString L : Lines) { L.TrimStartAndEndInline(); if (L.IsEmpty() || L.StartsWith(TEXT("#"))) continue; if (!RunManifest(FPaths::Combine(Dir, L))) return 1; }
     } else if (!RunManifest(Manifest)) return 1;
   }
-  if (FParse::Value(*Params, TEXT("-dump="), DumpPath)) BPGenAssets::Dump(DumpPath);
+  if (FParse::Value(*Params, TEXT("-dump="), DumpPath, /*bShouldStopOnSeparator*/ false)) {   // one or more class paths, comma separated (one editor start instead of one per dump)
+    TArray<FString> Paths; DumpPath.ParseIntoArray(Paths, TEXT(","), true);
+    for (const FString& P : Paths) BPGenAssets::Dump(P);
+  }
+  if (Params.Contains(TEXT("-fastexit"))) {   // everything is saved synchronously above; the engine teardown alone takes ~50 s after a manifest run
+    UE_LOG(LogBPGen, Display, TEXT("BPGEN OK (fast exit)")); GLog->Flush();
+    FPlatformMisc::RequestExit(true);
+  }
   return 0;
 }

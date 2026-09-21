@@ -52,7 +52,8 @@ assets = [
                          fn("Add New Preset", [param("makeup", "object:" + P_MAKEUP_SAVE)], [param("number", "int")]),
                          fn("Remove A Preset", [param("index", "int")], [param("number", "int")])]),
     blueprint(P_HAIR_SAVE, "/Script/Engine.SaveGame", variables=[var("Hairstyles", "name", "set"), var("Hair Colors", "name", "map", value_type=S_COLOR)]),
-    blueprint(P_PSAVE, "/Script/Engine.SaveGame", variables=[var("Wear Clothes", "name", "array")]),   # player save game: pieces worn at save time
+    blueprint(P_PSAVE, "/Script/Engine.SaveGame", variables=[var("Wear Clothes", "name", "array")],
+              functions=[fn("Collect Player Data", [param("player", "object:" + P_JODI)])]),   # player save game: pieces worn at save time; slot "TKAPlayer"
     blueprint(P_GI, "/Script/Engine.GameInstance", variables=[var("Hairstyles Save", "object:" + P_HAIR_SAVE)],
               functions=[fn("Save Hair Color Data", [param("player", "object:" + P_JODI)]), fn("Add Hairstyles", [param("hairstyle name", "name")])]),
     blueprint(P_PALR, E_USERWIDGET, variables=[var("Image_Color", "object:" + E_IMAGE)]),
@@ -66,15 +67,18 @@ assets = [
               variables=[var("Color Adjustable", "bool"), var("Clothes Name", "name"), var("Type", "name")],
               functions=[fn("Change Color", [param("Color", S_LINCOLOR)])]),
     datatable(P_CTV, P_CS, rows=test_clothes),
-    datatable("/Game/Mod/SomeMod/Mod_ClothesTable", P_CS, rows={"ModThing": row("Top")}),   # editor test: item origin = mod "SomeMod" (loader row in DLC_MainTable)
+    datatable("/Game/Mod/SomeMod/Mod_ClothesTable", P_CS, rows={"ModThing": row("Top", "SomeGroup")}),   # editor test: item origin = mod "SomeMod" (loader row in DLC_MainTable), group for the Manage tab
     datatable(P_CT, P_CS, composite=True, parent_tables=[P_CTV, "/Game/Mod/SomeMod/Mod_ClothesTable"]),
-    struct(P_CTS, [param("CameraFocus", "int", internal_name="CameraFocus_17_DE98CCDE4FA8319FE550EC814F334C53")]),
-    datatable(P_CTT, P_CTS, rows={s: ({"CameraFocus": 105} if s == "Boots" else {"CameraFocus": 365} if s == "Bra" else {}) for s in SLOTS}),
+    struct(P_CTS, [param("CameraFocus", "int", internal_name="CameraFocus_17_DE98CCDE4FA8319FE550EC814F334C53"),
+                   param("IncompatibleTypes", "name", "array", internal_name="IncompatibleTypes_24_3AC6063A4AB0269D2379B6ADBE2FC2B0")]),   # slot conflicts (the game's asymmetric lists)
+    datatable(P_CTT, P_CTS, rows={s: dict(({"CameraFocus": 105} if s == "Boots" else {"CameraFocus": 365} if s == "Bra" else {}),
+                                          **({"IncompatibleTypes": {"Top": ["Bra"], "Dress": ["Bra", "Panties", "Top"], "Pants": ["Socks"]}[s]} if s in ("Top", "Dress", "Pants") else {})) for s in SLOTS}),
     datatable(P_CGV, P_CGS, rows={"Lace": {"GroupName": "Spitze", "Owning": False}, "Kpop": {"GroupName": "KPOP", "Owning": False}}),
     datatable(P_CG, P_CGS, composite=True, parent_tables=[P_CGV]),
     blueprint(P_CPB, mode="augment", functions=[
         fn("Wear The Clothes", [param("name", "name"), param("check covering", "bool"), param("update mask", "bool"), param("ignore compatible", "bool")], [param("successed", "bool")]),
         fn("Take off this clothes", [param("clothes name", "name")]),
+        fn("take off clothes", [param("type", "name"), param("update mask", "bool")]),   # by slot, no covering check afterwards (the game's own forward conflict check uses it)
         fn("Get Wearing Clothes Names", outputs=[param("clothes list", "name", "array")]),
         fn("is clothes wearing", [param("clothes name", "name")], [param("yes", "bool")], pure=True),
         fn("Find Clothes Component With Name", [param("name", "name")], [param("clothes comp", "object:" + P_CC)]),
@@ -82,7 +86,10 @@ assets = [
         fn("Save Clothes Color", [param("clothes name", "name"), param("color", S_LINCOLOR)]),
         fn("Restore Clothes Color", [param("clothes", "name")]),
         fn("Is Clothes Damaged", [param("clothes", "name")], [param("yes", "bool")], pure=True),
-        fn("Remove Clothing From Bag", [param("clothing name", "name")]), fn("Reset Clothes Physics")]),   # component "Bag" (Bag_Comp) exists in the kit
+        fn("Remove Clothing From Bag", [param("clothing name", "name")]), fn("Reset Clothes Physics"),
+        fn("Change Breast Constraint Profile", [param("morph", "float")])], variables=[var("Breast Morph Weight", "float")]),   # component "Bag" (Bag_Comp) exists in the kit
+    # breast / hip jiggle bodies: the game switches them on here; AltUI calls it again after re-instantiating the physics state (height slider)
+    blueprint(P_CB, mode="augment", functions=[fn("Enable Boobs Physics", [param("hip", "bool")])]),
     blueprint(P_JODI, mode="augment", variables=[var("Camera", "object:/Script/Engine.CameraComponent")], functions=[fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True),
                                                 fn("Use Clothes from Bag", [param("clothes name", "name"), param("is wear", "bool")]),
                                                 fn("Got Clothes", [param("clothes name", "name"), param("wear", "bool")]),
@@ -101,7 +108,9 @@ assets = [
                                               fn("Remove all undressed clothes")]),
     blueprint(P_HUD, E_USERWIDGET, variables=[var("InventoryPanel", "object:" + P_INV)]),
     blueprint(P_GS2, mode="augment", variables=[var("UserInterface", "object:" + P_HUD), var("Default Underwear", "name", "array")],
-              functions=[fn("Set Nude Allowed", [param("allow", "bool")])]),   # real function in TKA_GameState_Base (Allow Naked); in game only reachable via a disabled cheat
+              functions=[fn("Set Nude Allowed", [param("allow", "bool")]),   # real function in TKA_GameState_Base (Allow Naked); in game only reachable via a disabled cheat
+                         # photo mode (Camera_Free + PhotoModeUI): entered from the game's pause menu; Is In Photo Mode = IsValid(photo mode camera)
+                         fn("Enter Photo Mode"), fn("Try Exit Photo Mode"), fn("Is In Photo Mode", outputs=[param("yes", "bool")])]),
     blueprint(P_PC, mode="augment", functions=[fn("ShowMouseCursor", [param("show", "bool")]),
                                               fn("Set Widget Focus", [param("widget", "object:" + E_WIDGET)]),
                                               fn("Enable Player Control", [param("Base", "bool"), param("Playing", "bool")])]),

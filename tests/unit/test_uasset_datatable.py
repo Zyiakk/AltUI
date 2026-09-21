@@ -29,3 +29,18 @@ class Build(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BodyScaleTable(unittest.TestCase):
+    def test_row(self):
+        import bodyscale_groups as bg
+        from uasset_datatable import make_body_scale_table
+        defaults = {v: [1.0, 1.0, 1.0] for v, _, _ in bg.GROUPS}; defaults["Breasts"] = [1.3, 1.2, 1.15]
+        pkg = make_body_scale_table("/Game/Mod/Body_T", defaults)
+        t = decode(pkg); row = t["rows"]["Default"]
+        self.assertEqual([round(row[bg.member_internal(0, "Breasts")][k], 3) for k in "xyz"], [1.3, 1.2, 1.15])
+        self.assertEqual(len(row), len(bg.GROUPS)); self.assertEqual(row[bg.member_internal(9, "Feet")], {"x": 1.0, "y": 1.0, "z": 1.0})
+        # struct import must point at AltUI's struct
+        self.assertTrue(any(im.class_name == "UserDefinedStruct" and im.object_name == "S_BodyScale" for im in pkg.imports))
+        self.assertTrue(any(im.class_name == "Package" and im.object_name == bg.STRUCT_PATH for im in pkg.imports))
+if __name__ == "__main__": unittest.main()
