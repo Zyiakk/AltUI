@@ -161,6 +161,12 @@ class Pak:
         return b"".join(parts)
 
 
+def out_path(outdir, key):
+    """Destination file for an extracted entry: entry keys are relative to the mount point and start with "/",
+    which os.path.join would read as an absolute path (extraction into the file system root)."""
+    return os.path.join(outdir, *[part for part in key.split("/") if part not in ("", ".", "..")])
+
+
 if __name__ == "__main__":
     pk = Pak(sys.argv[1])
     if sys.argv[2] == "info":
@@ -179,7 +185,7 @@ if __name__ == "__main__":
             for k in list(pk.files):
                 if re.search(pat, k):
                     d = pk.read(k)
-                    p = os.path.join(outdir, k)
+                    p = out_path(outdir, k)
                     os.makedirs(os.path.dirname(p), exist_ok=True)
                     open(p, "wb").write(d)
                     print("ok", k, len(d))

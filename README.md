@@ -52,6 +52,8 @@ python3 bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title "Some body"
 
 Mod packs often ship cryptic identifiers. The Manage tab lets you give any mod, group, piece, hairstyle, skin or make-up your own display name; the name is used everywhere in the panel and found by the search (the identifier stays searchable too, and the tooltip shows both). Names are stored in `Saved/SaveGames/AltUI_Names.sav`. To edit them as text, close the game and run `python3 altui_names.pyz export` (writes `names.json`), edit the file, then `python3 altui_names.pyz import names.json`; the previous save is kept as `AltUI_Names.sav.bak`. Without a path the tool looks in the game's save folder (Windows `%LOCALAPPDATA%\TheKillingAntidote\Saved\SaveGames`, Linux/Proton the Steam compatdata prefix).
 
+**Modding notes.** The techniques behind this mod, written up for other modders: paks and assets without the editor, how the game finds mods, running your own code, what AltUI reads from a mod, asset pitfalls, and generating assets instead of clicking them – [pubdocs/](pubdocs/).
+
 ## Building from source
 
 Everything in the paks is generated – no game assets are included.
