@@ -270,3 +270,9 @@ For the curious. `Body_<Name>.pak` is an unencrypted pak in the format of the ga
 | `TKA_Mod_Table.uasset`, `.uexp` | The mod table the game reads at start: one row named `Body_<Name>`, caption = your `--title`, description = "Body mod, converted from `<original file>`". |
 
 Supported input: pak versions 3–11, uncompressed, zlib or Oodle. Oodle-compressed data is passed through unchanged; the built-in Oodle decoder (pure Python, ported from [ooz](https://github.com/powzix/ooz), GPL-3) is only used to *read* the mesh's import table so companion assets can be found.
+
+## 11. Building an AltUI version in the editor
+
+For body-mod authors. Converting a finished replacer is not the only way in: a body can be built for AltUI directly in the Unreal Editor, with the game's modding kit. [`uassets/`](uassets/) holds the two assets that takes – the row structure of the `Body_Scale` table (the body's own bone scales, which the shape sliders multiply) and the post-process animation blueprint the sliders drive – and [uassets/README.md](uassets/README.md) describes where they go, how the mod folder has to look and what must stay out of the pak.
+
+The result is the same kind of pak the converter produces: it works with AltUI installed and does nothing without it. It is a second file to offer next to the replacer everyone else installs, not a replacement for it.
