@@ -1,6 +1,6 @@
 # Editor assets
 
-Four assets from `AltUI.pak` to build a mod against in the Unreal Editor, so it arrives ready for AltUI without
+Seven assets from `AltUI.pak` to build a mod against in the Unreal Editor, so it arrives ready for AltUI without
 going through the converters. They are needed while you build only: in the finished game they are loaded from
 `AltUI.pak`, which the player has installed.
 
@@ -8,8 +8,10 @@ going through the converters. They are needed while you build only: in the finis
 |---|---|
 | `S_BodyScale.uasset`, `ABP_BodyScale.uasset` | a body for the **Body Shape** tab, without `bodypak.pyz` |
 | `S_WeaponSkin.uasset`, `S_WeaponModel.uasset` | a weapon skin or model for the **Weapons** tab, without `weaponpak.pyz` |
+| `S_AltUIModEntry.uasset`, `S_AltUIModField.uasset`, `BPI_AltUIMod.uasset` | your mod's settings in the **Mods** tab - see [MOD_UI.md](../MOD_UI.md) |
 
-Bodies come first below, weapons after.
+Bodies come first below, weapons after. The Mods tab has a guide of its own, [MOD_UI.md](../MOD_UI.md): the three
+assets go to `Content/Mod/AltUI/` in your project and stay out of your pak, like all the others here.
 
 ## This is an extra version of your body, not a replacement
 

@@ -219,6 +219,286 @@
   },
   {
    "type": "struct",
+   "path": "/Game/Mod/AltUI/S_AltUIModEntry",
+   "members": [
+    {
+     "name": "Caption",
+     "type": "text",
+     "internal_name": "Caption_2_F87473B5EADA8AC939190B95FF083D54"
+    },
+    {
+     "name": "Actor",
+     "type": "softclass:/Script/Engine.Actor",
+     "internal_name": "Actor_4_815577BBC44D0227FBD03DCC07809FC0"
+    },
+    {
+     "name": "Order",
+     "type": "int",
+     "internal_name": "Order_6_90004BA5F94261B1AB2A308E5967467A"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_AltUIModField",
+   "members": [
+    {
+     "name": "Entry",
+     "type": "name",
+     "internal_name": "Entry_2_FD8F8FEF4449B77A02C3D6F9C3B520E4"
+    },
+    {
+     "name": "Key",
+     "type": "name",
+     "internal_name": "Key_4_C4BF0D9C5D0AEC908D1CAAB9AA732AED"
+    },
+    {
+     "name": "Type",
+     "type": "name",
+     "internal_name": "Type_6_DD6E60DA0E1D01F1881A89CB7A5DCE35"
+    },
+    {
+     "name": "Label",
+     "type": "text",
+     "internal_name": "Label_8_5E509861919FC75AF40D50F0CC290677"
+    },
+    {
+     "name": "Min",
+     "type": "float",
+     "internal_name": "Min_10_43D9CE7A0B8EC3584C528434857601AC"
+    },
+    {
+     "name": "Max",
+     "type": "float",
+     "internal_name": "Max_12_32DBF5E6D0B1FBDF511AA00F03036F76"
+    },
+    {
+     "name": "Step",
+     "type": "float",
+     "internal_name": "Step_14_14331E47A78210A5B8C65E5E20CD240C"
+    },
+    {
+     "name": "Options",
+     "type": "text",
+     "container": "array",
+     "internal_name": "Options_16_665E0D85CCF37359B1CC7A740341A7AD"
+    },
+    {
+     "name": "Order",
+     "type": "int",
+     "internal_name": "Order_18_2E0E31C25613B297C1038CFE6EF4B13D"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_ModFieldList",
+   "members": [
+    {
+     "name": "Fields",
+     "type": "struct:/Game/Mod/AltUI/S_AltUIModField",
+     "container": "array",
+     "internal_name": "Fields_2_87E4C3CC54B96B54FD609BC290A22CED"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BPI_AltUIMod",
+   "mode": "create",
+   "blueprint_type": "interface",
+   "functions": [
+    {
+     "name": "Get AltUI Value",
+     "inputs": [
+      {
+       "name": "Key",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "Value",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "On AltUI Changed",
+     "inputs": [
+      {
+       "name": "Key",
+       "type": "name"
+      },
+      {
+       "name": "Value",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Get AltUI Color",
+     "inputs": [
+      {
+       "name": "Key",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "Color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "On AltUI Color Changed",
+     "inputs": [
+      {
+       "name": "Key",
+       "type": "name"
+      },
+      {
+       "name": "Color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Get AltUI Text",
+     "inputs": [
+      {
+       "name": "Key",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "Text",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "On AltUI Text Changed",
+     "inputs": [
+      {
+       "name": "Key",
+       "type": "name"
+      },
+      {
+       "name": "Text",
+       "type": "string"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/AltUIMod_Test/AltUI_Entries",
+   "row_struct": "/Game/Mod/AltUI/S_AltUIModEntry",
+   "composite": false,
+   "rows": {
+    "Second": {
+     "Caption": "Second",
+     "Actor": "/Script/Engine.PointLight",
+     "Order": 2
+    },
+    "First": {
+     "Caption": "First",
+     "Actor": "/Script/Engine.PointLight",
+     "Order": 1
+    },
+    "Empty": {
+     "Caption": "Empty",
+     "Actor": "/Script/Engine.PointLight",
+     "Order": 3
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/AltUIMod_Test/AltUI_Fields",
+   "row_struct": "/Game/Mod/AltUI/S_AltUIModField",
+   "composite": false,
+   "rows": {
+    "F_Slider": {
+     "Entry": "First",
+     "Key": "Size",
+     "Type": "Slider",
+     "Label": "Size",
+     "Min": 0.0,
+     "Max": 10.0,
+     "Step": 0.5,
+     "Order": 2
+    },
+    "F_Header": {
+     "Entry": "First",
+     "Key": "Head",
+     "Type": "Header",
+     "Label": "Section",
+     "Order": 1
+    },
+    "F_Toggle": {
+     "Entry": "First",
+     "Key": "On",
+     "Type": "Toggle",
+     "Label": "On",
+     "Order": 3
+    },
+    "F_Choice": {
+     "Entry": "Second",
+     "Key": "Mode",
+     "Type": "Choice",
+     "Label": "Mode",
+     "Options": [
+      "A",
+      "B"
+     ],
+     "Order": 1
+    },
+    "F_Button": {
+     "Entry": "Second",
+     "Key": "Go",
+     "Type": "Button",
+     "Label": "Go",
+     "Order": 2
+    },
+    "X_Type": {
+     "Entry": "First",
+     "Key": "Bad1",
+     "Type": "Colour",
+     "Label": "x",
+     "Order": 9
+    },
+    "X_NoOpts": {
+     "Entry": "First",
+     "Key": "Bad2",
+     "Type": "Choice",
+     "Label": "x",
+     "Order": 9
+    },
+    "X_Range": {
+     "Entry": "First",
+     "Key": "Bad3",
+     "Type": "Slider",
+     "Label": "x",
+     "Min": 5.0,
+     "Max": 5.0,
+     "Order": 9
+    },
+    "X_Entry": {
+     "Entry": "Nowhere",
+     "Key": "Bad4",
+     "Type": "Toggle",
+     "Label": "x",
+     "Order": 9
+    }
+   }
+  },
+  {
+   "type": "struct",
    "path": "/Game/Mod/AltUI/S_Floats",
    "members": [
     {
@@ -522,6 +802,30 @@
      "ru": "Оружие",
      "es": "Armas",
      "pl": "Broń"
+    },
+    "Tab_Mods": {
+     "en": "Mods",
+     "de": "Mods",
+     "zh": "模组",
+     "ru": "Моды",
+     "es": "Mods",
+     "pl": "Mody"
+    },
+    "Lbl_ModInactive": {
+     "en": "This mod is not active here - its settings show once it runs in this level.",
+     "de": "Dieser Mod ist hier nicht aktiv – seine Einstellungen erscheinen, sobald er in diesem Level läuft.",
+     "zh": "此模组在这里未运行——它在本关卡运行后才会显示设置。",
+     "ru": "Этот мод здесь не активен – его настройки появятся, когда он заработает на этом уровне.",
+     "es": "Este mod no está activo aquí: sus ajustes aparecen cuando funcione en este nivel.",
+     "pl": "Ten mod nie jest tu aktywny – jego ustawienia pojawią się, gdy zadziała na tym poziomie."
+    },
+    "Lbl_ModNoFields": {
+     "en": "No settings.",
+     "de": "Keine Einstellungen.",
+     "zh": "没有设置。",
+     "ru": "Нет настроек.",
+     "es": "Sin ajustes.",
+     "pl": "Brak ustawień."
     },
     "Tab_Body": {
      "en": "Body Shape",
@@ -2982,6 +3286,26 @@
      "type": "name"
     },
     {
+     "name": "ModEntry",
+     "type": "name"
+    },
+    {
+     "name": "LastPage",
+     "type": "name"
+    },
+    {
+     "name": "LastLookCat",
+     "type": "name"
+    },
+    {
+     "name": "LastPoseCat",
+     "type": "name"
+    },
+    {
+     "name": "LastWeapon",
+     "type": "name"
+    },
+    {
      "name": "SlotColors",
      "type": "name",
      "container": "map",
@@ -4277,6 +4601,48 @@
     {
      "name": "ContextSlot",
      "type": "name"
+    },
+    {
+     "name": "OpenPage",
+     "type": "name"
+    },
+    {
+     "name": "ModEntry",
+     "type": "name"
+    },
+    {
+     "name": "ModActor",
+     "type": "object:/Script/Engine.Actor"
+    },
+    {
+     "name": "ModScanned",
+     "type": "bool"
+    },
+    {
+     "name": "ModEntryKeys",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ModEntries",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_AltUIModEntry"
+    },
+    {
+     "name": "ModFields",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_ModFieldList"
+    },
+    {
+     "name": "ModFieldsTmp",
+     "type": "struct:/Game/Mod/AltUI/S_AltUIModField",
+     "container": "array"
+    },
+    {
+     "name": "ModPosTmp",
+     "type": "int"
     },
     {
      "name": "OutfitSC",
@@ -15294,15 +15660,15 @@
        {
         "id": "lg50",
         "kind": "get",
-        "var": "EyeColors",
+        "var": "ModEntry",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls50",
         "kind": "set",
-        "var": "EyeColors",
+        "var": "ModEntry",
         "in": {
-         "EyeColors": "@lg50.EyeColors"
+         "ModEntry": "@lg50.ModEntry"
         }
        },
        {
@@ -15313,15 +15679,32 @@
        {
         "id": "lg51",
         "kind": "get",
-        "var": "MakeupColors",
+        "var": "LastPage",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls51",
         "kind": "set",
-        "var": "MakeupColors",
+        "var": "Page",
         "in": {
-         "MakeupColors": "@lg51.MakeupColors"
+         "Page": "@lg51.LastPage"
+        }
+       },
+       {
+        "id": "ln51",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg51.LastPage",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb51",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln51.ReturnValue"
         }
        },
        {
@@ -15332,15 +15715,15 @@
        {
         "id": "lg52",
         "kind": "get",
-        "var": "ToggleKey",
+        "var": "LastLookCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls52",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "LookCat",
         "in": {
-         "ToggleKey": "@lg52.ToggleKey"
+         "LookCat": "@lg52.LastLookCat"
         }
        },
        {
@@ -15349,7 +15732,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg52.ToggleKey",
+         "A": "@lg52.LastLookCat",
          "B": "None"
         }
        },
@@ -15358,6 +15741,114 @@
         "kind": "branch",
         "in": {
          "Condition": "@ln52.ReturnValue"
+        }
+       },
+       {
+        "id": "lg53_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg53",
+        "kind": "get",
+        "var": "LastPoseCat",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls53",
+        "kind": "set",
+        "var": "PoseCat",
+        "in": {
+         "PoseCat": "@lg53.LastPoseCat"
+        }
+       },
+       {
+        "id": "ln53",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg53.LastPoseCat",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb53",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln53.ReturnValue"
+        }
+       },
+       {
+        "id": "lg54_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg54",
+        "kind": "get",
+        "var": "LastWeapon",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls54",
+        "kind": "set",
+        "var": "CurrentWeapon",
+        "in": {
+         "CurrentWeapon": "@lg54.LastWeapon"
+        }
+       },
+       {
+        "id": "ln54",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg54.LastWeapon",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb54",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln54.ReturnValue"
+        }
+       },
+       {
+        "id": "lg55_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg55",
+        "kind": "get",
+        "var": "ToggleKey",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls55",
+        "kind": "set",
+        "var": "ToggleKey",
+        "in": {
+         "ToggleKey": "@lg55.ToggleKey"
+        }
+       },
+       {
+        "id": "ln55",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg55.ToggleKey",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb55",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln55.ReturnValue"
         }
        },
        {
@@ -15379,63 +15870,6 @@
         }
        },
        {
-        "id": "lg53_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg53",
-        "kind": "get",
-        "var": "ThemeBg",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls53",
-        "kind": "set",
-        "var": "ThemeBg",
-        "in": {
-         "ThemeBg": "@lg53.ThemeBg"
-        }
-       },
-       {
-        "id": "lg54_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg54",
-        "kind": "get",
-        "var": "ThemeAccent",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls54",
-        "kind": "set",
-        "var": "ThemeAccent",
-        "in": {
-         "ThemeAccent": "@lg54.ThemeAccent"
-        }
-       },
-       {
-        "id": "lg55_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg55",
-        "kind": "get",
-        "var": "ThemeFill",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls55",
-        "kind": "set",
-        "var": "ThemeFill",
-        "in": {
-         "ThemeFill": "@lg55.ThemeFill"
-        }
-       },
-       {
         "id": "lg56_s",
         "kind": "get",
         "var": "Settings"
@@ -15443,15 +15877,15 @@
        {
         "id": "lg56",
         "kind": "get",
-        "var": "ThemeFrame",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls56",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeBg",
         "in": {
-         "ThemeFrame": "@lg56.ThemeFrame"
+         "ThemeBg": "@lg56.ThemeBg"
         }
        },
        {
@@ -15462,15 +15896,15 @@
        {
         "id": "lg57",
         "kind": "get",
-        "var": "ThemeWorn",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls57",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeAccent",
         "in": {
-         "ThemeWorn": "@lg57.ThemeWorn"
+         "ThemeAccent": "@lg57.ThemeAccent"
         }
        },
        {
@@ -15481,15 +15915,15 @@
        {
         "id": "lg58",
         "kind": "get",
-        "var": "ThemeRow",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls58",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeFill",
         "in": {
-         "ThemeRow": "@lg58.ThemeRow"
+         "ThemeFill": "@lg58.ThemeFill"
         }
        },
        {
@@ -15500,15 +15934,15 @@
        {
         "id": "lg59",
         "kind": "get",
-        "var": "ThemeText",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls59",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeFrame",
         "in": {
-         "ThemeText": "@lg59.ThemeText"
+         "ThemeFrame": "@lg59.ThemeFrame"
         }
        },
        {
@@ -15519,15 +15953,15 @@
        {
         "id": "lg60",
         "kind": "get",
-        "var": "ThemeHead",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls60",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeWorn",
         "in": {
-         "ThemeHead": "@lg60.ThemeHead"
+         "ThemeWorn": "@lg60.ThemeWorn"
         }
        },
        {
@@ -15538,15 +15972,15 @@
        {
         "id": "lg61",
         "kind": "get",
-        "var": "ThemeLink",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls61",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeRow",
         "in": {
-         "ThemeLink": "@lg61.ThemeLink"
+         "ThemeRow": "@lg61.ThemeRow"
         }
        },
        {
@@ -15557,15 +15991,15 @@
        {
         "id": "lg62",
         "kind": "get",
-        "var": "ThemeLine",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls62",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeText",
         "in": {
-         "ThemeLine": "@lg62.ThemeLine"
+         "ThemeText": "@lg62.ThemeText"
         }
        },
        {
@@ -15576,46 +16010,15 @@
        {
         "id": "lg63",
         "kind": "get",
-        "var": "BgAlpha",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz63",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg63.BgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv63",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz63.ReturnValue"
-        }
-       },
-       {
-        "id": "ld63",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg63.BgAlpha",
-         "B": "0.88",
-         "bPickA": "@lv63.ReturnValue"
-        }
        },
        {
         "id": "ls63",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeHead",
         "in": {
-         "BgAlpha": "@ld63.ReturnValue"
+         "ThemeHead": "@lg63.ThemeHead"
         }
        },
        {
@@ -15626,46 +16029,134 @@
        {
         "id": "lg64",
         "kind": "get",
-        "var": "TileAlpha",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "lz64",
+        "id": "ls64",
+        "kind": "set",
+        "var": "ThemeLink",
+        "in": {
+         "ThemeLink": "@lg64.ThemeLink"
+        }
+       },
+       {
+        "id": "lg65_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg65",
+        "kind": "get",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls65",
+        "kind": "set",
+        "var": "ThemeLine",
+        "in": {
+         "ThemeLine": "@lg65.ThemeLine"
+        }
+       },
+       {
+        "id": "lg66_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg66",
+        "kind": "get",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz66",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg64.TileAlpha",
+         "A": "@lg66.BgAlpha",
          "B": "0.0"
         }
        },
        {
-        "id": "lv64",
+        "id": "lv66",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@ver.ReturnValue",
-         "B": "@lz64.ReturnValue"
+         "B": "@lz66.ReturnValue"
         }
        },
        {
-        "id": "ld64",
+        "id": "ld66",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg64.TileAlpha",
-         "B": "1.0",
-         "bPickA": "@lv64.ReturnValue"
+         "A": "@lg66.BgAlpha",
+         "B": "0.88",
+         "bPickA": "@lv66.ReturnValue"
         }
        },
        {
-        "id": "ls64",
+        "id": "ls66",
+        "kind": "set",
+        "var": "BgAlpha",
+        "in": {
+         "BgAlpha": "@ld66.ReturnValue"
+        }
+       },
+       {
+        "id": "lg67_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg67",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz67",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg67.TileAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv67",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz67.ReturnValue"
+        }
+       },
+       {
+        "id": "ld67",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg67.TileAlpha",
+         "B": "1.0",
+         "bPickA": "@lv67.ReturnValue"
+        }
+       },
+       {
+        "id": "ls67",
         "kind": "set",
         "var": "TileAlpha",
         "in": {
-         "TileAlpha": "@ld64.ReturnValue"
+         "TileAlpha": "@ld67.ReturnValue"
         }
        },
        {
@@ -15933,10 +16424,6 @@
         "lg52.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg53_s.Settings",
         "lg53.self"
        ],
@@ -15947,6 +16434,10 @@
        [
         "lg55_s.Settings",
         "lg55.self"
+       ],
+       [
+        "gth_s.Settings",
+        "gth.self"
        ],
        [
         "lg56_s.Settings",
@@ -15985,6 +16476,18 @@
         "lg64.self"
        ],
        [
+        "lg65_s.Settings",
+        "lg65.self"
+       ],
+       [
+        "lg66_s.Settings",
+        "lg66.self"
+       ],
+       [
+        "lg67_s.Settings",
+        "lg67.self"
+       ],
+       [
         "gls.Settings",
         "gl.self"
        ]
@@ -15992,60 +16495,416 @@
       "exec": [
        [
         "bv",
+        "ls0"
+       ],
+       [
+        "ls0"
+       ],
+       [
         "ls0",
+        "ls1"
+       ],
+       [
+        "ls1"
+       ],
+       [
         "ls1",
+        "ls2"
+       ],
+       [
+        "ls2"
+       ],
+       [
         "ls2",
+        "ls3"
+       ],
+       [
+        "ls3"
+       ],
+       [
         "ls3",
+        "ls4"
+       ],
+       [
+        "ls4"
+       ],
+       [
         "ls4",
+        "ls5"
+       ],
+       [
+        "ls5"
+       ],
+       [
         "ls5",
+        "ls6"
+       ],
+       [
+        "ls6"
+       ],
+       [
         "ls6",
+        "ls7"
+       ],
+       [
+        "ls7"
+       ],
+       [
         "ls7",
+        "ls8"
+       ],
+       [
+        "ls8"
+       ],
+       [
         "ls8",
+        "ls9"
+       ],
+       [
+        "ls9"
+       ],
+       [
         "ls9",
+        "ls10"
+       ],
+       [
+        "ls10"
+       ],
+       [
         "ls10",
+        "ls11"
+       ],
+       [
+        "ls11"
+       ],
+       [
         "ls11",
+        "ls12"
+       ],
+       [
+        "ls12"
+       ],
+       [
         "ls12",
+        "ls13"
+       ],
+       [
+        "ls13"
+       ],
+       [
         "ls13",
+        "ls14"
+       ],
+       [
+        "ls14"
+       ],
+       [
         "ls14",
+        "ls15"
+       ],
+       [
+        "ls15"
+       ],
+       [
         "ls15",
+        "ls16"
+       ],
+       [
+        "ls16"
+       ],
+       [
         "ls16",
+        "ls17"
+       ],
+       [
+        "ls17"
+       ],
+       [
         "ls17",
+        "ls18"
+       ],
+       [
+        "ls18"
+       ],
+       [
         "ls18",
+        "ls19"
+       ],
+       [
+        "ls19"
+       ],
+       [
         "ls19",
+        "ls20"
+       ],
+       [
+        "ls20"
+       ],
+       [
         "ls20",
+        "ls21"
+       ],
+       [
+        "ls21"
+       ],
+       [
         "ls21",
+        "ls22"
+       ],
+       [
+        "ls22"
+       ],
+       [
         "ls22",
+        "ls23"
+       ],
+       [
+        "ls23"
+       ],
+       [
         "ls23",
+        "ls24"
+       ],
+       [
+        "ls24"
+       ],
+       [
         "ls24",
+        "ls25"
+       ],
+       [
+        "ls25"
+       ],
+       [
         "ls25",
+        "ls26"
+       ],
+       [
+        "ls26"
+       ],
+       [
         "ls26",
+        "ls27"
+       ],
+       [
+        "ls27"
+       ],
+       [
         "ls27",
+        "ls28"
+       ],
+       [
+        "ls28"
+       ],
+       [
         "ls28",
+        "ls29"
+       ],
+       [
+        "ls29"
+       ],
+       [
         "ls29",
+        "ls30"
+       ],
+       [
+        "ls30"
+       ],
+       [
         "ls30",
+        "ls31"
+       ],
+       [
+        "ls31"
+       ],
+       [
         "ls31",
+        "ls32"
+       ],
+       [
+        "ls32"
+       ],
+       [
         "ls32",
+        "ls33"
+       ],
+       [
+        "ls33"
+       ],
+       [
         "ls33",
+        "ls34"
+       ],
+       [
+        "ls34"
+       ],
+       [
         "ls34",
+        "ls35"
+       ],
+       [
+        "ls35"
+       ],
+       [
         "ls35",
+        "ls36"
+       ],
+       [
+        "ls36"
+       ],
+       [
         "ls36",
+        "ls37"
+       ],
+       [
+        "ls37"
+       ],
+       [
         "ls37",
+        "ls38"
+       ],
+       [
+        "ls38"
+       ],
+       [
         "ls38",
+        "ls39"
+       ],
+       [
+        "ls39"
+       ],
+       [
         "ls39",
+        "ls40"
+       ],
+       [
+        "ls40"
+       ],
+       [
         "ls40",
+        "ls41"
+       ],
+       [
+        "ls41"
+       ],
+       [
         "ls41",
+        "ls42"
+       ],
+       [
+        "ls42"
+       ],
+       [
         "ls42",
+        "ls43"
+       ],
+       [
+        "ls43"
+       ],
+       [
         "ls43",
+        "ls44"
+       ],
+       [
+        "ls44"
+       ],
+       [
         "ls44",
+        "ls45"
+       ],
+       [
+        "ls45"
+       ],
+       [
         "ls45",
+        "ls46"
+       ],
+       [
+        "ls46"
+       ],
+       [
         "ls46",
+        "ls47"
+       ],
+       [
+        "ls47"
+       ],
+       [
         "ls47",
+        "ls48"
+       ],
+       [
+        "ls48"
+       ],
+       [
         "ls48",
+        "ls49"
+       ],
+       [
+        "ls49"
+       ],
+       [
         "ls49",
+        "ls50"
+       ],
+       [
+        "ls50"
+       ],
+       [
         "ls50",
+        "lb51"
+       ],
+       [
+        "lb51",
+        "ls51"
+       ],
+       [
         "ls51",
+        "lb52"
+       ],
+       [
+        "lb51:else",
+        "lb52"
+       ],
+       [
         "lb52",
         "ls52"
+       ],
+       [
+        "ls52",
+        "lb53"
+       ],
+       [
+        "lb52:else",
+        "lb53"
+       ],
+       [
+        "lb53",
+        "ls53"
+       ],
+       [
+        "ls53",
+        "lb54"
+       ],
+       [
+        "lb53:else",
+        "lb54"
+       ],
+       [
+        "lb54",
+        "ls54"
+       ],
+       [
+        "ls54",
+        "lb55"
+       ],
+       [
+        "lb54:else",
+        "lb55"
+       ],
+       [
+        "lb55",
+        "ls55"
        ],
        [
         "entry",
@@ -16066,18 +16925,15 @@
         "cr"
        ],
        [
-        "ls52",
+        "ls55",
         "bth"
        ],
        [
-        "lb52:else",
+        "lb55:else",
         "bth"
        ],
        [
         "bth",
-        "ls53",
-        "ls54",
-        "ls55",
         "ls56",
         "ls57",
         "ls58",
@@ -16087,6 +16943,9 @@
         "ls62",
         "ls63",
         "ls64",
+        "ls65",
+        "ls66",
+        "ls67",
         "ath"
        ],
        [
@@ -17164,16 +18023,16 @@
        {
         "id": "g50",
         "kind": "get",
-        "var": "EyeColors"
+        "var": "ModEntry"
        },
        {
         "id": "w50",
         "kind": "set",
-        "var": "EyeColors",
+        "var": "ModEntry",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs50.Settings",
-         "EyeColors": "@g50.EyeColors"
+         "ModEntry": "@g50.ModEntry"
         }
        },
        {
@@ -17184,16 +18043,16 @@
        {
         "id": "g51",
         "kind": "get",
-        "var": "MakeupColors"
+        "var": "Page"
        },
        {
         "id": "w51",
         "kind": "set",
-        "var": "MakeupColors",
+        "var": "LastPage",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs51.Settings",
-         "MakeupColors": "@g51.MakeupColors"
+         "LastPage": "@g51.Page"
         }
        },
        {
@@ -17204,16 +18063,16 @@
        {
         "id": "g52",
         "kind": "get",
-        "var": "ToggleKey"
+        "var": "LookCat"
        },
        {
         "id": "w52",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "LastLookCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs52.Settings",
-         "ToggleKey": "@g52.ToggleKey"
+         "LastLookCat": "@g52.LookCat"
         }
        },
        {
@@ -17224,16 +18083,16 @@
        {
         "id": "g53",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "PoseCat"
        },
        {
         "id": "w53",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "LastPoseCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs53.Settings",
-         "ThemeBg": "@g53.ThemeBg"
+         "LastPoseCat": "@g53.PoseCat"
         }
        },
        {
@@ -17244,16 +18103,16 @@
        {
         "id": "g54",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "CurrentWeapon"
        },
        {
         "id": "w54",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "LastWeapon",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs54.Settings",
-         "ThemeAccent": "@g54.ThemeAccent"
+         "LastWeapon": "@g54.CurrentWeapon"
         }
        },
        {
@@ -17264,16 +18123,16 @@
        {
         "id": "g55",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "ToggleKey"
        },
        {
         "id": "w55",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs55.Settings",
-         "ThemeFill": "@g55.ThemeFill"
+         "ToggleKey": "@g55.ToggleKey"
         }
        },
        {
@@ -17284,16 +18143,16 @@
        {
         "id": "g56",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "ThemeBg"
        },
        {
         "id": "w56",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs56.Settings",
-         "ThemeFrame": "@g56.ThemeFrame"
+         "ThemeBg": "@g56.ThemeBg"
         }
        },
        {
@@ -17304,16 +18163,16 @@
        {
         "id": "g57",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "ThemeAccent"
        },
        {
         "id": "w57",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs57.Settings",
-         "ThemeWorn": "@g57.ThemeWorn"
+         "ThemeAccent": "@g57.ThemeAccent"
         }
        },
        {
@@ -17324,16 +18183,16 @@
        {
         "id": "g58",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "ThemeFill"
        },
        {
         "id": "w58",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs58.Settings",
-         "ThemeRow": "@g58.ThemeRow"
+         "ThemeFill": "@g58.ThemeFill"
         }
        },
        {
@@ -17344,16 +18203,16 @@
        {
         "id": "g59",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "ThemeFrame"
        },
        {
         "id": "w59",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs59.Settings",
-         "ThemeText": "@g59.ThemeText"
+         "ThemeFrame": "@g59.ThemeFrame"
         }
        },
        {
@@ -17364,16 +18223,16 @@
        {
         "id": "g60",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "ThemeWorn"
        },
        {
         "id": "w60",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs60.Settings",
-         "ThemeHead": "@g60.ThemeHead"
+         "ThemeWorn": "@g60.ThemeWorn"
         }
        },
        {
@@ -17384,16 +18243,16 @@
        {
         "id": "g61",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "ThemeRow"
        },
        {
         "id": "w61",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs61.Settings",
-         "ThemeLink": "@g61.ThemeLink"
+         "ThemeRow": "@g61.ThemeRow"
         }
        },
        {
@@ -17404,16 +18263,16 @@
        {
         "id": "g62",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "ThemeText"
        },
        {
         "id": "w62",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs62.Settings",
-         "ThemeLine": "@g62.ThemeLine"
+         "ThemeText": "@g62.ThemeText"
         }
        },
        {
@@ -17424,16 +18283,16 @@
        {
         "id": "g63",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "ThemeHead"
        },
        {
         "id": "w63",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs63.Settings",
-         "BgAlpha": "@g63.BgAlpha"
+         "ThemeHead": "@g63.ThemeHead"
         }
        },
        {
@@ -17444,16 +18303,76 @@
        {
         "id": "g64",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "ThemeLink"
        },
        {
         "id": "w64",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs64.Settings",
-         "TileAlpha": "@g64.TileAlpha"
+         "ThemeLink": "@g64.ThemeLink"
+        }
+       },
+       {
+        "id": "gs65",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g65",
+        "kind": "get",
+        "var": "ThemeLine"
+       },
+       {
+        "id": "w65",
+        "kind": "set",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs65.Settings",
+         "ThemeLine": "@g65.ThemeLine"
+        }
+       },
+       {
+        "id": "gs66",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g66",
+        "kind": "get",
+        "var": "BgAlpha"
+       },
+       {
+        "id": "w66",
+        "kind": "set",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs66.Settings",
+         "BgAlpha": "@g66.BgAlpha"
+        }
+       },
+       {
+        "id": "gs67",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g67",
+        "kind": "get",
+        "var": "TileAlpha"
+       },
+       {
+        "id": "w67",
+        "kind": "set",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs67.Settings",
+         "TileAlpha": "@g67.TileAlpha"
         }
        },
        {
@@ -17593,6 +18512,9 @@
         "w62",
         "w63",
         "w64",
+        "w65",
+        "w66",
+        "w67",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",
@@ -21320,6 +22242,104 @@
       {
        "name": "key",
        "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Mod Field Valid",
+     "inputs": [
+      {
+       "name": "field",
+       "type": "struct:/Game/Mod/AltUI/S_AltUIModField"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Mod Entry Pos",
+     "inputs": [
+      {
+       "name": "order",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Add Mod Field",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "field",
+       "type": "struct:/Game/Mod/AltUI/S_AltUIModField"
+      }
+     ]
+    },
+    {
+     "name": "Scan Mod Entries"
+    },
+    {
+     "name": "Mod Field Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Mod Color Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Mod Text Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "text",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Open Mod Color",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
       }
      ]
     },

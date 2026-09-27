@@ -83,6 +83,12 @@ python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
 
 Guía paso a paso con un ejemplo para Windows y otro para Linux (en inglés): [WEAPON_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/WEAPON_MODS.md)
 
+## Ajustes de otros mods
+
+Los mods que se manejan dentro del juego – una lámpara, por ejemplo – pueden poner sus ajustes en AltUI en lugar de ocupar teclas propias. Una pestaña **Mods** los muestra entonces con interruptores, deslizadores, números, opciones, colores, campos de texto y botones al estilo de AltUI. La pestaña solo aparece cuando hay un mod así instalado.
+
+Para autores de mods (en inglés): [MOD_UI.md](https://github.com/Zyiakk/AltUI/blob/main/MOD_UI.md) describe las dos tablas de datos y la interfaz que necesita un mod; un mod de ejemplo terminado, para instalar y reconstruir, está en [examples/AltUIMod_Example](https://github.com/Zyiakk/AltUI/tree/main/examples/AltUIMod_Example).
+
 ## Compatibilidad
 
 Hecho para la versión 0.6.x del juego. Funciona con mods de ropa, peinados, maquillaje y mapas de Nexus y del Workshop – simplemente aparecen en las listas.

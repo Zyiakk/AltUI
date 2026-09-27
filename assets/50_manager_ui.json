@@ -173,6 +173,11 @@
      "type": "object:/Game/Project/UserInterface/PaletteUI"
     },
     {
+     "name": "ModFieldWidgets",
+     "type": "object:/Game/Mod/AltUI/W_ModField",
+     "container": "array"
+    },
+    {
      "name": "ColorItem",
      "type": "name"
     },
@@ -4058,6 +4063,28 @@
          "self": "@cgi.AsTKA Game Instance",
          "player": "@gplh.Player"
         }
+       },
+       {
+        "id": "gcmo",
+        "kind": "get",
+        "var": "ColorMode"
+       },
+       {
+        "id": "imo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gcmo.ColorMode",
+         "B": "Mod"
+        }
+       },
+       {
+        "id": "bmo",
+        "kind": "branch",
+        "in": {
+         "Condition": "@imo.ReturnValue"
+        }
        }
       ],
       "links": [],
@@ -4085,6 +4112,10 @@
        ],
        [
         "be:else",
+        "bmo"
+       ],
+       [
+        "bmo:else",
         "sv"
        ]
       ]
@@ -4483,6 +4514,42 @@
          "slot": "@gcs2.ColorSlot",
          "color": "@colr.ColorAndOpacity"
         }
+       },
+       {
+        "id": "gcm5",
+        "kind": "get",
+        "var": "ColorMode"
+       },
+       {
+        "id": "imo2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gcm5.ColorMode",
+         "B": "Mod"
+        }
+       },
+       {
+        "id": "bmo2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@imo2.ReturnValue"
+        }
+       },
+       {
+        "id": "gclo",
+        "kind": "get",
+        "var": "ColorItem"
+       },
+       {
+        "id": "mcc",
+        "kind": "call_self",
+        "function": "Mod Color Changed",
+        "in": {
+         "key": "@gclo.ColorItem",
+         "color": "@colr.ColorAndOpacity"
+        }
        }
       ],
       "links": [
@@ -4526,6 +4593,11 @@
        ],
        [
         "bm2:else",
+        "bmo2",
+        "mcc"
+       ],
+       [
+        "bmo2:else",
         "chg"
        ],
        [
@@ -5295,6 +5367,117 @@
         "id": "uf",
         "kind": "call_self",
         "function": "Update Focus"
+       },
+       {
+        "id": "gpk",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "sopk",
+        "kind": "set",
+        "var": "OpenPage",
+        "in": {
+         "OpenPage": "@gpk.Page"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "get",
+        "var": "OpenPage"
+       },
+       {
+        "id": "opc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@gop.OpenPage",
+         "B": "Clothes"
+        }
+       },
+       {
+        "id": "opm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gop.OpenPage",
+         "B": "Mods"
+        }
+       },
+       {
+        "id": "gmk",
+        "kind": "get",
+        "var": "ModEntryKeys"
+       },
+       {
+        "id": "mkl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@gmk.ModEntryKeys"
+        }
+       },
+       {
+        "id": "mke",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@mkl.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "dead",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@opm.ReturnValue",
+         "B": "@mke.ReturnValue"
+        }
+       },
+       {
+        "id": "alive",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@dead.ReturnValue"
+        }
+       },
+       {
+        "id": "go",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@opc.ReturnValue",
+         "B": "@alive.ReturnValue"
+        }
+       },
+       {
+        "id": "bop",
+        "kind": "branch",
+        "in": {
+         "Condition": "@go.ReturnValue"
+        }
+       },
+       {
+        "id": "gop2",
+        "kind": "get",
+        "var": "OpenPage"
+       },
+       {
+        "id": "sel",
+        "kind": "call_self",
+        "function": "Select Page",
+        "in": {
+         "name": "@gop2.OpenPage"
+        }
        }
       ],
       "links": [
@@ -5343,6 +5526,11 @@
         "rs"
        ],
        [
+        "uf",
+        "bop",
+        "sel"
+       ],
+       [
         "rs",
         "sws",
         "swm",
@@ -5353,6 +5541,7 @@
         "lo",
         "lp",
         "ao",
+        "sopk",
         "spo",
         "svo",
         "svl",
@@ -8032,6 +8221,36 @@
         }
        },
        {
+        "id": "gpg5",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "ismd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpg5.Page",
+         "B": "Mods"
+        }
+       },
+       {
+        "id": "bpmd",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ismd.ReturnValue"
+        }
+       },
+       {
+        "id": "smd",
+        "kind": "call_self",
+        "function": "Select Mod Entry",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
         "id": "uf",
         "kind": "call_self",
         "function": "Update Focus"
@@ -8069,6 +8288,11 @@
        ],
        [
         "bpps2:else",
+        "bpmd",
+        "smd"
+       ],
+       [
+        "bpmd:else",
         "hlc",
         "s",
         "gr",
@@ -14973,7 +15197,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@gpo9.Page",
-         "B": "Options"
+         "B": "Mods"
         }
        },
        {
@@ -14981,7 +15205,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Tab_Options"
+         "key": "Tab_Mods"
         }
        },
        {
@@ -14991,7 +15215,7 @@
         "function": "Init",
         "in": {
          "self": "@ct9.AsW_TopTab",
-         "page": "Options",
+         "page": "Mods",
          "caption": "@tt9.text",
          "selected": "@eq9.ReturnValue"
         }
@@ -15009,6 +15233,42 @@
         "in": {
          "self": "@gp9.Panel",
          "widget": "@ct9.AsW_TopTab"
+        }
+       },
+       {
+        "id": "msc",
+        "kind": "call_self",
+        "function": "Scan Mod Entries"
+       },
+       {
+        "id": "gmk",
+        "kind": "get",
+        "var": "ModEntryKeys"
+       },
+       {
+        "id": "mln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@gmk.ModEntryKeys"
+        }
+       },
+       {
+        "id": "many",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@mln.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bmods",
+        "kind": "branch",
+        "in": {
+         "Condition": "@many.ReturnValue"
         }
        },
        {
@@ -15061,7 +15321,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@gpo10.Page",
-         "B": "Manage"
+         "B": "Options"
         }
        },
        {
@@ -15069,7 +15329,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Tab_Manage"
+         "key": "Tab_Options"
         }
        },
        {
@@ -15079,7 +15339,7 @@
         "function": "Init",
         "in": {
          "self": "@ct10.AsW_TopTab",
-         "page": "Manage",
+         "page": "Options",
          "caption": "@tt10.text",
          "selected": "@eq10.ReturnValue"
         }
@@ -15097,6 +15357,94 @@
         "in": {
          "self": "@gp10.Panel",
          "widget": "@ct10.AsW_TopTab"
+        }
+       },
+       {
+        "id": "ct11_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "ct11_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_TopTab",
+         "OwningPlayer": "@ct11_pc.PC"
+        }
+       },
+       {
+        "id": "ct11",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TopTab",
+        "pure": true,
+        "in": {
+         "Object": "@ct11_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "sm11_me",
+        "kind": "self"
+       },
+       {
+        "id": "sm11",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_TopTab",
+        "in": {
+         "self": "@ct11.AsW_TopTab",
+         "Manager": "@sm11_me.self"
+        }
+       },
+       {
+        "id": "gpo11",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "eq11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpo11.Page",
+         "B": "Manage"
+        }
+       },
+       {
+        "id": "tt11",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tab_Manage"
+        }
+       },
+       {
+        "id": "ti11",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TopTab",
+        "function": "Init",
+        "in": {
+         "self": "@ct11.AsW_TopTab",
+         "page": "Manage",
+         "caption": "@tt11.text",
+         "selected": "@eq11.ReturnValue"
+        }
+       },
+       {
+        "id": "gp11",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "at11",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add TopTab",
+        "in": {
+         "self": "@gp11.Panel",
+         "widget": "@ct11.AsW_TopTab"
         }
        }
       ],
@@ -15141,14 +15489,27 @@
         "sm8",
         "ti8",
         "at8",
+        "msc",
+        "bmods",
         "ct9_cr",
         "sm9",
         "ti9",
+        "at9"
+       ],
+       [
+        "bmods:else",
+        "ct10_cr"
+       ],
+       [
         "at9",
         "ct10_cr",
         "sm10",
         "ti10",
-        "at10"
+        "at10",
+        "ct11_cr",
+        "sm11",
+        "ti11",
+        "at11"
        ]
       ]
      }
@@ -15550,6 +15911,28 @@
         "function": "Rebuild Options"
        },
        {
+        "id": "ismd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "Mods"
+        }
+       },
+       {
+        "id": "bmd",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ismd.ReturnValue"
+        }
+       },
+       {
+        "id": "rmd",
+        "kind": "call_self",
+        "function": "Rebuild Mod Page"
+       },
+       {
         "id": "isM",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
@@ -15757,6 +16140,11 @@
        ],
        [
         "by:else",
+        "bmd",
+        "rmd"
+       ],
+       [
+        "bmd:else",
         "bop",
         "rop"
        ],
@@ -77718,6 +78106,2525 @@
      }
     },
     {
+     "name": "Mod Field Valid",
+     "inputs": [
+      {
+       "name": "field",
+       "type": "struct:/Game/Mod/AltUI/S_AltUIModField"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "t0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Header"
+        }
+       },
+       {
+        "id": "t1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Button"
+        }
+       },
+       {
+        "id": "o1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@t0.ReturnValue",
+         "B": "@t1.ReturnValue"
+        }
+       },
+       {
+        "id": "t2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Toggle"
+        }
+       },
+       {
+        "id": "o2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o1.ReturnValue",
+         "B": "@t2.ReturnValue"
+        }
+       },
+       {
+        "id": "t3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Slider"
+        }
+       },
+       {
+        "id": "o3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o2.ReturnValue",
+         "B": "@t3.ReturnValue"
+        }
+       },
+       {
+        "id": "t4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Choice"
+        }
+       },
+       {
+        "id": "o4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o3.ReturnValue",
+         "B": "@t4.ReturnValue"
+        }
+       },
+       {
+        "id": "t5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Number"
+        }
+       },
+       {
+        "id": "o5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o4.ReturnValue",
+         "B": "@t5.ReturnValue"
+        }
+       },
+       {
+        "id": "t6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Color"
+        }
+       },
+       {
+        "id": "o6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o5.ReturnValue",
+         "B": "@t6.ReturnValue"
+        }
+       },
+       {
+        "id": "t7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Text"
+        }
+       },
+       {
+        "id": "o7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o6.ReturnValue",
+         "B": "@t7.ReturnValue"
+        }
+       },
+       {
+        "id": "t8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Info"
+        }
+       },
+       {
+        "id": "o8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o7.ReturnValue",
+         "B": "@t8.ReturnValue"
+        }
+       },
+       {
+        "id": "bf",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_AltUIModField",
+        "in": {
+         "S_AltUIModField": "@entry.field"
+        }
+       },
+       {
+        "id": "ol",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@bf.Options"
+        }
+       },
+       {
+        "id": "oh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@ol.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "ic",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Choice"
+        }
+       },
+       {
+        "id": "nc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@ic.ReturnValue"
+        }
+       },
+       {
+        "id": "cok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@nc.ReturnValue",
+         "B": "@oh.ReturnValue"
+        }
+       },
+       {
+        "id": "rg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_FloatFloat",
+        "in": {
+         "A": "@bf.Min",
+         "B": "@bf.Max"
+        }
+       },
+       {
+        "id": "isl0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Slider"
+        }
+       },
+       {
+        "id": "isn0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Number"
+        }
+       },
+       {
+        "id": "isl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@isl0.ReturnValue",
+         "B": "@isn0.ReturnValue"
+        }
+       },
+       {
+        "id": "nsl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@isl.ReturnValue"
+        }
+       },
+       {
+        "id": "sok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@nsl.ReturnValue",
+         "B": "@rg.ReturnValue"
+        }
+       },
+       {
+        "id": "a1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@o8.ReturnValue",
+         "B": "@cok.ReturnValue"
+        }
+       },
+       {
+        "id": "a2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a1.ReturnValue",
+         "B": "@sok.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "a2.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Mod Entry Pos",
+     "inputs": [
+      {
+       "name": "order",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "z",
+        "kind": "set",
+        "var": "ModPosTmp",
+        "in": {
+         "ModPosTmp": "0"
+        }
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "ModEntryKeys"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gk.ModEntryKeys"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "ModEntries"
+       },
+       {
+        "id": "f",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@ge.ModEntries",
+         "Key": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_AltUIModEntry",
+        "in": {
+         "S_AltUIModEntry": "@f.Value"
+        }
+       },
+       {
+        "id": "le",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LessEqual_IntInt",
+        "in": {
+         "A": "@be.Order",
+         "B": "@entry.order"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@le.ReturnValue"
+        }
+       },
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "ModPosTmp"
+       },
+       {
+        "id": "inc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@gp.ModPosTmp",
+         "B": "1"
+        }
+       },
+       {
+        "id": "s",
+        "kind": "set",
+        "var": "ModPosTmp",
+        "in": {
+         "ModPosTmp": "@inc.ReturnValue"
+        }
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "ModPosTmp"
+       }
+      ],
+      "links": [
+       [
+        "gr.ModPosTmp",
+        "return.index"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "z",
+        "fe"
+       ],
+       [
+        "fe",
+        "b",
+        "s"
+       ],
+       [
+        "fe:Completed",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Mod Field",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "field",
+       "type": "struct:/Game/Mod/AltUI/S_AltUIModField"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "ModFields"
+       },
+       {
+        "id": "f",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gm.ModFields",
+         "Key": "@entry.key"
+        }
+       },
+       {
+        "id": "bl",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_ModFieldList",
+        "in": {
+         "S_ModFieldList": "@f.Value"
+        }
+       },
+       {
+        "id": "sl",
+        "kind": "set",
+        "var": "ModFieldsTmp",
+        "in": {
+         "ModFieldsTmp": "@bl.Fields"
+        }
+       },
+       {
+        "id": "z",
+        "kind": "set",
+        "var": "ModPosTmp",
+        "in": {
+         "ModPosTmp": "0"
+        }
+       },
+       {
+        "id": "bn",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_AltUIModField",
+        "in": {
+         "S_AltUIModField": "@entry.field"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "ModFieldsTmp"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gt.ModFieldsTmp"
+        }
+       },
+       {
+        "id": "bo",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_AltUIModField",
+        "in": {
+         "S_AltUIModField": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "le",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LessEqual_IntInt",
+        "in": {
+         "A": "@bo.Order",
+         "B": "@bn.Order"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@le.ReturnValue"
+        }
+       },
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "ModPosTmp"
+       },
+       {
+        "id": "inc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@gp.ModPosTmp",
+         "B": "1"
+        }
+       },
+       {
+        "id": "s",
+        "kind": "set",
+        "var": "ModPosTmp",
+        "in": {
+         "ModPosTmp": "@inc.ReturnValue"
+        }
+       },
+       {
+        "id": "gt2",
+        "kind": "get",
+        "var": "ModFieldsTmp"
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "ModPosTmp"
+       },
+       {
+        "id": "ins",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Insert",
+        "in": {
+         "TargetArray": "@gt2.ModFieldsTmp",
+         "NewItem": "@entry.field",
+         "Index": "@gp2.ModPosTmp"
+        }
+       },
+       {
+        "id": "gt3",
+        "kind": "get",
+        "var": "ModFieldsTmp"
+       },
+       {
+        "id": "mk",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ModFieldList",
+        "in": {
+         "Fields": "@gt3.ModFieldsTmp"
+        }
+       },
+       {
+        "id": "gm2",
+        "kind": "get",
+        "var": "ModFields"
+       },
+       {
+        "id": "add",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@gm2.ModFields",
+         "Key": "@entry.key",
+         "Value": "@mk.S_ModFieldList"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sl",
+        "z",
+        "fe"
+       ],
+       [
+        "fe",
+        "b",
+        "s"
+       ],
+       [
+        "fe:Completed",
+        "ins",
+        "add"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Scan Mod Entries",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "ModScanned"
+       },
+       {
+        "id": "bs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gs.ModScanned"
+        }
+       },
+       {
+        "id": "ss",
+        "kind": "set",
+        "var": "ModScanned",
+        "in": {
+         "ModScanned": "true"
+        }
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "ModEntryKeys"
+       },
+       {
+        "id": "ck",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gk.ModEntryKeys"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "ModEntries"
+       },
+       {
+        "id": "ce",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Clear",
+        "in": {
+         "TargetMap": "@ge.ModEntries"
+        }
+       },
+       {
+        "id": "gf",
+        "kind": "get",
+        "var": "ModFields"
+       },
+       {
+        "id": "cf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Clear",
+        "in": {
+         "TargetMap": "@gf.ModFields"
+        }
+       },
+       {
+        "id": "rn",
+        "kind": "call",
+        "class": "/Script/Engine.DataTableFunctionLibrary",
+        "function": "GetDataTableRowNames",
+        "in": {
+         "Table": "/Game/Project/Tables/DLC_MainTable"
+        }
+       },
+       {
+        "id": "fm",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rn.OutRowNames"
+        }
+       },
+       {
+        "id": "e_n2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "e_c1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@e_n2s.ReturnValue"
+        }
+       },
+       {
+        "id": "e_c2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@e_c1.ReturnValue",
+         "B": "/AltUI_Entries.AltUI_Entries"
+        }
+       },
+       {
+        "id": "e_sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "@e_c2.ReturnValue"
+        }
+       },
+       {
+        "id": "e_sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@e_sp.ReturnValue"
+        }
+       },
+       {
+        "id": "e_ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@e_sr.ReturnValue"
+        }
+       },
+       {
+        "id": "e_ck",
+        "kind": "cast",
+        "class": "/Script/Engine.DataTable",
+        "pure": false,
+        "in": {
+         "Object": "@e_ld.ReturnValue"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "er",
+        "kind": "call",
+        "class": "/Script/Engine.DataTableFunctionLibrary",
+        "function": "GetDataTableRowNames",
+        "in": {
+         "Table": "@e_ck.AsData Table"
+        }
+       },
+       {
+        "id": "fr",
+        "kind": "foreach",
+        "in": {
+         "Array": "@er.OutRowNames"
+        }
+       },
+       {
+        "id": "row",
+        "kind": "get_row",
+        "in": {
+         "DataTable": "@e_ck.AsData Table",
+         "RowName": "@fr.Array Element"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "br",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_AltUIModEntry",
+        "in": {
+         "S_AltUIModEntry": "@row.OutRow"
+        }
+       },
+       {
+        "id": "ek_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "ek_b",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fr.Array Element"
+        }
+       },
+       {
+        "id": "ek_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@ek_a.ReturnValue",
+         "B": "/"
+        }
+       },
+       {
+        "id": "ek_d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@ek_c.ReturnValue",
+         "B": "@ek_b.ReturnValue"
+        }
+       },
+       {
+        "id": "ek",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@ek_d.ReturnValue"
+        }
+       },
+       {
+        "id": "pos",
+        "kind": "call_self",
+        "function": "Mod Entry Pos",
+        "in": {
+         "order": "@br.Order"
+        }
+       },
+       {
+        "id": "gk2",
+        "kind": "get",
+        "var": "ModEntryKeys"
+       },
+       {
+        "id": "ins",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Insert",
+        "in": {
+         "TargetArray": "@gk2.ModEntryKeys",
+         "NewItem": "@ek.ReturnValue",
+         "Index": "@pos.index"
+        }
+       },
+       {
+        "id": "ge2",
+        "kind": "get",
+        "var": "ModEntries"
+       },
+       {
+        "id": "add",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@ge2.ModEntries",
+         "Key": "@ek.ReturnValue",
+         "Value": "@row.OutRow"
+        }
+       },
+       {
+        "id": "f_n2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "f_c1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@f_n2s.ReturnValue"
+        }
+       },
+       {
+        "id": "f_c2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@f_c1.ReturnValue",
+         "B": "/AltUI_Fields.AltUI_Fields"
+        }
+       },
+       {
+        "id": "f_sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "@f_c2.ReturnValue"
+        }
+       },
+       {
+        "id": "f_sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@f_sp.ReturnValue"
+        }
+       },
+       {
+        "id": "f_ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@f_sr.ReturnValue"
+        }
+       },
+       {
+        "id": "f_ck",
+        "kind": "cast",
+        "class": "/Script/Engine.DataTable",
+        "pure": false,
+        "in": {
+         "Object": "@f_ld.ReturnValue"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "fr2",
+        "kind": "call",
+        "class": "/Script/Engine.DataTableFunctionLibrary",
+        "function": "GetDataTableRowNames",
+        "in": {
+         "Table": "@f_ck.AsData Table"
+        }
+       },
+       {
+        "id": "ff",
+        "kind": "foreach",
+        "in": {
+         "Array": "@fr2.OutRowNames"
+        }
+       },
+       {
+        "id": "frow",
+        "kind": "get_row",
+        "in": {
+         "DataTable": "@f_ck.AsData Table",
+         "RowName": "@ff.Array Element"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "bff",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_AltUIModField",
+        "in": {
+         "S_AltUIModField": "@frow.OutRow"
+        }
+       },
+       {
+        "id": "fk_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "fk_b",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@bff.Entry"
+        }
+       },
+       {
+        "id": "fk_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@fk_a.ReturnValue",
+         "B": "/"
+        }
+       },
+       {
+        "id": "fk_d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@fk_c.ReturnValue",
+         "B": "@fk_b.ReturnValue"
+        }
+       },
+       {
+        "id": "fk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@fk_d.ReturnValue"
+        }
+       },
+       {
+        "id": "val",
+        "kind": "call_self",
+        "function": "Mod Field Valid",
+        "in": {
+         "field": "@frow.OutRow"
+        }
+       },
+       {
+        "id": "ge3",
+        "kind": "get",
+        "var": "ModEntries"
+       },
+       {
+        "id": "has",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Contains",
+        "in": {
+         "TargetMap": "@ge3.ModEntries",
+         "Key": "@fk.ReturnValue"
+        }
+       },
+       {
+        "id": "ok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@val.yes",
+         "B": "@has.ReturnValue"
+        }
+       },
+       {
+        "id": "bok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ok.ReturnValue"
+        }
+       },
+       {
+        "id": "amf",
+        "kind": "call_self",
+        "function": "Add Mod Field",
+        "in": {
+         "key": "@fk.ReturnValue",
+         "field": "@frow.OutRow"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bs"
+       ],
+       [
+        "bs:else",
+        "ss",
+        "ck",
+        "ce",
+        "cf",
+        "rn",
+        "fm"
+       ],
+       [
+        "fm",
+        "e_ld",
+        "e_ck",
+        "er",
+        "fr"
+       ],
+       [
+        "fr",
+        "row",
+        "pos",
+        "ins",
+        "add"
+       ],
+       [
+        "fr:Completed",
+        "f_ld",
+        "f_ck",
+        "fr2",
+        "ff"
+       ],
+       [
+        "ff",
+        "frow",
+        "bok",
+        "amf"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mod Field Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@ga.ModActor"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "ga2",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "m",
+        "kind": "message",
+        "class": "/Game/Mod/AltUI/BPI_AltUIMod",
+        "function": "On AltUI Changed",
+        "in": {
+         "self": "@ga2.ModActor",
+         "Key": "@entry.key",
+         "Value": "@entry.value"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "m"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mod Color Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@ga.ModActor"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "ga2",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "m",
+        "kind": "message",
+        "class": "/Game/Mod/AltUI/BPI_AltUIMod",
+        "function": "On AltUI Color Changed",
+        "in": {
+         "self": "@ga2.ModActor",
+         "Key": "@entry.key",
+         "Color": "@entry.color"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "m"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mod Text Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "text",
+       "type": "string"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@ga.ModActor"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "ga2",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "m",
+        "kind": "message",
+        "class": "/Game/Mod/AltUI/BPI_AltUIMod",
+        "function": "On AltUI Text Changed",
+        "in": {
+         "self": "@ga2.ModActor",
+         "Key": "@entry.key",
+         "Text": "@entry.text"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "m"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Open Mod Color",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "sci",
+        "kind": "set",
+        "var": "ColorItem",
+        "in": {
+         "ColorItem": "@entry.key"
+        }
+       },
+       {
+        "id": "scm",
+        "kind": "set",
+        "var": "ColorMode",
+        "in": {
+         "ColorMode": "Mod"
+        }
+       },
+       {
+        "id": "so",
+        "kind": "set",
+        "var": "ColorOrig",
+        "in": {
+         "ColorOrig": "@entry.color"
+        }
+       },
+       {
+        "id": "sc",
+        "kind": "set",
+        "var": "ColorCur",
+        "in": {
+         "ColorCur": "@entry.color"
+        }
+       },
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Palette"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gp.Palette"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "cp_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "cp_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Project/UserInterface/PaletteUI",
+         "OwningPlayer": "@cp_pc.PC"
+        }
+       },
+       {
+        "id": "cp",
+        "kind": "cast",
+        "class": "/Game/Project/UserInterface/PaletteUI",
+        "pure": true,
+        "in": {
+         "Object": "@cp_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "sp",
+        "kind": "set",
+        "var": "Palette",
+        "in": {
+         "Palette": "@cp.AsPaletteUI"
+        }
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "Palette"
+       },
+       {
+        "id": "atv",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "AddToViewport",
+        "in": {
+         "self": "@gp2.Palette",
+         "ZOrder": "115"
+        }
+       },
+       {
+        "id": "gp3",
+        "kind": "get",
+        "var": "Palette"
+       },
+       {
+        "id": "gpn",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "glb",
+        "kind": "get",
+        "var": "LastButton"
+       },
+       {
+        "id": "show",
+        "kind": "call",
+        "class": "/Game/Project/UserInterface/PaletteUI",
+        "function": "Show Palette",
+        "in": {
+         "self": "@gp3.Palette",
+         "panel": "@gpn.Panel",
+         "button": "@glb.LastButton",
+         "flag": "0",
+         "initial color": "@entry.color"
+        }
+       },
+       {
+        "id": "sop",
+        "kind": "set",
+        "var": "ColorOpen",
+        "in": {
+         "ColorOpen": "true"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "b:else",
+        "cp_cr",
+        "sp",
+        "atv"
+       ],
+       [
+        "atv",
+        "show",
+        "sop"
+       ],
+       [
+        "entry",
+        "sci",
+        "scm",
+        "so",
+        "sc",
+        "b",
+        "atv"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Rebuild Mod Entries",
+     "graph": {
+      "nodes": [
+       {
+        "id": "scan",
+        "kind": "call_self",
+        "function": "Scan Mod Entries"
+       },
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Mod Entries",
+        "in": {
+         "self": "@gp.Panel"
+        }
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "ModEntryKeys"
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "ModEntry"
+       },
+       {
+        "id": "has",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@gk.ModEntryKeys",
+         "ItemToFind": "@ge.ModEntry"
+        }
+       },
+       {
+        "id": "len",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@gk.ModEntryKeys"
+        }
+       },
+       {
+        "id": "any",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@len.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "nh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@has.ReturnValue"
+        }
+       },
+       {
+        "id": "fix",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@nh.ReturnValue",
+         "B": "@any.ReturnValue"
+        }
+       },
+       {
+        "id": "bf",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fix.ReturnValue"
+        }
+       },
+       {
+        "id": "gk0",
+        "kind": "get",
+        "var": "ModEntryKeys"
+       },
+       {
+        "id": "first",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gk0.ModEntryKeys",
+         "Index": "0"
+        }
+       },
+       {
+        "id": "sf",
+        "kind": "set",
+        "var": "ModEntry",
+        "in": {
+         "ModEntry": "@first.Item"
+        }
+       },
+       {
+        "id": "gk2",
+        "kind": "get",
+        "var": "ModEntryKeys"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gk2.ModEntryKeys"
+        }
+       },
+       {
+        "id": "gme",
+        "kind": "get",
+        "var": "ModEntries"
+       },
+       {
+        "id": "f",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gme.ModEntries",
+         "Key": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_AltUIModEntry",
+        "in": {
+         "S_AltUIModEntry": "@f.Value"
+        }
+       },
+       {
+        "id": "gmf",
+        "kind": "get",
+        "var": "ModFields"
+       },
+       {
+        "id": "ff",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gmf.ModFields",
+         "Key": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "bl",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_ModFieldList",
+        "in": {
+         "S_ModFieldList": "@ff.Value"
+        }
+       },
+       {
+        "id": "n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@bl.Fields"
+        }
+       },
+       {
+        "id": "ge2",
+        "kind": "get",
+        "var": "ModEntry"
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@ge2.ModEntry",
+         "B": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "ct_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "ct_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_SlotTab",
+         "OwningPlayer": "@ct_pc.PC"
+        }
+       },
+       {
+        "id": "ct",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "pure": true,
+        "in": {
+         "Object": "@ct_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "in": {
+         "self": "@ct.AsW_SlotTab",
+         "Manager": "@sm_me.self"
+        }
+       },
+       {
+        "id": "ti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "function": "Init",
+        "in": {
+         "self": "@ct.AsW_SlotTab",
+         "slot": "@fe.Array Element",
+         "caption": "@be.Caption",
+         "count": "@n.ReturnValue",
+         "worn icon": "None",
+         "selected": "@sel.ReturnValue",
+         "has items": "true",
+         "filtered": "-1",
+         "indent": "false"
+        }
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "aa",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Mod Entry",
+        "in": {
+         "self": "@gp2.Panel",
+         "widget": "@ct.AsW_SlotTab"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "scan",
+        "cl",
+        "bf",
+        "sf",
+        "fe"
+       ],
+       [
+        "bf:else",
+        "fe"
+       ],
+       [
+        "fe",
+        "ct_cr",
+        "sm",
+        "ti",
+        "aa"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Rebuild Mod Fields",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Mod Fields",
+        "in": {
+         "self": "@gp.Panel"
+        }
+       },
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "ModFieldWidgets"
+       },
+       {
+        "id": "cw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gw.ModFieldWidgets"
+        }
+       },
+       {
+        "id": "sa0",
+        "kind": "set",
+        "var": "ModActor",
+        "in": {
+         "ModActor": "None"
+        }
+       },
+       {
+        "id": "gme",
+        "kind": "get",
+        "var": "ModEntries"
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "ModEntry"
+       },
+       {
+        "id": "f",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gme.ModEntries",
+         "Key": "@ge.ModEntry"
+        }
+       },
+       {
+        "id": "bf",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f.ReturnValue"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_AltUIModEntry",
+        "in": {
+         "S_AltUIModEntry": "@f.Value"
+        }
+       },
+       {
+        "id": "ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadClassAsset_Blocking",
+        "in": {
+         "AssetClass": "@be.Actor"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "class_cast",
+        "pure": true,
+        "class": "/Script/Engine.Actor",
+        "in": {
+         "Class": "@ld.ReturnValue"
+        }
+       },
+       {
+        "id": "ga",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetActorOfClass",
+        "in": {
+         "ActorClass": "@cc.AsActor"
+        }
+       },
+       {
+        "id": "sa",
+        "kind": "set",
+        "var": "ModActor",
+        "in": {
+         "ModActor": "@ga.ReturnValue"
+        }
+       },
+       {
+        "id": "gmf",
+        "kind": "get",
+        "var": "ModFields"
+       },
+       {
+        "id": "ge2",
+        "kind": "get",
+        "var": "ModEntry"
+       },
+       {
+        "id": "ff",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gmf.ModFields",
+         "Key": "@ge2.ModEntry"
+        }
+       },
+       {
+        "id": "bl",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_ModFieldList",
+        "in": {
+         "S_ModFieldList": "@ff.Value"
+        }
+       },
+       {
+        "id": "sl",
+        "kind": "set",
+        "var": "ModFieldsTmp",
+        "in": {
+         "ModFieldsTmp": "@bl.Fields"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "ModFieldsTmp"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gt.ModFieldsTmp"
+        }
+       },
+       {
+        "id": "cf_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "cf_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ModField",
+         "OwningPlayer": "@cf_pc.PC"
+        }
+       },
+       {
+        "id": "cf",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ModField",
+        "pure": true,
+        "in": {
+         "Object": "@cf_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "smf_me",
+        "kind": "self"
+       },
+       {
+        "id": "smf",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ModField",
+        "in": {
+         "self": "@cf.AsW_ModField",
+         "Manager": "@smf_me.self"
+        }
+       },
+       {
+        "id": "fi",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ModField",
+        "function": "Init",
+        "in": {
+         "self": "@cf.AsW_ModField",
+         "field": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "af",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Mod Field Widget",
+        "in": {
+         "self": "@gp2.Panel",
+         "widget": "@cf.AsW_ModField"
+        }
+       },
+       {
+        "id": "gav",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "av",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gav.ModActor"
+        }
+       },
+       {
+        "id": "fen",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ModField",
+        "function": "Set Enabled",
+        "in": {
+         "self": "@cf.AsW_ModField",
+         "yes": "@av.ReturnValue"
+        }
+       },
+       {
+        "id": "gw2",
+        "kind": "get",
+        "var": "ModFieldWidgets"
+       },
+       {
+        "id": "aw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gw2.ModFieldWidgets",
+         "NewItem": "@cf.AsW_ModField"
+        }
+       },
+       {
+        "id": "gt2",
+        "kind": "get",
+        "var": "ModFieldsTmp"
+       },
+       {
+        "id": "nf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@gt2.ModFieldsTmp"
+        }
+       },
+       {
+        "id": "none",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@nf.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@none.ReturnValue"
+        }
+       },
+       {
+        "id": "gp3",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "tnf",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_ModNoFields"
+        }
+       },
+       {
+        "id": "h1",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Mod Hint",
+        "in": {
+         "self": "@gp3.Panel",
+         "text": "@tnf.text"
+        }
+       },
+       {
+        "id": "gav2",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "av2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gav2.ModActor"
+        }
+       },
+       {
+        "id": "ba",
+        "kind": "branch",
+        "in": {
+         "Condition": "@av2.ReturnValue"
+        }
+       },
+       {
+        "id": "gp4",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "h2",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Mod Hint",
+        "in": {
+         "self": "@gp4.Panel",
+         "text": ""
+        }
+       },
+       {
+        "id": "gp5",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "tin",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_ModInactive"
+        }
+       },
+       {
+        "id": "h3",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Mod Hint",
+        "in": {
+         "self": "@gp5.Panel",
+         "text": "@tin.text"
+        }
+       },
+       {
+        "id": "poll",
+        "kind": "call_self",
+        "function": "Poll Mods"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "cl",
+        "cw",
+        "sa0",
+        "bf",
+        "ld",
+        "ga",
+        "sa",
+        "sl",
+        "fe"
+       ],
+       [
+        "bf:else",
+        "sl"
+       ],
+       [
+        "fe",
+        "cf_cr",
+        "smf",
+        "fi",
+        "af",
+        "fen",
+        "aw"
+       ],
+       [
+        "fe:Completed",
+        "bn",
+        "h1",
+        "poll"
+       ],
+       [
+        "bn:else",
+        "ba",
+        "h2",
+        "poll"
+       ],
+       [
+        "ba:else",
+        "h3",
+        "poll"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Poll Mods",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@ga.ModActor"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "ModFieldWidgets"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gw.ModFieldWidgets"
+        }
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "Key",
+        "class": "/Game/Mod/AltUI/W_ModField"
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "Type",
+        "class": "/Game/Mod/AltUI/W_ModField"
+       },
+       {
+        "id": "isc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt.Type",
+         "B": "Color"
+        }
+       },
+       {
+        "id": "bc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isc.ReturnValue"
+        }
+       },
+       {
+        "id": "ist",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt.Type",
+         "B": "Text"
+        }
+       },
+       {
+        "id": "isi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt.Type",
+         "B": "Info"
+        }
+       },
+       {
+        "id": "istx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ist.ReturnValue",
+         "B": "@isi.ReturnValue"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "branch",
+        "in": {
+         "Condition": "@istx.ReturnValue"
+        }
+       },
+       {
+        "id": "ga2",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "m",
+        "kind": "message",
+        "class": "/Game/Mod/AltUI/BPI_AltUIMod",
+        "function": "Get AltUI Value",
+        "in": {
+         "self": "@ga2.ModActor",
+         "Key": "@gk.Key"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ModField",
+        "function": "Set Value",
+        "in": {
+         "self": "@fe.Array Element",
+         "value": "@m.Value"
+        }
+       },
+       {
+        "id": "ga3",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "mc",
+        "kind": "message",
+        "class": "/Game/Mod/AltUI/BPI_AltUIMod",
+        "function": "Get AltUI Color",
+        "in": {
+         "self": "@ga3.ModActor",
+         "Key": "@gk.Key"
+        }
+       },
+       {
+        "id": "sc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ModField",
+        "function": "Set Color",
+        "in": {
+         "self": "@fe.Array Element",
+         "color": "@mc.Color"
+        }
+       },
+       {
+        "id": "ga4",
+        "kind": "get",
+        "var": "ModActor"
+       },
+       {
+        "id": "mt",
+        "kind": "message",
+        "class": "/Game/Mod/AltUI/BPI_AltUIMod",
+        "function": "Get AltUI Text",
+        "in": {
+         "self": "@ga4.ModActor",
+         "Key": "@gk.Key"
+        }
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ModField",
+        "function": "Set Text",
+        "in": {
+         "self": "@fe.Array Element",
+         "text": "@mt.Text"
+        }
+       }
+      ],
+      "links": [
+       [
+        "fe.Array Element",
+        "gk.self"
+       ],
+       [
+        "fe.Array Element",
+        "gt.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "fe"
+       ],
+       [
+        "fe",
+        "bc",
+        "mc",
+        "sc"
+       ],
+       [
+        "bc:else",
+        "bt",
+        "mt",
+        "st"
+       ],
+       [
+        "bt:else",
+        "m",
+        "sv"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Select Mod Entry",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "s",
+        "kind": "set",
+        "var": "ModEntry",
+        "in": {
+         "ModEntry": "@entry.name"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call_self",
+        "function": "Save Settings"
+       },
+       {
+        "id": "r",
+        "kind": "call_self",
+        "function": "Rebuild Mod Page"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s",
+        "sv",
+        "r"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Rebuild Mod Page",
+     "graph": {
+      "nodes": [
+       {
+        "id": "re",
+        "kind": "call_self",
+        "function": "Rebuild Mod Entries"
+       },
+       {
+        "id": "rf",
+        "kind": "call_self",
+        "function": "Rebuild Mod Fields"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "re",
+        "rf"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Scan Weapon Skins",
      "graph": {
       "nodes": [
@@ -102682,11 +105589,18 @@
         }
        },
        {
+        "id": "gpl6",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
         "id": "iw3",
-        "kind": "call_self",
-        "function": "Is Worn",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "is clothes wearing",
         "in": {
-         "name": "@gn.TmpName2"
+         "self": "@gpl6.Player",
+         "clothes name": "@gn.TmpName2"
         }
        },
        {
@@ -111406,6 +114320,33 @@
       "function": "Poll Manage"
      },
      {
+      "id": "tpg4",
+      "kind": "get",
+      "var": "Page"
+     },
+     {
+      "id": "timd",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_NameName",
+      "in": {
+       "A": "@tpg4.Page",
+       "B": "Mods"
+      }
+     },
+     {
+      "id": "tbmd",
+      "kind": "branch",
+      "in": {
+       "Condition": "@timd.ReturnValue"
+      }
+     },
+     {
+      "id": "tpmd",
+      "kind": "call_self",
+      "function": "Poll Mods"
+     },
+     {
       "id": "tsw",
       "kind": "get",
       "var": "IconSpawnWait"
@@ -112693,6 +115634,95 @@
       "var": "TmpBool",
       "in": {
        "TmpBool": "@trhm_c.found"
+      }
+     },
+     {
+      "id": "tms",
+      "kind": "custom_event",
+      "name": "Test Mod Scan",
+      "inputs": []
+     },
+     {
+      "id": "tms_c",
+      "kind": "call_self",
+      "function": "Scan Mod Entries"
+     },
+     {
+      "id": "tmf",
+      "kind": "custom_event",
+      "name": "Test Mod Fields",
+      "inputs": [
+       {
+        "name": "key",
+        "type": "name"
+       }
+      ]
+     },
+     {
+      "id": "tmf_g",
+      "kind": "get",
+      "var": "TmpNames"
+     },
+     {
+      "id": "tmf_clr",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Clear",
+      "in": {
+       "TargetArray": "@tmf_g.TmpNames"
+      }
+     },
+     {
+      "id": "tmf_m",
+      "kind": "get",
+      "var": "ModFields"
+     },
+     {
+      "id": "tmf_f",
+      "kind": "call",
+      "class": "/Script/Engine.BlueprintMapLibrary",
+      "function": "Map_Find",
+      "in": {
+       "TargetMap": "@tmf_m.ModFields",
+       "Key": "@tmf.key"
+      }
+     },
+     {
+      "id": "tmf_b",
+      "kind": "break",
+      "struct": "/Game/Mod/AltUI/S_ModFieldList",
+      "in": {
+       "S_ModFieldList": "@tmf_f.Value"
+      }
+     },
+     {
+      "id": "tmf_fe",
+      "kind": "foreach",
+      "in": {
+       "Array": "@tmf_b.Fields"
+      }
+     },
+     {
+      "id": "tmf_bf",
+      "kind": "break",
+      "struct": "/Game/Mod/AltUI/S_AltUIModField",
+      "in": {
+       "S_AltUIModField": "@tmf_fe.Array Element"
+      }
+     },
+     {
+      "id": "tmf_g2",
+      "kind": "get",
+      "var": "TmpNames"
+     },
+     {
+      "id": "tmf_add",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Add",
+      "in": {
+       "TargetArray": "@tmf_g2.TmpNames",
+       "NewItem": "@tmf_bf.Key"
       }
      },
      {
@@ -115844,6 +118874,12 @@
      ],
      [
       "tbmg:else",
+      "tbmd",
+      "tpmd",
+      "tb1"
+     ],
+     [
+      "tbmd:else",
       "tb1"
      ],
      [
@@ -116042,6 +119078,19 @@
      [
       "trhm",
       "trhm_s"
+     ],
+     [
+      "tms",
+      "tms_c"
+     ],
+     [
+      "tmf",
+      "tmf_clr",
+      "tmf_fe"
+     ],
+     [
+      "tmf_fe",
+      "tmf_add"
      ],
      [
       "tek",

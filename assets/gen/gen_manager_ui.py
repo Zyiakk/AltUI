@@ -3,6 +3,7 @@ import os, sys; sys.path.insert(0, os.path.dirname(__file__)); sys.path.insert(0
 from bpdsl import *
 import bodyscale_groups as bg
 import weapon_skins as ws
+import modui as mu
 from gen_manager import pop, text_from_str, S_ITEM, T_ITEM, S_COLSLOTS, S_MATS, MGR, S_SNAP, SG, S_LOOK, SG_LOOKS, LOOKS_SLOT, SG_LOG, LOG_SLOT, LOG_MAX
 from strings import LANGS, LIST_CAP
 from theme import THEME, DERIVED, BG_ALPHA, TILE_ALPHA
@@ -163,7 +164,17 @@ def f_open():
     g.chain("atv", "so", "smr", "sjd", "cur", "im", "bl", "epc", "rs"); g.chain("bl:else", "di", "rs")
     g.n("rst", "call_self", function="Rebuild Status")
     g.n("uf", "call_self", function="Update Focus")
-    g.chain("rs", "sws", "swm", "aws", "aicO", "aecO", "amcO", *probe, "lo", "lp", "ao", "spo", "svo", "svl", "svp", "spg", "rtt", "rst", "csl", "cx_cr", "smx", "xi", "asl", "cslc", "cxc_cr", "smxc", "xic", "aslc", "bs", "bsl", "scs", "rcd", "rl"); g.chain("bs:else", "rcd"); g.chain("bsl:else", "rcd"); g.chain("rcd", "rl", "rt", "rli", "kf", "uf")
+    # the tab it was left on (kept in the settings): read before Page goes to Clothes, switched to once the clothes page is built;
+    # a kept Mods tab without any registered mod stays on the clothes page
+    g.get("gpk", "Page"); g.set("sopk", "OpenPage", inp={"OpenPage": "@gpk.Page"})
+    g.get("gop", "OpenPage"); g.call("opc", K_MATH, "NotEqual_NameName", inp={"A": "@gop.OpenPage", "B": "Clothes"})
+    g.call("opm", K_MATH, "EqualEqual_NameName", inp={"A": "@gop.OpenPage", "B": "Mods"}); g.get("gmk", "ModEntryKeys")
+    g.call("mkl", K_ARR, "Array_Length", inp={"TargetArray": "@gmk.ModEntryKeys"}); g.call("mke", K_MATH, "EqualEqual_IntInt", inp={"A": "@mkl.ReturnValue", "B": "0"})
+    g.call("dead", K_MATH, "BooleanAND", inp={"A": "@opm.ReturnValue", "B": "@mke.ReturnValue"}); g.call("alive", K_MATH, "Not_PreBool", inp={"A": "@dead.ReturnValue"})
+    g.call("go", K_MATH, "BooleanAND", inp={"A": "@opc.ReturnValue", "B": "@alive.ReturnValue"}); g.branch("bop", "@go.ReturnValue")
+    g.get("gop2", "OpenPage"); g.n("sel", "call_self", function="Select Page", inp={"name": "@gop2.OpenPage"})
+    g.chain("uf", "bop", "sel")
+    g.chain("rs", "sws", "swm", "aws", "aicO", "aecO", "amcO", *probe, "lo", "lp", "ao", "sopk", "spo", "svo", "svl", "svp", "spg", "rtt", "rst", "csl", "cx_cr", "smx", "xi", "asl", "cslc", "cxc_cr", "smxc", "xic", "aslc", "bs", "bsl", "scs", "rcd", "rl"); g.chain("bs:else", "rcd"); g.chain("bsl:else", "rcd"); g.chain("rcd", "rl", "rt", "rli", "kf", "uf")
     return fn("Open Panel", graph=g)
 
 
@@ -371,9 +382,11 @@ def f_select_slot():
     g.n("swp", "call_self", function="Select Weapon", inp={"name": "@entry.name"})
     g.get("gpg4", "Page"); g.call("isps2", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg4.Page", "B": "Poses"}); g.branch("bpps2", "@isps2.ReturnValue")
     g.n("spc", "call_self", function="Select Pose Cat", inp={"name": "@entry.name"})
+    g.get("gpg5", "Page"); g.call("ismd", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg5.Page", "B": "Mods"}); g.branch("bpmd", "@ismd.ReturnValue")
+    g.n("smd", "call_self", function="Select Mod Entry", inp={"name": "@entry.name"})
     g.n("uf", "call_self", function="Update Focus")
     g.set("hlc", "HighlightItem", inp={"HighlightItem": "None"})
-    g.chain("entry", "bpl", "slc"); g.chain("bpl:else", "bpm", "smc"); g.chain("bpm:else", "bpw", "swp"); g.chain("bpw:else", "bpps2", "spc"); g.chain("bpps2:else", "hlc", "s", "gr", "bk", "rl", "rt", "rli", "uf"); g.chain("bk:else", "sg", "rl"); return fn("Select Slot", [param("name", "name")], graph=g)
+    g.chain("entry", "bpl", "slc"); g.chain("bpl:else", "bpm", "smc"); g.chain("bpm:else", "bpw", "swp"); g.chain("bpw:else", "bpps2", "spc"); g.chain("bpps2:else", "bpmd", "smd"); g.chain("bpmd:else", "hlc", "s", "gr", "bk", "rl", "rt", "rli", "uf"); g.chain("bk:else", "sg", "rl"); return fn("Select Slot", [param("name", "name")], graph=g)
 
 
 def f_take_off_slot():
@@ -1398,7 +1411,9 @@ def f_wear_queue_step():
     g.get("gplw2", "Player"); g.get("gn6", "TmpName2"); g.call("we2", P_CPB, "Wear The Clothes", inp={"self": "@gplw2.Player", "name": "@gn6.TmpName2", "check covering": "true", "update mask": "true", "ignore compatible": "true"}); g.branch("bwe2", "@we2.successed")
     g.call("n2s", K_STR, "Conv_NameToString", inp={"InName": "@gn.TmpName2"}); g.get("gpm", "PendingMissing"); g.call("sadd", K_ARR, "Array_Add", inp={"TargetArray": "@gpm.PendingMissing", "NewItem": "@n2s.ReturnValue"})
     # colour: the snapshot's, otherwise the factory colour (undo of a recolour, redo of a reset)
-    g.n("iw3", "call_self", function="Is Worn", inp={"name": "@gn.TmpName2"}); g.branch("b3", "@iw3.yes")
+    # the game's own answer: Worn (Is Worn) is refreshed only when the queue is done, so a piece put on just now was not
+    # in it yet and its outfit colour was skipped - it only took on the second time
+    g.get("gpl6", "Player"); g.call("iw3", P_CPB, "is clothes wearing", inp={"self": "@gpl6.Player", "clothes name": "@gn.TmpName2"}); g.branch("b3", "@iw3.yes")
     g.call("cf", K_MAP, "Map_Find", inp={"TargetMap": "@bs.Colors", "Key": "@gn.TmpName2"}); g.branch("bcf", "@cf.ReturnValue")
     g.get("gpl4", "Player"); g.call("fcc", P_CPB, "Find Clothes Component With Name", inp={"self": "@gpl4.Player", "name": "@gn.TmpName2"})
     g.call("cv", K_SYS, "IsValid", inp={"Object": "@fcc.clothes comp"}); g.branch("bcv", "@cv.ReturnValue")
@@ -1835,11 +1850,18 @@ def f_rebuild_top_tabs():
     g = G()
     g.get("gp", "Panel"); g.call("cl", W_PANEL, "Clear TopTabs", inp={"self": "@gp.Panel"})
     tail = ["entry", "cl"]
-    for i, page in enumerate(["Clothes", "Outfits", "Looks", "Bag", "Hair", "Poses", "Weapons", "Look", "Body", "Options", "Manage"]):
+    skip = None   # the else of the Mods branch joins the next tab
+    for i, page in enumerate(["Clothes", "Outfits", "Looks", "Bag", "Hair", "Poses", "Weapons", "Look", "Body", "Mods", "Options", "Manage"]):
         tw = create_widget(g, "ct%d" % i, W_TOP); set_manager(g, "sm%d" % i, W_TOP, tw)
         g.get("gpo%d" % i, "Page"); g.call("eq%d" % i, K_MATH, "EqualEqual_NameName", inp={"A": "@gpo%d.Page" % i, "B": page}); sel = "@eq%d.ReturnValue" % i
         g.call("ti%d" % i, W_TOP, "Init", inp={"self": tw, "page": page, "caption": tt(g, "tt%d" % i, "Tab_" + page), "selected": sel})
         g.get("gp%d" % i, "Panel"); g.call("at%d" % i, W_PANEL, "Add TopTab", inp={"self": "@gp%d.Panel" % i, "widget": tw})
+        if page == "Mods":   # only when another mod registered something
+            g.n("msc", "call_self", function="Scan Mod Entries"); g.get("gmk", "ModEntryKeys")
+            g.call("mln", K_ARR, "Array_Length", inp={"TargetArray": "@gmk.ModEntryKeys"}); g.call("many", K_MATH, "Greater_IntInt", inp={"A": "@mln.ReturnValue", "B": "0"}); g.branch("bmods", "@many.ReturnValue")
+            g.chain(*tail, "msc", "bmods", "ct%d_cr" % i, "sm%d" % i, "ti%d" % i, "at%d" % i); tail = ["at%d" % i]; skip = "bmods:else"
+            continue
+        if skip: g.chain(skip, "ct%d_cr" % i); skip = None
         tail += ["ct%d_cr" % i, "sm%d" % i, "ti%d" % i, "at%d" % i]
     g.chain(*tail); return fn("Rebuild TopTabs", graph=g)
 
@@ -2595,6 +2617,7 @@ def f_select_page():
     g.n("rcdl", "call_self", function="Rebuild Catalog If Dirty")   # a renamed mod changes the mod aliases (MergeMods) - the catalog rebuild refreshes them
     g.call("isy", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.name", "B": "Body"}); g.branch("by", "@isy.ReturnValue"); g.n("rby", "call_self", function="Rebuild Body")
     g.call("iso2", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.name", "B": "Options"}); g.branch("bop", "@iso2.ReturnValue"); g.n("rop", "call_self", function="Rebuild Options")
+    g.call("ismd", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.name", "B": "Mods"}); g.branch("bmd", "@ismd.ReturnValue"); g.n("rmd", "call_self", function="Rebuild Mod Page")
     g.call("isM", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.name", "B": "Manage"}); g.branch("bM", "@isM.ReturnValue")
     g.get("gpm", "Panel"); g.get("gom", "OnlyModsNames"); g.call("som", W_PANEL, "Set Only Mods", inp={"self": "@gpm.Panel", "on": "@gom.OnlyModsNames"})
     g.get("gpcs", "Panel"); g.get("gcsn", "CaseSensitiveNames"); g.call("scs", W_PANEL, "Set Case Sens", inp={"self": "@gpcs.Panel", "on": "@gcsn.CaseSensitiveNames"})
@@ -2606,7 +2629,7 @@ def f_select_page():
     g.n("rstp", "call_self", function="Rebuild Status")   # the right-hand zone belongs to the page: it has to follow the switch
     g.chain("cmn", "bpn", "svm0", "sp"); g.chain("bpn:else", "sp"); g.chain("sp", "rstp", "spg", "rtt", "uf", "co", "bco", "spc", "rcn")
     g.chain("bco:else", "bo", "ro"); g.chain("bo:else", "blk", "rlk2"); g.chain("blk:else", "bb", "rb"); g.chain("bb:else", "bc", "rcd", "rl", "rt", "rli")
-    g.chain("bc:else", "bh", "rh"); g.chain("bh:else", "bps", "rpl", "rpcat", "rpc", "rps"); g.chain("bps:else", "bw", "rwl", "rwp", "rwc", "rwmo", "rws"); g.chain("bw:else", "bl", "rcdl", "rll", "rlch", "rlc", "rlk"); g.chain("bl:else", "by", "rby"); g.chain("by:else", "bop", "rop"); g.chain("bop:else", "bM", "som", "scs", "rmc", "rml", "rmr")
+    g.chain("bc:else", "bh", "rh"); g.chain("bh:else", "bps", "rpl", "rpcat", "rpc", "rps"); g.chain("bps:else", "bw", "rwl", "rwp", "rwc", "rwmo", "rws"); g.chain("bw:else", "bl", "rcdl", "rll", "rlch", "rlc", "rlk"); g.chain("bl:else", "by", "rby"); g.chain("by:else", "bmd", "rmd"); g.chain("bmd:else", "bop", "rop"); g.chain("bop:else", "bM", "som", "scs", "rmc", "rml", "rmr")
     return fn("Select Page", [param("name", "name")], graph=g)
 
 
@@ -3705,6 +3728,220 @@ def scan_weapon_mods(table, struct_path, owner, weapon_var, list_var, icon_map=N
     g.chain("entry", "mc0", "mc1", "lc", *(["icc"] if icon_map else []), "rn", "fe"); g.chain("fe", "bp", "ld", "ck", "rows", "fr")
     g.chain("fr", "row", "ao", "aw", *(["ai"] if icon_map else []), "al")
     return g
+
+
+# ---------------- Mods tab: entries and fields other mods register (modui.py) ----------------
+def mod_table_load(g, p, pak_pin, table):
+    """/Game/Mod/<pak>/<table> loaded by path and cast to DataTable (exec ids: load, cast)."""
+    g.call(p + "_n2s", K_STR, "Conv_NameToString", inp={"InName": pak_pin})
+    g.call(p + "_c1", K_STR, "Concat_StrStr", inp={"A": "/Game/Mod/", "B": "@%s_n2s.ReturnValue" % p})
+    g.call(p + "_c2", K_STR, "Concat_StrStr", inp={"A": "@%s_c1.ReturnValue" % p, "B": "/%s.%s" % (table, table)})
+    g.call(p + "_sp", K_SYS, "MakeSoftObjectPath", inp={"PathString": "@%s_c2.ReturnValue" % p})
+    g.call(p + "_sr", K_SYS, "Conv_SoftObjPathToSoftObjRef", inp={"SoftObjectPath": "@%s_sp.ReturnValue" % p})
+    g.call(p + "_ld", K_SYS, "LoadAsset_Blocking", inp={"Asset": "@%s_sr.ReturnValue" % p})
+    g.cast(p + "_ck", E_DATATABLE, "@%s_ld.ReturnValue" % p, pure=False, miss="ignore")
+    return p + "_ld", p + "_ck", "@%s_ck.AsData Table" % p
+
+
+def mod_key(g, p, pak_pin, row_pin):
+    """<pak>/<row> as a name pin."""
+    g.call(p + "_a", K_STR, "Conv_NameToString", inp={"InName": pak_pin}); g.call(p + "_b", K_STR, "Conv_NameToString", inp={"InName": row_pin})
+    g.call(p + "_c", K_STR, "Concat_StrStr", inp={"A": "@%s_a.ReturnValue" % p, "B": "/"}); g.call(p + "_d", K_STR, "Concat_StrStr", inp={"A": "@%s_c.ReturnValue" % p, "B": "@%s_b.ReturnValue" % p})
+    g.call(p, K_STR, "Conv_StringToName", inp={"InString": "@%s_d.ReturnValue" % p}); return "@%s.ReturnValue" % p
+
+
+def f_mod_field_valid():
+    """yes = AltUI can draw the field: a known type, a choice with options, a slider or number with Min < Max."""
+    g = G()
+    ors = None
+    for i, t in enumerate(mu.TYPES):
+        g.call("t%d" % i, K_MATH, "EqualEqual_NameName", inp={"A": "@bf.Type", "B": t})
+        if ors is None: ors = "@t%d.ReturnValue" % i
+        else: g.call("o%d" % i, K_MATH, "BooleanOR", inp={"A": ors, "B": "@t%d.ReturnValue" % i}); ors = "@o%d.ReturnValue" % i
+    g.brk("bf", mu.FIELD_STRUCT, "@entry.field")
+    g.call("ol", K_ARR, "Array_Length", inp={"TargetArray": "@bf.Options"}); g.call("oh", K_MATH, "Greater_IntInt", inp={"A": "@ol.ReturnValue", "B": "0"})
+    g.call("ic", K_MATH, "EqualEqual_NameName", inp={"A": "@bf.Type", "B": "Choice"}); g.call("nc", K_MATH, "Not_PreBool", inp={"A": "@ic.ReturnValue"})
+    g.call("cok", K_MATH, "BooleanOR", inp={"A": "@nc.ReturnValue", "B": "@oh.ReturnValue"})
+    g.call("rg", K_MATH, "Less_FloatFloat", inp={"A": "@bf.Min", "B": "@bf.Max"})
+    g.call("isl0", K_MATH, "EqualEqual_NameName", inp={"A": "@bf.Type", "B": "Slider"}); g.call("isn0", K_MATH, "EqualEqual_NameName", inp={"A": "@bf.Type", "B": "Number"})
+    g.call("isl", K_MATH, "BooleanOR", inp={"A": "@isl0.ReturnValue", "B": "@isn0.ReturnValue"}); g.call("nsl", K_MATH, "Not_PreBool", inp={"A": "@isl.ReturnValue"})
+    g.call("sok", K_MATH, "BooleanOR", inp={"A": "@nsl.ReturnValue", "B": "@rg.ReturnValue"})
+    g.call("a1", K_MATH, "BooleanAND", inp={"A": ors, "B": "@cok.ReturnValue"}); g.call("a2", K_MATH, "BooleanAND", inp={"A": "@a1.ReturnValue", "B": "@sok.ReturnValue"})
+    g.link("a2.ReturnValue", "return.yes")
+    return fn("Mod Field Valid", [param("field", "struct:" + mu.FIELD_STRUCT)], [param("yes", "bool")], graph=g, pure=True)
+
+
+def f_mod_entry_pos():
+    """Where a new entry goes in ModEntryKeys: after every entry with a lower or equal Order (equal: the one found first stays first)."""
+    g = G(); g.set("z", "ModPosTmp", inp={"ModPosTmp": "0"})
+    g.get("gk", "ModEntryKeys"); g.foreach("fe", "@gk.ModEntryKeys")
+    g.get("ge", "ModEntries"); g.call("f", K_MAP, "Map_Find", inp={"TargetMap": "@ge.ModEntries", "Key": "@fe.Array Element"}); g.brk("be", mu.ENTRY_STRUCT, "@f.Value")
+    g.call("le", K_MATH, "LessEqual_IntInt", inp={"A": "@be.Order", "B": "@entry.order"}); g.branch("b", "@le.ReturnValue")
+    g.get("gp", "ModPosTmp"); g.call("inc", K_MATH, "Add_IntInt", inp={"A": "@gp.ModPosTmp", "B": "1"}); g.set("s", "ModPosTmp", inp={"ModPosTmp": "@inc.ReturnValue"})
+    g.get("gr", "ModPosTmp"); g.link("gr.ModPosTmp", "return.index")
+    g.chain("entry", "z", "fe"); g.chain("fe", "b", "s"); g.chain("fe:Completed", "return")
+    return fn("Mod Entry Pos", [param("order", "int")], [param("index", "int")], graph=g)
+
+
+def f_add_mod_field():
+    """Put one field into the list of its entry (ModFields[key]), after every field with a lower or equal Order."""
+    g = G()
+    g.get("gm", "ModFields"); g.call("f", K_MAP, "Map_Find", inp={"TargetMap": "@gm.ModFields", "Key": "@entry.key"}); g.brk("bl", mu.LIST_STRUCT, "@f.Value")
+    g.set("sl", "ModFieldsTmp", inp={"ModFieldsTmp": "@bl.Fields"})   # not found: the default struct, an empty list
+    g.set("z", "ModPosTmp", inp={"ModPosTmp": "0"}); g.brk("bn", mu.FIELD_STRUCT, "@entry.field")
+    g.get("gt", "ModFieldsTmp"); g.foreach("fe", "@gt.ModFieldsTmp"); g.brk("bo", mu.FIELD_STRUCT, "@fe.Array Element")
+    g.call("le", K_MATH, "LessEqual_IntInt", inp={"A": "@bo.Order", "B": "@bn.Order"}); g.branch("b", "@le.ReturnValue")
+    g.get("gp", "ModPosTmp"); g.call("inc", K_MATH, "Add_IntInt", inp={"A": "@gp.ModPosTmp", "B": "1"}); g.set("s", "ModPosTmp", inp={"ModPosTmp": "@inc.ReturnValue"})
+    g.get("gt2", "ModFieldsTmp"); g.get("gp2", "ModPosTmp")
+    g.call("ins", K_ARR, "Array_Insert", inp={"TargetArray": "@gt2.ModFieldsTmp", "NewItem": "@entry.field", "Index": "@gp2.ModPosTmp"})
+    g.get("gt3", "ModFieldsTmp"); g.make("mk", mu.LIST_STRUCT, Fields="@gt3.ModFieldsTmp")
+    g.get("gm2", "ModFields"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gm2.ModFields", "Key": "@entry.key", "Value": "@mk.S_ModFieldList"})
+    g.chain("entry", "sl", "z", "fe"); g.chain("fe", "b", "s"); g.chain("fe:Completed", "ins", "add")
+    return fn("Add Mod Field", [param("key", "name"), param("field", "struct:" + mu.FIELD_STRUCT)], graph=g)
+
+
+def f_scan_mod_entries():
+    """Once per level: every installed mod's AltUI_Entries and AltUI_Fields, one load by path per row of DLC_MainTable
+    (row name = pak name = mod folder) - no registry scan. ModEntryKeys in Order, ModFields per entry in Order; fields
+    that cannot be drawn or name an entry the mod does not have are left out."""
+    g = G(); g.get("gs", "ModScanned"); g.branch("bs", "@gs.ModScanned"); g.set("ss", "ModScanned", inp={"ModScanned": "true"})
+    g.get("gk", "ModEntryKeys"); g.call("ck", K_ARR, "Array_Clear", inp={"TargetArray": "@gk.ModEntryKeys"})
+    g.get("ge", "ModEntries"); g.call("ce", K_MAP, "Map_Clear", inp={"TargetMap": "@ge.ModEntries"})
+    g.get("gf", "ModFields"); g.call("cf", K_MAP, "Map_Clear", inp={"TargetMap": "@gf.ModFields"})
+    g.call("rn", K_DT, "GetDataTableRowNames", inp={"Table": P_DLC_T}); g.foreach("fm", "@rn.OutRowNames")
+    # entries
+    ld, ck, tbl = mod_table_load(g, "e", "@fm.Array Element", mu.ENTRIES_TABLE)
+    g.call("er", K_DT, "GetDataTableRowNames", inp={"Table": tbl}); g.foreach("fr", "@er.OutRowNames")
+    g.n("row", "get_row", inp={"DataTable": tbl, "RowName": "@fr.Array Element"}, miss="ignore"); g.brk("br", mu.ENTRY_STRUCT, "@row.OutRow")
+    key = mod_key(g, "ek", "@fm.Array Element", "@fr.Array Element")
+    g.n("pos", "call_self", function="Mod Entry Pos", inp={"order": "@br.Order"})
+    g.get("gk2", "ModEntryKeys"); g.call("ins", K_ARR, "Array_Insert", inp={"TargetArray": "@gk2.ModEntryKeys", "NewItem": key, "Index": "@pos.index"})
+    g.get("ge2", "ModEntries"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@ge2.ModEntries", "Key": key, "Value": "@row.OutRow"})
+    # fields, once the mod's entries are known
+    fld, fck, ftbl = mod_table_load(g, "f", "@fm.Array Element", mu.FIELDS_TABLE)
+    g.call("fr2", K_DT, "GetDataTableRowNames", inp={"Table": ftbl}); g.foreach("ff", "@fr2.OutRowNames")
+    g.n("frow", "get_row", inp={"DataTable": ftbl, "RowName": "@ff.Array Element"}, miss="ignore"); g.brk("bff", mu.FIELD_STRUCT, "@frow.OutRow")
+    fkey = mod_key(g, "fk", "@fm.Array Element", "@bff.Entry")
+    g.n("val", "call_self", function="Mod Field Valid", inp={"field": "@frow.OutRow"})
+    g.get("ge3", "ModEntries"); g.call("has", K_MAP, "Map_Contains", inp={"TargetMap": "@ge3.ModEntries", "Key": fkey})
+    g.call("ok", K_MATH, "BooleanAND", inp={"A": "@val.yes", "B": "@has.ReturnValue"}); g.branch("bok", "@ok.ReturnValue")
+    g.n("amf", "call_self", function="Add Mod Field", inp={"key": fkey, "field": "@frow.OutRow"})
+    g.chain("entry", "bs"); g.chain("bs:else", "ss", "ck", "ce", "cf", "rn", "fm")
+    g.chain("fm", ld, ck, "er", "fr"); g.chain("fr", "row", "pos", "ins", "add")
+    g.chain("fr:Completed", fld, fck, "fr2", "ff"); g.chain("ff", "frow", "bok", "amf")
+    return fn("Scan Mod Entries", graph=g)
+
+
+W_MODFIELD = M + "/W_ModField"
+
+
+def f_mod_field_changed():
+    """A field was changed in the panel (W_ModField) -> the mod's actor, through BPI_AltUIMod. No actor: nothing."""
+    g = G(); g.get("ga", "ModActor"); g.call("iv", K_SYS, "IsValid", inp={"Object": "@ga.ModActor"}); g.branch("b", "@iv.ReturnValue")
+    g.get("ga2", "ModActor"); g.n("m", "message", cls=mu.INTERFACE, function=mu.ON_CHANGED, inp={"self": "@ga2.ModActor", "Key": "@entry.key", "Value": "@entry.value"})
+    g.chain("entry", "b", "m")
+    return fn("Mod Field Changed", [param("key", "name"), param("value", "float")], graph=g)
+
+
+def mod_forward(name, msg, pname, ptype):
+    """<name>(key, <pname>) from W_ModField -> the mod's actor through BPI_AltUIMod.<msg>. No actor: nothing."""
+    g = G(); g.get("ga", "ModActor"); g.call("iv", K_SYS, "IsValid", inp={"Object": "@ga.ModActor"}); g.branch("b", "@iv.ReturnValue")
+    g.get("ga2", "ModActor"); g.n("m", "message", cls=mu.INTERFACE, function=msg, inp={"self": "@ga2.ModActor", "Key": "@entry.key", pname.capitalize(): "@entry." + pname})
+    g.chain("entry", "b", "m")
+    return fn(name, [param("key", "name"), param(pname, ptype)], graph=g)
+
+
+def f_open_mod_color():
+    """Palette for a Color field of a mod (ColorMode Mod, ColorItem = the field's key): Apply Preview sends every change
+    live, and closing keeps nothing on AltUI's side - the colour is the mod's."""
+    g = G(); g.set("sci", "ColorItem", inp={"ColorItem": "@entry.key"}); g.set("scm", "ColorMode", inp={"ColorMode": "Mod"})
+    tail = palette_show(g, "@entry.color")
+    g.chain("entry", "sci", "scm", *tail)
+    return fn("Open Mod Color", [param("key", "name"), param("color", S_LINCOLOR)], graph=g)
+
+
+def f_rebuild_mod_entries():
+    """Sidebar of the Mods page: one entry per registered list item (caption, number of fields); ModEntry is kept valid."""
+    g = G(); g.n("scan", "call_self", function="Scan Mod Entries")
+    g.get("gp", "Panel"); g.call("cl", W_PANEL, "Clear Mod Entries", inp={"self": "@gp.Panel"})
+    g.get("gk", "ModEntryKeys"); g.get("ge", "ModEntry"); g.call("has", K_ARR, "Array_Contains", inp={"TargetArray": "@gk.ModEntryKeys", "ItemToFind": "@ge.ModEntry"})
+    g.call("len", K_ARR, "Array_Length", inp={"TargetArray": "@gk.ModEntryKeys"}); g.call("any", K_MATH, "Greater_IntInt", inp={"A": "@len.ReturnValue", "B": "0"})
+    g.call("nh", K_MATH, "Not_PreBool", inp={"A": "@has.ReturnValue"}); g.call("fix", K_MATH, "BooleanAND", inp={"A": "@nh.ReturnValue", "B": "@any.ReturnValue"}); g.branch("bf", "@fix.ReturnValue")
+    g.get("gk0", "ModEntryKeys"); g.call("first", K_ARR, "Array_Get", inp={"TargetArray": "@gk0.ModEntryKeys", "Index": "0"}); g.set("sf", "ModEntry", inp={"ModEntry": "@first.Item"})
+    g.get("gk2", "ModEntryKeys"); g.foreach("fe", "@gk2.ModEntryKeys")
+    g.get("gme", "ModEntries"); g.call("f", K_MAP, "Map_Find", inp={"TargetMap": "@gme.ModEntries", "Key": "@fe.Array Element"}); g.brk("be", mu.ENTRY_STRUCT, "@f.Value")
+    g.get("gmf", "ModFields"); g.call("ff", K_MAP, "Map_Find", inp={"TargetMap": "@gmf.ModFields", "Key": "@fe.Array Element"}); g.brk("bl", mu.LIST_STRUCT, "@ff.Value")
+    g.call("n", K_ARR, "Array_Length", inp={"TargetArray": "@bl.Fields"})
+    g.get("ge2", "ModEntry"); g.call("sel", K_MATH, "EqualEqual_NameName", inp={"A": "@ge2.ModEntry", "B": "@fe.Array Element"})
+    tw = create_widget(g, "ct", W_TAB); set_manager(g, "sm", W_TAB, tw)
+    g.call("ti", W_TAB, "Init", inp={"self": tw, "slot": "@fe.Array Element", "caption": "@be.Caption", "count": "@n.ReturnValue", "worn icon": "None",
+                                     "selected": "@sel.ReturnValue", "has items": "true", "filtered": "-1", "indent": "false"})
+    g.get("gp2", "Panel"); g.call("aa", W_PANEL, "Add Mod Entry", inp={"self": "@gp2.Panel", "widget": tw})
+    g.chain("entry", "scan", "cl", "bf", "sf", "fe"); g.chain("bf:else", "fe"); g.chain("fe", "ct_cr", "sm", "ti", "aa")
+    return fn("Rebuild Mod Entries", graph=g)
+
+
+def f_rebuild_mod_fields():
+    """Right side: the fields of ModEntry as W_ModField rows. The mod's actor is looked up once here (GetActorOfClass on
+    the entry's Actor class); without one the rows are greyed out and a note says why."""
+    g = G()
+    g.get("gp", "Panel"); g.call("cl", W_PANEL, "Clear Mod Fields", inp={"self": "@gp.Panel"})
+    g.get("gw", "ModFieldWidgets"); g.call("cw", K_ARR, "Array_Clear", inp={"TargetArray": "@gw.ModFieldWidgets"})
+    g.set("sa0", "ModActor", inp={"ModActor": "None"})
+    g.get("gme", "ModEntries"); g.get("ge", "ModEntry"); g.call("f", K_MAP, "Map_Find", inp={"TargetMap": "@gme.ModEntries", "Key": "@ge.ModEntry"}); g.branch("bf", "@f.ReturnValue")
+    g.brk("be", mu.ENTRY_STRUCT, "@f.Value")
+    g.call("ld", K_SYS, "LoadClassAsset_Blocking", inp={"AssetClass": "@be.Actor"})
+    g.n("cc", "class_cast", pure=True, cls=E_ACTOR, inp={"Class": "@ld.ReturnValue"})
+    g.call("ga", K_GS, "GetActorOfClass", inp={"ActorClass": "@cc.AsActor"}); g.set("sa", "ModActor", inp={"ModActor": "@ga.ReturnValue"})
+    g.get("gmf", "ModFields"); g.get("ge2", "ModEntry"); g.call("ff", K_MAP, "Map_Find", inp={"TargetMap": "@gmf.ModFields", "Key": "@ge2.ModEntry"}); g.brk("bl", mu.LIST_STRUCT, "@ff.Value")
+    g.set("sl", "ModFieldsTmp", inp={"ModFieldsTmp": "@bl.Fields"})
+    g.get("gt", "ModFieldsTmp"); g.foreach("fe", "@gt.ModFieldsTmp")
+    fw = create_widget(g, "cf", W_MODFIELD); set_manager(g, "smf", W_MODFIELD, fw)
+    g.call("fi", W_MODFIELD, "Init", inp={"self": fw, "field": "@fe.Array Element"})
+    g.get("gp2", "Panel"); g.call("af", W_PANEL, "Add Mod Field Widget", inp={"self": "@gp2.Panel", "widget": fw})
+    g.get("gav", "ModActor"); g.call("av", K_SYS, "IsValid", inp={"Object": "@gav.ModActor"})
+    g.call("fen", W_MODFIELD, "Set Enabled", inp={"self": fw, "yes": "@av.ReturnValue"})
+    g.get("gw2", "ModFieldWidgets"); g.call("aw", K_ARR, "Array_Add", inp={"TargetArray": "@gw2.ModFieldWidgets", "NewItem": fw})
+    # the note: no fields, or no actor, or none
+    g.get("gt2", "ModFieldsTmp"); g.call("nf", K_ARR, "Array_Length", inp={"TargetArray": "@gt2.ModFieldsTmp"}); g.call("none", K_MATH, "EqualEqual_IntInt", inp={"A": "@nf.ReturnValue", "B": "0"}); g.branch("bn", "@none.ReturnValue")
+    g.get("gp3", "Panel"); g.call("h1", W_PANEL, "Set Mod Hint", inp={"self": "@gp3.Panel", "text": tt(g, "tnf", "Lbl_ModNoFields")})
+    g.get("gav2", "ModActor"); g.call("av2", K_SYS, "IsValid", inp={"Object": "@gav2.ModActor"}); g.branch("ba", "@av2.ReturnValue")
+    g.get("gp4", "Panel"); g.call("h2", W_PANEL, "Set Mod Hint", inp={"self": "@gp4.Panel", "text": ""})
+    g.get("gp5", "Panel"); g.call("h3", W_PANEL, "Set Mod Hint", inp={"self": "@gp5.Panel", "text": tt(g, "tin", "Lbl_ModInactive")})
+    g.n("poll", "call_self", function="Poll Mods")
+    g.chain("entry", "cl", "cw", "sa0", "bf", "ld", "ga", "sa", "sl", "fe"); g.chain("bf:else", "sl")
+    g.chain("fe", "cf_cr", "smf", "fi", "af", "fen", "aw"); g.chain("fe:Completed", "bn", "h1", "poll"); g.chain("bn:else", "ba", "h2", "poll"); g.chain("ba:else", "h3", "poll")
+    return fn("Rebuild Mod Fields", graph=g)
+
+
+def f_poll_mods():
+    """While the Mods page is shown: every field's value from the mod's actor, by type - Get AltUI Color for colour
+    fields, Get AltUI Text for text and info fields, Get AltUI Value for the rest - so a change the mod makes itself
+    shows in the panel too."""
+    g = G(); g.get("ga", "ModActor"); g.call("iv", K_SYS, "IsValid", inp={"Object": "@ga.ModActor"}); g.branch("b", "@iv.ReturnValue")
+    g.get("gw", "ModFieldWidgets"); g.foreach("fe", "@gw.ModFieldWidgets")
+    g.get("gk", "Key", cls=W_MODFIELD); g.link("fe.Array Element", "gk.self"); g.get("gt", "Type", cls=W_MODFIELD); g.link("fe.Array Element", "gt.self")
+    g.call("isc", K_MATH, "EqualEqual_NameName", inp={"A": "@gt.Type", "B": "Color"}); g.branch("bc", "@isc.ReturnValue")
+    g.call("ist", K_MATH, "EqualEqual_NameName", inp={"A": "@gt.Type", "B": "Text"}); g.call("isi", K_MATH, "EqualEqual_NameName", inp={"A": "@gt.Type", "B": "Info"})
+    g.call("istx", K_MATH, "BooleanOR", inp={"A": "@ist.ReturnValue", "B": "@isi.ReturnValue"}); g.branch("bt", "@istx.ReturnValue")
+    g.get("ga2", "ModActor"); g.n("m", "message", cls=mu.INTERFACE, function=mu.GET_VALUE, inp={"self": "@ga2.ModActor", "Key": "@gk.Key"})
+    g.call("sv", W_MODFIELD, "Set Value", inp={"self": "@fe.Array Element", "value": "@m.Value"})
+    g.get("ga3", "ModActor"); g.n("mc", "message", cls=mu.INTERFACE, function=mu.GET_COLOR, inp={"self": "@ga3.ModActor", "Key": "@gk.Key"})
+    g.call("sc", W_MODFIELD, "Set Color", inp={"self": "@fe.Array Element", "color": "@mc.Color"})
+    g.get("ga4", "ModActor"); g.n("mt", "message", cls=mu.INTERFACE, function=mu.GET_TEXT, inp={"self": "@ga4.ModActor", "Key": "@gk.Key"})
+    g.call("st", W_MODFIELD, "Set Text", inp={"self": "@fe.Array Element", "text": "@mt.Text"})
+    g.chain("entry", "b", "fe"); g.chain("fe", "bc", "mc", "sc"); g.chain("bc:else", "bt", "mt", "st"); g.chain("bt:else", "m", "sv")
+    return fn("Poll Mods", graph=g)
+
+
+def f_select_mod_entry():
+    g = G(); g.set("s", "ModEntry", inp={"ModEntry": "@entry.name"}); g.n("sv", "call_self", function="Save Settings"); g.n("r", "call_self", function="Rebuild Mod Page")
+    g.chain("entry", "s", "sv", "r"); return fn("Select Mod Entry", [param("name", "name")], graph=g)
+
+
+def f_rebuild_mod_page():
+    g = G(); g.n("re", "call_self", function="Rebuild Mod Entries"); g.n("rf", "call_self", function="Rebuild Mod Fields"); g.chain("entry", "re", "rf")
+    return fn("Rebuild Mod Page", graph=g)
 
 
 def f_scan_weapon_skins():
@@ -6235,7 +6472,8 @@ def f_commit_color():
     g.call("gi", K_GS, "GetGameInstance"); g.cast("cgi", P_GI, "@gi.ReturnValue"); g.get("gplh", "Player")
     g.call("svh", P_GI, "Save Hair Color Data", inp={"self": "@cgi.AsTKA Game Instance", "player": "@gplh.Player"})
     g.chain("entry", "bt", "svt"); g.chain("bt:else", "bh", "svh"); g.chain("bh:else", "bm", "msv")
-    g.chain("bm:else", "be", "eadd", "esv"); g.chain("be:else", "sv")
+    g.get("gcmo", "ColorMode"); g.call("imo", K_MATH, "EqualEqual_NameName", inp={"A": "@gcmo.ColorMode", "B": "Mod"}); g.branch("bmo", "@imo.ReturnValue")   # the mod's colour: nothing here
+    g.chain("bm:else", "be", "eadd", "esv"); g.chain("be:else", "bmo"); g.chain("bmo:else", "sv")
     return fn("Commit Color", graph=g)
 
 
@@ -6277,7 +6515,9 @@ def f_apply_preview():
     g.get("gcl2", "ColorItem"); g.get("gcs2", "ColorSlot")
     g.n("chg", "call_self", function="Set Slot Color", inp={"name": "@gcl2.ColorItem", "slot": "@gcs2.ColorSlot", "color": "@colr.ColorAndOpacity"})
     g.chain("entry", "bo", "bn", "scc", "bt2", "stc", "ath"); g.chain("bt2:else", "bh2", "chh"); g.chain("bh2:else", "be2", "sec")
-    g.chain("be2:else", "bm2", "smc"); g.chain("bm2:else", "chg")
+    g.get("gcm5", "ColorMode"); g.call("imo2", K_MATH, "EqualEqual_NameName", inp={"A": "@gcm5.ColorMode", "B": "Mod"}); g.branch("bmo2", "@imo2.ReturnValue")
+    g.get("gclo", "ColorItem"); g.n("mcc", "call_self", function="Mod Color Changed", inp={"key": "@gclo.ColorItem", "color": "@colr.ColorAndOpacity"})
+    g.chain("be2:else", "bm2", "smc"); g.chain("bm2:else", "bmo2", "mcc"); g.chain("bmo2:else", "chg")
     g.chain("bo:else", "cc")
     return fn("Apply Preview", graph=g)
 
@@ -7190,6 +7430,7 @@ def event_graph():
     g.get("tpg", "Page"); g.call("tib", K_MATH, "EqualEqual_NameName", inp={"A": "@tpg.Page", "B": "Body"}); g.branch("tbb", "@tib.ReturnValue"); g.n("tpb", "call_self", function="Poll Body"); g.n("tpbs", "call_self", function="Poll Body Scales")
     g.get("tpg2", "Page"); g.call("tio", K_MATH, "EqualEqual_NameName", inp={"A": "@tpg2.Page", "B": "Options"}); g.branch("tbo", "@tio.ReturnValue"); g.n("tpo2", "call_self", function="Poll Options")
     g.get("tpg3", "Page"); g.call("tim", K_MATH, "EqualEqual_NameName", inp={"A": "@tpg3.Page", "B": "Manage"}); g.branch("tbmg", "@tim.ReturnValue"); g.n("tpm", "call_self", function="Poll Manage")
+    g.get("tpg4", "Page"); g.call("timd", K_MATH, "EqualEqual_NameName", inp={"A": "@tpg4.Page", "B": "Mods"}); g.branch("tbmd", "@timd.ReturnValue"); g.n("tpmd", "call_self", function="Poll Mods")
     g.get("tsw", "IconSpawnWait"); g.call("tswg", K_MATH, "Greater_IntInt", inp={"A": "@tsw.IconSpawnWait", "B": "0"}); g.branch("tbsw", "@tswg.ReturnValue")
     g.get("tsw2", "IconSpawnWait"); g.call("tswd", K_MATH, "Subtract_IntInt", inp={"A": "@tsw2.IconSpawnWait", "B": "1"}); g.set("tsws", "IconSpawnWait", inp={"IconSpawnWait": "@tswd.ReturnValue"})
     g.get("tsw3", "IconSpawnWait"); g.call("tswz", K_MATH, "EqualEqual_IntInt", inp={"A": "@tsw3.IconSpawnWait", "B": "0"}); g.branch("tbswz", "@tswz.ReturnValue"); g.n("tcws", "call_self", function="Capture Weapon Icon Step")
@@ -7205,7 +7446,7 @@ def event_graph():
     g.chain("tbsw", "tsws", "tbswz", "tcws", "tbi"); g.chain("tbswz:else", "tbi"); g.chain("tbsw:else", "tbi")
     g.chain("tbi", "tis", "tbz", "tfi", "tb0"); g.chain("tbz:else", "tb0"); g.chain("tbi:else", "tb0")
     g.get("tpx", "Panel"); g.call("tsc", W_PANEL, "Sync Check Size", inp={"self": "@tpx.Panel"})
-    g.chain("tb0", "tsc", "tbb"); g.chain("tbb", "tpb", "tpbs", "tb1"); g.chain("tbb:else", "tbo", "tpo2", "tb1"); g.chain("tbo:else", "tbmg", "tpm", "tb1"); g.chain("tbmg:else", "tb1"); g.chain("tb1", "trlf", "trl", "tsv"); g.chain("tb0:else", "tbc", "tap"); g.chain("tb1:else", "tlqb", "tlqs", "tlqv", "tlqc", "tlqk", "tlwb"); g.chain("tlqb:else", "tlwb")
+    g.chain("tb0", "tsc", "tbb"); g.chain("tbb", "tpb", "tpbs", "tb1"); g.chain("tbb:else", "tbo", "tpo2", "tb1"); g.chain("tbo:else", "tbmg", "tpm", "tb1"); g.chain("tbmg:else", "tbmd", "tpmd", "tb1"); g.chain("tbmd:else", "tb1"); g.chain("tb1", "trlf", "trl", "tsv"); g.chain("tb0:else", "tbc", "tap"); g.chain("tb1:else", "tlqb", "tlqs", "tlqv", "tlqc", "tlqk", "tlwb"); g.chain("tlqb:else", "tlwb")
     g.chain("tlwb", "tlws", "tlwv", "tlwc", "tlwk", "tbc"); g.chain("tlwb:else", "tbc")
     # test entry points (editor Python)
     g.custom("tb", "Test Build"); g.n("tb_i", "call_self", function="Init Slot Groups"); g.n("tb_b", "call_self", function="Build Catalog"); g.chain("tb", "tb_i", "tb_b")
@@ -7277,6 +7518,13 @@ def event_graph():
     g.set("trim_s", "TmpBool", inp={"TmpBool": "@trim_c.found"}); g.chain("trim", "trim_s")
     g.custom("trhm", "Test Row Has Makeup Color", [param("row", "name")]); g.n("trhm_c", "call_self", function="Row Has Makeup Color", inp={"row": "@trhm.row"})
     g.set("trhm_s", "TmpBool", inp={"TmpBool": "@trhm_c.found"}); g.chain("trhm", "trhm_s")
+    g.custom("tms", "Test Mod Scan"); g.n("tms_c", "call_self", function="Scan Mod Entries"); g.chain("tms", "tms_c")
+    g.custom("tmf", "Test Mod Fields", [param("key", "name")])
+    g.get("tmf_g", "TmpNames"); g.call("tmf_clr", K_ARR, "Array_Clear", inp={"TargetArray": "@tmf_g.TmpNames"})
+    g.get("tmf_m", "ModFields"); g.call("tmf_f", K_MAP, "Map_Find", inp={"TargetMap": "@tmf_m.ModFields", "Key": "@tmf.key"}); g.brk("tmf_b", mu.LIST_STRUCT, "@tmf_f.Value")
+    g.foreach("tmf_fe", "@tmf_b.Fields"); g.brk("tmf_bf", mu.FIELD_STRUCT, "@tmf_fe.Array Element")
+    g.get("tmf_g2", "TmpNames"); g.call("tmf_add", K_ARR, "Array_Add", inp={"TargetArray": "@tmf_g2.TmpNames", "NewItem": "@tmf_bf.Key"})
+    g.chain("tmf", "tmf_clr", "tmf_fe"); g.chain("tmf_fe", "tmf_add")
     g.custom("tek", "Test Eye Key", [param("part", "name"), param("row", "name")]); g.n("tek_k", "call_self", function="Eye Color Key", inp={"part": "@tek.part", "row": "@tek.row"})
     g.set("tek_s", "TmpName", inp={"TmpName": "@tek_k.key"}); g.chain("tek", "tek_s")
     g.custom("tlcs", "Test Look Chip Shown", [param("group", "name")]); g.n("tlcs_c", "call_self", function="Look Chip Shown", inp={"group": "@tlcs.group"})
@@ -7462,7 +7710,7 @@ def event_graph():
 
 
 assets = [bp_cam_input(), blueprint(MGR, mode="augment", variables=[var("Panel", "object:" + W_PANEL), var("Menu", "object:" + W_MENU), var("TmpItems2", T_ITEM, "array"),
-                               var("Palette", "object:" + P_PAL), var("ColorItem", "name"), var("ColorOrig", S_LINCOLOR), var("ColorCur", S_LINCOLOR), var("ColorOpen", "bool"),
+                               var("Palette", "object:" + P_PAL), var("ModFieldWidgets", "object:" + W_MODFIELD, "array"), var("ColorItem", "name"), var("ColorOrig", S_LINCOLOR), var("ColorCur", S_LINCOLOR), var("ColorOpen", "bool"),
                                var("OptBgAlpha", "float"), var("OptTileAlpha", "float"), var("TmpSection", "object:" + W_SECTION)],
                     functions=[f_slot_color_key(), f_open_slot_color(), f_item_has_own_color(), f_row_is("Eye"), f_row_is("Eyelashes"), f_row_is_makeup(), f_row_has_makeup_color(), f_eye_color_key(),
                                f_apply_makeup_colors(), f_open_makeup_color(), f_set_makeup_color(), f_makeup_reset_color(),
@@ -7476,7 +7724,7 @@ assets = [bp_cam_input(), blueprint(MGR, mode="augment", variables=[var("Panel",
                                f_on_hair_context(), f_hair_reset_color(), f_open_theme_color(), f_apply_theme(), f_select_key(), f_apply_nude(), f_fix_loaded_underwear(), f_start_outfit_rename(), f_join_names(), f_outfit_key(), f_outfit_name_by_key(), f_outfit_name(), f_set_outfit_name_by_key(), f_set_outfit_name(), f_rebuild_options(), f_apply_options(), f_poll_options(),
                                f_load_presets(), f_preset_icon(), f_preset_index(), f_preset_clicked(), f_preset_add(), f_preset_delete(), f_on_preset_context(), f_capture_photo(), f_capture_preset_photo(), f_capture_look_photo(), f_finish_photo(), f_look_icon(),
                                f_load_looks(), f_save_looks(), f_looks_count(), f_add_look(), f_update_look(), f_delete_look(), f_look_name(), f_set_look_name(), f_apply_look(), f_rebuild_looks(), f_on_look_clicked(), f_on_look_context(), f_start_look_rename(),
-                               f_select_layout(), f_rebuild_conflicts(), f_toggle_conflict(), f_free_slot(), f_free_all(), f_ensure_cam_mod(), f_set_view_shift(), f_start_free_cam(), f_stop_free_cam(), f_free_cam_look(), f_free_cam_wheel(), f_free_cam_step(), f_start_photo_mode(), f_end_photo_mode(), f_cam_tick(), f_wheel_dist(), f_begin_jodi_drag(), f_jodi_drag(), f_end_jodi_drag(), f_collect_pose_rows(), f_pose_section_caption(), f_pose_section_count(), f_pose_title(), f_pose_name(), f_pose_actors(), f_pose_kind(), f_is_pose_moving(), f_is_pose_manual(), f_set_pose_kind(), f_pelvis_height(), f_measure_tick(), f_start_pose_scan(), f_stop_pose_scan(), f_scan_tick(), f_pose_set_stand(), f_pose_set_sit(), f_pose_set_lie(), f_reset_pose_measurement(), f_set_pose_measurement(), f_toggle_pose_moving(), f_pose_cat_count(), f_rebuild_pose_cats(), f_select_pose_cat(), f_pose_key(), f_is_pose_favorite(), f_is_pose_hidden(), f_pose_matches(), f_pose_row_shown(), f_pose_row_passes(), f_bump_pose_count(), f_count_pose_cats(), f_pose_groups(), f_rebuild_pose_chips(), f_select_pose_group(), f_rebuild_poses(), f_pose_clicked(), f_stop_pose(), f_rebuild_pose_links(), f_toggle_pose_favorite(), f_toggle_pose_hidden(), f_pose_only_mod(), f_on_pose_context(), f_on_pose_search_changed(), f_scan_weapon_skins(), f_scan_weapon_models(), f_weapon_rows(), f_skins_for_weapon(), f_skin_mod(), f_skin_row(), f_model_mod(), f_models_for_weapon(), f_model_mesh(), f_material_takes_color(), f_item_color_slots(), f_apply_weapon_model(), f_apply_weapon_look(), f_apply_all_weapon_looks(), f_poll_weapons(), f_select_weapon(), f_weapon_skin_clicked(), f_rebuild_weapons(), f_rebuild_weapon_skins(), f_skin_caption(), f_skin_icon(), f_is_skin_favorite(), f_skin_key(), f_skin_row_passes(), f_current_model(), f_current_skin(), f_model_row(), f_model_caption(), f_model_icon(), f_model_key(), f_is_model_favorite(), f_model_row_passes(), f_rebuild_weapon_models(), f_weapon_model_clicked(), f_toggle_model_favorite(), f_toggle_model_hidden(), f_model_has_icon(), f_toggle_model_own_icon(), f_model_forced(), *[f_toggle_model_skip(p, a) for p, _, a, _, _, _ in WEAPON_PARTS], f_toggle_model_force_skin(), f_model_only_mod(), f_on_model_context(), f_weapon_tile_row(), f_weapon_tile_clicked(), f_on_weapon_context(), f_weapon_icon_key(), f_weapon_icon(), f_capture_weapon_icon(), f_capture_weapon_icon_step(), f_skin_groups(), f_rebuild_weapon_chips(), f_select_skin_group(), f_rebuild_weapon_links(), f_on_weapon_search_changed(), f_toggle_skin_favorite(), f_toggle_skin_hidden(), f_skin_only_mod(), f_on_skin_context(), f_select_unowned(), f_redo_weapon_icons(), f_rebuild_status(), f_take_snapshot(), f_push_history(), f_apply_snapshot(), f_wear_queue_step(), f_finish_apply_snapshot(), history_step("Undo", "UndoStack", "RedoStack"), history_step("Redo", "RedoStack", "UndoStack"),
+                               f_select_layout(), f_rebuild_conflicts(), f_toggle_conflict(), f_free_slot(), f_free_all(), f_ensure_cam_mod(), f_set_view_shift(), f_start_free_cam(), f_stop_free_cam(), f_free_cam_look(), f_free_cam_wheel(), f_free_cam_step(), f_start_photo_mode(), f_end_photo_mode(), f_cam_tick(), f_wheel_dist(), f_begin_jodi_drag(), f_jodi_drag(), f_end_jodi_drag(), f_collect_pose_rows(), f_pose_section_caption(), f_pose_section_count(), f_pose_title(), f_pose_name(), f_pose_actors(), f_pose_kind(), f_is_pose_moving(), f_is_pose_manual(), f_set_pose_kind(), f_pelvis_height(), f_measure_tick(), f_start_pose_scan(), f_stop_pose_scan(), f_scan_tick(), f_pose_set_stand(), f_pose_set_sit(), f_pose_set_lie(), f_reset_pose_measurement(), f_set_pose_measurement(), f_toggle_pose_moving(), f_pose_cat_count(), f_rebuild_pose_cats(), f_select_pose_cat(), f_pose_key(), f_is_pose_favorite(), f_is_pose_hidden(), f_pose_matches(), f_pose_row_shown(), f_pose_row_passes(), f_bump_pose_count(), f_count_pose_cats(), f_pose_groups(), f_rebuild_pose_chips(), f_select_pose_group(), f_rebuild_poses(), f_pose_clicked(), f_stop_pose(), f_rebuild_pose_links(), f_toggle_pose_favorite(), f_toggle_pose_hidden(), f_pose_only_mod(), f_on_pose_context(), f_on_pose_search_changed(), f_mod_field_valid(), f_mod_entry_pos(), f_add_mod_field(), f_scan_mod_entries(), f_mod_field_changed(), mod_forward("Mod Color Changed", mu.ON_COLOR, "color", S_LINCOLOR), mod_forward("Mod Text Changed", mu.ON_TEXT, "text", "string"), f_open_mod_color(), f_rebuild_mod_entries(), f_rebuild_mod_fields(), f_poll_mods(), f_select_mod_entry(), f_rebuild_mod_page(), f_scan_weapon_skins(), f_scan_weapon_models(), f_weapon_rows(), f_skins_for_weapon(), f_skin_mod(), f_skin_row(), f_model_mod(), f_models_for_weapon(), f_model_mesh(), f_material_takes_color(), f_item_color_slots(), f_apply_weapon_model(), f_apply_weapon_look(), f_apply_all_weapon_looks(), f_poll_weapons(), f_select_weapon(), f_weapon_skin_clicked(), f_rebuild_weapons(), f_rebuild_weapon_skins(), f_skin_caption(), f_skin_icon(), f_is_skin_favorite(), f_skin_key(), f_skin_row_passes(), f_current_model(), f_current_skin(), f_model_row(), f_model_caption(), f_model_icon(), f_model_key(), f_is_model_favorite(), f_model_row_passes(), f_rebuild_weapon_models(), f_weapon_model_clicked(), f_toggle_model_favorite(), f_toggle_model_hidden(), f_model_has_icon(), f_toggle_model_own_icon(), f_model_forced(), *[f_toggle_model_skip(p, a) for p, _, a, _, _, _ in WEAPON_PARTS], f_toggle_model_force_skin(), f_model_only_mod(), f_on_model_context(), f_weapon_tile_row(), f_weapon_tile_clicked(), f_on_weapon_context(), f_weapon_icon_key(), f_weapon_icon(), f_capture_weapon_icon(), f_capture_weapon_icon_step(), f_skin_groups(), f_rebuild_weapon_chips(), f_select_skin_group(), f_rebuild_weapon_links(), f_on_weapon_search_changed(), f_toggle_skin_favorite(), f_toggle_skin_hidden(), f_skin_only_mod(), f_on_skin_context(), f_select_unowned(), f_redo_weapon_icons(), f_rebuild_status(), f_take_snapshot(), f_push_history(), f_apply_snapshot(), f_wear_queue_step(), f_finish_apply_snapshot(), history_step("Undo", "UndoStack", "RedoStack"), history_step("Redo", "RedoStack", "UndoStack"),
                                f_content_open(), f_open_content(), f_content_snapshot(), open_content_wrapper("Open Outfit Content", "Outfit"), open_content_wrapper("Open Look Content", "Look"), open_content_wrapper("Open Preset Content", "Preset"), f_close_content(),
                                f_rebuild_content(), f_on_content_item_context(), f_content_kind(), f_content_item_clicked(), f_content_use(), f_go_to_item(), f_scroll_to_highlight()],
                     event_graph=event_graph())]

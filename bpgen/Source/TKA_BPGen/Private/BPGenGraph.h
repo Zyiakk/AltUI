@@ -4,7 +4,7 @@
 class UBlueprint; class UEdGraph; class UClass;
 namespace BPGenGraph {
   void PickBlueprintClasses(UClass* Parent, UClass*& BPClass, UClass*& GenClass);
-  bool BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonObject>& J, FString& Err);
+  bool BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonObject>& J, FString& Err, bool bMarkModified = true);   // false: the caller marks once after many graphs
   bool BuildWidgetTree(UBlueprint* BP, const TSharedPtr<FJsonObject>& J, FString& Err);
   extern double TCreate, TDefaults, TLinks;   // cumulative BuildGraph phase times (BPGEN timing lines)
 }

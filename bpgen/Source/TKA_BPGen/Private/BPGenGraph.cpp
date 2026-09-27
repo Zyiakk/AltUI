@@ -9,6 +9,8 @@
 #include "K2Node_Event.h"
 #include "K2Node_CustomEvent.h"
 #include "K2Node_CallFunction.h"
+#include "K2Node_Message.h"
+#include "HAL/PlatformMemory.h"
 #include "K2Node_CallArrayFunction.h"
 #include "K2Node_VariableGet.h"
 #include "K2Node_VariableSet.h"
@@ -91,7 +93,7 @@ template<typename T> static T* NewNode(UEdGraph* G, int32 X, int32 Y, TFunction<
 
 double BPGenGraph::TCreate = 0, BPGenGraph::TDefaults = 0, BPGenGraph::TLinks = 0;
 
-bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonObject>& J, FString& Err) {
+bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonObject>& J, FString& Err, bool bMarkModified) {
   if (!G) { Err = TEXT("graph is null"); return false; }
   double T0 = FPlatformTime::Seconds();
   const UEdGraphSchema_K2* Schema = GetDefault<UEdGraphSchema_K2>();
@@ -124,6 +126,11 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
       if (!F) { Err = FString::Printf(TEXT("function not found %s::%s"), *JS(N, TEXT("class")), *FnName.ToString()); return false; }
       if (F->HasMetaData(FBlueprintMetadata::MD_ArrayParam)) Node = NewNode<UK2Node_CallArrayFunction>(G, X, Y, [&](UK2Node_CallArrayFunction* CF) { CF->SetFromFunction(F); });
       else Node = NewNode<UK2Node_CallFunction>(G, X, Y, [&](UK2Node_CallFunction* CF) { CF->SetFromFunction(F); });
+    } else if (Kind == TEXT("message")) {   // interface call on any object; does nothing if the object does not implement it
+      UClass* C = BPGenTypes::LoadClassChecked(JS(N, TEXT("class"))); const FName FnName(*JS(N, TEXT("function")));
+      UFunction* F = C ? C->FindFunctionByName(FnName) : nullptr;
+      if (!F) { Err = FString::Printf(TEXT("interface function not found %s::%s"), *JS(N, TEXT("class")), *FnName.ToString()); return false; }
+      Node = NewNode<UK2Node_Message>(G, X, Y, [&](UK2Node_Message* M) { M->SetFromFunction(F); });
     } else if (Kind == TEXT("get") || Kind == TEXT("set")) {
       const FName Var(*JS(N, TEXT("var"))); const FString Cls = JS(N, TEXT("class"));
       UClass* Ext = Cls.IsEmpty() ? nullptr : BPGenTypes::LoadClassChecked(Cls);
@@ -242,7 +249,9 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
     UE_LOG(LogBPGen, Verbose, TEXT("BPGEN link %s.%s -> %s.%s (linked=%d/%d)"), *AId, *PA->PinName.ToString(), *BId, *PB->PinName.ToString(), PA->LinkedTo.Num(), PB->LinkedTo.Num());
   }
   TLinks += FPlatformTime::Seconds() - T0;
-  FBlueprintEditorUtils::MarkBlueprintAsModified(BP);   // once per graph (defaults and links above skip it)
+  // once per graph (defaults and links above skip it) - or once per blueprint: the call walks every node of every graph, and in
+  // the manager (~590 graphs) each walk left ~100 MB behind until the end of the asset (27 GB, killed by systemd-oomd)
+  if (bMarkModified) FBlueprintEditorUtils::MarkBlueprintAsModified(BP);
   return true;
 }
 

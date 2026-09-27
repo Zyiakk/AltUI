@@ -3,6 +3,7 @@ import os, sys; sys.path.insert(0, os.path.dirname(__file__)); sys.path.insert(0
 from bpdsl import *
 import bodyscale_groups as bg
 import weapon_skins as ws
+import modui as mu
 from slots import SLOTS, SLOT_GROUP, GROUPS
 
 MGR = M + "/BP_AltUIManager"
@@ -846,7 +847,8 @@ SETTINGS = [("Favorites", "Favorites", "copy", None), ("HiddenItems", "HiddenIte
             ("CamFov", "CamFov", "float0", 0.8), ("CamDist", "CamDist", "float0", 1.0), ("CamHeight", "CamHeight", "copy", None), ("CamRightHeight", "CamRightHeight", "copy", None), ("IconOwn", "IconOwn", "copy", None), ("ForceSkin", "ForceSkin", "copy", None), ("ForceSkipMag", "ForceSkipMag", "copy", None), ("ForceSkipOptics", "ForceSkipOptics", "copy", None), ("ForceSkipBarrel", "ForceSkipBarrel", "copy", None), ("ForceSkipGrip", "ForceSkipGrip", "copy", None),
             ("BodyVariant", "BodyVariant", "copy", None), ("BodyScales", "BodyScales", "copy", None), ("LangChoice", "LangChoice", "copy", None),
             ("PanToSlot", "PanToSlot", "copy", None), ("AllowNude", "AllowNude", "copy", None), ("OnlyModsNames", "OnlyModsNames", "copy", None), ("CaseSensitiveNames", "CaseSensitiveNames", "copy", None), ("MergeGroups", "MergeGroups", "copy", None), ("MergeMods", "MergeMods", "copy", None), ("ChipSearchShown", "ChipSearchShown", "copy", None), ("TipNoPrefix", "TipNoPrefix", "copy", None), ("TipNoIds", "TipNoIds", "copy", None), ("FreedConflicts", "FreedConflicts", "copy", None), ("HairSwatchesOpen", "HairSwatchesOpen", "copy", None),
-            ("UnownedMode", "UnownedMode", "copy", None), ("SlotColors", "SlotColors", "copy", None), ("OutfitSlotColors", "OutfitSlotColors", "copy", None), ("EyeColors", "EyeColors", "copy", None), ("MakeupColors", "MakeupColors", "copy", None),
+            ("UnownedMode", "UnownedMode", "copy", None), ("SlotColors", "SlotColors", "copy", None), ("OutfitSlotColors", "OutfitSlotColors", "copy", None), ("ModEntry", "ModEntry", "copy", None), ("Page", "LastPage", "name", None), ("LookCat", "LastLookCat", "name", None),
+            ("PoseCat", "LastPoseCat", "name", None), ("CurrentWeapon", "LastWeapon", "name", None),   # where the panel was left (the clothes slot: LastSlot below) ("EyeColors", "EyeColors", "copy", None), ("MakeupColors", "MakeupColors", "copy", None),
             ("ToggleKey", "ToggleKey", "name", None)]
 THEME_SETTINGS = [("Theme" + k, "Theme" + k, "copy", None) for k, _, _ in THEME] + [("BgAlpha", "BgAlpha", "float0", BG_ALPHA), ("TileAlpha", "TileAlpha", "float0", TILE_ALPHA)]
 
@@ -879,11 +881,12 @@ def f_load_settings():
     # Settings None after a failed load/cast (corrupt file, class change) -> fresh object like Load Presets/Outfits/Looks
     g.get("gs", "Settings"); g.call("iv", K_SYS, "IsValid", inp={"Object": "@gs.Settings"}); g.branch("bv", "@iv.ReturnValue")
     g.call("ver", K_MATH, "GreaterEqual_IntInt", inp={"A": sg_get(g, "gver", "SaveVersion"), "B": "1"}); versioned = "@ver.ReturnValue"
+    # one entry after the other; every open end of the previous one leads into the next ("name": its skip branch too)
     tail = ["bv"]; first = None
     for i, (mgr_var, sg_var, kind, default) in enumerate(SETTINGS):
         ids = load_setting(g, i, mgr_var, sg_var, kind, default, versioned); first = first or ids[0]
-        if kind == "name": g.chain(*tail, *ids); tail = [ids[-1], ids[0] + ":else"]   # unset -> keep the manager default
-        else: tail.append(ids[0])
+        for t in tail: g.chain(t, ids[0])
+        g.chain(*ids); tail = [ids[-1]] + ([ids[0] + ":else"] if kind == "name" else [])   # unset name -> keep the manager default
     # theme: stored (ThemeSet) -> take over, otherwise defaults; derived colours in both cases
     g.branch("bth", sg_get(g, "gth", "ThemeSet")); ttail = ["bth"]
     for i, (mgr_var, sg_var, kind, default) in enumerate(THEME_SETTINGS, len(SETTINGS)):
@@ -1139,6 +1142,11 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     # Coiffure / Appearance / Body Shape
     fn("Join Names", [param("names", "name", "array")], [param("key", "string")]),
     fn("Outfit Key", [param("index", "int")], [param("key", "string")]),
+    fn("Mod Field Valid", [param("field", "struct:" + mu.FIELD_STRUCT)], [param("yes", "bool")]), fn("Mod Entry Pos", [param("order", "int")], [param("index", "int")]),
+    fn("Add Mod Field", [param("key", "name"), param("field", "struct:" + mu.FIELD_STRUCT)]), fn("Scan Mod Entries"),
+    fn("Mod Field Changed", [param("key", "name"), param("value", "float")]),
+    fn("Mod Color Changed", [param("key", "name"), param("color", S_LINCOLOR)]), fn("Mod Text Changed", [param("key", "name"), param("text", "string")]),
+    fn("Open Mod Color", [param("key", "name"), param("color", S_LINCOLOR)]),
     fn("Remember Outfit Colors", [param("index", "int")]), fn("Outfit Slot Colors", [param("index", "int")]),
     fn("Outfit Name By Key", [param("key", "string")], [param("name", "string")]),
     fn("Outfit Name", [param("index", "int")], [param("name", "string")]),
@@ -1246,6 +1254,17 @@ assets = [
     # prefix on the skin mod is deliberate, it is what the scan has to keep reading
     datatable("/Game/Mod/WeaponAltUI_SkinTest/" + ws.TABLE_NAME, ws.STRUCT_PATH, rows={"TestSkin": {"Weapon": "UMP45", "Caption": "Test Skin"}}),
     datatable("/Game/Mod/WeaponAltUI_ModelTest/" + ws.MODEL_TABLE_NAME, ws.MODEL_STRUCT_PATH, rows={"TestModel": {"Weapon": "UMP45", "Caption": "Test Model"}}),
+    # Mods tab: the contract with other mods (modui.py) + a stub mod for the editor tests
+    struct(mu.ENTRY_STRUCT, [param(n, t, c) for n, t, c in mu.ENTRY_MEMBERS]),
+    struct(mu.FIELD_STRUCT, [param(n, t, c) for n, t, c in mu.FIELD_MEMBERS]),
+    struct(mu.LIST_STRUCT, [param("Fields", "struct:" + mu.FIELD_STRUCT, "array")]),
+    blueprint(mu.INTERFACE, blueprint_type="interface", functions=[
+        fn(mu.GET_VALUE, [param("Key", "name")], [param("Value", "float")]),
+        fn(mu.ON_CHANGED, [param("Key", "name"), param("Value", "float")]),
+        fn(mu.GET_COLOR, [param("Key", "name")], [param("Color", S_LINCOLOR)]), fn(mu.ON_COLOR, [param("Key", "name"), param("Color", S_LINCOLOR)]),
+        fn(mu.GET_TEXT, [param("Key", "name")], [param("Text", "string")]), fn(mu.ON_TEXT, [param("Key", "name"), param("Text", "string")])]),
+    datatable("/Game/Mod/%s/%s" % (mu.TEST_MOD, mu.ENTRIES_TABLE), mu.ENTRY_STRUCT, rows=mu.TEST_ENTRIES),
+    datatable("/Game/Mod/%s/%s" % (mu.TEST_MOD, mu.FIELDS_TABLE), mu.FIELD_STRUCT, rows=mu.TEST_FIELDS),
     struct(S_FLOATS, [param("Values", "float", "array")]),
     # colourable material slots of a piece: index in the mesh + slot name for the menu row (map values take no arrays)
     struct(S_COLSLOTS, [param("Idx", "int", "array"), param("Caption", "name", "array")]),
@@ -1274,7 +1293,7 @@ assets = [
                          var("Unlimited", "bool"), var("LeftFree", "int"), var("CamFov", "float", default="0"), var("CamDist", "float", default="0"), var("CamHeight", "float"), var("CamRightHeight", "bool"), var("IconOwn", "name", "array"), var("IconRedo", "name", "array"), var("ForceSkin", "name", "array"), var("ForceSkipMag", "name", "array"), var("ForceSkipOptics", "name", "array"), var("ForceSkipBarrel", "name", "array"), var("ForceSkipGrip", "name", "array"), var("OnlyModsNames", "bool", default="true"), var("CaseSensitiveNames", "bool"), var("MergeGroups", "bool"), var("MergeMods", "bool"), var("ChipSearchShown", "bool", default="true"), var("TipNoPrefix", "bool"), var("TipNoIds", "bool"), var("FreedConflicts", "name", "array"), var("HairSwatchesOpen", "bool"), var("BodyVariant", "name"), var("LangChoice", "int"), var("PanToSlot", "bool"), var("AllowNude", "bool"), var("OutfitNames", "string", "map", value_type="string"),
                          var("UnownedMode", "int"),
                          var("BodyScales", "name", "map", value_type="struct:" + S_FLOATS),
-                         var("ThemeSet", "bool"), var("BgAlpha", "float", default="0"), var("TileAlpha", "float", default="0"), var("ToggleKey", "name"),
+                         var("ThemeSet", "bool"), var("BgAlpha", "float", default="0"), var("TileAlpha", "float", default="0"), var("ToggleKey", "name"), var("ModEntry", "name"), var("LastPage", "name"), var("LastLookCat", "name"), var("LastPoseCat", "name"), var("LastWeapon", "name"),
                          var("SlotColors", "name", "map", value_type=S_LINCOLOR), var("EyeColors", "name", "map", value_type=S_LINCOLOR), var("MakeupColors", "name", "map", value_type=S_LINCOLOR), var("OutfitSlotColors", "name", "map", value_type=S_LINCOLOR),
                          var("SaveVersion", "int")] + [var("Theme" + k, S_LINCOLOR) for k, _, _ in THEME]),   # SaveVersion 0 = save from before the versioning (0 = "never set" for floats)
     blueprint(MGR, E_ACTOR,
@@ -1309,7 +1328,7 @@ assets = [
                          var("Unlimited", "bool"), var("LeftFree", "int"), var("ViewShift", "float"), var("CamMod", "object:" + M + "/CM_AltUICam"), var("CamFov", "float", default="0.8"), var("CamDist", "float", default="1.0"), var("CamHeight", "float"), var("CamRightHeight", "bool"), var("OptFov", "float"), var("OptDist", "float"), var("OptHeight", "float"), var("DistSaveTimer", "float"), var("IconLight", "object:/Script/Engine.SpotLight"), var("UndoStack", "struct:" + S_SNAP, "array"), var("RedoStack", "struct:" + S_SNAP, "array"), var("TmpSnap", "struct:" + S_SNAP), var("TmpSnap2", "struct:" + S_SNAP), var("PresetIcons", "int", "map", value_type="object:" + E_TEX2D), var("TmpPreset", "struct:" + P_PRESET_S), var("ContextPreset", "int"), var("TmpIcons", "object:" + E_TEX2D, "array"),
                          # content view (View content): open index per tab (-1 = closed), the rendered snapshot + title, tile origin for "Show in tab", highlight/scroll target
                          var("ViewOutfit", "int", default="-1"), var("ViewLook", "int", default="-1"), var("ViewPreset", "int", default="-1"), var("ViewSnap", "struct:" + S_SNAP), var("ViewTitle", "string"),
-                         var("ContextSlot", "name"), var("OutfitSC", "name", "map", value_type=S_LINCOLOR), var("OutfitPieces", "name", "array"), var("OutfitKeyTmp", "string"), var("ClickKind", "name"), var("LookCatKeep", "name"), var("HighlightItem", "name"), var("KeepHighlight", "bool"), var("ScrollWidget", "object:" + E_WIDGET),   # TmpSection (W_ContentSection) lives in the augment: the widget class exists only after 40_widgets
+                         var("ContextSlot", "name"), var("OpenPage", "name"), var("ModEntry", "name"), var("ModActor", "object:/Script/Engine.Actor"), var("ModScanned", "bool"), var("ModEntryKeys", "name", "array"), var("ModEntries", "name", "map", value_type="struct:" + mu.ENTRY_STRUCT), var("ModFields", "name", "map", value_type="struct:" + mu.LIST_STRUCT), var("ModFieldsTmp", "struct:" + mu.FIELD_STRUCT, "array"), var("ModPosTmp", "int"), var("OutfitSC", "name", "map", value_type=S_LINCOLOR), var("OutfitPieces", "name", "array"), var("OutfitKeyTmp", "string"), var("ClickKind", "name"), var("LookCatKeep", "name"), var("HighlightItem", "name"), var("KeepHighlight", "bool"), var("ScrollWidget", "object:" + E_WIDGET),   # TmpSection (W_ContentSection) lives in the augment: the widget class exists only after 40_widgets
                          var("TmpFColors", "name", "map", value_type=S_COLOR),
                          var("BodyMods", "name", "array"), var("BodyCaptions", "name", "map", value_type="text"), var("StandardMesh", "object:" + E_SKELMESH),
                          var("BodyMesh", "object:" + E_SKELMESH), var("CurrentBody", "name"), var("BodyVariant", "name"),

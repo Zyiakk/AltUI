@@ -194,6 +194,9 @@
     },
     "WeaponAltUI_ModelTest": {
      "Caption": "Test Weapon Mod"
+    },
+    "AltUIMod_Test": {
+     "Caption": "Test Mods Tab"
     }
    }
   },

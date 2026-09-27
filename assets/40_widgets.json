@@ -13830,6 +13830,3314 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Mod/AltUI/W_ModField",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "Manager",
+     "type": "object:/Game/Mod/AltUI/BP_AltUIManager"
+    },
+    {
+     "name": "Key",
+     "type": "name"
+    },
+    {
+     "name": "Type",
+     "type": "name"
+    },
+    {
+     "name": "Min",
+     "type": "float"
+    },
+    {
+     "name": "Max",
+     "type": "float"
+    },
+    {
+     "name": "Step",
+     "type": "float"
+    },
+    {
+     "name": "Options",
+     "type": "text",
+     "container": "array"
+    },
+    {
+     "name": "Value",
+     "type": "float"
+    },
+    {
+     "name": "ColorValue",
+     "type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "TextValue",
+     "type": "string"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Init",
+     "inputs": [
+      {
+       "name": "field",
+       "type": "struct:/Game/Mod/AltUI/S_AltUIModField"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "bf",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_AltUIModField",
+        "in": {
+         "S_AltUIModField": "@entry.field"
+        }
+       },
+       {
+        "id": "sKey",
+        "kind": "set",
+        "var": "Key",
+        "in": {
+         "Key": "@bf.Key"
+        }
+       },
+       {
+        "id": "sType",
+        "kind": "set",
+        "var": "Type",
+        "in": {
+         "Type": "@bf.Type"
+        }
+       },
+       {
+        "id": "sMin",
+        "kind": "set",
+        "var": "Min",
+        "in": {
+         "Min": "@bf.Min"
+        }
+       },
+       {
+        "id": "sMax",
+        "kind": "set",
+        "var": "Max",
+        "in": {
+         "Max": "@bf.Max"
+        }
+       },
+       {
+        "id": "sStep",
+        "kind": "set",
+        "var": "Step",
+        "in": {
+         "Step": "@bf.Step"
+        }
+       },
+       {
+        "id": "sOptions",
+        "kind": "set",
+        "var": "Options",
+        "in": {
+         "Options": "@bf.Options"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "stl",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl.Label",
+         "InText": "@bf.Label"
+        }
+       },
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "ActText"
+       },
+       {
+        "id": "sta",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ga.ActText",
+         "InText": "@bf.Label"
+        }
+       },
+       {
+        "id": "gh0",
+        "kind": "get",
+        "var": "CheckWrap"
+       },
+       {
+        "id": "hh0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh0.CheckWrap",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gh1",
+        "kind": "get",
+        "var": "SwatchBox"
+       },
+       {
+        "id": "hh1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh1.SwatchBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "EditBox"
+       },
+       {
+        "id": "hh2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh2.EditBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gh3",
+        "kind": "get",
+        "var": "InfoBox"
+       },
+       {
+        "id": "hh3",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh3.InfoBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "is0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Toggle"
+        }
+       },
+       {
+        "id": "b0",
+        "kind": "branch",
+        "in": {
+         "Condition": "@is0.ReturnValue"
+        }
+       },
+       {
+        "id": "gp0",
+        "kind": "get",
+        "var": "CheckWrap"
+       },
+       {
+        "id": "sv0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gp0.CheckWrap",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "is1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Slider"
+        }
+       },
+       {
+        "id": "b1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@is1.ReturnValue"
+        }
+       },
+       {
+        "id": "gp1",
+        "kind": "get",
+        "var": "SldHB"
+       },
+       {
+        "id": "sv1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gp1.SldHB",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "is2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Choice"
+        }
+       },
+       {
+        "id": "b2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@is2.ReturnValue"
+        }
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "ChoiceHB"
+       },
+       {
+        "id": "sv2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gp2.ChoiceHB",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "is3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Button"
+        }
+       },
+       {
+        "id": "b3",
+        "kind": "branch",
+        "in": {
+         "Condition": "@is3.ReturnValue"
+        }
+       },
+       {
+        "id": "gp3",
+        "kind": "get",
+        "var": "Act"
+       },
+       {
+        "id": "sv3",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gp3.Act",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "is4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Number"
+        }
+       },
+       {
+        "id": "b4",
+        "kind": "branch",
+        "in": {
+         "Condition": "@is4.ReturnValue"
+        }
+       },
+       {
+        "id": "gp4",
+        "kind": "get",
+        "var": "NumHB"
+       },
+       {
+        "id": "sv4",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gp4.NumHB",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "is5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Color"
+        }
+       },
+       {
+        "id": "b5",
+        "kind": "branch",
+        "in": {
+         "Condition": "@is5.ReturnValue"
+        }
+       },
+       {
+        "id": "gp5",
+        "kind": "get",
+        "var": "SwatchBox"
+       },
+       {
+        "id": "sv5",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gp5.SwatchBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "is6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Text"
+        }
+       },
+       {
+        "id": "b6",
+        "kind": "branch",
+        "in": {
+         "Condition": "@is6.ReturnValue"
+        }
+       },
+       {
+        "id": "gp6",
+        "kind": "get",
+        "var": "EditBox"
+       },
+       {
+        "id": "sv6",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gp6.EditBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "is7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Info"
+        }
+       },
+       {
+        "id": "b7",
+        "kind": "branch",
+        "in": {
+         "Condition": "@is7.ReturnValue"
+        }
+       },
+       {
+        "id": "gp7",
+        "kind": "get",
+        "var": "InfoBox"
+       },
+       {
+        "id": "sv7",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gp7.InfoBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "isb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bf.Type",
+         "B": "Button"
+        }
+       },
+       {
+        "id": "bbtn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isb.ReturnValue"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "stl2",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl2.Label",
+         "InText": ""
+        }
+       },
+       {
+        "id": "sv0v",
+        "kind": "set",
+        "var": "Value",
+        "in": {
+         "Value": "-1.0"
+        }
+       },
+       {
+        "id": "setv",
+        "kind": "call_self",
+        "function": "Set Value",
+        "in": {
+         "value": "@bf.Min"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call_self",
+        "function": "Compute Colors"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sKey",
+        "sType",
+        "sMin",
+        "sMax",
+        "sStep",
+        "sOptions",
+        "stl",
+        "sta",
+        "hh0",
+        "hh1",
+        "hh2",
+        "hh3",
+        "b0"
+       ],
+       [
+        "b0",
+        "sv0",
+        "b1"
+       ],
+       [
+        "b0:else",
+        "b1"
+       ],
+       [
+        "b1",
+        "sv1",
+        "b2"
+       ],
+       [
+        "b1:else",
+        "b2"
+       ],
+       [
+        "b2",
+        "sv2",
+        "b3"
+       ],
+       [
+        "b2:else",
+        "b3"
+       ],
+       [
+        "b3",
+        "sv3",
+        "b4"
+       ],
+       [
+        "b3:else",
+        "b4"
+       ],
+       [
+        "b4",
+        "sv4",
+        "b5"
+       ],
+       [
+        "b4:else",
+        "b5"
+       ],
+       [
+        "b5",
+        "sv5",
+        "b6"
+       ],
+       [
+        "b5:else",
+        "b6"
+       ],
+       [
+        "b6",
+        "sv6",
+        "b7"
+       ],
+       [
+        "b6:else",
+        "b7"
+       ],
+       [
+        "b7",
+        "sv7",
+        "bbtn"
+       ],
+       [
+        "b7:else",
+        "bbtn"
+       ],
+       [
+        "bbtn",
+        "stl2",
+        "sv0v",
+        "setv",
+        "cc"
+       ],
+       [
+        "bbtn:else",
+        "sv0v"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Slider Value",
+     "inputs": [
+      {
+       "name": "pos",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gmn",
+        "kind": "get",
+        "var": "Min"
+       },
+       {
+        "id": "gmx",
+        "kind": "get",
+        "var": "Max"
+       },
+       {
+        "id": "gst",
+        "kind": "get",
+        "var": "Step"
+       },
+       {
+        "id": "rng",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@gmx.Max",
+         "B": "@gmn.Min"
+        }
+       },
+       {
+        "id": "mul",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@entry.pos",
+         "B": "@rng.ReturnValue"
+        }
+       },
+       {
+        "id": "raw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@gmn.Min",
+         "B": "@mul.ReturnValue"
+        }
+       },
+       {
+        "id": "rel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@raw.ReturnValue",
+         "B": "@gmn.Min"
+        }
+       },
+       {
+        "id": "st1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@gst.Step",
+         "B": "0.000001"
+        }
+       },
+       {
+        "id": "div",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@rel.ReturnValue",
+         "B": "@st1.ReturnValue"
+        }
+       },
+       {
+        "id": "rnd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@div.ReturnValue"
+        }
+       },
+       {
+        "id": "rf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@rnd.ReturnValue"
+        }
+       },
+       {
+        "id": "snp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@rf.ReturnValue",
+         "B": "@st1.ReturnValue"
+        }
+       },
+       {
+        "id": "stp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@gmn.Min",
+         "B": "@snp.ReturnValue"
+        }
+       },
+       {
+        "id": "hs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@gst.Step",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "pick",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@stp.ReturnValue",
+         "B": "@raw.ReturnValue",
+         "bPickA": "@hs.ReturnValue"
+        }
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@pick.ReturnValue",
+         "Min": "@gmn.Min",
+         "Max": "@gmx.Max"
+        }
+       }
+      ],
+      "links": [
+       [
+        "cl.ReturnValue",
+        "return.value"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Slider Pos",
+     "inputs": [
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "pos",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gmn",
+        "kind": "get",
+        "var": "Min"
+       },
+       {
+        "id": "gmx",
+        "kind": "get",
+        "var": "Max"
+       },
+       {
+        "id": "rng",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@gmx.Max",
+         "B": "@gmn.Min"
+        }
+       },
+       {
+        "id": "rel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@entry.value",
+         "B": "@gmn.Min"
+        }
+       },
+       {
+        "id": "r1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@rng.ReturnValue",
+         "B": "0.000001"
+        }
+       },
+       {
+        "id": "div",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@rel.ReturnValue",
+         "B": "@r1.ReturnValue"
+        }
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@div.ReturnValue",
+         "Min": "0.0",
+         "Max": "1.0"
+        }
+       }
+      ],
+      "links": [
+       [
+        "cl.ReturnValue",
+        "return.pos"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Update Text",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gv",
+        "kind": "get",
+        "var": "Value"
+       },
+       {
+        "id": "gst",
+        "kind": "get",
+        "var": "Step"
+       },
+       {
+        "id": "ge1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_FloatFloat",
+        "in": {
+         "A": "@gst.Step",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "dig",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "0",
+         "B": "2",
+         "bPickA": "@ge1.ReturnValue"
+        }
+       },
+       {
+        "id": "ft",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_FloatToText",
+        "in": {
+         "Value": "@gv.Value",
+         "MinimumFractionalDigits": "@dig.ReturnValue",
+         "MaximumFractionalDigits": "@dig.ReturnValue"
+        }
+       },
+       {
+        "id": "gvt",
+        "kind": "get",
+        "var": "ValText"
+       },
+       {
+        "id": "svt",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gvt.ValText",
+         "InText": "@ft.ReturnValue"
+        }
+       },
+       {
+        "id": "gnt",
+        "kind": "get",
+        "var": "NumText"
+       },
+       {
+        "id": "snt",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gnt.NumText",
+         "InText": "@ft.ReturnValue"
+        }
+       },
+       {
+        "id": "go",
+        "kind": "get",
+        "var": "Options"
+       },
+       {
+        "id": "ol",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@go.Options"
+        }
+       },
+       {
+        "id": "hasopt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@ol.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bo",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hasopt.ReturnValue"
+        }
+       },
+       {
+        "id": "gv2",
+        "kind": "get",
+        "var": "Value"
+       },
+       {
+        "id": "ri",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@gv2.Value"
+        }
+       },
+       {
+        "id": "mx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@ol.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "ci",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Clamp",
+        "in": {
+         "Value": "@ri.ReturnValue",
+         "Min": "0",
+         "Max": "@mx.ReturnValue"
+        }
+       },
+       {
+        "id": "go2",
+        "kind": "get",
+        "var": "Options"
+       },
+       {
+        "id": "oget",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@go2.Options",
+         "Index": "@ci.ReturnValue"
+        }
+       },
+       {
+        "id": "gct",
+        "kind": "get",
+        "var": "ChoiceText"
+       },
+       {
+        "id": "sct",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gct.ChoiceText",
+         "InText": "@oget.Item"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "svt",
+        "snt",
+        "bo",
+        "sct"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Value",
+     "inputs": [
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gv",
+        "kind": "get",
+        "var": "Value"
+       },
+       {
+        "id": "same",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NearlyEqual_FloatFloat",
+        "in": {
+         "A": "@gv.Value",
+         "B": "@entry.value",
+         "ErrorTolerance": "0.0001"
+        }
+       },
+       {
+        "id": "bs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@same.ReturnValue"
+        }
+       },
+       {
+        "id": "s",
+        "kind": "set",
+        "var": "Value",
+        "in": {
+         "Value": "@entry.value"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@entry.value",
+         "B": "0.5"
+        }
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Check"
+       },
+       {
+        "id": "sc",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gc.Check",
+         "InIsChecked": "@gt.ReturnValue"
+        }
+       },
+       {
+        "id": "pos",
+        "kind": "call_self",
+        "function": "Slider Pos",
+        "in": {
+         "value": "@entry.value"
+        }
+       },
+       {
+        "id": "gsl",
+        "kind": "get",
+        "var": "Sld"
+       },
+       {
+        "id": "ss",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gsl.Sld",
+         "InValue": "@pos.pos"
+        }
+       },
+       {
+        "id": "ut",
+        "kind": "call_self",
+        "function": "Update Text"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bs"
+       ],
+       [
+        "bs:else",
+        "s",
+        "sc",
+        "ss",
+        "ut"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Enabled",
+     "inputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@me.self",
+         "bInIsEnabled": "@entry.yes"
+        }
+       },
+       {
+        "id": "op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.yes"
+        }
+       },
+       {
+        "id": "me2",
+        "kind": "self"
+       },
+       {
+        "id": "ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@me2.self",
+         "InOpacity": "@op.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "en",
+        "ro"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Color",
+     "inputs": [
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "s",
+        "kind": "set",
+        "var": "ColorValue",
+        "in": {
+         "ColorValue": "@entry.color"
+        }
+       },
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "Swatch"
+       },
+       {
+        "id": "b",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@gs.Swatch",
+         "InBrushColor": "@entry.color"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s",
+        "b"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Text",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "string"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "Type"
+       },
+       {
+        "id": "ii",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt.Type",
+         "B": "Info"
+        }
+       },
+       {
+        "id": "bi",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ii.ReturnValue"
+        }
+       },
+       {
+        "id": "s2t",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@entry.text"
+        }
+       },
+       {
+        "id": "gi",
+        "kind": "get",
+        "var": "InfoText"
+       },
+       {
+        "id": "si",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gi.InfoText",
+         "InText": "@s2t.ReturnValue"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "hf",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@ge.Edit"
+        }
+       },
+       {
+        "id": "bf",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hf.ReturnValue"
+        }
+       },
+       {
+        "id": "gtv",
+        "kind": "get",
+        "var": "TextValue"
+       },
+       {
+        "id": "same",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@gtv.TextValue",
+         "B": "@entry.text"
+        }
+       },
+       {
+        "id": "bs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@same.ReturnValue"
+        }
+       },
+       {
+        "id": "stv",
+        "kind": "set",
+        "var": "TextValue",
+        "in": {
+         "TextValue": "@entry.text"
+        }
+       },
+       {
+        "id": "s2t2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@entry.text"
+        }
+       },
+       {
+        "id": "ge2",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "se",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@ge2.Edit",
+         "InText": "@s2t2.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bi",
+        "si"
+       ],
+       [
+        "bi:else",
+        "bf"
+       ],
+       [
+        "bf:else",
+        "bs"
+       ],
+       [
+        "bs:else",
+        "stv",
+        "se"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Report",
+     "inputs": [
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "s",
+        "kind": "set",
+        "var": "Value",
+        "in": {
+         "Value": "@entry.value"
+        }
+       },
+       {
+        "id": "ut",
+        "kind": "call_self",
+        "function": "Update Text"
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "Key"
+       },
+       {
+        "id": "mc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Mod Field Changed",
+        "in": {
+         "self": "@gm.Manager",
+         "key": "@gk.Key",
+         "value": "@entry.value"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s",
+        "ut",
+        "mc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Compute Colors",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "Type"
+       },
+       {
+        "id": "ih",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt.Type",
+         "B": "Header"
+        }
+       },
+       {
+        "id": "chd_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "chd",
+        "kind": "get",
+        "var": "ColHead",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "ctx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ctx",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "lc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@chd.ColHead",
+         "B": "@ctx.ColText",
+         "bPickA": "@ih.ReturnValue"
+        }
+       },
+       {
+        "id": "tl_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@lc.ReturnValue"
+        }
+       },
+       {
+        "id": "tl_w",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "tl",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tl_w.Label",
+         "InColorAndOpacity": "@tl_sc.SlateColor"
+        }
+       },
+       {
+        "id": "cdim_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cdim",
+        "kind": "get",
+        "var": "ColTextDim",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tv_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@cdim.ColTextDim"
+        }
+       },
+       {
+        "id": "tv_w",
+        "kind": "get",
+        "var": "ValText"
+       },
+       {
+        "id": "tv",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tv_w.ValText",
+         "InColorAndOpacity": "@tv_sc.SlateColor"
+        }
+       },
+       {
+        "id": "ctx2_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ctx2",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tc_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@ctx2.ColText"
+        }
+       },
+       {
+        "id": "tc_w",
+        "kind": "get",
+        "var": "ChoiceText"
+       },
+       {
+        "id": "tc",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tc_w.ChoiceText",
+         "InColorAndOpacity": "@tc_sc.SlateColor"
+        }
+       },
+       {
+        "id": "clk0_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "clk0",
+        "kind": "get",
+        "var": "ColLink",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tk0_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@clk0.ColLink"
+        }
+       },
+       {
+        "id": "tk0_w",
+        "kind": "get",
+        "var": "PrevText"
+       },
+       {
+        "id": "tk0",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tk0_w.PrevText",
+         "InColorAndOpacity": "@tk0_sc.SlateColor"
+        }
+       },
+       {
+        "id": "clk1_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "clk1",
+        "kind": "get",
+        "var": "ColLink",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tk1_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@clk1.ColLink"
+        }
+       },
+       {
+        "id": "tk1_w",
+        "kind": "get",
+        "var": "NextText"
+       },
+       {
+        "id": "tk1",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tk1_w.NextText",
+         "InColorAndOpacity": "@tk1_sc.SlateColor"
+        }
+       },
+       {
+        "id": "clk2_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "clk2",
+        "kind": "get",
+        "var": "ColLink",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tk2_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@clk2.ColLink"
+        }
+       },
+       {
+        "id": "tk2_w",
+        "kind": "get",
+        "var": "ActText"
+       },
+       {
+        "id": "tk2",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tk2_w.ActText",
+         "InColorAndOpacity": "@tk2_sc.SlateColor"
+        }
+       },
+       {
+        "id": "ctx3_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ctx3",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tnm_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@ctx3.ColText"
+        }
+       },
+       {
+        "id": "tnm_w",
+        "kind": "get",
+        "var": "NumText"
+       },
+       {
+        "id": "tnm",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tnm_w.NumText",
+         "InColorAndOpacity": "@tnm_sc.SlateColor"
+        }
+       },
+       {
+        "id": "ctx4_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ctx4",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tif_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@ctx4.ColText"
+        }
+       },
+       {
+        "id": "tif_w",
+        "kind": "get",
+        "var": "InfoText"
+       },
+       {
+        "id": "tif",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tif_w.InfoText",
+         "InColorAndOpacity": "@tif_sc.SlateColor"
+        }
+       },
+       {
+        "id": "clp0_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "clp0",
+        "kind": "get",
+        "var": "ColLink",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tp0_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@clp0.ColLink"
+        }
+       },
+       {
+        "id": "tp0_w",
+        "kind": "get",
+        "var": "MinusText"
+       },
+       {
+        "id": "tp0",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tp0_w.MinusText",
+         "InColorAndOpacity": "@tp0_sc.SlateColor"
+        }
+       },
+       {
+        "id": "clp1_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "clp1",
+        "kind": "get",
+        "var": "ColLink",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tp1_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@clp1.ColLink"
+        }
+       },
+       {
+        "id": "tp1_w",
+        "kind": "get",
+        "var": "PlusText"
+       },
+       {
+        "id": "tp1",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tp1_w.PlusText",
+         "InColorAndOpacity": "@tp1_sc.SlateColor"
+        }
+       },
+       {
+        "id": "cch_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cch",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "beb_w",
+        "kind": "get",
+        "var": "EditBg"
+       },
+       {
+        "id": "beb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@beb_w.EditBg",
+         "InBrushColor": "@cch.ColChip"
+        }
+       },
+       {
+        "id": "gsl",
+        "kind": "get",
+        "var": "Sld"
+       },
+       {
+        "id": "csl_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "csl",
+        "kind": "get",
+        "var": "ColSlider",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "sbc",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gsl.Sld",
+         "InValue": "@csl.ColSlider"
+        }
+       }
+      ],
+      "links": [
+       [
+        "chd_m.Manager",
+        "chd.self"
+       ],
+       [
+        "ctx_m.Manager",
+        "ctx.self"
+       ],
+       [
+        "cdim_m.Manager",
+        "cdim.self"
+       ],
+       [
+        "ctx2_m.Manager",
+        "ctx2.self"
+       ],
+       [
+        "clk0_m.Manager",
+        "clk0.self"
+       ],
+       [
+        "clk1_m.Manager",
+        "clk1.self"
+       ],
+       [
+        "clk2_m.Manager",
+        "clk2.self"
+       ],
+       [
+        "ctx3_m.Manager",
+        "ctx3.self"
+       ],
+       [
+        "ctx4_m.Manager",
+        "ctx4.self"
+       ],
+       [
+        "clp0_m.Manager",
+        "clp0.self"
+       ],
+       [
+        "clp1_m.Manager",
+        "clp1.self"
+       ],
+       [
+        "cch_m.Manager",
+        "cch.self"
+       ],
+       [
+        "csl_m.Manager",
+        "csl.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "tl",
+        "tv",
+        "tc",
+        "tk0",
+        "tk1",
+        "tk2",
+        "tnm",
+        "tif",
+        "tp0",
+        "tp1",
+        "beb",
+        "sbc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Tick",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "Type"
+       },
+       {
+        "id": "ist",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt.Type",
+         "B": "Toggle"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ist.ReturnValue"
+        }
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Check"
+       },
+       {
+        "id": "ic",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gc.Check"
+        }
+       },
+       {
+        "id": "cv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.0",
+         "bPickA": "@ic.ReturnValue"
+        }
+       },
+       {
+        "id": "gv",
+        "kind": "get",
+        "var": "Value"
+       },
+       {
+        "id": "chg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_FloatFloat",
+        "in": {
+         "A": "@cv.ReturnValue",
+         "B": "@gv.Value"
+        }
+       },
+       {
+        "id": "bc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@chg.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "Key"
+       },
+       {
+        "id": "scv",
+        "kind": "set",
+        "var": "Value",
+        "in": {
+         "Value": "@cv.ReturnValue"
+        }
+       },
+       {
+        "id": "mc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Mod Field Changed",
+        "in": {
+         "self": "@gm.Manager",
+         "key": "@gk.Key",
+         "value": "@cv.ReturnValue"
+        }
+       },
+       {
+        "id": "gt2",
+        "kind": "get",
+        "var": "Type"
+       },
+       {
+        "id": "iss",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt2.Type",
+         "B": "Slider"
+        }
+       },
+       {
+        "id": "bs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iss.ReturnValue"
+        }
+       },
+       {
+        "id": "gsl",
+        "kind": "get",
+        "var": "Sld"
+       },
+       {
+        "id": "gsv",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gsl.Sld"
+        }
+       },
+       {
+        "id": "sval",
+        "kind": "call_self",
+        "function": "Slider Value",
+        "in": {
+         "pos": "@gsv.ReturnValue"
+        }
+       },
+       {
+        "id": "gv2",
+        "kind": "get",
+        "var": "Value"
+       },
+       {
+        "id": "same",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NearlyEqual_FloatFloat",
+        "in": {
+         "A": "@sval.value",
+         "B": "@gv2.Value",
+         "ErrorTolerance": "0.0001"
+        }
+       },
+       {
+        "id": "bsm",
+        "kind": "branch",
+        "in": {
+         "Condition": "@same.ReturnValue"
+        }
+       },
+       {
+        "id": "rep",
+        "kind": "call_self",
+        "function": "Report",
+        "in": {
+         "value": "@sval.value"
+        }
+       },
+       {
+        "id": "gt3",
+        "kind": "get",
+        "var": "Type"
+       },
+       {
+        "id": "isx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt3.Type",
+         "B": "Text"
+        }
+       },
+       {
+        "id": "bx",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isx.ReturnValue"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "hf",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@ge.Edit"
+        }
+       },
+       {
+        "id": "gtx",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@ge.Edit"
+        }
+       },
+       {
+        "id": "t2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@gtx.ReturnValue"
+        }
+       },
+       {
+        "id": "gtv",
+        "kind": "get",
+        "var": "TextValue"
+       },
+       {
+        "id": "dif",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "NotEqual_StrStr",
+        "in": {
+         "A": "@t2s.ReturnValue",
+         "B": "@gtv.TextValue"
+        }
+       },
+       {
+        "id": "nf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@hf.ReturnValue"
+        }
+       },
+       {
+        "id": "com",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@dif.ReturnValue",
+         "B": "@nf.ReturnValue"
+        }
+       },
+       {
+        "id": "bxc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@com.ReturnValue"
+        }
+       },
+       {
+        "id": "stv",
+        "kind": "set",
+        "var": "TextValue",
+        "in": {
+         "TextValue": "@t2s.ReturnValue"
+        }
+       },
+       {
+        "id": "gm3",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gk3",
+        "kind": "get",
+        "var": "Key"
+       },
+       {
+        "id": "mtc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Mod Text Changed",
+        "in": {
+         "self": "@gm3.Manager",
+         "key": "@gk3.Key",
+         "text": "@t2s.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bt",
+        "bc",
+        "scv",
+        "mc"
+       ],
+       [
+        "bt:else",
+        "bs",
+        "bsm"
+       ],
+       [
+        "bsm:else",
+        "rep"
+       ],
+       [
+        "bs:else",
+        "bx",
+        "bxc",
+        "stv",
+        "mtc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "OnMouseButtonDown",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "btn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "PointerEvent_GetEffectingButton",
+        "in": {
+         "Input": "@entry.MouseEvent"
+        }
+       },
+       {
+        "id": "isl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@btn.ReturnValue",
+         "B": "LeftMouseButton"
+        }
+       },
+       {
+        "id": "bl",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isl.ReturnValue"
+        }
+       },
+       {
+        "id": "gac",
+        "kind": "get",
+        "var": "Act"
+       },
+       {
+        "id": "ha",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "IsHovered",
+        "in": {
+         "self": "@gac.Act"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "Type"
+       },
+       {
+        "id": "isb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt.Type",
+         "B": "Button"
+        }
+       },
+       {
+        "id": "ab",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@isb.ReturnValue",
+         "B": "@ha.ReturnValue"
+        }
+       },
+       {
+        "id": "bb",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ab.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "Key"
+       },
+       {
+        "id": "mc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Mod Field Changed",
+        "in": {
+         "self": "@gm.Manager",
+         "key": "@gk.Key",
+         "value": "1.0"
+        }
+       },
+       {
+        "id": "gpv",
+        "kind": "get",
+        "var": "Prev"
+       },
+       {
+        "id": "hp",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "IsHovered",
+        "in": {
+         "self": "@gpv.Prev"
+        }
+       },
+       {
+        "id": "gnx",
+        "kind": "get",
+        "var": "Next"
+       },
+       {
+        "id": "hn",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "IsHovered",
+        "in": {
+         "self": "@gnx.Next"
+        }
+       },
+       {
+        "id": "any",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@hp.ReturnValue",
+         "B": "@hn.ReturnValue"
+        }
+       },
+       {
+        "id": "gt2",
+        "kind": "get",
+        "var": "Type"
+       },
+       {
+        "id": "isc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt2.Type",
+         "B": "Choice"
+        }
+       },
+       {
+        "id": "ac",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@isc.ReturnValue",
+         "B": "@any.ReturnValue"
+        }
+       },
+       {
+        "id": "bch",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ac.ReturnValue"
+        }
+       },
+       {
+        "id": "go",
+        "kind": "get",
+        "var": "Options"
+       },
+       {
+        "id": "n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@go.Options"
+        }
+       },
+       {
+        "id": "gv",
+        "kind": "get",
+        "var": "Value"
+       },
+       {
+        "id": "ri",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@gv.Value"
+        }
+       },
+       {
+        "id": "dir",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "-1",
+         "B": "1",
+         "bPickA": "@hp.ReturnValue"
+        }
+       },
+       {
+        "id": "a1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@ri.ReturnValue",
+         "B": "@dir.ReturnValue"
+        }
+       },
+       {
+        "id": "a2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@a1.ReturnValue",
+         "B": "@n.ReturnValue"
+        }
+       },
+       {
+        "id": "n1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Max",
+        "in": {
+         "A": "@n.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "mod",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Percent_IntInt",
+        "in": {
+         "A": "@a2.ReturnValue",
+         "B": "@n1.ReturnValue"
+        }
+       },
+       {
+        "id": "mf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@mod.ReturnValue"
+        }
+       },
+       {
+        "id": "rep",
+        "kind": "call_self",
+        "function": "Report",
+        "in": {
+         "value": "@mf.ReturnValue"
+        }
+       },
+       {
+        "id": "h",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Handled"
+       },
+       {
+        "id": "r2",
+        "kind": "return_new"
+       },
+       {
+        "id": "u",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Unhandled"
+       },
+       {
+        "id": "gmi",
+        "kind": "get",
+        "var": "Minus"
+       },
+       {
+        "id": "hmi",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "IsHovered",
+        "in": {
+         "self": "@gmi.Minus"
+        }
+       },
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "Plus"
+       },
+       {
+        "id": "hpl",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "IsHovered",
+        "in": {
+         "self": "@gpl.Plus"
+        }
+       },
+       {
+        "id": "anyn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@hmi.ReturnValue",
+         "B": "@hpl.ReturnValue"
+        }
+       },
+       {
+        "id": "gt3",
+        "kind": "get",
+        "var": "Type"
+       },
+       {
+        "id": "isn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt3.Type",
+         "B": "Number"
+        }
+       },
+       {
+        "id": "an",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@isn.ReturnValue",
+         "B": "@anyn.ReturnValue"
+        }
+       },
+       {
+        "id": "bnum",
+        "kind": "branch",
+        "in": {
+         "Condition": "@an.ReturnValue"
+        }
+       },
+       {
+        "id": "gst",
+        "kind": "get",
+        "var": "Step"
+       },
+       {
+        "id": "sp0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@gst.Step",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "stp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@gst.Step",
+         "B": "1.0",
+         "bPickA": "@sp0.ReturnValue"
+        }
+       },
+       {
+        "id": "sgn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "-1.0",
+         "B": "1.0",
+         "bPickA": "@hmi.ReturnValue"
+        }
+       },
+       {
+        "id": "dlt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@stp.ReturnValue",
+         "B": "@sgn.ReturnValue"
+        }
+       },
+       {
+        "id": "gv3",
+        "kind": "get",
+        "var": "Value"
+       },
+       {
+        "id": "nv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@gv3.Value",
+         "B": "@dlt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmn",
+        "kind": "get",
+        "var": "Min"
+       },
+       {
+        "id": "gmx",
+        "kind": "get",
+        "var": "Max"
+       },
+       {
+        "id": "ncl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@nv.ReturnValue",
+         "Min": "@gmn.Min",
+         "Max": "@gmx.Max"
+        }
+       },
+       {
+        "id": "repn",
+        "kind": "call_self",
+        "function": "Report",
+        "in": {
+         "value": "@ncl.ReturnValue"
+        }
+       },
+       {
+        "id": "gsw",
+        "kind": "get",
+        "var": "Swatch"
+       },
+       {
+        "id": "hsw",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "IsHovered",
+        "in": {
+         "self": "@gsw.Swatch"
+        }
+       },
+       {
+        "id": "gt4",
+        "kind": "get",
+        "var": "Type"
+       },
+       {
+        "id": "isco",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gt4.Type",
+         "B": "Color"
+        }
+       },
+       {
+        "id": "aco",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@isco.ReturnValue",
+         "B": "@hsw.ReturnValue"
+        }
+       },
+       {
+        "id": "bco",
+        "kind": "branch",
+        "in": {
+         "Condition": "@aco.ReturnValue"
+        }
+       },
+       {
+        "id": "gm4",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gk4",
+        "kind": "get",
+        "var": "Key"
+       },
+       {
+        "id": "gcv",
+        "kind": "get",
+        "var": "ColorValue"
+       },
+       {
+        "id": "omc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Open Mod Color",
+        "in": {
+         "self": "@gm4.Manager",
+         "key": "@gk4.Key",
+         "color": "@gcv.ColorValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "h.ReturnValue",
+        "return.ReturnValue"
+       ],
+       [
+        "u.ReturnValue",
+        "r2.ReturnValue"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bl",
+        "bb",
+        "mc",
+        "return"
+       ],
+       [
+        "bb:else",
+        "bch",
+        "rep",
+        "return"
+       ],
+       [
+        "bch:else",
+        "bnum",
+        "repn",
+        "return"
+       ],
+       [
+        "bnum:else",
+        "bco",
+        "omc",
+        "return"
+       ],
+       [
+        "bco:else",
+        "r2"
+       ],
+       [
+        "bl:else",
+        "r2"
+       ]
+      ]
+     }
+    }
+   ],
+   "widget_tree": {
+    "class": "/Script/UMG.Border",
+    "name": "Bg",
+    "props": {
+     "BrushColor": "(R=0,G=0,B=0,A=0)",
+     "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+    },
+    "children": [
+     {
+      "class": "/Script/UMG.HorizontalBox",
+      "name": "Row",
+      "children": [
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "LabelBox",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 494,
+         "bOverride_HeightOverride": true,
+         "HeightOverride": 46
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.TextBlock",
+          "name": "Label",
+          "props": {
+           "Text": "Field",
+           "Font": "(Size=25)",
+           "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          }
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "CheckWrap",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 65,
+         "bOverride_HeightOverride": true,
+         "HeightOverride": 65
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.ScaleBox",
+          "name": "CheckScale",
+          "props": {
+           "Stretch": "ScaleToFit"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.CheckBox",
+            "name": "Check",
+            "props": {
+             "WidgetStyle": "(UncheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0))"
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.HorizontalBox",
+        "name": "SldHB",
+        "props": {
+         "Visibility": "Collapsed"
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.SizeBox",
+          "name": "SldBox",
+          "props": {
+           "bOverride_WidthOverride": true,
+           "WidthOverride": 684,
+           "bOverride_HeightOverride": true,
+           "HeightOverride": 46
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.Slider",
+            "name": "Sld",
+            "props": {
+             "Value": 0.0,
+             "StepSize": 0.001,
+             "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+             "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+             "WidgetStyle": "(BarThickness=5.0)"
+            }
+           }
+          ]
+         },
+         {
+          "class": "/Script/UMG.SizeBox",
+          "name": "ValBox",
+          "props": {
+           "bOverride_WidthOverride": true,
+           "WidthOverride": 171,
+           "bOverride_HeightOverride": true,
+           "HeightOverride": 46
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center",
+           "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "ValText",
+            "props": {
+             "Text": "0",
+             "Font": "(Size=23)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+            },
+            "slot": {
+             "VerticalAlignment": "VAlign_Center"
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.HorizontalBox",
+        "name": "ChoiceHB",
+        "props": {
+         "Visibility": "Collapsed"
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.Border",
+          "name": "Prev",
+          "props": {
+           "BrushColor": "(R=0,G=0,B=0,A=0)",
+           "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "PrevText",
+            "props": {
+             "Text": "‹",
+             "Font": "(Size=30)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=0.62,G=0.76,B=1.0,A=1))"
+            }
+           }
+          ]
+         },
+         {
+          "class": "/Script/UMG.SizeBox",
+          "name": "ChoiceBox",
+          "props": {
+           "bOverride_WidthOverride": true,
+           "WidthOverride": 418,
+           "bOverride_HeightOverride": true,
+           "HeightOverride": 46
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "ChoiceText",
+            "props": {
+             "Text": "",
+             "Font": "(Size=25)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+             "Justification": "Center"
+            },
+            "slot": {
+             "VerticalAlignment": "VAlign_Center"
+            }
+           }
+          ]
+         },
+         {
+          "class": "/Script/UMG.Border",
+          "name": "Next",
+          "props": {
+           "BrushColor": "(R=0,G=0,B=0,A=0)",
+           "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "NextText",
+            "props": {
+             "Text": "›",
+             "Font": "(Size=30)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=0.62,G=0.76,B=1.0,A=1))"
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.Border",
+        "name": "Act",
+        "props": {
+         "BrushColor": "(R=1,G=1,B=1,A=0.08)",
+         "Padding": "(Left=19,Top=6,Right=19,Bottom=6)",
+         "Visibility": "Collapsed"
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.TextBlock",
+          "name": "ActText",
+          "props": {
+           "Text": "",
+           "Font": "(Size=25)",
+           "ColorAndOpacity": "(SpecifiedColor=(R=0.62,G=0.76,B=1.0,A=1))"
+          }
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.HorizontalBox",
+        "name": "NumHB",
+        "props": {
+         "Visibility": "Collapsed"
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.Border",
+          "name": "Minus",
+          "props": {
+           "BrushColor": "(R=0,G=0,B=0,A=0)",
+           "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "MinusText",
+            "props": {
+             "Text": "−",
+             "Font": "(Size=30)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=0.62,G=0.76,B=1.0,A=1))"
+            }
+           }
+          ]
+         },
+         {
+          "class": "/Script/UMG.SizeBox",
+          "name": "NumBox",
+          "props": {
+           "bOverride_WidthOverride": true,
+           "WidthOverride": 228,
+           "bOverride_HeightOverride": true,
+           "HeightOverride": 46
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "NumText",
+            "props": {
+             "Text": "0",
+             "Font": "(Size=25)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+             "Justification": "Center"
+            },
+            "slot": {
+             "VerticalAlignment": "VAlign_Center"
+            }
+           }
+          ]
+         },
+         {
+          "class": "/Script/UMG.Border",
+          "name": "Plus",
+          "props": {
+           "BrushColor": "(R=0,G=0,B=0,A=0)",
+           "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "PlusText",
+            "props": {
+             "Text": "+",
+             "Font": "(Size=30)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=0.62,G=0.76,B=1.0,A=1))"
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "SwatchBox",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 114,
+         "bOverride_HeightOverride": true,
+         "HeightOverride": 46
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.Border",
+          "name": "Swatch",
+          "props": {
+           "BrushColor": "(R=1,G=1,B=1,A=1)"
+          }
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "EditBox",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 684,
+         "bOverride_HeightOverride": true,
+         "HeightOverride": 65
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.Border",
+          "name": "EditBg",
+          "props": {
+           "BrushColor": "(R=1,G=1,B=1,A=0.08)",
+           "Padding": "(Left=0,Top=0,Right=0,Bottom=0)"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.EditableTextBox",
+            "name": "Edit",
+            "props": {
+             "WidgetStyle": "(Font=(Size=30),Padding=(Left=19,Top=13,Right=19,Bottom=13),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "InfoBox",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 874,
+         "bOverride_HeightOverride": true,
+         "HeightOverride": 46
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.TextBlock",
+          "name": "InfoText",
+          "props": {
+           "Text": "",
+           "Font": "(Size=25)",
+           "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+           "AutoWrapText": true
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "defaults": {
+    "bOverride_Cursor": "true",
+    "Cursor": "Hand"
+   }
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Mod/AltUI/W_RoundButton",
    "mode": "create",
    "parent": "/Script/UMG.UserWidget",
@@ -16344,6 +19652,29 @@
         "kind": "get",
         "var": "ColTextDim",
         "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "t_ModHint_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ModHint_w",
+        "kind": "get",
+        "var": "ModHint"
+       },
+       {
+        "id": "t_ModHint",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ModHint_w.ModHint",
+         "InColorAndOpacity": "@t_ModHint_sc.SlateColor"
+        }
        },
        {
         "id": "t_AllHeader_sc",
@@ -19195,6 +22526,7 @@
         "t_LblTheme",
         "t_ContentTitle",
         "t_LblConflicts",
+        "t_ModHint",
         "t_AllHeader",
         "t_LookAllHeader",
         "t_PoseAllHeader",
@@ -20546,7 +23878,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.page",
-         "B": "Look"
+         "B": "Mods"
         }
        },
        {
@@ -20559,7 +23891,7 @@
        {
         "id": "g7",
         "kind": "get",
-        "var": "LookHB"
+        "var": "ModsHB"
        },
        {
         "id": "v7",
@@ -20567,7 +23899,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@g7.LookHB",
+         "self": "@g7.ModsHB",
          "InVisibility": "Visible"
         }
        },
@@ -20582,7 +23914,7 @@
        {
         "id": "h7",
         "kind": "get",
-        "var": "LookHB"
+        "var": "ModsHB"
        },
        {
         "id": "c7",
@@ -20590,7 +23922,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@h7.LookHB",
+         "self": "@h7.ModsHB",
          "InVisibility": "Collapsed"
         }
        },
@@ -20601,7 +23933,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.page",
-         "B": "Body"
+         "B": "Look"
         }
        },
        {
@@ -20614,7 +23946,7 @@
        {
         "id": "g8",
         "kind": "get",
-        "var": "BodyBox"
+        "var": "LookHB"
        },
        {
         "id": "v8",
@@ -20622,7 +23954,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@g8.BodyBox",
+         "self": "@g8.LookHB",
          "InVisibility": "Visible"
         }
        },
@@ -20637,7 +23969,7 @@
        {
         "id": "h8",
         "kind": "get",
-        "var": "BodyBox"
+        "var": "LookHB"
        },
        {
         "id": "c8",
@@ -20645,7 +23977,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@h8.BodyBox",
+         "self": "@h8.LookHB",
          "InVisibility": "Collapsed"
         }
        },
@@ -20656,7 +23988,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.page",
-         "B": "Options"
+         "B": "Body"
         }
        },
        {
@@ -20669,7 +24001,7 @@
        {
         "id": "g9",
         "kind": "get",
-        "var": "OptionsScroll"
+        "var": "BodyBox"
        },
        {
         "id": "v9",
@@ -20677,7 +24009,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@g9.OptionsScroll",
+         "self": "@g9.BodyBox",
          "InVisibility": "Visible"
         }
        },
@@ -20692,7 +24024,7 @@
        {
         "id": "h9",
         "kind": "get",
-        "var": "OptionsScroll"
+        "var": "BodyBox"
        },
        {
         "id": "c9",
@@ -20700,7 +24032,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@h9.OptionsScroll",
+         "self": "@h9.BodyBox",
          "InVisibility": "Collapsed"
         }
        },
@@ -20711,7 +24043,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.page",
-         "B": "Content"
+         "B": "Options"
         }
        },
        {
@@ -20724,7 +24056,7 @@
        {
         "id": "g10",
         "kind": "get",
-        "var": "ContentBox"
+        "var": "OptionsScroll"
        },
        {
         "id": "v10",
@@ -20732,7 +24064,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@g10.ContentBox",
+         "self": "@g10.OptionsScroll",
          "InVisibility": "Visible"
         }
        },
@@ -20747,7 +24079,7 @@
        {
         "id": "h10",
         "kind": "get",
-        "var": "ContentBox"
+        "var": "OptionsScroll"
        },
        {
         "id": "c10",
@@ -20755,7 +24087,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@h10.ContentBox",
+         "self": "@h10.OptionsScroll",
          "InVisibility": "Collapsed"
         }
        },
@@ -20766,7 +24098,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.page",
-         "B": "Manage"
+         "B": "Content"
         }
        },
        {
@@ -20779,7 +24111,7 @@
        {
         "id": "g11",
         "kind": "get",
-        "var": "ManageHB"
+        "var": "ContentBox"
        },
        {
         "id": "v11",
@@ -20787,7 +24119,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@g11.ManageHB",
+         "self": "@g11.ContentBox",
          "InVisibility": "Visible"
         }
        },
@@ -20802,7 +24134,7 @@
        {
         "id": "h11",
         "kind": "get",
-        "var": "ManageHB"
+        "var": "ContentBox"
        },
        {
         "id": "c11",
@@ -20810,7 +24142,62 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@h11.ManageHB",
+         "self": "@h11.ContentBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "eq12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Manage"
+        }
+       },
+       {
+        "id": "b12",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq12.ReturnValue"
+        }
+       },
+       {
+        "id": "g12",
+        "kind": "get",
+        "var": "ManageHB"
+       },
+       {
+        "id": "v12",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g12.ManageHB",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "k12",
+        "kind": "set",
+        "var": "TmpKnown",
+        "in": {
+         "TmpKnown": "true"
+        }
+       },
+       {
+        "id": "h12",
+        "kind": "get",
+        "var": "ManageHB"
+       },
+       {
+        "id": "c12",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@h12.ManageHB",
          "InVisibility": "Collapsed"
         }
        },
@@ -21057,10 +24444,27 @@
        ],
        [
         "k11",
-        "bk"
+        "b12"
        ],
        [
         "c11",
+        "b12"
+       ],
+       [
+        "b12",
+        "v12",
+        "k12"
+       ],
+       [
+        "b12:else",
+        "c12"
+       ],
+       [
+        "k12",
+        "bk"
+       ],
+       [
+        "c12",
         "bk"
        ],
        [
@@ -22337,6 +25741,219 @@
        [
         "entry",
         "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Mod Entries",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ModEntries"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ModEntries"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Mod Entry",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ModEntries"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.VerticalBox",
+        "function": "AddChildToVerticalBox",
+        "in": {
+         "self": "@g.ModEntries",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Mod Fields",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ModFieldList"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ModFieldList"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Mod Field Widget",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ModFieldList"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.VerticalBox",
+        "function": "AddChildToVerticalBox",
+        "in": {
+         "self": "@g.ModFieldList",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Mod Hint",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "ModHint"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gh.ModHint",
+         "InText": "@entry.text"
+        }
+       },
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.text"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "ModHint"
+       },
+       {
+        "id": "hd",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh2.ModHint",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gh3",
+        "kind": "get",
+        "var": "ModHint"
+       },
+       {
+        "id": "sh",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh3.ModHint",
+         "InVisibility": "Visible"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "st",
+        "b",
+        "hd"
+       ],
+       [
+        "b:else",
+        "sh"
        ]
       ]
      }
@@ -32979,6 +36596,86 @@
                   }
                  }
                 ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "class": "/Script/UMG.HorizontalBox",
+          "name": "ModsHB",
+          "props": {
+           "Visibility": "Collapsed"
+          },
+          "slot": {
+           "Size": "(SizeRule=Fill,Value=1)"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.SizeBox",
+            "name": "ModsLeftSize",
+            "props": {
+             "bOverride_WidthOverride": true,
+             "WidthOverride": 570,
+             "bOverride_HeightOverride": true,
+             "HeightOverride": 190
+            },
+            "slot": {
+             "Size": "(SizeRule=Automatic)",
+             "VerticalAlignment": "VAlign_Fill",
+             "Padding": "(Left=0,Top=0,Right=30,Bottom=0)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.ScrollBox",
+              "name": "ModEntryScroll",
+              "props": {
+               "WheelScrollMultiplier": 2.0
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.VerticalBox",
+                "name": "ModEntries"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "class": "/Script/UMG.VerticalBox",
+            "name": "ModsRight",
+            "slot": {
+             "Size": "(SizeRule=Fill,Value=1)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "ModHint",
+              "props": {
+               "Text": "",
+               "Font": "(Size=25)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+               "AutoWrapText": true
+              },
+              "slot": {
+               "Padding": "(Left=0,Top=0,Right=0,Bottom=19)"
+              }
+             },
+             {
+              "class": "/Script/UMG.ScrollBox",
+              "name": "ModFieldScroll",
+              "props": {
+               "WheelScrollMultiplier": 2.0
+              },
+              "slot": {
+               "Size": "(SizeRule=Fill,Value=1)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.VerticalBox",
+                "name": "ModFieldList"
                }
               ]
              }

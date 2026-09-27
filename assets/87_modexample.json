@@ -1,0 +1,1459 @@
+{
+ "assets": [
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "LightOn",
+     "type": "bool",
+     "default": "true"
+    },
+    {
+     "name": "Brightness",
+     "type": "float",
+     "default": "5000.0"
+    },
+    {
+     "name": "Colour",
+     "type": "int",
+     "default": "0"
+    },
+    {
+     "name": "Height",
+     "type": "float",
+     "default": "60.0"
+    },
+    {
+     "name": "CustomColor",
+     "type": "struct:/Script/CoreUObject.LinearColor",
+     "default": "(R=0.3,G=1.0,B=0.4,A=1)"
+    },
+    {
+     "name": "Note",
+     "type": "string"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUIMod_Example/BP_AltUIModExample",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "interfaces": [
+    "/Game/Mod/AltUI/BPI_AltUIMod"
+   ],
+   "variables": [
+    {
+     "name": "Light",
+     "type": "object:/Script/Engine.PointLight"
+    },
+    {
+     "name": "LightOn",
+     "type": "bool",
+     "default": "true"
+    },
+    {
+     "name": "Brightness",
+     "type": "float",
+     "default": "5000.0"
+    },
+    {
+     "name": "Colour",
+     "type": "int",
+     "default": "0"
+    },
+    {
+     "name": "Height",
+     "type": "float",
+     "default": "60.0"
+    },
+    {
+     "name": "CustomColor",
+     "type": "struct:/Script/CoreUObject.LinearColor",
+     "default": "(R=0.3,G=1.0,B=0.4,A=1)"
+    },
+    {
+     "name": "Note",
+     "type": "string"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Get AltUI Value",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gon",
+        "kind": "get",
+        "var": "LightOn"
+       },
+       {
+        "id": "onf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.0",
+         "bPickA": "@gon.LightOn"
+        }
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Colour"
+       },
+       {
+        "id": "cf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@gc.Colour"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Brightness"
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "Height"
+       },
+       {
+        "id": "k0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.Key",
+         "B": "Colour"
+        }
+       },
+       {
+        "id": "s0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@cf.ReturnValue",
+         "B": "0.0",
+         "bPickA": "@k0.ReturnValue"
+        }
+       },
+       {
+        "id": "k1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.Key",
+         "B": "Height"
+        }
+       },
+       {
+        "id": "s1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@gh.Height",
+         "B": "@s0.ReturnValue",
+         "bPickA": "@k1.ReturnValue"
+        }
+       },
+       {
+        "id": "k2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.Key",
+         "B": "Brightness"
+        }
+       },
+       {
+        "id": "s2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@gb.Brightness",
+         "B": "@s1.ReturnValue",
+         "bPickA": "@k2.ReturnValue"
+        }
+       },
+       {
+        "id": "k3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.Key",
+         "B": "Light"
+        }
+       },
+       {
+        "id": "s3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@onf.ReturnValue",
+         "B": "@s2.ReturnValue",
+         "bPickA": "@k3.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "s3.ReturnValue",
+        "return.Value"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Get AltUI Color",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "CustomColor"
+       }
+      ],
+      "links": [
+       [
+        "gc.CustomColor",
+        "return.Color"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Get AltUI Text",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "Note"
+       },
+       {
+        "id": "gon",
+        "kind": "get",
+        "var": "LightOn"
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Brightness"
+       },
+       {
+        "id": "st0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "On",
+         "B": "Off",
+         "bPickA": "@gon.LightOn"
+        }
+       },
+       {
+        "id": "bi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FTrunc",
+        "in": {
+         "A": "@gb.Brightness"
+        }
+       },
+       {
+        "id": "bs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@bi.ReturnValue"
+        }
+       },
+       {
+        "id": "c1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@st0.ReturnValue",
+         "B": ", "
+        }
+       },
+       {
+        "id": "c2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@c1.ReturnValue",
+         "B": "@bs.ReturnValue"
+        }
+       },
+       {
+        "id": "c3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@c2.ReturnValue",
+         "B": " cd"
+        }
+       },
+       {
+        "id": "ne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "IsEmpty",
+        "in": {
+         "InString": "@gn.Note"
+        }
+       },
+       {
+        "id": "c4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@c3.ReturnValue",
+         "B": " - "
+        }
+       },
+       {
+        "id": "c5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@c4.ReturnValue",
+         "B": "@gn.Note"
+        }
+       },
+       {
+        "id": "stat",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@c3.ReturnValue",
+         "B": "@c5.ReturnValue",
+         "bPickA": "@ne.ReturnValue"
+        }
+       },
+       {
+        "id": "ks",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.Key",
+         "B": "Status"
+        }
+       },
+       {
+        "id": "out",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@stat.ReturnValue",
+         "B": "@gn.Note",
+         "bPickA": "@ks.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "out.ReturnValue",
+        "return.Text"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "Light"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gl.Light"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "Light"
+       },
+       {
+        "id": "gpc",
+        "kind": "get",
+        "var": "PointLightComponent",
+        "class": "/Script/Engine.PointLight"
+       },
+       {
+        "id": "gon",
+        "kind": "get",
+        "var": "LightOn"
+       },
+       {
+        "id": "vis",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gpc.PointLightComponent",
+         "bNewVisibility": "@gon.LightOn",
+         "bPropagateToChildren": "false"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Brightness"
+       },
+       {
+        "id": "int",
+        "kind": "call",
+        "class": "/Script/Engine.LightComponent",
+        "function": "SetIntensity",
+        "in": {
+         "self": "@gpc.PointLightComponent",
+         "NewIntensity": "@gb.Brightness"
+        }
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Colour"
+       },
+       {
+        "id": "gcc",
+        "kind": "get",
+        "var": "CustomColor"
+       },
+       {
+        "id": "ci1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@gc.Colour",
+         "B": "1"
+        }
+       },
+       {
+        "id": "sc1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=0.6,G=0.8,B=1.0,A=1)",
+         "B": "(R=1.0,G=0.75,B=0.5,A=1)",
+         "bPickA": "@ci1.ReturnValue"
+        }
+       },
+       {
+        "id": "ci2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@gc.Colour",
+         "B": "2"
+        }
+       },
+       {
+        "id": "sc2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=1.0,G=0.15,B=0.1,A=1)",
+         "B": "@sc1.ReturnValue",
+         "bPickA": "@ci2.ReturnValue"
+        }
+       },
+       {
+        "id": "ci3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@gc.Colour",
+         "B": "3"
+        }
+       },
+       {
+        "id": "sc3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@gcc.CustomColor",
+         "B": "@sc2.ReturnValue",
+         "bPickA": "@ci3.ReturnValue"
+        }
+       },
+       {
+        "id": "lc",
+        "kind": "call",
+        "class": "/Script/Engine.LightComponent",
+        "function": "SetLightColor",
+        "in": {
+         "self": "@gpc.PointLightComponent",
+         "NewLightColor": "@sc3.ReturnValue",
+         "bSRGB": "true"
+        }
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "Height"
+       },
+       {
+        "id": "loc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "100.0",
+         "Y": "0.0",
+         "Z": "@gh.Height"
+        }
+       },
+       {
+        "id": "gl3",
+        "kind": "get",
+        "var": "Light"
+       },
+       {
+        "id": "rl",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_SetActorRelativeLocation",
+        "in": {
+         "self": "@gl3.Light",
+         "NewRelativeLocation": "@loc.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gl2.Light",
+        "gpc.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "vis",
+        "int",
+        "lc",
+        "rl"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Save",
+     "graph": {
+      "nodes": [
+       {
+        "id": "mk",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "CreateSaveGameObject",
+        "in": {
+         "SaveGameClass": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp.SG_ExampleLamp_C"
+        }
+       },
+       {
+        "id": "cmk",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+        "pure": false,
+        "in": {
+         "Object": "@mk.ReturnValue"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "gLightOn",
+        "kind": "get",
+        "var": "LightOn"
+       },
+       {
+        "id": "sLightOn",
+        "kind": "set",
+        "var": "LightOn",
+        "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+        "in": {
+         "self": "@cmk.AsSG_ExampleLamp",
+         "LightOn": "@gLightOn.LightOn"
+        }
+       },
+       {
+        "id": "gBrightness",
+        "kind": "get",
+        "var": "Brightness"
+       },
+       {
+        "id": "sBrightness",
+        "kind": "set",
+        "var": "Brightness",
+        "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+        "in": {
+         "self": "@cmk.AsSG_ExampleLamp",
+         "Brightness": "@gBrightness.Brightness"
+        }
+       },
+       {
+        "id": "gColour",
+        "kind": "get",
+        "var": "Colour"
+       },
+       {
+        "id": "sColour",
+        "kind": "set",
+        "var": "Colour",
+        "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+        "in": {
+         "self": "@cmk.AsSG_ExampleLamp",
+         "Colour": "@gColour.Colour"
+        }
+       },
+       {
+        "id": "gHeight",
+        "kind": "get",
+        "var": "Height"
+       },
+       {
+        "id": "sHeight",
+        "kind": "set",
+        "var": "Height",
+        "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+        "in": {
+         "self": "@cmk.AsSG_ExampleLamp",
+         "Height": "@gHeight.Height"
+        }
+       },
+       {
+        "id": "gCustomColor",
+        "kind": "get",
+        "var": "CustomColor"
+       },
+       {
+        "id": "sCustomColor",
+        "kind": "set",
+        "var": "CustomColor",
+        "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+        "in": {
+         "self": "@cmk.AsSG_ExampleLamp",
+         "CustomColor": "@gCustomColor.CustomColor"
+        }
+       },
+       {
+        "id": "gNote",
+        "kind": "get",
+        "var": "Note"
+       },
+       {
+        "id": "sNote",
+        "kind": "set",
+        "var": "Note",
+        "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+        "in": {
+         "self": "@cmk.AsSG_ExampleLamp",
+         "Note": "@gNote.Note"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "SaveGameToSlot",
+        "in": {
+         "SaveGameObject": "@cmk.AsSG_ExampleLamp",
+         "SlotName": "AltUIMod_Example",
+         "UserIndex": "0"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "mk",
+        "cmk",
+        "sLightOn",
+        "sBrightness",
+        "sColour",
+        "sHeight",
+        "sCustomColor",
+        "sNote",
+        "sv"
+       ]
+      ]
+     }
+    }
+   ],
+   "event_graph": {
+    "nodes": [
+     {
+      "id": "bp0",
+      "kind": "event",
+      "class": "/Script/Engine.Actor",
+      "name": "ReceiveBeginPlay"
+     },
+     {
+      "id": "ex",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "DoesSaveGameExist",
+      "in": {
+       "SlotName": "AltUIMod_Example",
+       "UserIndex": "0"
+      }
+     },
+     {
+      "id": "bex",
+      "kind": "branch",
+      "in": {
+       "Condition": "@ex.ReturnValue"
+      }
+     },
+     {
+      "id": "ld",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "LoadGameFromSlot",
+      "in": {
+       "SlotName": "AltUIMod_Example",
+       "UserIndex": "0"
+      }
+     },
+     {
+      "id": "csg",
+      "kind": "cast",
+      "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+      "pure": false,
+      "in": {
+       "Object": "@ld.ReturnValue"
+      },
+      "miss": "ignore"
+     },
+     {
+      "id": "lgLightOn",
+      "kind": "get",
+      "var": "LightOn",
+      "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp"
+     },
+     {
+      "id": "lsLightOn",
+      "kind": "set",
+      "var": "LightOn",
+      "in": {
+       "LightOn": "@lgLightOn.LightOn"
+      }
+     },
+     {
+      "id": "lgBrightness",
+      "kind": "get",
+      "var": "Brightness",
+      "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp"
+     },
+     {
+      "id": "lsBrightness",
+      "kind": "set",
+      "var": "Brightness",
+      "in": {
+       "Brightness": "@lgBrightness.Brightness"
+      }
+     },
+     {
+      "id": "lgColour",
+      "kind": "get",
+      "var": "Colour",
+      "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp"
+     },
+     {
+      "id": "lsColour",
+      "kind": "set",
+      "var": "Colour",
+      "in": {
+       "Colour": "@lgColour.Colour"
+      }
+     },
+     {
+      "id": "lgHeight",
+      "kind": "get",
+      "var": "Height",
+      "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp"
+     },
+     {
+      "id": "lsHeight",
+      "kind": "set",
+      "var": "Height",
+      "in": {
+       "Height": "@lgHeight.Height"
+      }
+     },
+     {
+      "id": "lgCustomColor",
+      "kind": "get",
+      "var": "CustomColor",
+      "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp"
+     },
+     {
+      "id": "lsCustomColor",
+      "kind": "set",
+      "var": "CustomColor",
+      "in": {
+       "CustomColor": "@lgCustomColor.CustomColor"
+      }
+     },
+     {
+      "id": "lgNote",
+      "kind": "get",
+      "var": "Note",
+      "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp"
+     },
+     {
+      "id": "lsNote",
+      "kind": "set",
+      "var": "Note",
+      "in": {
+       "Note": "@lgNote.Note"
+      }
+     },
+     {
+      "id": "tk",
+      "kind": "event",
+      "class": "/Script/Engine.Actor",
+      "name": "ReceiveTick"
+     },
+     {
+      "id": "gl",
+      "kind": "get",
+      "var": "Light"
+     },
+     {
+      "id": "iv",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "IsValid",
+      "in": {
+       "Object": "@gl.Light"
+      }
+     },
+     {
+      "id": "bl",
+      "kind": "branch",
+      "in": {
+       "Condition": "@iv.ReturnValue"
+      }
+     },
+     {
+      "id": "pc",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "GetPlayerCharacter",
+      "in": {
+       "PlayerIndex": "0"
+      }
+     },
+     {
+      "id": "pv",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "IsValid",
+      "in": {
+       "Object": "@pc.ReturnValue"
+      }
+     },
+     {
+      "id": "bp",
+      "kind": "branch",
+      "in": {
+       "Condition": "@pv.ReturnValue"
+      }
+     },
+     {
+      "id": "tr",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "MakeTransform",
+      "in": {
+       "Location": "(X=0,Y=0,Z=0)",
+       "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+       "Scale": "(X=1,Y=1,Z=1)"
+      }
+     },
+     {
+      "id": "sp",
+      "kind": "spawn",
+      "class": "/Script/Engine.PointLight",
+      "in": {
+       "SpawnTransform": "@tr.ReturnValue"
+      }
+     },
+     {
+      "id": "sl",
+      "kind": "set",
+      "var": "Light",
+      "in": {
+       "Light": "@sp.ReturnValue"
+      }
+     },
+     {
+      "id": "at",
+      "kind": "call",
+      "class": "/Script/Engine.Actor",
+      "function": "K2_AttachToActor",
+      "in": {
+       "self": "@sp.ReturnValue",
+       "ParentActor": "@pc.ReturnValue",
+       "SocketName": "None",
+       "LocationRule": "KeepRelative",
+       "RotationRule": "KeepRelative",
+       "ScaleRule": "KeepRelative",
+       "bWeldSimulatedBodies": "false"
+      }
+     },
+     {
+      "id": "ap",
+      "kind": "call_self",
+      "function": "Apply"
+     },
+     {
+      "id": "oc",
+      "kind": "event",
+      "class": "/Game/Mod/AltUI/BPI_AltUIMod.BPI_AltUIMod_C",
+      "name": "On AltUI Changed"
+     },
+     {
+      "id": "k1",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_NameName",
+      "in": {
+       "A": "@oc.Key",
+       "B": "Light"
+      }
+     },
+     {
+      "id": "b1",
+      "kind": "branch",
+      "in": {
+       "Condition": "@k1.ReturnValue"
+      }
+     },
+     {
+      "id": "gt",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Greater_FloatFloat",
+      "in": {
+       "A": "@oc.Value",
+       "B": "0.5"
+      }
+     },
+     {
+      "id": "s1",
+      "kind": "set",
+      "var": "LightOn",
+      "in": {
+       "LightOn": "@gt.ReturnValue"
+      }
+     },
+     {
+      "id": "k2",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_NameName",
+      "in": {
+       "A": "@oc.Key",
+       "B": "Brightness"
+      }
+     },
+     {
+      "id": "b2",
+      "kind": "branch",
+      "in": {
+       "Condition": "@k2.ReturnValue"
+      }
+     },
+     {
+      "id": "s2",
+      "kind": "set",
+      "var": "Brightness",
+      "in": {
+       "Brightness": "@oc.Value"
+      }
+     },
+     {
+      "id": "k3",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_NameName",
+      "in": {
+       "A": "@oc.Key",
+       "B": "Colour"
+      }
+     },
+     {
+      "id": "b3",
+      "kind": "branch",
+      "in": {
+       "Condition": "@k3.ReturnValue"
+      }
+     },
+     {
+      "id": "rd",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Round",
+      "in": {
+       "A": "@oc.Value"
+      }
+     },
+     {
+      "id": "s3",
+      "kind": "set",
+      "var": "Colour",
+      "in": {
+       "Colour": "@rd.ReturnValue"
+      }
+     },
+     {
+      "id": "k5",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_NameName",
+      "in": {
+       "A": "@oc.Key",
+       "B": "Height"
+      }
+     },
+     {
+      "id": "b5",
+      "kind": "branch",
+      "in": {
+       "Condition": "@k5.ReturnValue"
+      }
+     },
+     {
+      "id": "s5",
+      "kind": "set",
+      "var": "Height",
+      "in": {
+       "Height": "@oc.Value"
+      }
+     },
+     {
+      "id": "k4",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_NameName",
+      "in": {
+       "A": "@oc.Key",
+       "B": "Reset"
+      }
+     },
+     {
+      "id": "b4",
+      "kind": "branch",
+      "in": {
+       "Condition": "@k4.ReturnValue"
+      }
+     },
+     {
+      "id": "rLightOn",
+      "kind": "set",
+      "var": "LightOn",
+      "in": {
+       "LightOn": "true"
+      }
+     },
+     {
+      "id": "rBrightness",
+      "kind": "set",
+      "var": "Brightness",
+      "in": {
+       "Brightness": "5000.0"
+      }
+     },
+     {
+      "id": "rColour",
+      "kind": "set",
+      "var": "Colour",
+      "in": {
+       "Colour": "0"
+      }
+     },
+     {
+      "id": "rHeight",
+      "kind": "set",
+      "var": "Height",
+      "in": {
+       "Height": "60.0"
+      }
+     },
+     {
+      "id": "rCustomColor",
+      "kind": "set",
+      "var": "CustomColor",
+      "in": {
+       "CustomColor": "(R=0.3,G=1.0,B=0.4,A=1)"
+      }
+     },
+     {
+      "id": "rNote",
+      "kind": "set",
+      "var": "Note",
+      "in": {
+       "Note": ""
+      }
+     },
+     {
+      "id": "ap2",
+      "kind": "call_self",
+      "function": "Apply"
+     },
+     {
+      "id": "sv2",
+      "kind": "call_self",
+      "function": "Save"
+     },
+     {
+      "id": "occ",
+      "kind": "event",
+      "class": "/Game/Mod/AltUI/BPI_AltUIMod.BPI_AltUIMod_C",
+      "name": "On AltUI Color Changed"
+     },
+     {
+      "id": "scc",
+      "kind": "set",
+      "var": "CustomColor",
+      "in": {
+       "CustomColor": "@occ.Color"
+      }
+     },
+     {
+      "id": "scu",
+      "kind": "set",
+      "var": "Colour",
+      "in": {
+       "Colour": "3"
+      }
+     },
+     {
+      "id": "ap3",
+      "kind": "call_self",
+      "function": "Apply"
+     },
+     {
+      "id": "sv3",
+      "kind": "call_self",
+      "function": "Save"
+     },
+     {
+      "id": "oct",
+      "kind": "event",
+      "class": "/Game/Mod/AltUI/BPI_AltUIMod.BPI_AltUIMod_C",
+      "name": "On AltUI Text Changed"
+     },
+     {
+      "id": "snt",
+      "kind": "set",
+      "var": "Note",
+      "in": {
+       "Note": "@oct.Text"
+      }
+     },
+     {
+      "id": "sv4",
+      "kind": "call_self",
+      "function": "Save"
+     }
+    ],
+    "links": [
+     [
+      "csg.AsSG_ExampleLamp",
+      "lgLightOn.self"
+     ],
+     [
+      "csg.AsSG_ExampleLamp",
+      "lgBrightness.self"
+     ],
+     [
+      "csg.AsSG_ExampleLamp",
+      "lgColour.self"
+     ],
+     [
+      "csg.AsSG_ExampleLamp",
+      "lgHeight.self"
+     ],
+     [
+      "csg.AsSG_ExampleLamp",
+      "lgCustomColor.self"
+     ],
+     [
+      "csg.AsSG_ExampleLamp",
+      "lgNote.self"
+     ]
+    ],
+    "exec": [
+     [
+      "bp0",
+      "ex",
+      "bex",
+      "ld",
+      "csg",
+      "lsLightOn",
+      "lsBrightness",
+      "lsColour",
+      "lsHeight",
+      "lsCustomColor",
+      "lsNote"
+     ],
+     [
+      "tk",
+      "bl"
+     ],
+     [
+      "bl:else",
+      "bp",
+      "sp",
+      "sl",
+      "at",
+      "ap"
+     ],
+     [
+      "oc",
+      "b1",
+      "s1",
+      "ap2"
+     ],
+     [
+      "b1:else",
+      "b2",
+      "s2",
+      "ap2"
+     ],
+     [
+      "b2:else",
+      "b3",
+      "s3",
+      "ap2"
+     ],
+     [
+      "b3:else",
+      "b5",
+      "s5",
+      "ap2"
+     ],
+     [
+      "b5:else",
+      "b4",
+      "rLightOn",
+      "rBrightness",
+      "rColour",
+      "rHeight",
+      "rCustomColor",
+      "rNote",
+      "ap2"
+     ],
+     [
+      "ap2",
+      "sv2"
+     ],
+     [
+      "occ",
+      "scc",
+      "scu",
+      "ap3",
+      "sv3"
+     ],
+     [
+      "oct",
+      "snt",
+      "sv4"
+     ]
+    ]
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/AltUIMod_Example/AltUI_Entries",
+   "row_struct": "/Game/Mod/AltUI/S_AltUIModEntry",
+   "composite": false,
+   "rows": {
+    "Lamp": {
+     "Caption": "Example lamp",
+     "Actor": "/Game/Mod/AltUIMod_Example/BP_AltUIModExample.BP_AltUIModExample_C",
+     "Order": 0
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/AltUIMod_Example/AltUI_Fields",
+   "row_struct": "/Game/Mod/AltUI/S_AltUIModField",
+   "composite": false,
+   "rows": {
+    "Header": {
+     "Entry": "Lamp",
+     "Key": "Header",
+     "Type": "Header",
+     "Label": "A lamp in front of Jodi",
+     "Order": 0
+    },
+    "Status": {
+     "Entry": "Lamp",
+     "Key": "Status",
+     "Type": "Info",
+     "Label": "Now",
+     "Order": 1
+    },
+    "Light": {
+     "Entry": "Lamp",
+     "Key": "Light",
+     "Type": "Toggle",
+     "Label": "Light",
+     "Order": 2
+    },
+    "Brightness": {
+     "Entry": "Lamp",
+     "Key": "Brightness",
+     "Type": "Slider",
+     "Label": "Brightness",
+     "Min": 0.0,
+     "Max": 20000.0,
+     "Step": 500.0,
+     "Order": 3
+    },
+    "Height": {
+     "Entry": "Lamp",
+     "Key": "Height",
+     "Type": "Number",
+     "Label": "Height (cm)",
+     "Min": -100.0,
+     "Max": 200.0,
+     "Step": 10.0,
+     "Order": 4
+    },
+    "Colour": {
+     "Entry": "Lamp",
+     "Key": "Colour",
+     "Type": "Choice",
+     "Label": "Colour",
+     "Options": [
+      "Warm",
+      "Cold",
+      "Red",
+      "Custom"
+     ],
+     "Order": 5
+    },
+    "CustomColor": {
+     "Entry": "Lamp",
+     "Key": "CustomColor",
+     "Type": "Color",
+     "Label": "Custom colour",
+     "Order": 6
+    },
+    "Note": {
+     "Entry": "Lamp",
+     "Key": "Note",
+     "Type": "Text",
+     "Label": "Note",
+     "Order": 7
+    },
+    "Reset": {
+     "Entry": "Lamp",
+     "Key": "Reset",
+     "Type": "Button",
+     "Label": "Back to the defaults",
+     "Order": 8
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/AltUIMod_Example/TKA_BlueprintLoader",
+   "row_struct": "/Game/Mod/TKA_BlueprintLoader/BlueprintToLoad_Struct",
+   "composite": false,
+   "rows": {
+    "AltUIMod_Example": {
+     "Actor Class": "/Game/Mod/AltUIMod_Example/BP_AltUIModExample.BP_AltUIModExample_C"
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/AltUIMod_Example/TKA_Mod_Table",
+   "row_struct": "/Game/Project/Tables/DLC_Struct",
+   "composite": false,
+   "rows": {
+    "AltUIMod_Example": {
+     "Caption": "AltUI Mods tab example",
+     "Desc": "A lamp in front of Jodi, set up from AltUI's Mods tab",
+     "Version": 1.0,
+     "Tables": []
+    }
+   }
+  }
+ ]
+}

@@ -164,9 +164,14 @@ def fn(name, inputs=(), outputs=(), graph=None, pure=False, override=False):
     return d
 
 
-def blueprint(path, parent=None, mode="create", variables=(), functions=(), event_graph=None, widget_tree=None, defaults=None):
+def blueprint(path, parent=None, mode="create", variables=(), functions=(), event_graph=None, widget_tree=None, defaults=None,
+              interfaces=(), blueprint_type=None):
+    """blueprint_type="interface" makes a Blueprint interface (functions = signatures only); interfaces = paths of
+    interfaces this blueprint implements (their functions get bodies through `functions`, their events in the event graph)."""
     d = {"type": "blueprint", "path": path, "mode": mode}
     if parent: d["parent"] = parent
+    if blueprint_type: d["blueprint_type"] = blueprint_type
+    if interfaces: d["interfaces"] = list(interfaces)
     if variables: d["variables"] = list(variables)
     if functions: d["functions"] = list(functions)
     if event_graph is not None: d["event_graph"] = event_graph.json() if isinstance(event_graph, G) else event_graph

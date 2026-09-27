@@ -83,6 +83,12 @@ python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
 
 分步教程，含 Windows 和 Linux 示例（英文）：[WEAPON_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/WEAPON_MODS.md)
 
+## 其他模组的设置
+
+在游戏中需要操作的模组（例如一盏灯）可以把设置放进 AltUI，而不必占用自己的按键。届时会出现一个 **Mods** 标签页，以 AltUI 的风格列出这些模组，并提供开关、滑块、数字、选项、颜色、文本框和按钮。只有安装了这类模组时，该标签页才会出现。
+
+面向模组作者（英文）：[MOD_UI.md](https://github.com/Zyiakk/AltUI/blob/main/MOD_UI.md) 说明了模组所需的两张数据表和接口；可安装、可照着重建的完整示例模组位于 [examples/AltUIMod_Example](https://github.com/Zyiakk/AltUI/tree/main/examples/AltUIMod_Example)。
+
 ## 兼容性
 
 面向游戏版本 0.6.x 制作。兼容 Nexus 和创意工坊上的服装、发型、妆容和地图模组——它们会直接出现在列表里。
