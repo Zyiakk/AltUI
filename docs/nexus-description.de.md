@@ -47,6 +47,7 @@ Deinstallation: die kopierten Dateien löschen. Die eigenen Speicherdateien des 
 * **Körperform** – Regler für Brust / Taille, ein Umschalter für installierte Body-Mods und – bei konvertierten Bodies – Bone-Regler: Skalierung, Busen, Taille extra, Po/Hüfte, Oberschenkel, Waden, Arme, Hände, Füße, je Body gespeichert.
 * **Waffen** – je Waffe ein Modell und ein Skin, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel.
 * **Posen** – jede Aktionsanimation des Spiels und der Pose-Mods, sortiert nach stehend, sitzend und liegend.
+* **Mods** – die Einstellungen anderer Mods, die sich dort eintragen (nur sichtbar, wenn so ein Mod installiert ist).
 * **Optionen** – Taste für das Panel, Sprache, Scroll-Geschwindigkeit, Kachelgröße, Länge der Gruppennamen und Höhe der Gruppenzeile, freier Bildschirmanteil für Jodi, Kamera-FOV / -Abstand / -Schwenk, Farbschema und Deckkraft, „Unterwäsche darf ausgezogen werden“, „Nicht im Besitz“ gesperrt / ausgegraut / wie im Besitz, Slot-Konflikte des Spiels (BH vs. Shirt …) freigeben, gleichnamige Gruppen / Mods zusammenlegen, Tooltip-Optionen.
 * **Verwaltung** – eigene Anzeigenamen für Mods, Gruppen, Teile, Frisuren, Haut und Makeup – überall im Panel und in der Suche; „Umbenennen…“ im Kontextmenü jeder Kachel; als JSON exportier-/importierbar mit `altui_names.pyz`.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips zeigen, aus welchem Mod ein Teil stammt.
@@ -64,10 +65,10 @@ Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch (automatis
 Body-Replacer-Paks überschreiben alle dieselbe Spieldatei, deshalb kann nur einer aktiv sein. **bodypak.pyz** (im Archiv; Python 3.8+, keine Pakete) macht aus einem Replacer ein normales Mod-Pak, das das Mesh unter einem eigenen Pfad behält; beliebig viele konvertierte Bodys können nebeneinander installiert sein und erscheinen als Chips im Reiter Körperform.
 
 ```
-python bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title SomeBody
+python bodypak.pyz SomeBodyReplacer.pak --name BodyAltUI_Some --title SomeBody
 ```
 
-Das erzeugte *Body_Some.pak* nach *TheKillingAntidote\Mods\* kopieren und den ursprünglichen Replacer entfernen (oder in *~mods* lassen – er wird dann zum Chip „Standard“).
+Das erzeugte *BodyAltUI_Some.pak* nach *TheKillingAntidote\Mods\* kopieren und den ursprünglichen Replacer entfernen (oder in *~mods* lassen – er wird dann zum Chip „Standard“).
 
 Schritt-für-Schritt-Anleitung mit je einem Beispiel für Windows und Linux (englisch): [BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
 
@@ -85,7 +86,7 @@ Schritt-für-Schritt-Anleitung mit je einem Beispiel für Windows und Linux (eng
 
 ## Einstellungen anderer Mods
 
-Mods, die man im Spiel bedient – etwa eine Lampe – können ihre Einstellungen in AltUI unterbringen, statt eigene Tasten zu belegen. Ein Reiter **Mods** listet sie dann auf, mit Schaltern, Schiebereglern, Zahlen, Auswahlen, Farben, Textfeldern und Buttons im Stil von AltUI. Der Reiter erscheint nur, wenn so ein Mod installiert ist.
+Mods, die man im Spiel bedient – etwa eine Lampe – können ihre Einstellungen in AltUI unterbringen, statt eigene Tasten zu belegen. Ein Reiter **Mods** listet sie dann auf, mit Schaltern, Schiebereglern, Zahlen, Auswahlen, Farben, Textfeldern, Info-Zeilen und Buttons im Stil von AltUI. Der Reiter erscheint nur, wenn so ein Mod installiert ist.
 
 Für Mod-Autoren (englisch): [MOD_UI.md](https://github.com/Zyiakk/AltUI/blob/main/MOD_UI.md) beschreibt die zwei Datentabellen und das Interface, die ein Mod braucht; ein fertiger Beispiel-Mod zum Installieren und Nachbauen liegt in [examples/AltUIMod_Example](https://github.com/Zyiakk/AltUI/tree/main/examples/AltUIMod_Example).
 

@@ -47,6 +47,7 @@ hook 会替换游戏自身的一个蓝图（玩家相机管理器）并从那里
 * **身材** – 胸部 / 腰滑块、已安装身体模组的切换器，以及（针对已转换的身体）骨骼缩放滑块：整体缩放、胸围、腰部加强、臀部、大腿、小腿、手臂、手、脚，按身体分别保存。
 * **武器** —— 每把武器各选一个模型和一个皮肤，来自所有武器模组并列显示，每格带渲染图。
 * **姿势** —— 游戏与姿势模组的所有动作动画，按站、坐、躺归类。
+* **Mods** —— 在此登记的其他模组的设置（仅在安装了这类模组时显示）。
 * **选项** – 面板按键、语言、滚动速度、图块大小、分组名称长度与分组行高度、为 Jodi 留出的屏幕空间、相机视野 / 距离 / 跟随、配色与不透明度、「允许脱下内衣」、「未拥有的物品」锁定 / 变灰 / 视为已拥有、解除游戏的部位冲突（文胸与衬衫等）、合并同名分组 / 模组、提示选项。
 * **管理** – 为模组、分组、服装、发型、肌肤和妆容设置自己的显示名称——在面板各处和搜索中生效；每个图块的右键菜单有「重命名…」；可用 `altui_names.pyz` 导出 / 导入为 JSON。
 * 撤销 / 重做（5 步），提示框显示物品来自哪个模组。
@@ -64,10 +65,10 @@ hook 会替换游戏自身的一个蓝图（玩家相机管理器）并从那里
 身体替换 pak 都会覆盖同一个游戏文件，所以同时只能有一个生效。**bodypak.pyz**（在压缩包里；Python 3.8+，无需额外包）可以把替换版变成普通模组 pak，把网格保存在它自己的路径下；转换后的身体可以并存任意多个，并作为芯片显示在「身材」标签页里。
 
 ```
-python bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title SomeBody
+python bodypak.pyz SomeBodyReplacer.pak --name BodyAltUI_Some --title SomeBody
 ```
 
-把生成的 *Body_Some.pak* 复制到 *TheKillingAntidote\Mods\*，并移除原来的替换版（或留在 *~mods* 里——它就会变成「标准」芯片）。
+把生成的 *BodyAltUI_Some.pak* 复制到 *TheKillingAntidote\Mods\*，并移除原来的替换版（或留在 *~mods* 里——它就会变成「标准」芯片）。
 
 分步教程，含 Windows 和 Linux 示例（英文）：[BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
 
@@ -85,7 +86,7 @@ python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
 
 ## 其他模组的设置
 
-在游戏中需要操作的模组（例如一盏灯）可以把设置放进 AltUI，而不必占用自己的按键。届时会出现一个 **Mods** 标签页，以 AltUI 的风格列出这些模组，并提供开关、滑块、数字、选项、颜色、文本框和按钮。只有安装了这类模组时，该标签页才会出现。
+在游戏中需要操作的模组（例如一盏灯）可以把设置放进 AltUI，而不必占用自己的按键。届时会出现一个 **Mods** 标签页，以 AltUI 的风格列出这些模组，并提供开关、滑块、数字、选项、颜色、文本框、信息行和按钮。只有安装了这类模组时，该标签页才会出现。
 
 面向模组作者（英文）：[MOD_UI.md](https://github.com/Zyiakk/AltUI/blob/main/MOD_UI.md) 说明了模组所需的两张数据表和接口；可安装、可照着重建的完整示例模组位于 [examples/AltUIMod_Example](https://github.com/Zyiakk/AltUI/tree/main/examples/AltUIMod_Example)。
 
