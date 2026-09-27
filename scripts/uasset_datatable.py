@@ -40,6 +40,10 @@ def float_prop(pkg, tag, v):
     return _tag(pkg, tag, "FloatProperty", 4) + struct.pack("<f", v)
 
 
+def name_prop(pkg, tag, value):
+    return _tag(pkg, tag, "NameProperty", 8) + _fn(pkg, value)
+
+
 def vector_prop(pkg, tag, xyz):
     """StructProperty Vector: tag + struct name + zero struct GUID, then 3 floats (native serialisation)."""
     v = struct.pack("<fff", *xyz)

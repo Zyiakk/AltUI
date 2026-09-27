@@ -80,7 +80,7 @@ def main():
     # Look = hairstyles + skins + makeup + eyes (vanilla only in the stubs -> empty with only-mods); sub items (ManageSub): Hair / Skin / makeup type; Clothes: slot
     expect("look only mods", rows(mgr, "Look"), [])
     lk = rows(mgr, "Look", only_mods=False)
-    expect("look merges hair + skin + makeup + eye tables", lk, ["hair:Hair", "hair:TestHair", "skin:Skin_Default", "makeup:Eyebrow_01", "makeup:Lips_01", "makeup:Lips_02", "makeup:Eye_1"])
+    expect("look merges hair + skin + makeup + eye tables", lk, ["hair:Hair", "hair:TestHair", "skin:Skin_Default", "makeup:Eyebrow_01", "makeup:Lips_01", "makeup:Lips_02", "makeup:Eye_1", "makeup:Eye_2", "makeup:Eyelashes_1"])
     mgr.set_editor_property("ManageSub", "Hair"); expect("look sub hair", rows(mgr, "Look", only_mods=False), ["hair:Hair", "hair:TestHair"]); mgr.set_editor_property("ManageSub", "None")
     expect("look search", rows(mgr, "Look", "eyebrow_01", False), ["makeup:Eyebrow_01"])
     mgr.set_editor_property("ManageSub", "Lips"); expect("look sub type", rows(mgr, "Look", only_mods=False), ["makeup:Lips_01", "makeup:Lips_02"])
@@ -89,11 +89,11 @@ def main():
     mgr.set_editor_property("ManageSub", "None"); mgr.set_editor_property("OnlyModsNames", False)
     def sub_counts(cat, search="", filtered=False):
         mgr.call_method("Test Manage Sub Counts", args=(cat, search, filtered)); return {str(k): int(v) for k, v in mgr.get_editor_property("ManageSubFiltered" if filtered else "ManageSubCounts").items()}
-    expect("look sub counts", sub_counts("Look"), {"Hair": 2, "Skin": 1, "Eyebrow": 1, "Lips": 2, "Eye": 1})
+    expect("look sub counts", sub_counts("Look"), {"Hair": 2, "Skin": 1, "Eyebrow": 1, "Lips": 2, "Eye": 2, "Eyelashes": 1})
     expect("clothes sub counts (neck)", sub_counts("Clothes").get("Neck"), 3)
     expect("clothes sub hits of a search", sub_counts("Clothes", "mina", True), {"Neck": 1, "Necklace": 1})
     mgr.set_editor_property("ManageSub", "Lips"); mgr.set_editor_property("ManageCat", "Look")
-    expect("category count ignores the sub item", (lambda: (mgr.call_method("Test Manage Count", args=("Look",)), int(mgr.get_editor_property("TmpKey")))[1])(), 7)
+    expect("category count ignores the sub item", (lambda: (mgr.call_method("Test Manage Count", args=("Look",)), int(mgr.get_editor_property("TmpKey")))[1])(), 9)
     mgr.call_method("Test Select Manage Cat", args=("Sub:Look:Eyebrow",)); expect("sub tab selects", (str(mgr.get_editor_property("ManageCat")), str(mgr.get_editor_property("ManageSub"))), ("Look", "Eyebrow"))
     mgr.call_method("Test Select Manage Cat", args=("Sub:Clothes:All",)); expect("sub all", (str(mgr.get_editor_property("ManageCat")), str(mgr.get_editor_property("ManageSub"))), ("Clothes", "None"))
     mgr.set_editor_property("ManageSub", "Lips"); mgr.call_method("Test Select Manage Cat", args=("Clothes",)); expect("category resets the sub item", (str(mgr.get_editor_property("ManageCat")), str(mgr.get_editor_property("ManageSub"))), ("Clothes", "None"))

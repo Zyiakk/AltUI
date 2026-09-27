@@ -9,7 +9,7 @@ This page covers what makes a pak a mod, which tables it can bring, the two fold
 Three things have to line up:
 
 * The pak's content lives under `/Game/Mod/<ModName>/`.
-* The **folder name equals the pak name**: `Body_Curvy.pak` carries `/Game/Mod/Body_Curvy/…`.
+* The **folder name equals the pak name**: `BodyAltUI_Curvy.pak` carries `/Game/Mod/BodyAltUI_Curvy/…`.
 * Inside it sits `TKA_Mod_Table`, a data table whose row structure is `/Game/Project/Tables/DLC_Struct`. Its row is the mod's entry, so it has one.
 
 That row has four fields:
@@ -75,7 +75,7 @@ The way out is to stop replacing and start adding: put the asset under your own 
 
 The result is a mod that can be installed beside any number of others. Something still has to load the asset at runtime – for bodies that is AltUI, see [what AltUI reads from a mod](altui-integration.md) – but the collision is gone.
 
-For bodies there is a naming rule that comes from that side: the mod name has to match `Body_[A-Za-z0-9_]+`, case-sensitive.
+For bodies there is a naming rule that comes from that side: the mod name has to match `BodyAltUI_[A-Za-z0-9_]+`, case-sensitive.
 
 ## Where it goes wrong
 

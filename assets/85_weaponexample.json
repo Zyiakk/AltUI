@@ -1,0 +1,42 @@
+{
+ "assets": [
+  {
+   "type": "texture",
+   "path": "/Game/Mod/WeaponAltUI_Example/T_ExampleSkin",
+   "file": "tex/example_skin.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "SRGB": true,
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/WeaponAltUI_Example/Mod_WeaponSkin",
+   "row_struct": "/Game/Mod/AltUI/S_WeaponSkin",
+   "composite": false,
+   "rows": {
+    "WeaponAltUI_Example_Checker": {
+     "Weapon": "UMP45",
+     "Caption": "Example checker",
+     "MainTex": "/Game/Mod/WeaponAltUI_Example/T_ExampleSkin.T_ExampleSkin"
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/WeaponAltUI_Example/TKA_Mod_Table",
+   "row_struct": "/Game/Project/Tables/DLC_Struct",
+   "composite": false,
+   "rows": {
+    "WeaponAltUI_Example": {
+     "Caption": "AltUI weapon example",
+     "Desc": "A checker skin for the UMP45, built the way the guide describes",
+     "Version": 1.0,
+     "Tables": []
+    }
+   }
+  }
+ ]
+}

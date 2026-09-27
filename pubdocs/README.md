@@ -10,9 +10,9 @@ Everything described here can be done with a text editor, Python 3 and the game'
 
 **[How the game finds mods](mods-and-tables.md)** – the mod table every pak needs, the tables a mod can bring, the two folders paks live in, `_P` overrides, and why two replacers for the same asset can never coexist.
 
-**[Running your own code in the game](running-your-own-code.md)** – how a mod gets logic running at all: replacing a practically empty game class with your own, spawning your actor from it, and keeping both paks independent of each other.
+**[Running your own code in the game](running-your-own-code.md)** – how a mod gets logic running at all: the table that lets a loader mod start your actor, and, underneath it, replacing a practically empty game class with your own, spawning your actor from it, and moving the camera without owning any class.
 
-**[Making a mod that AltUI reads well](altui-integration.md)** – what AltUI takes from your tables, which field becomes which part of the panel, and what a body mod needs. Relevant if your mod ships clothes, hairstyles, skins, make-up or a body.
+**[Making a mod that AltUI reads well](altui-integration.md)** – what AltUI takes from your tables, which field becomes which part of the panel, and what a body or a weapon mod needs. Relevant if your mod ships clothes, hairstyles, skins, make-up, a body or a weapon.
 
 **[Asset pitfalls](asset-pitfalls.md)** – mistakes that pass every test in the editor and crash the game later. Right now: cloth physics meshes weighted to bones the rendered mesh does not use – one cause of the fatal error players run into while putting clothes on, and an easy one to avoid on export.
 
@@ -24,4 +24,4 @@ Everything described here can be done with a text editor, Python 3 and the game'
 
 ## Elsewhere
 
-Two guides live outside this folder: [installing body mods](../BODY_MODS.md) for players, and [the editor assets](../uassets/README.md) for building a body mod for AltUI in the Unreal Editor.
+Three guides live outside this folder: [installing body mods](../BODY_MODS.md) and [installing weapon mods](../WEAPON_MODS.md) for players, and [the editor assets](../uassets/README.md) for building a body or a weapon mod for AltUI in the Unreal Editor.

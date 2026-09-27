@@ -10,6 +10,10 @@ import hashlib
 ABP_PATH = "/Game/Mod/AltUI/ABP_BodyScale"; ABP_CLASS = "ABP_BodyScale_C"
 STRUCT_PATH = "/Game/Mod/AltUI/S_BodyScale"
 TABLE_NAME = "Body_Scale"; ROW_NAME = "Default"
+# The prefix says out loud that the pak is built for AltUI; Body_ is what releases up to 1.4.0 wrote and stays
+# readable, so bodies converted with those keep working and their saved selection survives.
+MOD_PREFIX = "BodyAltUI_"                   # what the converter writes
+MOD_PREFIXES = ("BodyAltUI_", "Body_")      # what the manager's scan accepts
 
 # (variable, bones, ModifyBone ScaleMode) - Additive everywhere, see above
 GROUPS = [
@@ -29,6 +33,7 @@ GROUPS = [
 # thicker only, hands grow in every direction, feet longer + wider (foot: y = length, z = width); the waist follows the direction of the
 # game's Female_Morph_Waist (Morph_Waist scale (-0.1, -0.4, 0) per unit -> x:y = 1:4, z untouched)
 AXES = {v: (0, 1, 1) for v, _, _ in GROUPS}; AXES["Hands"] = (1, 1, 1); AXES["Waist"] = (0.25, 1, 0)
+AXES["Breasts"] = (0.571, 1, 1); AXES["GlutesHips"] = (1, 1, 1)
 BONE_GROUP = {b: v for v, bs, _ in GROUPS for b in bs}
 # nearest scaled ancestor of each group's bones (skeleton: foot < calf < thigh, calf_twist < calf, thigh_twist < thigh, hand < lowerarm < upperarm)
 PARENT_GROUP = {"LowerThighs": "Thighs", "UpperCalfs": "Thighs", "LowerCalfs": "UpperCalfs", "Feet": "UpperCalfs", "Lowerarms": "Upperarms", "Hands": "Lowerarms"}

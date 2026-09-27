@@ -129,6 +129,19 @@
     "SRGB": true,
     "Filter": "TF_Bilinear"
    }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_Pose",
+   "file": "tex/pose.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
   }
  ]
 }

@@ -10,17 +10,31 @@
 
 ## 安装
 
-压缩包里有两个 pak 文件，要放进两个不同的文件夹（路径相对于游戏安装目录，例如 *Steam\steamapps\common\TheKillingAntidote\*）：
+**AltUI.pak** 就是模组本体，另外还需要一个文件来启动它。有两种做法——任选其一，两个一起装也可以。路径相对于游戏安装目录，例如 *Steam\steamapps\common\TheKillingAntidote\*；路径里游戏文件夹名出现两次，这是正常的。
 
-1. **AltUI.pak** → *TheKillingAntidote\Mods\*
-2. **AltUI_Hook_P.pak** → *TheKillingAntidote\Content\Paks\~mods\* ——如果 **~mods** 文件夹不存在就新建一个（名字以波浪号开头）。路径里游戏文件夹名出现两次——这是正常的。
+**1. 配合 Blueprint Loader（AltUI 不替换游戏的任何文件）**
+
+1. 从 [Blueprint Loader](https://www.nexusmods.com/thekillingantidote/mods/994) 下载 **TKA_BlueprintLoader.pak**，放进 *TheKillingAntidote\Content\Paks\~mods\* ——如果 **~mods** 文件夹不存在就新建一个（名字以波浪号开头）。
+2. 本页压缩包里的 **AltUI.pak** → *TheKillingAntidote\Mods\*
 3. 启动游戏，在关卡中按 B。
 
-两个文件缺一不可。hook 需要覆盖游戏自身的一个蓝图（玩家相机管理器），只有放在 *~mods* 里才能生效；没有它，**按 B 没有任何反应**。hook 会与任何替换 *TKA_PlayerCameraManager* 的模组冲突（目前未发现）。
+AltUI.pak 自带一张供加载器读取的数据表，加载器据此启动面板。凡是带这种表的模组，这个加载器都能启动——所以如果你用了不止一个这类模组，这就是首选方式。
 
-**「按 B 没反应」** → hook 文件缺失或放错了文件夹。它必须位于 *Content\Paks\~mods*，而不是 *Mods*。
+**从旧版 AltUI 升级时：如果 ~mods 里还放着 AltUI_Hook_P.pak，请删除它。hook 会独占相机管理器类，而 1.5.0 之前的 hook 不会启动 Loader——面板虽能打开，视角却不会让到一边，为 Loader 编写的模组也不会启动。**
 
-卸载：删除这两个文件。模组自己的存档（*Saved\SaveGames\AltUI.sav*、*AltUI_Looks.sav* 以及 *Saved\SaveGames\AltUI\* 里的造型照片）也可以删除；其他内容一概不动——服装、搭配、妆容和发型都是通过游戏本身的存档写入的。
+**2. 配合 hook pak（不用再装第二个模组）**
+
+1. **AltUI.pak** → *TheKillingAntidote\Mods\*
+2. **AltUI_Hook_P.pak** → *TheKillingAntidote\Content\Paks\~mods\* ——文件夹规则同上。
+3. 启动游戏，在关卡中按 B。
+
+hook 会替换游戏自身的一个蓝图（玩家相机管理器）并从那里启动面板，只有放在 *~mods* 里才能生效。任何替换同一蓝图的模组都会与它冲突——Blueprint Loader 就是其中之一，而这一对恰恰是例外：两者都装时，hook 会拿到该类并自行启动加载器，依赖加载器的模组照常运行。
+
+**「按 B 没反应」** → 没有任何东西启动面板：要么缺第二个文件，要么它被放进了 *Mods* 而不是 *Content\Paks\~mods*。
+
+面板打开时旁边的运镜不再依赖 hook——它会挂到关卡里现有的相机管理器上，包括游戏自己的那个。
+
+卸载：删除你复制过去的文件。模组自己的存档（*Saved\SaveGames\AltUI.sav*、*AltUI_Looks.sav*、*AltUI_Names.sav*、*Saved\SaveGames\AltUI\* 里的造型照片以及 *Saved\SaveGames\WeaponIcons\* 里的武器图片）也可以删除；其他内容一概不动——服装、搭配、妆容和发型都是通过游戏本身的存档写入的。
 
 ## 功能
 
@@ -35,7 +49,7 @@
 * **管理** – 为模组、分组、服装、发型、肌肤和妆容设置自己的显示名称——在面板各处和搜索中生效；每个图块的右键菜单有「重命名…」；可用 `altui_names.pyz` 导出 / 导入为 JSON。
 * 撤销 / 重做（5 步），提示框显示物品来自哪个模组。
 
-语言：英语、德语、中文、俄语、西班牙语（自动识别，可在选项中切换）。
+语言：英语、德语、中文、俄语、西班牙语、波兰语（自动识别，可在选项中切换）。
 
 ## 操作
 
@@ -61,9 +75,27 @@ python bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title SomeBody
 
 ## 更新
 
-新版本就是一个包含两个文件的新压缩包；直接覆盖旧文件即可。hook 文件很少变动——它只负责启动面板和移动相机，其余一切都在 AltUI.pak 里。每条更新日志都会注明 hook 是否有变化；如果写着「unchanged」，你现有的 hook 可以保留。只有更新日志明确说明、或者游戏更新替换了玩家相机管理器时，才需要新的 hook。
+新版本就是一个新压缩包；把 AltUI.pak 覆盖到旧文件上即可。Blueprint Loader 本身不需要你做什么——它是独立的模组，在它自己的页面上更新。但旧的 AltUI_Hook_P.pak 不能继续留在 ~mods 里。占用相机管理器类的正是这个文件，而 1.5.0 之前的版本不会启动 Loader——那样面板虽能打开，视角却不会让到一边，为 Loader 编写的模组也都不会启动。请删除它，或换成最新的那个。用 hook pak 的话：它很少变动，因为它只负责启动面板，其余一切都在 AltUI.pak 里。每条更新日志都会注明 hook 是否有变化；如果写着「unchanged」，你现有的 hook 可以保留。只有更新日志明确说明、或者游戏更新替换了玩家相机管理器时，才需要新的 hook。
 
 不包含任何游戏资源；pak 里的所有内容都是生成的。
+
+## 各种组合的结果
+
+AltUI.pak 是模组本体，还需要另一个文件来启动它。结果如下：
+
+* **只有 AltUI.pak** – 无人启动面板 —— 按 B 没有反应。
+* **AltUI.pak + Blueprint Loader** – 加载器读取 AltUI 的表并启动面板。AltUI 本身不替换游戏的任何内容；加载器会替换游戏的摄像机管理器类，这正是它的工作方式。
+* **AltUI.pak + AltUI_Hook_P.pak** – hook 替换游戏的摄像机管理器并启动面板。
+* **AltUI.pak + 两者都装** – 可以，且不会丢失功能。两者替换同一个游戏类，因此只有一个 pak 胜出 —— 无论是哪个，AltUI 都会启动：要么通过加载器的表，要么通过 hook，而 hook 还会顺带启动加载器本身，让为它制作的模组照常运行。
+* **只装 hook 或加载器而没有 AltUI.pak** – 什么也不会发生 —— 缺了模组本身。
+
+## 它做不到的事
+
+三个值得了解的限制：
+
+* **彩妆是色调叠加，而非重新上色。** 颜色与现有图案相乘：淡色或中性图案几乎完全吸收，深色图案只能变暗或偏移。白色意为“不变”，而不是白色彩妆。
+* **颜色在游戏中生效，主菜单中不生效。** AltUI 在关卡中运行并把颜色加到乔迪身上。主菜单里她仍是游戏的原始颜色。
+* **转换后的身体可能从紧身衣物下透出。** 游戏靠身体网格上的 morph target 把这些部位压平；若网格本身没有，就无从压起。这是身体模组本身的问题，不是转换：转换器会保留原文件有的部分，原文件没有的，谁也无法补上。
 
 ## 源码与问题反馈
 

@@ -3,8 +3,8 @@ import unreal
 from edtest_lib import *
 M = "/Game/Mod/AltUI"
 
-def filtered(mgr, slot, group, search, only_owned, only_fav, only_vanilla=False):
-    mgr.call_method("Test Filter", args=(slot, group, search, only_owned, only_fav, only_vanilla))
+def filtered(mgr, slot, group, search, only_owned, only_fav, only_vanilla=False, only_worn=False):
+    mgr.call_method("Test Filter", args=(slot, group, search, only_owned, only_fav, only_vanilla, only_worn))
     return [str(n) for n in mgr.get_editor_property("TmpNames")]
 
 def main():
@@ -20,19 +20,30 @@ def main():
     expect("only owned", filtered(mgr, "Neck", "None", "", True, False), ["Alpha_Neck", "Zeta_Neck"])
     expect("only fav", filtered(mgr, "Neck", "None", "", False, True), ["Zeta_Neck"])
     expect("combined", filtered(mgr, "Neck", "Kpop", "", True, False), ["Alpha_Neck"])
+    # "only worn": Is Worn reads the Worn list (Refresh State fills it from the player in the game)
+    mgr.set_editor_property("Worn", ["Casual_Mina_Neck"])
+    expect("only worn", filtered(mgr, "Neck", "None", "", False, False, False, True), ["Casual_Mina_Neck"])
+    expect("only worn + owned", filtered(mgr, "Neck", "None", "", True, False, False, True), [])
+    expect("only worn off", filtered(mgr, "Neck", "None", "", False, False, False, False), ["Alpha_Neck", "Casual_Mina_Neck", "Zeta_Neck"])
+    mgr.set_editor_property("Worn", [])
     # ModThing comes from the SomeMod stub table (Top slot); "only vanilla" drops it in its slot and in All
     expect("mod item listed", filtered(mgr, "Top", "None", "", False, False), ["ModThing"])
     expect("only vanilla in slot", filtered(mgr, "Top", "None", "", False, False, True), [])
     expect("only vanilla in All", "ModThing" in filtered(mgr, "All", "None", "", False, False, True), False)
     expect("only vanilla keeps vanilla", filtered(mgr, "Neck", "None", "", False, False, True), ["Alpha_Neck", "Casual_Mina_Neck", "Zeta_Neck"])
-    # counts per slot under the current filters (left list: "total (filtered)"); slots without a match are absent
-    def counts(search, owned, fav, vanilla):
-        mgr.call_method("Test Filtered Counts", args=(search, owned, fav, vanilla))
+    # counts per slot under the current filters (left list: "total (filtered)"); slots without a match are absent.
+    # The chip is part of those filters, so it is reset first: in a suite run test_content leaves "SomeGroup" behind.
+    mgr.set_editor_property("CurrentGroup", "None")
+    def counts(search, owned, fav, vanilla, worn=False):
+        mgr.call_method("Test Filtered Counts", args=(search, owned, fav, vanilla, worn))
         return {str(k): v for k, v in mgr.get_editor_property("FilteredCounts").items()}
     c = counts("", False, False, False); expect("counts unfiltered", (c.get("Neck"), c.get("Top"), c.get("All")), (3, 1, 18))
     c = counts("", False, False, True); expect("counts only vanilla", (c.get("Neck"), c.get("Top"), c.get("All")), (3, None, 17))
     c = counts("neck", True, False, False); expect("counts search + owned", (c.get("Neck"), c.get("Necklace"), c.get("All")), (2, None, 2))
     mgr.set_editor_property("CurrentGroup", "Kpop"); c = counts("", False, False, False); expect("counts with a group chip", (c.get("Neck"), c.get("Top"), c.get("All")), (2, None, 2))
+    mgr.set_editor_property("CurrentGroup", "None"); mgr.set_editor_property("Worn", ["Casual_Mina_Neck"])
+    c = counts("", False, False, False, True); expect("counts only worn", (c.get("Neck"), c.get("All")), (1, 1))
+    mgr.set_editor_property("Worn", [])
     mgr.set_editor_property("CurrentGroup", "None")
     mgr.call_method("Test Groups", args=("Neck",))
     expect("groups of slot", sorted(str(n) for n in mgr.get_editor_property("TmpNames")), ["Basis", "Kpop"])
@@ -42,6 +53,19 @@ def main():
     expect("more chip collapses", mgr.get_editor_property("SubTabsCollapsed"), True); expect("more chip keeps group", str(mgr.get_editor_property("CurrentGroup")), "Kpop")
     mgr.call_method("Test Select SubTab", args=("AltUI_More",)); expect("more chip expands", mgr.get_editor_property("SubTabsCollapsed"), False)
     mgr.call_method("Test Select SubTab", args=("Lace",)); expect("group chip selects", str(mgr.get_editor_property("CurrentGroup")), "Lace")
+    # chip search: filters the group chips, and brings them out of the collapsed state while there is text in it
+    mgr.set_editor_property("CurrentSlot", "Neck"); mgr.set_editor_property("CurrentGroup", "None")
+    mgr.set_editor_property("SubTabsCollapsed", False); mgr.set_editor_property("ChipSearchText", "")
+    def chip_shown(group):
+        mgr.call_method("Test Chip Shown", args=(group,)); return mgr.get_editor_property("TmpBool")
+    expect("chip shown without search", (chip_shown("Kpop"), chip_shown("Basis")), (True, True))
+    mgr.set_editor_property("ChipSearchText", "kpo")
+    expect("chip search filters", (chip_shown("Kpop"), chip_shown("Basis")), (True, False))
+    mgr.set_editor_property("SubTabsCollapsed", True)
+    expect("search beats collapsed", chip_shown("Kpop"), True)
+    mgr.set_editor_property("ChipSearchText", ""); expect("collapsed again", chip_shown("Kpop"), False)
+    mgr.set_editor_property("CurrentGroup", "Kpop"); expect("selected chip stays", chip_shown("Kpop"), True)
+    mgr.set_editor_property("SubTabsCollapsed", False); mgr.set_editor_property("CurrentGroup", "None")
     # slot click keeps the group chip when the new slot has that group, else back to All
     mgr.set_editor_property("CurrentGroup", "Kpop"); mgr.call_method("Test Select Slot", args=("Neck",))
     expect("slot keeps group", (str(mgr.get_editor_property("CurrentSlot")), str(mgr.get_editor_property("CurrentGroup"))), ("Neck", "Kpop"))

@@ -15,6 +15,8 @@ class Groups(unittest.TestCase):
         vs = [v for _, vars_ in bg.SLIDERS for v in vars_]
         self.assertEqual(sorted(vs), sorted(v for v, _, _ in bg.GROUPS)); self.assertEqual(len(bg.SLIDERS), 9); self.assertEqual(bg.N_SLIDERS, 9); self.assertEqual(bg.SLIDERS[-1], ("Waist", ["Waist"]))
         self.assertEqual(bg.AXES["Thighs"], (0, 1, 1)); self.assertEqual(bg.AXES["Hands"], (1, 1, 1)); self.assertEqual(bg.AXES["Waist"], (0.25, 1, 0)); self.assertEqual(bg.SLIDERS[bg.HEIGHT_INDEX], ("Height", []))
+        # the bust follows Female_Morph_Breasts (scale delta (0.2, 0.35, 0.35) per bone), the glutes have no morph to follow
+        self.assertEqual(bg.AXES["Breasts"], (0.571, 1, 1)); self.assertEqual(bg.AXES["GlutesHips"], (1, 1, 1))
 
     def test_internal_names_match_bpdsl(self):
         from bpdsl import struct, param

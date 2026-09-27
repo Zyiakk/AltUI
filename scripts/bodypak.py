@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Body mod converter: original body pak (replaces Project/Character/Jodi/Body/Female) -> Body_<Name>.pak
-(TKA mod: /Game/Mod/Body_<Name>/Female + TKA_Mod_Table), selectable in AltUI (Body Shape tab).
+"""Body mod converter: original body pak (replaces Project/Character/Jodi/Body/Female) -> BodyAltUI_<Name>.pak
+(TKA mod: /Game/Mod/BodyAltUI_<Name>/Female + TKA_Mod_Table), selectable in AltUI (Body Shape tab).
 
-  bodypak.py <Original.pak> [--name Body_X] [--title "Display name"] [--out DIR] [--force]
+  bodypak.py <Original.pak> [--name Slim] [--title "Display name"] [--out DIR] [--force]
 
 Writes a pak v11 (format of the kit's UnrealPak). v11 sources: compressed blocks are copied byte-identically (no Oodle needed);
 v3–v8 sources (zlib/none): extracted and stored uncompressed. Standard library only at runtime.
@@ -118,7 +118,7 @@ def derive_name(src):
     if base.lower().endswith(".pak"):
         base = base[:-4]
     base = re.sub(r"[^A-Za-z0-9_]", "_", base)
-    return base if base.startswith("Body_") else "Body_" + base
+    return base if base.startswith(bg.MOD_PREFIXES) else bg.MOD_PREFIX + base
 
 
 def find_mesh(pk):
@@ -141,6 +141,14 @@ def load_pkg(pk, key):
     return Package.from_bytes(pk.read(key), pk.read(ux_key) if ux_key in pk.files else b"")
 
 
+def import_name(im):
+    """Full package name of an import. UE keeps a trailing number out of the name: "Foo_1" is stored as the name "Foo"
+    with number 2. Comparing only the name makes every numbered package look like its unnumbered sibling - and a mod
+    that names its materials MI_X_1 / MI_X_2 then loses them."""
+    n = getattr(im, "object_number", 0)
+    return "%s_%d" % (im.object_name, n - 1) if n else im.object_name
+
+
 def companions(pk, mesh_key, name):
     """Packages of the source pak that the mesh imports, transitively (a body's own PostProcessAnimBlueprint, materials …).
     They move into the mod folder: /Game/X/Y -> /Game/Mod/<name>/X/Y. Returns {old package path: (entry key, new package path)}."""
@@ -152,9 +160,10 @@ def companions(pk, mesh_key, name):
     found = {}; todo = [mesh_key]
     while todo:
         for im in load_pkg(pk, todo.pop()).imports:
-            if im.class_name == "Package" and im.object_name in by_pkg and im.object_name not in found:
-                found[im.object_name] = (by_pkg[im.object_name], "/Game/Mod/" + name + im.object_name[len("/Game"):])
-                todo.append(by_pkg[im.object_name])
+            n = import_name(im)   # the number belongs to the name, see import_name
+            if im.class_name == "Package" and n in by_pkg and n not in found:
+                found[n] = (by_pkg[n], "/Game/Mod/" + name + n[len("/Game"):])
+                todo.append(by_pkg[n])
     return found
 
 
@@ -163,10 +172,10 @@ def package_entries(pk, key, rel, relocate):
     name table, so the export data's name indices stay valid); untouched packages are copied byte-identically."""
     out = []
     pkg = load_pkg(pk, key)
-    hits = [im for im in pkg.imports if im.class_name == "Package" and im.object_name in relocate]
+    hits = [im for im in pkg.imports if im.class_name == "Package" and import_name(im) in relocate]
     if hits:
         for im in hits:
-            im.object_name = relocate[im.object_name][1]
+            im.object_name = relocate[import_name(im)][1]; im.object_number = 0   # the new name carries the number, so the stored one goes
         ua, ux = pkg.write()
         if ux != pk.read(key[:-len(".uasset")] + ".uexp"):
             raise SystemExit("rewriting %s changed its export data" % key)
@@ -210,9 +219,9 @@ def sha256_file(path):
 def convert(src, name=None, title=None, out_dir=None, force=False, keep_abp=False):
     pk = open_pak(src)
     name = name or derive_name(src)
-    if not re.fullmatch(r"Body_[A-Za-z0-9_]+", name):
-        raise SystemExit("invalid name (allowed: Body_[A-Za-z0-9_]+): " + name)
-    title = title or name[len("Body_"):]
+    if not re.fullmatch(r"(?:%s)[A-Za-z0-9_]+" % "|".join(bg.MOD_PREFIXES), name):
+        raise SystemExit("invalid name (allowed: %s[A-Za-z0-9_]+): %s" % ("|".join(bg.MOD_PREFIXES), name))
+    title = title or name[len(next(p for p in bg.MOD_PREFIXES if name.startswith(p))):]
     out_dir = out_dir or os.path.dirname(os.path.abspath(src))
     out_pak = os.path.join(out_dir, name + ".pak")
     if os.path.exists(out_pak) and not force:
@@ -278,7 +287,7 @@ def convert(src, name=None, title=None, out_dir=None, force=False, keep_abp=Fals
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Body mod pak -> Body_<Name>.pak for AltUI")
+    ap = argparse.ArgumentParser(description="Body mod pak -> BodyAltUI_<Name>.pak for AltUI")
     ap.add_argument("pak"); ap.add_argument("--name"); ap.add_argument("--title"); ap.add_argument("--out"); ap.add_argument("--force", action="store_true")
     ap.add_argument("--keep-abp", action="store_true", help="keep the mod's own post-process animation blueprint (no Body Shape sliders, works without AltUI)")
     a = ap.parse_args(argv)

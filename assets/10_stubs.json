@@ -141,6 +141,12 @@
    "rows": {
     "Eye_1": {
      "Type": "Eye"
+    },
+    "Eye_2": {
+     "Type": "Eye"
+    },
+    "Eyelashes_1": {
+     "Type": "Eyelashes"
     }
    }
   },
@@ -154,6 +160,10 @@
      "Single": true
     },
     "Eye": {
+     "Single": true,
+     "EyeTable": true
+    },
+    "Eyelashes": {
      "Single": true,
      "EyeTable": true
     },
@@ -178,8 +188,244 @@
     },
     "SomeMod": {
      "Caption": "Some Mod"
+    },
+    "WeaponAltUI_SkinTest": {
+     "Caption": "Test Skin Mod"
+    },
+    "WeaponAltUI_ModelTest": {
+     "Caption": "Test Weapon Mod"
     }
    }
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Tables/Animation_Struct",
+   "members": [
+    {
+     "name": "Title",
+     "type": "text",
+     "internal_name": "Title_5_5208877E43BB2E535DB3DFAF646E90DA"
+    },
+    {
+     "name": "Montage",
+     "type": "object:/Script/Engine.AnimMontage",
+     "internal_name": "Montage_2_99AB9F0E40D705D77C9E079E70FA0B9B"
+    },
+    {
+     "name": "Sound",
+     "type": "object:/Script/Engine.SoundBase",
+     "internal_name": "Sound_8_E18181D3438DCA7D23693593F2423CF4"
+    },
+    {
+     "name": "ActionFlag",
+     "type": "int",
+     "internal_name": "ActionFlag_15_B277E1494FAB471E5C2AD5A50658A7EC"
+    },
+    {
+     "name": "Type",
+     "type": "int",
+     "internal_name": "Type_11_FB6E225748CECEDC3C438D94C30A3021"
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/AnimationTable",
+   "row_struct": "/Game/Project/Tables/Animation_Struct",
+   "composite": false,
+   "rows": {
+    "Dressup_Leg": {
+     "Montage": "/Game/Mod/TKA_Workshop_Anim/Female_Dance_Mod_Montage"
+    },
+    "SitFloor": {
+     "Title": "Sit on the floor",
+     "Montage": "/Game/Mod/TKA_Workshop_Anim/Female_Dance_Mod_Montage"
+    },
+    "ModPose": {
+     "Montage": "/Game/Mod/TKA_Workshop_Anim/Female_Dance_Mod_Montage"
+    },
+    "ModMarker": {
+     "Title": "- [ TEST CHAPTER ] -"
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/SomeMod/Mod_AnimationTable",
+   "row_struct": "/Game/Project/Tables/Animation_Struct",
+   "composite": false,
+   "rows": {
+    "ModPose": {
+     "Montage": "/Game/Mod/TKA_Workshop_Anim/Female_Dance_Mod_Montage"
+    }
+   }
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Tables/ItemStruct",
+   "members": [
+    {
+     "name": "Caption",
+     "type": "text",
+     "internal_name": "Caption_34_A1D1AEE6499506A034ED6E83F2123581"
+    },
+    {
+     "name": "Icon",
+     "type": "object:/Script/Engine.Texture2D",
+     "internal_name": "Icon_8_9AB25FB442CDA342937A89A8A873CA63"
+    },
+    {
+     "name": "HyperBoxGroup",
+     "type": "name",
+     "internal_name": "HyperBoxGroup_47_F0D9C7BD4E11CB25AAFEDB863D1DF840"
+    },
+    {
+     "name": "ActorClass",
+     "type": "class:/Script/Engine.Actor",
+     "internal_name": "ActorClass_40_78EE9EE441407DEB19724494C04B03D6"
+    },
+    {
+     "name": "InteractiveClass",
+     "type": "class:/Script/Engine.Actor",
+     "internal_name": "InteractiveClass_35_A72AD9944C232F519D9186A845495978"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Tables/GunPaintStruct",
+   "members": [
+    {
+     "name": "Guns",
+     "type": "name",
+     "container": "map",
+     "value_type": "object:/Script/Engine.MaterialInterface",
+     "internal_name": "Guns_4_974505F844690AA9345864A13AD9C39D"
+    },
+    {
+     "name": "Flag",
+     "type": "int",
+     "internal_name": "Flag_7_1EFEACDB4FF292F408E2F4AF64A1289A"
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/ItemTable",
+   "row_struct": "/Game/Project/Tables/ItemStruct",
+   "composite": false,
+   "rows": {
+    "UMP45": {
+     "HyperBoxGroup": "Weapon",
+     "Caption": "UMP45"
+    },
+    "HK416": {
+     "HyperBoxGroup": "Weapon",
+     "Caption": "HK416"
+    },
+    "Medicine": {
+     "HyperBoxGroup": "Item"
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/GunPaint",
+   "row_struct": "/Game/Project/Tables/GunPaintStruct",
+   "composite": false,
+   "rows": {
+    "GunPaint_Pink": {},
+    "GunPaint_Camo": {}
+   }
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Weapons/Weapon_Base",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "functions": [
+    {
+     "name": "Get Weapon Name",
+     "outputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "pure": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base",
+   "mode": "create",
+   "parent": "/Script/Engine.StaticMeshComponent"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Mag_Comp",
+   "mode": "create",
+   "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp",
+   "mode": "create",
+   "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Barrel_Comp",
+   "mode": "create",
+   "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Grip_Comp",
+   "mode": "create",
+   "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Weapons/Weapon_Gun_Base",
+   "mode": "create",
+   "parent": "/Game/Project/Actors/Weapons/Weapon_Base",
+   "variables": [
+    {
+     "name": "Equipment Mag",
+     "type": "object:/Game/Project/Actors/Weapons/Equipment/Gun_Mag_Comp"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Change Gun Paint",
+     "inputs": [
+      {
+       "name": "paint name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Reset Gun Paint"
+    },
+    {
+     "name": "Mount Mag",
+     "inputs": [
+      {
+       "name": "class",
+       "type": "class:/Script/Engine.StaticMeshComponent"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "installed",
+       "type": "bool"
+      }
+     ]
+    }
+   ]
   },
   {
    "type": "struct",
@@ -541,7 +787,8 @@
      "TypeName": "Briefs",
      "Group": "None",
      "ColorAdjustable": true,
-     "Quality": 2
+     "Quality": 2,
+     "Mesh": "/Game/Project/Character/Jodi/Body/Female"
     },
     "Dress05": {
      "TypeName": "Dress",
@@ -570,7 +817,7 @@
     "Weird": {
      "TypeName": "Nonsense",
      "Group": "None",
-     "ColorAdjustable": true,
+     "ColorAdjustable": false,
      "Quality": 2
     },
     "Zeta_Neck": {
@@ -937,6 +1184,9 @@
      "name": "Reset Clothes Physics"
     },
     {
+     "name": "update body mask"
+    },
+    {
      "name": "Change Breast Constraint Profile",
      "inputs": [
       {
@@ -969,8 +1219,38 @@
    "mode": "augment",
    "variables": [
     {
+     "name": "Eye Material",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    },
+    {
+     "name": "Eyelashes Material",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    },
+    {
+     "name": "Makeup Tex",
+     "type": "object:/Script/Engine.TextureRenderTarget2D"
+    },
+    {
      "name": "Camera",
      "type": "object:/Script/Engine.CameraComponent"
+    },
+    {
+     "name": "Action Animation Name Next",
+     "type": "name"
+    },
+    {
+     "name": "Action Animation Name Current",
+     "type": "name"
+    },
+    {
+     "name": "Weapons",
+     "type": "name",
+     "container": "map",
+     "value_type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+    },
+    {
+     "name": "current weapon",
+     "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
     }
    ],
    "functions": [
@@ -1055,6 +1335,28 @@
        "type": "bool"
       }
      ]
+    },
+    {
+     "name": "Change Next Action Animation",
+     "inputs": [
+      {
+       "name": "Next Action Name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Stop Action Animation"
+    },
+    {
+     "name": "Is Alive ?",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
     },
     {
      "name": "Get Hairstyle Name",

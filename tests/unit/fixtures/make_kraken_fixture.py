@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Builds kraken_fixture.pak for tests/unit/test_kraken.py with the kit's UnrealPak (-compressionformats=Oodle).
 The inputs are generated deterministically (seeded), so the SHA-256 of each file in the test never changes.
-Usage: python3 make_kraken_fixture.py [UnrealPak]   (default: $UNREALPAK or the 4.27 kit path)"""
+Usage: python3 make_kraken_fixture.py [UnrealPak]   (default: $UNREALPAK, or UNREALPAK from config.sh)"""
 import os, sys, random, subprocess, tempfile, hashlib
 H = os.path.dirname(os.path.abspath(__file__))
-UNREALPAK = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("UNREALPAK", "/mnt/linDataSSD/apps/UnrealEngine/UnrealEngine-4.27/Engine/Binaries/Linux/UnrealPak")
+sys.path.insert(0, os.path.join(H, ".."))
+import cfg
+UNREALPAK = sys.argv[1] if len(sys.argv) > 1 else cfg.path("UNREALPAK", "UnrealPak")
 WORDS = ("body mesh pak mod jodi skeleton blueprint texture material outfit shape chip switch level load convert name title "
          "folder file python steam nexus workshop the a of and in to with for is not").split()
 

@@ -7,6 +7,9 @@ import unittest, os, json, collections, functools
 H = os.path.dirname(os.path.abspath(__file__)); ASSETS = os.path.join(H, "..", "..", "assets")
 MANAGER = "/Game/Mod/AltUI/BP_AltUIManager"
 LOOP_MACROS = ("ForLoop", "ForLoopWithBreak", "WhileLoop")
+# further member variables used as function locals - they carry no Tmp prefix but have the same trap
+LOCALS = ("ColorProbe", "ColorSlotsTmp")
+local = lambda v: v.startswith("Tmp") or v in LOCALS
 
 
 def manager_functions():
@@ -69,14 +72,14 @@ class Graph:
     def tmp_reads(self):
         r = collections.defaultdict(set)
         for n in self.nodes.values():
-            if n["kind"] == "get" and n["var"].startswith("Tmp") and "class" not in n:
+            if n["kind"] == "get" and local(n["var"]) and "class" not in n:
                 for e in self.exec_readers(n["id"]): r[n["var"]].add(e)
         return r
 
     def tmp_writes(self):
         w = collections.defaultdict(set)
         for n in self.nodes.values():
-            if n["kind"] == "set" and n["var"].startswith("Tmp") and "class" not in n: w[n["var"]].add(n["id"])
+            if n["kind"] == "set" and local(n["var"]) and "class" not in n: w[n["var"]].add(n["id"])
         return w
 
     def calls(self):

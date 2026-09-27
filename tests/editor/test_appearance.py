@@ -14,13 +14,14 @@ def type_of(mgr, name):
 
 def main():
     mgr = cdo(M + "/BP_AltUIManager.BP_AltUIManager_C")
-    # stub tables: SkinTable 1 row, MakeupTable Lips x2 / Eyebrow x1, EyeTable Eye x1 (type Eye is EyeTable)
+    # stub tables: SkinTable 1 row, MakeupTable Lips x2 / Eyebrow x1, EyeTable Eye x2 + Eyelashes x1 (both types are EyeTable)
     expect("skin count", count(mgr, "Skin"), 1)
     expect("lips count", count(mgr, "Lips"), 2)
     expect("eyebrow count", count(mgr, "Eyebrow"), 1)
-    expect("eye count (EyeTable)", count(mgr, "Eye"), 1)
+    expect("eye count (EyeTable)", count(mgr, "Eye"), 2)
+    expect("eyelashes count (EyeTable)", count(mgr, "Eyelashes"), 1)
     expect("cheeks count", count(mgr, "Cheeks"), 0)
-    expect("all count = skin + every make-up type (no presets)", count(mgr, "All"), 5)
+    expect("all count = skin + every make-up type (no presets)", count(mgr, "All"), 7)
     expect("type of a row", (type_of(mgr, "Skin_Default"), type_of(mgr, "Lips_01"), type_of(mgr, "Eye_1"), type_of(mgr, "Foo")), ("Skin", "Lips", "Eye", "None"))
     mgr.call_method("Test Strings", args=(2,))   # German: own key Look_Lips
     expect("caption lips", caption(mgr, "Lips"), "Lippen")

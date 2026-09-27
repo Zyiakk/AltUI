@@ -25,7 +25,7 @@ Mod paks for this game exist in versions 3 to 11. Old ones are usually uncompres
 import sys; sys.path.insert(0, "scripts")
 from pakio import open_pak
 
-pk = open_pak("Body_Curvy.pak")
+pk = open_pak("BodyAltUI_Curvy.pak")
 for key in sorted(pk.files):
     print(key)                       # /Female.uasset, /Female.uexp, /TKA_Mod_Table.uasset, …
 data = pk.read("/Female.uasset")     # decompressed bytes
@@ -36,9 +36,9 @@ data = pk.read("/Female.uasset")     # decompressed bytes
 From the command line, `scripts/pak11_extract.py` lists, inspects and extracts:
 
 ```
-python3 scripts/pak11_extract.py Body_Curvy.pak list
-python3 scripts/pak11_extract.py Body_Curvy.pak info "Female"
-python3 scripts/pak11_extract.py Body_Curvy.pak /tmp/out "Female"
+python3 scripts/pak11_extract.py BodyAltUI_Curvy.pak list
+python3 scripts/pak11_extract.py BodyAltUI_Curvy.pak info "Female"
+python3 scripts/pak11_extract.py BodyAltUI_Curvy.pak /tmp/out "Female"
 ```
 
 `info` prints the compression method, the stored and uncompressed size and the number of blocks per entry – the quickest way to see whether a pak is zlib, Oodle or plain. The third form writes every matching entry into a folder.
@@ -70,7 +70,7 @@ Use it as a library with `read_summary(path)` and `dump(path)`; `scripts/uasset_
 import sys; sys.path.insert(0, "scripts")
 from uasset_datatable import make_mod_table
 
-ua, ux = make_mod_table("/Game/Mod/Body_Curvy", "Curvy body", "Body mod", []).write()
+ua, ux = make_mod_table("/Game/Mod/BodyAltUI_Curvy", "Curvy body", "Body mod", []).write()
 open("TKA_Mod_Table.uasset", "wb").write(ua)
 open("TKA_Mod_Table.uexp", "wb").write(ux)
 ```
@@ -83,7 +83,7 @@ Writing the pak around it is the same kind of work; `scripts/bodypak.py` has the
 
 `scripts/uasset_pkg.py` reads a cooked package into `Package`, `Import` and `Export` objects and writes it back byte for byte if you change nothing. That property – lossless round-trip – is what makes it useful: you can rewrite the import table of a mesh, point a reference somewhere else, rename a package, and leave the export data untouched.
 
-This is how a body replacer becomes a normal mod: the mesh keeps its bytes, but its imports are rewritten so it lives under `/Game/Mod/Body_<Name>/` instead of the game's own path. `scripts/bodypak.py` does exactly that, and it also shows the harder case – inserting one property tag into an export and re-serialising the rest unchanged.
+This is how a body replacer becomes a normal mod: the mesh keeps its bytes, but its imports are rewritten so it lives under `/Game/Mod/BodyAltUI_<Name>/` instead of the game's own path. `scripts/bodypak.py` does exactly that, and it also shows the harder case – inserting one property tag into an export and re-serialising the rest unchanged.
 
 Prefer this over patching bytes by hand. Sizes, offsets and the dependency lists in the export header all have to stay consistent, and getting one of them subtly wrong produces a package that may still load – until something reads the part you moved.
 

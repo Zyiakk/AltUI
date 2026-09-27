@@ -34,14 +34,28 @@ Players can rename anything in the panel to whatever they like. Those names live
 
 A body mod is not a clothing row; it is a mesh AltUI loads on demand, and it needs its own shape:
 
-* the mod name starts with `Body_` (`Body_[A-Za-z0-9_]+`, case-sensitive)
-* the mesh sits at `/Game/Mod/Body_<Name>/Female`
+* the mod name starts with `BodyAltUI_` (`BodyAltUI_[A-Za-z0-9_]+`, case-sensitive). `Body_` is what releases up to 1.4.0 wrote and is still read; where one body is installed under both names, the `BodyAltUI_` one is listed and the other ignored
+* the mesh sits at `/Game/Mod/BodyAltUI_<Name>/Female`
 * optionally, a one-row table `Body_Scale` next to it describes the body's own bone scales
 * optionally, the mesh points at `ABP_BodyScale` as its post-process animation blueprint, which is what makes the shape sliders work on it
 
 There are two ways to get there: convert an existing replacer with `bodypak.pyz` – the players' guide is [installing body mods](../BODY_MODS.md) – or build the mod in the Unreal Editor against the two assets in [uassets/](../uassets/README.md), which is the route if the body is yours and you would rather not round-trip through a converter.
 
 Either way the result works only with AltUI installed: the mesh is under your own path, and without AltUI nothing loads it. It is a second file to offer beside your replacer, not a replacement for it.
+
+## Weapons
+
+A weapon mod is not a row in a game table either; it is a mod of its own, with a table AltUI reads:
+
+* the mod name starts with `WeaponAltUI_` - what AltUI scans for, and a name no ordinary weapon mod picks by accident
+* everything sits under `/Game/Mod/WeaponAltUI_<Name>/`, with a `TKA_Mod_Table` whose single row is named like the folder – and whose `Tables` column stays **empty**: AltUI loads the weapon tables by path, they are not among the tables the loader appends to the game's own
+* a **skin** is a row in `Mod_WeaponSkin` (row structure `S_WeaponSkin`): `Weapon`, `Caption`, `MainTex`, `NormalTex`, `MetallicTex`, `Icon`. Leave a texture out and the game's stays
+* a **model** is a row in `Mod_WeaponModel` (row structure `S_WeaponModel`): `Weapon`, `Caption`, `Icon`. The meshes are not named in the table – AltUI loads `/Game/Mod/WeaponAltUI_<Name>/<name of the mesh the game would use>`, so your packages go flat into the mod folder under exactly the game's names, and whatever you leave out keeps its original. That is also how the magazine, the optics, the suppressor and the grip come along
+* `Weapon` is an item row name – `Glock`, `UMP45`, `Shotgun` and thirteen more; the full list is in [the editor assets](../uassets/README.md)
+
+Worth knowing before you build a skin: it is applied by setting `MainTex`, `NormalTex` and `MetallicTex` on the weapon's material, and a material without those parameters ignores it silently. The game's own weapon materials have them; the materials that come with a model mod usually do not, so a skin can look perfect on the vanilla weapon and do nothing on top of someone else's model.
+
+Two routes, as for bodies: convert a replacer with `weaponpak.pyz` – the players' guide is [installing weapon mods](../WEAPON_MODS.md) – or build the mod in the editor against the two structs in [uassets/](../uassets/README.md), where a finished example sits in [examples/WeaponAltUI_Example/](../examples/WeaponAltUI_Example/). Either way it works only with AltUI installed: a second file beside your replacer, not a replacement for it.
 
 ## Where it goes wrong
 

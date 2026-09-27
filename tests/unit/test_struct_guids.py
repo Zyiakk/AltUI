@@ -1,4 +1,4 @@
-"""Struct members of our own structs need stable internal names (Name_idx_GUID): SaveGame data is matched by name + GUID,
+"""Struct members of AltUI's own structs need stable internal names (Name_idx_GUID): SaveGame data is matched by name + GUID,
 a random GUID per build (FStructureEditorUtils::AddVariable) emptied AltUI_Looks.sav after every rebuild (2026-09-15)."""
 import unittest, os, sys, re
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets", "gen"))

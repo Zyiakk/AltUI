@@ -1,9 +1,9 @@
 """Oodle decoding through the native ooz library (https://github.com/powzix/ooz, GPL-3) via ctypes – dev-repo accelerator only.
 
 pak11_extract.oodle() uses this when the library is around (about 100x faster than the pure-Python scripts/oodle_kraken.py,
-which matters for the pak tooling: mod_inventory, pakbuild, jodiskins_build, verify_pak) and falls back to oodle_kraken
-otherwise. scripts/bodypak_dist.sh does not copy this module: bodypak.pyz ships without ctypes and without any native
-file (the bundled DLL was flagged as a trojan in 1.3.1).
+which matters when a script reads many paks in one run) and falls back to oodle_kraken otherwise. scripts/bodypak_dist.sh
+does not copy this module: bodypak.pyz ships without ctypes and without any native file (the bundled DLL was flagged as a
+trojan in 1.3.1).
 
 Library lookup: $OOZ, then tools/ooz/libooz.so (tools/fetch_ooz.sh) / tools/ooz/ooz.dll next to the repo.
 """

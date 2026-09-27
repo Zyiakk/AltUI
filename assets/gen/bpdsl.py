@@ -51,6 +51,10 @@ P_MAKEUP_T = "/Game/Project/Tables/MakeupTable"; P_MAKEUP_S = "/Game/Project/Tab
 P_EYE_T = "/Game/Project/Tables/EyeTable"; P_EYE_S = "/Game/Project/Tables/EyeStruct"
 P_MTYPE_T = "/Game/Project/Tables/MakeupTypeTable"; P_MTYPE_S = "/Game/Project/Tables/MakeupTypeStruct"
 P_MDATA_S = "/Game/Project/Tables/MakeupDataStruct"
+P_ANIM_T = "/Game/Project/Tables/AnimationTable"; P_ANIM_S = "/Game/Project/Tables/Animation_Struct"   # action animations ("poses"); the loader merges Mod_AnimationTable rows into it
+P_ITEM_T = "/Game/Project/Tables/ItemTable"; P_ITEM_S = "/Game/Project/Tables/ItemStruct"
+P_PAINT_T = "/Game/Project/Tables/GunPaint"; P_PAINT_S = "/Game/Project/Tables/GunPaintStruct"
+P_WEAPON = "/Game/Project/Actors/Weapons/Weapon_Base"; P_GUN = "/Game/Project/Actors/Weapons/Weapon_Gun_Base"; P_EQUIPBASE = "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"; P_MAGCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Mag_Comp"; P_OPTICSCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp"; P_BARRELCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Barrel_Comp"; P_GRIPCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Grip_Comp"
 P_PRESET_SAVE = "/Game/Project/Classes/Save/MakeupPreset_Save"; P_PRESET_S = "/Game/Project/Classes/Struct/MakeupPreset_Struct"
 P_DLC_T = "/Game/Project/Tables/DLC_MainTable"; P_DLC_S = "/Game/Project/Tables/DLC_Struct"   # filled by the game loader: one row per mounted mod (pak base name)
 E_SKELMESH = "/Script/Engine.SkeletalMesh"; E_CHARACTER = "/Script/Engine.Character"; E_SKINNED = "/Script/Engine.SkinnedMeshComponent"

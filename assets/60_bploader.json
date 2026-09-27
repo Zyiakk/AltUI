@@ -1,0 +1,266 @@
+{
+ "assets": [
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BP_AltUILoaderEntry",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "variables": [
+    {
+     "name": "Spawned",
+     "type": "bool"
+    }
+   ],
+   "event_graph": {
+    "nodes": [
+     {
+      "id": "bp",
+      "kind": "event",
+      "class": "/Script/Engine.Actor",
+      "name": "ReceiveBeginPlay"
+     },
+     {
+      "id": "me",
+      "kind": "self"
+     },
+     {
+      "id": "tm",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_SetTimer",
+      "in": {
+       "Object": "@me.self",
+       "FunctionName": "TryInit",
+       "Time": "0.5",
+       "bLooping": "true"
+      }
+     },
+     {
+      "id": "ev",
+      "kind": "custom_event",
+      "name": "TryInit",
+      "inputs": []
+     },
+     {
+      "id": "gsp",
+      "kind": "get",
+      "var": "Spawned"
+     },
+     {
+      "id": "br",
+      "kind": "branch",
+      "in": {
+       "Condition": "@gsp.Spawned"
+      }
+     },
+     {
+      "id": "pc",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "GetPlayerController",
+      "in": {
+       "PlayerIndex": "0"
+      }
+     },
+     {
+      "id": "pawn",
+      "kind": "call",
+      "class": "/Script/Engine.Controller",
+      "function": "K2_GetPawn",
+      "in": {
+       "self": "@pc.ReturnValue"
+      }
+     },
+     {
+      "id": "cj",
+      "kind": "cast",
+      "class": "/Game/Project/Character/Jodi/Jodi",
+      "pure": false,
+      "in": {
+       "Object": "@pawn.ReturnValue"
+      },
+      "miss": "ignore"
+     },
+     {
+      "id": "ld",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "LoadClassAsset_Blocking",
+      "in": {
+       "AssetClass": "/Game/Mod/AltUI/BP_AltUIManager.BP_AltUIManager_C"
+      }
+     },
+     {
+      "id": "cc",
+      "kind": "class_cast",
+      "pure": true,
+      "class": "/Script/Engine.Actor",
+      "in": {
+       "Class": "@ld.ReturnValue"
+      }
+     },
+     {
+      "id": "iv",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "IsValidClass",
+      "in": {
+       "Class": "@cc.AsActor"
+      }
+     },
+     {
+      "id": "br2",
+      "kind": "branch",
+      "in": {
+       "Condition": "@iv.ReturnValue"
+      }
+     },
+     {
+      "id": "all",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "GetAllActorsOfClass",
+      "in": {
+       "ActorClass": "@cc.AsActor"
+      }
+     },
+     {
+      "id": "cnt",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Length",
+      "in": {
+       "TargetArray": "@all.OutActors"
+      }
+     },
+     {
+      "id": "gt",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Greater_IntInt",
+      "in": {
+       "A": "@cnt.ReturnValue",
+       "B": "0"
+      }
+     },
+     {
+      "id": "br3",
+      "kind": "branch",
+      "in": {
+       "Condition": "@gt.ReturnValue"
+      }
+     },
+     {
+      "id": "tr",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "MakeTransform",
+      "in": {
+       "Scale": "1,1,1"
+      }
+     },
+     {
+      "id": "sp",
+      "kind": "spawn",
+      "in": {
+       "SpawnTransform": "@tr.ReturnValue",
+       "Class": "@cc.AsActor",
+       "Owner": "@pc.ReturnValue"
+      }
+     },
+     {
+      "id": "ssp",
+      "kind": "set",
+      "var": "Spawned",
+      "in": {
+       "Spawned": "true"
+      }
+     },
+     {
+      "id": "me2",
+      "kind": "self"
+     },
+     {
+      "id": "ct",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_ClearTimer",
+      "in": {
+       "Object": "@me2.self",
+       "FunctionName": "TryInit"
+      }
+     },
+     {
+      "id": "me3",
+      "kind": "self"
+     },
+     {
+      "id": "ct2",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_ClearTimer",
+      "in": {
+       "Object": "@me3.self",
+       "FunctionName": "TryInit"
+      }
+     },
+     {
+      "id": "me4",
+      "kind": "self"
+     },
+     {
+      "id": "ct3",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_ClearTimer",
+      "in": {
+       "Object": "@me4.self",
+       "FunctionName": "TryInit"
+      }
+     }
+    ],
+    "links": [],
+    "exec": [
+     [
+      "bp",
+      "tm"
+     ],
+     [
+      "ev",
+      "br"
+     ],
+     [
+      "br:else",
+      "cj",
+      "ld",
+      "br2",
+      "all",
+      "br3",
+      "ct3"
+     ],
+     [
+      "br3:else",
+      "sp",
+      "ssp",
+      "ct"
+     ],
+     [
+      "br2:else",
+      "ct2"
+     ]
+    ]
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/AltUI/TKA_BlueprintLoader",
+   "row_struct": "/Game/Mod/TKA_BlueprintLoader/BlueprintToLoad_Struct",
+   "composite": false,
+   "rows": {
+    "AltUI": {
+     "Actor Class": "/Game/Mod/AltUI/BP_AltUILoaderEntry.BP_AltUILoaderEntry_C"
+    }
+   }
+  }
+ ]
+}

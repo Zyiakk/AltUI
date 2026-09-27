@@ -12,5 +12,7 @@ tools/bpdump/obj/
 # fetched by tools/fetch_ooz.sh
 tools/ooz/
 .idea
+# example mods: the built pak belongs with them, it is the quick look inside
+!examples/**/*.pak
 # test fixtures (Kraken decoder): small Oodle pak built with UnrealPak
 !tests/unit/fixtures/*.pak

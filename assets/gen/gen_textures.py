@@ -7,7 +7,7 @@ T_ROUNDBOX = M + "/T_RoundBox"
 T_CHECK_ON = M + "/T_CheckOn"
 T_UNDO = M + "/T_Undo"; T_REDO = M + "/T_Redo"
 T_CHECK_OFF = M + "/T_CheckOff"
-T_PLUS = M + "/T_Plus"; T_MINUS = M + "/T_Minus"; T_CAM = M + "/T_Cam"; T_PHOTO = M + "/T_Photo"
+T_PLUS = M + "/T_Plus"; T_MINUS = M + "/T_Minus"; T_CAM = M + "/T_Cam"; T_PHOTO = M + "/T_Photo"; T_POSE = M + "/T_Pose"
 T_COLORIZE = M + "/T_Colorize"
 TEX_PROPS = {"CompressionSettings": "TC_EditorIcon", "LODGroup": "TEXTUREGROUP_UI", "MipGenSettings": "TMGS_NoMipmaps",
              "NeverStream": True, "SRGB": True, "Filter": "TF_Bilinear"}
@@ -104,6 +104,17 @@ def color_glyph(path, size=48, ss=4):
     big.resize((size, size), Image.LANCZOS).save(path)
 
 
+def stick_figure(path, size=128, ss=4):
+    """White stick figure on transparent (head, body, one arm on the hip, one raised, legs apart): tile icon of the poses tab."""
+    S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 255); lw = int(S * 0.06); cx = S / 2
+    d.ellipse((cx - S * 0.11, S * 0.06, cx + S * 0.11, S * 0.28), fill=W)                                                        # head
+    d.line([(cx, S * 0.28), (cx, S * 0.62)], fill=W, width=lw)                                                                   # body
+    d.line([(cx, S * 0.36), (cx - S * 0.20, S * 0.50), (cx - S * 0.15, S * 0.62)], fill=W, width=lw, joint="curve")             # arm on the hip
+    d.line([(cx, S * 0.36), (cx + S * 0.18, S * 0.24), (cx + S * 0.32, S * 0.08)], fill=W, width=lw, joint="curve")             # arm raised
+    d.line([(cx, S * 0.62), (cx - S * 0.18, S * 0.94)], fill=W, width=lw); d.line([(cx, S * 0.62), (cx + S * 0.18, S * 0.94)], fill=W, width=lw)   # legs
+    big.resize((size, size), Image.LANCZOS).save(path)
+
+
 def build(assets_dir):
     """Writes the PNGs under <assets_dir>/tex and returns the asset list (file relative to assets_dir)."""
     os.makedirs(os.path.join(assets_dir, "tex"), exist_ok=True)
@@ -113,6 +124,7 @@ def build(assets_dir):
     circle_glyph(os.path.join(assets_dir, "tex", "plus.png"), True); circle_glyph(os.path.join(assets_dir, "tex", "minus.png"), False)
     color_glyph(os.path.join(assets_dir, "tex", "colorize.png"))
     circle_cam(os.path.join(assets_dir, "tex", "cam.png")); circle_photo(os.path.join(assets_dir, "tex", "photo.png"))
+    stick_figure(os.path.join(assets_dir, "tex", "pose.png"))
     return [{"type": "texture", "path": T_ROUNDBOX, "file": "tex/roundbox.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_ON, "file": "tex/check_on.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_OFF, "file": "tex/check_off.png", "props": TEX_PROPS},
@@ -122,7 +134,8 @@ def build(assets_dir):
             {"type": "texture", "path": T_MINUS, "file": "tex/minus.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_COLORIZE, "file": "tex/colorize.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CAM, "file": "tex/cam.png", "props": TEX_PROPS},
-            {"type": "texture", "path": T_PHOTO, "file": "tex/photo.png", "props": TEX_PROPS}]
+            {"type": "texture", "path": T_PHOTO, "file": "tex/photo.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_POSE, "file": "tex/pose.png", "props": TEX_PROPS}]
 
 
 if __name__ == "__main__":

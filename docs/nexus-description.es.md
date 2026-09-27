@@ -10,17 +10,31 @@ También disponible en el [Workshop de Steam](https://steamcommunity.com/sharedf
 
 ## Instalación
 
-El archivo contiene dos paks que van en dos carpetas distintas (rutas relativas a la instalación del juego, p. ej. *Steam\steamapps\common\TheKillingAntidote\*):
+**AltUI.pak** es el mod entero, y hace falta un archivo más que lo ponga en marcha. Hay dos formas – elige una, y las dos juntas también funcionan. Las rutas son relativas a la instalación del juego, p. ej. *Steam\steamapps\common\TheKillingAntidote\*; el nombre de la carpeta del juego aparece dos veces en ellas, es correcto.
 
-1. **AltUI.pak** → *TheKillingAntidote\Mods\*
-2. **AltUI_Hook_P.pak** → *TheKillingAntidote\Content\Paks\~mods\* – crea la carpeta **~mods** si no existe (el nombre empieza por una tilde ~). El nombre de la carpeta del juego aparece dos veces en la ruta – es correcto.
+**1. Con el Blueprint Loader (AltUI no sustituye nada del juego)**
+
+1. Descarga **TKA_BlueprintLoader.pak** de [Blueprint Loader](https://www.nexusmods.com/thekillingantidote/mods/994) y ponlo en *TheKillingAntidote\Content\Paks\~mods\* – crea la carpeta **~mods** si no existe (el nombre empieza por una tilde ~).
+2. **AltUI.pak** del archivo de aquí → *TheKillingAntidote\Mods\*
 3. Inicia el juego y pulsa B en un nivel.
 
-Los dos archivos son necesarios. El hook tiene que sobrescribir uno de los blueprints del propio juego (el gestor de cámara del jugador), y eso solo funciona desde *~mods*; sin él, **B no hace nada**. El hook entra en conflicto con cualquier otro mod que sustituya *TKA_PlayerCameraManager* (no se conoce ninguno).
+AltUI.pak incluye una tabla que el cargador lee, y a partir de ella el cargador lanza el panel. Ese mismo cargador lanza cualquier otro mod que traiga una tabla así, por eso es la vía recomendable si usas más de uno.
 
-**«B no hace nada»** → falta el archivo hook o está en la carpeta equivocada. Tiene que estar en *Content\Paks\~mods*, no en *Mods*.
+**Si vienes de una versión anterior de AltUI: si aún hay un AltUI_Hook_P.pak en ~mods, bórralo. El hook se queda con la clase del gestor de cámara, y uno anterior a 1.5.0 no lanza el cargador: el panel se abriría sin que la vista se aparte y los mods hechos para el cargador no arrancarían.**
 
-Para desinstalar: borra los dos archivos. Los guardados propios del mod (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav* y las fotos de looks en *Saved\SaveGames\AltUI\*) también se pueden borrar; no se toca nada más – ropa, conjuntos, maquillaje y peinado se escriben a través de los guardados del propio juego.
+**2. Con el pak hook (sin instalar un segundo mod)**
+
+1. **AltUI.pak** → *TheKillingAntidote\Mods\*
+2. **AltUI_Hook_P.pak** → *TheKillingAntidote\Content\Paks\~mods\* – la misma regla de carpeta que arriba.
+3. Inicia el juego y pulsa B en un nivel.
+
+El hook sustituye uno de los blueprints del propio juego (el gestor de cámara del jugador) y lanza el panel desde ahí; eso solo funciona desde *~mods*. Cualquier mod que sustituya ese mismo blueprint entra en conflicto con él – el Blueprint Loader es uno de ellos, y justo esa pareja es la excepción: con los dos instalados el hook se queda con la clase y lanza el cargador él mismo, así que los mods que necesitan el cargador siguen funcionando.
+
+**«B no hace nada»** → nada ha lanzado el panel: o falta el segundo archivo, o está en *Mods* en lugar de *Content\Paks\~mods*.
+
+El encuadre de cámara junto al panel abierto ya no depende del hook – se engancha al gestor de cámara que tenga el nivel, incluido el del propio juego.
+
+Para desinstalar: borra los archivos que copiaste. Los guardados propios del mod (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Names.sav*, las fotos de looks en *Saved\SaveGames\AltUI\* y las imágenes de armas en *Saved\SaveGames\WeaponIcons\*) también se pueden borrar; no se toca nada más – ropa, conjuntos, maquillaje y peinado se escriben a través de los guardados del propio juego.
 
 ## Qué hace
 
@@ -35,7 +49,7 @@ Para desinstalar: borra los dos archivos. Los guardados propios del mod (*Saved\
 * **Gestión** – tus propios nombres para mods, grupos, prendas, peinados, piel y maquillaje – en todo el panel y en la búsqueda; «Renombrar…» en el menú contextual de cada casilla; exportables / importables como JSON con `altui_names.pyz`.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
-Idiomas: inglés, alemán, chino, ruso, español (detección automática, cambiable en Opciones).
+Idiomas: inglés, alemán, chino, ruso, español, polaco (detección automática, cambiable en Opciones).
 
 ## Controles
 
@@ -61,9 +75,27 @@ Hecho para la versión 0.6.x del juego. Funciona con mods de ropa, peinados, maq
 
 ## Actualizaciones
 
-Una versión nueva es un archivo nuevo con los dos ficheros; cópialos encima de los antiguos. El archivo hook cambia rara vez – solo lanza el panel y mueve la cámara, todo lo demás está en AltUI.pak. Cada entrada del registro de cambios indica si el hook ha cambiado; si dice «unchanged», puedes conservar el que tienes. Solo hace falta un hook nuevo cuando lo dice el registro de cambios o cuando una actualización del juego sustituye el gestor de cámara del jugador.
+Una versión nueva es un archivo nuevo; copia AltUI.pak encima del antiguo. El Blueprint Loader en sí no necesita nada – es un mod aparte y se actualiza en su propia página. Pero un AltUI_Hook_P.pak antiguo no puede quedarse en ~mods. Es el archivo que se queda con la clase del gestor de cámara, y uno anterior a 1.5.0 no lanza el cargador – entonces el panel se abre sin que la vista se aparte, y los mods hechos para el cargador no arrancan. Bórralo o sustitúyelo por el actual. Con el pak hook: cambia rara vez, porque solo lanza el panel y todo lo demás está en AltUI.pak. Cada entrada del registro de cambios indica si el hook ha cambiado; si dice «unchanged», puedes conservar el que tienes. Solo hace falta un hook nuevo cuando lo dice el registro de cambios o cuando una actualización del juego sustituye el gestor de cámara del jugador.
 
 No se incluye ningún recurso del juego; todo lo que hay en el pak está generado.
+
+## Qué hace cada combinación
+
+AltUI.pak es el mod; hace falta un segundo archivo que lo arranque. El resultado:
+
+* **Sólo AltUI.pak** – nada arranca el panel: B no hace nada.
+* **AltUI.pak + Blueprint Loader** – el cargador lee la tabla de AltUI y abre el panel. AltUI en sí no reemplaza nada del juego; el cargador sí reemplaza la clase del gestor de cámara, que es como funciona.
+* **AltUI.pak + AltUI_Hook_P.pak** – el hook reemplaza el gestor de cámara del juego y abre el panel.
+* **AltUI.pak + ambos** – funciona y no se pierde nada. Ambos reemplazan la misma clase del juego, así que sólo uno de los dos paks la gana, y sea cual sea, AltUI arranca: por la tabla del cargador o por el hook, que además arranca el cargador para que los mods hechos para él sigan funcionando.
+* **El hook o el cargador sin AltUI.pak** – nada: falta el mod en sí.
+
+## Lo que no puede hacer
+
+Tres límites que conviene conocer:
+
+* **El maquillaje se tiñe, no se recolorea.** El color se multiplica sobre el dibujo existente: uno pálido o neutro lo toma casi por completo, uno oscuro sólo puede oscurecerse o desplazarse. El blanco significa «sin cambios», no maquillaje blanco.
+* **Los colores se ven en el juego, no en el menú principal.** AltUI los aplica a Jodi mientras estás en un nivel, que es donde se ejecuta. El menú principal la muestra con los colores de fábrica del juego.
+* **Un cuerpo convertido puede asomar bajo la ropa ajustada.** El juego aplana esas zonas con morph targets que viven en la malla del cuerpo; si la malla no trae ninguno, no hay nada con qué aplanar. Es cosa del cuerpo, no de la conversión: el conversor conserva los que tenga el original, y si el original no tiene, nadie puede añadirlos.
 
 ## Código fuente e incidencias
 

@@ -14,6 +14,7 @@ def groups(mgr, t="All"):
 
 def names(mgr, prop): return [str(n) for n in mgr.get_editor_property(prop)]
 
+# The counts below are rows of the kit's stub tables (SkinTable, MakeupTable, EyeTable): adding a stub row means updating them.
 def main():
     mgr = cdo(M + "/BP_AltUIManager.BP_AltUIManager_C")
     mgr.call_method("Test Strings", args=(1,)); mgr.call_method("Test Load Names")
@@ -22,9 +23,9 @@ def main():
     expect("look keys", (key(mgr, "Skin_Default"), key(mgr, "Lips_01"), key(mgr, "Eye_1")), ("skin:Skin_Default", "makeup:Lips_01", "makeup:Eye_1"))
     # collected rows: skins, MakeupTable rows, EyeTable rows (stub tables)
     mgr.call_method("Test Collect Look Rows", args=("All",))
-    expect("rows of All", list(zip(names(mgr, "LookRowKinds"), names(mgr, "LookRows"))), [("skin", "Skin_Default"), ("makeup", "Eyebrow_01"), ("makeup", "Lips_01"), ("makeup", "Lips_02"), ("makeup", "Eye_1")])
+    expect("rows of All", list(zip(names(mgr, "LookRowKinds"), names(mgr, "LookRows"))), [("skin", "Skin_Default"), ("makeup", "Eyebrow_01"), ("makeup", "Lips_01"), ("makeup", "Lips_02"), ("makeup", "Eye_1"), ("makeup", "Eye_2"), ("makeup", "Eyelashes_1")])
     mgr.call_method("Test Collect Look Rows", args=("Lips",)); expect("rows of Lips", names(mgr, "LookRows"), ["Lips_01", "Lips_02"])
-    mgr.call_method("Test Collect Look Rows", args=("Eye",)); expect("rows of Eye (EyeTable)", names(mgr, "LookRows"), ["Eye_1"])
+    mgr.call_method("Test Collect Look Rows", args=("Eye",)); expect("rows of Eye (EyeTable)", names(mgr, "LookRows"), ["Eye_1", "Eye_2"])
     mgr.call_method("Test Collect Look Rows", args=("Presets",)); expect("presets: no rows", names(mgr, "LookRows"), [])
     # favourites / hidden with the prefixed keys
     mgr.call_method("Test Toggle Look Favorite", args=("Lips_01",)); expect("favourite added", names(mgr, "Favorites"), ["makeup:Lips_01"])
@@ -36,17 +37,31 @@ def main():
     expect("groups of All", groups(mgr), ["Vanilla", "ModA", "Hidden"])
     expect("groups of Skin (nothing to choose)", groups(mgr, "Skin"), ["Vanilla"])
     # counts: total ignores the filters; filtered = chip + only favourites (+ search)
-    expect("total All", count(mgr, "All"), 5)
-    expect("All, no filter: hidden row dropped", count(mgr, "All", True), 4)
+    expect("total All", count(mgr, "All"), 7)
+    expect("All, no filter: hidden row dropped", count(mgr, "All", True), 6)
     mgr.set_editor_property("LookGroup", "ModA"); expect("chip ModA", count(mgr, "All", True), 1)
-    mgr.set_editor_property("LookGroup", "Vanilla"); expect("chip Vanilla (Lips_01 hidden)", count(mgr, "All", True), 3)
+    mgr.set_editor_property("LookGroup", "Vanilla"); expect("chip Vanilla (Lips_01 hidden)", count(mgr, "All", True), 5)
     mgr.set_editor_property("LookGroup", "Hidden"); expect("chip Hidden", count(mgr, "All", True), 1)
     mgr.set_editor_property("LookGroup", "None"); mgr.set_editor_property("LookOnlyFav", True); expect("only favourites", (count(mgr, "All", True), count(mgr, "Skin", True), count(mgr, "Lips", True)), (1, 1, 0))
     mgr.set_editor_property("LookSearchText", "skin"); expect("search + only favourites", count(mgr, "All", True), 1); mgr.set_editor_property("LookSearchText", "lips_0"); expect("search miss on favourites", count(mgr, "All", True), 0)
     mgr.set_editor_property("LookSearchText", ""); mgr.set_editor_property("LookOnlyFav", False)
+    # "only worn" = Is Look Selected, which goes through Player.Get Makeup Data - there is no player in the editor, so only the
+    # switched-off case is checkable here; the positive one is point 8 of docs/checklists/ui-test-33.md.
+    mgr.set_editor_property("LookOnlyWorn", False)
+    expect("worn filter off changes nothing", (count(mgr, "All", True), count(mgr, "Skin", True)), (6, 1))
     # unhide: chip Hidden without a hidden row left -> All
     mgr.set_editor_property("LookGroup", "Hidden"); mgr.call_method("Test Toggle Look Hidden", args=("Lips_01",)); expect("unhidden", names(mgr, "HiddenItems"), []); expect("chip back to All", str(mgr.get_editor_property("LookGroup")), "None")
     expect("groups without hidden", groups(mgr), ["Vanilla", "ModA"])
+    # chip search of the appearance page: filters the mod chips, brings them out of the collapsed state while text is in it
+    mgr.set_editor_property("LookGroup", "None"); mgr.set_editor_property("LookChipsCollapsed", False)
+    def look_chip_shown(group):
+        mgr.call_method("Test Look Chip Shown", args=(group,)); return mgr.get_editor_property("TmpBool")
+    mgr.set_editor_property("LookChipSearchText", ""); expect("look chip shown", look_chip_shown("ModA"), True)
+    mgr.set_editor_property("LookChipSearchText", "zzz"); expect("look chip filtered", look_chip_shown("ModA"), False)
+    mgr.set_editor_property("LookChipSearchText", "moda"); expect("look chip matches", look_chip_shown("ModA"), True)
+    mgr.set_editor_property("LookChipsCollapsed", True); expect("look search beats collapsed", look_chip_shown("ModA"), True)
+    mgr.set_editor_property("LookChipSearchText", ""); expect("look collapsed again", look_chip_shown("ModA"), False)
+    mgr.set_editor_property("LookChipsCollapsed", False)
     # category change keeps the chip when the new category has that group, else All (Select Look Cat; Panel is None in the editor -> widgets untouched)
     mgr.set_editor_property("LookGroup", "ModA"); mgr.call_method("Test Select Look Cat", args=("Lips",)); expect("chip kept (Lips has ModA)", str(mgr.get_editor_property("LookGroup")), "ModA")
     mgr.call_method("Test Select Look Cat", args=("Skin",)); expect("chip dropped (Skin has no ModA)", str(mgr.get_editor_property("LookGroup")), "None")
@@ -71,10 +86,10 @@ def main():
     expect("merge mods off: identity", alias("ModB"), "ModB"); expect("merge mods off: two chips (row order)", groups(mgr), ["Vanilla", "ModB", "ModA"]); expect("merge mods off: own filter", count(mgr, "All", True), 1)
     mgr.set_editor_property("LookGroup", "None"); mgr.call_method("Test Set Custom Name", args=("mod", "ModA", "")); mgr.call_method("Test Set Custom Name", args=("mod", "ModB", "")); del origin["Eyebrow_01"]; mgr.set_editor_property("ModList", [])
     # settings roundtrip
-    mgr.set_editor_property("LookOnlyFav", True); mgr.set_editor_property("LookChipsCollapsed", True); mgr.call_method("Test Save Settings")
-    mgr.set_editor_property("LookOnlyFav", False); mgr.set_editor_property("LookChipsCollapsed", False); mgr.call_method("Test Load Settings")
-    expect("settings roundtrip", (mgr.get_editor_property("LookOnlyFav"), mgr.get_editor_property("LookChipsCollapsed"), names(mgr, "Favorites")), (True, True, ["skin:Skin_Default"]))
+    mgr.set_editor_property("LookOnlyFav", True); mgr.set_editor_property("LookOnlyWorn", True); mgr.set_editor_property("LookChipsCollapsed", True); mgr.call_method("Test Save Settings")
+    mgr.set_editor_property("LookOnlyFav", False); mgr.set_editor_property("LookOnlyWorn", False); mgr.set_editor_property("LookChipsCollapsed", False); mgr.call_method("Test Load Settings")
+    expect("settings roundtrip", (mgr.get_editor_property("LookOnlyFav"), mgr.get_editor_property("LookOnlyWorn"), mgr.get_editor_property("LookChipsCollapsed"), names(mgr, "Favorites")), (True, True, True, ["skin:Skin_Default"]))
     # clean up
     del origin["Lips_02"]; mgr.set_editor_property("ItemOriginMod", origin)
-    mgr.set_editor_property("Favorites", []); mgr.set_editor_property("HiddenItems", []); mgr.set_editor_property("LookOnlyFav", False); mgr.set_editor_property("LookChipsCollapsed", False); mgr.set_editor_property("LookGroup", "None"); mgr.call_method("Test Save Settings")
+    mgr.set_editor_property("Favorites", []); mgr.set_editor_property("HiddenItems", []); mgr.set_editor_property("LookOnlyFav", False); mgr.set_editor_property("LookOnlyWorn", False); mgr.set_editor_property("LookChipsCollapsed", False); mgr.set_editor_property("LookGroup", "None"); mgr.call_method("Test Save Settings")
 run(main)

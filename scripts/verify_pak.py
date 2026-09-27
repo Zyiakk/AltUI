@@ -56,9 +56,13 @@ if hook_full != ["TheKillingAntidote/Content/Project/Classes/TKA_PlayerCameraMan
     err("hook pak content unexpected: %s" % hook_full)
 
 # 3) imports of all assets resolvable (game pak or mod pak)
+EXTERNAL_OK = {"/Game/Mod/TKA_BlueprintLoader/BlueprintToLoad_Struct"}
+
+
 def check_imports(label, ua, ue):
     names, imps, exps, pkgs, data = summary_of(ua, ue)
     for p in pkgs:
+        if p in EXTERNAL_OK: print("  external (other mod, not shipped):", label, p); continue
         f = pkg_to_file(p)
         if f is None: continue
         if GAME_FILES is not None and f not in GAME_FILES and f not in mod_full: err("%s: import target missing in game+mod: %s" % (label, p))

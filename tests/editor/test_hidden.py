@@ -4,7 +4,7 @@ from edtest_lib import *
 M = "/Game/Mod/AltUI"
 
 def filtered(mgr, slot, group):
-    mgr.call_method("Test Filter", args=(slot, group, "", False, False, False))
+    mgr.call_method("Test Filter", args=(slot, group, "", False, False, False, False))
     return [str(n) for n in mgr.get_editor_property("TmpNames")]
 
 def groups(mgr, slot):

@@ -3,7 +3,8 @@ tools/ooz/libooz.so and the mod archive exist – the ooz reference decoder."""
 import unittest, os, sys, json, glob, hashlib, time
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "scripts"))
 FX = os.path.join(H, "fixtures")
-A = "/mnt/linDataSSD/games/TKA_mods_archive/original"
+import cfg
+A = cfg.path("TKA_MOD_ARCHIVE")
 OOZ = os.path.join(H, "..", "..", "tools", "ooz", "libooz.so")
 import oodle_kraken
 from oodle_kraken import OodleError
@@ -118,7 +119,7 @@ class Blocks(unittest.TestCase):
         t = time.time(); decode_entry(os.path.join(FX, "kraken_fixture.pak"), "/big.bin")
         self.assertLess(time.time() - t, 2.0)
 
-    @unittest.skipUnless(os.path.exists(A), "Mod-Archiv fehlt")
+    @unittest.skipUnless(os.path.exists(A), "no mod archive (TKA_MOD_ARCHIVE)")
     def test_runtime_largest_uasset(self):
         # 410 KB, the largest Oodle-compressed .uasset in the archive
         p = A + "/Mods/TKA_Workshop_EscapefromRC.pak"; key = "ModernCityEnvironment01/Blueprints/BP_MBuilding04.uasset"
@@ -126,7 +127,7 @@ class Blocks(unittest.TestCase):
         self.assertLess(time.time() - t, 5.0); self.assertEqual(len(data), 410140)
 
 
-@unittest.skipUnless(os.path.exists(OOZ), "libooz.so (tools/fetch_ooz.sh) fehlt")
+@unittest.skipUnless(os.path.exists(OOZ), "libooz.so (tools/fetch_ooz.sh) not built")
 class Native(unittest.TestCase):
     """scripts/oodle_native.py: the dev repo decodes through ooz (ctypes, ~100x faster); pak11_extract.oodle() prefers it and
     falls back to the pure-Python decoder – the only path inside bodypak.pyz, which does not ship oodle_native."""
@@ -152,7 +153,7 @@ class Native(unittest.TestCase):
             pak11_extract._native = oodle_native
 
 
-@unittest.skipUnless(os.path.exists(OOZ) and os.path.exists(A), "libooz.so (tools/fetch_ooz.sh) oder Mod-Archiv fehlt")
+@unittest.skipUnless(os.path.exists(OOZ) and os.path.exists(A), "libooz.so (tools/fetch_ooz.sh) or the mod archive is missing")
 class Reference(unittest.TestCase):
     """Python decoder == ooz on the archive: every .uasset of a sample of paks (all entries of all paks with KRAKEN_FULL=1)."""
     SAMPLE = ["Mods/TKA-UN_Dv1-fix1.3d.pak", "nexus/783/Jodithicctest4_P.pak", "Mods/HMs_Shoes.pak", "Mods/Car_Dealer.pak",

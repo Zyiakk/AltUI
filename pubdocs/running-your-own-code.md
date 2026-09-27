@@ -2,7 +2,22 @@
 
 A mod pak is data. Meshes, textures, tables, blueprints – the loader reads the tables, the game shows the content, and nothing of yours ever *runs*. The game's mod system is generous with data and offers no place at all to put code. For a retexture that is fine. For anything that has to react while the player plays, you need a place where the game calls into code you wrote.
 
-The game gives you one, almost by accident, and AltUI uses it: a class that is part of the game but practically empty, which a pak can replace with a version that does the same thing plus yours. This page describes that hook end to end – what it hooks, how it starts your actor, how it stays out of everyone else's way, and the one hard limit that comes with it.
+The game gives you one, almost by accident: a class that is part of the game but practically empty, which a pak can replace with a version that does the same thing plus yours. This page describes that hook end to end – what it hooks, how it starts your actor, how it stays out of everyone else's way, and the one hard limit that comes with it.
+
+That limit is why there is a second route, and why it is the better one if it is available to you: a **loader mod** claims the class once and starts every mod that asks. You then ship no replacement at all. [The Blueprint Loader](https://www.nexusmods.com/thekillingantidote/mods/994) is such a mod, and the rest of this page's first section describes how to be started by it. Everything after that is the hook itself, which is still worth knowing – it is what a loader does internally, and what you fall back on when you would rather not depend on another mod.
+
+## Being started by a loader
+
+A mod that a loader starts ships a data table, and nothing that replaces anything:
+
+* Build a data table in your own folder, `/Game/Mod/<YourMod>/TKA_BlueprintLoader`. The name is fixed – that is how the loader finds it without searching.
+* Its row structure is the loader's `BlueprintToLoad_Struct`, which lives at `/Game/Mod/TKA_BlueprintLoader/BlueprintToLoad_Struct` and comes from the loader's own kit archive. **Do not ship it**; it belongs to the loader's pak, and a copy of your own would replace it.
+* Each row points at one actor class of yours. Several rows mean several actors from one pak.
+* Your mod folder has to be named exactly like your pak, because the loader builds the path from the row the game writes into `DLC_MainTable`, and that row is named after the pak file. Your `TKA_Mod_Table` needs a row of its own, or the game lists nothing and the loader never sees you.
+
+The actor is spawned with an identity transform and **no owner**, in the main menu as well as in a level. Both matter: take the player controller from `GetPlayerController(0)` rather than `GetOwner`, and wait until the pawn exists before you touch anything that needs a player – the timer from [Starting your actor](#starting-your-actor) does exactly that, and in a loader-started actor it does the waiting the hook would otherwise do.
+
+The loader pak goes into `Content/Paks/~mods/`, not into `Mods/`: it replaces a class of the game, and only the engine's folder is mounted early enough for that. Say so in your installation instructions, because a loader in the wrong folder fails silently – nothing starts, and nothing says why.
 
 ## An empty class as the door
 
@@ -60,15 +75,15 @@ The hook refers to your manager **by path**, through a blocking class load, not 
 
 Communication in the other direction works the same way: the manager sets variables on the camera manager, and the camera manager reads them. No casts to mod classes, no hard references in the asset that replaces a game asset. Keep that boundary thin and the hook can stay untouched for years.
 
-## What the camera override does
+## Moving the camera without owning the class
 
-The one thing AltUI's hook does beyond spawning is override `BlueprintUpdateCamera`, and it is worth describing because the vector maths in there is easy to misread from the outside.
+Camera work is the usual reason to want the class in the first place, and it is the one job that does not need it. `UCameraModifier` is `Blueprintable`, its `BlueprintModifyCamera` gets the same values as a camera manager's `BlueprintUpdateCamera`, and the manager applies modifiers right after it has computed the point of view. `AddNewCameraModifier`, `FindCameraModifierByClass` and `RemoveCameraModifier` are callable from Blueprint on the player controller's camera manager – whichever class that manager happens to be.
 
-While the panel is closed, the override returns `false` – "not handled" – on the first branch, and the engine computes the camera exactly as it always does. That is the state the game is in essentially all the time.
+So a modifier attaches to the game's own camera manager, to a loader's, or to yours, and two mods can each have one. That is what AltUI does now: the panel's framing sits in a modifier that is added the first time the panel needs the camera, and removed when the actor ends.
 
-While the panel is open, it moves the camera so the character stands in the free area beside the panel instead of in the middle of the screen: it finds the active camera component of the view target, narrows the field of view by a factor, pulls the camera back along its view axis so the character keeps her size on screen, and offsets it sideways and vertically. The sideways offset is a closed loop rather than a formula – the character's world position is projected to screen space, compared against the target position, and the offset corrected by a fraction of the error each frame.
+The framing itself: while the panel is closed the modifier hands the incoming values straight back, and the engine's camera is untouched – the state the game is in essentially all the time. While it is open, the character has to stand in the free area beside the panel instead of in the middle of the screen, so the modifier narrows the field of view by a factor, pulls the camera back along its view axis to keep her size on screen, and offsets it sideways and vertically. The sideways offset is a closed loop rather than a formula: her world position is projected to screen space, compared against the target position, and the offset corrected by a fraction of the error each frame.
 
-None of this touches the character: no bones, no meshes, no morphs. It changes where the camera is and how wide it sees, and returns the result.
+None of this touches the character: no bones, no meshes, no morphs. It changes where the camera is and how wide it sees.
 
 ## Doing it yourself
 
@@ -80,7 +95,7 @@ None of this touches the character: no bones, no meshes, no morphs. It changes w
 
 ## Where it goes wrong
 
-* **Only one mod can have it.** Two mods that replace `TKA_PlayerCameraManager` exclude each other, exactly like two replacers for the same mesh. There is no way around that from inside a pak, and it is the reason this technique does not scale to a modding scene. If you are building something that other mods should be able to join, spawn your actor from a hook that others can register with, rather than claiming the class yourself.
+* **Only one mod can have it.** Two mods that replace `TKA_PlayerCameraManager` exclude each other, exactly like two replacers for the same mesh. There is no way around that from inside a pak, and it is the reason this technique does not scale to a modding scene. Ship a loader table instead and let a loader mod own the class; if you keep a hook as well, make it start the loader when it is installed, so the mods that rely on it keep running.
 * **Blocking loads in a loop.** A timer that keeps trying to load a class that will never exist is a stutter every half second for the whole session. Stop after the first failure.
 * **Spawning without an owner.** An actor spawned without the controller as owner loses the connection to the player it belongs to, which matters as soon as you want input or a widget on that player's screen.
 * **Forgotten defaults.** Anything set on the class you replace has to be set on yours. Compare them property by property before you ship.

@@ -8,7 +8,7 @@ class HairColors(unittest.TestCase):
         self.assertEqual(len(hair_colors.COLORS), 14)
         keys = [k for k, _, _ in hair_colors.COLORS]; self.assertEqual(len(set(keys)), 14)
         for k, rgb, names in hair_colors.COLORS:
-            self.assertEqual(len(rgb), 3, k); self.assertTrue(all(0.0 <= c <= 1.0 for c in rgb), k); self.assertEqual(len(names), 5, k)
+            self.assertEqual(len(rgb), 3, k); self.assertTrue(all(0.0 <= c <= 1.0 for c in rgb), k); self.assertEqual(len(names), len(strings.LANGS), k)
             self.assertIn("Hair_" + k, strings.STRINGS)   # tooltips live in the string table
 
     def test_srgb_to_linear(self):

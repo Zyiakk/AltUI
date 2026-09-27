@@ -1,13 +1,18 @@
 import unittest, os, sys, tempfile, shutil, struct, hashlib, subprocess, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "scripts"))
 import bodypak
+import bodyscale_groups as bg
 from pak11_extract import Pak, rstr
 from pakio import open_pak
-A = "/mnt/linDataSSD/games/TKA_mods_archive/original"
+import cfg
+A = cfg.path("TKA_MOD_ARCHIVE")
 DV1 = A + "/Mods/TKA-UN_Dv1-fix1.3d.pak"; PUSSY = A + "/workshop/3612645999/Jodi_New_Pussy.pak"
 OG = A + "/workshop/3432791726/FemaleOGMORPH-0.6_P.pak"; SHOES = A + "/Mods/HMs_Shoes.pak"
 THICC = A + "/nexus/783/Jodithicctest4_P.pak"   # mesh + PostProcessAnimBlueprint TESTABP (bone scaling) in the same pak
-UNREALPAK = os.environ.get("UNREALPAK", "/mnt/linDataSSD/apps/UnrealEngine/UnrealEngine-4.27/Engine/Binaries/Linux/UnrealPak")
+UNREALPAK = cfg.path("UNREALPAK", "UnrealPak")
+# the paks of real mods are not part of the repository: without TKA_MOD_ARCHIVE those tests skip
+NEED_ARCHIVE = unittest.skipUnless(os.path.isdir(A), "no mod archive (TKA_MOD_ARCHIVE)")
+NEED_UNREALPAK = unittest.skipUnless(os.path.exists(UNREALPAK), "UnrealPak not found (UNREALPAK)")
 
 
 def path_hash_index(path):
@@ -20,6 +25,7 @@ def path_hash_index(path):
     return seed, {struct.unpack_from("<Q", ph, 4 + 12 * i)[0]: struct.unpack_from("<i", ph, 12 + 12 * i)[0] for i in range(n)}
 
 
+@NEED_ARCHIVE
 class PathHash(unittest.TestCase):
     def test_matches_kit_paks(self):
         for p in (DV1, PUSSY, SHOES):
@@ -47,6 +53,7 @@ class Writer(unittest.TestCase):
         for key, loc in pk.files.items():
             self.assertEqual(ph[bodypak.path_hash(key.lstrip("/"), seed)], loc)
 
+    @NEED_ARCHIVE
     def test_raw_entry_copies_region_verbatim(self):
         src = Pak(DV1); region, e = bodypak.raw_entry(src, "/Female.uexp")
         en = src.entry(src.files["/Female.uexp"])
@@ -58,7 +65,8 @@ class Writer(unittest.TestCase):
         self.assertEqual((en2["usz"], en2["sz"], en2["comp"], en2["bs"], en2["blocks"]), (en["usz"], en["sz"], en["comp"], en["bs"], en["blocks"]))
         self.assertEqual(hashlib.sha256(pk.read("/Female.uexp")).digest(), hashlib.sha256(src.read("/Female.uexp")).digest())   # Oodle via tools/ooz
 
-    @unittest.skipUnless(os.path.exists(UNREALPAK), "UnrealPak fehlt")
+    @NEED_ARCHIVE
+    @NEED_UNREALPAK
     def test_unrealpak_reads_our_pak(self):
         src = Pak(DV1); entries = [("Female.uasset",) + bodypak.raw_entry(src, "/Female.uasset"), ("Female.uexp",) + bodypak.raw_entry(src, "/Female.uexp"), ("T.uasset",) + bodypak.plain_entry(b"x" * 999)]
         out = os.path.join(self.d, "u.pak")
@@ -71,6 +79,7 @@ class Writer(unittest.TestCase):
         self.assertEqual(open(os.path.join(x, "T.uasset"), "rb").read(), b"x" * 999)
 
 
+@NEED_ARCHIVE
 class Convert(unittest.TestCase):
     def setUp(self):
         self.d = tempfile.mkdtemp(); self.addCleanup(shutil.rmtree, self.d, ignore_errors=True)
@@ -80,23 +89,23 @@ class Convert(unittest.TestCase):
         self.assertEqual(len(out_uexp), len(src_uexp) + 29); self.assertEqual(out_uexp[-4096:], src_uexp[-4096:])
 
     def test_derive_name(self):
-        self.assertEqual(bodypak.derive_name("/x/TKA-UN_Dv1-fix1.3d.pak"), "Body_TKA_UN_Dv1_fix1_3d")
+        self.assertEqual(bodypak.derive_name("/x/TKA-UN_Dv1-fix1.3d.pak"), bg.MOD_PREFIX + "TKA_UN_Dv1_fix1_3d")
         self.assertEqual(bodypak.derive_name("Body_Foo.pak"), "Body_Foo")
 
     def test_v11_source(self):
         out, log = bodypak.convert(DV1, out_dir=self.d)
-        self.assertEqual(os.path.basename(out), "Body_TKA_UN_Dv1_fix1_3d.pak"); self.assertEqual(log["status"], "ok"); self.assertEqual(log["verify"], [])
+        self.assertEqual(os.path.basename(out), bg.MOD_PREFIX + "TKA_UN_Dv1_fix1_3d.pak"); self.assertEqual(log["status"], "ok"); self.assertEqual(log["verify"], [])
         self.assertEqual(log["title"], "TKA_UN_Dv1_fix1_3d")
         pk = Pak(out); src = Pak(DV1)
-        self.assertEqual(pk.mount, "../../../TheKillingAntidote/Content/Mod/Body_TKA_UN_Dv1_fix1_3d/")
+        self.assertEqual(pk.mount, "../../../TheKillingAntidote/Content/Mod/" + bg.MOD_PREFIX + "TKA_UN_Dv1_fix1_3d/")
         self.assertEqual(sorted(pk.files), ["/Body_Scale.uasset", "/Body_Scale.uexp", "/Female.uasset", "/Female.uexp", "/TKA_Mod_Table.uasset", "/TKA_Mod_Table.uexp"])
         self.assertTagAdded(pk.read("/Female.uexp"), src.read("/Female.uexp"))   # the uasset gets the ABP imports (test_abp_added_dv1)
         self.assertEqual(pk.entry(pk.files["/Female.uexp"])["comp"], 0)   # tag inserted -> stored uncompressed (raw block copy: test_abp_attached_783)
-        self.assertTrue(os.path.exists(os.path.join(self.d, "Body_TKA_UN_Dv1_fix1_3d_convert.json")))
+        self.assertTrue(os.path.exists(os.path.join(self.d, bg.MOD_PREFIX + "TKA_UN_Dv1_fix1_3d_convert.json")))
         # mod table: row = name, Caption = title, no tables
         import uasset_props
         p = os.path.join(self.d, "TKA_Mod_Table.uasset"); open(p, "wb").write(pk.read("/TKA_Mod_Table.uasset")); open(p[:-7] + ".uexp", "wb").write(pk.read("/TKA_Mod_Table.uexp"))
-        t = next(iter(uasset_props.dump(p).values())); row = t["rows"]["Body_TKA_UN_Dv1_fix1_3d"]
+        t = next(iter(uasset_props.dump(p).values())); row = t["rows"][bg.MOD_PREFIX + "TKA_UN_Dv1_fix1_3d"]
         self.assertEqual(row["Caption_2_CF40F849410064585CC285AFBAD051F2"], "TKA_UN_Dv1_fix1_3d")
         self.assertEqual(row["Tables_21_CE3E42574FF40670AE5465BCDC6ABBCB"], [])
 
@@ -200,7 +209,7 @@ class Convert(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr); self.assertIn("Body_CLI.pak", r.stdout)
         self.assertEqual(json.load(open(os.path.join(self.d, "Body_CLI_convert.json")))["status"], "ok")
 
-    @unittest.skipUnless(os.path.exists(UNREALPAK), "UnrealPak fehlt")
+    @NEED_UNREALPAK
     def test_unrealpak_test_passes(self):
         for src, name in ((DV1, "Body_A"), (OG, "Body_B"), (THICC, "Body_C"), (PUSSY, "Body_D")):
             out, _ = bodypak.convert(src, name=name, out_dir=self.d)
@@ -208,6 +217,7 @@ class Convert(unittest.TestCase):
             self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-3000:])
 
 
+@NEED_ARCHIVE
 class Dist(unittest.TestCase):
     def test_zipapp_runs_without_third_party_packages(self):
         w = os.path.join(H, "..", ".."); d = tempfile.mkdtemp(); self.addCleanup(shutil.rmtree, d, ignore_errors=True)

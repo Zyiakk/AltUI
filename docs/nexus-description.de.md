@@ -10,17 +10,31 @@ Auch im [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=
 
 ## Installation
 
-Das Archiv enthält zwei Pak-Dateien, die in zwei verschiedene Ordner gehören (Pfade relativ zur Spielinstallation, z. B. *Steam\steamapps\common\TheKillingAntidote\*):
+**AltUI.pak** ist der ganze Mod; eine zweite Datei muss ihn starten. Dafür gibt es zwei Wege – einer genügt, beide zusammen gehen auch. Pfade sind relativ zur Spielinstallation, z. B. *Steam\steamapps\common\TheKillingAntidote\*; der Spielordner-Name kommt darin zweimal vor, das ist richtig so.
 
-1. **AltUI.pak** → *TheKillingAntidote\Mods\*
-2. **AltUI_Hook_P.pak** → *TheKillingAntidote\Content\Paks\~mods\* – den Ordner **~mods** anlegen, falls er nicht existiert (der Name beginnt mit einer Tilde). Der Spielordner-Name kommt im Pfad zweimal vor – das ist richtig so.
+**1. Mit dem Blueprint Loader (AltUI ersetzt nichts vom Spiel)**
+
+1. **TKA_BlueprintLoader.pak** von [Blueprint Loader](https://www.nexusmods.com/thekillingantidote/mods/994) holen und nach *TheKillingAntidote\Content\Paks\~mods\* legen – den Ordner **~mods** anlegen, falls er nicht existiert (der Name beginnt mit einer Tilde).
+2. **AltUI.pak** aus dem Archiv hier → *TheKillingAntidote\Mods\*
 3. Spiel starten, in einem Level B drücken.
 
-Beide Dateien sind nötig. Der Hook muss eines der Blueprints des Spiels überschreiben (den Player-Kamera-Manager), und das geht nur aus *~mods*; ohne ihn **passiert bei B nichts**. Der Hook kollidiert mit jedem anderen Mod, der *TKA_PlayerCameraManager* ersetzt (keiner bekannt).
+AltUI.pak bringt eine Tabelle mit, die der Loader liest, und der Loader startet daraus das Panel. Derselbe Loader startet jeden anderen Mod, der so eine Tabelle mitbringt – deshalb ist das der Weg, wenn du mehrere davon benutzt.
 
-**„B tut nichts“** → die Hook-Datei fehlt oder liegt im falschen Ordner. Sie muss in *Content\Paks\~mods* liegen, nicht in *Mods*.
+**Beim Umstieg von einer älteren AltUI-Version: Liegt noch eine AltUI_Hook_P.pak in ~mods, diese löschen. Der Hook beansprucht die Kameraklasse für sich, und einer von vor 1.5.0 startet den Loader nicht – das Panel öffnet dann zwar, die Ansicht rückt aber nicht zur Seite, und Mods, die für den Loader gebaut sind, bleiben tot.**
 
-Deinstallation: die zwei Dateien löschen. Die eigenen Speicherdateien des Mods (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav* und die Look-Fotos in *Saved\SaveGames\AltUI\*) können ebenfalls gelöscht werden; sonst wird nichts angefasst – Kleidung, Outfits, Makeup und Frisur laufen über die Speicherdateien des Spiels.
+**2. Mit dem Hook-Pak (kein zweiter Mod nötig)**
+
+1. **AltUI.pak** → *TheKillingAntidote\Mods\*
+2. **AltUI_Hook_P.pak** → *TheKillingAntidote\Content\Paks\~mods\* – dieselbe Ordnerregel wie oben.
+3. Spiel starten, in einem Level B drücken.
+
+Der Hook ersetzt eines der Blueprints des Spiels (den Player-Kamera-Manager) und startet von dort das Panel; das geht nur aus *~mods*. Jeder Mod, der dasselbe Blueprint ersetzt, kollidiert mit ihm – der Blueprint Loader ist so einer, und genau dieses Paar ist die Ausnahme: sind beide installiert, gewinnt der Hook die Klasse und startet den Loader selbst, sodass Mods, die den Loader brauchen, weiterlaufen.
+
+**„B tut nichts“** → nichts hat das Panel gestartet: entweder fehlt die zweite Datei, oder sie liegt in *Mods* statt in *Content\Paks\~mods*.
+
+Die Kameraführung neben dem offenen Panel hängt nicht mehr am Hook – sie hängt sich an den Kamera-Manager, den das Level ohnehin hat, auch an den des Spiels.
+
+Deinstallation: die kopierten Dateien löschen. Die eigenen Speicherdateien des Mods (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Names.sav*, die Look-Fotos in *Saved\SaveGames\AltUI\* und die Waffen-Kacheln in *Saved\SaveGames\WeaponIcons\*) können ebenfalls gelöscht werden; sonst wird nichts angefasst – Kleidung, Outfits, Makeup und Frisur laufen über die Speicherdateien des Spiels.
 
 ## Was es kann
 
@@ -35,7 +49,7 @@ Deinstallation: die zwei Dateien löschen. Die eigenen Speicherdateien des Mods 
 * **Verwaltung** – eigene Anzeigenamen für Mods, Gruppen, Teile, Frisuren, Haut und Makeup – überall im Panel und in der Suche; „Umbenennen…“ im Kontextmenü jeder Kachel; als JSON exportier-/importierbar mit `altui_names.pyz`.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips zeigen, aus welchem Mod ein Teil stammt.
 
-Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch (automatisch erkannt, in den Optionen umschaltbar).
+Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch (automatisch erkannt, in den Optionen umschaltbar).
 
 ## Steuerung
 
@@ -61,9 +75,27 @@ Gemacht für Spielversion 0.6.x. Funktioniert mit Kleidungs-, Frisur-, Makeup- u
 
 ## Updates
 
-Eine neue Version ist ein neues Archiv mit beiden Dateien; einfach über die alten kopieren. Die Hook-Datei ändert sich selten – sie startet nur das Panel und bewegt die Kamera, alles andere steckt in AltUI.pak. Jeder Changelog-Eintrag nennt, ob sich der Hook geändert hat; steht dort „unchanged“, kann deine vorhandene bleiben. Ein neuer Hook ist nur nötig, wenn der Changelog es sagt oder wenn ein Spiel-Update den Player-Kamera-Manager ersetzt.
+Eine neue Version ist ein neues Archiv; AltUI.pak einfach über die alte Datei kopieren. Der Blueprint Loader selbst braucht nichts – er ist ein eigener Mod und wird auf seiner eigenen Seite aktualisiert. Eine alte AltUI_Hook_P.pak darf aber nicht in ~mods liegen bleiben. Sie ist die Datei, die die Kameraklasse beansprucht, und eine von vor 1.5.0 startet den Loader nicht – dann öffnet das Panel, ohne dass die Ansicht zur Seite rückt, und jeder Mod, der für den Loader gebaut ist, bleibt tot. Also löschen oder durch die aktuelle ersetzen. Mit dem Hook-Pak: es ändert sich selten, denn es startet nur das Panel, alles andere steckt in AltUI.pak. Jeder Changelog-Eintrag nennt, ob sich der Hook geändert hat; steht dort „unchanged“, kann deine vorhandene bleiben. Ein neuer Hook ist nur nötig, wenn der Changelog es sagt oder wenn ein Spiel-Update den Player-Kamera-Manager ersetzt.
 
 Es sind keine Spiel-Assets enthalten; alles im Pak ist generiert.
+
+## Was die Kombinationen bewirken
+
+AltUI.pak ist die Mod; eine zweite Datei muss sie starten. Was dabei herauskommt:
+
+* **AltUI.pak allein** – nichts startet das Panel – B tut nichts.
+* **AltUI.pak + Blueprint Loader** – der Loader liest AltUIs Tabelle und startet das Panel. AltUI selbst ersetzt nichts am Spiel; der Loader ersetzt die Kameraklasse des Spiels, so arbeitet er.
+* **AltUI.pak + AltUI_Hook_P.pak** – der Hook ersetzt den Kamera-Manager des Spiels und startet das Panel.
+* **AltUI.pak + beides** – geht, und nichts geht verloren. Beide ersetzen dieselbe Spielklasse, nur eine der zwei Paks gewinnt sie – und welche auch immer: AltUI startet, über die Tabelle des Loaders oder über den Hook, der dann zusätzlich den Loader selbst startet, damit Mods für ihn weiterlaufen.
+* **Hook oder Loader ohne AltUI.pak** – nichts – die Mod selbst fehlt.
+
+## Was es nicht kann
+
+Drei Grenzen, die man kennen sollte:
+
+* **Make-up wird getönt, nicht umgefärbt.** Die Farbe wird mit der vorhandenen Zeichnung multipliziert: Blasses oder Neutrales nimmt sie fast voll an, Dunkles lässt sich nur abdunkeln oder verschieben. Weiß heißt „unverändert“, nicht weißes Make-up.
+* **Die Farben zeigen sich im Spiel, nicht im Hauptmenü.** AltUI legt sie auf Jodi, solange du in einem Level bist – dort läuft es. Im Hauptmenü steht sie in den Werksfarben des Spiels, was immer du gewählt hast.
+* **Ein umgewandelter Körper kann unter enger Kleidung durchscheinen.** Das Spiel drückt solche Stellen mit Morph-Targets flach, die am Körper-Mesh hängen; bringt ein Mesh keine mit, ist nichts zum Drücken da. Das liegt am Körper, nicht an der Umwandlung: der Konverter behält, was das Original hat – und hat das Original keine, kann sie niemand nachträglich hinzufügen.
 
 ## Quellcode & Fehlermeldungen
 

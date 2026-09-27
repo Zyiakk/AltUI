@@ -138,6 +138,87 @@
   },
   {
    "type": "struct",
+   "path": "/Game/Mod/AltUI/S_WeaponSkin",
+   "members": [
+    {
+     "name": "Weapon",
+     "type": "name",
+     "internal_name": "Weapon_2_DD42D36351D5E1041D0772E1A57C1111"
+    },
+    {
+     "name": "Caption",
+     "type": "text",
+     "internal_name": "Caption_4_ABE0105192A142F2065F5F4DA9358380"
+    },
+    {
+     "name": "MainTex",
+     "type": "object:/Script/Engine.Texture2D",
+     "internal_name": "MainTex_6_D48FCFAF6040DF481CB66D192481292D"
+    },
+    {
+     "name": "NormalTex",
+     "type": "object:/Script/Engine.Texture2D",
+     "internal_name": "NormalTex_8_725089325D1B0D368F66AD67F8CD77C0"
+    },
+    {
+     "name": "MetallicTex",
+     "type": "object:/Script/Engine.Texture2D",
+     "internal_name": "MetallicTex_10_85C7B65FD6606C2C1FF80CDDE65035F4"
+    },
+    {
+     "name": "Icon",
+     "type": "object:/Script/Engine.Texture2D",
+     "internal_name": "Icon_12_0EDCF60D6B64F1813FE39B31F363B0B3"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_WeaponModel",
+   "members": [
+    {
+     "name": "Weapon",
+     "type": "name",
+     "internal_name": "Weapon_2_5FD2E0A21AE5522896CFA34D124A9063"
+    },
+    {
+     "name": "Caption",
+     "type": "text",
+     "internal_name": "Caption_4_C2481266973E74E81B8C9EB7115F5374"
+    },
+    {
+     "name": "Icon",
+     "type": "object:/Script/Engine.Texture2D",
+     "internal_name": "Icon_6_4C6847896E2621E3F14CB72DB119F4E7"
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/WeaponAltUI_SkinTest/Mod_WeaponSkin",
+   "row_struct": "/Game/Mod/AltUI/S_WeaponSkin",
+   "composite": false,
+   "rows": {
+    "TestSkin": {
+     "Weapon": "UMP45",
+     "Caption": "Test Skin"
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/WeaponAltUI_ModelTest/Mod_WeaponModel",
+   "row_struct": "/Game/Mod/AltUI/S_WeaponModel",
+   "composite": false,
+   "rows": {
+    "TestModel": {
+     "Weapon": "UMP45",
+     "Caption": "Test Model"
+    }
+   }
+  },
+  {
+   "type": "struct",
    "path": "/Game/Mod/AltUI/S_Floats",
    "members": [
     {
@@ -145,6 +226,36 @@
      "type": "float",
      "container": "array",
      "internal_name": "Values_2_96CF7A3DF2921F270DA8085BB40A7FC4"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_ColorSlots",
+   "members": [
+    {
+     "name": "Idx",
+     "type": "int",
+     "container": "array",
+     "internal_name": "Idx_2_1DE62CC5C50141CB693E63A520814148"
+    },
+    {
+     "name": "Caption",
+     "type": "name",
+     "container": "array",
+     "internal_name": "Caption_4_63AF6653AD2B9408385612DCCF4CE3DF"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_Mats",
+   "members": [
+    {
+     "name": "Mats",
+     "type": "object:/Script/Engine.MaterialInterface",
+     "container": "array",
+     "internal_name": "Mats_2_917F23070E4BC8EC2A2619DE5F5AB73D"
     }
    ]
   },
@@ -212,6 +323,27 @@
      "type": "float",
      "container": "array",
      "internal_name": "Scales_22_32F1EB6B20E37CB0FAE6C08126500354"
+    },
+    {
+     "name": "SlotColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor",
+     "internal_name": "SlotColors_24_D80A18E19E4ECE41FACD43DE4B9B44CD"
+    },
+    {
+     "name": "EyeColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor",
+     "internal_name": "EyeColors_26_B6BC9AD4405F4EA0A292C26E171DCC36"
+    },
+    {
+     "name": "MakeupColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor",
+     "internal_name": "MakeupColors_28_FA38B328AAF7FC8A0C50D2AF5E20D1AA"
     }
    ]
   },
@@ -313,6 +445,11 @@
      "name": "es",
      "type": "text",
      "internal_name": "es_10_9BA7F7A4A2D7C064E5313266BCA3FA18"
+    },
+    {
+     "name": "pl",
+     "type": "text",
+     "internal_name": "pl_12_F436F7C74FB09EB5BDEBC9F4A45C090D"
     }
    ]
   },
@@ -327,1652 +464,2248 @@
      "de": "Kleidung",
      "zh": "服装",
      "ru": "Одежда",
-     "es": "Vestimenta"
+     "es": "Vestimenta",
+     "pl": "Ubrania"
     },
     "Tab_Outfits": {
      "en": "Outfits",
      "de": "Outfits",
      "zh": "搭配",
      "ru": "Комплекты",
-     "es": "Conjuntos"
+     "es": "Conjuntos",
+     "pl": "Stroje"
     },
     "Tab_Looks": {
      "en": "Looks",
      "de": "Looks",
      "zh": "造型",
      "ru": "Образы",
-     "es": "Looks"
+     "es": "Looks",
+     "pl": "Stylizacje"
     },
     "Tab_Bag": {
      "en": "Backpack",
      "de": "Rucksack",
      "zh": "背包",
      "ru": "Рюкзак",
-     "es": "Mochila"
+     "es": "Mochila",
+     "pl": "Plecak"
     },
     "Tab_Hair": {
      "en": "Coiffure",
      "de": "Frisur",
      "zh": "发型",
      "ru": "Прическа",
-     "es": "Peinado"
+     "es": "Peinado",
+     "pl": "Fryzura"
     },
     "Tab_Look": {
      "en": "Appearance",
      "de": "Aussehen",
      "zh": "外观",
      "ru": "Внешность",
-     "es": "Apariencia"
+     "es": "Apariencia",
+     "pl": "Wygląd"
+    },
+    "Tab_Poses": {
+     "en": "Poses",
+     "de": "Posen",
+     "zh": "姿势",
+     "ru": "Позы",
+     "es": "Poses",
+     "pl": "Pozy"
+    },
+    "Tab_Weapons": {
+     "en": "Weapons",
+     "de": "Waffen",
+     "zh": "武器",
+     "ru": "Оружие",
+     "es": "Armas",
+     "pl": "Broń"
     },
     "Tab_Body": {
      "en": "Body Shape",
      "de": "Körperform",
      "zh": "身材",
      "ru": "Форма тела",
-     "es": "Curvas"
+     "es": "Curvas",
+     "pl": "Kształt ciała"
     },
     "Tab_Options": {
      "en": "Options",
      "de": "Optionen",
      "zh": "选项",
      "ru": "Настройки",
-     "es": "Opciones"
+     "es": "Opciones",
+     "pl": "Opcje"
     },
     "Chip_All": {
      "en": "All",
      "de": "Alle",
      "zh": "全部",
      "ru": "Все",
-     "es": "Todo"
+     "es": "Todo",
+     "pl": "Wszystko"
     },
     "Chip_More": {
      "en": "...",
      "de": "...",
      "zh": "...",
      "ru": "...",
-     "es": "..."
+     "es": "...",
+     "pl": "..."
     },
     "Chip_Standard": {
      "en": "Standard",
      "de": "Standard",
      "zh": "默认",
      "ru": "Стандарт",
-     "es": "Estándar"
+     "es": "Estándar",
+     "pl": "Standard"
     },
     "Group_Basis": {
      "en": "No group",
      "de": "Ohne Gruppe",
      "zh": "无分组",
      "ru": "Без группы",
-     "es": "Sin grupo"
+     "es": "Sin grupo",
+     "pl": "Bez grupy"
     },
     "Group_Tops": {
      "en": "Tops",
      "de": "Oberteile",
      "zh": "上装",
      "ru": "Верх",
-     "es": "Superiores"
+     "es": "Superiores",
+     "pl": "Góra"
     },
     "Group_Bottoms": {
      "en": "Bottoms",
      "de": "Unterteile",
      "zh": "下装",
      "ru": "Низ",
-     "es": "Inferiores"
+     "es": "Inferiores",
+     "pl": "Dół"
     },
     "Group_Dresses": {
      "en": "Dresses",
      "de": "Kleider",
      "zh": "连衣裙",
      "ru": "Платья",
-     "es": "Vestidos"
+     "es": "Vestidos",
+     "pl": "Sukienki"
     },
     "Group_Shoes": {
      "en": "Shoes",
      "de": "Schuhe",
      "zh": "鞋子",
      "ru": "Обувь",
-     "es": "Zapatos"
+     "es": "Zapatos",
+     "pl": "Obuwie"
     },
     "Group_Accessories": {
      "en": "Accessories",
      "de": "Accessoires",
      "zh": "配饰",
      "ru": "Аксессуары",
-     "es": "Accesorios"
+     "es": "Accesorios",
+     "pl": "Akcesoria"
     },
     "Group_Hidden": {
      "en": "Hidden",
      "de": "Ausgeblendet",
      "zh": "已隐藏",
      "ru": "Скрытые",
-     "es": "Ocultos"
+     "es": "Ocultos",
+     "pl": "Ukryte"
     },
     "Slot_Bra": {
      "en": "Bra",
      "de": "BH",
      "zh": "胸罩",
      "ru": "Бюстгальтер",
-     "es": "Sostén"
+     "es": "Sostén",
+     "pl": "Biustonosz"
     },
     "Slot_Shirt": {
      "en": "Shirt",
      "de": "Hemd",
      "zh": "衬衫",
      "ru": "Рубашка",
-     "es": "Camisa"
+     "es": "Camisa",
+     "pl": "Koszula"
     },
     "Slot_Top": {
      "en": "Top",
      "de": "Top",
      "zh": "上衣",
      "ru": "Топ",
-     "es": "Top"
+     "es": "Top",
+     "pl": "Top"
     },
     "Slot_Sweater": {
      "en": "Sweater",
      "de": "Pullover",
      "zh": "毛衣",
      "ru": "Свитер",
-     "es": "Suéter"
+     "es": "Suéter",
+     "pl": "Sweter"
     },
     "Slot_Coat": {
      "en": "Coat",
      "de": "Mantel",
      "zh": "外套",
      "ru": "Пальто",
-     "es": "Abrigo"
+     "es": "Abrigo",
+     "pl": "Płaszcz"
     },
     "Slot_Corset": {
      "en": "Corset",
      "de": "Korsett",
      "zh": "束身衣",
      "ru": "Корсет",
-     "es": "Corsé"
+     "es": "Corsé",
+     "pl": "Gorset"
     },
     "Slot_Briefs": {
      "en": "Briefs",
      "de": "Slip",
      "zh": "三角裤",
      "ru": "Трусы",
-     "es": "Bragas"
+     "es": "Bragas",
+     "pl": "Majtki"
     },
     "Slot_Pants": {
      "en": "Pants",
      "de": "Hose",
      "zh": "裤子",
      "ru": "Брюки",
-     "es": "Pantalones"
+     "es": "Pantalones",
+     "pl": "Spodnie"
     },
     "Slot_Panties": {
      "en": "Panties",
      "de": "Höschen",
      "zh": "内裤",
      "ru": "Трусики",
-     "es": "Braguitas"
+     "es": "Braguitas",
+     "pl": "Figi"
     },
     "Slot_Leggings": {
      "en": "Leggings",
      "de": "Leggings",
      "zh": "打底裤",
      "ru": "Леггинсы",
-     "es": "Leggings"
+     "es": "Leggings",
+     "pl": "Legginsy"
     },
     "Slot_Skirt": {
      "en": "Skirt",
      "de": "Rock",
      "zh": "裙子",
      "ru": "Юбка",
-     "es": "Falda"
+     "es": "Falda",
+     "pl": "Spódnica"
     },
     "Slot_Garter": {
      "en": "Garter",
      "de": "Strumpfhalter",
      "zh": "吊袜带",
      "ru": "Подвязки",
-     "es": "Liguero"
+     "es": "Liguero",
+     "pl": "Podwiązka"
     },
     "Slot_Socks": {
      "en": "Socks",
      "de": "Socken",
      "zh": "袜子",
      "ru": "Носки",
-     "es": "Calcetines"
+     "es": "Calcetines",
+     "pl": "Skarpetki"
     },
     "Slot_Loose": {
      "en": "Loose",
      "de": "Locker",
      "zh": "宽松",
      "ru": "Свободное",
-     "es": "Suelto"
+     "es": "Suelto",
+     "pl": "Luźne"
     },
     "Slot_Suit": {
      "en": "Suit",
      "de": "Anzug",
      "zh": "连身衣",
      "ru": "Комбинезон",
-     "es": "Mono"
+     "es": "Mono",
+     "pl": "Kombinezon"
     },
     "Slot_Dress": {
      "en": "Dress",
      "de": "Kleid",
      "zh": "连衣裙",
      "ru": "Платье",
-     "es": "Vestido"
+     "es": "Vestido",
+     "pl": "Sukienka"
     },
     "Slot_Leotard": {
      "en": "Leotard",
      "de": "Trikot",
      "zh": "紧身衣",
      "ru": "Трико",
-     "es": "Maillot"
+     "es": "Maillot",
+     "pl": "Trykot"
     },
     "Slot_Swim": {
      "en": "Swimwear",
      "de": "Bademode",
      "zh": "泳装",
      "ru": "Купальник",
-     "es": "Traje de baño"
+     "es": "Traje de baño",
+     "pl": "Strój kąpielowy"
     },
     "Slot_Shoes": {
      "en": "Shoes",
      "de": "Schuhe",
      "zh": "鞋子",
      "ru": "Обувь",
-     "es": "Zapatos"
+     "es": "Zapatos",
+     "pl": "Obuwie"
     },
     "Slot_Boots": {
      "en": "Boots",
      "de": "Stiefel",
      "zh": "靴子",
      "ru": "Сапоги",
-     "es": "Botas"
+     "es": "Botas",
+     "pl": "Kozaki"
     },
     "Slot_Belt": {
      "en": "Belt",
      "de": "Gürtel",
      "zh": "腰带",
      "ru": "Ремень",
-     "es": "Cinturón"
+     "es": "Cinturón",
+     "pl": "Pasek"
     },
     "Slot_Arms": {
      "en": "Arms",
      "de": "Arme",
      "zh": "臂饰",
      "ru": "Руки",
-     "es": "Brazos"
+     "es": "Brazos",
+     "pl": "Ramiona"
     },
     "Slot_Gloves": {
      "en": "Gloves",
      "de": "Handschuhe",
      "zh": "手套",
      "ru": "Перчатки",
-     "es": "Guantes"
+     "es": "Guantes",
+     "pl": "Rękawiczki"
     },
     "Slot_Neck": {
      "en": "Neck",
      "de": "Hals",
      "zh": "颈饰",
      "ru": "Шея",
-     "es": "Cuello"
+     "es": "Cuello",
+     "pl": "Szyja"
     },
     "Slot_Necklace": {
      "en": "Necklace",
      "de": "Halskette",
      "zh": "项链",
      "ru": "Ожерелье",
-     "es": "Collar"
+     "es": "Collar",
+     "pl": "Naszyjnik"
     },
     "Slot_Glasses": {
      "en": "Glasses",
      "de": "Brille",
      "zh": "眼镜",
      "ru": "Очки",
-     "es": "Gafas"
+     "es": "Gafas",
+     "pl": "Okulary"
     },
     "Slot_Ears": {
      "en": "Ears",
      "de": "Ohren",
      "zh": "耳饰",
      "ru": "Уши",
-     "es": "Orejas"
+     "es": "Orejas",
+     "pl": "Uszy"
     },
     "Slot_Headwear": {
      "en": "Headwear",
      "de": "Kopfbedeckung",
      "zh": "头饰",
      "ru": "Головной убор",
-     "es": "Sombrero"
+     "es": "Sombrero",
+     "pl": "Nakrycie głowy"
     },
     "Slot_Mask": {
      "en": "Mask",
      "de": "Maske",
      "zh": "面具",
      "ru": "Маска",
-     "es": "Máscara"
+     "es": "Máscara",
+     "pl": "Maska"
     },
     "Slot_Tail": {
      "en": "Tail",
      "de": "Schwanz",
      "zh": "尾巴",
      "ru": "Хвост",
-     "es": "Cola"
+     "es": "Cola",
+     "pl": "Ogon"
     },
     "Slot_Backpack": {
      "en": "Backpack",
      "de": "Rucksack",
      "zh": "背包",
      "ru": "Рюкзак",
-     "es": "Mochila"
+     "es": "Mochila",
+     "pl": "Plecak"
     },
     "Slot_Holster": {
      "en": "Holster",
      "de": "Holster",
      "zh": "枪套",
      "ru": "Кобура",
-     "es": "Funda"
+     "es": "Funda",
+     "pl": "Kabura"
     },
     "Slot_Acc": {
      "en": "Accessory",
      "de": "Accessoire",
      "zh": "配件",
      "ru": "Аксессуар",
-     "es": "Accesorio"
+     "es": "Accesorio",
+     "pl": "Akcesorium"
     },
     "Slot_Unknown": {
      "en": "Unknown",
      "de": "Unbekannt",
      "zh": "未知",
      "ru": "Неизвестно",
-     "es": "Desconocido"
+     "es": "Desconocido",
+     "pl": "Nieznane"
     },
     "Slot_All": {
      "en": "All",
      "de": "Alle",
      "zh": "全部",
      "ru": "Все",
-     "es": "Todo"
+     "es": "Todo",
+     "pl": "Wszystko"
     },
     "Lbl_Search": {
      "en": "Search...",
      "de": "Suche...",
      "zh": "搜索...",
      "ru": "Поиск...",
-     "es": "Buscar..."
+     "es": "Buscar...",
+     "pl": "Szukaj..."
     },
     "Lbl_OnlyOwned": {
      "en": "only\nowned",
      "de": "nur\nBesessene",
      "zh": "仅\n已拥有",
      "ru": "только\nв наличии",
-     "es": "solo\nposeídos"
+     "es": "solo\nposeídos",
+     "pl": "tylko\nposiadane"
     },
     "Lbl_OnlyFav": {
      "en": "only\nfavourites",
      "de": "nur\nFavoriten",
      "zh": "仅\n收藏",
      "ru": "только\nизбранное",
-     "es": "solo\nfavoritos"
+     "es": "solo\nfavoritos",
+     "pl": "tylko\nulubione"
     },
     "Lbl_OnlyVanilla": {
      "en": "only\nvanilla",
      "de": "nur\nVanilla",
      "zh": "仅\n原版",
      "ru": "только\nоригинал",
-     "es": "solo\nvanilla"
+     "es": "solo\nvanilla",
+     "pl": "tylko\nvanilla"
+    },
+    "Lbl_OnlyWorn": {
+     "en": "only\nworn",
+     "de": "nur\ngetragen",
+     "zh": "仅\n已穿着",
+     "ru": "только\nнадетое",
+     "es": "solo\npuestos",
+     "pl": "tylko\nzałożone"
     },
     "Lbl_Favorites": {
      "en": "Favourites",
      "de": "Favoriten",
      "zh": "收藏",
      "ru": "Избранное",
-     "es": "Favoritos"
+     "es": "Favoritos",
+     "pl": "Ulubione"
     },
     "Lbl_All": {
      "en": "All",
      "de": "Alle",
      "zh": "全部",
      "ru": "Все",
-     "es": "Todo"
+     "es": "Todo",
+     "pl": "Wszystko"
     },
     "Lbl_ListHint": {
      "en": "Only the first 400 matches are shown - please narrow the search.",
      "de": "Nur die ersten 400 Treffer werden angezeigt – bitte Suche eingrenzen.",
      "zh": "仅显示前 400 个结果，请缩小搜索范围。",
      "ru": "Показаны только первые 400 результатов – уточните поиск.",
-     "es": "Solo se muestran los primeros 400 resultados: acota la búsqueda."
+     "es": "Solo se muestran los primeros 400 resultados: acota la búsqueda.",
+     "pl": "Wyświetlono tylko pierwszych 400 wyników – zawęź wyszukiwanie."
     },
     "Lbl_Worn": {
      "en": "Worn",
      "de": "Getragen",
      "zh": "已穿着",
      "ru": "Надето",
-     "es": "Puesto"
+     "es": "Puesto",
+     "pl": "Założone"
     },
     "Lbl_InBag": {
      "en": "In backpack",
      "de": "Im Rucksack",
      "zh": "背包中",
      "ru": "В рюкзаке",
-     "es": "En la mochila"
+     "es": "En la mochila",
+     "pl": "W plecaku"
     },
     "Lbl_BagEmpty": {
      "en": "Backpack is empty",
      "de": "Rucksack ist leer",
      "zh": "背包是空的",
      "ru": "Рюкзак пуст",
-     "es": "La mochila está vacía"
+     "es": "La mochila está vacía",
+     "pl": "Plecak jest pusty"
     },
     "Lbl_Breast": {
      "en": "Breast",
      "de": "Brust",
      "zh": "胸部",
      "ru": "Грудь",
-     "es": "Pecho"
+     "es": "Pecho",
+     "pl": "Piersi"
     },
     "Lbl_Waist": {
      "en": "Waist",
      "de": "Taille",
      "zh": "腰",
      "ru": "Талия",
-     "es": "Cintura"
+     "es": "Cintura",
+     "pl": "Talia"
     },
     "Lbl_ScaleHint": {
      "en": "The sliders below only work with converted bodies (bodypak.pyz).",
      "de": "Die folgenden Regler wirken nur bei konvertierten Bodies (bodypak.pyz).",
      "zh": "以下滑块仅对已转换的身体（bodypak.pyz）有效。",
      "ru": "Ползунки ниже работают только с конвертированными телами (bodypak.pyz).",
-     "es": "Los deslizadores siguientes solo funcionan con cuerpos convertidos (bodypak.pyz)."
+     "es": "Los deslizadores siguientes solo funcionan con cuerpos convertidos (bodypak.pyz).",
+     "pl": "Poniższe suwaki działają tylko z przekonwertowanymi ciałami (bodypak.pyz)."
     },
     "Lbl_ScBreast": {
      "en": "Bust",
      "de": "Busen",
      "zh": "胸围",
      "ru": "Бюст",
-     "es": "Busto"
+     "es": "Busto",
+     "pl": "Biust"
     },
     "Lbl_ScWaist": {
      "en": "Waist Extra",
      "de": "Taille Extra",
      "zh": "腰围 Extra",
      "ru": "Талия Extra",
-     "es": "Cintura Extra"
+     "es": "Cintura Extra",
+     "pl": "Talia Extra"
     },
     "Lbl_ScGlutes": {
      "en": "Hips / glutes",
      "de": "Hüfte / Po",
      "zh": "臀部 / 髋部",
      "ru": "Таз / ягодицы",
-     "es": "Caderas / glúteos"
+     "es": "Caderas / glúteos",
+     "pl": "Biodra / pośladki"
     },
     "Lbl_ScThighs": {
      "en": "Thighs",
      "de": "Oberschenkel",
      "zh": "大腿",
      "ru": "Бёдра",
-     "es": "Muslos"
+     "es": "Muslos",
+     "pl": "Uda"
     },
     "Lbl_ScCalves": {
      "en": "Calves",
      "de": "Waden",
      "zh": "小腿",
      "ru": "Икры",
-     "es": "Pantorrillas"
+     "es": "Pantorrillas",
+     "pl": "Łydki"
     },
     "Lbl_ScArms": {
      "en": "Arms",
      "de": "Arme",
      "zh": "手臂",
      "ru": "Руки",
-     "es": "Brazos"
+     "es": "Brazos",
+     "pl": "Ramiona"
     },
     "Lbl_ScHands": {
      "en": "Hands",
      "de": "Hände",
      "zh": "手",
      "ru": "Кисти",
-     "es": "Manos"
+     "es": "Manos",
+     "pl": "Dłonie"
     },
     "Lbl_ScFeet": {
      "en": "Feet",
      "de": "Füße",
      "zh": "脚",
      "ru": "Стопы",
-     "es": "Pies"
+     "es": "Pies",
+     "pl": "Stopy"
     },
     "Lbl_ScHeight": {
      "en": "Scale",
      "de": "Skalierung",
      "zh": "缩放",
      "ru": "Масштаб",
-     "es": "Escala"
+     "es": "Escala",
+     "pl": "Skala"
     },
     "Btn_ScReset": {
      "en": "Reset shape",
      "de": "Form zurücksetzen",
      "zh": "重置体型",
      "ru": "Сбросить форму",
-     "es": "Restablecer forma"
+     "es": "Restablecer forma",
+     "pl": "Zresetuj kształt"
     },
     "Msg_NoScale": {
      "en": "This body has no shape sliders – convert it again with bodypak 1.4",
      "de": "Dieser Body hat keine Form-Regler – mit bodypak 1.4 neu konvertieren",
      "zh": "此身体没有体型滑块 – 请用 bodypak 1.4 重新转换",
      "ru": "У этого тела нет ползунков формы – сконвертируйте его заново с bodypak 1.4",
-     "es": "Este cuerpo no tiene deslizadores de forma – conviértelo de nuevo con bodypak 1.4"
+     "es": "Este cuerpo no tiene deslizadores de forma – conviértelo de nuevo con bodypak 1.4",
+     "pl": "To ciało nie ma suwaków kształtu – przekonwertuj je ponownie za pomocą bodypak 1.4"
     },
     "Lbl_GroupLen": {
      "en": "Group names: max. characters",
      "de": "Gruppennamen: max. Zeichen",
      "zh": "分组名称：最多字符数",
      "ru": "Названия групп: макс. символов",
-     "es": "Nombres de grupo: máx. caracteres"
+     "es": "Nombres de grupo: máx. caracteres",
+     "pl": "Nazwy grup: maks. znaków"
     },
     "Lbl_ChipH": {
      "en": "Group chip area: max. height",
      "de": "Gruppen-Chips: max. Höhe",
      "zh": "分组标签区域：最大高度",
      "ru": "Область групп: макс. высота",
-     "es": "Área de grupos: altura máx."
+     "es": "Área de grupos: altura máx.",
+     "pl": "Obszar grup: maks. wysokość"
     },
     "Opt_Unlimited": {
      "en": "unlimited",
      "de": "unbegrenzt",
      "zh": "不限",
      "ru": "без ограничения",
-     "es": "sin límite"
+     "es": "sin límite",
+     "pl": "bez ograniczeń"
     },
     "Lbl_Scroll": {
      "en": "Scroll speed",
      "de": "Scroll-Geschwindigkeit",
      "zh": "滚动速度",
      "ru": "Скорость прокрутки",
-     "es": "Velocidad de desplazamiento"
+     "es": "Velocidad de desplazamiento",
+     "pl": "Szybkość przewijania"
     },
     "Lbl_Scale": {
      "en": "Tile size",
      "de": "Kachelgröße",
      "zh": "图块大小",
      "ru": "Размер плиток",
-     "es": "Tamaño de las casillas"
+     "es": "Tamaño de las casillas",
+     "pl": "Rozmiar kafelków"
     },
     "Lbl_Fov": {
      "en": "Camera FOV (Jodi view)",
      "de": "Kamera-FOV (Jodi-Ansicht)",
      "zh": "相机视野（Jodi 视图）",
      "ru": "Угол обзора камеры (вид Jodi)",
-     "es": "FOV de la cámara (vista de Jodi)"
+     "es": "FOV de la cámara (vista de Jodi)",
+     "pl": "Pole widzenia kamery (widok Jodi)"
     },
     "Lbl_Dist": {
      "en": "Camera distance (Jodi view)",
      "de": "Kamera-Abstand (Jodi-Ansicht)",
      "zh": "相机距离（Jodi 视图）",
      "ru": "Расстояние камеры (вид Jodi)",
-     "es": "Distancia de la cámara (vista de Jodi)"
+     "es": "Distancia de la cámara (vista de Jodi)",
+     "pl": "Odległość kamery (widok Jodi)"
+    },
+    "Menu_ForceSkin": {
+     "en": "Force skins onto this model",
+     "de": "Skins auf dieses Modell erzwingen",
+     "zh": "在此模型上强制应用涂装",
+     "ru": "Принудительно применять скины к этой модели",
+     "es": "Forzar los skins en este modelo",
+     "pl": "Wymuś skiny na tym modelu"
+    },
+    "Menu_UnforceSkin": {
+     "en": "Back to the mod's own materials",
+     "de": "Zurück zu den Materialien des Mods",
+     "zh": "恢复模组自带的材质",
+     "ru": "Вернуть собственные материалы мода",
+     "es": "Volver a los materiales propios del mod",
+     "pl": "Powrót do własnych materiałów moda"
+    },
+    "Menu_MagExclude": {
+     "en": "Leave the magazine out of it",
+     "de": "Magazin davon ausnehmen",
+     "zh": "不包括弹匣",
+     "ru": "Не применять к магазину",
+     "es": "Dejar el cargador fuera",
+     "pl": "Pomiń magazynek"
+    },
+    "Menu_MagInclude": {
+     "en": "Include the magazine again",
+     "de": "Magazin wieder einbeziehen",
+     "zh": "重新包括弹匣",
+     "ru": "Снова применять к магазину",
+     "es": "Incluir el cargador de nuevo",
+     "pl": "Znów uwzględnij magazynek"
+    },
+    "Menu_OpticsExclude": {
+     "en": "Leave the optics out of it",
+     "de": "Optik davon ausnehmen",
+     "zh": "不包括瞄准镜",
+     "ru": "Не применять к прицелу",
+     "es": "Dejar la óptica fuera",
+     "pl": "Pomiń optykę"
+    },
+    "Menu_OpticsInclude": {
+     "en": "Include the optics again",
+     "de": "Optik wieder einbeziehen",
+     "zh": "重新包括瞄准镜",
+     "ru": "Снова применять к прицелу",
+     "es": "Incluir la óptica de nuevo",
+     "pl": "Znów uwzględnij optykę"
+    },
+    "Menu_BarrelExclude": {
+     "en": "Leave the suppressor out of it",
+     "de": "Schalldämpfer davon ausnehmen",
+     "zh": "不包括消音器",
+     "ru": "Не применять к глушителю",
+     "es": "Dejar el silenciador fuera",
+     "pl": "Pomiń tłumik"
+    },
+    "Menu_BarrelInclude": {
+     "en": "Include the suppressor again",
+     "de": "Schalldämpfer wieder einbeziehen",
+     "zh": "重新包括消音器",
+     "ru": "Снова применять к глушителю",
+     "es": "Incluir el silenciador de nuevo",
+     "pl": "Znów uwzględnij tłumik"
+    },
+    "Menu_GripExclude": {
+     "en": "Leave the grip out of it",
+     "de": "Griff davon ausnehmen",
+     "zh": "不包括握把",
+     "ru": "Не применять к рукояти",
+     "es": "Dejar la empuñadura fuera",
+     "pl": "Pomiń chwyt"
+    },
+    "Menu_GripInclude": {
+     "en": "Include the grip again",
+     "de": "Griff wieder einbeziehen",
+     "zh": "重新包括握把",
+     "ru": "Снова применять к рукояти",
+     "es": "Incluir la empuñadura de nuevo",
+     "pl": "Znów uwzględnij chwyt"
+    },
+    "Menu_OwnIcon": {
+     "en": "Show the mod's own picture",
+     "de": "Eigenes Bild des Mods zeigen",
+     "zh": "显示模组自带的图片",
+     "ru": "Показать собственное изображение мода",
+     "es": "Mostrar la imagen propia del mod",
+     "pl": "Pokaż własny obraz moda"
+    },
+    "Menu_RenderedIcon": {
+     "en": "Show the rendered picture",
+     "de": "Gerendertes Bild zeigen",
+     "zh": "显示渲染的图片",
+     "ru": "Показать отрендеренное изображение",
+     "es": "Mostrar la imagen renderizada",
+     "pl": "Pokaż wyrenderowany obraz"
+    },
+    "Lbl_Height": {
+     "en": "Camera height (Jodi view)",
+     "de": "Kamera-Höhe (Jodi-Ansicht)",
+     "zh": "相机高度（Jodi 视图）",
+     "ru": "Высота камеры (вид Jodi)",
+     "es": "Altura de la cámara (vista de Jodi)",
+     "pl": "Wysokość kamery (widok Jodi)"
     },
     "Lbl_Unlimited": {
      "en": "show unlimited items at once",
      "de": "unbegrenzt viele Items gleichzeitig anzeigen",
      "zh": "同时显示所有物品（不限数量）",
      "ru": "показывать все предметы сразу (без ограничения)",
-     "es": "mostrar todos los objetos a la vez (sin límite)"
+     "es": "mostrar todos los objetos a la vez (sin límite)",
+     "pl": "pokazuj wszystkie przedmioty naraz (bez ograniczeń)"
     },
     "Lbl_Layout": {
      "en": "Space for Jodi",
      "de": "Platz für Jodi",
      "zh": "为 Jodi 留出空间",
      "ru": "Место для Jodi",
-     "es": "Espacio para Jodi"
+     "es": "Espacio para Jodi",
+     "pl": "Miejsce dla Jodi"
     },
     "Lbl_Pan": {
      "en": "Camera follows slot / face",
      "de": "Kamera folgt Slot / Gesicht",
      "zh": "相机跟随部位 / 面部",
      "ru": "Камера следует за слотом / лицом",
-     "es": "La cámara sigue la ranura / la cara"
+     "es": "La cámara sigue la ranura / la cara",
+     "pl": "Kamera podąża za slotem / twarzą"
+    },
+    "Lbl_CamRight": {
+     "en": "Camera height with the right mouse button",
+     "de": "Kamera-Höhe mit der rechten Maustaste",
+     "zh": "用鼠标右键调整相机高度",
+     "ru": "Высота камеры правой кнопкой мыши",
+     "es": "Altura de la cámara con el botón derecho",
+     "pl": "Wysokość kamery prawym przyciskiem myszy"
     },
     "Lbl_Nude": {
      "en": "Underwear may be taken off",
      "de": "Unterwäsche darf ausgezogen werden",
      "zh": "允许脱下内衣",
      "ru": "Нижнее белье можно снять",
-     "es": "Se puede quitar la ropa interior"
+     "es": "Se puede quitar la ropa interior",
+     "pl": "Można zdejmować bieliznę"
     },
     "Lbl_Conflicts": {
      "en": "Slot conflicts",
      "de": "Slot-Konflikte",
      "zh": "部位冲突",
      "ru": "Конфликты слотов",
-     "es": "Conflictos de ranuras"
+     "es": "Conflictos de ranuras",
+     "pl": "Konflikty slotów"
     },
     "Lbl_ConflictsHint": {
      "en": "Active = allowed in combo. The mirror wardrobe follows the game; meshes may clip.",
      "de": "Aktiv = Kombination erlaubt. Die Spiegel-Garderobe folgt weiter dem Spiel; Meshes können sich durchdringen.",
      "zh": "激活 = 允许搭配。镜子衣柜仍按游戏规则；模型可能穿模。",
      "ru": "Активно = сочетание разрешено. Гардероб у зеркала следует игре; модели могут пересекаться.",
-     "es": "Activo = combinación permitida. El armario del espejo sigue al juego; las mallas pueden atravesarse."
+     "es": "Activo = combinación permitida. El armario del espejo sigue al juego; las mallas pueden atravesarse.",
+     "pl": "Aktywne = połączenie dozwolone. Szafa przy lustrze nadal trzyma się gry; modele mogą się przenikać."
     },
     "Btn_FreeAll": {
      "en": "all free",
      "de": "alle frei",
      "zh": "全部允许",
      "ru": "всё разрешить",
-     "es": "todo libre"
+     "es": "todo libre",
+     "pl": "wszystko wolne"
     },
     "Btn_Vanilla": {
      "en": "Vanilla",
      "de": "Vanilla",
      "zh": "原版",
      "ru": "Оригинал",
-     "es": "Vanilla"
+     "es": "Vanilla",
+     "pl": "Vanilla"
     },
     "Lbl_Merge": {
      "en": "Merge groups with the same name (clothes)",
      "de": "Gruppen mit gleichem Namen zusammenlegen (Kleidung)",
      "zh": "合并同名分组（服装）",
      "ru": "Объединять группы с одинаковым именем (одежда)",
-     "es": "Fusionar grupos con el mismo nombre (ropa)"
+     "es": "Fusionar grupos con el mismo nombre (ropa)",
+     "pl": "Łącz grupy o tej samej nazwie (ubrania)"
     },
     "Lbl_MergeMods": {
      "en": "Merge mods with the same name (appearance)",
      "de": "Mods mit gleichem Namen zusammenlegen (Aussehen)",
      "zh": "合并同名模组（外观）",
      "ru": "Объединять моды с одинаковым именем (внешность)",
-     "es": "Fusionar mods con el mismo nombre (apariencia)"
+     "es": "Fusionar mods con el mismo nombre (apariencia)",
+     "pl": "Łącz mody o tej samej nazwie (wygląd)"
+    },
+    "Lbl_ChipSearch": {
+     "en": "Show chip search",
+     "de": "Chip-Suche anzeigen",
+     "zh": "显示分组搜索",
+     "ru": "Показывать поиск групп",
+     "es": "Mostrar la búsqueda de grupos",
+     "pl": "Pokaż wyszukiwanie grup"
     },
     "Lbl_Unowned": {
      "en": "Not owned items",
      "de": "Nicht im Besitz",
      "zh": "未拥有的物品",
      "ru": "Предметы не в наличии",
-     "es": "Objetos no poseídos"
+     "es": "Objetos no poseídos",
+     "pl": "Nieposiadane przedmioty"
     },
     "Chip_Unowned0": {
      "en": "locked",
      "de": "gesperrt",
      "zh": "锁定",
      "ru": "заблокировано",
-     "es": "bloqueado"
+     "es": "bloqueado",
+     "pl": "zablokowane"
     },
     "Chip_Unowned1": {
      "en": "greyed",
      "de": "ausgegraut",
      "zh": "变灰",
      "ru": "затемнено",
-     "es": "atenuado"
+     "es": "atenuado",
+     "pl": "wyszarzone"
     },
     "Chip_Unowned2": {
      "en": "like owned",
      "de": "wie im Besitz",
      "zh": "视为已拥有",
      "ru": "как в наличии",
-     "es": "como poseído"
+     "es": "como poseído",
+     "pl": "jak posiadane"
     },
     "Lbl_TipNoPrefix": {
      "en": "Tooltips without prefixes",
      "de": "Tooltips ohne Präfixe",
      "zh": "提示不显示前缀",
      "ru": "Подсказки без префиксов",
-     "es": "Tooltips sin prefijos"
+     "es": "Tooltips sin prefijos",
+     "pl": "Podpowiedzi bez przedrostków"
     },
     "Lbl_TipNoIds": {
      "en": "Tooltips: display names only",
      "de": "Tooltips nur mit Anzeigenamen",
      "zh": "提示仅显示名称",
      "ru": "Подсказки: только отображаемые имена",
-     "es": "Tooltips: solo nombres visibles"
+     "es": "Tooltips: solo nombres visibles",
+     "pl": "Podpowiedzi: tylko nazwy wyświetlane"
     },
     "Lbl_LayoutNone": {
      "en": "None",
      "de": "Kein Platz",
      "zh": "无",
      "ru": "Нет",
-     "es": "Ninguno"
+     "es": "Ninguno",
+     "pl": "Brak"
     },
     "Lbl_LayoutThird": {
      "en": "One third",
      "de": "Ein Drittel",
      "zh": "三分之一",
      "ru": "Треть",
-     "es": "Un tercio"
+     "es": "Un tercio",
+     "pl": "Jedna trzecia"
     },
     "Lbl_LayoutHalf": {
      "en": "One half",
      "de": "Eine Hälfte",
      "zh": "一半",
      "ru": "Половина",
-     "es": "La mitad"
+     "es": "La mitad",
+     "pl": "Połowa"
     },
     "Lbl_LayoutQuarter": {
      "en": "One quarter",
      "de": "Ein Viertel",
      "zh": "四分之一",
      "ru": "Четверть",
-     "es": "Un cuarto"
+     "es": "Un cuarto",
+     "pl": "Jedna czwarta"
     },
     "Lbl_LayoutFifth": {
      "en": "One fifth",
      "de": "Ein Fünftel",
      "zh": "五分之一",
      "ru": "Пятая часть",
-     "es": "Un quinto"
+     "es": "Un quinto",
+     "pl": "Jedna piąta"
     },
     "Lbl_Theme": {
      "en": "Colours",
      "de": "Farben",
      "zh": "颜色",
      "ru": "Цвета",
-     "es": "Colores"
+     "es": "Colores",
+     "pl": "Kolory"
     },
     "Lbl_ToggleKey": {
      "en": "Panel key",
      "de": "Taste für das Panel",
      "zh": "面板按键",
      "ru": "Клавиша панели",
-     "es": "Tecla del panel"
+     "es": "Tecla del panel",
+     "pl": "Klawisz panelu"
     },
     "Theme_Bg": {
      "en": "Background",
      "de": "Hintergrund",
      "zh": "背景",
      "ru": "Фон",
-     "es": "Fondo"
+     "es": "Fondo",
+     "pl": "Tło"
     },
     "Theme_Accent": {
      "en": "Selection",
      "de": "Auswahl",
      "zh": "选中",
      "ru": "Выделение",
-     "es": "Selección"
+     "es": "Selección",
+     "pl": "Zaznaczenie"
     },
     "Theme_Fill": {
      "en": "Tile fill",
      "de": "Kachel-Füllung",
      "zh": "卡片填充",
      "ru": "Заливка плитки",
-     "es": "Relleno de ficha"
+     "es": "Relleno de ficha",
+     "pl": "Wypełnienie kafelka"
     },
     "Theme_Frame": {
      "en": "Tile frame",
      "de": "Kachel-Rahmen",
      "zh": "卡片边框",
      "ru": "Рамка плитки",
-     "es": "Borde de ficha"
+     "es": "Borde de ficha",
+     "pl": "Ramka kafelka"
     },
     "Theme_Worn": {
      "en": "Worn",
      "de": "Getragen",
      "zh": "已穿戴",
      "ru": "Надето",
-     "es": "Puesto"
+     "es": "Puesto",
+     "pl": "Założone"
     },
     "Theme_Row": {
      "en": "Rows / chips",
      "de": "Reihen / Chips",
      "zh": "行 / 标签",
      "ru": "Строки / метки",
-     "es": "Filas / etiquetas"
+     "es": "Filas / etiquetas",
+     "pl": "Wiersze / etykiety"
     },
     "Theme_Text": {
      "en": "Text",
      "de": "Text",
      "zh": "文字",
      "ru": "Текст",
-     "es": "Texto"
+     "es": "Texto",
+     "pl": "Tekst"
     },
     "Theme_Head": {
      "en": "Headings",
      "de": "Überschriften",
      "zh": "标题",
      "ru": "Заголовки",
-     "es": "Títulos"
+     "es": "Títulos",
+     "pl": "Nagłówki"
     },
     "Theme_Link": {
      "en": "Buttons / icons",
      "de": "Knöpfe / Icons",
      "zh": "按钮 / 图标",
      "ru": "Кнопки / значки",
-     "es": "Botones / iconos"
+     "es": "Botones / iconos",
+     "pl": "Przyciski / ikony"
     },
     "Theme_Line": {
      "en": "Lines / hover",
      "de": "Linien / Hover",
      "zh": "线条 / 悬停",
      "ru": "Линии / наведение",
-     "es": "Líneas / hover"
+     "es": "Líneas / hover",
+     "pl": "Linie / najechanie"
     },
     "Lbl_BgAlpha": {
      "en": "Background opacity",
      "de": "Deckkraft Hintergrund",
      "zh": "背景不透明度",
      "ru": "Непрозрачность фона",
-     "es": "Opacidad del fondo"
+     "es": "Opacidad del fondo",
+     "pl": "Krycie tła"
     },
     "Lbl_TileAlpha": {
      "en": "Tile opacity",
      "de": "Deckkraft Kacheln",
      "zh": "卡片不透明度",
      "ru": "Непрозрачность плиток",
-     "es": "Opacidad de fichas"
+     "es": "Opacidad de fichas",
+     "pl": "Krycie kafelków"
     },
     "Btn_ThemeReset": {
      "en": "Reset colours (default)",
      "de": "Farben zurücksetzen (Standard)",
      "zh": "重置颜色（默认）",
      "ru": "Сбросить цвета (по умолчанию)",
-     "es": "Restablecer colores (predeterminado)"
+     "es": "Restablecer colores (predeterminado)",
+     "pl": "Przywróć kolory (domyślne)"
     },
     "Lbl_Language": {
      "en": "Language",
      "de": "Sprache",
      "zh": "语言",
      "ru": "Язык",
-     "es": "Idioma"
+     "es": "Idioma",
+     "pl": "Język"
     },
     "Chip_LangAuto": {
      "en": "Auto (game)",
      "de": "Auto (Spiel)",
      "zh": "自动（跟随游戏）",
      "ru": "Авто (игра)",
-     "es": "Auto (juego)"
+     "es": "Auto (juego)",
+     "pl": "Auto (gra)"
     },
     "Chip_LangEn": {
      "en": "English",
      "de": "English",
      "zh": "English",
      "ru": "English",
-     "es": "English"
+     "es": "English",
+     "pl": "English"
     },
     "Chip_LangDe": {
      "en": "Deutsch",
      "de": "Deutsch",
      "zh": "Deutsch",
      "ru": "Deutsch",
-     "es": "Deutsch"
+     "es": "Deutsch",
+     "pl": "Deutsch"
     },
     "Chip_LangZh": {
      "en": "中文",
      "de": "中文",
      "zh": "中文",
      "ru": "中文",
-     "es": "中文"
+     "es": "中文",
+     "pl": "中文"
     },
     "Chip_LangRu": {
      "en": "Русский",
      "de": "Русский",
      "zh": "Русский",
      "ru": "Русский",
-     "es": "Русский"
+     "es": "Русский",
+     "pl": "Русский"
     },
     "Chip_LangEs": {
      "en": "Español",
      "de": "Español",
      "zh": "Español",
      "ru": "Español",
-     "es": "Español"
+     "es": "Español",
+     "pl": "Español"
+    },
+    "Chip_LangPl": {
+     "en": "Polski",
+     "de": "Polski",
+     "zh": "Polski",
+     "ru": "Polski",
+     "es": "Polski",
+     "pl": "Polski"
     },
     "Lbl_Placeholder": {
      "en": "This tab is not finished yet.",
      "de": "Dieser Reiter ist noch in Arbeit.",
      "zh": "此页面尚未完成。",
      "ru": "Эта вкладка еще в разработке.",
-     "es": "Esta pestaña aún no está terminada."
+     "es": "Esta pestaña aún no está terminada.",
+     "pl": "Ta zakładka nie jest jeszcze gotowa."
     },
     "Lbl_Outfit": {
      "en": "Outfit",
      "de": "Outfit",
      "zh": "搭配",
      "ru": "Комплект",
-     "es": "Conjunto"
+     "es": "Conjunto",
+     "pl": "Strój"
     },
     "Lbl_Pieces": {
      "en": "pieces",
      "de": "Teile",
      "zh": "件",
      "ru": "шт.",
-     "es": "prendas"
+     "es": "prendas",
+     "pl": "części"
     },
     "Lbl_Look": {
      "en": "Look",
      "de": "Look",
      "zh": "造型",
      "ru": "Образ",
-     "es": "Look"
+     "es": "Look",
+     "pl": "Stylizacja"
     },
     "Lbl_NoPhoto": {
      "en": "no photo",
      "de": "kein Foto",
      "zh": "无照片",
      "ru": "нет фото",
-     "es": "sin foto"
+     "es": "sin foto",
+     "pl": "brak zdjęcia"
     },
     "Btn_HairColor": {
      "en": "Hair colour...",
      "de": "Haarfarbe...",
      "zh": "发色...",
      "ru": "Цвет волос...",
-     "es": "Color de pelo..."
+     "es": "Color de pelo...",
+     "pl": "Kolor włosów..."
+    },
+    "Btn_ScanPoses": {
+     "en": "Measure all",
+     "de": "Alle einmessen",
+     "zh": "全部测量",
+     "ru": "Измерить все",
+     "es": "Medir todas",
+     "pl": "Zmierz wszystkie"
+    },
+    "Btn_ScanCancel": {
+     "en": "Cancel",
+     "de": "Abbrechen",
+     "zh": "取消",
+     "ru": "Отмена",
+     "es": "Cancelar",
+     "pl": "Anuluj"
+    },
+    "Lbl_PoseStand": {
+     "en": "Standing",
+     "de": "Stehend",
+     "zh": "站姿",
+     "ru": "Стоя",
+     "es": "De pie",
+     "pl": "Stojąca"
+    },
+    "Lbl_PoseSit": {
+     "en": "Sitting",
+     "de": "Sitzend",
+     "zh": "坐姿",
+     "ru": "Сидя",
+     "es": "Sentada",
+     "pl": "Siedząca"
+    },
+    "Lbl_PoseLie": {
+     "en": "Lying",
+     "de": "Liegend",
+     "zh": "躺姿",
+     "ru": "Лёжа",
+     "es": "Tumbada",
+     "pl": "Leżąca"
+    },
+    "Lbl_PoseMove": {
+     "en": "In motion",
+     "de": "In Bewegung",
+     "zh": "动作",
+     "ru": "В движении",
+     "es": "En movimiento",
+     "pl": "W ruchu"
+    },
+    "Menu_PoseSetStand": {
+     "en": "Mark as standing",
+     "de": "Als Stehend einordnen",
+     "zh": "标记为站姿",
+     "ru": "Отметить как стоя",
+     "es": "Marcar como de pie",
+     "pl": "Oznacz jako stojącą"
+    },
+    "Menu_PoseSetSit": {
+     "en": "Mark as sitting",
+     "de": "Als Sitzend einordnen",
+     "zh": "标记为坐姿",
+     "ru": "Отметить как сидя",
+     "es": "Marcar como sentada",
+     "pl": "Oznacz jako siedzącą"
+    },
+    "Menu_PoseSetLie": {
+     "en": "Mark as lying",
+     "de": "Als Liegend einordnen",
+     "zh": "标记为躺姿",
+     "ru": "Отметить как лёжа",
+     "es": "Marcar como tumbada",
+     "pl": "Oznacz jako leżącą"
+    },
+    "Menu_PoseSetMove": {
+     "en": "Mark as in motion",
+     "de": "Als In Bewegung markieren",
+     "zh": "标记为动作",
+     "ru": "Отметить как в движении",
+     "es": "Marcar en movimiento",
+     "pl": "Oznacz jako w ruchu"
+    },
+    "Menu_PoseSetStill": {
+     "en": "Remove “in motion”",
+     "de": "„In Bewegung“ entfernen",
+     "zh": "取消动作标记",
+     "ru": "Убрать «в движении»",
+     "es": "Quitar «en movimiento»",
+     "pl": "Usuń „w ruchu”"
+    },
+    "Menu_PoseReset": {
+     "en": "Reset measurement",
+     "de": "Messung zurücksetzen",
+     "zh": "重置测量",
+     "ru": "Сбросить измерение",
+     "es": "Restablecer medición",
+     "pl": "Zresetuj pomiar"
+    },
+    "Lbl_PoseChapters": {
+     "en": "Chapters",
+     "de": "Kapitel",
+     "zh": "章节",
+     "ru": "Разделы",
+     "es": "Capítulos",
+     "pl": "Rozdziały"
+    },
+    "Lbl_PoseUnsorted": {
+     "en": "Not measured",
+     "de": "Nicht vermessen",
+     "zh": "未测量",
+     "ru": "Не измерено",
+     "es": "Sin medir",
+     "pl": "Niezmierzone"
+    },
+    "Pose_Default": {
+     "en": "No pose",
+     "de": "Keine Pose",
+     "zh": "无姿势",
+     "ru": "Без позы",
+     "es": "Sin pose",
+     "pl": "Bez pozy"
+    },
+    "Skin_Original": {
+     "en": "Original",
+     "de": "Original",
+     "zh": "原版",
+     "ru": "Оригинал",
+     "es": "Original",
+     "pl": "Oryginalny"
+    },
+    "Hdr_WeaponModels": {
+     "en": "Model",
+     "de": "Modell",
+     "zh": "模型",
+     "ru": "Модель",
+     "es": "Modelo",
+     "pl": "Model"
+    },
+    "Hdr_WeaponSkins": {
+     "en": "Skin",
+     "de": "Skin",
+     "zh": "皮肤",
+     "ru": "Скин",
+     "es": "Skin",
+     "pl": "Skin"
+    },
+    "Btn_RedoIcons": {
+     "en": "Take pictures again",
+     "de": "Bilder neu aufnehmen",
+     "zh": "重新拍摄",
+     "ru": "Переснять",
+     "es": "Volver a tomar",
+     "pl": "Zrób zdjęcia ponownie"
+    },
+    "Btn_StopPose": {
+     "en": "Stop pose",
+     "de": "Pose beenden",
+     "zh": "停止姿势",
+     "ru": "Остановить позу",
+     "es": "Detener pose",
+     "pl": "Zakończ pozę"
     },
     "Btn_BagCleanup": {
      "en": "Tidy up backpack",
      "de": "Rucksack aufräumen",
      "zh": "整理背包",
      "ru": "Разобрать рюкзак",
-     "es": "Ordenar la mochila"
+     "es": "Ordenar la mochila",
+     "pl": "Uporządkuj plecak"
     },
     "Btn_BagAll": {
      "en": "Everything into the backpack",
      "de": "Alles in den Rucksack",
      "zh": "全部放入背包",
      "ru": "Всё в рюкзак",
-     "es": "Todo a la mochila"
+     "es": "Todo a la mochila",
+     "pl": "Wszystko do plecaka"
     },
     "Btn_Undo": {
      "en": "Undo",
      "de": "Rückgängig",
      "zh": "撤销",
      "ru": "Отменить",
-     "es": "Deshacer"
+     "es": "Deshacer",
+     "pl": "Cofnij"
     },
     "Btn_Redo": {
      "en": "Redo",
      "de": "Wiederherstellen",
      "zh": "重做",
      "ru": "Повторить",
-     "es": "Rehacer"
+     "es": "Rehacer",
+     "pl": "Ponów"
     },
     "Btn_SavePreset": {
      "en": "Save current appearance",
      "de": "Aktuelles Aussehen speichern",
      "zh": "保存当前外观",
      "ru": "Сохранить текущую внешность",
-     "es": "Guardar la apariencia actual"
+     "es": "Guardar la apariencia actual",
+     "pl": "Zapisz obecny wygląd"
     },
     "Btn_SaveOutfit": {
      "en": "Save current outfit",
      "de": "Aktuelles Outfit speichern",
      "zh": "保存当前搭配",
      "ru": "Сохранить текущий комплект",
-     "es": "Guardar el conjunto actual"
+     "es": "Guardar el conjunto actual",
+     "pl": "Zapisz obecny strój"
     },
     "Btn_SaveLook": {
      "en": "Save current look",
      "de": "Aktuellen Look speichern",
      "zh": "保存当前造型",
      "ru": "Сохранить текущий образ",
-     "es": "Guardar el look actual"
+     "es": "Guardar el look actual",
+     "pl": "Zapisz obecną stylizację"
     },
     "Btn_Back": {
      "en": "← Back",
      "de": "← Zurück",
      "zh": "← 返回",
      "ru": "← Назад",
-     "es": "← Atrás"
+     "es": "← Atrás",
+     "pl": "← Powrót"
     },
     "Menu_FavAdd": {
      "en": "Add to favourites",
      "de": "Favorit hinzufügen",
      "zh": "加入收藏",
      "ru": "В избранное",
-     "es": "Añadir a favoritos"
+     "es": "Añadir a favoritos",
+     "pl": "Dodaj do ulubionych"
     },
     "Menu_FavRemove": {
      "en": "Remove from favourites",
      "de": "Favorit entfernen",
      "zh": "取消收藏",
      "ru": "Убрать из избранного",
-     "es": "Quitar de favoritos"
+     "es": "Quitar de favoritos",
+     "pl": "Usuń z ulubionych"
     },
     "Menu_Hide": {
      "en": "Hide",
      "de": "Ausblenden",
      "zh": "隐藏",
      "ru": "Скрыть",
-     "es": "Ocultar"
+     "es": "Ocultar",
+     "pl": "Ukryj"
     },
     "Menu_Unhide": {
      "en": "Unhide",
      "de": "Einblenden",
      "zh": "取消隐藏",
      "ru": "Показать",
-     "es": "Mostrar"
+     "es": "Mostrar",
+     "pl": "Pokaż"
+    },
+    "Menu_EyeIris": {
+     "en": "Iris colour...",
+     "de": "Irisfarbe...",
+     "zh": "虹膜颜色...",
+     "ru": "Цвет радужки...",
+     "es": "Color del iris...",
+     "pl": "Kolor tęczówki..."
+    },
+    "Menu_Lashes": {
+     "en": "Eyelash colour...",
+     "de": "Wimpernfarbe...",
+     "zh": "睫毛颜色...",
+     "ru": "Цвет ресниц...",
+     "es": "Color de las pestañas...",
+     "pl": "Kolor rzęs..."
+    },
+    "Menu_EyeReset": {
+     "en": "Reset colours (default)",
+     "de": "Farben zurücksetzen (Standard)",
+     "zh": "重置颜色（默认）",
+     "ru": "Сбросить цвета (по умолчанию)",
+     "es": "Restablecer colores (predeterminado)",
+     "pl": "Przywróć kolory (domyślne)"
+    },
+    "Menu_Tint": {
+     "en": "Tint...",
+     "de": "Tönen...",
+     "zh": "染色…",
+     "ru": "Тонировать...",
+     "es": "Teñir...",
+     "pl": "Tonowanie..."
+    },
+    "Menu_TintReset": {
+     "en": "Reset tint (default)",
+     "de": "Tönung zurücksetzen (Standard)",
+     "zh": "重置染色（默认）",
+     "ru": "Сбросить тонировку (по умолчанию)",
+     "es": "Restablecer el teñido (predeterminado)",
+     "pl": "Przywróć tonowanie (domyślne)"
+    },
+    "Menu_ColorSlot": {
+     "en": "Colour: %s...",
+     "de": "Farbe: %s...",
+     "zh": "颜色：%s...",
+     "ru": "Цвет: %s...",
+     "es": "Color: %s...",
+     "pl": "Kolor: %s..."
     },
     "Menu_Color": {
      "en": "Colour...",
      "de": "Farbe...",
      "zh": "颜色...",
      "ru": "Цвет...",
-     "es": "Color..."
+     "es": "Color...",
+     "pl": "Kolor..."
     },
     "Menu_PutInBag": {
      "en": "Put in backpack",
      "de": "In den Rucksack",
      "zh": "放入背包",
      "ru": "В рюкзак",
-     "es": "Meter en la mochila"
+     "es": "Meter en la mochila",
+     "pl": "Do plecaka"
     },
     "Menu_Wear": {
      "en": "Wear",
      "de": "Anziehen",
      "zh": "穿上",
      "ru": "Надеть",
-     "es": "Vestir"
+     "es": "Vestir",
+     "pl": "Załóż"
     },
     "Menu_TakeOff": {
      "en": "Take off",
      "de": "Ausziehen",
      "zh": "脱下",
      "ru": "Снять",
-     "es": "Quitar"
+     "es": "Quitar",
+     "pl": "Zdejmij"
     },
     "Menu_Repair": {
      "en": "Repair (sewing kit)",
      "de": "Reparieren (Nähset)",
      "zh": "修补（针线包）",
      "ru": "Починить (набор для шитья)",
-     "es": "Reparar (kit de costura)"
+     "es": "Reparar (kit de costura)",
+     "pl": "Napraw (zestaw do szycia)"
     },
     "Menu_BagRemove": {
      "en": "Remove from backpack",
      "de": "Aus Rucksack entfernen",
      "zh": "从背包移除",
      "ru": "Убрать из рюкзака",
-     "es": "Sacar de la mochila"
+     "es": "Sacar de la mochila",
+     "pl": "Wyjmij z plecaka"
     },
     "Menu_ToWardrobe": {
      "en": "To wardrobe",
      "de": "In Kleiderschrank",
      "zh": "放回衣柜",
      "ru": "В гардероб",
-     "es": "Al armario"
+     "es": "Al armario",
+     "pl": "Do szafy"
     },
     "Menu_HairReset": {
      "en": "Reset hair colour (default)",
      "de": "Haarfarbe zurücksetzen (Standard)",
      "zh": "重置发色（默认）",
      "ru": "Сбросить цвет волос (по умолчанию)",
-     "es": "Restablecer color de pelo (predeterminado)"
+     "es": "Restablecer color de pelo (predeterminado)",
+     "pl": "Przywróć kolor włosów (domyślny)"
     },
     "Menu_ClothesReset": {
      "en": "Reset colour (default)",
      "de": "Farbe zurücksetzen (Standard)",
      "zh": "重置颜色（默认）",
      "ru": "Сбросить цвет (по умолчанию)",
-     "es": "Restablecer color (predeterminado)"
+     "es": "Restablecer color (predeterminado)",
+     "pl": "Przywróć kolor (domyślny)"
     },
     "Menu_Apply": {
      "en": "Apply",
      "de": "Anwenden",
      "zh": "应用",
      "ru": "Применить",
-     "es": "Aplicar"
+     "es": "Aplicar",
+     "pl": "Zastosuj"
     },
     "Menu_Delete": {
      "en": "Delete",
      "de": "Löschen",
      "zh": "删除",
      "ru": "Удалить",
-     "es": "Borrar"
+     "es": "Borrar",
+     "pl": "Usuń"
     },
     "Menu_Rename": {
      "en": "Rename…",
      "de": "Umbenennen…",
      "zh": "重命名…",
      "ru": "Переименовать…",
-     "es": "Renombrar…"
+     "es": "Renombrar…",
+     "pl": "Zmień nazwę…"
     },
     "Menu_UpdateLook": {
      "en": "Update",
      "de": "Aktualisieren",
      "zh": "更新",
      "ru": "Обновить",
-     "es": "Actualizar"
+     "es": "Actualizar",
+     "pl": "Aktualizuj"
     },
     "Menu_ViewContent": {
      "en": "View content",
      "de": "Inhalt anzeigen",
      "zh": "查看内容",
      "ru": "Показать содержимое",
-     "es": "Ver contenido"
+     "es": "Ver contenido",
+     "pl": "Pokaż zawartość"
     },
     "Menu_ShowIn": {
      "en": "Show in tab",
      "de": "Im Reiter anzeigen",
      "zh": "在选项卡中显示",
      "ru": "Показать во вкладке",
-     "es": "Mostrar en la pestaña"
+     "es": "Mostrar en la pestaña",
+     "pl": "Pokaż w zakładce"
     },
     "Menu_Cancel": {
      "en": "Cancel",
      "de": "Abbrechen",
      "zh": "取消",
      "ru": "Отмена",
-     "es": "Cancelar"
+     "es": "Cancelar",
+     "pl": "Anuluj"
     },
     "State_NotOwned": {
      "en": "not owned",
      "de": "nicht im Besitz",
      "zh": "未拥有",
      "ru": "нет в наличии",
-     "es": "no poseído"
+     "es": "no poseído",
+     "pl": "nieposiadane"
     },
     "State_Fav": {
      "en": "* favourite",
      "de": "* Favorit",
      "zh": "★ 收藏",
      "ru": "★ избранное",
-     "es": "★ favorito"
+     "es": "★ favorito",
+     "pl": "★ ulubione"
     },
     "State_Damaged": {
      "en": "damaged",
      "de": "beschädigt",
      "zh": "已损坏",
      "ru": "повреждено",
-     "es": "dañado"
+     "es": "dañado",
+     "pl": "uszkodzone"
     },
     "Tip_Vanilla": {
      "en": "Vanilla",
      "de": "Vanilla",
      "zh": "原版",
      "ru": "Оригинал",
-     "es": "Original"
+     "es": "Original",
+     "pl": "Oryginał"
     },
     "Tip_Mod": {
      "en": "Mod",
      "de": "Mod",
      "zh": "模组",
      "ru": "Мод",
-     "es": "Mod"
+     "es": "Mod",
+     "pl": "Mod"
     },
     "Msg_WearFailed": {
      "en": "Could not wear: ",
      "de": "Konnte nicht anziehen: ",
      "zh": "无法穿上：",
      "ru": "Не удалось надеть: ",
-     "es": "No se pudo vestir: "
+     "es": "No se pudo vestir: ",
+     "pl": "Nie udało się założyć: "
     },
     "Msg_NotOwned": {
      "en": "Not owned: ",
      "de": "Nicht im Besitz: ",
      "zh": "未拥有：",
      "ru": "Нет в наличии: ",
-     "es": "No poseído: "
+     "es": "No poseído: ",
+     "pl": "Nieposiadane: "
     },
     "Msg_BagFull": {
      "en": "Backpack is full",
      "de": "Rucksack ist voll",
      "zh": "背包已满",
      "ru": "Рюкзак полон",
-     "es": "La mochila está llena"
+     "es": "La mochila está llena",
+     "pl": "Plecak jest pełny"
     },
     "Msg_HairLocked": {
      "en": "Hairstyle not unlocked yet (visit the mirror)",
      "de": "Frisur noch nicht freigeschaltet (Spiegel besuchen)",
      "zh": "发型尚未解锁（请前往镜子）",
      "ru": "Прическа еще не открыта (посетите зеркало)",
-     "es": "Peinado aún no desbloqueado (visita el espejo)"
+     "es": "Peinado aún no desbloqueado (visita el espejo)",
+     "pl": "Fryzura jeszcze nie odblokowana (odwiedź lustro)"
     },
     "Msg_BodyMissing": {
      "en": "Body mod not found: ",
      "de": "Body-Mod nicht gefunden: ",
      "zh": "未找到身体模组：",
      "ru": "Мод тела не найден: ",
-     "es": "Mod de cuerpo no encontrado: "
+     "es": "Mod de cuerpo no encontrado: ",
+     "pl": "Nie znaleziono moda ciała: "
     },
     "Msg_LookMissing": {
      "en": "Not available: ",
      "de": "Nicht verfügbar: ",
      "zh": "不可用：",
      "ru": "Недоступно: ",
-     "es": "No disponible: "
+     "es": "No disponible: ",
+     "pl": "Niedostępne: "
     },
     "Look_All": {
      "en": "All",
      "de": "Alle",
      "zh": "全部",
      "ru": "Все",
-     "es": "Todo"
+     "es": "Todo",
+     "pl": "Wszystko"
     },
     "Menu_LookOnlyMod": {
      "en": "Only this mod",
      "de": "Nur dieser Mod",
      "zh": "仅此模组",
      "ru": "Только этот мод",
-     "es": "Solo este mod"
+     "es": "Solo este mod",
+     "pl": "Tylko ten mod"
     },
     "Look_Presets": {
      "en": "Presets",
      "de": "Presets",
      "zh": "预设",
      "ru": "Предустановки",
-     "es": "Preajustes"
+     "es": "Preajustes",
+     "pl": "Presety"
     },
     "Look_Skin": {
      "en": "Skin",
      "de": "Haut",
      "zh": "肌肤",
      "ru": "Кожа",
-     "es": "Piel"
+     "es": "Piel",
+     "pl": "Skóra"
     },
     "Look_Eyebrow": {
      "en": "Eyebrows",
      "de": "Augenbrauen",
      "zh": "眉毛",
      "ru": "Брови",
-     "es": "Cejas"
+     "es": "Cejas",
+     "pl": "Brwi"
     },
     "Look_Eyeshadow": {
      "en": "Eyeshadow",
      "de": "Lidschatten",
      "zh": "眼影",
      "ru": "Тени для век",
-     "es": "Sombra de ojos"
+     "es": "Sombra de ojos",
+     "pl": "Cienie do powiek"
     },
     "Look_Eyeliner": {
      "en": "Eyeliner",
      "de": "Eyeliner",
      "zh": "眼线",
      "ru": "Подводка",
-     "es": "Delineador de ojos"
+     "es": "Delineador de ojos",
+     "pl": "Kredka do oczu"
     },
     "Look_Eye": {
      "en": "Eyes",
      "de": "Augen",
      "zh": "美瞳",
      "ru": "Глаза",
-     "es": "Pupilas"
+     "es": "Pupilas",
+     "pl": "Oczy"
     },
     "Look_Eyelashes": {
      "en": "Eyelashes",
      "de": "Wimpern",
      "zh": "睫毛",
      "ru": "Ресницы",
-     "es": "Pestañas"
+     "es": "Pestañas",
+     "pl": "Rzęsy"
     },
     "Look_Cheeks": {
      "en": "Cheeks",
      "de": "Wangen",
      "zh": "脸颊",
      "ru": "Щеки",
-     "es": "Mejillas"
+     "es": "Mejillas",
+     "pl": "Policzki"
     },
     "Look_Lips": {
      "en": "Lips",
      "de": "Lippen",
      "zh": "嘴唇",
      "ru": "Губы",
-     "es": "Labios"
+     "es": "Labios",
+     "pl": "Usta"
     },
     "Look_Nose": {
      "en": "Nose Shadow",
      "de": "Nasenschatten",
      "zh": "鼻影",
      "ru": "Тени для носа",
-     "es": "Sombra de la nariz"
+     "es": "Sombra de la nariz",
+     "pl": "Cienie do nosa"
     },
     "Look_Nails": {
      "en": "Manicure",
      "de": "Maniküre",
      "zh": "美甲",
      "ru": "Маникюр",
-     "es": "Manicura"
+     "es": "Manicura",
+     "pl": "Paznokcie"
     },
     "Look_Tattoo": {
      "en": "Tattoos",
      "de": "Tattoo",
      "zh": "纹身",
      "ru": "Тату",
-     "es": "Tatuajes"
+     "es": "Tatuajes",
+     "pl": "Tatuaże"
     },
     "Tab_Manage": {
      "en": "Manage",
      "de": "Verwaltung",
      "zh": "管理",
      "ru": "Управление",
-     "es": "Gestión"
+     "es": "Gestión",
+     "pl": "Zarządzanie"
     },
     "Cat_Mods": {
      "en": "Mods",
      "de": "Mods",
      "zh": "模组",
      "ru": "Моды",
-     "es": "Mods"
+     "es": "Mods",
+     "pl": "Mody"
     },
     "Cat_Clothes": {
      "en": "Clothes",
      "de": "Kleidung",
      "zh": "服装",
      "ru": "Одежда",
-     "es": "Ropa"
+     "es": "Ropa",
+     "pl": "Ubrania"
     },
     "Cat_Vanilla": {
      "en": "Vanilla",
      "de": "Vanilla",
      "zh": "原版",
      "ru": "Оригинал",
-     "es": "Vanilla"
+     "es": "Vanilla",
+     "pl": "Vanilla"
     },
     "Cat_Hair": {
      "en": "Hairstyles",
      "de": "Frisuren",
      "zh": "发型",
      "ru": "Причёски",
-     "es": "Peinados"
+     "es": "Peinados",
+     "pl": "Fryzury"
     },
     "Cat_Skin": {
      "en": "Skins",
      "de": "Skins",
      "zh": "皮肤",
      "ru": "Скины",
-     "es": "Pieles"
+     "es": "Pieles",
+     "pl": "Skiny"
     },
     "Lbl_OnlyMods": {
      "en": "only\nmods",
      "de": "nur\nMods",
      "zh": "仅\n模组",
      "ru": "только\nмоды",
-     "es": "solo\nmods"
+     "es": "solo\nmods",
+     "pl": "tylko\nmody"
     },
     "Lbl_CaseSens": {
      "en": "case-\nsensitive",
      "de": "Groß-/\nKlein",
      "zh": "区分\n大小写",
      "ru": "учёт\nрегистра",
-     "es": "mayús./\nminús."
+     "es": "mayús./\nminús.",
+     "pl": "wielkość\nliter"
     },
     "Lbl_AlsoAffects": {
      "en": "also affects:",
      "de": "betrifft auch:",
      "zh": "同时影响：",
      "ru": "также затрагивает:",
-     "es": "también afecta a:"
+     "es": "también afecta a:",
+     "pl": "dotyczy też:"
     },
     "Lbl_Vanilla": {
      "en": "Vanilla",
      "de": "Vanilla",
      "zh": "原版",
      "ru": "Оригинал",
-     "es": "Vanilla"
+     "es": "Vanilla",
+     "pl": "Vanilla"
     },
     "Btn_Revert": {
      "en": "↺",
      "de": "↺",
      "zh": "↺",
      "ru": "↺",
-     "es": "↺"
+     "es": "↺",
+     "pl": "↺"
     },
     "Tip_DistPlus": {
-     "en": "Camera closer",
-     "de": "Kamera näher",
-     "zh": "相机拉近",
-     "ru": "Камера ближе",
-     "es": "Cámara más cerca"
+     "en": "Camera closer (mouse wheel over Jodi too)",
+     "de": "Kamera näher (auch mit dem Mausrad über Jodi)",
+     "zh": "相机拉近（也可用鼠标滚轮，在 Jodi 上）",
+     "ru": "Камера ближе (также колесом мыши над Jodi)",
+     "es": "Cámara más cerca (también con la rueda sobre Jodi)",
+     "pl": "Kamera bliżej (także kółkiem myszy nad Jodi)"
     },
     "Tip_DistMinus": {
-     "en": "Camera farther",
-     "de": "Kamera weiter weg",
-     "zh": "相机拉远",
-     "ru": "Камера дальше",
-     "es": "Cámara más lejos"
+     "en": "Camera farther (mouse wheel over Jodi too)",
+     "de": "Kamera weiter weg (auch mit dem Mausrad über Jodi)",
+     "zh": "相机拉远（也可用鼠标滚轮，在 Jodi 上）",
+     "ru": "Камера дальше (также колесом мыши над Jodi)",
+     "es": "Cámara más lejos (también con la rueda sobre Jodi)",
+     "pl": "Kamera dalej (także kółkiem myszy nad Jodi)"
     },
     "Tip_FreeCam": {
      "en": "Free camera – mouse looks, W A S D move, Q / E down / up, Shift fast, wheel = speed, Esc back",
      "de": "Freie Kamera – Maus dreht, W A S D bewegen, Q / E runter / hoch, Shift schnell, Rad = Tempo, Esc zurück",
      "zh": "自由相机 – 鼠标转向，W A S D 移动，Q / E 下 / 上，Shift 加速，滚轮 = 速度，Esc 返回",
      "ru": "Свободная камера – мышь поворачивает, W A S D движение, Q / E вниз / вверх, Shift быстро, колесо = скорость, Esc назад",
-     "es": "Cámara libre – el ratón gira, W A S D mueven, Q / E bajar / subir, Shift rápido, rueda = velocidad, Esc volver"
+     "es": "Cámara libre – el ratón gira, W A S D mueven, Q / E bajar / subir, Shift rápido, rueda = velocidad, Esc volver",
+     "pl": "Wolna kamera – mysz obraca, W A S D ruch, Q / E w dół / w górę, Shift szybko, kółko = prędkość, Esc powrót"
     },
     "Tip_PhotoMode": {
      "en": "The game's photo mode – Esc back",
      "de": "Foto-Modus des Spiels – Esc zurück",
      "zh": "游戏的拍照模式 – Esc 返回",
      "ru": "Фоторежим игры – Esc назад",
-     "es": "Modo foto del juego – Esc volver"
+     "es": "Modo foto del juego – Esc volver",
+     "pl": "Tryb zdjęć gry – Esc powrót"
     },
     "Tip_Revert": {
      "en": "Back to the default name",
      "de": "Zurück zum Standardnamen",
      "zh": "恢复默认名称",
      "ru": "Вернуть стандартное имя",
-     "es": "Volver al nombre por defecto"
+     "es": "Volver al nombre por defecto",
+     "pl": "Powrót do domyślnej nazwy"
     },
     "Hint_Name": {
      "en": "display name…",
      "de": "Anzeigename…",
      "zh": "显示名称…",
      "ru": "отображаемое имя…",
-     "es": "nombre mostrado…"
+     "es": "nombre mostrado…",
+     "pl": "nazwa wyświetlana…"
     },
     "Btn_ModContent": {
      "en": "View content",
      "de": "Inhalt anzeigen",
      "zh": "查看内容",
      "ru": "Показать содержимое",
-     "es": "Ver contenido"
+     "es": "Ver contenido",
+     "pl": "Pokaż zawartość"
     },
     "Btn_SearchName": {
      "en": "search",
      "de": "suchen",
      "zh": "搜索",
      "ru": "искать",
-     "es": "buscar"
+     "es": "buscar",
+     "pl": "szukaj"
     },
     "Btn_LikePak": {
      "en": "like pak",
      "de": "wie pak",
      "zh": "同 pak",
      "ru": "как pak",
-     "es": "como pak"
+     "es": "como pak",
+     "pl": "jak pak"
     },
     "Btn_LikeGroup": {
      "en": "like g",
      "de": "wie g",
      "zh": "同 g",
      "ru": "как g",
-     "es": "como g"
+     "es": "como g",
+     "pl": "jak g"
     },
     "Tip_Default": {
      "en": "Default: ",
      "de": "Standard: ",
      "zh": "默认：",
      "ru": "Стандарт: ",
-     "es": "Por defecto: "
+     "es": "Por defecto: ",
+     "pl": "Domyślnie: "
     },
     "Tip_Id": {
      "en": "id: ",
      "de": "id: ",
      "zh": "id: ",
      "ru": "id: ",
-     "es": "id: "
+     "es": "id: ",
+     "pl": "id: "
     },
     "Tip_Pak": {
      "en": "pak: ",
      "de": "pak: ",
      "zh": "pak: ",
      "ru": "pak: ",
-     "es": "pak: "
+     "es": "pak: ",
+     "pl": "pak: "
     },
     "Tip_Grp": {
      "en": "g: ",
      "de": "g: ",
      "zh": "g: ",
      "ru": "g: ",
-     "es": "g: "
+     "es": "g: ",
+     "pl": "g: "
     },
     "Tip_Slot": {
      "en": "s: ",
      "de": "s: ",
      "zh": "s: ",
      "ru": "s: ",
-     "es": "s: "
+     "es": "s: ",
+     "pl": "s: "
     },
     "Lbl_HdrName": {
      "en": "Default name",
      "de": "Standardname",
      "zh": "默认名称",
      "ru": "Стандартное имя",
-     "es": "Nombre por defecto"
+     "es": "Nombre por defecto",
+     "pl": "Nazwa domyślna"
     },
     "Lbl_KindMod": {
      "en": "PAK",
      "de": "PAK",
      "zh": "PAK",
      "ru": "PAK",
-     "es": "PAK"
+     "es": "PAK",
+     "pl": "PAK"
     },
     "Lbl_KindGroup": {
      "en": "G",
      "de": "G",
      "zh": "G",
      "ru": "G",
-     "es": "G"
+     "es": "G",
+     "pl": "G"
     },
     "Lbl_HdrDisplay": {
      "en": "Display name",
      "de": "Anzeigename",
      "zh": "显示名称",
      "ru": "Отображаемое имя",
-     "es": "Nombre mostrado"
+     "es": "Nombre mostrado",
+     "pl": "Nazwa wyświetlana"
     },
     "Lbl_HdrIds": {
      "en": "Identifiers",
      "de": "Bezeichner",
      "zh": "标识符",
      "ru": "Идентификаторы",
-     "es": "Identificadores"
+     "es": "Identificadores",
+     "pl": "Identyfikatory"
     },
     "Menu_OnlyGroup": {
      "en": "Only this group",
      "de": "Nur diese Gruppe",
      "zh": "仅此分组",
      "ru": "Только эта группа",
-     "es": "Solo este grupo"
+     "es": "Solo este grupo",
+     "pl": "Tylko ta grupa"
     },
     "Menu_ModContent": {
      "en": "View mod content",
      "de": "Mod-Inhalt anzeigen",
      "zh": "查看模组内容",
      "ru": "Содержимое мода",
-     "es": "Ver contenido del mod"
+     "es": "Ver contenido del mod",
+     "pl": "Pokaż zawartość moda"
     },
     "Menu_RenameMod": {
      "en": "Rename mod…",
      "de": "Mod umbenennen…",
      "zh": "重命名模组…",
      "ru": "Переименовать мод…",
-     "es": "Renombrar mod…"
+     "es": "Renombrar mod…",
+     "pl": "Zmień nazwę moda…"
     },
     "Menu_RenameGroup": {
      "en": "Rename group…",
      "de": "Gruppe umbenennen…",
      "zh": "重命名分组…",
      "ru": "Переименовать группу…",
-     "es": "Renombrar grupo…"
+     "es": "Renombrar grupo…",
+     "pl": "Zmień nazwę grupy…"
     },
     "Btn_HairNatural": {
      "en": "Natural hair colours",
      "de": "Natürliche Haarfarben",
      "zh": "自然发色",
      "ru": "Естественные цвета волос",
-     "es": "Colores de pelo naturales"
+     "es": "Colores de pelo naturales",
+     "pl": "Naturalne kolory włosów"
     },
     "Hair_Black": {
      "en": "Black",
      "de": "Schwarz",
      "zh": "黑色",
      "ru": "Чёрный",
-     "es": "Negro"
+     "es": "Negro",
+     "pl": "Czarny"
     },
     "Hair_BlackBrown": {
      "en": "Black-brown",
      "de": "Schwarzbraun",
      "zh": "黑棕色",
      "ru": "Чёрно-каштановый",
-     "es": "Castaño oscuro"
+     "es": "Castaño oscuro",
+     "pl": "Czarnobrązowy"
     },
     "Hair_DarkBrown": {
      "en": "Dark brown",
      "de": "Dunkelbraun",
      "zh": "深棕色",
      "ru": "Тёмно-каштановый",
-     "es": "Marrón oscuro"
+     "es": "Marrón oscuro",
+     "pl": "Ciemnobrązowy"
     },
     "Hair_Chestnut": {
      "en": "Chestnut",
      "de": "Kastanie",
      "zh": "栗色",
      "ru": "Каштановый",
-     "es": "Castaño"
+     "es": "Castaño",
+     "pl": "Kasztanowy"
     },
     "Hair_MediumBrown": {
      "en": "Medium brown",
      "de": "Mittelbraun",
      "zh": "中棕色",
      "ru": "Русый",
-     "es": "Marrón medio"
+     "es": "Marrón medio",
+     "pl": "Średni brąz"
     },
     "Hair_LightBrown": {
      "en": "Light brown",
      "de": "Hellbraun",
      "zh": "浅棕色",
      "ru": "Светло-русый",
-     "es": "Marrón claro"
+     "es": "Marrón claro",
+     "pl": "Jasnobrązowy"
     },
     "Hair_DarkBlonde": {
      "en": "Dark blonde",
      "de": "Dunkelblond",
      "zh": "深金色",
      "ru": "Тёмно-русый",
-     "es": "Rubio oscuro"
+     "es": "Rubio oscuro",
+     "pl": "Ciemny blond"
     },
     "Hair_Honey": {
      "en": "Honey blonde",
      "de": "Honigblond",
      "zh": "蜂蜜金色",
      "ru": "Медовый",
-     "es": "Rubio miel"
+     "es": "Rubio miel",
+     "pl": "Miodowy blond"
     },
     "Hair_LightBlonde": {
      "en": "Light blonde",
      "de": "Hellblond",
      "zh": "浅金色",
      "ru": "Светлый блонд",
-     "es": "Rubio claro"
+     "es": "Rubio claro",
+     "pl": "Jasny blond"
     },
     "Hair_Platinum": {
      "en": "Platinum blonde",
      "de": "Platinblond",
      "zh": "白金色",
      "ru": "Платиновый",
-     "es": "Rubio platino"
+     "es": "Rubio platino",
+     "pl": "Platynowy blond"
     },
     "Hair_Copper": {
      "en": "Copper",
      "de": "Kupfer",
      "zh": "铜红色",
      "ru": "Медный",
-     "es": "Cobre"
+     "es": "Cobre",
+     "pl": "Miedziany"
     },
     "Hair_Auburn": {
      "en": "Auburn",
      "de": "Rotbraun",
      "zh": "赤褐色",
      "ru": "Тёмно-рыжий",
-     "es": "Caoba"
+     "es": "Caoba",
+     "pl": "Kasztanowo-rudy"
     },
     "Hair_StrawberryBlonde": {
      "en": "Strawberry blonde",
      "de": "Erdbeerblond",
      "zh": "草莓金色",
      "ru": "Клубничный блонд",
-     "es": "Rubio fresa"
+     "es": "Rubio fresa",
+     "pl": "Truskawkowy blond"
     },
     "Hair_Silver": {
      "en": "Silver grey",
      "de": "Silbergrau",
      "zh": "银灰色",
      "ru": "Серебристый",
-     "es": "Gris plateado"
+     "es": "Gris plateado",
+     "pl": "Srebrnoszary"
     }
    }
   },
@@ -1980,7 +2713,15 @@
    "type": "datatable",
    "path": "/Game/Mod/AltUI/TKA_Mod_Table",
    "row_struct": "/Game/Project/Tables/DLC_Struct",
-   "composite": false
+   "composite": false,
+   "rows": {
+    "AltUI": {
+     "Caption": "AltUI",
+     "Desc": "Wardrobe and appearance panel, opens with B",
+     "Version": 1.4,
+     "Tables": []
+    }
+   }
   },
   {
    "type": "blueprint",
@@ -2011,6 +2752,10 @@
      "type": "bool"
     },
     {
+     "name": "OnlyWorn",
+     "type": "bool"
+    },
+    {
      "name": "SubTabsCollapsed",
      "type": "bool"
     },
@@ -2019,7 +2764,49 @@
      "type": "bool"
     },
     {
+     "name": "LookOnlyWorn",
+     "type": "bool"
+    },
+    {
      "name": "LookChipsCollapsed",
+     "type": "bool"
+    },
+    {
+     "name": "PoseChipsCollapsed",
+     "type": "bool"
+    },
+    {
+     "name": "PoseKind",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "PoseMoving",
+     "type": "name",
+     "container": "map",
+     "value_type": "bool"
+    },
+    {
+     "name": "PoseManual",
+     "type": "name",
+     "container": "map",
+     "value_type": "bool"
+    },
+    {
+     "name": "WeaponSkins",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "WeaponModels",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "SkinChipsCollapsed",
      "type": "bool"
     },
     {
@@ -2063,6 +2850,49 @@
      "default": "0"
     },
     {
+     "name": "CamHeight",
+     "type": "float"
+    },
+    {
+     "name": "CamRightHeight",
+     "type": "bool"
+    },
+    {
+     "name": "IconOwn",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "IconRedo",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ForceSkin",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ForceSkipMag",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ForceSkipOptics",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ForceSkipBarrel",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ForceSkipGrip",
+     "type": "name",
+     "container": "array"
+    },
+    {
      "name": "OnlyModsNames",
      "type": "bool",
      "default": "true"
@@ -2078,6 +2908,11 @@
     {
      "name": "MergeMods",
      "type": "bool"
+    },
+    {
+     "name": "ChipSearchShown",
+     "type": "bool",
+     "default": "true"
     },
     {
      "name": "TipNoPrefix",
@@ -2145,6 +2980,24 @@
     {
      "name": "ToggleKey",
      "type": "name"
+    },
+    {
+     "name": "SlotColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "EyeColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "MakeupColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
     },
     {
      "name": "SaveVersion",
@@ -2273,6 +3126,14 @@
      "type": "string"
     },
     {
+     "name": "ChipSearchText",
+     "type": "string"
+    },
+    {
+     "name": "LookChipSearchText",
+     "type": "string"
+    },
+    {
      "name": "TmpRest",
      "type": "string"
     },
@@ -2314,6 +3175,11 @@
     {
      "name": "MergeMods",
      "type": "bool"
+    },
+    {
+     "name": "ChipSearchShown",
+     "type": "bool",
+     "default": "true"
     },
     {
      "name": "ModAlias",
@@ -2612,6 +3478,10 @@
      "type": "bool"
     },
     {
+     "name": "CachedOnlyWorn",
+     "type": "bool"
+    },
+    {
      "name": "SubTabsCollapsed",
      "type": "bool"
     },
@@ -2678,6 +3548,10 @@
      "type": "bool"
     },
     {
+     "name": "LookOnlyWorn",
+     "type": "bool"
+    },
+    {
      "name": "LookChipsCollapsed",
      "type": "bool"
     },
@@ -2690,6 +3564,352 @@
      "name": "LookRows",
      "type": "name",
      "container": "array"
+    },
+    {
+     "name": "PoseRows",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "PoseCounts",
+     "type": "name",
+     "container": "map",
+     "value_type": "int"
+    },
+    {
+     "name": "PoseCountsF",
+     "type": "name",
+     "container": "map",
+     "value_type": "int"
+    },
+    {
+     "name": "PoseGroup",
+     "type": "name"
+    },
+    {
+     "name": "PoseChipsCollapsed",
+     "type": "bool"
+    },
+    {
+     "name": "PoseSearchText",
+     "type": "string"
+    },
+    {
+     "name": "PoseMod",
+     "type": "name"
+    },
+    {
+     "name": "PoseKind",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "PoseMoving",
+     "type": "name",
+     "container": "map",
+     "value_type": "bool"
+    },
+    {
+     "name": "PoseManual",
+     "type": "name",
+     "container": "map",
+     "value_type": "bool"
+    },
+    {
+     "name": "PoseCat",
+     "type": "name"
+    },
+    {
+     "name": "PoseSection",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "PoseSections",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "MeasureRow",
+     "type": "name"
+    },
+    {
+     "name": "MeasureTime",
+     "type": "float"
+    },
+    {
+     "name": "MeasureRun",
+     "type": "float"
+    },
+    {
+     "name": "MeasureMin",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "MeasureMax",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "MeasureSum",
+     "type": "float"
+    },
+    {
+     "name": "MeasureN",
+     "type": "int"
+    },
+    {
+     "name": "ScanWait",
+     "type": "float"
+    },
+    {
+     "name": "MeasurePos",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "ScanRows",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ScanIndex",
+     "type": "int"
+    },
+    {
+     "name": "Scanning",
+     "type": "bool"
+    },
+    {
+     "name": "PoseKnown",
+     "type": "object:/Script/Engine.Actor",
+     "container": "array"
+    },
+    {
+     "name": "TmpActors",
+     "type": "object:/Script/Engine.Actor",
+     "container": "array"
+    },
+    {
+     "name": "TmpActors2",
+     "type": "object:/Script/Engine.Actor",
+     "container": "array"
+    },
+    {
+     "name": "WeaponSkins",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "WeaponModels",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "ModelOwner",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "ModelWeapon",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "ModelList",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ModelIconOf",
+     "type": "name",
+     "container": "map",
+     "value_type": "object:/Script/Engine.Texture2D"
+    },
+    {
+     "name": "IconOwn",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "IconRedo",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "IconSpawnWait",
+     "type": "int"
+    },
+    {
+     "name": "IconReach",
+     "type": "float"
+    },
+    {
+     "name": "ForceSkin",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ForceSkipMag",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ForceSkipOptics",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ForceSkipBarrel",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ForceSkipGrip",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "SkinTakes",
+     "type": "bool",
+     "default": "true"
+    },
+    {
+     "name": "OrigMat",
+     "type": "object:/Script/CoreUObject.Object",
+     "container": "map",
+     "value_type": "object:/Script/Engine.MaterialInterface"
+    },
+    {
+     "name": "OrigMats",
+     "type": "object:/Script/CoreUObject.Object",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_Mats"
+    },
+    {
+     "name": "TmpMats",
+     "type": "struct:/Game/Mod/AltUI/S_Mats"
+    },
+    {
+     "name": "ModelRows",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "OrigMesh",
+     "type": "object:/Script/CoreUObject.Object",
+     "container": "map",
+     "value_type": "object:/Script/CoreUObject.Object"
+    },
+    {
+     "name": "TmpSkelComps",
+     "type": "object:/Script/Engine.ActorComponent",
+     "container": "array"
+    },
+    {
+     "name": "TmpStatComps",
+     "type": "object:/Script/Engine.ActorComponent",
+     "container": "array"
+    },
+    {
+     "name": "TmpSkelMeshes",
+     "type": "object:/Script/Engine.SkeletalMesh",
+     "container": "array"
+    },
+    {
+     "name": "TmpStatMeshes",
+     "type": "object:/Script/Engine.StaticMesh",
+     "container": "array"
+    },
+    {
+     "name": "TmpMesh",
+     "type": "object:/Script/CoreUObject.Object"
+    },
+    {
+     "name": "SkinOwner",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "SkinWeapon",
+     "type": "name",
+     "container": "map",
+     "value_type": "name"
+    },
+    {
+     "name": "SkinList",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "SkinRows",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "SkinKinds",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "TmpSkin",
+     "type": "struct:/Game/Mod/AltUI/S_WeaponSkin"
+    },
+    {
+     "name": "TmpModel",
+     "type": "struct:/Game/Mod/AltUI/S_WeaponModel"
+    },
+    {
+     "name": "TmpModelMiss",
+     "type": "name"
+    },
+    {
+     "name": "TmpTex",
+     "type": "object:/Script/Engine.Texture2D"
+    },
+    {
+     "name": "TmpComps",
+     "type": "object:/Script/Engine.ActorComponent",
+     "container": "array"
+    },
+    {
+     "name": "TmpComps2",
+     "type": "object:/Script/Engine.ActorComponent",
+     "container": "array"
+    },
+    {
+     "name": "TmpComp",
+     "type": "object:/Script/Engine.SceneComponent"
+    },
+    {
+     "name": "TmpRot",
+     "type": "struct:/Script/CoreUObject.Rotator"
+    },
+    {
+     "name": "CurrentWeapon",
+     "type": "name",
+     "default": "UMP45"
+    },
+    {
+     "name": "SkinGroup",
+     "type": "name"
+    },
+    {
+     "name": "SkinChipsCollapsed",
+     "type": "bool"
+    },
+    {
+     "name": "WeaponSearchText",
+     "type": "string"
+    },
+    {
+     "name": "WeaponsSeen",
+     "type": "int"
     },
     {
      "name": "LookTypes",
@@ -2708,6 +3928,62 @@
      "name": "ColorMode",
      "type": "name",
      "default": "Clothes"
+    },
+    {
+     "name": "ColorSlot",
+     "type": "int"
+    },
+    {
+     "name": "ColorRow",
+     "type": "name"
+    },
+    {
+     "name": "MakeupBak",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Project/Tables/MakeupDataStruct"
+    },
+    {
+     "name": "ColorProbe",
+     "type": "bool"
+    },
+    {
+     "name": "ColorSlotsTmp",
+     "type": "struct:/Game/Mod/AltUI/S_ColorSlots"
+    },
+    {
+     "name": "TmpMat",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    },
+    {
+     "name": "ColorMat",
+     "type": "object:/Script/CoreUObject.Object",
+     "container": "map",
+     "value_type": "bool"
+    },
+    {
+     "name": "ColorSlotsOf",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_ColorSlots"
+    },
+    {
+     "name": "SlotColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "EyeColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "MakeupColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
     },
     {
      "name": "BodyBreast",
@@ -2737,7 +4013,15 @@
      "type": "name"
     },
     {
+     "name": "TmpName3",
+     "type": "name"
+    },
+    {
      "name": "TmpBool",
+     "type": "bool"
+    },
+    {
+     "name": "TmpWorn",
      "type": "bool"
     },
     {
@@ -2746,6 +4030,18 @@
     },
     {
      "name": "TmpColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "TmpColors2",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "TmpFColors2",
      "type": "name",
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor"
@@ -2775,6 +4071,32 @@
     {
      "name": "PhotoKind",
      "type": "name"
+    },
+    {
+     "name": "WeaponIcons",
+     "type": "name",
+     "container": "map",
+     "value_type": "object:/Script/Engine.Texture2D"
+    },
+    {
+     "name": "PhotoWeapon",
+     "type": "name"
+    },
+    {
+     "name": "PhotoSkin",
+     "type": "name"
+    },
+    {
+     "name": "PhotoModel",
+     "type": "name"
+    },
+    {
+     "name": "IconWeaponActor",
+     "type": "object:/Script/Engine.Actor"
+    },
+    {
+     "name": "PhotoOnly",
+     "type": "object:/Script/Engine.Actor"
     },
     {
      "name": "PhotoDir",
@@ -2839,6 +4161,10 @@
      "type": "float"
     },
     {
+     "name": "CamMod",
+     "type": "object:/Game/Mod/AltUI/CM_AltUICam"
+    },
+    {
      "name": "CamFov",
      "type": "float",
      "default": "0.8"
@@ -2849,11 +4175,27 @@
      "default": "1.0"
     },
     {
+     "name": "CamHeight",
+     "type": "float"
+    },
+    {
+     "name": "CamRightHeight",
+     "type": "bool"
+    },
+    {
      "name": "OptFov",
      "type": "float"
     },
     {
      "name": "OptDist",
+     "type": "float"
+    },
+    {
+     "name": "OptHeight",
+     "type": "float"
+    },
+    {
+     "name": "DistSaveTimer",
      "type": "float"
     },
     {
@@ -3081,6 +4423,22 @@
     },
     {
      "name": "FreeCtrlRot",
+     "type": "struct:/Script/CoreUObject.Rotator"
+    },
+    {
+     "name": "JodiDrag",
+     "type": "bool"
+    },
+    {
+     "name": "JodiDragRight",
+     "type": "bool"
+    },
+    {
+     "name": "JodiDragZ0",
+     "type": "float"
+    },
+    {
+     "name": "JodiMeshRot",
      "type": "struct:/Script/CoreUObject.Rotator"
     },
     {
@@ -5805,6 +7163,102 @@
         }
        },
        {
+        "id": "c15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@n2s.ReturnValue"
+        }
+       },
+       {
+        "id": "c25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@c15.ReturnValue",
+         "B": "/Mod_AnimationTable.Mod_AnimationTable"
+        }
+       },
+       {
+        "id": "sp5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "@c25.ReturnValue"
+        }
+       },
+       {
+        "id": "sr5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@sp5.ReturnValue"
+        }
+       },
+       {
+        "id": "ld5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@sr5.ReturnValue"
+        }
+       },
+       {
+        "id": "ck5",
+        "kind": "cast",
+        "class": "/Script/Engine.DataTable",
+        "pure": false,
+        "in": {
+         "Object": "@ld5.ReturnValue"
+        }
+       },
+       {
+        "id": "rows5",
+        "kind": "call",
+        "class": "/Script/Engine.DataTableFunctionLibrary",
+        "function": "GetDataTableRowNames",
+        "in": {
+         "Table": "@ck5.AsData Table"
+        }
+       },
+       {
+        "id": "fr5",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rows5.OutRowNames"
+        }
+       },
+       {
+        "id": "go5",
+        "kind": "get",
+        "var": "ItemOriginMod"
+       },
+       {
+        "id": "ma5",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@go5.ItemOriginMod",
+         "Key": "@fr5.Array Element",
+         "Value": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "sf5",
+        "kind": "set",
+        "var": "TmpFound",
+        "in": {
+         "TmpFound": "true"
+        }
+       },
+       {
         "id": "gf",
         "kind": "get",
         "var": "TmpFound"
@@ -5943,6 +7397,22 @@
        ],
        [
         "ck4:CastFailed",
+        "ld5"
+       ],
+       [
+        "fr4:Completed",
+        "ld5",
+        "ck5",
+        "sf5",
+        "rows5",
+        "fr5"
+       ],
+       [
+        "fr5",
+        "ma5"
+       ],
+       [
+        "ck5:CastFailed",
         "bf"
        ],
        [
@@ -5954,7 +7424,7 @@
         "fe"
        ],
        [
-        "fr4:Completed",
+        "fr5:Completed",
         "bf",
         "la",
         "ca"
@@ -6034,6 +7504,20 @@
         "function": "Map_Clear",
         "in": {
          "TargetMap": "@gm4.SlotNames"
+        }
+       },
+       {
+        "id": "gm5",
+        "kind": "get",
+        "var": "ColorSlotsOf"
+       },
+       {
+        "id": "clr5",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Clear",
+        "in": {
+         "TargetMap": "@gm5.ColorSlotsOf"
         }
        },
        {
@@ -6270,6 +7754,51 @@
         "var": "TmpName"
        },
        {
+        "id": "cs",
+        "kind": "call_self",
+        "function": "Item Color Slots",
+        "in": {
+         "name": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "bcs",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_ColorSlots",
+        "in": {
+         "S_ColorSlots": "@cs.slots"
+        }
+       },
+       {
+        "id": "nsl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@bcs.Idx"
+        }
+       },
+       {
+        "id": "hassl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@nsl.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "colok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@bc.ColorAdjustable",
+         "B": "@hassl.ReturnValue"
+        }
+       },
+       {
         "id": "mi",
         "kind": "make",
         "struct": "/Game/Mod/AltUI/S_ClothesItem",
@@ -6280,7 +7809,7 @@
          "SortKey": "@sk.key",
          "SortKey2": "@sk2.key",
          "Icon": "@bc.Icon",
-         "ColorAdjustable": "@bc.ColorAdjustable",
+         "ColorAdjustable": "@colok.ReturnValue",
          "Group": "@bc.Group",
          "IsVanilla": "@van.ReturnValue"
         }
@@ -7076,6 +8605,7 @@
         "clr2",
         "clr3",
         "clr4",
+        "clr5",
         "rt",
         "os",
         "ra",
@@ -7090,6 +8620,7 @@
         "sslot",
         "sk",
         "sk2",
+        "cs",
         "madd",
         "madd2",
         "sn1",
@@ -7268,6 +8799,10 @@
       {
        "name": "onlyVanilla",
        "type": "bool"
+      },
+      {
+       "name": "onlyWorn",
+       "type": "bool"
       }
      ],
      "graph": {
@@ -7301,7 +8836,8 @@
          "search": "@entry.search",
          "onlyOwned": "@entry.onlyOwned",
          "onlyFav": "@entry.onlyFav",
-         "onlyVanilla": "@entry.onlyVanilla"
+         "onlyVanilla": "@entry.onlyVanilla",
+         "onlyWorn": "@entry.onlyWorn"
         }
        },
        {
@@ -9165,6 +10701,22 @@
         "function": "Save Worn"
        },
        {
+        "id": "ac",
+        "kind": "call_self",
+        "function": "Apply Item Colors",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "ac2",
+        "kind": "call_self",
+        "function": "Apply Item Colors",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
         "id": "rs",
         "kind": "call_self",
         "function": "Refresh State"
@@ -9190,6 +10742,7 @@
         "w2",
         "b2",
         "sa",
+        "ac",
         "rs"
        ],
        [
@@ -9200,7 +10753,9 @@
         "bk:else",
         "w",
         "b",
-        "sa"
+        "sa",
+        "ac2",
+        "rs"
        ],
        [
         "b:else",
@@ -9528,6 +11083,10 @@
       },
       {
        "name": "onlyVanilla",
+       "type": "bool"
+      },
+      {
+       "name": "onlyWorn",
        "type": "bool"
       }
      ],
@@ -10146,6 +11705,33 @@
         }
        },
        {
+        "id": "iwn",
+        "kind": "call_self",
+        "function": "Is Worn",
+        "in": {
+         "name": "@b.Name"
+        }
+       },
+       {
+        "id": "nW",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@entry.onlyWorn"
+        }
+       },
+       {
+        "id": "wOk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@nW.ReturnValue",
+         "B": "@iwn.yes"
+        }
+       },
+       {
         "id": "a1",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
@@ -10186,13 +11772,23 @@
         }
        },
        {
-        "id": "all",
+        "id": "a4",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanAND",
         "in": {
          "A": "@a1.ReturnValue",
          "B": "@a3.ReturnValue"
+        }
+       },
+       {
+        "id": "all",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a4.ReturnValue",
+         "B": "@wOk.ReturnValue"
         }
        },
        {
@@ -12684,46 +14280,15 @@
        {
         "id": "lg5",
         "kind": "get",
-        "var": "ScrollMult",
+        "var": "OnlyWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz5",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg5.ScrollMult",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv5",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz5.ReturnValue"
-        }
-       },
-       {
-        "id": "ld5",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg5.ScrollMult",
-         "B": "4.0",
-         "bPickA": "@lv5.ReturnValue"
-        }
        },
        {
         "id": "ls5",
         "kind": "set",
-        "var": "ScrollMult",
+        "var": "CachedOnlyWorn",
         "in": {
-         "ScrollMult": "@ld5.ReturnValue"
+         "CachedOnlyWorn": "@lg5.OnlyWorn"
         }
        },
        {
@@ -12734,7 +14299,7 @@
        {
         "id": "lg6",
         "kind": "get",
-        "var": "TileScale",
+        "var": "ScrollMult",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -12743,7 +14308,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg6.TileScale",
+         "A": "@lg6.ScrollMult",
          "B": "0.0"
         }
        },
@@ -12763,17 +14328,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg6.TileScale",
-         "B": "1.0",
+         "A": "@lg6.ScrollMult",
+         "B": "4.0",
          "bPickA": "@lv6.ReturnValue"
         }
        },
        {
         "id": "ls6",
         "kind": "set",
-        "var": "TileScale",
+        "var": "ScrollMult",
         "in": {
-         "TileScale": "@ld6.ReturnValue"
+         "ScrollMult": "@ld6.ReturnValue"
         }
        },
        {
@@ -12784,15 +14349,46 @@
        {
         "id": "lg7",
         "kind": "get",
-        "var": "Unlimited",
+        "var": "TileScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg7.TileScale",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz7.ReturnValue"
+        }
+       },
+       {
+        "id": "ld7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg7.TileScale",
+         "B": "1.0",
+         "bPickA": "@lv7.ReturnValue"
+        }
        },
        {
         "id": "ls7",
         "kind": "set",
-        "var": "Unlimited",
+        "var": "TileScale",
         "in": {
-         "Unlimited": "@lg7.Unlimited"
+         "TileScale": "@ld7.ReturnValue"
         }
        },
        {
@@ -12803,15 +14399,15 @@
        {
         "id": "lg8",
         "kind": "get",
-        "var": "LeftFree",
+        "var": "Unlimited",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls8",
         "kind": "set",
-        "var": "LeftFree",
+        "var": "Unlimited",
         "in": {
-         "LeftFree": "@lg8.LeftFree"
+         "Unlimited": "@lg8.Unlimited"
         }
        },
        {
@@ -12822,15 +14418,15 @@
        {
         "id": "lg9",
         "kind": "get",
-        "var": "SubTabsCollapsed",
+        "var": "LeftFree",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls9",
         "kind": "set",
-        "var": "SubTabsCollapsed",
+        "var": "LeftFree",
         "in": {
-         "SubTabsCollapsed": "@lg9.SubTabsCollapsed"
+         "LeftFree": "@lg9.LeftFree"
         }
        },
        {
@@ -12841,15 +14437,15 @@
        {
         "id": "lg10",
         "kind": "get",
-        "var": "LookOnlyFav",
+        "var": "SubTabsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls10",
         "kind": "set",
-        "var": "LookOnlyFav",
+        "var": "SubTabsCollapsed",
         "in": {
-         "LookOnlyFav": "@lg10.LookOnlyFav"
+         "SubTabsCollapsed": "@lg10.SubTabsCollapsed"
         }
        },
        {
@@ -12860,15 +14456,15 @@
        {
         "id": "lg11",
         "kind": "get",
-        "var": "LookChipsCollapsed",
+        "var": "LookOnlyFav",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls11",
         "kind": "set",
-        "var": "LookChipsCollapsed",
+        "var": "LookOnlyFav",
         "in": {
-         "LookChipsCollapsed": "@lg11.LookChipsCollapsed"
+         "LookOnlyFav": "@lg11.LookOnlyFav"
         }
        },
        {
@@ -12879,15 +14475,15 @@
        {
         "id": "lg12",
         "kind": "get",
-        "var": "GroupLen",
+        "var": "LookOnlyWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls12",
         "kind": "set",
-        "var": "GroupLen",
+        "var": "LookOnlyWorn",
         "in": {
-         "GroupLen": "@lg12.GroupLen"
+         "LookOnlyWorn": "@lg12.LookOnlyWorn"
         }
        },
        {
@@ -12898,15 +14494,15 @@
        {
         "id": "lg13",
         "kind": "get",
-        "var": "ChipH",
+        "var": "LookChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls13",
         "kind": "set",
-        "var": "ChipH",
+        "var": "LookChipsCollapsed",
         "in": {
-         "ChipH": "@lg13.ChipH"
+         "LookChipsCollapsed": "@lg13.LookChipsCollapsed"
         }
        },
        {
@@ -12917,46 +14513,15 @@
        {
         "id": "lg14",
         "kind": "get",
-        "var": "CamFov",
+        "var": "PoseChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz14",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg14.CamFov",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv14",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz14.ReturnValue"
-        }
-       },
-       {
-        "id": "ld14",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg14.CamFov",
-         "B": "0.8",
-         "bPickA": "@lv14.ReturnValue"
-        }
        },
        {
         "id": "ls14",
         "kind": "set",
-        "var": "CamFov",
+        "var": "PoseChipsCollapsed",
         "in": {
-         "CamFov": "@ld14.ReturnValue"
+         "PoseChipsCollapsed": "@lg14.PoseChipsCollapsed"
         }
        },
        {
@@ -12967,46 +14532,15 @@
        {
         "id": "lg15",
         "kind": "get",
-        "var": "CamDist",
+        "var": "PoseKind",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz15",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg15.CamDist",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv15",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz15.ReturnValue"
-        }
-       },
-       {
-        "id": "ld15",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg15.CamDist",
-         "B": "1.0",
-         "bPickA": "@lv15.ReturnValue"
-        }
        },
        {
         "id": "ls15",
         "kind": "set",
-        "var": "CamDist",
+        "var": "PoseKind",
         "in": {
-         "CamDist": "@ld15.ReturnValue"
+         "PoseKind": "@lg15.PoseKind"
         }
        },
        {
@@ -13017,15 +14551,15 @@
        {
         "id": "lg16",
         "kind": "get",
-        "var": "BodyVariant",
+        "var": "PoseMoving",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls16",
         "kind": "set",
-        "var": "BodyVariant",
+        "var": "PoseMoving",
         "in": {
-         "BodyVariant": "@lg16.BodyVariant"
+         "PoseMoving": "@lg16.PoseMoving"
         }
        },
        {
@@ -13036,15 +14570,15 @@
        {
         "id": "lg17",
         "kind": "get",
-        "var": "BodyScales",
+        "var": "PoseManual",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls17",
         "kind": "set",
-        "var": "BodyScales",
+        "var": "PoseManual",
         "in": {
-         "BodyScales": "@lg17.BodyScales"
+         "PoseManual": "@lg17.PoseManual"
         }
        },
        {
@@ -13055,15 +14589,15 @@
        {
         "id": "lg18",
         "kind": "get",
-        "var": "LangChoice",
+        "var": "WeaponSkins",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls18",
         "kind": "set",
-        "var": "LangChoice",
+        "var": "WeaponSkins",
         "in": {
-         "LangChoice": "@lg18.LangChoice"
+         "WeaponSkins": "@lg18.WeaponSkins"
         }
        },
        {
@@ -13074,15 +14608,15 @@
        {
         "id": "lg19",
         "kind": "get",
-        "var": "PanToSlot",
+        "var": "WeaponModels",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls19",
         "kind": "set",
-        "var": "PanToSlot",
+        "var": "WeaponModels",
         "in": {
-         "PanToSlot": "@lg19.PanToSlot"
+         "WeaponModels": "@lg19.WeaponModels"
         }
        },
        {
@@ -13093,15 +14627,15 @@
        {
         "id": "lg20",
         "kind": "get",
-        "var": "AllowNude",
+        "var": "SkinChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls20",
         "kind": "set",
-        "var": "AllowNude",
+        "var": "SkinChipsCollapsed",
         "in": {
-         "AllowNude": "@lg20.AllowNude"
+         "SkinChipsCollapsed": "@lg20.SkinChipsCollapsed"
         }
        },
        {
@@ -13112,15 +14646,15 @@
        {
         "id": "lg21",
         "kind": "get",
-        "var": "OnlyModsNames",
+        "var": "GroupLen",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls21",
         "kind": "set",
-        "var": "OnlyModsNames",
+        "var": "GroupLen",
         "in": {
-         "OnlyModsNames": "@lg21.OnlyModsNames"
+         "GroupLen": "@lg21.GroupLen"
         }
        },
        {
@@ -13131,15 +14665,15 @@
        {
         "id": "lg22",
         "kind": "get",
-        "var": "CaseSensitiveNames",
+        "var": "ChipH",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls22",
         "kind": "set",
-        "var": "CaseSensitiveNames",
+        "var": "ChipH",
         "in": {
-         "CaseSensitiveNames": "@lg22.CaseSensitiveNames"
+         "ChipH": "@lg22.ChipH"
         }
        },
        {
@@ -13150,15 +14684,46 @@
        {
         "id": "lg23",
         "kind": "get",
-        "var": "MergeGroups",
+        "var": "CamFov",
         "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg23.CamFov",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz23.ReturnValue"
+        }
+       },
+       {
+        "id": "ld23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg23.CamFov",
+         "B": "0.8",
+         "bPickA": "@lv23.ReturnValue"
+        }
        },
        {
         "id": "ls23",
         "kind": "set",
-        "var": "MergeGroups",
+        "var": "CamFov",
         "in": {
-         "MergeGroups": "@lg23.MergeGroups"
+         "CamFov": "@ld23.ReturnValue"
         }
        },
        {
@@ -13169,15 +14734,46 @@
        {
         "id": "lg24",
         "kind": "get",
-        "var": "MergeMods",
+        "var": "CamDist",
         "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg24.CamDist",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz24.ReturnValue"
+        }
+       },
+       {
+        "id": "ld24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg24.CamDist",
+         "B": "1.0",
+         "bPickA": "@lv24.ReturnValue"
+        }
        },
        {
         "id": "ls24",
         "kind": "set",
-        "var": "MergeMods",
+        "var": "CamDist",
         "in": {
-         "MergeMods": "@lg24.MergeMods"
+         "CamDist": "@ld24.ReturnValue"
         }
        },
        {
@@ -13188,15 +14784,15 @@
        {
         "id": "lg25",
         "kind": "get",
-        "var": "TipNoPrefix",
+        "var": "CamHeight",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls25",
         "kind": "set",
-        "var": "TipNoPrefix",
+        "var": "CamHeight",
         "in": {
-         "TipNoPrefix": "@lg25.TipNoPrefix"
+         "CamHeight": "@lg25.CamHeight"
         }
        },
        {
@@ -13207,15 +14803,15 @@
        {
         "id": "lg26",
         "kind": "get",
-        "var": "TipNoIds",
+        "var": "CamRightHeight",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls26",
         "kind": "set",
-        "var": "TipNoIds",
+        "var": "CamRightHeight",
         "in": {
-         "TipNoIds": "@lg26.TipNoIds"
+         "CamRightHeight": "@lg26.CamRightHeight"
         }
        },
        {
@@ -13226,15 +14822,15 @@
        {
         "id": "lg27",
         "kind": "get",
-        "var": "FreedConflicts",
+        "var": "IconOwn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls27",
         "kind": "set",
-        "var": "FreedConflicts",
+        "var": "IconOwn",
         "in": {
-         "FreedConflicts": "@lg27.FreedConflicts"
+         "IconOwn": "@lg27.IconOwn"
         }
        },
        {
@@ -13245,15 +14841,15 @@
        {
         "id": "lg28",
         "kind": "get",
-        "var": "HairSwatchesOpen",
+        "var": "ForceSkin",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls28",
         "kind": "set",
-        "var": "HairSwatchesOpen",
+        "var": "ForceSkin",
         "in": {
-         "HairSwatchesOpen": "@lg28.HairSwatchesOpen"
+         "ForceSkin": "@lg28.ForceSkin"
         }
        },
        {
@@ -13264,15 +14860,15 @@
        {
         "id": "lg29",
         "kind": "get",
-        "var": "UnownedMode",
+        "var": "ForceSkipMag",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls29",
         "kind": "set",
-        "var": "UnownedMode",
+        "var": "ForceSkipMag",
         "in": {
-         "UnownedMode": "@lg29.UnownedMode"
+         "ForceSkipMag": "@lg29.ForceSkipMag"
         }
        },
        {
@@ -13283,32 +14879,431 @@
        {
         "id": "lg30",
         "kind": "get",
-        "var": "ToggleKey",
+        "var": "ForceSkipOptics",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls30",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "ForceSkipOptics",
         "in": {
-         "ToggleKey": "@lg30.ToggleKey"
+         "ForceSkipOptics": "@lg30.ForceSkipOptics"
         }
        },
        {
-        "id": "ln30",
+        "id": "lg31_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg31",
+        "kind": "get",
+        "var": "ForceSkipBarrel",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls31",
+        "kind": "set",
+        "var": "ForceSkipBarrel",
+        "in": {
+         "ForceSkipBarrel": "@lg31.ForceSkipBarrel"
+        }
+       },
+       {
+        "id": "lg32_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg32",
+        "kind": "get",
+        "var": "ForceSkipGrip",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls32",
+        "kind": "set",
+        "var": "ForceSkipGrip",
+        "in": {
+         "ForceSkipGrip": "@lg32.ForceSkipGrip"
+        }
+       },
+       {
+        "id": "lg33_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg33",
+        "kind": "get",
+        "var": "BodyVariant",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls33",
+        "kind": "set",
+        "var": "BodyVariant",
+        "in": {
+         "BodyVariant": "@lg33.BodyVariant"
+        }
+       },
+       {
+        "id": "lg34_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg34",
+        "kind": "get",
+        "var": "BodyScales",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls34",
+        "kind": "set",
+        "var": "BodyScales",
+        "in": {
+         "BodyScales": "@lg34.BodyScales"
+        }
+       },
+       {
+        "id": "lg35_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg35",
+        "kind": "get",
+        "var": "LangChoice",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls35",
+        "kind": "set",
+        "var": "LangChoice",
+        "in": {
+         "LangChoice": "@lg35.LangChoice"
+        }
+       },
+       {
+        "id": "lg36_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg36",
+        "kind": "get",
+        "var": "PanToSlot",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls36",
+        "kind": "set",
+        "var": "PanToSlot",
+        "in": {
+         "PanToSlot": "@lg36.PanToSlot"
+        }
+       },
+       {
+        "id": "lg37_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg37",
+        "kind": "get",
+        "var": "AllowNude",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls37",
+        "kind": "set",
+        "var": "AllowNude",
+        "in": {
+         "AllowNude": "@lg37.AllowNude"
+        }
+       },
+       {
+        "id": "lg38_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg38",
+        "kind": "get",
+        "var": "OnlyModsNames",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls38",
+        "kind": "set",
+        "var": "OnlyModsNames",
+        "in": {
+         "OnlyModsNames": "@lg38.OnlyModsNames"
+        }
+       },
+       {
+        "id": "lg39_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg39",
+        "kind": "get",
+        "var": "CaseSensitiveNames",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls39",
+        "kind": "set",
+        "var": "CaseSensitiveNames",
+        "in": {
+         "CaseSensitiveNames": "@lg39.CaseSensitiveNames"
+        }
+       },
+       {
+        "id": "lg40_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg40",
+        "kind": "get",
+        "var": "MergeGroups",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls40",
+        "kind": "set",
+        "var": "MergeGroups",
+        "in": {
+         "MergeGroups": "@lg40.MergeGroups"
+        }
+       },
+       {
+        "id": "lg41_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg41",
+        "kind": "get",
+        "var": "MergeMods",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls41",
+        "kind": "set",
+        "var": "MergeMods",
+        "in": {
+         "MergeMods": "@lg41.MergeMods"
+        }
+       },
+       {
+        "id": "lg42_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg42",
+        "kind": "get",
+        "var": "ChipSearchShown",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls42",
+        "kind": "set",
+        "var": "ChipSearchShown",
+        "in": {
+         "ChipSearchShown": "@lg42.ChipSearchShown"
+        }
+       },
+       {
+        "id": "lg43_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg43",
+        "kind": "get",
+        "var": "TipNoPrefix",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls43",
+        "kind": "set",
+        "var": "TipNoPrefix",
+        "in": {
+         "TipNoPrefix": "@lg43.TipNoPrefix"
+        }
+       },
+       {
+        "id": "lg44_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg44",
+        "kind": "get",
+        "var": "TipNoIds",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls44",
+        "kind": "set",
+        "var": "TipNoIds",
+        "in": {
+         "TipNoIds": "@lg44.TipNoIds"
+        }
+       },
+       {
+        "id": "lg45_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg45",
+        "kind": "get",
+        "var": "FreedConflicts",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls45",
+        "kind": "set",
+        "var": "FreedConflicts",
+        "in": {
+         "FreedConflicts": "@lg45.FreedConflicts"
+        }
+       },
+       {
+        "id": "lg46_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg46",
+        "kind": "get",
+        "var": "HairSwatchesOpen",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls46",
+        "kind": "set",
+        "var": "HairSwatchesOpen",
+        "in": {
+         "HairSwatchesOpen": "@lg46.HairSwatchesOpen"
+        }
+       },
+       {
+        "id": "lg47_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg47",
+        "kind": "get",
+        "var": "UnownedMode",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls47",
+        "kind": "set",
+        "var": "UnownedMode",
+        "in": {
+         "UnownedMode": "@lg47.UnownedMode"
+        }
+       },
+       {
+        "id": "lg48_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg48",
+        "kind": "get",
+        "var": "SlotColors",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls48",
+        "kind": "set",
+        "var": "SlotColors",
+        "in": {
+         "SlotColors": "@lg48.SlotColors"
+        }
+       },
+       {
+        "id": "lg49_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg49",
+        "kind": "get",
+        "var": "EyeColors",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls49",
+        "kind": "set",
+        "var": "EyeColors",
+        "in": {
+         "EyeColors": "@lg49.EyeColors"
+        }
+       },
+       {
+        "id": "lg50_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg50",
+        "kind": "get",
+        "var": "MakeupColors",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls50",
+        "kind": "set",
+        "var": "MakeupColors",
+        "in": {
+         "MakeupColors": "@lg50.MakeupColors"
+        }
+       },
+       {
+        "id": "lg51_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg51",
+        "kind": "get",
+        "var": "ToggleKey",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls51",
+        "kind": "set",
+        "var": "ToggleKey",
+        "in": {
+         "ToggleKey": "@lg51.ToggleKey"
+        }
+       },
+       {
+        "id": "ln51",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg30.ToggleKey",
+         "A": "@lg51.ToggleKey",
          "B": "None"
         }
        },
        {
-        "id": "lb30",
+        "id": "lb51",
         "kind": "branch",
         "in": {
-         "Condition": "@ln30.ReturnValue"
+         "Condition": "@ln51.ReturnValue"
         }
        },
        {
@@ -13330,293 +15325,293 @@
         }
        },
        {
-        "id": "lg31_s",
+        "id": "lg52_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg31",
+        "id": "lg52",
         "kind": "get",
         "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls31",
+        "id": "ls52",
         "kind": "set",
         "var": "ThemeBg",
         "in": {
-         "ThemeBg": "@lg31.ThemeBg"
+         "ThemeBg": "@lg52.ThemeBg"
         }
        },
        {
-        "id": "lg32_s",
+        "id": "lg53_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg32",
+        "id": "lg53",
         "kind": "get",
         "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls32",
+        "id": "ls53",
         "kind": "set",
         "var": "ThemeAccent",
         "in": {
-         "ThemeAccent": "@lg32.ThemeAccent"
+         "ThemeAccent": "@lg53.ThemeAccent"
         }
        },
        {
-        "id": "lg33_s",
+        "id": "lg54_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg33",
+        "id": "lg54",
         "kind": "get",
         "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls33",
+        "id": "ls54",
         "kind": "set",
         "var": "ThemeFill",
         "in": {
-         "ThemeFill": "@lg33.ThemeFill"
+         "ThemeFill": "@lg54.ThemeFill"
         }
        },
        {
-        "id": "lg34_s",
+        "id": "lg55_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg34",
+        "id": "lg55",
         "kind": "get",
         "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls34",
+        "id": "ls55",
         "kind": "set",
         "var": "ThemeFrame",
         "in": {
-         "ThemeFrame": "@lg34.ThemeFrame"
+         "ThemeFrame": "@lg55.ThemeFrame"
         }
        },
        {
-        "id": "lg35_s",
+        "id": "lg56_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg35",
+        "id": "lg56",
         "kind": "get",
         "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls35",
+        "id": "ls56",
         "kind": "set",
         "var": "ThemeWorn",
         "in": {
-         "ThemeWorn": "@lg35.ThemeWorn"
+         "ThemeWorn": "@lg56.ThemeWorn"
         }
        },
        {
-        "id": "lg36_s",
+        "id": "lg57_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg36",
+        "id": "lg57",
         "kind": "get",
         "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls36",
+        "id": "ls57",
         "kind": "set",
         "var": "ThemeRow",
         "in": {
-         "ThemeRow": "@lg36.ThemeRow"
+         "ThemeRow": "@lg57.ThemeRow"
         }
        },
        {
-        "id": "lg37_s",
+        "id": "lg58_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg37",
+        "id": "lg58",
         "kind": "get",
         "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls37",
+        "id": "ls58",
         "kind": "set",
         "var": "ThemeText",
         "in": {
-         "ThemeText": "@lg37.ThemeText"
+         "ThemeText": "@lg58.ThemeText"
         }
        },
        {
-        "id": "lg38_s",
+        "id": "lg59_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg38",
+        "id": "lg59",
         "kind": "get",
         "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls38",
+        "id": "ls59",
         "kind": "set",
         "var": "ThemeHead",
         "in": {
-         "ThemeHead": "@lg38.ThemeHead"
+         "ThemeHead": "@lg59.ThemeHead"
         }
        },
        {
-        "id": "lg39_s",
+        "id": "lg60_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg39",
+        "id": "lg60",
         "kind": "get",
         "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls39",
+        "id": "ls60",
         "kind": "set",
         "var": "ThemeLink",
         "in": {
-         "ThemeLink": "@lg39.ThemeLink"
+         "ThemeLink": "@lg60.ThemeLink"
         }
        },
        {
-        "id": "lg40_s",
+        "id": "lg61_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg40",
+        "id": "lg61",
         "kind": "get",
         "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls40",
+        "id": "ls61",
         "kind": "set",
         "var": "ThemeLine",
         "in": {
-         "ThemeLine": "@lg40.ThemeLine"
+         "ThemeLine": "@lg61.ThemeLine"
         }
        },
        {
-        "id": "lg41_s",
+        "id": "lg62_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg41",
+        "id": "lg62",
         "kind": "get",
         "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "lz41",
+        "id": "lz62",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg41.BgAlpha",
+         "A": "@lg62.BgAlpha",
          "B": "0.0"
         }
        },
        {
-        "id": "lv41",
+        "id": "lv62",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@ver.ReturnValue",
-         "B": "@lz41.ReturnValue"
+         "B": "@lz62.ReturnValue"
         }
        },
        {
-        "id": "ld41",
+        "id": "ld62",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg41.BgAlpha",
+         "A": "@lg62.BgAlpha",
          "B": "0.88",
-         "bPickA": "@lv41.ReturnValue"
+         "bPickA": "@lv62.ReturnValue"
         }
        },
        {
-        "id": "ls41",
+        "id": "ls62",
         "kind": "set",
         "var": "BgAlpha",
         "in": {
-         "BgAlpha": "@ld41.ReturnValue"
+         "BgAlpha": "@ld62.ReturnValue"
         }
        },
        {
-        "id": "lg42_s",
+        "id": "lg63_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg42",
+        "id": "lg63",
         "kind": "get",
         "var": "TileAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "lz42",
+        "id": "lz63",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg42.TileAlpha",
+         "A": "@lg63.TileAlpha",
          "B": "0.0"
         }
        },
        {
-        "id": "lv42",
+        "id": "lv63",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@ver.ReturnValue",
-         "B": "@lz42.ReturnValue"
+         "B": "@lz63.ReturnValue"
         }
        },
        {
-        "id": "ld42",
+        "id": "ld63",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg42.TileAlpha",
+         "A": "@lg63.TileAlpha",
          "B": "1.0",
-         "bPickA": "@lv42.ReturnValue"
+         "bPickA": "@lv63.ReturnValue"
         }
        },
        {
-        "id": "ls42",
+        "id": "ls63",
         "kind": "set",
         "var": "TileAlpha",
         "in": {
-         "TileAlpha": "@ld42.ReturnValue"
+         "TileAlpha": "@ld63.ReturnValue"
         }
        },
        {
@@ -13796,10 +15791,6 @@
         "lg30.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg31_s.Settings",
         "lg31.self"
        ],
@@ -13848,6 +15839,94 @@
         "lg42.self"
        ],
        [
+        "lg43_s.Settings",
+        "lg43.self"
+       ],
+       [
+        "lg44_s.Settings",
+        "lg44.self"
+       ],
+       [
+        "lg45_s.Settings",
+        "lg45.self"
+       ],
+       [
+        "lg46_s.Settings",
+        "lg46.self"
+       ],
+       [
+        "lg47_s.Settings",
+        "lg47.self"
+       ],
+       [
+        "lg48_s.Settings",
+        "lg48.self"
+       ],
+       [
+        "lg49_s.Settings",
+        "lg49.self"
+       ],
+       [
+        "lg50_s.Settings",
+        "lg50.self"
+       ],
+       [
+        "lg51_s.Settings",
+        "lg51.self"
+       ],
+       [
+        "gth_s.Settings",
+        "gth.self"
+       ],
+       [
+        "lg52_s.Settings",
+        "lg52.self"
+       ],
+       [
+        "lg53_s.Settings",
+        "lg53.self"
+       ],
+       [
+        "lg54_s.Settings",
+        "lg54.self"
+       ],
+       [
+        "lg55_s.Settings",
+        "lg55.self"
+       ],
+       [
+        "lg56_s.Settings",
+        "lg56.self"
+       ],
+       [
+        "lg57_s.Settings",
+        "lg57.self"
+       ],
+       [
+        "lg58_s.Settings",
+        "lg58.self"
+       ],
+       [
+        "lg59_s.Settings",
+        "lg59.self"
+       ],
+       [
+        "lg60_s.Settings",
+        "lg60.self"
+       ],
+       [
+        "lg61_s.Settings",
+        "lg61.self"
+       ],
+       [
+        "lg62_s.Settings",
+        "lg62.self"
+       ],
+       [
+        "lg63_s.Settings",
+        "lg63.self"
+       ],
+       [
         "gls.Settings",
         "gl.self"
        ]
@@ -13885,8 +15964,29 @@
         "ls27",
         "ls28",
         "ls29",
-        "lb30",
-        "ls30"
+        "ls30",
+        "ls31",
+        "ls32",
+        "ls33",
+        "ls34",
+        "ls35",
+        "ls36",
+        "ls37",
+        "ls38",
+        "ls39",
+        "ls40",
+        "ls41",
+        "ls42",
+        "ls43",
+        "ls44",
+        "ls45",
+        "ls46",
+        "ls47",
+        "ls48",
+        "ls49",
+        "ls50",
+        "lb51",
+        "ls51"
        ],
        [
         "entry",
@@ -13907,27 +16007,27 @@
         "cr"
        ],
        [
-        "ls30",
+        "ls51",
         "bth"
        ],
        [
-        "lb30:else",
+        "lb51:else",
         "bth"
        ],
        [
         "bth",
-        "ls31",
-        "ls32",
-        "ls33",
-        "ls34",
-        "ls35",
-        "ls36",
-        "ls37",
-        "ls38",
-        "ls39",
-        "ls40",
-        "ls41",
-        "ls42",
+        "ls52",
+        "ls53",
+        "ls54",
+        "ls55",
+        "ls56",
+        "ls57",
+        "ls58",
+        "ls59",
+        "ls60",
+        "ls61",
+        "ls62",
+        "ls63",
         "ath"
        ],
        [
@@ -14105,16 +16205,16 @@
        {
         "id": "g5",
         "kind": "get",
-        "var": "ScrollMult"
+        "var": "CachedOnlyWorn"
        },
        {
         "id": "w5",
         "kind": "set",
-        "var": "ScrollMult",
+        "var": "OnlyWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs5.Settings",
-         "ScrollMult": "@g5.ScrollMult"
+         "OnlyWorn": "@g5.CachedOnlyWorn"
         }
        },
        {
@@ -14125,16 +16225,16 @@
        {
         "id": "g6",
         "kind": "get",
-        "var": "TileScale"
+        "var": "ScrollMult"
        },
        {
         "id": "w6",
         "kind": "set",
-        "var": "TileScale",
+        "var": "ScrollMult",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs6.Settings",
-         "TileScale": "@g6.TileScale"
+         "ScrollMult": "@g6.ScrollMult"
         }
        },
        {
@@ -14145,16 +16245,16 @@
        {
         "id": "g7",
         "kind": "get",
-        "var": "Unlimited"
+        "var": "TileScale"
        },
        {
         "id": "w7",
         "kind": "set",
-        "var": "Unlimited",
+        "var": "TileScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs7.Settings",
-         "Unlimited": "@g7.Unlimited"
+         "TileScale": "@g7.TileScale"
         }
        },
        {
@@ -14165,16 +16265,16 @@
        {
         "id": "g8",
         "kind": "get",
-        "var": "LeftFree"
+        "var": "Unlimited"
        },
        {
         "id": "w8",
         "kind": "set",
-        "var": "LeftFree",
+        "var": "Unlimited",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs8.Settings",
-         "LeftFree": "@g8.LeftFree"
+         "Unlimited": "@g8.Unlimited"
         }
        },
        {
@@ -14185,16 +16285,16 @@
        {
         "id": "g9",
         "kind": "get",
-        "var": "SubTabsCollapsed"
+        "var": "LeftFree"
        },
        {
         "id": "w9",
         "kind": "set",
-        "var": "SubTabsCollapsed",
+        "var": "LeftFree",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs9.Settings",
-         "SubTabsCollapsed": "@g9.SubTabsCollapsed"
+         "LeftFree": "@g9.LeftFree"
         }
        },
        {
@@ -14205,16 +16305,16 @@
        {
         "id": "g10",
         "kind": "get",
-        "var": "LookOnlyFav"
+        "var": "SubTabsCollapsed"
        },
        {
         "id": "w10",
         "kind": "set",
-        "var": "LookOnlyFav",
+        "var": "SubTabsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs10.Settings",
-         "LookOnlyFav": "@g10.LookOnlyFav"
+         "SubTabsCollapsed": "@g10.SubTabsCollapsed"
         }
        },
        {
@@ -14225,16 +16325,16 @@
        {
         "id": "g11",
         "kind": "get",
-        "var": "LookChipsCollapsed"
+        "var": "LookOnlyFav"
        },
        {
         "id": "w11",
         "kind": "set",
-        "var": "LookChipsCollapsed",
+        "var": "LookOnlyFav",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs11.Settings",
-         "LookChipsCollapsed": "@g11.LookChipsCollapsed"
+         "LookOnlyFav": "@g11.LookOnlyFav"
         }
        },
        {
@@ -14245,16 +16345,16 @@
        {
         "id": "g12",
         "kind": "get",
-        "var": "GroupLen"
+        "var": "LookOnlyWorn"
        },
        {
         "id": "w12",
         "kind": "set",
-        "var": "GroupLen",
+        "var": "LookOnlyWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs12.Settings",
-         "GroupLen": "@g12.GroupLen"
+         "LookOnlyWorn": "@g12.LookOnlyWorn"
         }
        },
        {
@@ -14265,16 +16365,16 @@
        {
         "id": "g13",
         "kind": "get",
-        "var": "ChipH"
+        "var": "LookChipsCollapsed"
        },
        {
         "id": "w13",
         "kind": "set",
-        "var": "ChipH",
+        "var": "LookChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs13.Settings",
-         "ChipH": "@g13.ChipH"
+         "LookChipsCollapsed": "@g13.LookChipsCollapsed"
         }
        },
        {
@@ -14285,16 +16385,16 @@
        {
         "id": "g14",
         "kind": "get",
-        "var": "CamFov"
+        "var": "PoseChipsCollapsed"
        },
        {
         "id": "w14",
         "kind": "set",
-        "var": "CamFov",
+        "var": "PoseChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs14.Settings",
-         "CamFov": "@g14.CamFov"
+         "PoseChipsCollapsed": "@g14.PoseChipsCollapsed"
         }
        },
        {
@@ -14305,16 +16405,16 @@
        {
         "id": "g15",
         "kind": "get",
-        "var": "CamDist"
+        "var": "PoseKind"
        },
        {
         "id": "w15",
         "kind": "set",
-        "var": "CamDist",
+        "var": "PoseKind",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs15.Settings",
-         "CamDist": "@g15.CamDist"
+         "PoseKind": "@g15.PoseKind"
         }
        },
        {
@@ -14325,16 +16425,16 @@
        {
         "id": "g16",
         "kind": "get",
-        "var": "BodyVariant"
+        "var": "PoseMoving"
        },
        {
         "id": "w16",
         "kind": "set",
-        "var": "BodyVariant",
+        "var": "PoseMoving",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs16.Settings",
-         "BodyVariant": "@g16.BodyVariant"
+         "PoseMoving": "@g16.PoseMoving"
         }
        },
        {
@@ -14345,16 +16445,16 @@
        {
         "id": "g17",
         "kind": "get",
-        "var": "BodyScales"
+        "var": "PoseManual"
        },
        {
         "id": "w17",
         "kind": "set",
-        "var": "BodyScales",
+        "var": "PoseManual",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs17.Settings",
-         "BodyScales": "@g17.BodyScales"
+         "PoseManual": "@g17.PoseManual"
         }
        },
        {
@@ -14365,16 +16465,16 @@
        {
         "id": "g18",
         "kind": "get",
-        "var": "LangChoice"
+        "var": "WeaponSkins"
        },
        {
         "id": "w18",
         "kind": "set",
-        "var": "LangChoice",
+        "var": "WeaponSkins",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs18.Settings",
-         "LangChoice": "@g18.LangChoice"
+         "WeaponSkins": "@g18.WeaponSkins"
         }
        },
        {
@@ -14385,16 +16485,16 @@
        {
         "id": "g19",
         "kind": "get",
-        "var": "PanToSlot"
+        "var": "WeaponModels"
        },
        {
         "id": "w19",
         "kind": "set",
-        "var": "PanToSlot",
+        "var": "WeaponModels",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs19.Settings",
-         "PanToSlot": "@g19.PanToSlot"
+         "WeaponModels": "@g19.WeaponModels"
         }
        },
        {
@@ -14405,16 +16505,16 @@
        {
         "id": "g20",
         "kind": "get",
-        "var": "AllowNude"
+        "var": "SkinChipsCollapsed"
        },
        {
         "id": "w20",
         "kind": "set",
-        "var": "AllowNude",
+        "var": "SkinChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs20.Settings",
-         "AllowNude": "@g20.AllowNude"
+         "SkinChipsCollapsed": "@g20.SkinChipsCollapsed"
         }
        },
        {
@@ -14425,16 +16525,16 @@
        {
         "id": "g21",
         "kind": "get",
-        "var": "OnlyModsNames"
+        "var": "GroupLen"
        },
        {
         "id": "w21",
         "kind": "set",
-        "var": "OnlyModsNames",
+        "var": "GroupLen",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs21.Settings",
-         "OnlyModsNames": "@g21.OnlyModsNames"
+         "GroupLen": "@g21.GroupLen"
         }
        },
        {
@@ -14445,16 +16545,16 @@
        {
         "id": "g22",
         "kind": "get",
-        "var": "CaseSensitiveNames"
+        "var": "ChipH"
        },
        {
         "id": "w22",
         "kind": "set",
-        "var": "CaseSensitiveNames",
+        "var": "ChipH",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs22.Settings",
-         "CaseSensitiveNames": "@g22.CaseSensitiveNames"
+         "ChipH": "@g22.ChipH"
         }
        },
        {
@@ -14465,16 +16565,16 @@
        {
         "id": "g23",
         "kind": "get",
-        "var": "MergeGroups"
+        "var": "CamFov"
        },
        {
         "id": "w23",
         "kind": "set",
-        "var": "MergeGroups",
+        "var": "CamFov",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs23.Settings",
-         "MergeGroups": "@g23.MergeGroups"
+         "CamFov": "@g23.CamFov"
         }
        },
        {
@@ -14485,16 +16585,16 @@
        {
         "id": "g24",
         "kind": "get",
-        "var": "MergeMods"
+        "var": "CamDist"
        },
        {
         "id": "w24",
         "kind": "set",
-        "var": "MergeMods",
+        "var": "CamDist",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs24.Settings",
-         "MergeMods": "@g24.MergeMods"
+         "CamDist": "@g24.CamDist"
         }
        },
        {
@@ -14505,16 +16605,16 @@
        {
         "id": "g25",
         "kind": "get",
-        "var": "TipNoPrefix"
+        "var": "CamHeight"
        },
        {
         "id": "w25",
         "kind": "set",
-        "var": "TipNoPrefix",
+        "var": "CamHeight",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs25.Settings",
-         "TipNoPrefix": "@g25.TipNoPrefix"
+         "CamHeight": "@g25.CamHeight"
         }
        },
        {
@@ -14525,16 +16625,16 @@
        {
         "id": "g26",
         "kind": "get",
-        "var": "TipNoIds"
+        "var": "CamRightHeight"
        },
        {
         "id": "w26",
         "kind": "set",
-        "var": "TipNoIds",
+        "var": "CamRightHeight",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs26.Settings",
-         "TipNoIds": "@g26.TipNoIds"
+         "CamRightHeight": "@g26.CamRightHeight"
         }
        },
        {
@@ -14545,16 +16645,16 @@
        {
         "id": "g27",
         "kind": "get",
-        "var": "FreedConflicts"
+        "var": "IconOwn"
        },
        {
         "id": "w27",
         "kind": "set",
-        "var": "FreedConflicts",
+        "var": "IconOwn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs27.Settings",
-         "FreedConflicts": "@g27.FreedConflicts"
+         "IconOwn": "@g27.IconOwn"
         }
        },
        {
@@ -14565,16 +16665,16 @@
        {
         "id": "g28",
         "kind": "get",
-        "var": "HairSwatchesOpen"
+        "var": "ForceSkin"
        },
        {
         "id": "w28",
         "kind": "set",
-        "var": "HairSwatchesOpen",
+        "var": "ForceSkin",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs28.Settings",
-         "HairSwatchesOpen": "@g28.HairSwatchesOpen"
+         "ForceSkin": "@g28.ForceSkin"
         }
        },
        {
@@ -14585,16 +16685,16 @@
        {
         "id": "g29",
         "kind": "get",
-        "var": "UnownedMode"
+        "var": "ForceSkipMag"
        },
        {
         "id": "w29",
         "kind": "set",
-        "var": "UnownedMode",
+        "var": "ForceSkipMag",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs29.Settings",
-         "UnownedMode": "@g29.UnownedMode"
+         "ForceSkipMag": "@g29.ForceSkipMag"
         }
        },
        {
@@ -14605,16 +16705,16 @@
        {
         "id": "g30",
         "kind": "get",
-        "var": "ToggleKey"
+        "var": "ForceSkipOptics"
        },
        {
         "id": "w30",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "ForceSkipOptics",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs30.Settings",
-         "ToggleKey": "@g30.ToggleKey"
+         "ForceSkipOptics": "@g30.ForceSkipOptics"
         }
        },
        {
@@ -14625,16 +16725,16 @@
        {
         "id": "g31",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "ForceSkipBarrel"
        },
        {
         "id": "w31",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "ForceSkipBarrel",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs31.Settings",
-         "ThemeBg": "@g31.ThemeBg"
+         "ForceSkipBarrel": "@g31.ForceSkipBarrel"
         }
        },
        {
@@ -14645,16 +16745,16 @@
        {
         "id": "g32",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "ForceSkipGrip"
        },
        {
         "id": "w32",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "ForceSkipGrip",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs32.Settings",
-         "ThemeAccent": "@g32.ThemeAccent"
+         "ForceSkipGrip": "@g32.ForceSkipGrip"
         }
        },
        {
@@ -14665,16 +16765,16 @@
        {
         "id": "g33",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "BodyVariant"
        },
        {
         "id": "w33",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "BodyVariant",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs33.Settings",
-         "ThemeFill": "@g33.ThemeFill"
+         "BodyVariant": "@g33.BodyVariant"
         }
        },
        {
@@ -14685,16 +16785,16 @@
        {
         "id": "g34",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "BodyScales"
        },
        {
         "id": "w34",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "BodyScales",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs34.Settings",
-         "ThemeFrame": "@g34.ThemeFrame"
+         "BodyScales": "@g34.BodyScales"
         }
        },
        {
@@ -14705,16 +16805,16 @@
        {
         "id": "g35",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "LangChoice"
        },
        {
         "id": "w35",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "LangChoice",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs35.Settings",
-         "ThemeWorn": "@g35.ThemeWorn"
+         "LangChoice": "@g35.LangChoice"
         }
        },
        {
@@ -14725,16 +16825,16 @@
        {
         "id": "g36",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "PanToSlot"
        },
        {
         "id": "w36",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "PanToSlot",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs36.Settings",
-         "ThemeRow": "@g36.ThemeRow"
+         "PanToSlot": "@g36.PanToSlot"
         }
        },
        {
@@ -14745,16 +16845,16 @@
        {
         "id": "g37",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "AllowNude"
        },
        {
         "id": "w37",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "AllowNude",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs37.Settings",
-         "ThemeText": "@g37.ThemeText"
+         "AllowNude": "@g37.AllowNude"
         }
        },
        {
@@ -14765,16 +16865,16 @@
        {
         "id": "g38",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "OnlyModsNames"
        },
        {
         "id": "w38",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "OnlyModsNames",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs38.Settings",
-         "ThemeHead": "@g38.ThemeHead"
+         "OnlyModsNames": "@g38.OnlyModsNames"
         }
        },
        {
@@ -14785,16 +16885,16 @@
        {
         "id": "g39",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "CaseSensitiveNames"
        },
        {
         "id": "w39",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "CaseSensitiveNames",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs39.Settings",
-         "ThemeLink": "@g39.ThemeLink"
+         "CaseSensitiveNames": "@g39.CaseSensitiveNames"
         }
        },
        {
@@ -14805,16 +16905,16 @@
        {
         "id": "g40",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "MergeGroups"
        },
        {
         "id": "w40",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "MergeGroups",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs40.Settings",
-         "ThemeLine": "@g40.ThemeLine"
+         "MergeGroups": "@g40.MergeGroups"
         }
        },
        {
@@ -14825,16 +16925,16 @@
        {
         "id": "g41",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "MergeMods"
        },
        {
         "id": "w41",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "MergeMods",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs41.Settings",
-         "BgAlpha": "@g41.BgAlpha"
+         "MergeMods": "@g41.MergeMods"
         }
        },
        {
@@ -14845,16 +16945,436 @@
        {
         "id": "g42",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "ChipSearchShown"
        },
        {
         "id": "w42",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "ChipSearchShown",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs42.Settings",
-         "TileAlpha": "@g42.TileAlpha"
+         "ChipSearchShown": "@g42.ChipSearchShown"
+        }
+       },
+       {
+        "id": "gs43",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g43",
+        "kind": "get",
+        "var": "TipNoPrefix"
+       },
+       {
+        "id": "w43",
+        "kind": "set",
+        "var": "TipNoPrefix",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs43.Settings",
+         "TipNoPrefix": "@g43.TipNoPrefix"
+        }
+       },
+       {
+        "id": "gs44",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g44",
+        "kind": "get",
+        "var": "TipNoIds"
+       },
+       {
+        "id": "w44",
+        "kind": "set",
+        "var": "TipNoIds",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs44.Settings",
+         "TipNoIds": "@g44.TipNoIds"
+        }
+       },
+       {
+        "id": "gs45",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g45",
+        "kind": "get",
+        "var": "FreedConflicts"
+       },
+       {
+        "id": "w45",
+        "kind": "set",
+        "var": "FreedConflicts",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs45.Settings",
+         "FreedConflicts": "@g45.FreedConflicts"
+        }
+       },
+       {
+        "id": "gs46",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g46",
+        "kind": "get",
+        "var": "HairSwatchesOpen"
+       },
+       {
+        "id": "w46",
+        "kind": "set",
+        "var": "HairSwatchesOpen",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs46.Settings",
+         "HairSwatchesOpen": "@g46.HairSwatchesOpen"
+        }
+       },
+       {
+        "id": "gs47",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g47",
+        "kind": "get",
+        "var": "UnownedMode"
+       },
+       {
+        "id": "w47",
+        "kind": "set",
+        "var": "UnownedMode",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs47.Settings",
+         "UnownedMode": "@g47.UnownedMode"
+        }
+       },
+       {
+        "id": "gs48",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g48",
+        "kind": "get",
+        "var": "SlotColors"
+       },
+       {
+        "id": "w48",
+        "kind": "set",
+        "var": "SlotColors",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs48.Settings",
+         "SlotColors": "@g48.SlotColors"
+        }
+       },
+       {
+        "id": "gs49",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g49",
+        "kind": "get",
+        "var": "EyeColors"
+       },
+       {
+        "id": "w49",
+        "kind": "set",
+        "var": "EyeColors",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs49.Settings",
+         "EyeColors": "@g49.EyeColors"
+        }
+       },
+       {
+        "id": "gs50",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g50",
+        "kind": "get",
+        "var": "MakeupColors"
+       },
+       {
+        "id": "w50",
+        "kind": "set",
+        "var": "MakeupColors",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs50.Settings",
+         "MakeupColors": "@g50.MakeupColors"
+        }
+       },
+       {
+        "id": "gs51",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g51",
+        "kind": "get",
+        "var": "ToggleKey"
+       },
+       {
+        "id": "w51",
+        "kind": "set",
+        "var": "ToggleKey",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs51.Settings",
+         "ToggleKey": "@g51.ToggleKey"
+        }
+       },
+       {
+        "id": "gs52",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g52",
+        "kind": "get",
+        "var": "ThemeBg"
+       },
+       {
+        "id": "w52",
+        "kind": "set",
+        "var": "ThemeBg",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs52.Settings",
+         "ThemeBg": "@g52.ThemeBg"
+        }
+       },
+       {
+        "id": "gs53",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g53",
+        "kind": "get",
+        "var": "ThemeAccent"
+       },
+       {
+        "id": "w53",
+        "kind": "set",
+        "var": "ThemeAccent",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs53.Settings",
+         "ThemeAccent": "@g53.ThemeAccent"
+        }
+       },
+       {
+        "id": "gs54",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g54",
+        "kind": "get",
+        "var": "ThemeFill"
+       },
+       {
+        "id": "w54",
+        "kind": "set",
+        "var": "ThemeFill",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs54.Settings",
+         "ThemeFill": "@g54.ThemeFill"
+        }
+       },
+       {
+        "id": "gs55",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g55",
+        "kind": "get",
+        "var": "ThemeFrame"
+       },
+       {
+        "id": "w55",
+        "kind": "set",
+        "var": "ThemeFrame",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs55.Settings",
+         "ThemeFrame": "@g55.ThemeFrame"
+        }
+       },
+       {
+        "id": "gs56",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g56",
+        "kind": "get",
+        "var": "ThemeWorn"
+       },
+       {
+        "id": "w56",
+        "kind": "set",
+        "var": "ThemeWorn",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs56.Settings",
+         "ThemeWorn": "@g56.ThemeWorn"
+        }
+       },
+       {
+        "id": "gs57",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g57",
+        "kind": "get",
+        "var": "ThemeRow"
+       },
+       {
+        "id": "w57",
+        "kind": "set",
+        "var": "ThemeRow",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs57.Settings",
+         "ThemeRow": "@g57.ThemeRow"
+        }
+       },
+       {
+        "id": "gs58",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g58",
+        "kind": "get",
+        "var": "ThemeText"
+       },
+       {
+        "id": "w58",
+        "kind": "set",
+        "var": "ThemeText",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs58.Settings",
+         "ThemeText": "@g58.ThemeText"
+        }
+       },
+       {
+        "id": "gs59",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g59",
+        "kind": "get",
+        "var": "ThemeHead"
+       },
+       {
+        "id": "w59",
+        "kind": "set",
+        "var": "ThemeHead",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs59.Settings",
+         "ThemeHead": "@g59.ThemeHead"
+        }
+       },
+       {
+        "id": "gs60",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g60",
+        "kind": "get",
+        "var": "ThemeLink"
+       },
+       {
+        "id": "w60",
+        "kind": "set",
+        "var": "ThemeLink",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs60.Settings",
+         "ThemeLink": "@g60.ThemeLink"
+        }
+       },
+       {
+        "id": "gs61",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g61",
+        "kind": "get",
+        "var": "ThemeLine"
+       },
+       {
+        "id": "w61",
+        "kind": "set",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs61.Settings",
+         "ThemeLine": "@g61.ThemeLine"
+        }
+       },
+       {
+        "id": "gs62",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g62",
+        "kind": "get",
+        "var": "BgAlpha"
+       },
+       {
+        "id": "w62",
+        "kind": "set",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs62.Settings",
+         "BgAlpha": "@g62.BgAlpha"
+        }
+       },
+       {
+        "id": "gs63",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g63",
+        "kind": "get",
+        "var": "TileAlpha"
+       },
+       {
+        "id": "w63",
+        "kind": "set",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs63.Settings",
+         "TileAlpha": "@g63.TileAlpha"
         }
        },
        {
@@ -14972,6 +17492,27 @@
         "w40",
         "w41",
         "w42",
+        "w43",
+        "w44",
+        "w45",
+        "w46",
+        "w47",
+        "w48",
+        "w49",
+        "w50",
+        "w51",
+        "w52",
+        "w53",
+        "w54",
+        "w55",
+        "w56",
+        "w57",
+        "w58",
+        "w59",
+        "w60",
+        "w61",
+        "w62",
+        "w63",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",
@@ -16349,11 +18890,33 @@
         }
        },
        {
+        "id": "p5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "StartsWith",
+        "in": {
+         "SourceString": "@cl.ReturnValue",
+         "InPrefix": "pl",
+         "SearchCase": "IgnoreCase"
+        }
+       },
+       {
+        "id": "i5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "5",
+         "B": "@i4.ReturnValue",
+         "bPickA": "@p5.ReturnValue"
+        }
+       },
+       {
         "id": "s2",
         "kind": "set",
         "var": "Lang",
         "in": {
-         "Lang": "@i4.ReturnValue"
+         "Lang": "@i5.ReturnValue"
         }
        }
       ],
@@ -16557,12 +19120,42 @@
         }
        },
        {
+        "id": "is5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@gl.Lang",
+         "B": "5"
+        }
+       },
+       {
+        "id": "spl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@br.pl"
+        }
+       },
+       {
+        "id": "t5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@spl.ReturnValue",
+         "B": "@t4.ReturnValue",
+         "bPickA": "@is5.ReturnValue"
+        }
+       },
+       {
         "id": "emp",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
         "function": "IsEmpty",
         "in": {
-         "InString": "@t4.ReturnValue"
+         "InString": "@t5.ReturnValue"
         }
        },
        {
@@ -16572,7 +19165,7 @@
         "function": "SelectString",
         "in": {
          "A": "@sen.ReturnValue",
-         "B": "@t4.ReturnValue",
+         "B": "@t5.ReturnValue",
          "bPickA": "@emp.ReturnValue"
         }
        },
@@ -18420,6 +21013,56 @@
      ]
     },
     {
+     "name": "On Chip Search Changed",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "Chip Shown",
+     "inputs": [
+      {
+       "name": "group",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "On Look Chip Search Changed",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "Look Chip Shown",
+     "inputs": [
+      {
+       "name": "group",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
      "name": "On Menu Action",
      "inputs": [
       {
@@ -18666,6 +21309,36 @@
      ]
     },
     {
+     "name": "Material Takes Color",
+     "inputs": [
+      {
+       "name": "mat",
+       "type": "object:/Script/Engine.MaterialInterface"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Item Color Slots",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "slots",
+       "type": "struct:/Game/Mod/AltUI/S_ColorSlots"
+      }
+     ]
+    },
+    {
      "name": "Rebuild Hair"
     },
     {
@@ -18679,6 +21352,248 @@
     },
     {
      "name": "Open Hair Color"
+    },
+    {
+     "name": "Slot Color Key",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "key",
+       "type": "name"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Open Slot Color",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Item Has Own Color",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "found",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Apply Item Colors",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Set Slot Color",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Save Slot Color",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Apply All Item Colors"
+    },
+    {
+     "name": "Slot Reset Color",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Apply Makeup Colors"
+    },
+    {
+     "name": "Open Makeup Color",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Set Makeup Color",
+     "inputs": [
+      {
+       "name": "row",
+       "type": "name"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Makeup Reset Color",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Row Is Makeup",
+     "inputs": [
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "found",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Row Has Makeup Color",
+     "inputs": [
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "found",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Apply Eye Colors"
+    },
+    {
+     "name": "Open Eye Color",
+     "inputs": [
+      {
+       "name": "part",
+       "type": "name"
+      },
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Eye Color Key",
+     "inputs": [
+      {
+       "name": "part",
+       "type": "name"
+      },
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "key",
+       "type": "name"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Current Look Row",
+     "inputs": [
+      {
+       "name": "type",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Set Eye Color",
+     "inputs": [
+      {
+       "name": "part",
+       "type": "name"
+      },
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Eye Reset Colors",
+     "inputs": [
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ]
     },
     {
      "name": "Open Mod Content",
@@ -18713,6 +21628,42 @@
       {
        "name": "text",
        "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "On Pose Search Changed",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "On Weapon Search Changed",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "Select Weapon",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Weapon Skin Clicked",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
       }
      ]
     },
@@ -18959,15 +21910,6 @@
      ]
     },
     {
-     "name": "Clothes Reset Color",
-     "inputs": [
-      {
-       "name": "name",
-       "type": "name"
-      }
-     ]
-    },
-    {
      "name": "On Hair Context",
      "inputs": [
       {
@@ -19097,6 +22039,9 @@
      "name": "Rebuild Status"
     },
     {
+     "name": "Redo Weapon Icons"
+    },
+    {
      "name": "Set View Shift"
     },
     {
@@ -19140,6 +22085,46 @@
        "type": "float"
       }
      ]
+    },
+    {
+     "name": "Wheel Dist",
+     "inputs": [
+      {
+       "name": "dt",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Begin Jodi Drag",
+     "inputs": [
+      {
+       "name": "right",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Jodi Drag",
+     "inputs": [
+      {
+       "name": "dx",
+       "type": "float"
+      },
+      {
+       "name": "dy",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "End Jodi Drag"
     },
     {
      "name": "Start Photo Mode"

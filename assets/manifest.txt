@@ -1,8 +1,10 @@
-# Reihenfolge: Stubs -> Manager (Daten+Signaturen) -> Widgets -> Manager-UI (Bodies, augment) -> Hook
+# Reihenfolge: Stubs -> CameraModifier -> Manager (Daten+Signaturen) -> Widgets -> Manager-UI (Bodies, augment) -> Hook -> Loader-Einstieg
 10_stubs.json
 05_textures.json
 20_hook.json
 25_bodyscale.json
+27_cammod.json
 30_manager.json
 40_widgets.json
 50_manager_ui.json
+60_bploader.json

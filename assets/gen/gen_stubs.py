@@ -1,15 +1,21 @@
 """Generates assets/10_stubs.json: stub additions + editor test rows in the stub tables (editor only, never end up in a pak)."""
-import os, sys; sys.path.insert(0, os.path.dirname(__file__))
+import os, sys; sys.path.insert(0, os.path.dirname(__file__)); sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'scripts'))
+import weapon_skins as ws
+ANIM_MONTAGE = "/Game/Mod/TKA_Workshop_Anim/Female_Dance_Mod_Montage"   # montage that ships with the mod kit (stub rows only)
 from bpdsl import *
 from slots import SLOTS
 
-def row(t, group="None", icon=None, color=True):
+FEMALE_MESH = "/Game/Project/Character/Jodi/Body/Female"   # skeletal mesh that ships with the mod kit (stub rows only)
+
+
+def row(t, group="None", icon=None, color=True, mesh=None):
     r = {"TypeName": t, "Group": group, "ColorAdjustable": color, "Quality": 2}
+    if mesh: r["Mesh"] = mesh   # editor test: a row with a real mesh, so the walk over its material slots is exercised
     return r
 
 test_clothes = {
-    "Briefs03": row("Briefs"), "Dress05": row("Dress", "Lace"), "Casual_Mina_Neck": row("Neck", "Kpop"),
-    "Casual_Mina_Necklace": row("Necklace"), "SpikeBoots": row("Boots"), "Weird": row("Nonsense"),
+    "Briefs03": row("Briefs", mesh=FEMALE_MESH), "Dress05": row("Dress", "Lace"), "Casual_Mina_Neck": row("Neck", "Kpop"),
+    "Casual_Mina_Necklace": row("Necklace"), "SpikeBoots": row("Boots"), "Weird": row("Nonsense", color=False),
     "Zeta_Neck": row("Neck"), "Alpha_Neck": row("Neck", "Kpop"),
     # sorted insert (binary search) + equal sort keys keep table order (first 24 characters identical -> B before A)
     "Sock_g": row("Socks"), "Sock_a": row("Socks"), "Sock_e": row("Socks"), "Sock_c": row("Socks"), "Sock_b": row("Socks"), "Sock_f": row("Socks"), "Sock_d": row("Socks"),
@@ -32,9 +38,40 @@ assets = [
     datatable(P_HAIR_T, P_HAIR_S, rows={"Hair": {"MirrorID": 0}, "TestHair": {"MirrorID": -1}}),
     datatable(P_SKIN_T, P_SKIN_S, rows={"Skin_Default": {}}),
     datatable(P_MAKEUP_T, P_MAKEUP_S, rows={"Eyebrow_01": {"Type": "Eyebrow"}, "Lips_01": {"Type": "Lips"}, "Lips_02": {"Type": "Lips"}}),
-    datatable(P_EYE_T, P_EYE_S, rows={"Eye_1": {"Type": "Eye"}}),
-    datatable(P_MTYPE_T, P_MTYPE_S, rows={"Eyebrow": {"Single": True}, "Eye": {"Single": True, "EyeTable": True}, "Lips": {"Single": True, "Caption": "Lippen", "CameraPosition": 983}, "Cheeks": {"Single": False}}),
-    datatable(P_DLC_T, P_DLC_S, rows={"Body_TestBody": {"Caption": "Test Body"}, "SomeMod": {"Caption": "Some Mod"}}),   # editor test: filter on prefix Body_
+    # two lenses and one pair of lashes: the eye colours are kept per row, so the tests need more than one of each
+    datatable(P_EYE_T, P_EYE_S, rows={"Eye_1": {"Type": "Eye"}, "Eye_2": {"Type": "Eye"}, "Eyelashes_1": {"Type": "Eyelashes"}}),
+    datatable(P_MTYPE_T, P_MTYPE_S, rows={"Eyebrow": {"Single": True}, "Eye": {"Single": True, "EyeTable": True}, "Eyelashes": {"Single": True, "EyeTable": True}, "Lips": {"Single": True, "Caption": "Lippen", "CameraPosition": 983}, "Cheeks": {"Single": False}}),
+    datatable(P_DLC_T, P_DLC_S, rows={"Body_TestBody": {"Caption": "Test Body"}, "SomeMod": {"Caption": "Some Mod"}, "WeaponAltUI_SkinTest": {"Caption": "Test Skin Mod"}, "WeaponAltUI_ModelTest": {"Caption": "Test Weapon Mod"}}),   # editor test: filter on prefix Body_
+    # Poses: AnimationTable (Animation_Struct) + a mod table for the origin test (Dressup_* rows are skipped by Collect Pose Rows)
+    struct(P_ANIM_S, [param("Title", "text", internal_name="Title_5_5208877E43BB2E535DB3DFAF646E90DA"),
+                      param("Montage", "object:/Script/Engine.AnimMontage", internal_name="Montage_2_99AB9F0E40D705D77C9E079E70FA0B9B"),
+                      param("Sound", "object:/Script/Engine.SoundBase", internal_name="Sound_8_E18181D3438DCA7D23693593F2423CF4"),
+                      param("ActionFlag", "int", internal_name="ActionFlag_15_B277E1494FAB471E5C2AD5A50658A7EC"),
+                      param("Type", "int", internal_name="Type_11_FB6E225748CECEDC3C438D94C30A3021")]),
+    # a real montage in the rows: Collect Pose Rows treats a row without one as a chapter marker (that is how pose packs write headings)
+    datatable(P_ANIM_T, P_ANIM_S, rows={"Dressup_Leg": {"Montage": ANIM_MONTAGE}, "SitFloor": {"Title": "Sit on the floor", "Montage": ANIM_MONTAGE},
+                                        "ModPose": {"Montage": ANIM_MONTAGE}, "ModMarker": {"Title": "- [ TEST CHAPTER ] -"}}),
+    datatable("/Game/Mod/SomeMod/Mod_AnimationTable", P_ANIM_S, rows={"ModPose": {"Montage": ANIM_MONTAGE}}),
+    # Weapons: ItemTable (weapon rows), GunPaint (paint -> weapon -> material), a converted skin mod for the editor test
+    struct(P_ITEM_S, [param("Caption", "text", internal_name="Caption_34_A1D1AEE6499506A034ED6E83F2123581"),
+                      param("Icon", "object:" + E_TEX2D, internal_name="Icon_8_9AB25FB442CDA342937A89A8A873CA63"),
+                      param("HyperBoxGroup", "name", internal_name="HyperBoxGroup_47_F0D9C7BD4E11CB25AAFEDB863D1DF840"),
+                      param("ActorClass", "class:" + E_ACTOR, internal_name="ActorClass_40_78EE9EE441407DEB19724494C04B03D6"),
+                      # the weapon actor (Weapon_UMP45_C ...): unlike the pickup actor it carries the skeletal mesh with magazine and optics
+                      param("InteractiveClass", "class:" + E_ACTOR, internal_name="InteractiveClass_35_A72AD9944C232F519D9186A845495978")]),
+    struct(P_PAINT_S, [param("Guns", "name", "map", value_type="object:/Script/Engine.MaterialInterface", internal_name="Guns_4_974505F844690AA9345864A13AD9C39D"),
+                       param("Flag", "int", internal_name="Flag_7_1EFEACDB4FF292F408E2F4AF64A1289A")]),
+    datatable(P_ITEM_T, P_ITEM_S, rows={"UMP45": {"HyperBoxGroup": "Weapon", "Caption": "UMP45"}, "HK416": {"HyperBoxGroup": "Weapon", "Caption": "HK416"}, "Medicine": {"HyperBoxGroup": "Item"}}),
+    datatable(P_PAINT_T, P_PAINT_S, rows={"GunPaint_Pink": {}, "GunPaint_Camo": {}}),
+    # the mesh components are reached with GetComponentsByClass (a stub variable named SkeletalMesh is refused - it collides with the engine class)
+    blueprint(P_WEAPON, E_ACTOR, functions=[fn("Get Weapon Name", outputs=[param("name", "name")], pure=True)]),
+    # Gun_Equipment_Base_C derives from StaticMeshComponent, so the magazine is a component of the weapon - Mount Mag hangs
+    # one of the given class on it. A freshly spawned weapon actor has none; only the game's own equip flow puts it there.
+    blueprint(P_EQUIPBASE, "/Script/Engine.StaticMeshComponent"),   # magazine, optics, suppressor, grip all derive from this
+    blueprint(P_MAGCOMP, P_EQUIPBASE), blueprint(P_OPTICSCOMP, P_EQUIPBASE), blueprint(P_BARRELCOMP, P_EQUIPBASE), blueprint(P_GRIPCOMP, P_EQUIPBASE),
+    blueprint(P_GUN, P_WEAPON, variables=[var("Equipment Mag", "object:" + P_MAGCOMP)],
+              functions=[fn("Change Gun Paint", [param("paint name", "name")]), fn("Reset Gun Paint"),
+                         fn("Mount Mag", [param("class", "class:/Script/Engine.StaticMeshComponent")], [param("installed", "bool")])]),
     struct(P_PRESET_S, [param("HairstyleName", "name", internal_name="HairstyleName_7_3260D22B43C665CF63750083BF1D2497"),
                         param("MakeupData", "name", "map", value_type="struct:" + P_MDATA_S, internal_name="MakeupData_8_229DF3ED46B7F843D59714B8DA28DCAE"),
                         param("SkinName", "name", internal_name="SkinName_10_D161C58143EEB746BDE0E195450CF92E"),
@@ -87,15 +124,17 @@ assets = [
         fn("Restore Clothes Color", [param("clothes", "name")]),
         fn("Is Clothes Damaged", [param("clothes", "name")], [param("yes", "bool")], pure=True),
         fn("Remove Clothing From Bag", [param("clothing name", "name")]), fn("Reset Clothes Physics"),
+        fn("update body mask"),   # sets MaskThreshold, the morph "Nipple" and the breast constraint profile
         fn("Change Breast Constraint Profile", [param("morph", "float")])], variables=[var("Breast Morph Weight", "float")]),   # component "Bag" (Bag_Comp) exists in the kit
     # breast / hip jiggle bodies: the game switches them on here; AltUI calls it again after re-instantiating the physics state (height slider)
     blueprint(P_CB, mode="augment", functions=[fn("Enable Boobs Physics", [param("hip", "bool")])]),
-    blueprint(P_JODI, mode="augment", variables=[var("Camera", "object:/Script/Engine.CameraComponent")], functions=[fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True),
+    blueprint(P_JODI, mode="augment", variables=[var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("Weapons", "name", "map", value_type="object:" + P_WEAPON), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True),
                                                 fn("Use Clothes from Bag", [param("clothes name", "name"), param("is wear", "bool")]),
                                                 fn("Got Clothes", [param("clothes name", "name"), param("wear", "bool")]),
                                                 fn("Get Makeup Data", outputs=[param("Makeup Data", "object:" + P_MAKEUP_SAVE)]),
                                                 fn("Change Skin", [param("SkinName", "name")]), fn("Update Makeup Texture"), fn("Update Eyes Style"), fn("Save Makeup Data to File"), fn("Load Player Makeup"),
                                                 fn("Play Montage With Name", [param("montage name", "name"), param("ignore when the montage playing", "bool")]),
+                                                fn("Change Next Action Animation", [param("Next Action Name", "name")]), fn("Stop Action Animation"), fn("Is Alive ?", outputs=[param("yes", "bool")], pure=True),
                                                 fn("Get Hairstyle Name", outputs=[param("name", "name")], pure=True), fn("Get Hairstyle Color", outputs=[param("color", S_LINCOLOR)], pure=True),
                                                 fn("Change Hairstyle", [param("Hairstyle", "name")]), fn("Change Hairstyle Color", [param("color", S_LINCOLOR, ref=True)]),
                                                 fn("Apply Makeup Preset", [param("data", "struct:" + P_PRESET_S, ref=True)])]),

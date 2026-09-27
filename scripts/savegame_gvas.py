@@ -8,7 +8,7 @@ import struct
 
 MAGIC = b"GVAS"
 NAMES_CLASS = "/Game/Mod/AltUI/SG_Names.SG_Names_C"
-# header of a save written by the game (SaveGameFileVersion 2, PackageFileUE4Version 522, engine 4.27.2, no custom versions needed for our classes)
+# header of a save written by the game (SaveGameFileVersion 2, PackageFileUE4Version 522, engine 4.27.2, no custom versions needed for AltUI's classes)
 NAMES_HEADER = MAGIC + struct.pack("<ii", 2, 522) + struct.pack("<HHHI", 4, 27, 2, 18319896)
 
 
