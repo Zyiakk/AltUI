@@ -846,7 +846,7 @@ SETTINGS = [("Favorites", "Favorites", "copy", None), ("HiddenItems", "HiddenIte
             ("CamFov", "CamFov", "float0", 0.8), ("CamDist", "CamDist", "float0", 1.0), ("CamHeight", "CamHeight", "copy", None), ("CamRightHeight", "CamRightHeight", "copy", None), ("IconOwn", "IconOwn", "copy", None), ("ForceSkin", "ForceSkin", "copy", None), ("ForceSkipMag", "ForceSkipMag", "copy", None), ("ForceSkipOptics", "ForceSkipOptics", "copy", None), ("ForceSkipBarrel", "ForceSkipBarrel", "copy", None), ("ForceSkipGrip", "ForceSkipGrip", "copy", None),
             ("BodyVariant", "BodyVariant", "copy", None), ("BodyScales", "BodyScales", "copy", None), ("LangChoice", "LangChoice", "copy", None),
             ("PanToSlot", "PanToSlot", "copy", None), ("AllowNude", "AllowNude", "copy", None), ("OnlyModsNames", "OnlyModsNames", "copy", None), ("CaseSensitiveNames", "CaseSensitiveNames", "copy", None), ("MergeGroups", "MergeGroups", "copy", None), ("MergeMods", "MergeMods", "copy", None), ("ChipSearchShown", "ChipSearchShown", "copy", None), ("TipNoPrefix", "TipNoPrefix", "copy", None), ("TipNoIds", "TipNoIds", "copy", None), ("FreedConflicts", "FreedConflicts", "copy", None), ("HairSwatchesOpen", "HairSwatchesOpen", "copy", None),
-            ("UnownedMode", "UnownedMode", "copy", None), ("SlotColors", "SlotColors", "copy", None), ("EyeColors", "EyeColors", "copy", None), ("MakeupColors", "MakeupColors", "copy", None),
+            ("UnownedMode", "UnownedMode", "copy", None), ("SlotColors", "SlotColors", "copy", None), ("OutfitSlotColors", "OutfitSlotColors", "copy", None), ("EyeColors", "EyeColors", "copy", None), ("MakeupColors", "MakeupColors", "copy", None),
             ("ToggleKey", "ToggleKey", "name", None)]
 THEME_SETTINGS = [("Theme" + k, "Theme" + k, "copy", None) for k, _, _ in THEME] + [("BgAlpha", "BgAlpha", "float0", BG_ALPHA), ("TileAlpha", "TileAlpha", "float0", TILE_ALPHA)]
 
@@ -1139,6 +1139,7 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     # Coiffure / Appearance / Body Shape
     fn("Join Names", [param("names", "name", "array")], [param("key", "string")]),
     fn("Outfit Key", [param("index", "int")], [param("key", "string")]),
+    fn("Remember Outfit Colors", [param("index", "int")]), fn("Outfit Slot Colors", [param("index", "int")]),
     fn("Outfit Name By Key", [param("key", "string")], [param("name", "string")]),
     fn("Outfit Name", [param("index", "int")], [param("name", "string")]),
     fn("Set Outfit Name By Key", [param("key", "string"), param("name", "string")]),
@@ -1175,7 +1176,7 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     fn("Set Body Scale Factors", [param("name", "name"), param("factors", "float", "array")]), fn("Reset Body Scales"), fn("Poll Body Scales"),
     fn("Select Language", [param("choice", "int")]), fn("Apply Strings"),
     fn("Focus Code", outputs=[param("code", "int")]), fn("Update Focus"),
-    fn("Hair Reset Color", [param("name", "name")]), fn("On Hair Context", [param("name", "name")]), fn("Apply Nude"), fn("Fix Loaded Underwear"),
+    fn("Hair Reset Color", [param("name", "name")]), fn("On Hair Context", [param("name", "name")]), fn("Apply Nude"), fn("Fix Loaded Underwear"), fn("Apply Saved Colors"),
     fn("Rebuild Options"), fn("Poll Options"), fn("Apply Options"), fn("Apply Theme"), fn("Open Theme Color", [param("key", "name")]), fn("Select Key", [param("name", "name")]),
     fn("Load Presets"), fn("Preset Icon", [param("number", "int")], [param("tex", "object:" + E_TEX2D)]), fn("Preset Clicked", [param("index", "int")]),
     fn("Preset Delete", [param("index", "int")]), fn("Preset Add"), fn("On Preset Context", [param("index", "int")]), fn("Preset Index", [param("name", "name")], [param("index", "int")]),
@@ -1196,6 +1197,7 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     fn("Open Outfit Content", [param("index", "int")]), fn("Open Look Content", [param("index", "int")]), fn("Open Preset Content", [param("index", "int")]), fn("Close Content"),
     fn("Content Snapshot", [param("kind", "name"), param("index", "int")], [param("ok", "bool")]), fn("Rebuild Content"),
     fn("On Content Item Context", [param("name", "name")]), fn("Go To Item", [param("name", "name")]), fn("Scroll To Highlight"),
+    fn("Content Kind", [param("slot", "name")], [param("kind", "name")]), fn("Content Item Clicked", [param("name", "name")]), fn("Content Use", [param("name", "name")]),
 ]
 
 
@@ -1273,7 +1275,7 @@ assets = [
                          var("UnownedMode", "int"),
                          var("BodyScales", "name", "map", value_type="struct:" + S_FLOATS),
                          var("ThemeSet", "bool"), var("BgAlpha", "float", default="0"), var("TileAlpha", "float", default="0"), var("ToggleKey", "name"),
-                         var("SlotColors", "name", "map", value_type=S_LINCOLOR), var("EyeColors", "name", "map", value_type=S_LINCOLOR), var("MakeupColors", "name", "map", value_type=S_LINCOLOR),
+                         var("SlotColors", "name", "map", value_type=S_LINCOLOR), var("EyeColors", "name", "map", value_type=S_LINCOLOR), var("MakeupColors", "name", "map", value_type=S_LINCOLOR), var("OutfitSlotColors", "name", "map", value_type=S_LINCOLOR),
                          var("SaveVersion", "int")] + [var("Theme" + k, S_LINCOLOR) for k, _, _ in THEME]),   # SaveVersion 0 = save from before the versioning (0 = "never set" for floats)
     blueprint(MGR, E_ACTOR,
               variables=[var("Player", "object:" + P_JODI), var("PC", "object:" + P_PC), var("ControlDisabled", "bool"),
@@ -1297,7 +1299,7 @@ assets = [
                          var("ColorSlot", "int"), var("ColorRow", "name"), var("MakeupBak", "name", "map", value_type="struct:" + P_MDATA_S), var("ColorProbe", "bool"), var("ColorSlotsTmp", "struct:" + S_COLSLOTS), var("TmpMat", "object:" + E_MID_PATH),
                          var("ColorMat", "object:/Script/CoreUObject.Object", "map", value_type="bool"),
                          var("ColorSlotsOf", "name", "map", value_type="struct:" + S_COLSLOTS),
-                         var("SlotColors", "name", "map", value_type=S_LINCOLOR), var("EyeColors", "name", "map", value_type=S_LINCOLOR), var("MakeupColors", "name", "map", value_type=S_LINCOLOR),
+                         var("SlotColors", "name", "map", value_type=S_LINCOLOR), var("EyeColors", "name", "map", value_type=S_LINCOLOR), var("MakeupColors", "name", "map", value_type=S_LINCOLOR), var("OutfitSlotColors", "name", "map", value_type=S_LINCOLOR),
                          var("BodyBreast", "float"), var("BodyWaist", "float"), var("TmpNames2", "name", "array"), var("TmpNames3", "name", "array"), var("TmpNames4", "name", "array"), var("TmpName2", "name"), var("TmpName3", "name"), var("TmpBool", "bool"), var("TmpWorn", "bool"),
                          var("TmpColor", S_LINCOLOR), var("TmpColors", "name", "map", value_type=S_LINCOLOR), var("TmpColors2", "name", "map", value_type=S_LINCOLOR), var("TmpFColors2", "name", "map", value_type=S_LINCOLOR),
                          var("LooksSave", "object:" + SG_LOOKS), var("TmpLook", "struct:" + S_LOOK), var("ContextLook", "int"), var("LookIcons", "int", "map", value_type="object:" + E_TEX2D),
@@ -1307,7 +1309,7 @@ assets = [
                          var("Unlimited", "bool"), var("LeftFree", "int"), var("ViewShift", "float"), var("CamMod", "object:" + M + "/CM_AltUICam"), var("CamFov", "float", default="0.8"), var("CamDist", "float", default="1.0"), var("CamHeight", "float"), var("CamRightHeight", "bool"), var("OptFov", "float"), var("OptDist", "float"), var("OptHeight", "float"), var("DistSaveTimer", "float"), var("IconLight", "object:/Script/Engine.SpotLight"), var("UndoStack", "struct:" + S_SNAP, "array"), var("RedoStack", "struct:" + S_SNAP, "array"), var("TmpSnap", "struct:" + S_SNAP), var("TmpSnap2", "struct:" + S_SNAP), var("PresetIcons", "int", "map", value_type="object:" + E_TEX2D), var("TmpPreset", "struct:" + P_PRESET_S), var("ContextPreset", "int"), var("TmpIcons", "object:" + E_TEX2D, "array"),
                          # content view (View content): open index per tab (-1 = closed), the rendered snapshot + title, tile origin for "Show in tab", highlight/scroll target
                          var("ViewOutfit", "int", default="-1"), var("ViewLook", "int", default="-1"), var("ViewPreset", "int", default="-1"), var("ViewSnap", "struct:" + S_SNAP), var("ViewTitle", "string"),
-                         var("ContextSlot", "name"), var("HighlightItem", "name"), var("KeepHighlight", "bool"), var("ScrollWidget", "object:" + E_WIDGET),   # TmpSection (W_ContentSection) lives in the augment: the widget class exists only after 40_widgets
+                         var("ContextSlot", "name"), var("OutfitSC", "name", "map", value_type=S_LINCOLOR), var("OutfitPieces", "name", "array"), var("OutfitKeyTmp", "string"), var("ClickKind", "name"), var("LookCatKeep", "name"), var("HighlightItem", "name"), var("KeepHighlight", "bool"), var("ScrollWidget", "object:" + E_WIDGET),   # TmpSection (W_ContentSection) lives in the augment: the widget class exists only after 40_widgets
                          var("TmpFColors", "name", "map", value_type=S_COLOR),
                          var("BodyMods", "name", "array"), var("BodyCaptions", "name", "map", value_type="text"), var("StandardMesh", "object:" + E_SKELMESH),
                          var("BodyMesh", "object:" + E_SKELMESH), var("CurrentBody", "name"), var("BodyVariant", "name"),

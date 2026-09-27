@@ -3000,6 +3000,12 @@
      "value_type": "struct:/Script/CoreUObject.LinearColor"
     },
     {
+     "name": "OutfitSlotColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
      "name": "SaveVersion",
      "type": "int"
     },
@@ -3986,6 +3992,12 @@
      "value_type": "struct:/Script/CoreUObject.LinearColor"
     },
     {
+     "name": "OutfitSlotColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
      "name": "BodyBreast",
      "type": "float"
     },
@@ -4264,6 +4276,29 @@
     },
     {
      "name": "ContextSlot",
+     "type": "name"
+    },
+    {
+     "name": "OutfitSC",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "OutfitPieces",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "OutfitKeyTmp",
+     "type": "string"
+    },
+    {
+     "name": "ClickKind",
+     "type": "name"
+    },
+    {
+     "name": "LookCatKeep",
      "type": "name"
     },
     {
@@ -15240,15 +15275,15 @@
        {
         "id": "lg49",
         "kind": "get",
-        "var": "EyeColors",
+        "var": "OutfitSlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls49",
         "kind": "set",
-        "var": "EyeColors",
+        "var": "OutfitSlotColors",
         "in": {
-         "EyeColors": "@lg49.EyeColors"
+         "OutfitSlotColors": "@lg49.OutfitSlotColors"
         }
        },
        {
@@ -15259,15 +15294,15 @@
        {
         "id": "lg50",
         "kind": "get",
-        "var": "MakeupColors",
+        "var": "EyeColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls50",
         "kind": "set",
-        "var": "MakeupColors",
+        "var": "EyeColors",
         "in": {
-         "MakeupColors": "@lg50.MakeupColors"
+         "EyeColors": "@lg50.EyeColors"
         }
        },
        {
@@ -15278,32 +15313,51 @@
        {
         "id": "lg51",
         "kind": "get",
-        "var": "ToggleKey",
+        "var": "MakeupColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls51",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "MakeupColors",
         "in": {
-         "ToggleKey": "@lg51.ToggleKey"
+         "MakeupColors": "@lg51.MakeupColors"
         }
        },
        {
-        "id": "ln51",
+        "id": "lg52_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg52",
+        "kind": "get",
+        "var": "ToggleKey",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls52",
+        "kind": "set",
+        "var": "ToggleKey",
+        "in": {
+         "ToggleKey": "@lg52.ToggleKey"
+        }
+       },
+       {
+        "id": "ln52",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg51.ToggleKey",
+         "A": "@lg52.ToggleKey",
          "B": "None"
         }
        },
        {
-        "id": "lb51",
+        "id": "lb52",
         "kind": "branch",
         "in": {
-         "Condition": "@ln51.ReturnValue"
+         "Condition": "@ln52.ReturnValue"
         }
        },
        {
@@ -15325,25 +15379,6 @@
         }
        },
        {
-        "id": "lg52_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg52",
-        "kind": "get",
-        "var": "ThemeBg",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls52",
-        "kind": "set",
-        "var": "ThemeBg",
-        "in": {
-         "ThemeBg": "@lg52.ThemeBg"
-        }
-       },
-       {
         "id": "lg53_s",
         "kind": "get",
         "var": "Settings"
@@ -15351,15 +15386,15 @@
        {
         "id": "lg53",
         "kind": "get",
-        "var": "ThemeAccent",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls53",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "ThemeBg",
         "in": {
-         "ThemeAccent": "@lg53.ThemeAccent"
+         "ThemeBg": "@lg53.ThemeBg"
         }
        },
        {
@@ -15370,15 +15405,15 @@
        {
         "id": "lg54",
         "kind": "get",
-        "var": "ThemeFill",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls54",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeAccent",
         "in": {
-         "ThemeFill": "@lg54.ThemeFill"
+         "ThemeAccent": "@lg54.ThemeAccent"
         }
        },
        {
@@ -15389,15 +15424,15 @@
        {
         "id": "lg55",
         "kind": "get",
-        "var": "ThemeFrame",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls55",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeFill",
         "in": {
-         "ThemeFrame": "@lg55.ThemeFrame"
+         "ThemeFill": "@lg55.ThemeFill"
         }
        },
        {
@@ -15408,15 +15443,15 @@
        {
         "id": "lg56",
         "kind": "get",
-        "var": "ThemeWorn",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls56",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFrame",
         "in": {
-         "ThemeWorn": "@lg56.ThemeWorn"
+         "ThemeFrame": "@lg56.ThemeFrame"
         }
        },
        {
@@ -15427,15 +15462,15 @@
        {
         "id": "lg57",
         "kind": "get",
-        "var": "ThemeRow",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls57",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeWorn",
         "in": {
-         "ThemeRow": "@lg57.ThemeRow"
+         "ThemeWorn": "@lg57.ThemeWorn"
         }
        },
        {
@@ -15446,15 +15481,15 @@
        {
         "id": "lg58",
         "kind": "get",
-        "var": "ThemeText",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls58",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeRow",
         "in": {
-         "ThemeText": "@lg58.ThemeText"
+         "ThemeRow": "@lg58.ThemeRow"
         }
        },
        {
@@ -15465,15 +15500,15 @@
        {
         "id": "lg59",
         "kind": "get",
-        "var": "ThemeHead",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls59",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeText",
         "in": {
-         "ThemeHead": "@lg59.ThemeHead"
+         "ThemeText": "@lg59.ThemeText"
         }
        },
        {
@@ -15484,15 +15519,15 @@
        {
         "id": "lg60",
         "kind": "get",
-        "var": "ThemeLink",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls60",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeHead",
         "in": {
-         "ThemeLink": "@lg60.ThemeLink"
+         "ThemeHead": "@lg60.ThemeHead"
         }
        },
        {
@@ -15503,15 +15538,15 @@
        {
         "id": "lg61",
         "kind": "get",
-        "var": "ThemeLine",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls61",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeLink",
         "in": {
-         "ThemeLine": "@lg61.ThemeLine"
+         "ThemeLink": "@lg61.ThemeLink"
         }
        },
        {
@@ -15522,46 +15557,15 @@
        {
         "id": "lg62",
         "kind": "get",
-        "var": "BgAlpha",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz62",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg62.BgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv62",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz62.ReturnValue"
-        }
-       },
-       {
-        "id": "ld62",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg62.BgAlpha",
-         "B": "0.88",
-         "bPickA": "@lv62.ReturnValue"
-        }
        },
        {
         "id": "ls62",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeLine",
         "in": {
-         "BgAlpha": "@ld62.ReturnValue"
+         "ThemeLine": "@lg62.ThemeLine"
         }
        },
        {
@@ -15572,7 +15576,7 @@
        {
         "id": "lg63",
         "kind": "get",
-        "var": "TileAlpha",
+        "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -15581,7 +15585,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg63.TileAlpha",
+         "A": "@lg63.BgAlpha",
          "B": "0.0"
         }
        },
@@ -15601,17 +15605,67 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg63.TileAlpha",
-         "B": "1.0",
+         "A": "@lg63.BgAlpha",
+         "B": "0.88",
          "bPickA": "@lv63.ReturnValue"
         }
        },
        {
         "id": "ls63",
         "kind": "set",
+        "var": "BgAlpha",
+        "in": {
+         "BgAlpha": "@ld63.ReturnValue"
+        }
+       },
+       {
+        "id": "lg64_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg64",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz64",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg64.TileAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv64",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz64.ReturnValue"
+        }
+       },
+       {
+        "id": "ld64",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg64.TileAlpha",
+         "B": "1.0",
+         "bPickA": "@lv64.ReturnValue"
+        }
+       },
+       {
+        "id": "ls64",
+        "kind": "set",
         "var": "TileAlpha",
         "in": {
-         "TileAlpha": "@ld63.ReturnValue"
+         "TileAlpha": "@ld64.ReturnValue"
         }
        },
        {
@@ -15875,12 +15929,12 @@
         "lg51.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg52_s.Settings",
         "lg52.self"
+       ],
+       [
+        "gth_s.Settings",
+        "gth.self"
        ],
        [
         "lg53_s.Settings",
@@ -15925,6 +15979,10 @@
        [
         "lg63_s.Settings",
         "lg63.self"
+       ],
+       [
+        "lg64_s.Settings",
+        "lg64.self"
        ],
        [
         "gls.Settings",
@@ -15985,8 +16043,9 @@
         "ls48",
         "ls49",
         "ls50",
-        "lb51",
-        "ls51"
+        "ls51",
+        "lb52",
+        "ls52"
        ],
        [
         "entry",
@@ -16007,16 +16066,15 @@
         "cr"
        ],
        [
-        "ls51",
+        "ls52",
         "bth"
        ],
        [
-        "lb51:else",
+        "lb52:else",
         "bth"
        ],
        [
         "bth",
-        "ls52",
         "ls53",
         "ls54",
         "ls55",
@@ -16028,6 +16086,7 @@
         "ls61",
         "ls62",
         "ls63",
+        "ls64",
         "ath"
        ],
        [
@@ -17085,16 +17144,16 @@
        {
         "id": "g49",
         "kind": "get",
-        "var": "EyeColors"
+        "var": "OutfitSlotColors"
        },
        {
         "id": "w49",
         "kind": "set",
-        "var": "EyeColors",
+        "var": "OutfitSlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs49.Settings",
-         "EyeColors": "@g49.EyeColors"
+         "OutfitSlotColors": "@g49.OutfitSlotColors"
         }
        },
        {
@@ -17105,16 +17164,16 @@
        {
         "id": "g50",
         "kind": "get",
-        "var": "MakeupColors"
+        "var": "EyeColors"
        },
        {
         "id": "w50",
         "kind": "set",
-        "var": "MakeupColors",
+        "var": "EyeColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs50.Settings",
-         "MakeupColors": "@g50.MakeupColors"
+         "EyeColors": "@g50.EyeColors"
         }
        },
        {
@@ -17125,16 +17184,16 @@
        {
         "id": "g51",
         "kind": "get",
-        "var": "ToggleKey"
+        "var": "MakeupColors"
        },
        {
         "id": "w51",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "MakeupColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs51.Settings",
-         "ToggleKey": "@g51.ToggleKey"
+         "MakeupColors": "@g51.MakeupColors"
         }
        },
        {
@@ -17145,16 +17204,16 @@
        {
         "id": "g52",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "ToggleKey"
        },
        {
         "id": "w52",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs52.Settings",
-         "ThemeBg": "@g52.ThemeBg"
+         "ToggleKey": "@g52.ToggleKey"
         }
        },
        {
@@ -17165,16 +17224,16 @@
        {
         "id": "g53",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "ThemeBg"
        },
        {
         "id": "w53",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs53.Settings",
-         "ThemeAccent": "@g53.ThemeAccent"
+         "ThemeBg": "@g53.ThemeBg"
         }
        },
        {
@@ -17185,16 +17244,16 @@
        {
         "id": "g54",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "ThemeAccent"
        },
        {
         "id": "w54",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs54.Settings",
-         "ThemeFill": "@g54.ThemeFill"
+         "ThemeAccent": "@g54.ThemeAccent"
         }
        },
        {
@@ -17205,16 +17264,16 @@
        {
         "id": "g55",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "ThemeFill"
        },
        {
         "id": "w55",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs55.Settings",
-         "ThemeFrame": "@g55.ThemeFrame"
+         "ThemeFill": "@g55.ThemeFill"
         }
        },
        {
@@ -17225,16 +17284,16 @@
        {
         "id": "g56",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "ThemeFrame"
        },
        {
         "id": "w56",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs56.Settings",
-         "ThemeWorn": "@g56.ThemeWorn"
+         "ThemeFrame": "@g56.ThemeFrame"
         }
        },
        {
@@ -17245,16 +17304,16 @@
        {
         "id": "g57",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "ThemeWorn"
        },
        {
         "id": "w57",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs57.Settings",
-         "ThemeRow": "@g57.ThemeRow"
+         "ThemeWorn": "@g57.ThemeWorn"
         }
        },
        {
@@ -17265,16 +17324,16 @@
        {
         "id": "g58",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "ThemeRow"
        },
        {
         "id": "w58",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs58.Settings",
-         "ThemeText": "@g58.ThemeText"
+         "ThemeRow": "@g58.ThemeRow"
         }
        },
        {
@@ -17285,16 +17344,16 @@
        {
         "id": "g59",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "ThemeText"
        },
        {
         "id": "w59",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs59.Settings",
-         "ThemeHead": "@g59.ThemeHead"
+         "ThemeText": "@g59.ThemeText"
         }
        },
        {
@@ -17305,16 +17364,16 @@
        {
         "id": "g60",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "ThemeHead"
        },
        {
         "id": "w60",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs60.Settings",
-         "ThemeLink": "@g60.ThemeLink"
+         "ThemeHead": "@g60.ThemeHead"
         }
        },
        {
@@ -17325,16 +17384,16 @@
        {
         "id": "g61",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "ThemeLink"
        },
        {
         "id": "w61",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs61.Settings",
-         "ThemeLine": "@g61.ThemeLine"
+         "ThemeLink": "@g61.ThemeLink"
         }
        },
        {
@@ -17345,16 +17404,16 @@
        {
         "id": "g62",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "ThemeLine"
        },
        {
         "id": "w62",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs62.Settings",
-         "BgAlpha": "@g62.BgAlpha"
+         "ThemeLine": "@g62.ThemeLine"
         }
        },
        {
@@ -17365,16 +17424,36 @@
        {
         "id": "g63",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "BgAlpha"
        },
        {
         "id": "w63",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs63.Settings",
-         "TileAlpha": "@g63.TileAlpha"
+         "BgAlpha": "@g63.BgAlpha"
+        }
+       },
+       {
+        "id": "gs64",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g64",
+        "kind": "get",
+        "var": "TileAlpha"
+       },
+       {
+        "id": "w64",
+        "kind": "set",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs64.Settings",
+         "TileAlpha": "@g64.TileAlpha"
         }
        },
        {
@@ -17513,6 +17592,7 @@
         "w61",
         "w62",
         "w63",
+        "w64",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",
@@ -21244,6 +21324,24 @@
      ]
     },
     {
+     "name": "Remember Outfit Colors",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Outfit Slot Colors",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
      "name": "Outfit Name By Key",
      "inputs": [
       {
@@ -21925,6 +22023,9 @@
      "name": "Fix Loaded Underwear"
     },
     {
+     "name": "Apply Saved Colors"
+    },
+    {
      "name": "Rebuild Options"
     },
     {
@@ -22455,6 +22556,39 @@
     },
     {
      "name": "Scroll To Highlight"
+    },
+    {
+     "name": "Content Kind",
+     "inputs": [
+      {
+       "name": "slot",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "kind",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Content Item Clicked",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Content Use",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
     }
    ]
   }

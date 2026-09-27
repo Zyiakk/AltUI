@@ -388,7 +388,7 @@ def f_take_off_slot():
 
 def f_on_item_clicked():
     g = G()
-    g.get("gpg0", "Page"); g.n("cop", "call_self", function="Content Open", inp={"page": "@gpg0.Page"}); g.branch("bcv", "@cop.yes")   # content view: tiles are display only
+    g.get("gpg0", "Page"); g.n("cop", "call_self", function="Content Open", inp={"page": "@gpg0.Page"}); g.branch("bcv", "@cop.yes")   # content view: Content Item Clicked
     g.get("gpg", "Page"); g.call("isb", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg.Page", "B": "Bag"}); g.branch("bpg", "@isb.ReturnValue")
     g.n("btw", "call_self", function="Bag Toggle Wear", inp={"name": "@entry.name"})
     g.get("gpg2", "Page"); g.call("ish", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg2.Page", "B": "Hair"}); g.branch("bph", "@ish.ReturnValue")
@@ -404,7 +404,8 @@ def f_on_item_clicked():
     g.n("iw", "call_self", function="Is Worn", inp={"name": "@entry.name"}); g.branch("bw", "@iw.yes")
     g.n("to", "call_self", function="Take Off", inp={"name": "@entry.name"}); g.n("we", "call_self", function="Wear", inp={"name": "@entry.name"})
     g.n("rl", "call_self", function="Rebuild Left"); g.n("rli", "call_self", function="Rebuild List")
-    g.chain("entry", "cop", "bcv"); g.chain("bcv:else", "bpg", "btw"); g.chain("bpg:else", "bph", "hc"); g.chain("bph:else", "bpps", "pc"); g.chain("bpps:else", "bpw", "wsc"); g.chain("bpw:else", "bpl", "lc")
+    g.n("cic", "call_self", function="Content Item Clicked", inp={"name": "@entry.name"})
+    g.chain("entry", "cop", "bcv", "cic"); g.chain("bcv:else", "bpg", "btw"); g.chain("bpg:else", "bph", "hc"); g.chain("bph:else", "bpps", "pc"); g.chain("bpps:else", "bpw", "wsc"); g.chain("bpw:else", "bpl", "lc")
     g.n("ph", "call_self", function="Push History")
     g.chain("bpl:else", "io", "bo", "ph", "bw", "to", "rl", "rli"); g.chain("bw:else", "we", "rl", "rli"); g.chain("bo:else", "pop")
     return fn("On Item Clicked", [param("name", "name")], graph=g)
@@ -1440,7 +1441,7 @@ def f_finish_apply_snapshot():
     g.get("gpl9", "Player"); g.call("chc", P_JODI, "Change Hairstyle Color", inp={"self": "@gpl9.Player", "color": "@bs.HairColor"})
     gi = game_instance(g, "gi"); g.get("gplA", "Player"); g.call("svh", P_GI, "Save Hair Color Data", inp={"self": gi, "player": "@gplA.Player"})
     g.get("gplB", "Player"); g.call("umt", P_JODI, "Update Makeup Texture", inp={"self": "@gplB.Player"})
-    g.n("rdc", "call_self", function="Reset Dropped Colors", inp={"next": "@bs.SlotColors"})   # pieces the look leaves plain go back to default first
+    g.n("rdc", "call_self", function="Reset Dropped Colors", inp={"next": "@bs.SlotColors", "colors": "@bs.Colors"})   # pieces the look leaves plain go back to default first
     g.set("ssc9", "SlotColors", inp={"SlotColors": "@bs.SlotColors"}); g.set("sec9", "EyeColors", inp={"EyeColors": "@bs.EyeColors"})   # the look's own colours
     g.set("smc9", "MakeupColors", inp={"MakeupColors": "@bs.MakeupColors"})
     g.get("gplC", "Player"); g.call("ues", P_JODI, "Update Eyes Style", inp={"self": "@gplC.Player"})
@@ -1750,7 +1751,7 @@ MENU_ACTIONS = [
     ("LookRename", "Start Look Rename", "ContextLook"), ("LookUpdate", "Update Look", "ContextLook"), ("LookDelete", "Delete Look", "ContextLook"),
     ("PresetApply", "Preset Clicked", "ContextPreset"), ("PresetDelete", "Preset Delete", "ContextPreset"),
     ("OutfitView", "Open Outfit Content", "ContextOutfit"), ("LookView", "Open Look Content", "ContextLook"), ("PresetView", "Open Preset Content", "ContextPreset"),
-    ("ContentBack", "Close Content", None), ("GoTo", "Go To Item", "ContextItem"),
+    ("ContentBack", "Close Content", None), ("GoTo", "Go To Item", "ContextItem"), ("ContentUse", "Content Use", "ContextItem"),
     ("OnlyGroup", "Show Only Group", "ContextItem"), ("ModContent", "Open Mod Content Of Item", "ContextItem"),
     ("Rename", "Start Item Rename", "ContextItem"), ("LookFav", "Toggle Look Favorite", "ContextItem"), ("LookHide", "Toggle Look Hidden", "ContextItem"), ("LookOnlyMod", "Look Only Mod", "ContextItem"), ("PoseFav", "Toggle Pose Favorite", "ContextItem"), ("PoseHide", "Toggle Pose Hidden", "ContextItem"), ("PoseOnlyMod", "Pose Only Mod", "ContextItem"), ("PoseReset", "Reset Pose Measurement", "ContextItem"), ("PoseSetStand", "Pose Set Stand", "ContextItem"), ("PoseSetSit", "Pose Set Sit", "ContextItem"), ("PoseSetLie", "Pose Set Lie", "ContextItem"), ("PoseSetMove", "Toggle Pose Moving", "ContextItem"), ("SkinFav", "Toggle Skin Favorite", "ContextItem"), ("SkinHide", "Toggle Skin Hidden", "ContextItem"), ("SkinOnlyMod", "Skin Only Mod", "ContextItem"), ("ModelFav", "Toggle Model Favorite", "ContextItem"), ("ModelHide", "Toggle Model Hidden", "ContextItem"), ("ModelOnlyMod", "Model Only Mod", "ContextItem"), ("ModelOwnIcon", "Toggle Model Own Icon", "ContextItem"), ("ModelForceSkin", "Toggle Model Force Skin", "ContextItem"), ] + [("ModelSkip" + p, "Toggle Model Skip " + p, "ContextItem") for p, _, _, _, _, _ in WEAPON_PARTS] + [
  ("PoseStop", "Stop Pose", None), ("PoseScan", "Start Pose Scan", None), ("PoseScanStop", "Stop Pose Scan", None), ("WeaponIconsRedo", "Redo Weapon Icons", None), ("RenameMod", "Rename Mod Of Item", "ContextItem"), ("RenameGroup", "Rename Group Of Item", "ContextItem"),
@@ -2638,6 +2639,59 @@ def f_rebuild_outfits():
     return fn("Rebuild Outfits", graph=g)
 
 
+def f_outfit_slot_key():
+    """Key of one remembered slot colour of an outfit in OutfitSlotColors: <Outfit Key>><piece>#<slot index>."""
+    g = G()
+    g.n("sk", "call_self", function="Slot Color Key", inp={"name": "@entry.name", "slot": "@entry.slot"})
+    g.call("k2s", K_STR, "Conv_NameToString", inp={"InName": "@sk.key"})
+    g.call("c1", K_STR, "Concat_StrStr", inp={"A": "@entry.okey", "B": ">"}); g.call("c2", K_STR, "Concat_StrStr", inp={"A": "@c1.ReturnValue", "B": "@k2s.ReturnValue"})
+    g.call("s2n", K_STR, "Conv_StringToName", inp={"InString": "@c2.ReturnValue"}); g.link("s2n.ReturnValue", "return.key")
+    return fn("Outfit Slot Key", [param("okey", "string"), param("name", "name"), param("slot", "int")], [param("key", "name")], graph=g, pure=True)
+
+
+def outfit_slots_loop(g, index_pin):
+    """Nested loops over the pieces of outfit `index` and their colourable slots. Returns (head, body pins): head = exec id
+    to start with, body = (slot key pin, outfit slot key pin, inner loop id) - the inner loop body is chained by the caller."""
+    g.n("ok", "call_self", function="Outfit Key", inp={"index": index_pin}); g.set("sok", "OutfitKeyTmp", inp={"OutfitKeyTmp": "@ok.key"})
+    g.get("go", "Outfits"); g.get("goa", "outfits", cls=P_OUTFITS); g.link("go.Outfits", "goa.self")
+    g.call("og", K_ARR, "Array_Get", inp={"TargetArray": "@goa.outfits", "Index": index_pin}); g.brk("obr", P_OUTFIT_S, "@og.Item")
+    g.call("keys", K_MAP, "Map_Keys", inp={"TargetMap": "@obr." + OUTFIT_MEMBER}); g.set("skn", "OutfitPieces", inp={"OutfitPieces": "@keys.Keys"})
+    g.get("gkn", "OutfitPieces"); g.foreach("fp", "@gkn.OutfitPieces")
+    g.n("cs", "call_self", function="Item Color Slots", inp={"name": "@fp.Array Element"}); g.brk("bcs", S_COLSLOTS, "@cs.slots")
+    g.foreach("fi", "@bcs.Idx")
+    g.n("sk", "call_self", function="Slot Color Key", inp={"name": "@fp.Array Element", "slot": "@fi.Array Element"})
+    g.get("gok", "OutfitKeyTmp"); g.n("osk", "call_self", function="Outfit Slot Key", inp={"okey": "@gok.OutfitKeyTmp", "name": "@fp.Array Element", "slot": "@fi.Array Element"})
+    g.chain("ok", "sok", "keys", "skn", "fp"); g.chain("fp", "cs", "fi")
+    return "ok", "@sk.key", "@osk.key", "fi"
+
+
+def f_remember_outfit_colors():
+    """When an outfit is saved: AltUI's slot colours of its pieces, as they are now, go into OutfitSlotColors under the
+    outfit's key; a slot without one clears what an earlier outfit with the same pieces left there."""
+    g = G()
+    head, sk, osk, inner = outfit_slots_loop(g, "@entry.index")
+    g.get("gsc", "SlotColors"); g.call("f", K_MAP, "Map_Find", inp={"TargetMap": "@gsc.SlotColors", "Key": sk}); g.branch("bf", "@f.ReturnValue")
+    g.get("gos", "OutfitSlotColors"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gos.OutfitSlotColors", "Key": osk, "Value": "@f.Value"})
+    g.get("gos2", "OutfitSlotColors"); g.call("rem", K_MAP, "Map_Remove", inp={"TargetMap": "@gos2.OutfitSlotColors", "Key": osk})
+    g.n("ss", "call_self", function="Save Settings")
+    g.chain("entry", head); g.chain(inner, "bf", "add"); g.chain("bf:else", "rem"); g.chain("fp:Completed", "ss")
+    return fn("Remember Outfit Colors", [param("index", "int")], graph=g)
+
+
+def f_outfit_slot_colors():
+    """The slot colours wearing outfit `index` leaves behind, in OutfitSC: AltUI's current ones, where for every colourable
+    slot of the outfit's pieces the remembered colour is put in - or, without one, AltUI's colour taken out, so the
+    outfit's own colour of the piece shows (an outfit saved before AltUI remembered colours has none)."""
+    g = G()
+    g.get("gsc", "SlotColors"); g.set("cp", "OutfitSC", inp={"OutfitSC": "@gsc.SlotColors"})
+    head, sk, osk, inner = outfit_slots_loop(g, "@entry.index")
+    g.get("gos", "OutfitSlotColors"); g.call("f", K_MAP, "Map_Find", inp={"TargetMap": "@gos.OutfitSlotColors", "Key": osk}); g.branch("bf", "@f.ReturnValue")
+    g.get("goc", "OutfitSC"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@goc.OutfitSC", "Key": sk, "Value": "@f.Value"})
+    g.get("goc2", "OutfitSC"); g.call("rem", K_MAP, "Map_Remove", inp={"TargetMap": "@goc2.OutfitSC", "Key": sk})
+    g.chain("entry", "cp", head); g.chain(inner, "bf", "add"); g.chain("bf:else", "rem")
+    return fn("Outfit Slot Colors", [param("index", "int")], graph=g)
+
+
 def f_on_outfit_clicked():
     """Wear a vanilla outfit (preset): current state as snapshot, its clothes and colours replaced by the outfit's -> Apply Snapshot
     (one piece per tick, see there). The Looks page reuses the click for 'Save current appearance' (index < 0 = the + tile)."""
@@ -2654,12 +2708,16 @@ def f_on_outfit_clicked():
     g.call("c2l", K_MATH, "Conv_ColorToLinearColor", inp={"InColor": "@cf.Value"})
     g.get("gtc2", "TmpColors"); g.call("madd", K_MAP, "Map_Add", inp={"TargetMap": "@gtc2.TmpColors", "Key": "@fk.Array Element", "Value": "@c2l.ReturnValue"})
     g.get("gtc3", "TmpColors")
-    g.get("gsc9", "SlotColors"); g.get("gec9", "EyeColors"); g.get("gmc9", "MakeupColors")
-    g.make("mk", S_SNAP, SlotColors="@gsc9.SlotColors", EyeColors="@gec9.EyeColors", MakeupColors="@gmc9.MakeupColors", Worn="@keys.Keys", Makeup="@bs.Makeup", Skin="@bs.Skin", Hair="@bs.Hair", Colors="@gtc3.TmpColors", HairColor="@bs.HairColor",
+    g.n("osc", "call_self", function="Outfit Slot Colors", inp={"index": "@entry.index"})
+    g.get("gsc9", "OutfitSC"); g.get("gec9", "EyeColors"); g.get("gmc9", "MakeupColors")
+    g.make("mk", S_SNAP, SlotColors="@gsc9.OutfitSC", EyeColors="@gec9.EyeColors", MakeupColors="@gmc9.MakeupColors", Worn="@keys.Keys", Makeup="@bs.Makeup", Skin="@bs.Skin", Hair="@bs.Hair", Colors="@gtc3.TmpColors", HairColor="@bs.HairColor",
            Boobs="@bs.Boobs", Waist="@bs.Waist", Hip="@bs.Hip", Body="@bs.Body", Scales="@bs.Scales")
     g.n("as", "call_self", function="Apply Snapshot", inp={"snap": "@mk.S_Snapshot"})
     g.n("sv", "call_self", function="Save Outfits"); g.n("ro", "call_self", function="Rebuild Outfits")
-    g.chain("entry", "bpl", "pa"); g.chain("bpl:else", "b", "ap", "sv", "ro"); g.chain("b:else", "ph", "ts", "keys", "mclr", "fk"); g.chain("fk", "madd"); g.chain("fk:Completed", "as", "ro")
+    g.get("go3", "Outfits"); g.get("goa3", "outfits", cls=P_OUTFITS); g.link("go3.Outfits", "goa3.self")
+    g.call("ol", K_ARR, "Array_Length", inp={"TargetArray": "@goa3.outfits"}); g.call("last", K_MATH, "Subtract_IntInt", inp={"A": "@ol.ReturnValue", "B": "1"})
+    g.n("roc", "call_self", function="Remember Outfit Colors", inp={"index": "@last.ReturnValue"})   # Add Preset appends
+    g.chain("entry", "bpl", "pa"); g.chain("bpl:else", "b", "ap", "roc", "sv", "ro"); g.chain("b:else", "ph", "ts", "keys", "mclr", "fk"); g.chain("fk", "madd"); g.chain("fk:Completed", "osc", "as", "ro")
     return fn("On Outfit Clicked", [param("index", "int")], graph=g)
 
 
@@ -5685,7 +5743,7 @@ def f_apply_item_colors():
 
 
 def f_apply_all_item_colors():
-    """Every worn piece: when the panel opens and after a look has been put on."""
+    """Every worn piece: after a level load (Apply Saved Colors), when the panel opens and after a look has been put on."""
     g = G()
     g.get("gpl", "Player"); g.call("wc", P_CPB, "Get Wearing Clothes Names", inp={"self": "@gpl.Player"})
     g.set("sn", "TmpNames4", inp={"TmpNames4": "@wc.clothes list"}); g.get("gn", "TmpNames4"); g.foreach("fe", "@gn.TmpNames4")
@@ -5694,9 +5752,19 @@ def f_apply_all_item_colors():
     return fn("Apply All Item Colors", graph=g)
 
 
+def f_apply_saved_colors():
+    """Via timer after BeginPlay: AltUI's own colours (material slots, eyes, make-up) back on after a level load - the game
+    restores only what its own colour map covers, so without this they came back only when the panel was opened.
+    Runs after Apply Saved Body and Fix Loaded Underwear, which can still change what is worn."""
+    g = G()
+    g.n("aic", "call_self", function="Apply All Item Colors"); g.n("aec", "call_self", function="Apply Eye Colors"); g.n("amc", "call_self", function="Apply Makeup Colors")
+    g.chain("entry", "aic", "aec", "amc")
+    return fn("Apply Saved Colors", graph=g)
+
+
 def f_reset_dropped_colors():
     """Before the colours of a look go on: every piece that carries one of AltUI's colours now and has none in the look
-    goes back to what the game gives it (Restore Clothes Color). Without this a look saved with a plain piece left the
+    goes back to what the game gives it (Restore Clothes Color), or to the snapshot's own colour for it when it has one. Without this a look saved with a plain piece left the
     colour set in the meantime on it - the look's map simply had nothing to say about that piece. A piece AltUI never
     painted is not touched, so a colour from the game's own wardrobe survives."""
     g = G()
@@ -5709,8 +5777,14 @@ def f_reset_dropped_colors():
     g.call("keep", K_MATH, "Not_PreBool", inp={"A": "@has.ReturnValue"}); g.branch("bk", "@keep.ReturnValue")
     g.get("gpl", "Player"); g.call("rc", P_CPB, "Restore Clothes Color", inp={"self": "@gpl.Player", "clothes": "@n2n.ReturnValue"})
     g.n("ric", "call_self", function="Reset Item Colors", inp={"name": "@n2n.ReturnValue"})   # and repaint it, the same as a reset from the menu
-    g.chain("entry", "keys", "fk"); g.chain("fk", "bk", "rc", "ric")
-    return fn("Reset Dropped Colors", [param("next", "name", "map", value_type=S_LINCOLOR)], graph=g)
+    # a piece the snapshot gives a colour of the game's own (an outfit's colour, set by Wear Queue Step just before) gets it back
+    g.call("cf", K_MAP, "Map_Find", inp={"TargetMap": "@entry.colors", "Key": "@n2n.ReturnValue"}); g.branch("bcf", "@cf.ReturnValue")
+    g.get("gpl2", "Player"); g.call("fcc", P_CPB, "Find Clothes Component With Name", inp={"self": "@gpl2.Player", "name": "@n2n.ReturnValue"})
+    g.call("cv", K_SYS, "IsValid", inp={"Object": "@fcc.clothes comp"}); g.branch("bcv", "@cv.ReturnValue")
+    g.call("chg", P_CC, "Change Color", inp={"self": "@fcc.clothes comp", "Color": "@cf.Value"})
+    g.get("gpl3", "Player"); g.call("svc", P_CPB, "Save Clothes Color", inp={"self": "@gpl3.Player", "clothes name": "@n2n.ReturnValue", "color": "@cf.Value"})
+    g.chain("entry", "keys", "fk"); g.chain("fk", "bk", "rc", "ric", "bcf", "fcc", "bcv", "chg", "svc")
+    return fn("Reset Dropped Colors", [param("next", "name", "map", value_type=S_LINCOLOR), param("colors", "name", "map", value_type=S_LINCOLOR)], graph=g)
 
 
 def f_reset_item_colors():
@@ -6142,27 +6216,15 @@ def f_apply_theme():
     g.chain(*tail, "pat"); return fn("Apply Theme", graph=g)
 
 
-def f_close_color():
-    g = G(); g.set("s", "ColorOpen", inp={"ColorOpen": "false"})
-    g.get("gp", "Palette"); g.call("iv", K_SYS, "IsValid", inp={"Object": "@gp.Palette"}); g.branch("b", "@iv.ReturnValue")
-    g.get("gp2", "Palette"); g.call("cf", P_PAL, "Close Frame", inp={"self": "@gp2.Palette"})
-    g.get("gp3", "Palette"); g.call("rm", E_WIDGET, "RemoveFromParent", inp={"self": "@gp3.Palette"})
-    g.chain("entry", "s", "b", "cf", "rm"); return fn("Close Color", graph=g)
-
-
-def f_apply_preview():
-    """Tick while the palette is open: read the colour from Paletter.Image_Color, apply live; palette closed -> save.
-    Modes: Theme (panel colours), Hair, otherwise Slot - one material slot of one worn piece (ColorItem + ColorSlot)."""
+def f_commit_color():
+    """Keep what the palette chose, per mode (clothes: Save Slot Color; hair: GameInstance.Save Hair Color Data; eyes: into
+    EyeColors; theme and make-up: the colour is already in place, only AltUI's settings file is missing)."""
     g = G()
-    g.get("gp", "Palette"); g.call("inv", E_USERWIDGET, "IsInViewport", inp={"self": "@gp.Palette"})
-    g.get("gp1", "Palette"); g.call("vis", E_WIDGET, "IsVisible", inp={"self": "@gp1.Palette"})
-    g.call("open", K_MATH, "BooleanAND", inp={"A": "@inv.ReturnValue", "B": "@vis.ReturnValue"}); g.branch("bo", "@open.ReturnValue")
-    # closed -> save (clothes: Save Clothes Color; hair: GameInstance.Save Hair Color Data; theme: AltUI's settings)
     g.get("gcmt", "ColorMode"); g.call("ist", K_MATH, "EqualEqual_NameName", inp={"A": "@gcmt.ColorMode", "B": "Theme"}); g.branch("bt", "@ist.ReturnValue")
     g.n("svt", "call_self", function="Save Settings")
     g.get("gcm", "ColorMode"); g.call("ish", K_MATH, "EqualEqual_NameName", inp={"A": "@gcm.ColorMode", "B": "Hair"}); g.branch("bh", "@ish.ReturnValue")
     g.get("gcmm", "ColorMode"); g.call("ism", K_MATH, "EqualEqual_NameName", inp={"A": "@gcmm.ColorMode", "B": "Makeup"}); g.branch("bm", "@ism.ReturnValue")
-    g.n("msv", "call_self", function="Save Settings")   # the colour is already in the map (live), only the file is missing
+    g.n("msv", "call_self", function="Save Settings")
     g.get("gcme", "ColorMode"); g.call("ise", K_MATH, "EqualEqual_NameName", inp={"A": "@gcme.ColorMode", "B": "Eye"}); g.branch("be", "@ise.ReturnValue")
     g.get("gcl4", "ColorItem"); g.get("gcr4", "ColorRow"); g.get("gcc5", "ColorCur"); g.get("gec2", "EyeColors")
     g.n("ekey", "call_self", function="Eye Color Key", inp={"part": "@gcl4.ColorItem", "row": "@gcr4.ColorRow"})
@@ -6172,6 +6234,30 @@ def f_apply_preview():
     g.n("sv", "call_self", function="Save Slot Color", inp={"name": "@gcl.ColorItem", "slot": "@gcs.ColorSlot", "color": "@gcc.ColorCur"})
     g.call("gi", K_GS, "GetGameInstance"); g.cast("cgi", P_GI, "@gi.ReturnValue"); g.get("gplh", "Player")
     g.call("svh", P_GI, "Save Hair Color Data", inp={"self": "@cgi.AsTKA Game Instance", "player": "@gplh.Player"})
+    g.chain("entry", "bt", "svt"); g.chain("bt:else", "bh", "svh"); g.chain("bh:else", "bm", "msv")
+    g.chain("bm:else", "be", "eadd", "esv"); g.chain("be:else", "sv")
+    return fn("Commit Color", graph=g)
+
+
+def f_close_color():
+    """Every way the palette closes ends here - its own close button (seen by Apply Preview), closing the panel, free cam,
+    photo mode. The tick stops with ColorOpen, so what was chosen is kept here, not there."""
+    g = G(); g.get("gco", "ColorOpen"); g.branch("bo", "@gco.ColorOpen"); g.n("cm", "call_self", function="Commit Color")
+    g.set("s", "ColorOpen", inp={"ColorOpen": "false"})
+    g.get("gp", "Palette"); g.call("iv", K_SYS, "IsValid", inp={"Object": "@gp.Palette"}); g.branch("b", "@iv.ReturnValue")
+    g.get("gp2", "Palette"); g.call("cf", P_PAL, "Close Frame", inp={"self": "@gp2.Palette"})
+    g.get("gp3", "Palette"); g.call("rm", E_WIDGET, "RemoveFromParent", inp={"self": "@gp3.Palette"})
+    g.chain("entry", "bo", "cm", "s", "b", "cf", "rm"); g.chain("bo:else", "s"); return fn("Close Color", graph=g)
+
+
+def f_apply_preview():
+    """Tick while the palette is open: read the colour from Paletter.Image_Color, apply live; palette closed -> Close Color
+    (which keeps the colour). Modes: Theme (panel colours), Hair, Eye, Makeup, otherwise Slot - one material slot of one worn
+    piece (ColorItem + ColorSlot)."""
+    g = G()
+    g.get("gp", "Palette"); g.call("inv", E_USERWIDGET, "IsInViewport", inp={"self": "@gp.Palette"})
+    g.get("gp1", "Palette"); g.call("vis", E_WIDGET, "IsVisible", inp={"self": "@gp1.Palette"})
+    g.call("open", K_MATH, "BooleanAND", inp={"A": "@inv.ReturnValue", "B": "@vis.ReturnValue"}); g.branch("bo", "@open.ReturnValue")
     g.n("cc", "call_self", function="Close Color")
     # open, theme -> Set Theme Color + Apply Theme (widgets refresh on their Tick); hair -> Change Hairstyle Color
     g.get("gcmt2", "ColorMode"); g.call("ist2", K_MATH, "EqualEqual_NameName", inp={"A": "@gcmt2.ColorMode", "B": "Theme"}); g.branch("bt2", "@ist2.ReturnValue")
@@ -6192,8 +6278,7 @@ def f_apply_preview():
     g.n("chg", "call_self", function="Set Slot Color", inp={"name": "@gcl2.ColorItem", "slot": "@gcs2.ColorSlot", "color": "@colr.ColorAndOpacity"})
     g.chain("entry", "bo", "bn", "scc", "bt2", "stc", "ath"); g.chain("bt2:else", "bh2", "chh"); g.chain("bh2:else", "be2", "sec")
     g.chain("be2:else", "bm2", "smc"); g.chain("bm2:else", "chg")
-    g.chain("bo:else", "bt", "svt", "cc"); g.chain("bt:else", "bh", "svh", "cc"); g.chain("bh:else", "bm", "msv", "cc")
-    g.chain("bm:else", "be", "eadd", "esv", "cc"); g.chain("be:else", "sv", "cc")
+    g.chain("bo:else", "cc")
     return fn("Apply Preview", graph=g)
 
 
@@ -6568,7 +6653,7 @@ def f_rebuild_content():
 
 
 def f_on_content_item_context():
-    """Right click on a tile of the content view: Rename, "Show in tab" (only if the tile knows its origin slot), "Rename mod…" (mod piece) + Cancel."""
+    """Right click on a tile of the content view: Wear / Take off / Apply (Content Use), Rename, "Show in tab" (only if the tile knows its origin slot), "Rename mod…" (mod piece) + Cancel."""
     g = G()
     g.get("glb", "LastButton"); g.cast("cb", W_BTN, "@glb.LastButton"); g.get("gsl", "ItemSlot", cls=W_BTN); g.link("cb.AsW_ClothesButton", "gsl.self")
     g.set("scs", "ContextSlot", inp={"ContextSlot": "@gsl.ItemSlot"})
@@ -6577,14 +6662,87 @@ def f_on_content_item_context():
     g.get("gm2", "Menu"); g.call("clr", W_MENU, "Clear Rows", inp={"self": "@gm2.Menu"})
     g.get("gcs", "ContextSlot"); g.call("has", K_MATH, "NotEqual_NameName", inp={"A": "@gcs.ContextSlot", "B": "None"}); g.branch("bh", "@has.ReturnValue")
     r0 = menu_row(g, 0, "GoTo", tt(g, "t0", "Menu_ShowIn")); r1 = menu_row(g, 1, "Cancel", tt(g, "t1", "Menu_Cancel")); r2 = menu_row(g, 2, "Rename", tt(g, "t2", "Menu_Rename"))
+    # first row: use the tile - clothes "Wear" / "Take off", the rest "Apply"; none for a piece that is gone
+    g.get("gcs1", "ContextSlot"); g.n("ck", "call_self", function="Content Kind", inp={"slot": "@gcs1.ContextSlot"})
+    g.call("kn", K_MATH, "NotEqual_NameName", inp={"A": "@ck.kind", "B": "None"}); g.branch("bk", "@kn.ReturnValue")
+    g.call("kc", K_MATH, "EqualEqual_NameName", inp={"A": "@ck.kind", "B": "Clothes"}); g.n("iw", "call_self", function="Is Worn", inp={"name": "@entry.name"})
+    g.call("wo", K_MATH, "SelectString", inp={"A": ts(g, "wto", "Menu_TakeOff"), "B": ts(g, "wwe", "Menu_Wear"), "bPickA": "@iw.yes"})
+    g.call("us", K_MATH, "SelectString", inp={"A": "@wo.ReturnValue", "B": ts(g, "wap", "Menu_Apply"), "bPickA": "@kc.ReturnValue"}); g.call("ut", K_TXT, "Conv_StringToText", inp={"InString": "@us.ReturnValue"})
+    r4 = menu_row(g, 4, "ContentUse", "@ut.ReturnValue")
     g.n("imd", "call_self", function="Item Mod", inp={"row": "@entry.name"}); g.branch("bmd", "@imd.found")   # mod piece (any kind): rename the mod
     r3 = menu_row(g, 3, "RenameMod", tt(g, "t3", "Menu_RenameMod"))
     g.get("gm6", "Menu"); g.call("atv", E_USERWIDGET, "AddToViewport", inp={"self": "@gm6.Menu", "ZOrder": "110"})
     g.call("mp", "/Script/UMG.WidgetLayoutLibrary", "GetMousePositionOnViewport")
     g.get("gm7", "Menu"); g.call("spv", E_USERWIDGET, "SetPositionInViewport", inp={"self": "@gm7.Menu", "Position": "@mp.ReturnValue", "bRemoveDPIScale": "false"})
     g.chain("entry", "scs", "b", "clr"); g.chain("b:else", "cm_cr", "sm", "smm", "clr")
-    g.chain("clr", *r2, "bh", *r0, "bmd"); g.chain("bh:else", "bmd"); g.chain("bmd", *r3, r1[0]); g.chain("bmd:else", r1[0]); g.chain(*r1, "atv", "mp", "spv")
+    g.chain("clr", "ck", "bk", *r4, r2[0]); g.chain("bk:else", r2[0]); g.chain(*r2, "bh", *r0, "bmd"); g.chain("bh:else", "bmd"); g.chain("bmd", *r3, r1[0]); g.chain("bmd:else", r1[0]); g.chain(*r1, "atv", "mp", "spv")
     return fn("On Content Item Context", [param("name", "name")], graph=g)
+
+def f_content_kind():
+    """What a tile of a content view is, from its origin slot (ContextSlot of the tile): Hair, Body, Look (skin or a make-up
+    type), Pose (no slot, mod content only), None (no slot elsewhere: a piece of an outfit that is gone), else Clothes."""
+    g = G()
+    g.set("sc", "ClickKind", inp={"ClickKind": "Clothes"})
+    g.call("isH", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.slot", "B": "Hair"}); g.branch("bH", "@isH.ReturnValue"); g.set("sH", "ClickKind", inp={"ClickKind": "Hair"})
+    g.call("isB", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.slot", "B": "Body"}); g.branch("bB", "@isB.ReturnValue"); g.set("sB", "ClickKind", inp={"ClickKind": "Body"})
+    g.call("isS", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.slot", "B": "Skin"}); g.branch("bS", "@isS.ReturnValue"); g.set("sS", "ClickKind", inp={"ClickKind": "Look"})
+    g.call("isN", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.slot", "B": "None"}); g.branch("bN", "@isN.ReturnValue")
+    g.get("gvm", "ViewMod"); g.call("vm", K_MATH, "NotEqual_NameName", inp={"A": "@gvm.ViewMod", "B": "None"})
+    g.call("pk", K_MATH, "SelectString", inp={"A": "Pose", "B": "None", "bPickA": "@vm.ReturnValue"}); g.call("pkn", K_STR, "Conv_StringToName", inp={"InString": "@pk.ReturnValue"})
+    g.set("sN", "ClickKind", inp={"ClickKind": "@pkn.ReturnValue"})
+    g.call("mt", K_DT, "DoesDataTableRowExist", inp={"Table": P_MTYPE_T, "RowName": "@entry.slot"}); g.branch("bM", "@mt.ReturnValue"); g.set("sM", "ClickKind", inp={"ClickKind": "Look"})
+    g.get("gk", "ClickKind"); g.link("gk.ClickKind", "return.kind")
+    g.chain("entry", "sc", "bH", "sH", "return"); g.chain("bH:else", "bB", "sB", "return"); g.chain("bB:else", "bS", "sS", "return")
+    g.chain("bS:else", "bN", "sN", "return"); g.chain("bN:else", "mt", "bM", "sM", "return"); g.chain("bM:else", "return")
+    return fn("Content Kind", [param("slot", "name")], [param("kind", "name")], graph=g)
+
+
+def f_content_item_clicked():
+    """Left click on a tile of a content view: its origin slot comes from the tile (LastButton), then Content Use."""
+    g = G()
+    g.get("glb", "LastButton"); g.cast("cb", W_BTN, "@glb.LastButton"); g.get("gsl", "ItemSlot", cls=W_BTN); g.link("cb.AsW_ClothesButton", "gsl.self")
+    g.set("scs", "ContextSlot", inp={"ContextSlot": "@gsl.ItemSlot"})
+    g.n("cu", "call_self", function="Content Use", inp={"name": "@entry.name"})
+    g.chain("entry", "scs", "cu"); return fn("Content Item Clicked", [param("name", "name")], graph=g)
+
+
+def f_content_use():
+    """A tile of a content view does what it does on its own page (ContextSlot = its origin): clothes are put on or taken off,
+    a hairstyle / skin / make-up row / body / pose is applied the same way as a click there; then the view is redrawn.
+    Make-up and skin go through Look Clicked with LookCat set to the tile's type for the call - the category of the Look page
+    must not decide it (under Presets it would apply a preset)."""
+    g = G()
+    g.get("gcs", "ContextSlot"); g.n("ck", "call_self", function="Content Kind", inp={"slot": "@gcs.ContextSlot"})
+    g.n("rct", "call_self", function="Rebuild Content")
+    # clothes: like a click on the clothes page
+    g.call("isC", K_MATH, "EqualEqual_NameName", inp={"A": "@ck.kind", "B": "Clothes"}); g.branch("bC", "@isC.ReturnValue")
+    g.n("io", "call_self", function="Can Wear", inp={"name": "@entry.name"}); g.branch("bo", "@io.yes")
+    g.call("n2s", K_STR, "Conv_NameToString", inp={"InName": "@entry.name"})
+    g.call("msg", K_STR, "Concat_StrStr", inp={"A": ts(g, "mk", "Msg_NotOwned"), "B": "@n2s.ReturnValue"})
+    pop(g, "pop", text_from_str(g, "t", "@msg.ReturnValue"))
+    g.n("ph", "call_self", function="Push History")
+    g.n("iw", "call_self", function="Is Worn", inp={"name": "@entry.name"}); g.branch("bw", "@iw.yes")
+    g.n("to", "call_self", function="Take Off", inp={"name": "@entry.name"}); g.n("we", "call_self", function="Wear", inp={"name": "@entry.name"})
+    g.n("rl", "call_self", function="Rebuild Left")
+    # hairstyle
+    g.call("isH", K_MATH, "EqualEqual_NameName", inp={"A": "@ck.kind", "B": "Hair"}); g.branch("bH", "@isH.ReturnValue")
+    g.n("hc", "call_self", function="Hair Clicked", inp={"name": "@entry.name"})
+    # skin / make-up
+    g.call("isL", K_MATH, "EqualEqual_NameName", inp={"A": "@ck.kind", "B": "Look"}); g.branch("bL", "@isL.ReturnValue")
+    g.get("glc", "LookCat"); g.set("slk", "LookCatKeep", inp={"LookCatKeep": "@glc.LookCat"})
+    g.get("gcs2", "ContextSlot"); g.set("slc", "LookCat", inp={"LookCat": "@gcs2.ContextSlot"})
+    g.n("lc", "call_self", function="Look Clicked", inp={"name": "@entry.name"})
+    g.get("glk", "LookCatKeep"); g.set("rlc", "LookCat", inp={"LookCat": "@glk.LookCatKeep"})
+    # body
+    g.call("isB", K_MATH, "EqualEqual_NameName", inp={"A": "@ck.kind", "B": "Body"}); g.branch("bB", "@isB.ReturnValue")
+    g.n("sb", "call_self", function="Select Body", inp={"name": "@entry.name"})
+    # pose
+    g.call("isP", K_MATH, "EqualEqual_NameName", inp={"A": "@ck.kind", "B": "Pose"}); g.branch("bP", "@isP.ReturnValue")
+    g.n("pc", "call_self", function="Pose Clicked", inp={"name": "@entry.name"})
+    g.chain("entry", "ck", "bC", "io", "bo", "ph", "bw", "to", "rl", "rct"); g.chain("bw:else", "we", "rl"); g.chain("bo:else", "pop")
+    g.chain("bC:else", "bH", "hc", "rct"); g.chain("bH:else", "bL", "slk", "slc", "lc", "rlc", "rct")
+    g.chain("bL:else", "bB", "sb", "rct"); g.chain("bB:else", "bP", "pc", "rct")
+    return fn("Content Use", [param("name", "name")], graph=g)
 
 
 def f_go_to_item():
@@ -6992,10 +7150,11 @@ def event_graph():
     # apply the saved body 1 s after BeginPlay (Jodi + mod paks are certainly there by then; the default mesh is remembered)
     g.self_("me"); g.call("tm", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Apply Saved Body", "Time": "1.0", "bLooping": "false"})
     g.self_("me3"); g.call("tmu", K_SYS, "K2_SetTimer", inp={"Object": "@me3.self", "FunctionName": "Fix Loaded Underwear", "Time": "1.5", "bLooping": "false"})
+    g.self_("me4"); g.call("tmc", K_SYS, "K2_SetTimer", inp={"Object": "@me4.self", "FunctionName": "Apply Saved Colors", "Time": "2.0", "bLooping": "false"})
     g.n("dl", "call_self", function="Detect Language"); g.n("ist", "call_self", function="Init Strings"); g.n("apn", "call_self", function="Apply Nude")
     g.n("bga", "call_self", function="Build Group Aliases")   # Build Catalog ran before Load Settings: apply the loaded MergeGroups option
     g.n("bcf", "call_self", function="Build Conflicts")   # slot conflict pairs from ClothesTypeTable
-    g.chain("bp", "cpc", "spc", "ei", "cj", "spl", "isg", "bcf", "lnm", "bc", "lds", "bga", "apn", "dl", "ist", "rs", "tm", "tmu")
+    g.chain("bp", "cpc", "spc", "ei", "cj", "spl", "isg", "bcf", "lnm", "bc", "lds", "bga", "apn", "dl", "ist", "rs", "tm", "tmu", "tmc")
     # panel key (configurable): ONE "AnyKey" event without consume (no key is taken away from the game or other mods),
     # acts only if the key's display name equals ToggleKey and input is allowed
     g.key("kAny", "AnyKey", consume=False)
@@ -7307,9 +7466,9 @@ assets = [bp_cam_input(), blueprint(MGR, mode="augment", variables=[var("Panel",
                                var("OptBgAlpha", "float"), var("OptTileAlpha", "float"), var("TmpSection", "object:" + W_SECTION)],
                     functions=[f_slot_color_key(), f_open_slot_color(), f_item_has_own_color(), f_row_is("Eye"), f_row_is("Eyelashes"), f_row_is_makeup(), f_row_has_makeup_color(), f_eye_color_key(),
                                f_apply_makeup_colors(), f_open_makeup_color(), f_set_makeup_color(), f_makeup_reset_color(),
-                               *([f_makeup_probe()] if MAKEUPPROBE else []), f_current_look_row(), f_apply_eye_colors(), f_open_eye_color(), f_set_eye_color(), f_eye_reset_colors(), f_set_slot_color(), f_save_slot_color(), f_apply_item_colors(), f_apply_all_item_colors(), f_slot_reset_color(), f_reset_item_colors(), f_reset_dropped_colors(), f_close_color(), f_apply_preview(), f_toggle(), f_open(), f_close(), f_rebuild_left(), f_rebuild_list(), f_chip_shown(), f_rebuild_subtabs(), f_select_slot(),
+                               *([f_makeup_probe()] if MAKEUPPROBE else []), f_current_look_row(), f_apply_eye_colors(), f_open_eye_color(), f_set_eye_color(), f_eye_reset_colors(), f_set_slot_color(), f_save_slot_color(), f_apply_item_colors(), f_apply_all_item_colors(), f_apply_saved_colors(), f_slot_reset_color(), f_reset_item_colors(), f_reset_dropped_colors(), f_commit_color(), f_close_color(), f_apply_preview(), f_toggle(), f_open(), f_close(), f_rebuild_left(), f_rebuild_list(), f_chip_shown(), f_rebuild_subtabs(), f_select_slot(),
                                f_take_off_slot(), f_on_item_clicked(), f_on_item_context(), f_close_menu(), f_on_menu_action(), f_select_subtab(), f_on_search_changed(), f_on_chip_search_changed(),
-                               f_load_outfits(), f_save_outfits(), f_rebuild_top_tabs(), f_select_page(), f_rebuild_catalog_if_dirty(), f_on_manage_search_changed(), f_name_matches(), f_manage_rows(), f_manage_count(), f_manage_sub_counts(), f_rebuild_manage_cats(), f_select_manage_cat(), f_manage_default(), f_manage_origin(), f_manage_icon(), f_rebuild_manage(), f_focus_name_row(), f_refresh_manage_rows(), f_manage_search_for(), f_rename_kind(), f_start_item_rename(), f_finish_item_rename(), f_refresh_after_rename(), f_manage_rename(), f_manage_go_to(), f_rename_mod_of_item(), f_rename_group_of_item(), f_rebuild_manage_links(), f_poll_manage(), f_show_only_group(), f_open_mod_content_of_item(), f_open_mod_content(), f_rebuild_mod_content(), f_on_look_item_context(), f_swatch_color(), f_rebuild_hair_swatches(), f_hair_swatch_clicked(), f_toggle_hair_swatches(), f_rebuild_outfits(), f_on_outfit_clicked(), f_on_outfit_context(), f_delete_outfit(),
+                               f_load_outfits(), f_save_outfits(), f_rebuild_top_tabs(), f_select_page(), f_rebuild_catalog_if_dirty(), f_on_manage_search_changed(), f_name_matches(), f_manage_rows(), f_manage_count(), f_manage_sub_counts(), f_rebuild_manage_cats(), f_select_manage_cat(), f_manage_default(), f_manage_origin(), f_manage_icon(), f_rebuild_manage(), f_focus_name_row(), f_refresh_manage_rows(), f_manage_search_for(), f_rename_kind(), f_start_item_rename(), f_finish_item_rename(), f_refresh_after_rename(), f_manage_rename(), f_manage_go_to(), f_rename_mod_of_item(), f_rename_group_of_item(), f_rebuild_manage_links(), f_poll_manage(), f_show_only_group(), f_open_mod_content_of_item(), f_open_mod_content(), f_rebuild_mod_content(), f_on_look_item_context(), f_swatch_color(), f_rebuild_hair_swatches(), f_hair_swatch_clicked(), f_toggle_hair_swatches(), f_rebuild_outfits(), f_outfit_slot_key(), f_remember_outfit_colors(), f_outfit_slot_colors(), f_on_outfit_clicked(), f_on_outfit_context(), f_delete_outfit(),
                                f_in_bag(), f_can_wear(), f_is_damaged(), f_rebuild_bag(), f_bag_toggle_wear(), f_bag_remove(), f_bag_cleanup(), f_bag_all_worn(), f_bag_repair(), f_bag_to_wardrobe(), f_put_in_bag(), f_on_bag_item_context(),
                                f_rebuild_hair(), f_hair_clicked(), f_open_hair_color(), f_look_caption(), f_is_look_selected(), f_look_type_of(), f_look_key(), f_is_look_favorite(), f_is_look_hidden(), f_toggle_look_favorite(), f_toggle_look_hidden(), f_collect_look_rows(), f_look_row_passes(), f_look_groups(), f_look_chip_caption(), f_look_chip_shown(), f_rebuild_look_chips(), f_select_look_group(), f_look_only_mod(), f_look_matches(), f_on_look_search_changed(), f_on_look_chip_search_changed(), f_rebuild_look_links(), f_look_count(), f_rebuild_look_cats(), f_select_look_cat(),
                                f_rebuild_look(), f_look_clicked(), f_rebuild_body(), f_poll_body(), f_save_appearance_data(), f_scan_body_mods(), f_apply_body(), f_apply_saved_body(), f_select_body(),
@@ -7319,6 +7478,6 @@ assets = [bp_cam_input(), blueprint(MGR, mode="augment", variables=[var("Panel",
                                f_load_looks(), f_save_looks(), f_looks_count(), f_add_look(), f_update_look(), f_delete_look(), f_look_name(), f_set_look_name(), f_apply_look(), f_rebuild_looks(), f_on_look_clicked(), f_on_look_context(), f_start_look_rename(),
                                f_select_layout(), f_rebuild_conflicts(), f_toggle_conflict(), f_free_slot(), f_free_all(), f_ensure_cam_mod(), f_set_view_shift(), f_start_free_cam(), f_stop_free_cam(), f_free_cam_look(), f_free_cam_wheel(), f_free_cam_step(), f_start_photo_mode(), f_end_photo_mode(), f_cam_tick(), f_wheel_dist(), f_begin_jodi_drag(), f_jodi_drag(), f_end_jodi_drag(), f_collect_pose_rows(), f_pose_section_caption(), f_pose_section_count(), f_pose_title(), f_pose_name(), f_pose_actors(), f_pose_kind(), f_is_pose_moving(), f_is_pose_manual(), f_set_pose_kind(), f_pelvis_height(), f_measure_tick(), f_start_pose_scan(), f_stop_pose_scan(), f_scan_tick(), f_pose_set_stand(), f_pose_set_sit(), f_pose_set_lie(), f_reset_pose_measurement(), f_set_pose_measurement(), f_toggle_pose_moving(), f_pose_cat_count(), f_rebuild_pose_cats(), f_select_pose_cat(), f_pose_key(), f_is_pose_favorite(), f_is_pose_hidden(), f_pose_matches(), f_pose_row_shown(), f_pose_row_passes(), f_bump_pose_count(), f_count_pose_cats(), f_pose_groups(), f_rebuild_pose_chips(), f_select_pose_group(), f_rebuild_poses(), f_pose_clicked(), f_stop_pose(), f_rebuild_pose_links(), f_toggle_pose_favorite(), f_toggle_pose_hidden(), f_pose_only_mod(), f_on_pose_context(), f_on_pose_search_changed(), f_scan_weapon_skins(), f_scan_weapon_models(), f_weapon_rows(), f_skins_for_weapon(), f_skin_mod(), f_skin_row(), f_model_mod(), f_models_for_weapon(), f_model_mesh(), f_material_takes_color(), f_item_color_slots(), f_apply_weapon_model(), f_apply_weapon_look(), f_apply_all_weapon_looks(), f_poll_weapons(), f_select_weapon(), f_weapon_skin_clicked(), f_rebuild_weapons(), f_rebuild_weapon_skins(), f_skin_caption(), f_skin_icon(), f_is_skin_favorite(), f_skin_key(), f_skin_row_passes(), f_current_model(), f_current_skin(), f_model_row(), f_model_caption(), f_model_icon(), f_model_key(), f_is_model_favorite(), f_model_row_passes(), f_rebuild_weapon_models(), f_weapon_model_clicked(), f_toggle_model_favorite(), f_toggle_model_hidden(), f_model_has_icon(), f_toggle_model_own_icon(), f_model_forced(), *[f_toggle_model_skip(p, a) for p, _, a, _, _, _ in WEAPON_PARTS], f_toggle_model_force_skin(), f_model_only_mod(), f_on_model_context(), f_weapon_tile_row(), f_weapon_tile_clicked(), f_on_weapon_context(), f_weapon_icon_key(), f_weapon_icon(), f_capture_weapon_icon(), f_capture_weapon_icon_step(), f_skin_groups(), f_rebuild_weapon_chips(), f_select_skin_group(), f_rebuild_weapon_links(), f_on_weapon_search_changed(), f_toggle_skin_favorite(), f_toggle_skin_hidden(), f_skin_only_mod(), f_on_skin_context(), f_select_unowned(), f_redo_weapon_icons(), f_rebuild_status(), f_take_snapshot(), f_push_history(), f_apply_snapshot(), f_wear_queue_step(), f_finish_apply_snapshot(), history_step("Undo", "UndoStack", "RedoStack"), history_step("Redo", "RedoStack", "UndoStack"),
                                f_content_open(), f_open_content(), f_content_snapshot(), open_content_wrapper("Open Outfit Content", "Outfit"), open_content_wrapper("Open Look Content", "Look"), open_content_wrapper("Open Preset Content", "Preset"), f_close_content(),
-                               f_rebuild_content(), f_on_content_item_context(), f_go_to_item(), f_scroll_to_highlight()],
+                               f_rebuild_content(), f_on_content_item_context(), f_content_kind(), f_content_item_clicked(), f_content_use(), f_go_to_item(), f_scroll_to_highlight()],
                     event_graph=event_graph())]
 write(os.path.join(os.path.dirname(__file__), "..", "50_manager_ui.json"), assets)
