@@ -6,7 +6,7 @@ Szafa w grze daje każdemu autorowi moda własną zakładkę. Przy kilku modach 
 
 Dostępny też na [Nexus Mods](https://www.nexusmods.com/thekillingantidote/mods/988) (oba pliki w jednym archiwum). Ten sam mod – wybierz jedno źródło, nie oba naraz.
 
-> ⚠️ **Uwaga:** Zrobione pod wersję gry 0.6.x. Aktualizacja gry, która zmieni tabele ubrań / makijażu albo menedżera kamery, może zepsuć moda. Steam aktualizuje automatycznie tylko pak z Warsztatu; drugim plikiem w `~mods` zarządzasz sam – patrz „Aktualizacje moda a drugi plik” niżej.
+> ⚠️ **Uwaga:** Zrobione pod wersję gry 0.6.x. Aktualizacja gry, która zmieni tabele ubrań / makijażu albo menedżera kamery, może zepsuć moda.
 
 ## ⚠ Instalacja – przeczytaj najpierw
 
@@ -36,30 +36,23 @@ Hook podmienia *TKA_PlayerCameraManager* i stamtąd uruchamia panel. Każdy mod,
 
 **„Zasubskrybowałem, ale B nic nie robi”** → nic nie uruchomiło panelu: albo brakuje drugiego pliku, albo leży on w *Mods* lub w folderze Warsztatu zamiast w *Content\Paks\~mods*.
 
-Kadrowanie kamery obok otwartego panelu nie zależy już od hooka – podpina się do menedżera kamery, który poziom ma i tak, również do tego z gry.
-
-Odinstalowanie: anuluj subskrypcję i usuń skopiowany plik. Własne zapisy moda (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Names.sav*, zdjęcia stylizacji w *Saved\SaveGames\AltUI\* i obrazki broni w *Saved\SaveGames\WeaponIcons\*) też możesz usunąć; poza tym nic nie jest ruszane – ubrania, stroje, makijaż i fryzura idą przez zapisy samej gry.
-
 ## Co potrafi
 
-* **Ubrania** – każda rzecz, którą znają gra i mody, pogrupowana po slotach, podzakładki na mod (zwijane), wyszukiwanie, filtry „tylko posiadane” / „tylko ulubione” / „tylko vanilla”, ulubione, kolor z palety gry, reset koloru, do plecaka i z powrotem, ukrywanie rzeczy.
-* **Stroje** – gotowe stroje gry, z nazwami (prawy przycisk → zmień nazwę).
-* **Stylizacje** – kompletna stylizacja (ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, suwaki ciała, mod ciała) zapisana ze zdjęciem całej sylwetki z gry. Zastosuj, zaktualizuj, zmień nazwę, usuń.
-* **Plecak** – co Jodi nosi i ma przy sobie: załóż, zdejmij, napraw, z powrotem do szafy, uporządkuj.
-* **Fryzura** – wszystkie fryzury, kolor włosów, 14 naturalnych kolorów włosów, ustawienia fabryczne.
-* **Wygląd** – skóra, każdy typ makijażu, oczy, gotowe wyglądy z ikonami.
-* **Kształt ciała** – suwaki piersi / talii, przełącznik zainstalowanych modów ciała oraz – przy przekonwertowanych ciałach – suwaki kości: skala, biust, talia extra, pośladki/biodra, uda, łydki, ramiona, dłonie, stopy, zapisywane osobno dla każdego ciała.
-* **Opcje** – klawisz panelu, język, szybkość przewijania, rozmiar kafelków, długość nazw grup i wysokość wiersza grup, część ekranu zostawiona dla Jodi, pole widzenia / odległość / przesuw kamery, kolorystyka i krycie, „można zdejmować bieliznę”, „nieposiadane” zablokowane / wyszarzone / jak posiadane, zwalnianie konfliktów slotów z gry (biustonosz vs. koszula …), łączenie grup / modów o tej samej nazwie, opcje podpowiedzi.
-* **Zarządzanie** – własne nazwy wyświetlane dla modów, grup, rzeczy, fryzur, skór i makijażu – widoczne w całym panelu i uwzględniane w wyszukiwaniu; „Zmień nazwę…” w menu kontekstowym każdego kafelka; eksport / import jako JSON przez `altui_names.pyz`.
-* Cofnij / ponów (5 kroków), podpowiedzi pokazują, z którego moda pochodzi dana rzecz.
+* **Ubrania** – każda rzecz z gry i z twoich modów, jedna lista na slot, z wyszukiwaniem, filtrami, ulubionymi i ukrywaniem.
+* **Zestawy · Looki** – gotowe zestawy gry z nazwami oraz pełne looki (ubrania z kolorami, fryzura, makijaż, oczy, skóra, ciało) ze zdjęciem z gry.
+* **Plecak · Fryzury · Wygląd** – co Jodi nosi i ma przy sobie; fryzury i kolory włosów; skóra, makijaż i oczy, każde do podbarwienia.
+* **Sylwetka** – suwaki biustu i talii, przełącznik przekonwertowanych modów ciała, suwaki kości dla każdego ciała.
+* **Bronie** – model i skin na broń, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku.
+* **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
+* **Opcje · Zarządzanie** – klawisz, język, kolory, wielkość kafelków; własne nazwy modów, grup i przedmiotów.
+* Cofnij / ponów (5 kroków), dymki z nazwą moda, z którego pochodzi dana rzecz.
 
-Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski (wykrywany automatycznie, przełączany w opcjach).
+Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski (wykrywane automatycznie, zmienialne w Opcjach).
 
 ## Sterowanie
 
 * **B** – otwiera / zamyka (zmienialne w opcjach). **Esc** zamyka.
 * Lewy przycisk – wybierz / załóż / zastosuj. Prawy przycisk – menu kontekstowe. Kółko myszy – przewijanie.
-* Dopóki panel jest otwarty, Jodi nie może chodzić; przeciąganie po tle obraca kamerę, +/− przybliża / oddala. Dwa okrągłe przyciski nad nimi otwierają wolną kamerę (mysz obraca, W A S D / Q E ruch, Shift szybciej, kółko = prędkość, do 6 m wokół Jodi, zatrzymuje się na ścianach; Esc powrót) oraz tryb zdjęć gry (Esc powrót).
 
 ## Mody ciała
 
@@ -67,17 +60,7 @@ Paki podmieniające ciało nadpisują wszystkie ten sam plik gry, więc aktywny 
 
 Konwerter (Python 3.8+, bez dodatkowych pakietów): https://github.com/Zyiakk/AltUI/releases/latest/download/bodypak.pyz
 
-```
-python bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title SomeBody
-```
-
-Powstały *Body_Some.pak* skopiuj do *TheKillingAntidote\Mods\* i usuń pierwotny plik podmieniający (albo zostaw go w *~mods* – stanie się wtedy chipem „Standard”).
-
 Instrukcja krok po kroku z przykładem dla Windowsa i dla Linuksa (po angielsku): [BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
-
-## Zgodność
-
-Zrobione pod wersję gry 0.6.x. Działa z modami ubrań, fryzur, makijażu i map z Warsztatu i z Nexusa – po prostu pojawiają się na listach. Aktualizacja gry, która zmieni tabele ubrań / makijażu albo menedżera kamery, może zepsuć moda.
 
 ## Aktualizacje moda a drugi plik
 
@@ -85,18 +68,9 @@ To, co uruchamia panel, jest celowo oddzielone od samego panelu: wszystko, co mo
 
 Sam Blueprint Loader niczego nie potrzebuje: jest osobnym modem i aktualizuje się na własnej stronie. Stary AltUI_Hook_P.pak nie może jednak zostać w ~mods. To ten plik przejmuje klasę menedżera kamery, a wersja sprzed 1.5.0 nie uruchamia loadera – wtedy panel się otworzy, ale widok nie odsunie się na bok, a mody zrobione pod loader nie wystartują. Usuń go albo zastąp aktualnym.
 
-Z pakiem hooka nowa **AltUI_Hook_P.pak** jest potrzebna tylko wtedy, gdy
-
-* mówi to changelog – dzieje się tak, gdy zmieni się sama logika uruchamiania, albo
-* aktualizacja gry podmieni menedżera kamery gracza; wtedy hook trzeba zbudować na nowo pod nową wersję gry (a stary może przeszkadzać kamerze, dopóki go nie usuniesz lub nie zastąpisz).
-
-Gdyby hook kiedyś się zdezaktualizował: pobierz aktualny plik z linku do GitHuba powyżej, podmień ten w *Content\Paks\~mods* i gotowe. A jeśli mod ma zniknąć całkiem: anuluj subskrypcję i usuń ten plik.
-
 Żadne zasoby gry nie są dołączone; wszystko w paku jest generowane.
 
 ## Co daje każda kombinacja
-
-AltUI.pak to sam mod; potrzebny jest drugi plik, który go uruchomi. Efekt:
 
 * **Sam AltUI.pak** – nic nie uruchamia panelu – B nic nie robi.
 * **AltUI.pak + Blueprint Loader** – loader czyta tabelę AltUI i uruchamia panel. Sam AltUI niczego w grze nie podmienia; loader podmienia klasę menedżera kamery – tak właśnie działa.
