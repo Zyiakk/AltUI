@@ -45,6 +45,8 @@ Deinstallation: die kopierten Dateien löschen. Die eigenen Speicherdateien des 
 * **Frisur** – alle Frisuren, Haarfarbe, 14 natürliche Haarfarben, Werkseinstellung.
 * **Aussehen** – Haut, jeder Makeup-Typ, Augen, Aussehen-Vorlagen mit Symbolen.
 * **Körperform** – Regler für Brust / Taille, ein Umschalter für installierte Body-Mods und – bei konvertierten Bodies – Bone-Regler: Skalierung, Busen, Taille extra, Po/Hüfte, Oberschenkel, Waden, Arme, Hände, Füße, je Body gespeichert.
+* **Waffen** – je Waffe ein Modell und ein Skin, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel.
+* **Posen** – jede Aktionsanimation des Spiels und der Pose-Mods, sortiert nach stehend, sitzend und liegend.
 * **Optionen** – Taste für das Panel, Sprache, Scroll-Geschwindigkeit, Kachelgröße, Länge der Gruppennamen und Höhe der Gruppenzeile, freier Bildschirmanteil für Jodi, Kamera-FOV / -Abstand / -Schwenk, Farbschema und Deckkraft, „Unterwäsche darf ausgezogen werden“, „Nicht im Besitz“ gesperrt / ausgegraut / wie im Besitz, Slot-Konflikte des Spiels (BH vs. Shirt …) freigeben, gleichnamige Gruppen / Mods zusammenlegen, Tooltip-Optionen.
 * **Verwaltung** – eigene Anzeigenamen für Mods, Gruppen, Teile, Frisuren, Haut und Makeup – überall im Panel und in der Suche; „Umbenennen…“ im Kontextmenü jeder Kachel; als JSON exportier-/importierbar mit `altui_names.pyz`.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips zeigen, aus welchem Mod ein Teil stammt.
@@ -68,6 +70,18 @@ python bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title SomeBody
 Das erzeugte *Body_Some.pak* nach *TheKillingAntidote\Mods\* kopieren und den ursprünglichen Replacer entfernen (oder in *~mods* lassen – er wird dann zum Chip „Standard“).
 
 Schritt-für-Schritt-Anleitung mit je einem Beispiel für Windows und Linux (englisch): [BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
+
+## Waffen-Mods
+
+Waffen-Mods ersetzen je Waffe dieselben Spieldateien, deshalb schließen sich zwei für dieselbe Waffe gegenseitig aus, und im Spiel lässt sich nicht zwischen ihnen wechseln. **weaponpak.pyz** (im Archiv; Python 3.8+, keine Pakete) macht aus so einem Replacer ein eigenes Mod-Pak; beliebig viele davon können nebeneinander installiert sein, und Modell und Skin werden im Reiter Waffen je Waffe gewählt und gemerkt.
+
+```
+python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
+```
+
+*--name* wird Teil des Dateinamens (Buchstaben, Ziffern und _), *--title* ist der Text auf dem Chip, und *--weapon* braucht es nur, wenn der Ordnername der Mod nicht verrät, für welche Waffe sie ist. Ein Pak kann einen Skin, ein Modell oder beides mitbringen. Das erzeugte *WeaponAltUI_SomeGun.pak* nach *TheKillingAntidote\Mods\* kopieren und den ursprünglichen Replacer entfernen – sonst überschreibt er die Waffe weiter, egal was im Panel gewählt ist.
+
+Schritt-für-Schritt-Anleitung mit je einem Beispiel für Windows und Linux (englisch): [WEAPON_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/WEAPON_MODS.md)
 
 ## Kompatibilität
 

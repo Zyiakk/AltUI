@@ -45,6 +45,8 @@ hook 会替换游戏自身的一个蓝图（玩家相机管理器）并从那里
 * **发型** – 全部发型、发色、14 种自然发色预设，恢复默认。
 * **外观** – 肌肤、每种妆容类型、眼睛、带图标的外观预设。
 * **身材** – 胸部 / 腰滑块、已安装身体模组的切换器，以及（针对已转换的身体）骨骼缩放滑块：整体缩放、胸围、腰部加强、臀部、大腿、小腿、手臂、手、脚，按身体分别保存。
+* **武器** —— 每把武器各选一个模型和一个皮肤，来自所有武器模组并列显示，每格带渲染图。
+* **姿势** —— 游戏与姿势模组的所有动作动画，按站、坐、躺归类。
 * **选项** – 面板按键、语言、滚动速度、图块大小、分组名称长度与分组行高度、为 Jodi 留出的屏幕空间、相机视野 / 距离 / 跟随、配色与不透明度、「允许脱下内衣」、「未拥有的物品」锁定 / 变灰 / 视为已拥有、解除游戏的部位冲突（文胸与衬衫等）、合并同名分组 / 模组、提示选项。
 * **管理** – 为模组、分组、服装、发型、肌肤和妆容设置自己的显示名称——在面板各处和搜索中生效；每个图块的右键菜单有「重命名…」；可用 `altui_names.pyz` 导出 / 导入为 JSON。
 * 撤销 / 重做（5 步），提示框显示物品来自哪个模组。
@@ -68,6 +70,18 @@ python bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title SomeBody
 把生成的 *Body_Some.pak* 复制到 *TheKillingAntidote\Mods\*，并移除原来的替换版（或留在 *~mods* 里——它就会变成「标准」芯片）。
 
 分步教程，含 Windows 和 Linux 示例（英文）：[BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
+
+## 武器模组
+
+武器模组会覆盖每把武器的同一组游戏文件，所以同一把武器的两个模组互相排斥，游戏里也无法在它们之间切换。**weaponpak.pyz**（在压缩包里；Python 3.8+，无需额外包）可以把这样的替换版变成独立的模组 pak；这样的 pak 可以并存任意多个，在「武器」标签页里为每把武器选择模型和皮肤，并会被记住。
+
+```
+python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
+```
+
+*--name* 会成为文件名的一部分（字母、数字和 _），*--title* 是芯片上的文字，只有当模组的文件夹名看不出是哪把武器时才需要 *--weapon*。一个 pak 可以带皮肤、模型或两者都有。把生成的 *WeaponAltUI_SomeGun.pak* 复制到 *TheKillingAntidote\Mods\*，并移除原来的替换版——否则无论在面板里选什么，它都会继续覆盖这把武器。
+
+分步教程，含 Windows 和 Linux 示例（英文）：[WEAPON_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/WEAPON_MODS.md)
 
 ## 兼容性
 

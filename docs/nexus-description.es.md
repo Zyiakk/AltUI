@@ -45,6 +45,8 @@ Para desinstalar: borra los archivos que copiaste. Los guardados propios del mod
 * **Peinado** – todos los peinados, color de pelo, 14 colores de pelo naturales, valores de fábrica.
 * **Apariencia** – piel, todos los tipos de maquillaje, ojos, apariencias predefinidas con iconos.
 * **Curvas** – deslizadores de pecho / cintura, un selector de los mods de cuerpo instalados y – para cuerpos convertidos – deslizadores de escala de huesos: escala, busto, cintura extra, glúteos/caderas, muslos, pantorrillas, brazos, manos, pies, guardados por cuerpo.
+* **Armas** – un modelo y un skin por arma, juntos de todos los mods de armas, con una imagen renderizada en cada casilla.
+* **Poses** – todas las animaciones de acción del juego y de los mods de poses, ordenadas en de pie, sentada y tumbada.
 * **Opciones** – tecla del panel, idioma, velocidad de desplazamiento, tamaño de las casillas, longitud de los nombres de grupo y altura de la fila de grupos, parte de la pantalla reservada para Jodi, FOV / distancia / seguimiento de la cámara, esquema de colores y opacidad, «se puede quitar la ropa interior», «objetos no poseídos» bloqueado / atenuado / como poseído, liberar los conflictos de ranura del juego (sujetador y camisa …), fusionar grupos / mods con el mismo nombre, opciones de tooltips.
 * **Gestión** – tus propios nombres para mods, grupos, prendas, peinados, piel y maquillaje – en todo el panel y en la búsqueda; «Renombrar…» en el menú contextual de cada casilla; exportables / importables como JSON con `altui_names.pyz`.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
@@ -68,6 +70,18 @@ python bodypak.pyz SomeBodyReplacer.pak --name Body_Some --title SomeBody
 Copia el *Body_Some.pak* resultante en *TheKillingAntidote\Mods\* y quita el sustituto original (o déjalo en *~mods* – entonces se convierte en el chip «Estándar»).
 
 Guía paso a paso con un ejemplo para Windows y otro para Linux (en inglés): [BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
+
+## Mods de armas
+
+Los mods de armas sustituyen los mismos archivos del juego para cada arma, así que dos para la misma arma se excluyen y en el juego no hay forma de cambiar entre ellos. **weaponpak.pyz** (en el archivo; Python 3.8+, sin paquetes) transforma un sustituto así en su propio pak de mod; se pueden instalar tantos como quieras, uno junto a otro, y el modelo y el skin de cada arma se eligen en la pestaña Armas y se recuerdan.
+
+```
+python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
+```
+
+*--name* pasa a formar parte del nombre del archivo (letras, cifras y _), *--title* es el texto del chip, y *--weapon* solo hace falta cuando el nombre de la carpeta del mod no dice para qué arma es. Un pak puede traer un skin, un modelo o ambos. Copia el *WeaponAltUI_SomeGun.pak* resultante en *TheKillingAntidote\Mods\* y quita el sustituto original; si no, sigue sobrescribiendo el arma, elijas lo que elijas en el panel.
+
+Guía paso a paso con un ejemplo para Windows y otro para Linux (en inglés): [WEAPON_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/WEAPON_MODS.md)
 
 ## Compatibilidad
 
