@@ -1,6 +1,6 @@
 # AltUI – panel szafy i wyglądu
 
-Polska wersja opisu [wpisu w Warsztacie Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3802875867). Wiążący jest angielski oryginał na stronie Warsztatu.
+Polska wersja opisu [wpisu w Warsztacie Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3802875867). Wiążąca jest [wersja angielska](description.en.md); sama strona Warsztatu pokazuje wersję skróconą.
 
 Szafa w grze daje każdemu autorowi moda własną zakładkę. Przy kilku modach z ubraniami ten sam rodzaj rzeczy jest rozrzucony po kilkunastu zakładkach i nie da się niczego wyszukać. AltUI porządkuje każdą rzecz z gry i ze wszystkich zainstalowanych modów w **jedną listę na slot** (góra, spódnice, obuwie, …), z wyszukiwaniem, filtrami, ulubionymi i ukrywaniem – a fryzurę, makijaż, ciało i stroje wciąga do tego samego panelu. Otwiera się wszędzie w poziomie klawiszem **B**; koniec z chodzeniem do szafy i do lustra.
 
@@ -39,11 +39,13 @@ Hook podmienia *TKA_PlayerCameraManager* i stamtąd uruchamia panel. Każdy mod,
 ## Co potrafi
 
 * **Ubrania** – każda rzecz z gry i z twoich modów, jedna lista na slot, z wyszukiwaniem, filtrami, ulubionymi i ukrywaniem.
-* **Zestawy · Looki** – gotowe zestawy gry z nazwami oraz pełne looki (ubrania z kolorami, fryzura, makijaż, oczy, skóra, ciało) ze zdjęciem z gry.
+* **Zestawy · Looki** – gotowe zestawy gry z nazwami oraz pełne looki (ubrania z kolorami, fryzura, makijaż, oczy, skóra, ciało, twarz) ze zdjęciem z gry.
 * **Plecak · Fryzury · Wygląd** – co Jodi nosi i ma przy sobie; fryzury i kolory włosów; skóra, makijaż i oczy, każde do podbarwienia.
 * **Sylwetka** – suwaki biustu i talii, przełącznik przekonwertowanych modów ciała, suwaki kości dla każdego ciała.
+* **Twarz** – mimika, spojrzenie i usta Jodi jako suwaki; twarz trzyma się także w pozach i podczas tańca.
 * **Bronie** – model i skin na broń, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
+* **Mods** – ustawienia innych modów, które się tam rejestrują: przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, wiersze informacyjne, klawisze i przyciski. Widoczna tylko, gdy taki mod jest zainstalowany.
 * **Opcje · Zarządzanie** – klawisz, język, kolory, wielkość kafelków; własne nazwy modów, grup i przedmiotów.
 * Cofnij / ponów (5 kroków), dymki z nazwą moda, z którego pochodzi dana rzecz.
 
@@ -66,7 +68,7 @@ Instrukcja krok po kroku z przykładem dla Windowsa i dla Linuksa (po angielsku)
 
 To, co uruchamia panel, jest celowo oddzielone od samego panelu: wszystko, co mod potrafi, siedzi w paku z Warsztatu. Gdy więc ten wpis zaktualizuje się przez Steam, **plik w *~mods* zwykle działa dalej – nie musisz go ruszać**.
 
-Sam Blueprint Loader niczego nie potrzebuje: jest osobnym modem i aktualizuje się na własnej stronie. Stary AltUI_Hook_P.pak nie może jednak zostać w ~mods. To ten plik przejmuje klasę menedżera kamery, a wersja sprzed 1.5.0 nie uruchamia loadera – wtedy panel się otworzy, ale widok nie odsunie się na bok, a mody zrobione pod loader nie wystartują. Usuń go albo zastąp aktualnym.
+Sam Blueprint Loader niczego nie potrzebuje: jest osobnym modem i aktualizuje się na własnej stronie. AltUI_Hook_P.pak sprzed 1.5.0 nie może zostać w ~mods (zob. uwagę w sekcji Instalacja): usuń go albo zastąp aktualnym.
 
 Żadne zasoby gry nie są dołączone; wszystko w paku jest generowane.
 

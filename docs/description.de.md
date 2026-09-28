@@ -1,6 +1,6 @@
 # AltUI – Garderobe- und Aussehen-Panel
 
-Deutsche Fassung der Beschreibung des [Steam-Workshop-Eintrags](https://steamcommunity.com/sharedfiles/filedetails/?id=3802875867). Maßgeblich ist das englische Original auf der Workshop-Seite.
+Deutsche Fassung der Beschreibung des [Steam-Workshop-Eintrags](https://steamcommunity.com/sharedfiles/filedetails/?id=3802875867). Maßgeblich ist die [englische Fassung](description.en.md); die Workshop-Seite selbst zeigt eine Kurzfassung.
 
 Die Garderobe des Spiels gibt jedem Mod-Autor einen eigenen Reiter. Mit ein paar Kleidungs-Mods ist dieselbe Art von Teil über ein Dutzend Reiter verstreut, und suchen kann man nicht. AltUI sortiert jedes Teil aus dem Spiel und aus allen installierten Mods in **eine Liste pro Slot** (Oberteile, Röcke, Schuhe, …), mit Suche, Filtern, Favoriten und Ausblenden – und holt Frisur, Makeup, Körper und Outfits in dasselbe Panel. Es öffnet sich überall im Level mit **B**; kein Weg mehr zur Garderobe oder zum Spiegel.
 
@@ -39,11 +39,13 @@ Der Hook ersetzt *TKA_PlayerCameraManager* und startet von dort das Panel. Jeder
 ## Was es kann
 
 * **Kleidung** – jedes Teil des Spiels und deiner Mods, eine Liste je Slot, mit Suche, Filtern, Favoriten und Ausblenden.
-* **Outfits · Looks** – die Vorlagen des Spiels mit Namen, und komplette Looks (Kleidung samt Farben, Frisur, Makeup, Augen, Haut, Körper) mit Foto aus dem Spiel.
+* **Outfits · Looks** – die Vorlagen des Spiels mit Namen, und komplette Looks (Kleidung samt Farben, Frisur, Makeup, Augen, Haut, Körper, Gesicht) mit Foto aus dem Spiel.
 * **Rucksack · Frisuren · Aussehen** – was Jodi trägt und dabeihat; Frisuren und Haarfarben; Haut, Makeup und Augen, jeweils einfärbbar.
 * **Körperform** – Brust- und Taillenregler, Umschalter für konvertierte Body-Mods, Knochenregler je Körper.
+* **Gesicht** – Jodis Ausdruck, Blick und Mund als Regler; das Gesicht hält auch in Posen und beim Tanzen.
 * **Waffen** – je Waffe ein Modell und ein Skin, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel.
 * **Posen** – jede Aktionsanimation des Spiels und der Pose-Mods, sortiert nach stehend, sitzend und liegend.
+* **Mods** – die Einstellungen anderer Mods, die sich dort eintragen: Schalter, Schieberegler, Zahlen, Auswahlen, Farben, Textfelder, Info-Zeilen, Tasten und Buttons. Nur sichtbar, wenn so ein Mod installiert ist.
 * **Optionen · Verwaltung** – Taste, Sprache, Farben, Kachelgröße; eigene Anzeigenamen für Mods, Gruppen und Teile.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips mit dem Mod, aus dem ein Teil stammt.
 
@@ -66,7 +68,7 @@ Schritt-für-Schritt-Anleitung mit je einem Beispiel für Windows und Linux (eng
 
 Was das Panel startet, ist absichtlich vom Panel selbst getrennt: alles, was der Mod kann, steckt im Workshop-Pak. Wenn dieser Eintrag also über Steam aktualisiert wird, **funktioniert die Datei in *~mods* normalerweise weiter – du musst sie nicht anfassen**.
 
-Der Blueprint Loader selbst braucht nichts: Er ist ein eigener Mod und wird auf seiner eigenen Seite aktualisiert. Eine alte AltUI_Hook_P.pak darf aber nicht in ~mods liegen bleiben. Sie ist die Datei, die die Kameraklasse beansprucht, und eine von vor 1.5.0 startet den Loader nicht – dann öffnet das Panel, ohne dass die Ansicht zur Seite rückt, und jeder Mod, der für den Loader gebaut ist, bleibt tot. Also löschen oder durch die aktuelle ersetzen.
+Der Blueprint Loader selbst braucht nichts: Er ist ein eigener Mod und wird auf seiner eigenen Seite aktualisiert. Eine AltUI_Hook_P.pak von vor 1.5.0 darf nicht in ~mods liegen bleiben (siehe den Hinweis unter Installation): löschen oder durch die aktuelle ersetzen.
 
 Es sind keine Spiel-Assets enthalten; alles im Pak ist generiert.
 

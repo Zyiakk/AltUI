@@ -32,8 +32,8 @@ class Example(unittest.TestCase):
     def test_actor_implements_the_interface(self):
         bp = assets()[MOD + "/BP_AltUIModExample"]
         self.assertEqual(bp.get("interfaces"), [mu.INTERFACE])
-        for f in (mu.GET_VALUE, mu.GET_COLOR, mu.GET_TEXT): self.assertIn(f, [x["name"] for x in bp["functions"]])
-        for e in (mu.ON_CHANGED, mu.ON_COLOR, mu.ON_TEXT):
+        for f in (mu.GET_VALUE, mu.GET_COLOR, mu.GET_TEXT, mu.GET_KEY): self.assertIn(f, [x["name"] for x in bp["functions"]])
+        for e in (mu.ON_CHANGED, mu.ON_COLOR, mu.ON_TEXT, mu.ON_KEY):
             ev = [n for n in bp["event_graph"]["nodes"] if n.get("kind") == "event" and n.get("name") == e]
             self.assertEqual(len(ev), 1, e)
         entry = assets()[MOD + "/AltUI_Entries"]["rows"]
@@ -48,7 +48,7 @@ class Example(unittest.TestCase):
         save = [f for f in bp["functions"] if f["name"] == "Save"][0]["graph"]
         self.assertIn("SaveGameToSlot", [n.get("function") for n in save["nodes"]])
         saves = [n for n in eg["nodes"] if n.get("kind") == "call_self" and n.get("function") == "Save"]
-        self.assertEqual(len(saves), 3, "number, colour and text changes each save")
+        self.assertEqual(len(saves), 5, "number, colour, text and key changes each save, and so does the light key pressed in the game")
 
     def test_started_by_the_loader_and_nothing_of_altui_inside(self):
         a = assets()

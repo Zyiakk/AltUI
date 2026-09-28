@@ -1,6 +1,6 @@
 # AltUI – panel de vestuario y apariencia
 
-Versión en español de la descripción de la [página del Workshop de Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3802875867). El original en inglés de la página del Workshop es el que manda.
+Versión en español de la descripción de la [página del Workshop de Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3802875867). La que manda es la [versión en inglés](description.en.md); la página del Workshop muestra una versión corta.
 
 El vestuario del juego da a cada autor de mods su propia pestaña, así que con unos cuantos mods de ropa instalados el mismo tipo de prenda queda repartido por una docena de pestañas y no hay forma de buscar. AltUI ordena cada prenda del juego y de todos los mods instalados en **una lista por ranura** (tops, faldas, zapatos, …), con búsqueda, filtros, favoritos y ocultación – y mete peinado, maquillaje, cuerpo y conjuntos en el mismo panel. Se abre en cualquier punto de un nivel con **B**; no hace falta ir al vestuario ni al espejo.
 
@@ -39,11 +39,13 @@ El hook sustituye *TKA_PlayerCameraManager* y lanza el panel desde ahí. Cualqui
 ## Qué hace
 
 * **Ropa** – cada prenda del juego y de tus mods, una lista por ranura, con búsqueda, filtros, favoritos y ocultación.
-* **Conjuntos · Looks** – los ajustes del juego con nombres, y looks completos (ropa con colores, pelo, maquillaje, ojos, piel, cuerpo) guardados con una foto del juego.
+* **Conjuntos · Looks** – los ajustes del juego con nombres, y looks completos (ropa con colores, pelo, maquillaje, ojos, piel, cuerpo, rostro) guardados con una foto del juego.
 * **Mochila · Peinados · Aspecto** – lo que Jodi lleva puesto y encima; peinados y colores de pelo; piel, maquillaje y ojos, todos coloreables.
 * **Figura** – deslizadores de pecho y cintura, selector de cuerpos convertidos y deslizadores de huesos por cuerpo.
+* **Rostro** – la expresión, la mirada y la boca de Jodi como deslizadores; el rostro se mantiene también en poses y al bailar.
 * **Armas** – un modelo y un skin por arma, juntos de todos los mods de armas, con una imagen renderizada en cada casilla.
 * **Poses** – todas las animaciones de acción del juego y de los mods de poses, ordenadas en de pie, sentada y tumbada.
+* **Mods** – los ajustes de otros mods que se registran allí: interruptores, deslizadores, números, opciones, colores, campos de texto, líneas de información, teclas y botones. Solo visible si hay un mod así instalado.
 * **Opciones · Gestión** – tecla, idioma, colores, tamaño de casilla; tus propios nombres para mods, grupos y prendas.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
@@ -66,7 +68,7 @@ Guía paso a paso con un ejemplo para Windows y otro para Linux (en inglés): [B
 
 Lo que lanza el panel está separado a propósito del panel en sí: todo lo que hace el mod vive en el pak del Workshop. Así que cuando este elemento se actualiza por Steam, **el archivo que pusiste en *~mods* normalmente sigue funcionando – no hace falta tocarlo**.
 
-El Blueprint Loader en sí no necesita nada: es un mod aparte y se actualiza en su propia página. Pero un AltUI_Hook_P.pak antiguo no puede quedarse en ~mods. Es el archivo que se queda con la clase del gestor de cámara, y uno anterior a 1.5.0 no lanza el cargador – entonces el panel se abre sin que la vista se aparte, y los mods hechos para el cargador no arrancan. Bórralo o sustitúyelo por el actual.
+El Blueprint Loader en sí no necesita nada: es un mod aparte y se actualiza en su propia página. Un AltUI_Hook_P.pak anterior a 1.5.0 no puede quedarse en ~mods (ver la nota en Instalación): bórralo o sustitúyelo por el actual.
 
 No se incluye ningún recurso del juego; todo lo que hay en el pak está generado.
 

@@ -34,17 +34,18 @@ El hook sustituye uno de los blueprints del propio juego (el gestor de cámara d
 
 El encuadre de cámara junto al panel abierto ya no depende del hook – se engancha al gestor de cámara que tenga el nivel, incluido el del propio juego.
 
-Para desinstalar: borra los archivos que copiaste. Los guardados propios del mod (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Names.sav*, las fotos de looks en *Saved\SaveGames\AltUI\* y las imágenes de armas en *Saved\SaveGames\WeaponIcons\*) también se pueden borrar; no se toca nada más – ropa, conjuntos, maquillaje y peinado se escriben a través de los guardados del propio juego.
+Para desinstalar: borra los archivos que copiaste. Los guardados propios del mod (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Faces.sav*, *AltUI_Names.sav*, las fotos de looks y rostros en *Saved\SaveGames\AltUI\* y las imágenes de armas en *Saved\SaveGames\WeaponIcons\*) también se pueden borrar; no se toca nada más – ropa, conjuntos, maquillaje y peinado se escriben a través de los guardados del propio juego.
 
 ## Qué hace
 
 * **Vestimenta** – cada prenda que conocen el juego y tus mods, agrupada por ranura, subpestañas por mod (plegables), búsqueda, filtros «solo poseídos» / «solo favoritos» / «solo vanilla», favoritos, color con la paleta del juego, restablecer color, meter en la mochila y sacar, ocultar prendas.
 * **Conjuntos** – los conjuntos predefinidos del juego, con nombre (clic derecho → renombrar).
-* **Looks** – un look completo (ropa con colores, peinado y su color, maquillaje, ojos, piel, deslizadores del cuerpo, mod de cuerpo) guardado con una foto de cuerpo entero hecha en el juego. Aplicar, actualizar, renombrar, borrar.
+* **Looks** – un look completo (ropa con colores, peinado y su color, maquillaje, ojos, piel, deslizadores del cuerpo, mod de cuerpo, rostro) guardado con una foto de cuerpo entero hecha en el juego, de frente o tal como la ves. Aplicar, actualizar, renombrar, borrar.
 * **Mochila** – lo que Jodi lleva puesto y encima: ponerse, quitarse, reparar, devolver al vestuario, ordenar.
 * **Peinado** – todos los peinados, color de pelo, 14 colores de pelo naturales, valores de fábrica.
-* **Apariencia** – piel, todos los tipos de maquillaje, ojos, apariencias predefinidas con iconos.
+* **Apariencia** – piel, todos los tipos de maquillaje, ojos, apariencias predefinidas con iconos (guardar, actualizar, borrar).
 * **Curvas** – deslizadores de pecho / cintura, un selector de los mods de cuerpo instalados y – para cuerpos convertidos – deslizadores de escala de huesos: escala, busto, cintura extra, glúteos/caderas, muslos, pantorrillas, brazos, manos, pies, guardados por cuerpo.
+* **Rostro** – la expresión facial de Jodi: las expresiones del juego, la dirección de la mirada y las formas de la boca como deslizadores; una entrada marcada mantiene su valor, también en poses y al bailar, una sin marcar queda en manos del juego. Rostros guardados con foto.
 * **Armas** – un modelo y un skin por arma, juntos de todos los mods de armas, con una imagen renderizada en cada casilla.
 * **Poses** – todas las animaciones de acción del juego y de los mods de poses, ordenadas en de pie, sentada y tumbada.
 * **Mods** – los ajustes de otros mods que se registran allí (solo visible si hay un mod así instalado).
@@ -86,7 +87,7 @@ Guía paso a paso con un ejemplo para Windows y otro para Linux (en inglés): [W
 
 ## Ajustes de otros mods
 
-Los mods que se manejan dentro del juego – una lámpara, por ejemplo – pueden poner sus ajustes en AltUI en lugar de ocupar teclas propias. Una pestaña **Mods** los muestra entonces con interruptores, deslizadores, números, opciones, colores, campos de texto, líneas de información y botones al estilo de AltUI. La pestaña solo aparece cuando hay un mod así instalado.
+Los mods que se manejan dentro del juego – una lámpara, por ejemplo – pueden poner sus ajustes en AltUI en lugar de ocupar teclas propias. Una pestaña **Mods** los muestra entonces con interruptores, deslizadores, números, opciones, colores, campos de texto, líneas de información, teclas y botones al estilo de AltUI. La pestaña solo aparece cuando hay un mod así instalado.
 
 Para autores de mods (en inglés): [MOD_UI.md](https://github.com/Zyiakk/AltUI/blob/main/MOD_UI.md) describe las dos tablas de datos y la interfaz que necesita un mod; un mod de ejemplo terminado, para instalar y reconstruir, está en [examples/AltUIMod_Example](https://github.com/Zyiakk/AltUI/tree/main/examples/AltUIMod_Example).
 

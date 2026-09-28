@@ -34,17 +34,18 @@ Hook podmienia jeden z blueprintów gry (menedżera kamery gracza) i stamtąd ur
 
 Kadrowanie kamery obok otwartego panelu nie zależy już od hooka – podpina się do menedżera kamery, który poziom ma i tak, również do tego z gry.
 
-Odinstalowanie: usuń skopiowane pliki. Własne zapisy moda (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Names.sav*, zdjęcia stylizacji w *Saved\SaveGames\AltUI\* i obrazki broni w *Saved\SaveGames\WeaponIcons\*) też możesz usunąć; poza tym nic nie jest ruszane – ubrania, stroje, makijaż i fryzura idą przez zapisy samej gry.
+Odinstalowanie: usuń skopiowane pliki. Własne zapisy moda (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Faces.sav*, *AltUI_Names.sav*, zdjęcia stylizacji i twarzy w *Saved\SaveGames\AltUI\* i obrazki broni w *Saved\SaveGames\WeaponIcons\*) też możesz usunąć; poza tym nic nie jest ruszane – ubrania, stroje, makijaż i fryzura idą przez zapisy samej gry.
 
 ## Co potrafi
 
 * **Ubrania** – każda rzecz, którą znają gra i mody, pogrupowana po slotach, podzakładki na mod (zwijane), wyszukiwanie, filtry „tylko posiadane” / „tylko ulubione” / „tylko vanilla”, ulubione, kolor z palety gry, reset koloru, do plecaka i z powrotem, ukrywanie rzeczy.
 * **Stroje** – gotowe stroje gry, z nazwami (prawy przycisk → zmień nazwę).
-* **Stylizacje** – kompletna stylizacja (ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, suwaki ciała, mod ciała) zapisana ze zdjęciem całej sylwetki z gry. Zastosuj, zaktualizuj, zmień nazwę, usuń.
+* **Stylizacje** – kompletna stylizacja (ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, suwaki ciała, mod ciała, twarz) zapisana ze zdjęciem całej sylwetki z gry, z przodu albo tak, jak ją właśnie widzisz. Zastosuj, zaktualizuj, zmień nazwę, usuń.
 * **Plecak** – co Jodi nosi i ma przy sobie: załóż, zdejmij, napraw, z powrotem do szafy, uporządkuj.
 * **Fryzura** – wszystkie fryzury, kolor włosów, 14 naturalnych kolorów włosów, ustawienia fabryczne.
-* **Wygląd** – skóra, każdy typ makijażu, oczy, gotowe wyglądy z ikonami.
+* **Wygląd** – skóra, każdy typ makijażu, oczy, gotowe wyglądy z ikonami (zapisz, zaktualizuj, usuń).
 * **Kształt ciała** – suwaki piersi / talii, przełącznik zainstalowanych modów ciała oraz – przy przekonwertowanych ciałach – suwaki kości: skala, biust, talia extra, pośladki/biodra, uda, łydki, ramiona, dłonie, stopy, zapisywane osobno dla każdego ciała.
+* **Twarz** – wyraz twarzy Jodi: miny z gry, kierunek spojrzenia i kształty ust jako suwaki; zaznaczony wpis zachowuje swoją wartość, także w pozach i podczas tańca, niezaznaczony zostaje przy grze. Zapisane twarze ze zdjęciem.
 * **Bronie** – model i skin na broń, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
 * **Mods** – ustawienia innych modów, które się tam rejestrują (widoczna tylko, gdy taki mod jest zainstalowany).
@@ -86,7 +87,7 @@ Instrukcja krok po kroku z przykładem dla Windowsa i dla Linuksa (po angielsku)
 
 ## Ustawienia innych modów
 
-Mody obsługiwane w grze – na przykład lampa – mogą umieścić swoje ustawienia w AltUI zamiast zajmować własne klawisze. Zakładka **Mods** wyświetla je wtedy z przełącznikami, suwakami, liczbami, wyborami, kolorami, polami tekstowymi, wierszami informacyjnymi i przyciskami w stylu AltUI. Zakładka pojawia się tylko wtedy, gdy taki mod jest zainstalowany.
+Mody obsługiwane w grze – na przykład lampa – mogą umieścić swoje ustawienia w AltUI zamiast zajmować własne klawisze. Zakładka **Mods** wyświetla je wtedy z przełącznikami, suwakami, liczbami, wyborami, kolorami, polami tekstowymi, wierszami informacyjnymi, klawiszami i przyciskami w stylu AltUI. Zakładka pojawia się tylko wtedy, gdy taki mod jest zainstalowany.
 
 Dla autorów modów (po angielsku): [MOD_UI.md](https://github.com/Zyiakk/AltUI/blob/main/MOD_UI.md) opisuje dwie tabele danych i interfejs, których potrzebuje mod; gotowy przykładowy mod do zainstalowania i odtworzenia jest w [examples/AltUIMod_Example](https://github.com/Zyiakk/AltUI/tree/main/examples/AltUIMod_Example).
 

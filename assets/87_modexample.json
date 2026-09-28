@@ -34,6 +34,11 @@
     {
      "name": "Note",
      "type": "string"
+    },
+    {
+     "name": "LightKey",
+     "type": "struct:/Script/InputCore.Key",
+     "default": "L"
     }
    ]
   },
@@ -78,6 +83,11 @@
     {
      "name": "Note",
      "type": "string"
+    },
+    {
+     "name": "LightKey",
+     "type": "struct:/Script/InputCore.Key",
+     "default": "L"
     }
    ],
    "functions": [
@@ -392,6 +402,30 @@
        [
         "out.ReturnValue",
         "return.Text"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Get AltUI Key",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "LightKey"
+       }
+      ],
+      "links": [
+       [
+        "gk.LightKey",
+        "return.Pressed"
        ]
       ],
       "exec": [
@@ -719,6 +753,21 @@
         }
        },
        {
+        "id": "gLightKey",
+        "kind": "get",
+        "var": "LightKey"
+       },
+       {
+        "id": "sLightKey",
+        "kind": "set",
+        "var": "LightKey",
+        "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
+        "in": {
+         "self": "@cmk.AsSG_ExampleLamp",
+         "LightKey": "@gLightKey.LightKey"
+        }
+       },
+       {
         "id": "sv",
         "kind": "call",
         "class": "/Script/Engine.GameplayStatics",
@@ -742,6 +791,7 @@
         "sHeight",
         "sCustomColor",
         "sNote",
+        "sLightKey",
         "sv"
        ]
       ]
@@ -878,6 +928,122 @@
       }
      },
      {
+      "id": "lgLightKey",
+      "kind": "get",
+      "var": "LightKey",
+      "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp"
+     },
+     {
+      "id": "lsLightKey",
+      "kind": "set",
+      "var": "LightKey",
+      "in": {
+       "LightKey": "@lgLightKey.LightKey"
+      }
+     },
+     {
+      "id": "pcn",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "GetPlayerController",
+      "in": {
+       "PlayerIndex": "0"
+      }
+     },
+     {
+      "id": "me",
+      "kind": "self"
+     },
+     {
+      "id": "ein",
+      "kind": "call",
+      "class": "/Script/Engine.Actor",
+      "function": "EnableInput",
+      "in": {
+       "self": "@me.self",
+       "PlayerController": "@pcn.ReturnValue"
+      }
+     },
+     {
+      "id": "ak",
+      "kind": "input_key",
+      "key": "AnyKey",
+      "consume": false
+     },
+     {
+      "id": "glk",
+      "kind": "get",
+      "var": "LightKey"
+     },
+     {
+      "id": "kv",
+      "kind": "call",
+      "class": "/Script/Engine.KismetInputLibrary",
+      "function": "Key_IsValid",
+      "in": {
+       "Key": "@glk.LightKey"
+      }
+     },
+     {
+      "id": "ke",
+      "kind": "call",
+      "class": "/Script/Engine.KismetInputLibrary",
+      "function": "EqualEqual_KeyKey",
+      "in": {
+       "A": "@ak.Key",
+       "B": "@glk.LightKey"
+      }
+     },
+     {
+      "id": "kok",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "BooleanAND",
+      "in": {
+       "A": "@kv.ReturnValue",
+       "B": "@ke.ReturnValue"
+      }
+     },
+     {
+      "id": "bk",
+      "kind": "branch",
+      "in": {
+       "Condition": "@kok.ReturnValue"
+      }
+     },
+     {
+      "id": "gon",
+      "kind": "get",
+      "var": "LightOn"
+     },
+     {
+      "id": "non",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Not_PreBool",
+      "in": {
+       "A": "@gon.LightOn"
+      }
+     },
+     {
+      "id": "son",
+      "kind": "set",
+      "var": "LightOn",
+      "in": {
+       "LightOn": "@non.ReturnValue"
+      }
+     },
+     {
+      "id": "apk",
+      "kind": "call_self",
+      "function": "Apply"
+     },
+     {
+      "id": "svk",
+      "kind": "call_self",
+      "function": "Save"
+     },
+     {
       "id": "tk",
       "kind": "event",
       "class": "/Script/Engine.Actor",
@@ -954,6 +1120,22 @@
       "var": "Light",
       "in": {
        "Light": "@sp.ReturnValue"
+      }
+     },
+     {
+      "id": "gmc",
+      "kind": "get",
+      "var": "PointLightComponent",
+      "class": "/Script/Engine.PointLight"
+     },
+     {
+      "id": "mov",
+      "kind": "call",
+      "class": "/Script/Engine.SceneComponent",
+      "function": "SetMobility",
+      "in": {
+       "self": "@gmc.PointLightComponent",
+       "NewMobility": "Movable"
       }
      },
      {
@@ -1167,6 +1349,14 @@
       }
      },
      {
+      "id": "rLightKey",
+      "kind": "set",
+      "var": "LightKey",
+      "in": {
+       "LightKey": "L"
+      }
+     },
+     {
       "id": "ap2",
       "kind": "call_self",
       "function": "Apply"
@@ -1226,6 +1416,25 @@
       "id": "sv4",
       "kind": "call_self",
       "function": "Save"
+     },
+     {
+      "id": "ock",
+      "kind": "event",
+      "class": "/Game/Mod/AltUI/BPI_AltUIMod.BPI_AltUIMod_C",
+      "name": "On AltUI Key Changed"
+     },
+     {
+      "id": "slk",
+      "kind": "set",
+      "var": "LightKey",
+      "in": {
+       "LightKey": "@ock.Pressed"
+      }
+     },
+     {
+      "id": "sv5",
+      "kind": "call_self",
+      "function": "Save"
      }
     ],
     "links": [
@@ -1252,6 +1461,14 @@
      [
       "csg.AsSG_ExampleLamp",
       "lgNote.self"
+     ],
+     [
+      "csg.AsSG_ExampleLamp",
+      "lgLightKey.self"
+     ],
+     [
+      "sp.ReturnValue",
+      "gmc.self"
      ]
     ],
     "exec": [
@@ -1266,7 +1483,24 @@
       "lsColour",
       "lsHeight",
       "lsCustomColor",
-      "lsNote"
+      "lsNote",
+      "lsLightKey",
+      "ein"
+     ],
+     [
+      "bex:else",
+      "ein"
+     ],
+     [
+      "csg:CastFailed",
+      "ein"
+     ],
+     [
+      "ak",
+      "bk",
+      "son",
+      "apk",
+      "svk"
      ],
      [
       "tk",
@@ -1277,6 +1511,7 @@
       "bp",
       "sp",
       "sl",
+      "mov",
       "at",
       "ap"
      ],
@@ -1313,6 +1548,7 @@
       "rHeight",
       "rCustomColor",
       "rNote",
+      "rLightKey",
       "ap2"
      ],
      [
@@ -1330,6 +1566,11 @@
       "oct",
       "snt",
       "sv4"
+     ],
+     [
+      "ock",
+      "slk",
+      "sv5"
      ]
     ]
    }
@@ -1374,6 +1615,13 @@
      "Label": "Light",
      "Order": 2
     },
+    "LightKey": {
+     "Entry": "Lamp",
+     "Key": "LightKey",
+     "Type": "Key",
+     "Label": "Key for on/off",
+     "Order": 3
+    },
     "Brightness": {
      "Entry": "Lamp",
      "Key": "Brightness",
@@ -1382,7 +1630,7 @@
      "Min": 0.0,
      "Max": 20000.0,
      "Step": 500.0,
-     "Order": 3
+     "Order": 4
     },
     "Height": {
      "Entry": "Lamp",
@@ -1392,7 +1640,7 @@
      "Min": -100.0,
      "Max": 200.0,
      "Step": 10.0,
-     "Order": 4
+     "Order": 5
     },
     "Colour": {
      "Entry": "Lamp",
@@ -1405,28 +1653,28 @@
       "Red",
       "Custom"
      ],
-     "Order": 5
+     "Order": 6
     },
     "CustomColor": {
      "Entry": "Lamp",
      "Key": "CustomColor",
      "Type": "Color",
      "Label": "Custom colour",
-     "Order": 6
+     "Order": 7
     },
     "Note": {
      "Entry": "Lamp",
      "Key": "Note",
      "Type": "Text",
      "Label": "Note",
-     "Order": 7
+     "Order": 8
     },
     "Reset": {
      "Entry": "Lamp",
      "Key": "Reset",
      "Type": "Button",
      "Label": "Back to the defaults",
-     "Order": 8
+     "Order": 9
     }
    }
   },

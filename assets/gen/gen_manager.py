@@ -4,6 +4,7 @@ from bpdsl import *
 import bodyscale_groups as bg
 import weapon_skins as ws
 import modui as mu
+import face as fc
 from slots import SLOTS, SLOT_GROUP, GROUPS
 
 MGR = M + "/BP_AltUIManager"
@@ -15,6 +16,7 @@ S_SNAP = M + "/S_Snapshot"
 S_COLSLOTS = M + "/S_ColorSlots"
 S_MATS = M + "/S_Mats"          # the materials a weapon component had before AltUI touched it, one per slot
 S_LOOK = M + "/S_Look"; SG_LOOKS = M + "/SG_Looks"; LOOKS_SLOT = "AltUI_Looks"
+S_PRESETCOL = M + "/S_PresetColors"   # AltUI's own eye / make-up colours of a make-up preset (the game's preset struct has no room for them)
 SG_NAMES = M + "/SG_Names"; NAMES_SLOT = "AltUI_Names"; NAMES_VERSION = 1   # custom display names: Saved/SaveGames/AltUI_Names.sav (scripts/altui_names.py exports/imports it)
 NAME_KINDS = ["mod", "group", "item", "hair", "skin", "makeup"]
 SG_LOG = M + "/SG_Log"; LOG_SLOT = "AltUI_Log"; LOG_MAX = 30000   # debug log: Saved/SaveGames/AltUI_Log.sav, one FString per line (4000 let the weapon-model chatter push the tile captures out)
@@ -838,18 +840,22 @@ def f_init_strings():
 # ---------------- Load Settings / Save Settings / Toggle Favorite ----------------
 # Persisted settings (manager variable, SG_AltUI variable, kind, default). kind: "copy" = as is; "name" = None means unset;
 # "float0" = saves before SAVE_VERSION 1 had no version and used 0 as "never set" -> default (with SaveVersion >= 1 a 0 is a real value:
-# camera distance 0 %, opacity 0 %). Both Load Settings and Save Settings are generated from this table.
-SAVE_VERSION = 1
+# camera distance 0 %, opacity 0 %). "int2" = an int whose default changed with SAVE_VERSION 2: a save from before holds the
+# old default 0, which becomes the new default once (LeftFree: "no space for Jodi" -> "one third"). Both Load Settings and
+# Save Settings are generated from this table.
+SAVE_VERSION = 2
 SETTINGS = [("Favorites", "Favorites", "copy", None), ("HiddenItems", "HiddenItems", "copy", None),
             ("CachedOnlyOwned", "OnlyOwned", "copy", None), ("CachedOnlyFav", "OnlyFav", "copy", None), ("CachedOnlyVanilla", "OnlyVanilla", "copy", None), ("CachedOnlyWorn", "OnlyWorn", "copy", None),
             ("ScrollMult", "ScrollMult", "float0", 4.0), ("TileScale", "TileScale", "float0", 1.0),
-            ("Unlimited", "Unlimited", "copy", None), ("LeftFree", "LeftFree", "copy", None), ("SubTabsCollapsed", "SubTabsCollapsed", "copy", None), ("LookOnlyFav", "LookOnlyFav", "copy", None), ("LookOnlyWorn", "LookOnlyWorn", "copy", None), ("LookChipsCollapsed", "LookChipsCollapsed", "copy", None), ("PoseChipsCollapsed", "PoseChipsCollapsed", "copy", None), ("PoseKind", "PoseKind", "copy", None), ("PoseMoving", "PoseMoving", "copy", None), ("PoseManual", "PoseManual", "copy", None), ("WeaponSkins", "WeaponSkins", "copy", None), ("WeaponModels", "WeaponModels", "copy", None), ("SkinChipsCollapsed", "SkinChipsCollapsed", "copy", None), ("GroupLen", "GroupLen", "copy", None), ("ChipH", "ChipH", "copy", None),
+            ("Unlimited", "Unlimited", "copy", None), ("LeftFree", "LeftFree", "int2", 1), ("SubTabsCollapsed", "SubTabsCollapsed", "copy", None), ("LookOnlyFav", "LookOnlyFav", "copy", None), ("LookOnlyWorn", "LookOnlyWorn", "copy", None), ("LookChipsCollapsed", "LookChipsCollapsed", "copy", None), ("PoseChipsCollapsed", "PoseChipsCollapsed", "copy", None), ("PoseKind", "PoseKind", "copy", None), ("PoseMoving", "PoseMoving", "copy", None), ("PoseManual", "PoseManual", "copy", None), ("WeaponSkins", "WeaponSkins", "copy", None), ("WeaponModels", "WeaponModels", "copy", None), ("SkinChipsCollapsed", "SkinChipsCollapsed", "copy", None), ("GroupLen", "GroupLen", "copy", None), ("ChipH", "ChipH", "copy", None),
             ("CamFov", "CamFov", "float0", 0.8), ("CamDist", "CamDist", "float0", 1.0), ("CamHeight", "CamHeight", "copy", None), ("CamRightHeight", "CamRightHeight", "copy", None), ("IconOwn", "IconOwn", "copy", None), ("ForceSkin", "ForceSkin", "copy", None), ("ForceSkipMag", "ForceSkipMag", "copy", None), ("ForceSkipOptics", "ForceSkipOptics", "copy", None), ("ForceSkipBarrel", "ForceSkipBarrel", "copy", None), ("ForceSkipGrip", "ForceSkipGrip", "copy", None),
             ("BodyVariant", "BodyVariant", "copy", None), ("BodyScales", "BodyScales", "copy", None), ("LangChoice", "LangChoice", "copy", None),
             ("PanToSlot", "PanToSlot", "copy", None), ("AllowNude", "AllowNude", "copy", None), ("OnlyModsNames", "OnlyModsNames", "copy", None), ("CaseSensitiveNames", "CaseSensitiveNames", "copy", None), ("MergeGroups", "MergeGroups", "copy", None), ("MergeMods", "MergeMods", "copy", None), ("ChipSearchShown", "ChipSearchShown", "copy", None), ("TipNoPrefix", "TipNoPrefix", "copy", None), ("TipNoIds", "TipNoIds", "copy", None), ("FreedConflicts", "FreedConflicts", "copy", None), ("HairSwatchesOpen", "HairSwatchesOpen", "copy", None),
             ("UnownedMode", "UnownedMode", "copy", None), ("SlotColors", "SlotColors", "copy", None), ("OutfitSlotColors", "OutfitSlotColors", "copy", None), ("ModEntry", "ModEntry", "copy", None), ("Page", "LastPage", "name", None), ("LookCat", "LastLookCat", "name", None),
-            ("PoseCat", "LastPoseCat", "name", None), ("CurrentWeapon", "LastWeapon", "name", None),   # where the panel was left (the clothes slot: LastSlot below) ("EyeColors", "EyeColors", "copy", None), ("MakeupColors", "MakeupColors", "copy", None),
-            ("ToggleKey", "ToggleKey", "name", None)]
+            ("PoseCat", "LastPoseCat", "name", None), ("CurrentWeapon", "LastWeapon", "name", None),   # where the panel was left (the clothes slot: LastSlot below)
+            ("EyeColors", "EyeColors", "copy", None), ("MakeupColors", "MakeupColors", "copy", None),
+            ("FaceValues", "Face", "copy", None), ("FaceGroup", "LastFaceGroup", "name", None), ("FaceAdd", "FaceAdd", "copy", None),
+            ("PresetColors", "PresetColors", "copy", None), ("ToggleKey", "ToggleKey", "name", None)]
 THEME_SETTINGS = [("Theme" + k, "Theme" + k, "copy", None) for k, _, _ in THEME] + [("BgAlpha", "BgAlpha", "float0", BG_ALPHA), ("TileAlpha", "TileAlpha", "float0", TILE_ALPHA)]
 
 
@@ -864,6 +870,10 @@ def load_setting(g, i, mgr_var, sg_var, kind, default, versioned_pin):
     if kind == "float0":
         g.call("lz%d" % i, K_MATH, "Greater_FloatFloat", inp={"A": src, "B": "0.0"}); g.call("lv%d" % i, K_MATH, "BooleanOR", inp={"A": versioned_pin, "B": "@lz%d.ReturnValue" % i})
         g.call("ld%d" % i, K_MATH, "SelectFloat", inp={"A": src, "B": str(default), "bPickA": "@lv%d.ReturnValue" % i}); src = "@ld%d.ReturnValue" % i
+    if kind == "int2":
+        g.call("lo%d" % i, K_MATH, "Less_IntInt", inp={"A": sg_get(g, "lver%d" % i, "SaveVersion"), "B": "2"})
+        g.call("lz%d" % i, K_MATH, "EqualEqual_IntInt", inp={"A": src, "B": "0"}); g.call("lm%d" % i, K_MATH, "BooleanAND", inp={"A": "@lo%d.ReturnValue" % i, "B": "@lz%d.ReturnValue" % i})
+        g.call("ld%d" % i, K_MATH, "SelectInt", inp={"A": str(default), "B": src, "bPickA": "@lm%d.ReturnValue" % i}); src = "@ld%d.ReturnValue" % i
     g.set("ls%d" % i, mgr_var, inp={mgr_var: src})
     if kind == "name":
         g.call("ln%d" % i, K_MATH, "NotEqual_NameName", inp={"A": src, "B": "None"}); g.branch("lb%d" % i, "@ln%d.ReturnValue" % i)
@@ -1124,6 +1134,8 @@ def f_free_cam_clamp():
 
 # UI functions: signatures here (so widgets can reference them), bodies in gen_manager_ui.py
 UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == "1" else []) + [
+    # Face tab
+    fn("Apply Face"), fn("Face Row Changed", [param("key", "name"), param("fixed", "bool"), param("value", "float")]), fn("Face All Fixed"), fn("Face All Game"), fn("On Face Clicked", [param("index", "int")]), fn("On Face Context", [param("index", "int")]), fn("Set Face Name", [param("index", "int"), param("name", "string")]),
     fn("Toggle Panel"), fn("Open Panel"), fn("Close Panel"), fn("Rebuild Left"), fn("Rebuild List"), fn("Rebuild SubTabs"),
     fn("Select Slot", [param("name", "name")]), fn("Take Off Slot", [param("name", "name")]),
     fn("On Item Clicked", [param("name", "name")]), fn("On Item Context", [param("name", "name")]),
@@ -1147,6 +1159,9 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     fn("Mod Field Changed", [param("key", "name"), param("value", "float")]),
     fn("Mod Color Changed", [param("key", "name"), param("color", S_LINCOLOR)]), fn("Mod Text Changed", [param("key", "name"), param("text", "string")]),
     fn("Open Mod Color", [param("key", "name"), param("color", S_LINCOLOR)]),
+    # Key fields: the panel catches the next key for the field in KeyCapture (see W_AltUI OnPreviewKeyDown / OnPreviewMouseButtonDown)
+    fn("Mod Key Changed", [param("key", "name"), param("pressed", mu.KEY_TYPE)]), fn("Begin Key Capture", [param("field", "object:/Script/UMG.UserWidget")]),
+    fn("Key Captured", [param("pressed", mu.KEY_TYPE)]), fn("Cancel Key Capture"), fn("Capturing Key", outputs=[param("yes", "bool")], pure=True),
     fn("Remember Outfit Colors", [param("index", "int")]), fn("Outfit Slot Colors", [param("index", "int")]),
     fn("Outfit Name By Key", [param("key", "string")], [param("name", "string")]),
     fn("Outfit Name", [param("index", "int")], [param("name", "string")]),
@@ -1262,7 +1277,8 @@ assets = [
         fn(mu.GET_VALUE, [param("Key", "name")], [param("Value", "float")]),
         fn(mu.ON_CHANGED, [param("Key", "name"), param("Value", "float")]),
         fn(mu.GET_COLOR, [param("Key", "name")], [param("Color", S_LINCOLOR)]), fn(mu.ON_COLOR, [param("Key", "name"), param("Color", S_LINCOLOR)]),
-        fn(mu.GET_TEXT, [param("Key", "name")], [param("Text", "string")]), fn(mu.ON_TEXT, [param("Key", "name"), param("Text", "string")])]),
+        fn(mu.GET_TEXT, [param("Key", "name")], [param("Text", "string")]), fn(mu.ON_TEXT, [param("Key", "name"), param("Text", "string")]),
+        fn(mu.GET_KEY, [param("Key", "name")], [param("Pressed", mu.KEY_TYPE)]), fn(mu.ON_KEY, [param("Key", "name"), param("Pressed", mu.KEY_TYPE)])]),
     datatable("/Game/Mod/%s/%s" % (mu.TEST_MOD, mu.ENTRIES_TABLE), mu.ENTRY_STRUCT, rows=mu.TEST_ENTRIES),
     datatable("/Game/Mod/%s/%s" % (mu.TEST_MOD, mu.FIELDS_TABLE), mu.FIELD_STRUCT, rows=mu.TEST_FIELDS),
     struct(S_FLOATS, [param("Values", "float", "array")]),
@@ -1275,8 +1291,15 @@ assets = [
                     # colours of one's own: per material slot (<piece>#<slot>) and per eye part (Iris / Sclera / Corner / Lashes).
                     # A look from before these fields brings empty maps, which means "factory colour" - old looks keep working.
                     param("SlotColors", "name", "map", value_type=S_LINCOLOR), param("EyeColors", "name", "map", value_type=S_LINCOLOR),
-                    param("MakeupColors", "name", "map", value_type=S_LINCOLOR)]),
+                    param("MakeupColors", "name", "map", value_type=S_LINCOLOR),
+                    # the face (morph -> weight, face.py); a look from before this field brings an empty map = the game's own face
+                    # and whether its expressions are added up (FaceAdd); a look from before brings false = blended, the default
+                    param("Face", "name", "map", value_type="float"), param("FaceAdd", "bool")]),
+    struct(fc.S_FACE, [param("Name", "string"), param("Id", "int"), param("Values", "name", "map", value_type="float"), param("FaceAdd", "bool")]),
+    blueprint(fc.SG_FACES, "/Script/Engine.SaveGame", variables=[var("Faces", "struct:" + fc.S_FACE, "array"), var("NextId", "int", default="1")]),
     struct(S_LOOK, [param("Name", "string"), param("Id", "int"), param("Snap", "struct:" + S_SNAP)]),
+    # a make-up preset's own colours, by the preset's IconNumber (Settings.PresetColors); a preset without an entry brings the factory colours
+    struct(S_PRESETCOL, [param("EyeColors", "name", "map", value_type=S_LINCOLOR), param("MakeupColors", "name", "map", value_type=S_LINCOLOR)]),
     blueprint(SG_LOOKS, "/Script/Engine.SaveGame", variables=[var("Looks", "struct:" + S_LOOK, "array"), var("NextId", "int", default="1")]),
     blueprint(SG_LOG, "/Script/Engine.SaveGame", variables=[var("Lines", "string", "array")]),
     blueprint(SG_NAMES, "/Script/Engine.SaveGame", variables=[var("SaveVersion", "int"), var("Names", "name", "map", value_type="string")]),
@@ -1290,12 +1313,12 @@ assets = [
     blueprint(M + "/SG_AltUI", "/Script/Engine.SaveGame",
               variables=[var("Favorites", "name", "array"), var("HiddenItems", "name", "array"), var("OnlyOwned", "bool"), var("OnlyFav", "bool"), var("OnlyVanilla", "bool"), var("OnlyWorn", "bool"), var("SubTabsCollapsed", "bool"), var("LookOnlyFav", "bool"), var("LookOnlyWorn", "bool"), var("LookChipsCollapsed", "bool"), var("PoseChipsCollapsed", "bool"), var("PoseKind", "name", "map", value_type="name"), var("PoseMoving", "name", "map", value_type="bool"), var("PoseManual", "name", "map", value_type="bool"), var("WeaponSkins", "name", "map", value_type="name"), var("WeaponModels", "name", "map", value_type="name"), var("SkinChipsCollapsed", "bool"), var("GroupLen", "int"), var("ChipH", "int"), var("LastSlot", "name"),
                          var("ScrollMult", "float", default="0"), var("TileScale", "float", default="0"),   # 0 = never set -> default
-                         var("Unlimited", "bool"), var("LeftFree", "int"), var("CamFov", "float", default="0"), var("CamDist", "float", default="0"), var("CamHeight", "float"), var("CamRightHeight", "bool"), var("IconOwn", "name", "array"), var("IconRedo", "name", "array"), var("ForceSkin", "name", "array"), var("ForceSkipMag", "name", "array"), var("ForceSkipOptics", "name", "array"), var("ForceSkipBarrel", "name", "array"), var("ForceSkipGrip", "name", "array"), var("OnlyModsNames", "bool", default="true"), var("CaseSensitiveNames", "bool"), var("MergeGroups", "bool"), var("MergeMods", "bool"), var("ChipSearchShown", "bool", default="true"), var("TipNoPrefix", "bool"), var("TipNoIds", "bool"), var("FreedConflicts", "name", "array"), var("HairSwatchesOpen", "bool"), var("BodyVariant", "name"), var("LangChoice", "int"), var("PanToSlot", "bool"), var("AllowNude", "bool"), var("OutfitNames", "string", "map", value_type="string"),
+                         var("Unlimited", "bool"), var("LeftFree", "int", default="1"), var("CamFov", "float", default="0"), var("CamDist", "float", default="0"), var("CamHeight", "float"), var("CamRightHeight", "bool"), var("IconOwn", "name", "array"), var("IconRedo", "name", "array"), var("ForceSkin", "name", "array"), var("ForceSkipMag", "name", "array"), var("ForceSkipOptics", "name", "array"), var("ForceSkipBarrel", "name", "array"), var("ForceSkipGrip", "name", "array"), var("OnlyModsNames", "bool", default="true"), var("CaseSensitiveNames", "bool"), var("MergeGroups", "bool"), var("MergeMods", "bool"), var("ChipSearchShown", "bool", default="true"), var("TipNoPrefix", "bool"), var("TipNoIds", "bool"), var("FreedConflicts", "name", "array"), var("HairSwatchesOpen", "bool"), var("BodyVariant", "name"), var("LangChoice", "int"), var("PanToSlot", "bool"), var("AllowNude", "bool"), var("OutfitNames", "string", "map", value_type="string"),
                          var("UnownedMode", "int"),
                          var("BodyScales", "name", "map", value_type="struct:" + S_FLOATS),
                          var("ThemeSet", "bool"), var("BgAlpha", "float", default="0"), var("TileAlpha", "float", default="0"), var("ToggleKey", "name"), var("ModEntry", "name"), var("LastPage", "name"), var("LastLookCat", "name"), var("LastPoseCat", "name"), var("LastWeapon", "name"),
                          var("SlotColors", "name", "map", value_type=S_LINCOLOR), var("EyeColors", "name", "map", value_type=S_LINCOLOR), var("MakeupColors", "name", "map", value_type=S_LINCOLOR), var("OutfitSlotColors", "name", "map", value_type=S_LINCOLOR),
-                         var("SaveVersion", "int")] + [var("Theme" + k, S_LINCOLOR) for k, _, _ in THEME]),   # SaveVersion 0 = save from before the versioning (0 = "never set" for floats)
+                         var("SaveVersion", "int"), var("PresetColors", "int", "map", value_type="struct:" + S_PRESETCOL), var("Face", "name", "map", value_type="float"), var("LastFaceGroup", "name"), var("FaceAdd", "bool")] + [var("Theme" + k, S_LINCOLOR) for k, _, _ in THEME]),   # SaveVersion 0 = save from before the versioning (0 = "never set" for floats)
     blueprint(MGR, E_ACTOR,
               variables=[var("Player", "object:" + P_JODI), var("PC", "object:" + P_PC), var("ControlDisabled", "bool"),
                          var("Names", "object:" + SG_NAMES), var("CatalogDirty", "bool"),
@@ -1322,13 +1345,13 @@ assets = [
                          var("BodyBreast", "float"), var("BodyWaist", "float"), var("TmpNames2", "name", "array"), var("TmpNames3", "name", "array"), var("TmpNames4", "name", "array"), var("TmpName2", "name"), var("TmpName3", "name"), var("TmpBool", "bool"), var("TmpWorn", "bool"),
                          var("TmpColor", S_LINCOLOR), var("TmpColors", "name", "map", value_type=S_LINCOLOR), var("TmpColors2", "name", "map", value_type=S_LINCOLOR), var("TmpFColors2", "name", "map", value_type=S_LINCOLOR),
                          var("LooksSave", "object:" + SG_LOOKS), var("TmpLook", "struct:" + S_LOOK), var("ContextLook", "int"), var("LookIcons", "int", "map", value_type="object:" + E_TEX2D),
-                         var("PhotoRT", "object:/Script/Engine.TextureRenderTarget2D"), var("PhotoKind", "name"), var("WeaponIcons", "name", "map", value_type="object:" + E_TEX2D), var("PhotoWeapon", "name"), var("PhotoSkin", "name"), var("PhotoModel", "name"), var("IconWeaponActor", "object:/Script/Engine.Actor"), var("PhotoOnly", "object:/Script/Engine.Actor"), var("PhotoDir", "string"), var("PhotoFile", "string"), var("ScrollMult", "float", default="4.0"), var("TileScale", "float", default="1.0"), var("OptScroll", "float"), var("OptScale", "float"),
+                         var("PhotoRT", "object:/Script/Engine.TextureRenderTarget2D"), var("PhotoKind", "name"), var("PhotoView", "bool"), var("PhotoFace", "bool"), var("WeaponIcons", "name", "map", value_type="object:" + E_TEX2D), var("PhotoWeapon", "name"), var("PhotoSkin", "name"), var("PhotoModel", "name"), var("IconWeaponActor", "object:/Script/Engine.Actor"), var("PhotoOnly", "object:/Script/Engine.Actor"), var("PhotoDir", "string"), var("PhotoFile", "string"), var("ScrollMult", "float", default="4.0"), var("TileScale", "float", default="1.0"), var("OptScroll", "float"), var("OptScale", "float"),
                          var("Presets", "object:" + P_PRESET_SAVE), 
                          var("TickCount", "int"), var("LogSave", "object:" + SG_LOG), var("IconFrames", "int"), var("IconActor", "object:/Script/Engine.SceneCapture2D"), var("IconNumber", "int"),
-                         var("Unlimited", "bool"), var("LeftFree", "int"), var("ViewShift", "float"), var("CamMod", "object:" + M + "/CM_AltUICam"), var("CamFov", "float", default="0.8"), var("CamDist", "float", default="1.0"), var("CamHeight", "float"), var("CamRightHeight", "bool"), var("OptFov", "float"), var("OptDist", "float"), var("OptHeight", "float"), var("DistSaveTimer", "float"), var("IconLight", "object:/Script/Engine.SpotLight"), var("UndoStack", "struct:" + S_SNAP, "array"), var("RedoStack", "struct:" + S_SNAP, "array"), var("TmpSnap", "struct:" + S_SNAP), var("TmpSnap2", "struct:" + S_SNAP), var("PresetIcons", "int", "map", value_type="object:" + E_TEX2D), var("TmpPreset", "struct:" + P_PRESET_S), var("ContextPreset", "int"), var("TmpIcons", "object:" + E_TEX2D, "array"),
+                         var("Unlimited", "bool"), var("LeftFree", "int", default="1"), var("ViewShift", "float"), var("CamMod", "object:" + M + "/CM_AltUICam"), var("CamFov", "float", default="0.8"), var("CamDist", "float", default="1.0"), var("CamHeight", "float"), var("CamRightHeight", "bool"), var("OptFov", "float"), var("OptDist", "float"), var("OptHeight", "float"), var("DistSaveTimer", "float"), var("IconLight", "object:/Script/Engine.SpotLight"), var("UndoStack", "struct:" + S_SNAP, "array"), var("RedoStack", "struct:" + S_SNAP, "array"), var("TmpSnap", "struct:" + S_SNAP), var("TmpSnap2", "struct:" + S_SNAP), var("PresetIcons", "int", "map", value_type="object:" + E_TEX2D), var("TmpPreset", "struct:" + P_PRESET_S), var("ContextPreset", "int"), var("TmpIcons", "object:" + E_TEX2D, "array"),
                          # content view (View content): open index per tab (-1 = closed), the rendered snapshot + title, tile origin for "Show in tab", highlight/scroll target
                          var("ViewOutfit", "int", default="-1"), var("ViewLook", "int", default="-1"), var("ViewPreset", "int", default="-1"), var("ViewSnap", "struct:" + S_SNAP), var("ViewTitle", "string"),
-                         var("ContextSlot", "name"), var("OpenPage", "name"), var("ModEntry", "name"), var("ModActor", "object:/Script/Engine.Actor"), var("ModScanned", "bool"), var("ModEntryKeys", "name", "array"), var("ModEntries", "name", "map", value_type="struct:" + mu.ENTRY_STRUCT), var("ModFields", "name", "map", value_type="struct:" + mu.LIST_STRUCT), var("ModFieldsTmp", "struct:" + mu.FIELD_STRUCT, "array"), var("ModPosTmp", "int"), var("OutfitSC", "name", "map", value_type=S_LINCOLOR), var("OutfitPieces", "name", "array"), var("OutfitKeyTmp", "string"), var("ClickKind", "name"), var("LookCatKeep", "name"), var("HighlightItem", "name"), var("KeepHighlight", "bool"), var("ScrollWidget", "object:" + E_WIDGET),   # TmpSection (W_ContentSection) lives in the augment: the widget class exists only after 40_widgets
+                         var("ContextSlot", "name"), var("OpenPage", "name"), var("ModEntry", "name"), var("ModActor", "object:/Script/Engine.Actor"), var("KeyCapture", "object:/Script/UMG.UserWidget"), var("SwallowUp", "bool"), var("ModScanned", "bool"), var("ModEntryKeys", "name", "array"), var("ModEntries", "name", "map", value_type="struct:" + mu.ENTRY_STRUCT), var("ModFields", "name", "map", value_type="struct:" + mu.LIST_STRUCT), var("ModFieldsTmp", "struct:" + mu.FIELD_STRUCT, "array"), var("ModPosTmp", "int"), var("OutfitSC", "name", "map", value_type=S_LINCOLOR), var("OutfitPieces", "name", "array"), var("OutfitKeyTmp", "string"), var("ClickKind", "name"), var("LookCatKeep", "name"), var("HighlightItem", "name"), var("KeepHighlight", "bool"), var("ScrollWidget", "object:" + E_WIDGET),   # TmpSection (W_ContentSection) lives in the augment: the widget class exists only after 40_widgets
                          var("TmpFColors", "name", "map", value_type=S_COLOR),
                          var("BodyMods", "name", "array"), var("BodyCaptions", "name", "map", value_type="text"), var("StandardMesh", "object:" + E_SKELMESH),
                          var("BodyMesh", "object:" + E_SKELMESH), var("CurrentBody", "name"), var("BodyVariant", "name"),
@@ -1340,7 +1363,10 @@ assets = [
                          var("PanToSlot", "bool"), var("AllowNude", "bool"), var("FocusOn", "bool"), var("FocusZ", "float"), var("FocusZoom", "float", default="1.0"), var("TmpFloat", "float"),
                          var("CamMode", "int"), var("FreeCam", "object:/Script/Engine.CameraActor"), var("CamInput", "object:" + E_ACTOR), var("FreeCtrlRot", "struct:/Script/CoreUObject.Rotator"), var("JodiDrag", "bool"), var("JodiDragRight", "bool"), var("JodiDragZ0", "float"), var("JodiMeshRot", "struct:/Script/CoreUObject.Rotator"), var("FreeYaw", "float"), var("FreePitch", "float"), var("FreeSpeed", "float", default="200.0"),
                          var("ThemeVersion", "int"), var("ToggleKey", "name", default="B"), var("BgAlpha", "float", default=str(BG_ALPHA)), var("TileAlpha", "float", default=str(TILE_ALPHA)), var("ThemeKey", "name")]
-                        + [var("Theme" + k, S_LINCOLOR) for k, _, _ in THEME] + [var(n, S_LINCOLOR) for n in DERIVED_NAMES],
+                        + [var("Theme" + k, S_LINCOLOR) for k, _, _ in THEME] + [var(n, S_LINCOLOR) for n in DERIVED_NAMES]
+                        + [var("FaceValues", "name", "map", value_type="float"), var("FaceGroup", "name", default=fc.GROUPS[0]),
+                           var("FacesSave", "object:" + fc.SG_FACES), var("ContextFace", "int"), var("FaceIcons", "int", "map", value_type="object:" + E_TEX2D), var("TmpFace", "struct:" + fc.S_FACE),
+                           var("FaceDirty", "bool"), var("FaceAdd", "bool"), var("PresetColors", "int", "map", value_type="struct:" + S_PRESETCOL)],   # FaceAdd: expressions added up instead of blended (default off = blended)
               functions=[f_init_slot_groups(), f_order_slots(), f_sort_key(), f_display_name(), f_scan_mod_items(), f_build_catalog(),
                          f_items_for_slot(), f_slot_count(), f_filtered_counts(), f_cut_caption(), f_chip_caption(), f_item_slot(), f_is_worn(), f_is_owned(), f_worn_in_slot(),
                          f_shown_owned(), f_refresh_state(), f_build_conflicts(), f_pair_in(), f_conflicts_with(), f_is_freed(), f_set_freed(), f_conflicting_slots(), f_conflicting_worn_slots(), f_save_worn(), f_wear(), f_take_off(), f_debug_status(), f_find_item(), f_is_favorite(), f_filtered_items(),

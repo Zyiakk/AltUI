@@ -60,7 +60,7 @@ One row per field. The row name does not matter; what counts are the columns.
 |---|---|---|
 | `Entry` | Name | row name in your `AltUI_Entries` this field belongs to |
 | `Key` | Name | what your actor receives to tell the fields apart |
-| `Type` | Name | `Header`, `Info`, `Toggle`, `Slider`, `Number`, `Choice`, `Color`, `Text` or `Button` |
+| `Type` | Name | `Header`, `Info`, `Toggle`, `Slider`, `Number`, `Choice`, `Color`, `Text`, `Key` or `Button` |
 | `Label` | Text | the text beside the field (a header's text, a button's caption) |
 | `Min`, `Max` | Float | slider and number only: the range |
 | `Step` | Float | slider: the value snaps to multiples of it from `Min`, 0 means continuous; number: what - and + change, 0 means 1 |
@@ -79,6 +79,7 @@ What each type shows and which value it carries:
 | `Choice` | one option at a time, with arrows | the index of the option, starting at 0 |
 | `Color` | a colour swatch; a click opens AltUI's colour palette | a colour |
 | `Text` | a text field | text, reported when the player leaves the field or presses Enter |
+| `Key` | the bound key's name on a button; a click waits for the next key, a right click clears it | a key of the keyboard, reported when the player presses one; Esc or a click cancels. An empty key means none |
 | `Button` | a button carrying the label | always 1, when it is clicked |
 
 A field AltUI cannot draw is left out without a message: an unknown `Type`, a `Choice` without options, a `Slider`
@@ -86,7 +87,7 @@ or `Number` whose `Min` is not below its `Max`, or an `Entry` that is not a row 
 
 ## `BPI_AltUIMod`
 
-In your actor's Class Settings, add `BPI_AltUIMod` under *Implemented Interfaces*. It brings three pairs - one per kind
+In your actor's Class Settings, add `BPI_AltUIMod` under *Implemented Interfaces*. It brings four pairs - one per kind
 of value. Fill in the ones your fields use; the others can stay empty.
 
 | Fields | Read | Changed |
@@ -94,6 +95,7 @@ of value. Fill in the ones your fields use; the others can stay empty.
 | `Toggle`, `Slider`, `Number`, `Choice`, `Button` | `Get AltUI Value (Key) -> Value` (float) | `On AltUI Changed (Key, Value)` |
 | `Color` | `Get AltUI Color (Key) -> Color` (linear colour) | `On AltUI Color Changed (Key, Color)` |
 | `Text`, `Info` | `Get AltUI Text (Key) -> Text` (string) | `On AltUI Text Changed (Key, Text)` |
+| `Key` | `Get AltUI Key (Key) -> Pressed` (Key) | `On AltUI Key Changed (Key, Pressed)` |
 
 * The **Get** functions return the current value of the field with this key. AltUI calls them for every field while
   its entry is shown, so keep them cheap: return a variable, do not compute anything heavy. For headers and buttons
@@ -101,9 +103,39 @@ of value. Fill in the ones your fields use; the others can stay empty.
 * The **On … Changed** events tell you the player changed a field: apply the value. A button arrives in
   `On AltUI Changed` with the value 1; the key tells which button. A colour arrives while the player is still picking
   it in the palette, so your mod can show it live.
+* A `Key` field takes any key of the keyboard, Shift, Ctrl and Alt on their own included; a mouse click cancels the wait.
+  Test for an empty key with `Is Valid Key`.
+
+The `Key` pair came later than the other three. A mod built with an older copy of `BPI_AltUIMod.uasset` keeps working
+as it is; to use a `Key` field, replace your copy with the one in [`uassets/`](uassets/).
 
 Because AltUI asks for the values instead of remembering them, your actor stays the only place they live. Changing
 one from somewhere else - a key of your own, another UI - needs nothing extra; the panel picks it up.
+
+### The Get functions are yours to fill, not to call
+
+`Get AltUI Value`, `Get AltUI Color`, `Get AltUI Text` and `Get AltUI Key` are asked by AltUI, not by your mod. Open them under
+*Interfaces* in your actor's *My Blueprint* panel and make each return your variable for the key it is given. Your
+own graphs have no reason to call them: calling one on `self` only runs your own function again and hands back what
+your variable already holds; wiring anything into `Target` changes nothing about that. When your mod needs a field's
+value, read the variable you keep it in.
+
+### Reacting to a field
+
+Fields reach your actor one by one, each in its own call of an `On … Changed` event. The usual pattern:
+
+1. In `On AltUI Changed`, add a **Switch on Name** on `Key`, with one case per key of your toggles, sliders, numbers,
+   choices and buttons.
+2. For a toggle, slider, number or choice: set its variable from `Value`, then apply it - switch the light, move the
+   actor, whatever the field is for. (A toggle's 0 or 1 becomes a boolean with `Value > 0.5`, a choice's index an
+   integer with `Round`.)
+3. For a button: ignore `Value` and do what the button stands for. The other fields' values are already in their
+   variables, because each change arrived in its own call before the click.
+4. Do the same for colours in `On AltUI Color Changed`, for text in `On AltUI Text Changed` and for keys in
+   `On AltUI Key Changed`.
+
+Every change arrives at once, so most mods need no "Apply" button: the field applies itself. A button suits actions
+that are not a value - reset, spawn, teleport, reload - or a step you want to happen only when the player asks for it.
 
 ## Keeping the values
 
@@ -114,4 +146,53 @@ enough: load it in `BeginPlay`, save it in `On AltUI Changed`. The example below
 
 [`examples/AltUIMod_Example/`](examples/AltUIMod_Example/) is a complete mod: a lamp in front of Jodi with one field
 of every type, started by the Blueprint Loader, keeping its values in a save of its own. Install the pak to see it in
-the Mods tab; its `editor/` folder holds the uncooked assets to copy and rename.
+the Mods tab; its `editor/` folder holds the uncooked assets. Its "Back to the defaults" button is the button pattern
+above, wired up, and its key field switches the lamp in the game - the pattern of the next section's key question.
+
+The assets refer to each other by their path, `/Game/Mod/AltUIMod_Example/`. Copy them into your project at exactly
+`Content/Mod/AltUIMod_Example/` - in any other folder the references break, the blueprint shows broken nodes and the
+project does not cook - and rename them afterwards in the editor's Content Browser, which rewrites the references.
+The example's README lists the steps.
+
+## Questions that come up
+
+**How do I trigger something with a button?** In `On AltUI Changed`: the button's key arrives with the value 1.
+Switch on the key and run what the button does - see [Reacting to a field](#reacting-to-a-field).
+
+**What does "always 1, when it is clicked" mean?** A button has no state to show, so nothing is read for it. Each
+click is one call of `On AltUI Changed` with its key and the value 1; the value tells you nothing, the key everything.
+
+**Do I plug something into `Target` on `Get AltUI Value`?** No - you do not call it at all. AltUI calls it on your
+actor to learn what to show; you only fill in what it returns. In your own graph, read your variable instead. See
+[The Get functions are yours to fill, not to call](#the-get-functions-are-yours-to-fill-not-to-call).
+
+**Can a button's caption (or any field's label) change while the game runs?** No. Labels come from `AltUI_Fields`
+and stay as they are. What your mod supplies live is values, and for text the `Info` field: put one next to the
+button to show what the button would change or what it did last. If the button would only step through a list of
+options, a `Choice` field does that already - its arrows cycle, the current option is shown, and each step arrives at
+once.
+
+**Can the player pick a key for my mod - "press the key you want"?** Yes: a `Key` field. The player clicks it, presses
+the key, and `On AltUI Key Changed` brings it; store it and save it like any other value. To react to the key in the
+game, your actor needs input of its own:
+
+* In `BeginPlay`, call `Enable Input` with the player controller (`Get Player Controller`, index 0).
+* Add an `Any Key` event; compare its key with the stored one (`Equal (Key)`, and `Is Valid Key` so an empty key does
+  nothing) and do what the key is for.
+* In the `Any Key` node's details, untick **Consume Input**. An actor with input enabled stands before the player's
+  controls, and an `Any Key` that consumes takes every key away from the game.
+
+While the panel is open it keeps the keyboard to itself, so the key works once the panel is closed. The example's
+"Key for on/off" field is exactly this.
+
+**I copied the example's assets into my project and the blueprint is full of broken nodes.** They were copied into a
+folder with another name. Put them at `Content/Mod/AltUIMod_Example/` first, open the editor, then rename in the
+Content Browser.
+
+**My tables are not read / my entry does not show.** Check that the row structures sit at exactly
+`Content/Mod/AltUI/` in your project, that the tables are named `AltUI_Entries` and `AltUI_Fields` and lie in
+`Content/Mod/<ModName>/` where `<ModName>` is your pak's name without `.pak`, and that your pak does not ship its own
+copy of AltUI's three assets.
+
+**My entry is shown, but greyed out.** The actor of the entry's `Actor` class is not in the level - check that the
+Blueprint Loader is installed and your loader row names that class.

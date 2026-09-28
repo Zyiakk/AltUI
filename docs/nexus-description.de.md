@@ -34,17 +34,18 @@ Der Hook ersetzt eines der Blueprints des Spiels (den Player-Kamera-Manager) und
 
 Die Kameraführung neben dem offenen Panel hängt nicht mehr am Hook – sie hängt sich an den Kamera-Manager, den das Level ohnehin hat, auch an den des Spiels.
 
-Deinstallation: die kopierten Dateien löschen. Die eigenen Speicherdateien des Mods (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Names.sav*, die Look-Fotos in *Saved\SaveGames\AltUI\* und die Waffen-Kacheln in *Saved\SaveGames\WeaponIcons\*) können ebenfalls gelöscht werden; sonst wird nichts angefasst – Kleidung, Outfits, Makeup und Frisur laufen über die Speicherdateien des Spiels.
+Deinstallation: die kopierten Dateien löschen. Die eigenen Speicherdateien des Mods (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Faces.sav*, *AltUI_Names.sav*, die Look- und Gesichtsfotos in *Saved\SaveGames\AltUI\* und die Waffen-Kacheln in *Saved\SaveGames\WeaponIcons\*) können ebenfalls gelöscht werden; sonst wird nichts angefasst – Kleidung, Outfits, Makeup und Frisur laufen über die Speicherdateien des Spiels.
 
 ## Was es kann
 
 * **Kleidung** – jedes Teil, das Spiel und Mods kennen, nach Slot gruppiert, Unterreiter pro Mod (einklappbar), Suche, Filter „nur Besessene“ / „nur Favoriten“ / „nur Vanilla“, Favoriten, Farbe über die Palette des Spiels, Farb-Reset, in den Rucksack und zurück, Teile ausblenden.
 * **Outfits** – die Outfit-Vorlagen des Spiels, mit Namen (Rechtsklick → umbenennen).
-* **Looks** – ein kompletter Look (Kleidung mit Farben, Frisur und Haarfarbe, Makeup, Augen, Haut, Körper-Regler, Body-Mod), gespeichert mit einem Ganzkörperfoto aus dem Spiel. Anwenden, aktualisieren, umbenennen, löschen.
+* **Looks** – ein kompletter Look (Kleidung mit Farben, Frisur und Haarfarbe, Makeup, Augen, Haut, Körper-Regler, Body-Mod, Gesicht), gespeichert mit einem Ganzkörperfoto aus dem Spiel, frontal oder so, wie man sie gerade sieht. Anwenden, aktualisieren, umbenennen, löschen.
 * **Rucksack** – was Jodi trägt und dabeihat: anziehen, ausziehen, reparieren, zurück in die Garderobe, aufräumen.
 * **Frisur** – alle Frisuren, Haarfarbe, 14 natürliche Haarfarben, Werkseinstellung.
-* **Aussehen** – Haut, jeder Makeup-Typ, Augen, Aussehen-Vorlagen mit Symbolen.
+* **Aussehen** – Haut, jeder Makeup-Typ, Augen, Aussehen-Vorlagen mit Symbolen (speichern, aktualisieren, löschen).
 * **Körperform** – Regler für Brust / Taille, ein Umschalter für installierte Body-Mods und – bei konvertierten Bodies – Bone-Regler: Skalierung, Busen, Taille extra, Po/Hüfte, Oberschenkel, Waden, Arme, Hände, Füße, je Body gespeichert.
+* **Gesicht** – Jodis Gesichtsausdruck: die Ausdrücke des Spiels, Blickrichtung und Mundformen als Regler; ein angehakter Eintrag behält seinen Wert, auch in Posen und beim Tanzen, ein nicht angehakter bleibt dem Spiel überlassen. Gespeicherte Gesichter mit Foto.
 * **Waffen** – je Waffe ein Modell und ein Skin, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel.
 * **Posen** – jede Aktionsanimation des Spiels und der Pose-Mods, sortiert nach stehend, sitzend und liegend.
 * **Mods** – die Einstellungen anderer Mods, die sich dort eintragen (nur sichtbar, wenn so ein Mod installiert ist).
@@ -86,7 +87,7 @@ Schritt-für-Schritt-Anleitung mit je einem Beispiel für Windows und Linux (eng
 
 ## Einstellungen anderer Mods
 
-Mods, die man im Spiel bedient – etwa eine Lampe – können ihre Einstellungen in AltUI unterbringen, statt eigene Tasten zu belegen. Ein Reiter **Mods** listet sie dann auf, mit Schaltern, Schiebereglern, Zahlen, Auswahlen, Farben, Textfeldern, Info-Zeilen und Buttons im Stil von AltUI. Der Reiter erscheint nur, wenn so ein Mod installiert ist.
+Mods, die man im Spiel bedient – etwa eine Lampe – können ihre Einstellungen in AltUI unterbringen, statt eigene Tasten zu belegen. Ein Reiter **Mods** listet sie dann auf, mit Schaltern, Schiebereglern, Zahlen, Auswahlen, Farben, Textfeldern, Info-Zeilen, Tasten und Buttons im Stil von AltUI. Der Reiter erscheint nur, wenn so ein Mod installiert ist.
 
 Für Mod-Autoren (englisch): [MOD_UI.md](https://github.com/Zyiakk/AltUI/blob/main/MOD_UI.md) beschreibt die zwei Datentabellen und das Interface, die ein Mod braucht; ein fertiger Beispiel-Mod zum Installieren und Nachbauen liegt in [examples/AltUIMod_Example](https://github.com/Zyiakk/AltUI/tree/main/examples/AltUIMod_Example).
 

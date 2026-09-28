@@ -391,6 +391,34 @@
        "type": "string"
       }
      ]
+    },
+    {
+     "name": "Get AltUI Key",
+     "inputs": [
+      {
+       "name": "Key",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "Pressed",
+       "type": "struct:/Script/InputCore.Key"
+      }
+     ]
+    },
+    {
+     "name": "On AltUI Key Changed",
+     "inputs": [
+      {
+       "name": "Key",
+       "type": "name"
+      },
+      {
+       "name": "Pressed",
+       "type": "struct:/Script/InputCore.Key"
+      }
+     ]
     }
    ]
   },
@@ -624,6 +652,64 @@
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor",
      "internal_name": "MakeupColors_28_FA38B328AAF7FC8A0C50D2AF5E20D1AA"
+    },
+    {
+     "name": "Face",
+     "type": "name",
+     "container": "map",
+     "value_type": "float",
+     "internal_name": "Face_30_519406476300F379C031E77BF79416CC"
+    },
+    {
+     "name": "FaceAdd",
+     "type": "bool",
+     "internal_name": "FaceAdd_32_8409F50982F1D3642636FA5B392F6A41"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_Face",
+   "members": [
+    {
+     "name": "Name",
+     "type": "string",
+     "internal_name": "Name_2_91ADA60BE2632641098C013C11DC9A12"
+    },
+    {
+     "name": "Id",
+     "type": "int",
+     "internal_name": "Id_4_7E9CC174C35C1AA24CCC0B422F49E06D"
+    },
+    {
+     "name": "Values",
+     "type": "name",
+     "container": "map",
+     "value_type": "float",
+     "internal_name": "Values_6_779C7C316CFAF53C80EFC9E395CB9604"
+    },
+    {
+     "name": "FaceAdd",
+     "type": "bool",
+     "internal_name": "FaceAdd_8_BAD1F2A5157F5A1295946A343EB0814A"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/SG_Faces",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Faces",
+     "type": "struct:/Game/Mod/AltUI/S_Face",
+     "container": "array"
+    },
+    {
+     "name": "NextId",
+     "type": "int",
+     "default": "1"
     }
    ]
   },
@@ -645,6 +731,26 @@
      "name": "Snap",
      "type": "struct:/Game/Mod/AltUI/S_Snapshot",
      "internal_name": "Snap_6_A993766F2E3E53CA51CAD1CCE8739C28"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_PresetColors",
+   "members": [
+    {
+     "name": "EyeColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor",
+     "internal_name": "EyeColors_2_4CF362C0F3C0E0349E2ECF3BF699F5D1"
+    },
+    {
+     "name": "MakeupColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor",
+     "internal_name": "MakeupColors_4_9CE677FA56AAF233AB06B744042F72C6"
     }
    ]
   },
@@ -2187,6 +2293,54 @@
      "es": "Guardar el conjunto actual",
      "pl": "Zapisz obecny strój"
     },
+    "Btn_SavePresetFront": {
+     "en": "Save current appearance from the front",
+     "de": "Aktuelles Aussehen frontal speichern",
+     "zh": "从正面保存当前外观",
+     "ru": "Сохранить текущую внешность спереди",
+     "es": "Guardar la apariencia actual de frente",
+     "pl": "Zapisz obecny wygląd z przodu"
+    },
+    "Btn_SavePresetView": {
+     "en": "Save current appearance as seen",
+     "de": "Aktuelles Aussehen wie gesehen speichern",
+     "zh": "按当前视角保存当前外观",
+     "ru": "Сохранить текущую внешность как видно",
+     "es": "Guardar la apariencia actual como se ve",
+     "pl": "Zapisz obecny wygląd jak widać"
+    },
+    "Btn_SaveLookFront": {
+     "en": "Save current look from the front",
+     "de": "Aktuellen Look frontal speichern",
+     "zh": "从正面保存当前造型",
+     "ru": "Сохранить текущий образ спереди",
+     "es": "Guardar el look actual de frente",
+     "pl": "Zapisz obecną stylizację z przodu"
+    },
+    "Btn_SaveLookView": {
+     "en": "Save current look as seen",
+     "de": "Aktuellen Look wie gesehen speichern",
+     "zh": "按当前视角保存当前造型",
+     "ru": "Сохранить текущий образ как видно",
+     "es": "Guardar el look actual como se ve",
+     "pl": "Zapisz obecną stylizację jak widać"
+    },
+    "Btn_SaveFaceFront": {
+     "en": "Save current face from the front",
+     "de": "Aktuelles Gesicht frontal speichern",
+     "zh": "从正面保存当前面部",
+     "ru": "Сохранить текущее лицо спереди",
+     "es": "Guardar el rostro actual de frente",
+     "pl": "Zapisz obecną twarz z przodu"
+    },
+    "Btn_SaveFaceView": {
+     "en": "Save current face as seen",
+     "de": "Aktuelles Gesicht wie gesehen speichern",
+     "zh": "按当前视角保存当前面部",
+     "ru": "Сохранить текущее лицо как видно",
+     "es": "Guardar el rostro actual como se ve",
+     "pl": "Zapisz obecną twarz jak widać"
+    },
     "Btn_SaveLook": {
      "en": "Save current look",
      "de": "Aktuellen Look speichern",
@@ -2379,13 +2533,21 @@
      "es": "Renombrar…",
      "pl": "Zmień nazwę…"
     },
-    "Menu_UpdateLook": {
-     "en": "Update",
-     "de": "Aktualisieren",
-     "zh": "更新",
-     "ru": "Обновить",
-     "es": "Actualizar",
-     "pl": "Aktualizuj"
+    "Menu_UpdateFront": {
+     "en": "Update (photo from the front)",
+     "de": "Aktualisieren (Foto frontal)",
+     "zh": "更新（正面照片）",
+     "ru": "Обновить (фото спереди)",
+     "es": "Actualizar (foto de frente)",
+     "pl": "Aktualizuj (zdjęcie z przodu)"
+    },
+    "Menu_UpdateView": {
+     "en": "Update (photo as seen)",
+     "de": "Aktualisieren (Foto wie gesehen)",
+     "zh": "更新（当前视角照片）",
+     "ru": "Обновить (фото как видно)",
+     "es": "Actualizar (foto como se ve)",
+     "pl": "Aktualizuj (zdjęcie jak widać)"
     },
     "Menu_ViewContent": {
      "en": "View content",
@@ -2899,6 +3061,302 @@
      "es": "Colores de pelo naturales",
      "pl": "Naturalne kolory włosów"
     },
+    "Tab_Face": {
+     "en": "Face",
+     "de": "Gesicht",
+     "zh": "面部",
+     "ru": "Лицо",
+     "es": "Rostro",
+     "pl": "Twarz"
+    },
+    "Cat_FaceExpr": {
+     "en": "Expression",
+     "de": "Ausdruck",
+     "zh": "表情",
+     "ru": "Выражение",
+     "es": "Expresión",
+     "pl": "Mimika"
+    },
+    "Cat_FaceEyes": {
+     "en": "Gaze",
+     "de": "Blick",
+     "zh": "视线",
+     "ru": "Взгляд",
+     "es": "Mirada",
+     "pl": "Spojrzenie"
+    },
+    "Cat_FaceMouth": {
+     "en": "Mouth",
+     "de": "Mund",
+     "zh": "嘴型",
+     "ru": "Рот",
+     "es": "Boca",
+     "pl": "Usta"
+    },
+    "Cat_FaceSaved": {
+     "en": "Saved faces",
+     "de": "Gespeicherte Gesichter",
+     "zh": "已保存的面部",
+     "ru": "Сохранённые лица",
+     "es": "Rostros guardados",
+     "pl": "Zapisane twarze"
+    },
+    "Face_Idle": {
+     "en": "Relaxed",
+     "de": "Entspannt",
+     "zh": "放松",
+     "ru": "Расслабленное",
+     "es": "Relajada",
+     "pl": "Zrelaksowana"
+    },
+    "Face_Focus": {
+     "en": "Focused",
+     "de": "Konzentriert",
+     "zh": "专注",
+     "ru": "Сосредоточенное",
+     "es": "Concentrada",
+     "pl": "Skupiona"
+    },
+    "Face_Smile": {
+     "en": "Smile",
+     "de": "Lächeln",
+     "zh": "微笑",
+     "ru": "Улыбка",
+     "es": "Sonrisa",
+     "pl": "Uśmiech"
+    },
+    "Face_Pain": {
+     "en": "Pain",
+     "de": "Schmerz",
+     "zh": "痛苦",
+     "ru": "Боль",
+     "es": "Dolor",
+     "pl": "Ból"
+    },
+    "Face_Fright": {
+     "en": "Fright",
+     "de": "Schreck",
+     "zh": "惊吓",
+     "ru": "Испуг",
+     "es": "Susto",
+     "pl": "Przerażenie"
+    },
+    "Face_Tired": {
+     "en": "Tired",
+     "de": "Müde",
+     "zh": "疲惫",
+     "ru": "Усталость",
+     "es": "Cansada",
+     "pl": "Zmęczenie"
+    },
+    "Face_Suffering1": {
+     "en": "Suffering 1",
+     "de": "Leiden 1",
+     "zh": "煎熬 1",
+     "ru": "Страдание 1",
+     "es": "Sufrimiento 1",
+     "pl": "Cierpienie 1"
+    },
+    "Face_Suffering2": {
+     "en": "Suffering 2",
+     "de": "Leiden 2",
+     "zh": "煎熬 2",
+     "ru": "Страдание 2",
+     "es": "Sufrimiento 2",
+     "pl": "Cierpienie 2"
+    },
+    "Face_LookSide": {
+     "en": "Left ↔ right",
+     "de": "Links ↔ rechts",
+     "zh": "左 ↔ 右",
+     "ru": "Влево ↔ вправо",
+     "es": "Izquierda ↔ derecha",
+     "pl": "Lewo ↔ prawo"
+    },
+    "Face_LookUpDown": {
+     "en": "Up ↔ down",
+     "de": "Oben ↔ unten",
+     "zh": "上 ↔ 下",
+     "ru": "Вверх ↔ вниз",
+     "es": "Arriba ↔ abajo",
+     "pl": "Góra ↔ dół"
+    },
+    "Face_MouthAH": {
+     "en": "A (open)",
+     "de": "A (offen)",
+     "zh": "A（张开）",
+     "ru": "А (открыт)",
+     "es": "A (abierta)",
+     "pl": "A (otwarte)"
+    },
+    "Face_MouthEE": {
+     "en": "E / I",
+     "de": "E / I",
+     "zh": "E / I",
+     "ru": "Э / И",
+     "es": "E / I",
+     "pl": "E / I"
+    },
+    "Face_MouthUU": {
+     "en": "O / U",
+     "de": "O / U",
+     "zh": "O / U",
+     "ru": "О / У",
+     "es": "O / U",
+     "pl": "O / U"
+    },
+    "Face_MouthFV": {
+     "en": "F / V",
+     "de": "F / W",
+     "zh": "F / V",
+     "ru": "Ф / В",
+     "es": "F / V",
+     "pl": "F / W"
+    },
+    "Face_MouthTH": {
+     "en": "TH / L",
+     "de": "TH / L",
+     "zh": "TH / L",
+     "ru": "Т / Л",
+     "es": "TH / L",
+     "pl": "TH / L"
+    },
+    "Face_MouthBPM": {
+     "en": "B / P / M (closed)",
+     "de": "B / P / M (zu)",
+     "zh": "B / P / M（闭合）",
+     "ru": "Б / П / М (закрыт)",
+     "es": "B / P / M (cerrada)",
+     "pl": "B / P / M (zamknięte)"
+    },
+    "Face_MouthSH": {
+     "en": "SH / CH",
+     "de": "SCH / TSCH",
+     "zh": "SH / CH",
+     "ru": "Ш / Ч",
+     "es": "SH / CH",
+     "pl": "SZ / CZ"
+    },
+    "Face_MouthClose": {
+     "en": "Close mouth",
+     "de": "Mund schließen",
+     "zh": "闭嘴",
+     "ru": "Закрыть рот",
+     "es": "Cerrar la boca",
+     "pl": "Zamknij usta"
+    },
+    "Btn_FaceBlended": {
+     "en": "Expressions blended (together max. 100 %)",
+     "de": "Ausdrücke überblendet (zusammen max. 100 %)",
+     "zh": "表情混合（合计最多 100 %）",
+     "ru": "Выражения смешиваются (вместе макс. 100 %)",
+     "es": "Expresiones mezcladas (juntas máx. 100 %)",
+     "pl": "Mimika mieszana (razem maks. 100 %)"
+    },
+    "Btn_FaceAdded": {
+     "en": "Expressions added up",
+     "de": "Ausdrücke addiert",
+     "zh": "表情叠加",
+     "ru": "Выражения складываются",
+     "es": "Expresiones sumadas",
+     "pl": "Mimika sumowana"
+    },
+    "Btn_FaceAllFixed": {
+     "en": "Fix all",
+     "de": "Alle festlegen",
+     "zh": "全部固定",
+     "ru": "Закрепить все",
+     "es": "Fijar todo",
+     "pl": "Ustal wszystkie"
+    },
+    "Btn_FaceAllGame": {
+     "en": "All to the game",
+     "de": "Alle ans Spiel",
+     "zh": "全部交给游戏",
+     "ru": "Всё игре",
+     "es": "Todo al juego",
+     "pl": "Wszystko grze"
+    },
+    "Btn_SaveFace": {
+     "en": "Save current face",
+     "de": "Aktuelles Gesicht speichern",
+     "zh": "保存当前面部",
+     "ru": "Сохранить текущее лицо",
+     "es": "Guardar el rostro actual",
+     "pl": "Zapisz obecną twarz"
+    },
+    "Lbl_KeyPress": {
+     "en": "Press a key … (Esc: cancel)",
+     "de": "Taste drücken … (Esc: abbrechen)",
+     "zh": "请按一个键 …（Esc：取消）",
+     "ru": "Нажмите клавишу … (Esc: отмена)",
+     "es": "Pulsa una tecla … (Esc: cancelar)",
+     "pl": "Naciśnij klawisz … (Esc: anuluj)"
+    },
+    "Lbl_KeyNone": {
+     "en": "none",
+     "de": "keine",
+     "zh": "无",
+     "ru": "нет",
+     "es": "ninguna",
+     "pl": "brak"
+    },
+    "Lbl_FaceMix": {
+     "en": "Expressions mixed",
+     "de": "Ausdrücke gemischt",
+     "zh": "表情混合方式",
+     "ru": "Смешение выражений",
+     "es": "Mezcla de expresiones",
+     "pl": "Mieszanie mimiki"
+    },
+    "Lbl_FaceBlendedShort": {
+     "en": "blended",
+     "de": "überblendet",
+     "zh": "混合",
+     "ru": "смешиваются",
+     "es": "mezcladas",
+     "pl": "łączona"
+    },
+    "Lbl_FaceAddedShort": {
+     "en": "added up",
+     "de": "addiert",
+     "zh": "叠加",
+     "ru": "складываются",
+     "es": "sumadas",
+     "pl": "sumowana"
+    },
+    "Lbl_Face": {
+     "en": "Face",
+     "de": "Gesicht",
+     "zh": "面部",
+     "ru": "Лицо",
+     "es": "Rostro",
+     "pl": "Twarz"
+    },
+    "Lbl_FaceGame": {
+     "en": "game",
+     "de": "Spiel",
+     "zh": "游戏",
+     "ru": "игра",
+     "es": "juego",
+     "pl": "gra"
+    },
+    "Lbl_FaceHint": {
+     "en": "A ticked entry keeps its value, also during poses. Unticked entries are left to the game's animation.",
+     "de": "Ein angehaktes Feld behält seinen Wert, auch in Posen. Nicht angehakte Felder bestimmt die Animation des Spiels.",
+     "zh": "勾选的项目保持其数值，姿势中也一样。未勾选的项目由游戏动画决定。",
+     "ru": "Отмеченный пункт сохраняет своё значение, и в позах тоже. Неотмеченные пункты определяет анимация игры.",
+     "es": "Una entrada marcada mantiene su valor, también en las poses. Las no marcadas las decide la animación del juego.",
+     "pl": "Zaznaczony element zachowuje swoją wartość, także w pozach. Niezaznaczone ustala animacja gry."
+    },
+    "Lbl_FaceNoMorphs": {
+     "en": "The current body has no face morphs – these settings have no effect on it.",
+     "de": "Der aktuelle Body hat keine Gesichts-Morphs – diese Einstellungen wirken bei ihm nicht.",
+     "zh": "当前身体没有面部变形 – 这些设置对它无效。",
+     "ru": "У текущего тела нет морфов лица – эти настройки на него не действуют.",
+     "es": "El cuerpo actual no tiene morphs faciales – estos ajustes no le afectan.",
+     "pl": "Obecne ciało nie ma morfów twarzy – te ustawienia na nie nie działają."
+    },
     "Hair_Black": {
      "en": "Black",
      "de": "Schwarz",
@@ -3141,7 +3599,8 @@
     },
     {
      "name": "LeftFree",
-     "type": "int"
+     "type": "int",
+     "default": "1"
     },
     {
      "name": "CamFov",
@@ -3332,6 +3791,26 @@
     {
      "name": "SaveVersion",
      "type": "int"
+    },
+    {
+     "name": "PresetColors",
+     "type": "int",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_PresetColors"
+    },
+    {
+     "name": "Face",
+     "type": "name",
+     "container": "map",
+     "value_type": "float"
+    },
+    {
+     "name": "LastFaceGroup",
+     "type": "name"
+    },
+    {
+     "name": "FaceAdd",
+     "type": "bool"
     },
     {
      "name": "ThemeBg",
@@ -4409,6 +4888,14 @@
      "type": "name"
     },
     {
+     "name": "PhotoView",
+     "type": "bool"
+    },
+    {
+     "name": "PhotoFace",
+     "type": "bool"
+    },
+    {
      "name": "WeaponIcons",
      "type": "name",
      "container": "map",
@@ -4490,7 +4977,8 @@
     },
     {
      "name": "LeftFree",
-     "type": "int"
+     "type": "int",
+     "default": "1"
     },
     {
      "name": "ViewShift",
@@ -4613,6 +5101,14 @@
     {
      "name": "ModActor",
      "type": "object:/Script/Engine.Actor"
+    },
+    {
+     "name": "KeyCapture",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "SwallowUp",
+     "type": "bool"
     },
     {
      "name": "ModScanned",
@@ -5041,6 +5537,49 @@
     {
      "name": "ColAccent",
      "type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "FaceValues",
+     "type": "name",
+     "container": "map",
+     "value_type": "float"
+    },
+    {
+     "name": "FaceGroup",
+     "type": "name",
+     "default": "FaceExpr"
+    },
+    {
+     "name": "FacesSave",
+     "type": "object:/Game/Mod/AltUI/SG_Faces"
+    },
+    {
+     "name": "ContextFace",
+     "type": "int"
+    },
+    {
+     "name": "FaceIcons",
+     "type": "int",
+     "container": "map",
+     "value_type": "object:/Script/Engine.Texture2D"
+    },
+    {
+     "name": "TmpFace",
+     "type": "struct:/Game/Mod/AltUI/S_Face"
+    },
+    {
+     "name": "FaceDirty",
+     "type": "bool"
+    },
+    {
+     "name": "FaceAdd",
+     "type": "bool"
+    },
+    {
+     "name": "PresetColors",
+     "type": "int",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_PresetColors"
     }
    ],
    "functions": [
@@ -14823,11 +15362,63 @@
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
+        "id": "lver9_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lver9",
+        "kind": "get",
+        "var": "SaveVersion",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lo9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_IntInt",
+        "in": {
+         "A": "@lver9.SaveVersion",
+         "B": "2"
+        }
+       },
+       {
+        "id": "lz9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@lg9.LeftFree",
+         "B": "0"
+        }
+       },
+       {
+        "id": "lm9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@lo9.ReturnValue",
+         "B": "@lz9.ReturnValue"
+        }
+       },
+       {
+        "id": "ld9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "1",
+         "B": "@lg9.LeftFree",
+         "bPickA": "@lm9.ReturnValue"
+        }
+       },
+       {
         "id": "ls9",
         "kind": "set",
         "var": "LeftFree",
         "in": {
-         "LeftFree": "@lg9.LeftFree"
+         "LeftFree": "@ld9.ReturnValue"
         }
        },
        {
@@ -15823,32 +16414,163 @@
        {
         "id": "lg55",
         "kind": "get",
-        "var": "ToggleKey",
+        "var": "EyeColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls55",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "EyeColors",
         "in": {
-         "ToggleKey": "@lg55.ToggleKey"
+         "EyeColors": "@lg55.EyeColors"
         }
        },
        {
-        "id": "ln55",
+        "id": "lg56_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg56",
+        "kind": "get",
+        "var": "MakeupColors",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls56",
+        "kind": "set",
+        "var": "MakeupColors",
+        "in": {
+         "MakeupColors": "@lg56.MakeupColors"
+        }
+       },
+       {
+        "id": "lg57_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg57",
+        "kind": "get",
+        "var": "Face",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls57",
+        "kind": "set",
+        "var": "FaceValues",
+        "in": {
+         "FaceValues": "@lg57.Face"
+        }
+       },
+       {
+        "id": "lg58_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg58",
+        "kind": "get",
+        "var": "LastFaceGroup",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls58",
+        "kind": "set",
+        "var": "FaceGroup",
+        "in": {
+         "FaceGroup": "@lg58.LastFaceGroup"
+        }
+       },
+       {
+        "id": "ln58",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg55.ToggleKey",
+         "A": "@lg58.LastFaceGroup",
          "B": "None"
         }
        },
        {
-        "id": "lb55",
+        "id": "lb58",
         "kind": "branch",
         "in": {
-         "Condition": "@ln55.ReturnValue"
+         "Condition": "@ln58.ReturnValue"
+        }
+       },
+       {
+        "id": "lg59_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg59",
+        "kind": "get",
+        "var": "FaceAdd",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls59",
+        "kind": "set",
+        "var": "FaceAdd",
+        "in": {
+         "FaceAdd": "@lg59.FaceAdd"
+        }
+       },
+       {
+        "id": "lg60_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg60",
+        "kind": "get",
+        "var": "PresetColors",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls60",
+        "kind": "set",
+        "var": "PresetColors",
+        "in": {
+         "PresetColors": "@lg60.PresetColors"
+        }
+       },
+       {
+        "id": "lg61_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg61",
+        "kind": "get",
+        "var": "ToggleKey",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls61",
+        "kind": "set",
+        "var": "ToggleKey",
+        "in": {
+         "ToggleKey": "@lg61.ToggleKey"
+        }
+       },
+       {
+        "id": "ln61",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg61.ToggleKey",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb61",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln61.ReturnValue"
         }
        },
        {
@@ -15870,120 +16592,6 @@
         }
        },
        {
-        "id": "lg56_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg56",
-        "kind": "get",
-        "var": "ThemeBg",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls56",
-        "kind": "set",
-        "var": "ThemeBg",
-        "in": {
-         "ThemeBg": "@lg56.ThemeBg"
-        }
-       },
-       {
-        "id": "lg57_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg57",
-        "kind": "get",
-        "var": "ThemeAccent",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls57",
-        "kind": "set",
-        "var": "ThemeAccent",
-        "in": {
-         "ThemeAccent": "@lg57.ThemeAccent"
-        }
-       },
-       {
-        "id": "lg58_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg58",
-        "kind": "get",
-        "var": "ThemeFill",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls58",
-        "kind": "set",
-        "var": "ThemeFill",
-        "in": {
-         "ThemeFill": "@lg58.ThemeFill"
-        }
-       },
-       {
-        "id": "lg59_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg59",
-        "kind": "get",
-        "var": "ThemeFrame",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls59",
-        "kind": "set",
-        "var": "ThemeFrame",
-        "in": {
-         "ThemeFrame": "@lg59.ThemeFrame"
-        }
-       },
-       {
-        "id": "lg60_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg60",
-        "kind": "get",
-        "var": "ThemeWorn",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls60",
-        "kind": "set",
-        "var": "ThemeWorn",
-        "in": {
-         "ThemeWorn": "@lg60.ThemeWorn"
-        }
-       },
-       {
-        "id": "lg61_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg61",
-        "kind": "get",
-        "var": "ThemeRow",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls61",
-        "kind": "set",
-        "var": "ThemeRow",
-        "in": {
-         "ThemeRow": "@lg61.ThemeRow"
-        }
-       },
-       {
         "id": "lg62_s",
         "kind": "get",
         "var": "Settings"
@@ -15991,15 +16599,15 @@
        {
         "id": "lg62",
         "kind": "get",
-        "var": "ThemeText",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls62",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeBg",
         "in": {
-         "ThemeText": "@lg62.ThemeText"
+         "ThemeBg": "@lg62.ThemeBg"
         }
        },
        {
@@ -16010,15 +16618,15 @@
        {
         "id": "lg63",
         "kind": "get",
-        "var": "ThemeHead",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls63",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeAccent",
         "in": {
-         "ThemeHead": "@lg63.ThemeHead"
+         "ThemeAccent": "@lg63.ThemeAccent"
         }
        },
        {
@@ -16029,15 +16637,15 @@
        {
         "id": "lg64",
         "kind": "get",
-        "var": "ThemeLink",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls64",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeFill",
         "in": {
-         "ThemeLink": "@lg64.ThemeLink"
+         "ThemeFill": "@lg64.ThemeFill"
         }
        },
        {
@@ -16048,15 +16656,15 @@
        {
         "id": "lg65",
         "kind": "get",
-        "var": "ThemeLine",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls65",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeFrame",
         "in": {
-         "ThemeLine": "@lg65.ThemeLine"
+         "ThemeFrame": "@lg65.ThemeFrame"
         }
        },
        {
@@ -16067,46 +16675,15 @@
        {
         "id": "lg66",
         "kind": "get",
-        "var": "BgAlpha",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz66",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg66.BgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv66",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz66.ReturnValue"
-        }
-       },
-       {
-        "id": "ld66",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg66.BgAlpha",
-         "B": "0.88",
-         "bPickA": "@lv66.ReturnValue"
-        }
        },
        {
         "id": "ls66",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeWorn",
         "in": {
-         "BgAlpha": "@ld66.ReturnValue"
+         "ThemeWorn": "@lg66.ThemeWorn"
         }
        },
        {
@@ -16117,46 +16694,191 @@
        {
         "id": "lg67",
         "kind": "get",
-        "var": "TileAlpha",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "lz67",
+        "id": "ls67",
+        "kind": "set",
+        "var": "ThemeRow",
+        "in": {
+         "ThemeRow": "@lg67.ThemeRow"
+        }
+       },
+       {
+        "id": "lg68_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg68",
+        "kind": "get",
+        "var": "ThemeText",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls68",
+        "kind": "set",
+        "var": "ThemeText",
+        "in": {
+         "ThemeText": "@lg68.ThemeText"
+        }
+       },
+       {
+        "id": "lg69_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg69",
+        "kind": "get",
+        "var": "ThemeHead",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls69",
+        "kind": "set",
+        "var": "ThemeHead",
+        "in": {
+         "ThemeHead": "@lg69.ThemeHead"
+        }
+       },
+       {
+        "id": "lg70_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg70",
+        "kind": "get",
+        "var": "ThemeLink",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls70",
+        "kind": "set",
+        "var": "ThemeLink",
+        "in": {
+         "ThemeLink": "@lg70.ThemeLink"
+        }
+       },
+       {
+        "id": "lg71_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg71",
+        "kind": "get",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls71",
+        "kind": "set",
+        "var": "ThemeLine",
+        "in": {
+         "ThemeLine": "@lg71.ThemeLine"
+        }
+       },
+       {
+        "id": "lg72_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg72",
+        "kind": "get",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz72",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg67.TileAlpha",
+         "A": "@lg72.BgAlpha",
          "B": "0.0"
         }
        },
        {
-        "id": "lv67",
+        "id": "lv72",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@ver.ReturnValue",
-         "B": "@lz67.ReturnValue"
+         "B": "@lz72.ReturnValue"
         }
        },
        {
-        "id": "ld67",
+        "id": "ld72",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg67.TileAlpha",
-         "B": "1.0",
-         "bPickA": "@lv67.ReturnValue"
+         "A": "@lg72.BgAlpha",
+         "B": "0.88",
+         "bPickA": "@lv72.ReturnValue"
         }
        },
        {
-        "id": "ls67",
+        "id": "ls72",
+        "kind": "set",
+        "var": "BgAlpha",
+        "in": {
+         "BgAlpha": "@ld72.ReturnValue"
+        }
+       },
+       {
+        "id": "lg73_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg73",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz73",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg73.TileAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv73",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz73.ReturnValue"
+        }
+       },
+       {
+        "id": "ld73",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg73.TileAlpha",
+         "B": "1.0",
+         "bPickA": "@lv73.ReturnValue"
+        }
+       },
+       {
+        "id": "ls73",
         "kind": "set",
         "var": "TileAlpha",
         "in": {
-         "TileAlpha": "@ld67.ReturnValue"
+         "TileAlpha": "@ld73.ReturnValue"
         }
        },
        {
@@ -16250,6 +16972,10 @@
        [
         "lg9_s.Settings",
         "lg9.self"
+       ],
+       [
+        "lver9_s.Settings",
+        "lver9.self"
        ],
        [
         "lg10_s.Settings",
@@ -16436,10 +17162,6 @@
         "lg55.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg56_s.Settings",
         "lg56.self"
        ],
@@ -16464,6 +17186,10 @@
         "lg61.self"
        ],
        [
+        "gth_s.Settings",
+        "gth.self"
+       ],
+       [
         "lg62_s.Settings",
         "lg62.self"
        ],
@@ -16486,6 +17212,30 @@
        [
         "lg67_s.Settings",
         "lg67.self"
+       ],
+       [
+        "lg68_s.Settings",
+        "lg68.self"
+       ],
+       [
+        "lg69_s.Settings",
+        "lg69.self"
+       ],
+       [
+        "lg70_s.Settings",
+        "lg70.self"
+       ],
+       [
+        "lg71_s.Settings",
+        "lg71.self"
+       ],
+       [
+        "lg72_s.Settings",
+        "lg72.self"
+       ],
+       [
+        "lg73_s.Settings",
+        "lg73.self"
        ],
        [
         "gls.Settings",
@@ -16896,15 +17646,62 @@
        ],
        [
         "ls54",
-        "lb55"
+        "ls55"
        ],
        [
         "lb54:else",
-        "lb55"
+        "ls55"
        ],
        [
-        "lb55",
         "ls55"
+       ],
+       [
+        "ls55",
+        "ls56"
+       ],
+       [
+        "ls56"
+       ],
+       [
+        "ls56",
+        "ls57"
+       ],
+       [
+        "ls57"
+       ],
+       [
+        "ls57",
+        "lb58"
+       ],
+       [
+        "lb58",
+        "ls58"
+       ],
+       [
+        "ls58",
+        "ls59"
+       ],
+       [
+        "lb58:else",
+        "ls59"
+       ],
+       [
+        "ls59"
+       ],
+       [
+        "ls59",
+        "ls60"
+       ],
+       [
+        "ls60"
+       ],
+       [
+        "ls60",
+        "lb61"
+       ],
+       [
+        "lb61",
+        "ls61"
        ],
        [
         "entry",
@@ -16925,27 +17722,27 @@
         "cr"
        ],
        [
-        "ls55",
+        "ls61",
         "bth"
        ],
        [
-        "lb55:else",
+        "lb61:else",
         "bth"
        ],
        [
         "bth",
-        "ls56",
-        "ls57",
-        "ls58",
-        "ls59",
-        "ls60",
-        "ls61",
         "ls62",
         "ls63",
         "ls64",
         "ls65",
         "ls66",
         "ls67",
+        "ls68",
+        "ls69",
+        "ls70",
+        "ls71",
+        "ls72",
+        "ls73",
         "ath"
        ],
        [
@@ -18123,16 +18920,16 @@
        {
         "id": "g55",
         "kind": "get",
-        "var": "ToggleKey"
+        "var": "EyeColors"
        },
        {
         "id": "w55",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "EyeColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs55.Settings",
-         "ToggleKey": "@g55.ToggleKey"
+         "EyeColors": "@g55.EyeColors"
         }
        },
        {
@@ -18143,16 +18940,16 @@
        {
         "id": "g56",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "MakeupColors"
        },
        {
         "id": "w56",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "MakeupColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs56.Settings",
-         "ThemeBg": "@g56.ThemeBg"
+         "MakeupColors": "@g56.MakeupColors"
         }
        },
        {
@@ -18163,16 +18960,16 @@
        {
         "id": "g57",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "FaceValues"
        },
        {
         "id": "w57",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "Face",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs57.Settings",
-         "ThemeAccent": "@g57.ThemeAccent"
+         "Face": "@g57.FaceValues"
         }
        },
        {
@@ -18183,16 +18980,16 @@
        {
         "id": "g58",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "FaceGroup"
        },
        {
         "id": "w58",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "LastFaceGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs58.Settings",
-         "ThemeFill": "@g58.ThemeFill"
+         "LastFaceGroup": "@g58.FaceGroup"
         }
        },
        {
@@ -18203,16 +19000,16 @@
        {
         "id": "g59",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "FaceAdd"
        },
        {
         "id": "w59",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "FaceAdd",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs59.Settings",
-         "ThemeFrame": "@g59.ThemeFrame"
+         "FaceAdd": "@g59.FaceAdd"
         }
        },
        {
@@ -18223,16 +19020,16 @@
        {
         "id": "g60",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "PresetColors"
        },
        {
         "id": "w60",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "PresetColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs60.Settings",
-         "ThemeWorn": "@g60.ThemeWorn"
+         "PresetColors": "@g60.PresetColors"
         }
        },
        {
@@ -18243,16 +19040,16 @@
        {
         "id": "g61",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "ToggleKey"
        },
        {
         "id": "w61",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs61.Settings",
-         "ThemeRow": "@g61.ThemeRow"
+         "ToggleKey": "@g61.ToggleKey"
         }
        },
        {
@@ -18263,16 +19060,16 @@
        {
         "id": "g62",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "ThemeBg"
        },
        {
         "id": "w62",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs62.Settings",
-         "ThemeText": "@g62.ThemeText"
+         "ThemeBg": "@g62.ThemeBg"
         }
        },
        {
@@ -18283,16 +19080,16 @@
        {
         "id": "g63",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "ThemeAccent"
        },
        {
         "id": "w63",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs63.Settings",
-         "ThemeHead": "@g63.ThemeHead"
+         "ThemeAccent": "@g63.ThemeAccent"
         }
        },
        {
@@ -18303,16 +19100,16 @@
        {
         "id": "g64",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "ThemeFill"
        },
        {
         "id": "w64",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs64.Settings",
-         "ThemeLink": "@g64.ThemeLink"
+         "ThemeFill": "@g64.ThemeFill"
         }
        },
        {
@@ -18323,16 +19120,16 @@
        {
         "id": "g65",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "ThemeFrame"
        },
        {
         "id": "w65",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs65.Settings",
-         "ThemeLine": "@g65.ThemeLine"
+         "ThemeFrame": "@g65.ThemeFrame"
         }
        },
        {
@@ -18343,16 +19140,16 @@
        {
         "id": "g66",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "ThemeWorn"
        },
        {
         "id": "w66",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs66.Settings",
-         "BgAlpha": "@g66.BgAlpha"
+         "ThemeWorn": "@g66.ThemeWorn"
         }
        },
        {
@@ -18363,16 +19160,136 @@
        {
         "id": "g67",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "ThemeRow"
        },
        {
         "id": "w67",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs67.Settings",
-         "TileAlpha": "@g67.TileAlpha"
+         "ThemeRow": "@g67.ThemeRow"
+        }
+       },
+       {
+        "id": "gs68",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g68",
+        "kind": "get",
+        "var": "ThemeText"
+       },
+       {
+        "id": "w68",
+        "kind": "set",
+        "var": "ThemeText",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs68.Settings",
+         "ThemeText": "@g68.ThemeText"
+        }
+       },
+       {
+        "id": "gs69",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g69",
+        "kind": "get",
+        "var": "ThemeHead"
+       },
+       {
+        "id": "w69",
+        "kind": "set",
+        "var": "ThemeHead",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs69.Settings",
+         "ThemeHead": "@g69.ThemeHead"
+        }
+       },
+       {
+        "id": "gs70",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g70",
+        "kind": "get",
+        "var": "ThemeLink"
+       },
+       {
+        "id": "w70",
+        "kind": "set",
+        "var": "ThemeLink",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs70.Settings",
+         "ThemeLink": "@g70.ThemeLink"
+        }
+       },
+       {
+        "id": "gs71",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g71",
+        "kind": "get",
+        "var": "ThemeLine"
+       },
+       {
+        "id": "w71",
+        "kind": "set",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs71.Settings",
+         "ThemeLine": "@g71.ThemeLine"
+        }
+       },
+       {
+        "id": "gs72",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g72",
+        "kind": "get",
+        "var": "BgAlpha"
+       },
+       {
+        "id": "w72",
+        "kind": "set",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs72.Settings",
+         "BgAlpha": "@g72.BgAlpha"
+        }
+       },
+       {
+        "id": "gs73",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g73",
+        "kind": "get",
+        "var": "TileAlpha"
+       },
+       {
+        "id": "w73",
+        "kind": "set",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs73.Settings",
+         "TileAlpha": "@g73.TileAlpha"
         }
        },
        {
@@ -18417,7 +19334,7 @@
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs_SaveVersion.Settings",
-         "SaveVersion": "1"
+         "SaveVersion": "2"
         }
        },
        {
@@ -18515,6 +19432,12 @@
         "w65",
         "w66",
         "w67",
+        "w68",
+        "w69",
+        "w70",
+        "w71",
+        "w72",
+        "w73",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",
@@ -21943,6 +22866,63 @@
      }
     },
     {
+     "name": "Apply Face"
+    },
+    {
+     "name": "Face Row Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "fixed",
+       "type": "bool"
+      },
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Face All Fixed"
+    },
+    {
+     "name": "Face All Game"
+    },
+    {
+     "name": "On Face Clicked",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "On Face Context",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Set Face Name",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      },
+      {
+       "name": "name",
+       "type": "string"
+      }
+     ]
+    },
+    {
      "name": "Toggle Panel"
     },
     {
@@ -22342,6 +23322,50 @@
        "type": "struct:/Script/CoreUObject.LinearColor"
       }
      ]
+    },
+    {
+     "name": "Mod Key Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "pressed",
+       "type": "struct:/Script/InputCore.Key"
+      }
+     ]
+    },
+    {
+     "name": "Begin Key Capture",
+     "inputs": [
+      {
+       "name": "field",
+       "type": "object:/Script/UMG.UserWidget"
+      }
+     ]
+    },
+    {
+     "name": "Key Captured",
+     "inputs": [
+      {
+       "name": "pressed",
+       "type": "struct:/Script/InputCore.Key"
+      }
+     ]
+    },
+    {
+     "name": "Cancel Key Capture"
+    },
+    {
+     "name": "Capturing Key",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
     },
     {
      "name": "Remember Outfit Colors",

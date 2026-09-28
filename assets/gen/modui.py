@@ -4,7 +4,8 @@ A mod lists its entries in /Game/Mod/<Pak>/AltUI_Entries (row struct S_AltUIModE
 /Game/Mod/<Pak>/AltUI_Fields (S_AltUIModField). Its actor implements BPI_AltUIMod: AltUI reads each field with
 Get AltUI Value and reports every change with On AltUI Changed. One number per field: a toggle is 0/1, a slider or
 number its value, a choice the option index, a button always 1. Color fields go through Get AltUI Color / On AltUI Color
-Changed, Text fields through Get AltUI Text / On AltUI Text Changed, and Info fields only read Get AltUI Text.
+Changed, Text fields through Get AltUI Text / On AltUI Text Changed, Info fields only read Get AltUI Text, and Key
+fields go through Get AltUI Key / On AltUI Key Changed (the key the player pressed in the panel; an empty key = none).
 """
 M = "/Game/Mod/AltUI"
 ENTRY_STRUCT = M + "/S_AltUIModEntry"
@@ -19,7 +20,7 @@ ENTRY_MEMBERS = [("Caption", "text", ""), ("Actor", "softclass:/Script/Engine.Ac
 FIELD_MEMBERS = [("Entry", "name", ""), ("Key", "name", ""), ("Type", "name", ""), ("Label", "text", ""),
                  ("Min", "float", ""), ("Max", "float", ""), ("Step", "float", ""), ("Options", "text", "array"),
                  ("Order", "int", "")]
-TYPES = ["Header", "Button", "Toggle", "Slider", "Choice", "Number", "Color", "Text", "Info"]
+TYPES = ["Header", "Button", "Toggle", "Slider", "Choice", "Number", "Color", "Text", "Info", "Key"]
 RANGED = ["Slider", "Number"]            # need Min < Max
 TEXTUAL = ["Text", "Info"]              # read with Get AltUI Text
 
@@ -27,6 +28,8 @@ GET_VALUE = "Get AltUI Value"
 ON_CHANGED = "On AltUI Changed"
 GET_COLOR = "Get AltUI Color"; ON_COLOR = "On AltUI Color Changed"   # Color fields
 GET_TEXT = "Get AltUI Text"; ON_TEXT = "On AltUI Text Changed"       # Text (both) and Info (read only) fields
+GET_KEY = "Get AltUI Key"; ON_KEY = "On AltUI Key Changed"          # Key fields: parameter Pressed (a Key)
+KEY_TYPE = "struct:/Script/InputCore.Key"
 
 # editor tests: a stub mod with entries in reverse order and one field for every rule of what is left out
 TEST_MOD = "AltUIMod_Test"

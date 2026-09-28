@@ -125,6 +125,14 @@ class G:
         """Typed Name literal (for wildcard pins like Map_Add/Array_Add instead of a pin default)."""
         self.call(id, K_SYS, "MakeLiteralName", inp={"Value": value}); return "@" + id + ".ReturnValue"
 
+    def lit_str(self, id, value):
+        """Typed String literal (for wildcard pins like Array_Contains: a pin default is dropped when the wildcard resolves)."""
+        self.call(id, K_SYS, "MakeLiteralString", inp={"Value": value}); return "@" + id + ".ReturnValue"
+
+    def lit_bool(self, id, value):
+        """Typed bool literal (for wildcard pins like Map_Add: a pin default is dropped when the wildcard resolves)."""
+        self.call(id, K_SYS, "MakeLiteralBool", inp={"Value": value}); return "@" + id + ".ReturnValue"
+
     def lit_float(self, id, value):
         """Typed float literal (for wildcard pins like Array_Add: a pin default is dropped when the wildcard resolves)."""
         self.call(id, K_SYS, "MakeLiteralFloat", inp={"Value": value}); return "@" + id + ".ReturnValue"

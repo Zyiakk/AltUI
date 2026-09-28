@@ -14,7 +14,7 @@ def main():
     mgr.set_editor_property("UnownedMode", 2)
     mgr.call_method("Test Save Settings")
     sg = mgr.get_editor_property("Settings")
-    expect("save version written", sg.get_editor_property("SaveVersion"), 1)
+    expect("save version written", sg.get_editor_property("SaveVersion"), 2)
     expect("theme flag written", sg.get_editor_property("ThemeSet"), True)
     # scramble, then reload
     mgr.set_editor_property("CamDist", 1.0); mgr.set_editor_property("BgAlpha", 0.5); mgr.set_editor_property("TileAlpha", 0.5)
@@ -40,6 +40,11 @@ def main():
     expect("legacy scroll default", mgr.get_editor_property("ScrollMult"), 4.0)
     expect("unset key keeps default", str(mgr.get_editor_property("ToggleKey")), "B")
     expect("legacy keeps the other values", mgr.get_editor_property("LeftFree"), 3)
+    # layout: a save from before version 2 holds the old default "no space" (0) -> "one third" (1) once; a 0 saved since stays
+    mgr.call_method("Test Legacy Layout"); mgr.call_method("Test Load Settings")
+    expect("old layout default becomes one third", mgr.get_editor_property("LeftFree"), 1)
+    mgr.set_editor_property("LeftFree", 0); mgr.call_method("Test Save Settings"); mgr.set_editor_property("LeftFree", 3); mgr.call_method("Test Load Settings")
+    expect("a chosen 'no space' stays", mgr.get_editor_property("LeftFree"), 0)
     mgr.set_editor_property("CamDist", 1.0); mgr.set_editor_property("BgAlpha", 0.88); mgr.set_editor_property("TileAlpha", 1.0); mgr.set_editor_property("CamFov", 0.8)
     mgr.set_editor_property("LeftFree", 0); mgr.set_editor_property("LangChoice", 0); mgr.set_editor_property("GroupLen", 0); mgr.set_editor_property("ChipH", 0); mgr.call_method("Test Save Settings")   # leave a sane save behind
 run(main)
