@@ -43,14 +43,15 @@ Para desinstalar: borra los archivos que copiaste. Los guardados propios del mod
 * **Looks** – un look completo (ropa con colores, peinado y su color, maquillaje, ojos, piel, deslizadores del cuerpo, mod de cuerpo, rostro) guardado con una foto de cuerpo entero hecha en el juego, de frente o tal como la ves. Aplicar, actualizar, renombrar, borrar.
 * **Mochila** – lo que Jodi lleva puesto y encima: ponerse, quitarse, reparar, devolver al vestuario, ordenar.
 * **Peinado** – todos los peinados, color de pelo, 14 colores de pelo naturales, valores de fábrica.
-* **Apariencia** – piel, todos los tipos de maquillaje, ojos, apariencias predefinidas con iconos (guardar, actualizar, borrar).
+* **Apariencia** – piel, todos los tipos de maquillaje, ojos, apariencias predefinidas con iconos (guardar, actualizar, renombrar, borrar).
 * **Curvas** – deslizadores de pecho / cintura, un selector de los mods de cuerpo instalados y – para cuerpos convertidos – deslizadores de escala de huesos: escala, busto, cintura extra, glúteos/caderas, muslos, pantorrillas, brazos, manos, pies, guardados por cuerpo.
-* **Rostro** – la expresión facial de Jodi: las expresiones del juego, la dirección de la mirada y las formas de la boca como deslizadores; una entrada marcada mantiene su valor, también en poses y al bailar, una sin marcar queda en manos del juego. Rostros guardados con foto.
+* **Rostro** – la expresión facial de Jodi: las expresiones del juego, la dirección de la mirada y las formas de la boca como deslizadores; una entrada marcada mantiene su valor, también en poses y al bailar, una sin marcar queda en manos del juego. Rostros guardados con foto. «Ver contenido» muestra sus valores.
 * **Armas** – un modelo y un skin por arma, juntos de todos los mods de armas, con una imagen renderizada en cada casilla.
 * **Poses** – todas las animaciones de acción del juego y de los mods de poses, ordenadas en de pie, sentada y tumbada.
 * **Mods** – los ajustes de otros mods que se registran allí (solo visible si hay un mod así instalado).
-* **Opciones** – tecla del panel, idioma, velocidad de desplazamiento, tamaño de las casillas, longitud de los nombres de grupo y altura de la fila de grupos, parte de la pantalla reservada para Jodi, FOV / distancia / seguimiento de la cámara, esquema de colores y opacidad, «se puede quitar la ropa interior», «objetos no poseídos» bloqueado / atenuado / como poseído, liberar los conflictos de ranura del juego (sujetador y camisa …), fusionar grupos / mods con el mismo nombre, opciones de tooltips.
-* **Gestión** – tus propios nombres para mods, grupos, prendas, peinados, piel y maquillaje – en todo el panel y en la búsqueda; «Renombrar…» en el menú contextual de cada casilla; exportables / importables como JSON con `altui_names.pyz`.
+* **Menú rápido** – mantén **4** (cambiable) y se abre una rueda con lo que más usas: cámara libre, modo foto, un conjunto, look, rostro o preajuste guardado, una pose favorita, una pestaña y acciones de otros mods. Hasta 32 elementos, elegidos y ordenados en Opciones; suelta sobre uno para ejecutarlo.
+* **Opciones** – por categorías, con una lista a la izquierda; las pestañas que no necesites se pueden desactivar; tecla del panel, idioma, velocidad de desplazamiento, tamaño de las casillas, longitud de los nombres de grupo y altura de la fila de grupos, parte de la pantalla reservada para Jodi, FOV / distancia / seguimiento de la cámara, esquema de colores y opacidad, «se puede quitar la ropa interior», «objetos no poseídos» bloqueado / atenuado / como poseído, liberar los conflictos de ranura del juego (sujetador y camisa …), fusionar grupos / mods con el mismo nombre, opciones de tooltips; la barra de pestañas con iconos, texto o ambos, el icono a la izquierda o a la derecha del texto; esquemas de color guardados con un nombre; tamaño propio de las casillas de conjuntos y looks y cuántas prendas muestra una casilla de conjunto; opacidad del menú rápido.
+* **Gestión** – tus propios nombres para mods, grupos, prendas, peinados, piel y maquillaje – en todo el panel y en la búsqueda; «Renombrar…» en el menú contextual de cada casilla; exportables / importables como JSON con `altui_names.pyz`; como en Vestimenta, las subpestañas filtran la lista por mod o grupo y un campo de búsqueda acota las subpestañas; también se pueden renombrar poses y apariencias predefinidas.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
 Idiomas: inglés, alemán, chino, ruso, español, polaco (detección automática, cambiable en Opciones).
@@ -58,6 +59,7 @@ Idiomas: inglés, alemán, chino, ruso, español, polaco (detección automática
 ## Controles
 
 * **B** – abrir / cerrar (cambiable en Opciones). **Esc** cierra.
+* **4** – mantener para el menú rápido (cambiable en Opciones); suelta sobre un elemento para ejecutarlo, o en el centro para no hacer nada.
 * Clic izquierdo – seleccionar / ponerse / aplicar. Clic derecho – menú contextual. Rueda del ratón – desplazar.
 * Mientras el panel está abierto Jodi no puede andar; arrastra sobre el fondo para girar la cámara, +/− acerca / aleja la cámara. Los dos botones redondos de encima abren una cámara libre (el ratón gira, W A S D / Q E mueven, Shift más rápido, rueda = velocidad, hasta 6 m de Jodi, se detiene en las paredes; Esc vuelve) y el modo foto del juego (Esc vuelve).
 
@@ -87,7 +89,7 @@ Guía paso a paso con un ejemplo para Windows y otro para Linux (en inglés): [W
 
 ## Ajustes de otros mods
 
-Los mods que se manejan dentro del juego – una lámpara, por ejemplo – pueden poner sus ajustes en AltUI en lugar de ocupar teclas propias. Una pestaña **Mods** los muestra entonces con interruptores, deslizadores, números, opciones, colores, campos de texto, líneas de información, teclas y botones al estilo de AltUI. La pestaña solo aparece cuando hay un mod así instalado.
+Los mods que se manejan dentro del juego – una lámpara, por ejemplo – pueden poner sus ajustes en AltUI en lugar de ocupar teclas propias. Una pestaña **Mods** los muestra entonces con interruptores, deslizadores, números, opciones, colores, campos de texto, líneas de información, teclas y botones al estilo de AltUI. La pestaña solo aparece cuando hay un mod así instalado. Sus botones e interruptores también pueden ir al menú rápido, y un mod puede añadir acciones propias con un icono.
 
 Para autores de mods (en inglés): [MOD_UI.md](https://github.com/Zyiakk/AltUI/blob/main/MOD_UI.md) describe las dos tablas de datos y la interfaz que necesita un mod; un mod de ejemplo terminado, para instalar y reconstruir, está en [examples/AltUIMod_Example](https://github.com/Zyiakk/AltUI/tree/main/examples/AltUIMod_Example).
 
@@ -98,6 +100,8 @@ Hecho para la versión 0.6.x del juego. Funciona con mods de ropa, peinados, maq
 ## Actualizaciones
 
 Una versión nueva es un archivo nuevo; copia AltUI.pak encima del antiguo. El Blueprint Loader en sí no necesita nada – es un mod aparte y se actualiza en su propia página. Pero un AltUI_Hook_P.pak antiguo no puede quedarse en ~mods. Es el archivo que se queda con la clase del gestor de cámara, y uno anterior a 1.5.0 no lanza el cargador – entonces el panel se abre sin que la vista se aparte, y los mods hechos para el cargador no arrancan. Bórralo o sustitúyelo por el actual. Con el pak hook: cambia rara vez, porque solo lanza el panel y todo lo demás está en AltUI.pak. Cada entrada del registro de cambios indica si el hook ha cambiado; si dice «unchanged», puedes conservar el que tienes. Solo hace falta un hook nuevo cuando lo dice el registro de cambios o cuando una actualización del juego sustituye el gestor de cámara del jugador.
+
+**Con el hook y sin el Blueprint Loader:** Desde la 1.8.0 AltUI también pone tu look en Jodi en el menú principal y en la pantalla de carga. Solo con el hook hace falta el AltUI_Hook_P.pak actual: reemplaza el antiguo para tenerlo; en los niveles el antiguo sigue funcionando. Con el Blueprint Loader, AltUI.pak lo hace por sí mismo.
 
 No se incluye ningún recurso del juego; todo lo que hay en el pak está generado.
 
@@ -113,10 +117,9 @@ AltUI.pak es el mod; hace falta un segundo archivo que lo arranque. El resultado
 
 ## Lo que no puede hacer
 
-Tres límites que conviene conocer:
+Dos límites que conviene conocer:
 
 * **El maquillaje se tiñe, no se recolorea.** El color se multiplica sobre el dibujo existente: uno pálido o neutro lo toma casi por completo, uno oscuro sólo puede oscurecerse o desplazarse. El blanco significa «sin cambios», no maquillaje blanco.
-* **Los colores se ven en el juego, no en el menú principal.** AltUI los aplica a Jodi mientras estás en un nivel, que es donde se ejecuta. El menú principal la muestra con los colores de fábrica del juego.
 * **Un cuerpo convertido puede asomar bajo la ropa ajustada.** El juego aplana esas zonas con morph targets que viven en la malla del cuerpo; si la malla no trae ninguno, no hay nada con qué aplanar. Es cosa del cuerpo, no de la conversión: el conversor conserva los que tenga el original, y si el original no tiene, nadie puede añadirlos.
 
 ## Código fuente e incidencias

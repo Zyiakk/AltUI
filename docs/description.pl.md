@@ -42,11 +42,13 @@ Hook podmienia *TKA_PlayerCameraManager* i stamtąd uruchamia panel. Każdy mod,
 * **Zestawy · Looki** – gotowe zestawy gry z nazwami oraz pełne looki (ubrania z kolorami, fryzura, makijaż, oczy, skóra, ciało, twarz) ze zdjęciem z gry.
 * **Plecak · Fryzury · Wygląd** – co Jodi nosi i ma przy sobie; fryzury i kolory włosów; skóra, makijaż i oczy, każde do podbarwienia.
 * **Sylwetka** – suwaki biustu i talii, przełącznik przekonwertowanych modów ciała, suwaki kości dla każdego ciała.
-* **Twarz** – mimika, spojrzenie i usta Jodi jako suwaki; twarz trzyma się także w pozach i podczas tańca.
+* **Twarz** – mimika, spojrzenie i usta Jodi jako suwaki; twarz trzyma się także w pozach i podczas tańca; zapisane twarze ze zdjęciem, ich wartości w „Pokaż zawartość”.
 * **Bronie** – model i skin na broń, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
 * **Mods** – ustawienia innych modów, które się tam rejestrują: przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, wiersze informacyjne, klawisze i przyciski. Widoczna tylko, gdy taki mod jest zainstalowany.
-* **Opcje · Zarządzanie** – klawisz, język, kolory, wielkość kafelków; własne nazwy modów, grup i przedmiotów.
+* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać.
+* **Opcje** – podzielone na kategorie wybierane z listy po lewej: klawisz panelu, język, kolory (schematy można zapisać pod nazwą), pasek kart z ikonami, tekstem lub jednym i drugim oraz wielkość kafelków, osobno dla zestawów i looków. Niepotrzebne karty można wyłączyć.
+* **Zarządzanie** – własne nazwy modów, grup i przedmiotów. Jak w Ubraniach podzakładki filtrują listę według moda lub grupy, a pole wyszukiwania zawęża podzakładki.
 * Cofnij / ponów (5 kroków), dymki z nazwą moda, z którego pochodzi dana rzecz.
 
 Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski (wykrywane automatycznie, zmienialne w Opcjach).
@@ -54,6 +56,7 @@ Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski (wykrywan
 ## Sterowanie
 
 * **B** – otwiera / zamyka (zmienialne w opcjach). **Esc** zamyka.
+* **4** – przytrzymaj, aby otworzyć szybkie menu (zmienialne w opcjach); puść nad pozycją, aby ją wykonać, a puszczenie na środku nic nie robi.
 * Lewy przycisk – wybierz / załóż / zastosuj. Prawy przycisk – menu kontekstowe. Kółko myszy – przewijanie.
 
 ## Mody ciała
@@ -70,6 +73,8 @@ To, co uruchamia panel, jest celowo oddzielone od samego panelu: wszystko, co mo
 
 Sam Blueprint Loader niczego nie potrzebuje: jest osobnym modem i aktualizuje się na własnej stronie. AltUI_Hook_P.pak sprzed 1.5.0 nie może zostać w ~mods (zob. uwagę w sekcji Instalacja): usuń go albo zastąp aktualnym.
 
+**Hook bez Blueprint Loadera:** Od wersji 1.8.0 AltUI nakłada twój wygląd na Jodi także w menu głównym i na ekranie ładowania. Z samym hookiem potrzebny jest do tego aktualny AltUI_Hook_P.pak – zastąp nim starszy; na poziomach starszy dalej działa. Z Blueprint Loaderem robi to sam AltUI.pak.
+
 Żadne zasoby gry nie są dołączone; wszystko w paku jest generowane.
 
 ## Co daje każda kombinacja
@@ -82,10 +87,9 @@ Sam Blueprint Loader niczego nie potrzebuje: jest osobnym modem i aktualizuje si
 
 ## Czego nie potrafi
 
-Trzy ograniczenia, o których warto wiedzieć:
+Dwa ograniczenia, o których warto wiedzieć:
 
 * **Makijaż jest tonowany, nie przebarwiany.** Kolor mnoży się przez istniejący rysunek: jasny lub neutralny przyjmuje go niemal w pełni, ciemny można tylko przyciemnić albo przesunąć. Biel oznacza „bez zmian”, a nie biały makijaż.
-* **Kolory widać w grze, nie w menu głównym.** AltUI nakłada je na Jodi, gdy jesteś na poziomie – tam działa. W menu głównym widać ją w fabrycznych kolorach gry.
 * **Przekonwertowane ciało może przebijać przez obcisłe ubrania.** Gra spłaszcza takie miejsca morph targetami osadzonymi w siatce ciała; jeśli siatka żadnych nie ma, nie ma czym spłaszczać. To kwestia ciała, nie konwersji: konwerter zachowuje to, co ma oryginał, a jeśli oryginał nie ma żadnych, nikt ich nie doda.
 
 ## Kod źródłowy i zgłaszanie błędów

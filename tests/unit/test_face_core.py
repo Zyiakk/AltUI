@@ -65,8 +65,7 @@ class FaceCore(unittest.TestCase):
     def test_hooks_apply_the_face(self):
         for f in ("Apply Body", "Finish Apply Snapshot", "Face All Fixed", "Face All Game"):
             self.assertTrue(nodes(fn_graph(f), kind="call_self", function="Apply Face"), f)
-        timers = [n for n in event_graph()["nodes"] if n.get("function") == "K2_SetTimer"]
-        self.assertIn("Apply Face", [n["in"]["FunctionName"] for n in timers])
+        self.assertTrue(nodes(event_graph(), kind="call_self", function="Apply Face"))   # BeginPlay, at once (no level-load timer since 2026-09-29)
 
     def test_snapshots_carry_the_face(self):
         for f in ("Take Snapshot", "On Outfit Clicked"):

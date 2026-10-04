@@ -20,6 +20,13 @@ ENTRY_MEMBERS = [("Caption", "text", ""), ("Actor", "softclass:/Script/Engine.Ac
 FIELD_MEMBERS = [("Entry", "name", ""), ("Key", "name", ""), ("Type", "name", ""), ("Label", "text", ""),
                  ("Min", "float", ""), ("Max", "float", ""), ("Step", "float", ""), ("Options", "text", "array"),
                  ("Order", "int", "")]
+# quick menu: a mod's actions of its own (AltUI_Actions, row struct S_AltUIModAction) - run as On AltUI Changed(Key, 1) on the
+# actor of class Actor; Button and Toggle fields of AltUI_Fields are offered as well (a toggle flips: 1 - Get AltUI Value)
+ACTION_STRUCT = M + "/S_AltUIModAction"
+ACTIONS_TABLE = "AltUI_Actions"
+ACTION_MEMBERS = [("Caption", "text", ""), ("Icon", "softobject:/Script/Engine.Texture2D", ""), ("Actor", "softclass:/Script/Engine.Actor", ""),
+                  ("Key", "name", ""), ("Order", "int", "")]
+QUICK_TYPES = ["Button", "Toggle"]      # field types the quick menu offers
 TYPES = ["Header", "Button", "Toggle", "Slider", "Choice", "Number", "Color", "Text", "Info", "Key"]
 RANGED = ["Slider", "Number"]            # need Min < Max
 TEXTUAL = ["Text", "Info"]              # read with Get AltUI Text
@@ -30,6 +37,9 @@ GET_COLOR = "Get AltUI Color"; ON_COLOR = "On AltUI Color Changed"   # Color fie
 GET_TEXT = "Get AltUI Text"; ON_TEXT = "On AltUI Text Changed"       # Text (both) and Info (read only) fields
 GET_KEY = "Get AltUI Key"; ON_KEY = "On AltUI Key Changed"          # Key fields: parameter Pressed (a Key)
 KEY_TYPE = "struct:/Script/InputCore.Key"
+
+TEST_ACTIONS = {"Later": {"Caption": "Later", "Actor": "/Script/Engine.PointLight", "Key": "B", "Order": 2},
+                "Sooner": {"Caption": "Sooner", "Actor": "/Script/Engine.PointLight", "Key": "A", "Order": 1}}
 
 # editor tests: a stub mod with entries in reverse order and one field for every rule of what is left out
 TEST_MOD = "AltUIMod_Test"

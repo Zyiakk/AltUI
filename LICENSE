@@ -24,5 +24,9 @@ SOFTWARE.
 
 Exception: scripts/oodle_kraken.py is a port of kraken.cpp from ooz (https://github.com/powzix/ooz,
 Copyright (C) 2016 Powzix) and is licensed under the GNU General Public License v3.0 or later
-(LICENSE-GPL-3.0.txt). bodypak.pyz, which contains it, is therefore GPL-3.0-or-later as a whole.
+(LICENSE-GPL-3.0.txt). bodypak.pyz and weaponpak.pyz, which contain it, are therefore GPL-3.0-or-later as a whole.
 Everything else in this repository, including AltUI.pak and AltUI_Hook_P.pak, is MIT as above.
+
+AltUI.pak is MIT like everything above. Only the shader bytecode the engine compiles into the quick menu
+material (M_QuickSector, also in assets/cooked_win/) is built from Unreal Engine shaders and remains Epic's,
+under the Unreal Engine EULA (https://www.unrealengine.com/eula).

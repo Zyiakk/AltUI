@@ -2,7 +2,7 @@
 way MOD_UI.md describes. A lamp in front of Jodi with one field of every type: a toggle (light on/off), a key (the key
 that switches the light in the game), a slider (brightness), a number (height), a choice (colour: Warm, Cold, Red,
 Custom), a colour (the custom colour), a text (a note), an info line (state and note) and a button (back to the
-defaults), under one header. The mod keeps its values
+defaults), under one header, and a quick menu action of its own (AltUI_Actions: the next colour, with an icon). The mod keeps its values
 in a SaveGame of its own (loaded at BeginPlay, saved after every change) - AltUI only shows and reports them.
 
 The actor is started by the Blueprint Loader (a TKA_BlueprintLoader row in the mod's own folder) and implements
@@ -17,6 +17,7 @@ NAME = "AltUIMod_Example"
 MOD = "/Game/Mod/" + NAME
 BP = MOD + "/BP_AltUIModExample"
 BP_CLASS = BP + ".BP_AltUIModExample_C"
+T_ACTION = MOD + "/T_ExampleAction"   # icon of the quick menu action
 SG_LAMP = MOD + "/SG_ExampleLamp"; SLOT = NAME   # the mod keeps its own values: AltUI only shows and reports them
 BPL_STRUCT = "/Game/Mod/TKA_BlueprintLoader/BlueprintToLoad_Struct"   # the loader's own row structure
 E_PLIGHT = "/Script/Engine.PointLight"; E_LIGHTC = "/Script/Engine.LightComponent"; E_SCENEC = "/Script/Engine.SceneComponent"
@@ -91,11 +92,12 @@ def f_apply():
 def f_save():
     """Everything in STATE into the mod's own SaveGame."""
     g = G()
-    g.call("mk", K_GS, "CreateSaveGameObject", inp={"SaveGameClass": SG_LAMP + ".SG_ExampleLamp_C"}); g.cast("cmk", SG_LAMP, "@mk.ReturnValue", pure=False, miss="ignore")
-    tail = ["entry", "mk", "cmk"]
+    # CreateSaveGameObject already returns the class it was given (DeterminesOutputType) - no cast needed
+    g.call("mk", K_GS, "CreateSaveGameObject", inp={"SaveGameClass": SG_LAMP + ".SG_ExampleLamp_C"})
+    tail = ["entry", "mk"]
     for v, _, _ in STATE:
-        g.get("g" + v, v); g.n("s" + v, "set", var=v, cls=SG_LAMP, inp={"self": "@cmk.AsSG_ExampleLamp", v: "@g%s.%s" % (v, v)}); tail.append("s" + v)
-    g.call("sv", K_GS, "SaveGameToSlot", inp={"SaveGameObject": "@cmk.AsSG_ExampleLamp", "SlotName": SLOT, "UserIndex": "0"})
+        g.get("g" + v, v); g.n("s" + v, "set", var=v, cls=SG_LAMP, inp={"self": "@mk.ReturnValue", v: "@g%s.%s" % (v, v)}); tail.append("s" + v)
+    g.call("sv", K_GS, "SaveGameToSlot", inp={"SaveGameObject": "@mk.ReturnValue", "SlotName": SLOT, "UserIndex": "0"})
     g.chain(*tail, "sv")
     return fn("Save", graph=g)
 
@@ -143,7 +145,10 @@ def event_graph():
         g.set("r" + v, v, inp={v: d}); resets.append("r" + v)
     g.n("ap2", "call_self", function="Apply"); g.n("sv2", "call_self", function="Save")
     g.chain("oc", "b1", "s1", "ap2"); g.chain("b1:else", "b2", "s2", "ap2"); g.chain("b2:else", "b3", "s3", "ap2"); g.chain("b3:else", "b5", "s5", "ap2")
-    g.chain("b5:else", "b4", *resets, "ap2"); g.chain("ap2", "sv2")
+    # a quick menu action of its own (AltUI_Actions): the next of the colours, Custom included
+    g.branch("b6", key_is(g, "k6", "@oc.Key", "NextColour")); g.get("gco", "Colour"); g.call("nx", K_MATH, "Add_IntInt", inp={"A": "@gco.Colour", "B": "1"})
+    g.call("md", K_MATH, "Percent_IntInt", inp={"A": "@nx.ReturnValue", "B": str(CUSTOM + 1)}); g.set("s6", "Colour", inp={"Colour": "@md.ReturnValue"})
+    g.chain("b5:else", "b4", *resets, "ap2"); g.chain("b4:else", "b6", "s6", "ap2"); g.chain("ap2", "sv2")
     # ... a colour field (the custom colour: choosing it also switches the choice to Custom)
     g.event("occ", mu.INTERFACE_CLASS, mu.ON_COLOR)
     g.set("scc", "CustomColor", inp={"CustomColor": "@occ.Color"}); g.set("scu", "Colour", inp={"Colour": str(CUSTOM)})
@@ -178,6 +183,10 @@ def build():
                   functions=[f_get_value(), f_get_color(), f_get_text(), f_get_key(), f_apply(), f_save()], event_graph=event_graph()),
         datatable(MOD + "/" + mu.ENTRIES_TABLE, mu.ENTRY_STRUCT, rows={"Lamp": {"Caption": "Example lamp", "Actor": BP_CLASS, "Order": 0}}),
         datatable(MOD + "/" + mu.FIELDS_TABLE, mu.FIELD_STRUCT, rows=fields),
+        # the quick menu: an action that is no field - with an icon of its own (the toggle "Light" is offered there anyway)
+        {"type": "texture", "path": T_ACTION, "file": "tex/example_action.png", "props": {"CompressionSettings": "TC_EditorIcon", "LODGroup": "TEXTUREGROUP_UI",
+                                                                                         "MipGenSettings": "TMGS_NoMipmaps", "NeverStream": True, "SRGB": True, "Filter": "TF_Bilinear"}},
+        datatable(MOD + "/" + mu.ACTIONS_TABLE, mu.ACTION_STRUCT, rows={"NextColour": {"Caption": "Lamp: next colour", "Icon": T_ACTION + ".T_ExampleAction", "Actor": BP_CLASS, "Key": "NextColour", "Order": 0}}),
         datatable(MOD + "/TKA_BlueprintLoader", BPL_STRUCT, rows={NAME: {"Actor Class": BP_CLASS}}),
         datatable(MOD + "/TKA_Mod_Table", "/Game/Project/Tables/DLC_Struct",
                   rows={NAME: {"Caption": "AltUI Mods tab example", "Desc": "A lamp in front of Jodi, set up from AltUI's Mods tab",

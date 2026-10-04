@@ -8,7 +8,12 @@ H = os.path.dirname(os.path.abspath(__file__)); ASSETS = os.path.join(H, "..", "
 MANAGER = "/Game/Mod/AltUI/BP_AltUIManager"
 LOOP_MACROS = ("ForLoop", "ForLoopWithBreak", "WhileLoop")
 # further member variables used as function locals - they carry no Tmp prefix but have the same trap
-LOCALS = ("ColorProbe", "ColorSlotsTmp")
+LOCALS = ("ColorProbe", "ColorSlotsTmp", "QOk", "QIdx", "QStr", "QStr2", "QTex", "QNames", "QLoop", "QFields", "QRun", "QItemsLoop",
+          "QModCls", "QModKey", "QModToggle", "QModIcon", "QModOk", "QModCaption", "QRowFields", "SnapUnder")   # quick menu helpers
+# array functions that change the array in place: called on a get of a local, they write it (2026-10-03: Join Names
+# filled TmpStrings with Array_Clear/Array_Add while the quick menu looped over TmpStrings - not a "set", so unseen)
+MUTATORS = ("Array_Clear", "Array_Add", "Array_AddUnique", "Array_Insert", "Array_Remove", "Array_RemoveItem", "Array_Set", "Array_Append",
+            "Array_Swap", "Array_Resize", "Array_Shuffle", "Map_Add", "Map_Remove", "Map_Clear", "Set_Add", "Set_Remove", "Set_Clear")
 local = lambda v: v.startswith("Tmp") or v in LOCALS
 
 
@@ -80,6 +85,10 @@ class Graph:
         w = collections.defaultdict(set)
         for n in self.nodes.values():
             if n["kind"] == "set" and local(n["var"]) and "class" not in n: w[n["var"]].add(n["id"])
+            if n["kind"] == "call" and n.get("function") in MUTATORS:
+                for pin in ("TargetArray", "TargetMap", "TargetSet"):
+                    src = self.nodes.get(str(n.get("in", {}).get(pin, "")).lstrip("@").split(".")[0], {})
+                    if src.get("kind") == "get" and local(src.get("var", "")) and "class" not in src: w[src["var"]].add(n["id"])
         return w
 
     def calls(self):
@@ -112,8 +121,8 @@ def conflicts(fns):
                     if (n, dirty) in seen: continue
                     seen.add((n, dirty))
                     if n in wnodes: continue                      # own write resets
+                    if dirty and n in readers: found.append((name, var, w, n, calls.get(n, ""))); break   # a call reads its arguments before the callee runs
                     if n in clobber: dirty = True
-                    if dirty and n in readers: found.append((name, var, w, n, calls.get(n, ""))); break
                     todo.extend((s, dirty) for s in g.succ.get(n, []))
     return found
 

@@ -1,7 +1,7 @@
 """Generates assets/20_hook.json: replacement PlayerCameraManager (override pak in ~mods).
 
 Two jobs, both "spawn one actor and get out of the way":
- * the inventory manager, with the controller as owner, once Jodi exists;
+ * the inventory manager, with the controller as owner, once Jodi exists (or at once in a main menu / loading scene);
  * Katsumi's Blueprint Loader actor (Nexus 994) if his pak is installed. His pak replaces this same class, so without
    this hook, AltUI would shut his loader mods out. By path, no hard reference - his discovery logic stays in his pak.
 
@@ -29,7 +29,8 @@ def event_graph():
     g.call("tm", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "TryInit", "Time": "0.5", "bLooping": "true"})
     g.custom("ev", "TryInit"); g.get("gsp", "Spawned"); g.branch("br", "@gsp.Spawned")
     g.call("pc", E_PCM, "GetOwningPlayerController"); g.call("pawn", E_CTRL, "K2_GetPawn", inp={"self": "@pc.ReturnValue"})
-    g.cast("cj", P_JODI, "@pawn.ReturnValue", pure=False, miss="ignore")   # no Jodi yet (loading, main menu): the timer retries
+    g.cast("cj", P_JODI, "@pawn.ReturnValue", pure=False)   # no Jodi yet (loading): the timer retries
+    look_scene_branch(g)   # main menu / loading scene: no Jodi pawn ever, spawn anyway
     g.call("ld", K_SYS, "LoadClassAsset_Blocking", inp={"AssetClass": MGR + ".BP_AltUIManager_C"})
     g.n("cc", "class_cast", pure=True, cls=E_ACTOR, inp={"Class": "@ld.ReturnValue"})
     g.call("iv", K_SYS, "IsValidClass", inp={"Class": "@cc.AsActor"}); g.branch("br2", "@iv.ReturnValue")
@@ -45,6 +46,7 @@ def event_graph():
     g.self_("me4"); g.call("ct3", K_SYS, "K2_ClearTimer", inp={"Object": "@me4.self", "FunctionName": "TryInit"})
     g.chain("bp", "ldl", "brl", "spl", "tm"); g.chain("brl:else", "tm")
     g.chain("ev", "br"); g.chain("br:else", "cj", "ld", "br2", "all", "br3", "ct3")
+    g.chain("cj:CastFailed", "lvl"); g.chain("bm", "ld")
     g.chain("br3:else", "sp", "ssp", "ct"); g.chain("br2:else", "ct2")
     return g
 

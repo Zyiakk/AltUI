@@ -36,6 +36,27 @@ def main():
     expect("clothes with vanilla", "item:Zeta_Neck" in all_rows and "item:ModThing" in all_rows, True)
     expect("clothes search by row", rows(mgr, "Clothes", "modth", False), ["item:ModThing"])
     expect("clothes search by default name", rows(mgr, "Clothes", "mina", False), ["item:Casual_Mina_Neck", "item:Casual_Mina_Necklace"])
+    # chips (Clothes: groups, Appearance / Poses: mods): the row's chip, the chips of the category, the filter by the chosen chip
+    def rgroup(kind, row):
+        mgr.call_method("Test Manage Row Group", args=(kind, row)); return str(mgr.get_editor_property("TmpName"))
+    expect("chip of a mod piece = its group", rgroup("item", "ModThing"), "SomeGroup")
+    expect("chip of a vanilla piece without group = Basis", rgroup("item", "Zeta_Neck") in ("Basis", "Kpop", "Lace"), True)
+    expect("chip of a vanilla skin = Vanilla", rgroup("skin", "Skin_Default"), "Vanilla")
+    mgr.set_editor_property("ManageCat", "Clothes"); mgr.set_editor_property("ManageSub", "None"); mgr.set_editor_property("OnlyModsNames", False)
+    mgr.call_method("Test Manage Groups"); groups = [str(n) for n in mgr.get_editor_property("TmpNames")]
+    expect("clothes chips include the mod group", "SomeGroup" in groups and len(groups) == len(set(groups)), True)
+    mgr.set_editor_property("ManageGroup", "SomeGroup"); expect("chip filters the rows", rows(mgr, "Clothes", only_mods=False), ["item:ModThing"])
+    total = (lambda: (mgr.call_method("Test Manage Count", args=("Clothes",)), int(mgr.get_editor_property("TmpKey")))[1])()
+    expect("the total (in front of the brackets) ignores the chip", total > 1, True)
+    expect("chip and search together", rows(mgr, "Clothes", "zeta", False), [])
+    mgr.set_editor_property("ManageGroup", "None"); expect("All again", "item:Zeta_Neck" in rows(mgr, "Clothes", only_mods=False), True)
+    # Mods: a chip per mod; the chosen one keeps its header with its groups, the others go; group rows are no chips of their own
+    mchip = rgroup("mod", "SomeMod"); expect("group row of the Mods category has no chip", rgroup("group", "SomeGroup"), "None")
+    mgr.set_editor_property("ManageCat", "Mods"); mgr.call_method("Test Manage Groups")
+    expect("mods chips", [str(n) for n in mgr.get_editor_property("TmpNames")], [mchip])
+    mgr.set_editor_property("ManageGroup", mchip); expect("mod chip keeps header and groups", rows(mgr, "Mods"), ["mod:SomeMod", "group:SomeGroup"])
+    mgr.set_editor_property("ManageGroup", "NoSuchMod"); expect("another mod's chip hides it", rows(mgr, "Mods"), [])
+    mgr.set_editor_property("ManageGroup", "None"); mgr.set_editor_property("ManageCat", "Clothes")
     # custom name: trimmed, searchable, removable, catalog dirty
     mgr.call_method("Test Set Custom Name", args=("item", "ModThing", "  Fancy Thing "))
     expect("custom name trimmed", custom(mgr, "item", "ModThing"), (True, "Fancy Thing"))
@@ -52,9 +73,9 @@ def main():
     expect("makeup row: type line", origin3(mgr, "makeup", "Lips_01"), ("id: Lips_01\nVanilla", "None", "Lips"))   # Look Caption: own string key Look_Lips (en)
     expect("unshared group", origin(mgr, "group", "SomeGroup"), "g: SomeGroup")
     mgr.set_editor_property("ModGroupPairs", ["SomeMod|SomeGroup", "OtherMod|SomeGroup"])
-    expect("shared group lists the other pak", origin(mgr, "group", "SomeGroup"), "g: SomeGroup\nalso affects:\nPAK: OtherMod")
+    expect("shared group lists the other pak", origin(mgr, "group", "SomeGroup"), "g: SomeGroup\n\nalso affects:\nPAK: OtherMod")
     mgr.call_method("Test Set Custom Name", args=("mod", "OtherMod", "Other Name"))
-    expect("shared group shows the other pak's display name", origin(mgr, "group", "SomeGroup"), "g: SomeGroup\nalso affects:\nPAK: Other Name")
+    expect("shared group shows the other pak's display name", origin(mgr, "group", "SomeGroup"), "g: SomeGroup\n\nalso affects:\nPAK: Other Name")
     mgr.call_method("Test Set Custom Name", args=("mod", "OtherMod", "")); mgr.set_editor_property("ModGroupPairs", ["SomeMod|SomeGroup"])
     # rename from context menus: kind of a tile row, inline finish (trim, default = nothing), jump to the Manage row
     def kind(name):
@@ -63,6 +84,19 @@ def main():
     mgr.set_editor_property("CatalogDirty", False); mgr.call_method("Test Finish Item Rename", args=("ModThing", "  Neu "))
     expect("finish rename stores trimmed", custom(mgr, "item", "ModThing"), (True, "Neu"))
     mgr.call_method("Test Finish Item Rename", args=("ModThing", "ModThing")); expect("finish rename with the default stores nothing", custom(mgr, "item", "ModThing")[0], False)
+    # appearance presets: kind preset, name kept under the icon number - it stays with its preset when another one before it is deleted
+    mgr.set_editor_property("Presets", None); mgr.call_method("Test Load Presets"); mgr.call_method("Test Clear Presets")
+    for icon in (11, 12): mgr.call_method("Test Add Preset Icon", args=(icon,))
+    expect("rename kind preset", kind("Preset_1"), "preset")
+    def pshown(i):
+        mgr.call_method("Test Preset Shown Name", args=(i,)); return str(mgr.get_editor_property("TmpStr3"))
+    expect("preset default name", pshown(1), "Preset 2")
+    mgr.call_method("Test Finish Item Rename", args=("Preset_1", " Abend ")); expect("preset rename stored by icon number", custom(mgr, "preset", "12"), (True, "Abend"))
+    expect("preset shows its name", pshown(1), "Abend")
+    mgr.call_method("Test Remove Preset", args=(0,))   # the first one deleted
+    expect("name moves with its preset", (pshown(0)), "Abend")
+    mgr.call_method("Test Finish Item Rename", args=("Preset_0", "Preset 1")); expect("preset rename to its default stores nothing", custom(mgr, "preset", "12")[0], False)
+    mgr.call_method("Test Clear Presets")
     mgr.set_editor_property("ManageSearchText", "x"); mgr.call_method("Test Manage Rename", args=("mod", "SomeMod", "Mods"))
     expect("manage rename jumps", (str(mgr.get_editor_property("Page")), str(mgr.get_editor_property("ManageCat")), str(mgr.get_editor_property("ManageSearchText"))), ("Manage", "Mods", ""))
     # Vanilla: the groups with a vanilla piece, catalog order, as group rows without a header; only-mods has no effect
@@ -72,7 +106,7 @@ def main():
     expect("vanilla search by caption", rows(mgr, "Vanilla", "kpop"), ["group:Kpop"])
     expect("vanilla search miss", rows(mgr, "Vanilla", "somegroup"), [])
     mgr.set_editor_property("TmpParentMod", "None"); mgr.set_editor_property("ModGroupPairs", ["SomeMod|Kpop"])
-    expect("vanilla group shared with a pak", origin(mgr, "group", "Kpop"), "g: Kpop\nalso affects:\nPAK: Some Mod")   # the pak's display name (DLC caption)
+    expect("vanilla group shared with a pak", origin(mgr, "group", "Kpop"), "g: Kpop\n\nalso affects:\nPAK: Some Mod")   # the pak's display name (DLC caption)
     mgr.set_editor_property("ModGroupPairs", ["SomeMod|SomeGroup"])
     # 'Rename group…' from a tile: vanilla piece -> Vanilla category, mod piece -> Mods
     mgr.call_method("Test Rename Group Of Item", args=("Alpha_Neck",)); expect("rename group of a vanilla piece", str(mgr.get_editor_property("ManageCat")), "Vanilla")

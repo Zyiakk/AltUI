@@ -36,6 +36,7 @@ S_COLOR = "struct:/Script/CoreUObject.Color"
 P_CPB = "/Game/Project/Classes/Character_Player_Base"
 P_CB = "/Game/Project/Classes/Character_Base"
 P_JODI = "/Game/Project/Character/Jodi/Jodi"
+P_JODI_BASE = "/Game/Project/Character/Jodi/Jodi_Base"   # parent of Jodi; the main menu's figure (Jodi_Intro) is one too, but no Jodi
 P_GS = "/Game/Project/Classes/GameMode/TKA_GameState_Base"
 P_GS2 = "/Game/Project/Classes/GameMode/TKA_GameState"
 P_BAG = "/Game/Project/Classes/Misc/Bag_Comp"
@@ -173,18 +174,29 @@ def fn(name, inputs=(), outputs=(), graph=None, pure=False, override=False):
 
 
 def blueprint(path, parent=None, mode="create", variables=(), functions=(), event_graph=None, widget_tree=None, defaults=None,
-              interfaces=(), blueprint_type=None):
+              interfaces=(), blueprint_type=None, components=()):
     """blueprint_type="interface" makes a Blueprint interface (functions = signatures only); interfaces = paths of
-    interfaces this blueprint implements (their functions get bodies through `functions`, their events in the event graph)."""
+    interfaces this blueprint implements (their functions get bodies through `functions`, their events in the event graph);
+    components = component() entries, parents before their children."""
     d = {"type": "blueprint", "path": path, "mode": mode}
     if parent: d["parent"] = parent
     if blueprint_type: d["blueprint_type"] = blueprint_type
     if interfaces: d["interfaces"] = list(interfaces)
+    if components: d["components"] = list(components)
     if variables: d["variables"] = list(variables)
     if functions: d["functions"] = list(functions)
     if event_graph is not None: d["event_graph"] = event_graph.json() if isinstance(event_graph, G) else event_graph
     if widget_tree is not None: d["widget_tree"] = widget_tree
     if defaults: d["defaults"] = defaults
+    return d
+
+
+def component(name, cls, parent=None, **properties):
+    """A component in a blueprint's construction script: cls a component class path, parent the name of an earlier
+    component (none = a root; the first root replaces DefaultSceneRoot), properties ImportText values on the template."""
+    d = {"name": name, "class": cls}
+    if parent: d["parent"] = parent
+    if properties: d["properties"] = properties
     return d
 
 
@@ -223,6 +235,18 @@ def w(cls, name="", props=None, slot=None, children=()):
     if slot: d["slot"] = slot
     if children: d["children"] = list(children)
     return d
+
+
+def look_scene_branch(g):
+    """For the spawners (hook, loader entry): branch "bm" is true in a level whose figure is no Jodi pawn but a Jodi_Intro
+    - the main menu's scenes (Menu_Standing / Menu_Sitting, opened by Menu at random) and the loading scene (Loading).
+    The manager comes there anyway and puts the look on that figure (Find Menu Wearer). Exec in "lvl", out of "bm":
+    GetCurrentLevelName is not pure in 4.27, off the exec chain it is pruned."""
+    g.call("lvl", K_GS, "GetCurrentLevelName", inp={"bRemovePrefixString": "true"})
+    g.call("menu", K_STR, "StartsWith", inp={"SourceString": "@lvl.ReturnValue", "InPrefix": "Menu_", "SearchCase": "CaseSensitive"})
+    g.call("load", K_STR, "EqualEqual_StrStr", inp={"A": "@lvl.ReturnValue", "B": "Loading"})
+    g.call("or", K_MATH, "BooleanOR", inp={"A": "@menu.ReturnValue", "B": "@load.ReturnValue"}); g.branch("bm", "@or.ReturnValue")
+    g.chain("lvl", "bm")
 
 
 def write(path, assets):

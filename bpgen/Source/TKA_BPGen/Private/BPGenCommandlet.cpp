@@ -136,6 +136,30 @@ int32 UBPGenCommandlet::Main(const FString& Params) {
     TArray<FString> Paths; DumpPath.ParseIntoArray(Paths, TEXT(","), true);
     for (const FString& P : Paths) BPGenAssets::Dump(P);
   }
+  FString ExportArg, DumpMatArg;
+  if (FParse::Value(*Params, TEXT("-exportfbx="), ExportArg, false)) {   // object=file[,object=file]
+    TArray<FString> Pairs; ExportArg.ParseIntoArray(Pairs, TEXT(","), true);
+    for (const FString& P : Pairs) { FString O, F; if (P.Split(TEXT("="), &O, &F)) BPGenAssets::ExportFbx(O, F); }
+  }
+  if (FParse::Value(*Params, TEXT("-dumpmat="), DumpMatArg, false)) {    // material paths, comma separated
+    TArray<FString> Paths; DumpMatArg.ParseIntoArray(Paths, TEXT(","), true);
+    for (const FString& P : Paths) BPGenAssets::DumpMaterial(P);
+  }
+  FString GraphArg;
+  if (FParse::Value(*Params, TEXT("-dumpgraph="), GraphArg, false)) {    // base materials, comma separated
+    TArray<FString> Paths; GraphArg.ParseIntoArray(Paths, TEXT(","), true);
+    for (const FString& P : Paths) BPGenAssets::DumpMaterialGraph(P);
+  }
+  FString ClothArg;
+  if (FParse::Value(*Params, TEXT("-dumpcloth="), ClothArg, false)) {    // skeletal meshes, comma separated
+    TArray<FString> Paths; ClothArg.ParseIntoArray(Paths, TEXT(","), true);
+    for (const FString& P : Paths) BPGenAssets::DumpCloth(P);
+  }
+  FString SimArg;
+  if (FParse::Value(*Params, TEXT("-simcloth="), SimArg, false)) {      // skeletal meshes, comma separated
+    TArray<FString> Paths; SimArg.ParseIntoArray(Paths, TEXT(","), true);
+    for (const FString& P : Paths) BPGenAssets::SimCloth(P);
+  }
   if (Params.Contains(TEXT("-fastexit"))) {   // everything is saved synchronously above; the engine teardown alone takes ~50 s after a manifest run
     UE_LOG(LogBPGen, Display, TEXT("BPGEN OK (fast exit)")); GLog->Flush();
     FPlatformMisc::RequestExit(true);

@@ -303,6 +303,37 @@
    ]
   },
   {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_AltUIModAction",
+   "members": [
+    {
+     "name": "Caption",
+     "type": "text",
+     "internal_name": "Caption_2_DB96FA40BF51BFD0EA88F644CA0831BC"
+    },
+    {
+     "name": "Icon",
+     "type": "softobject:/Script/Engine.Texture2D",
+     "internal_name": "Icon_4_EF1CC01EAADE45600A8216F6E5903C0A"
+    },
+    {
+     "name": "Actor",
+     "type": "softclass:/Script/Engine.Actor",
+     "internal_name": "Actor_6_B3E49EFF83DA0524525D961F5557532B"
+    },
+    {
+     "name": "Key",
+     "type": "name",
+     "internal_name": "Key_8_AD597565AF8B1A7CBBB1199A9C2A90D6"
+    },
+    {
+     "name": "Order",
+     "type": "int",
+     "internal_name": "Order_10_6F3171CD3C68D716AA56AD44B0256DC0"
+    }
+   ]
+  },
+  {
    "type": "blueprint",
    "path": "/Game/Mod/AltUI/BPI_AltUIMod",
    "mode": "create",
@@ -522,6 +553,26 @@
      "Type": "Toggle",
      "Label": "x",
      "Order": 9
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/AltUIMod_Test/AltUI_Actions",
+   "row_struct": "/Game/Mod/AltUI/S_AltUIModAction",
+   "composite": false,
+   "rows": {
+    "Later": {
+     "Caption": "Later",
+     "Actor": "/Script/Engine.PointLight",
+     "Key": "B",
+     "Order": 2
+    },
+    "Sooner": {
+     "Caption": "Sooner",
+     "Actor": "/Script/Engine.PointLight",
+     "Key": "A",
+     "Order": 1
     }
    }
   },
@@ -751,6 +802,28 @@
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor",
      "internal_name": "MakeupColors_4_9CE677FA56AAF233AB06B744042F72C6"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_ThemePreset",
+   "members": [
+    {
+     "name": "Colors",
+     "type": "struct:/Script/CoreUObject.LinearColor",
+     "container": "array",
+     "internal_name": "Colors_2_E3C68675A187E2477C4A99EE12847290"
+    },
+    {
+     "name": "BgAlpha",
+     "type": "float",
+     "internal_name": "BgAlpha_4_BACA3429620B6040B63350BDEC4F3671"
+    },
+    {
+     "name": "TileAlpha",
+     "type": "float",
+     "internal_name": "TileAlpha_6_79EAE644DB709B07F8059102B8D38A14"
     }
    ]
   },
@@ -3357,6 +3430,398 @@
      "es": "El cuerpo actual no tiene morphs faciales – estos ajustes no le afectan.",
      "pl": "Obecne ciało nie ma morfów twarzy – te ustawienia na nie nie działają."
     },
+    "OptCat_Quick": {
+     "en": "Quick menu",
+     "de": "Schnellmenü",
+     "zh": "快捷菜单",
+     "ru": "Быстрое меню",
+     "es": "Menú rápido",
+     "pl": "Szybkie menu"
+    },
+    "Lbl_QuickKey": {
+     "en": "Key (hold)",
+     "de": "Taste (halten)",
+     "zh": "按键（按住）",
+     "ru": "Клавиша (удерживать)",
+     "es": "Tecla (mantener)",
+     "pl": "Klawisz (przytrzymaj)"
+    },
+    "Lbl_QuickInWheel": {
+     "en": "In the wheel",
+     "de": "Im Rad",
+     "zh": "轮盘中",
+     "ru": "В колесе",
+     "es": "En la rueda",
+     "pl": "W kole"
+    },
+    "Lbl_QuickAvailable": {
+     "en": "Available",
+     "de": "Verfügbar",
+     "zh": "可用",
+     "ru": "Доступно",
+     "es": "Disponible",
+     "pl": "Dostępne"
+    },
+    "Lbl_QuickEmpty": {
+     "en": "Quick menu is empty – Options › Quick menu",
+     "de": "Schnellmenü ist leer – Optionen › Schnellmenü",
+     "zh": "快捷菜单为空 – 选项 › 快捷菜单",
+     "ru": "Быстрое меню пусто – Настройки › Быстрое меню",
+     "es": "El menú rápido está vacío – Opciones › Menú rápido",
+     "pl": "Szybkie menu jest puste – Opcje › Szybkie menu"
+    },
+    "Lbl_QuickKeyTaken": {
+     "en": "That is the panel key.",
+     "de": "Das ist die Panel-Taste.",
+     "zh": "这是面板按键。",
+     "ru": "Это клавиша панели.",
+     "es": "Esa es la tecla del panel.",
+     "pl": "To klawisz panelu."
+    },
+    "QuickGrp_Camera": {
+     "en": "Camera and panel",
+     "de": "Kamera und Panel",
+     "zh": "相机与面板",
+     "ru": "Камера и панель",
+     "es": "Cámara y panel",
+     "pl": "Kamera i panel"
+    },
+    "QuickGrp_Outfits": {
+     "en": "Outfits",
+     "de": "Outfits",
+     "zh": "搭配",
+     "ru": "Комплекты",
+     "es": "Conjuntos",
+     "pl": "Stroje"
+    },
+    "QuickGrp_Looks": {
+     "en": "Looks",
+     "de": "Looks",
+     "zh": "造型",
+     "ru": "Образы",
+     "es": "Looks",
+     "pl": "Stylizacje"
+    },
+    "QuickGrp_Faces": {
+     "en": "Faces",
+     "de": "Gesichter",
+     "zh": "面部",
+     "ru": "Лица",
+     "es": "Rostros",
+     "pl": "Twarze"
+    },
+    "QuickGrp_Presets": {
+     "en": "Presets",
+     "de": "Presets",
+     "zh": "预设",
+     "ru": "Пресеты",
+     "es": "Preajustes",
+     "pl": "Presety"
+    },
+    "QuickGrp_Poses": {
+     "en": "Favourite poses",
+     "de": "Lieblingsposen",
+     "zh": "收藏的姿势",
+     "ru": "Избранные позы",
+     "es": "Poses favoritas",
+     "pl": "Ulubione pozy"
+    },
+    "QuickGrp_Tabs": {
+     "en": "Open a tab",
+     "de": "Reiter öffnen",
+     "zh": "打开标签页",
+     "ru": "Открыть вкладку",
+     "es": "Abrir pestaña",
+     "pl": "Otwórz kartę"
+    },
+    "QuickGrp_ModEntries": {
+     "en": "Open a mod entry",
+     "de": "Mod-Eintrag öffnen",
+     "zh": "打开模组条目",
+     "ru": "Открыть запись мода",
+     "es": "Abrir entrada de mod",
+     "pl": "Otwórz wpis moda"
+    },
+    "QuickGrp_ModActions": {
+     "en": "Actions of mods",
+     "de": "Aktionen von Mods",
+     "zh": "模组的操作",
+     "ru": "Действия модов",
+     "es": "Acciones de mods",
+     "pl": "Akcje modów"
+    },
+    "Quick_FreeCam": {
+     "en": "Free camera",
+     "de": "Freie Kamera",
+     "zh": "自由相机",
+     "ru": "Свободная камера",
+     "es": "Cámara libre",
+     "pl": "Wolna kamera"
+    },
+    "Quick_Photo": {
+     "en": "Photo mode",
+     "de": "Foto-Modus",
+     "zh": "拍照模式",
+     "ru": "Фоторежим",
+     "es": "Modo foto",
+     "pl": "Tryb zdjęć"
+    },
+    "Quick_Panel": {
+     "en": "Open AltUI",
+     "de": "AltUI öffnen",
+     "zh": "打开 AltUI",
+     "ru": "Открыть AltUI",
+     "es": "Abrir AltUI",
+     "pl": "Otwórz AltUI"
+    },
+    "Quick_PoseStop": {
+     "en": "Stop pose",
+     "de": "Pose beenden",
+     "zh": "停止姿势",
+     "ru": "Остановить позу",
+     "es": "Detener pose",
+     "pl": "Zatrzymaj pozę"
+    },
+    "Quick_Outfit": {
+     "en": "Outfit",
+     "de": "Outfit",
+     "zh": "搭配",
+     "ru": "Комплект",
+     "es": "Conjunto",
+     "pl": "Strój"
+    },
+    "Quick_Preset": {
+     "en": "Preset",
+     "de": "Preset",
+     "zh": "预设",
+     "ru": "Пресет",
+     "es": "Preajuste",
+     "pl": "Preset"
+    },
+    "OptCat_General": {
+     "en": "General",
+     "de": "Allgemein",
+     "zh": "常规",
+     "ru": "Общие",
+     "es": "General",
+     "pl": "Ogólne"
+    },
+    "OptCat_Tiles": {
+     "en": "Tiles",
+     "de": "Kacheln",
+     "zh": "图块",
+     "ru": "Плитки",
+     "es": "Casillas",
+     "pl": "Kafelki"
+    },
+    "OptCat_Groups": {
+     "en": "Groups",
+     "de": "Gruppen",
+     "zh": "分组",
+     "ru": "Группы",
+     "es": "Grupos",
+     "pl": "Grupy"
+    },
+    "OptCat_Camera": {
+     "en": "Camera",
+     "de": "Kamera",
+     "zh": "相机",
+     "ru": "Камера",
+     "es": "Cámara",
+     "pl": "Kamera"
+    },
+    "OptCat_Controls": {
+     "en": "Controls",
+     "de": "Steuerung",
+     "zh": "操作",
+     "ru": "Управление",
+     "es": "Controles",
+     "pl": "Sterowanie"
+    },
+    "OptCat_Theme": {
+     "en": "Colours",
+     "de": "Farben",
+     "zh": "颜色",
+     "ru": "Цвета",
+     "es": "Colores",
+     "pl": "Kolory"
+    },
+    "OptCat_Conflicts": {
+     "en": "Slot conflicts",
+     "de": "Slot-Konflikte",
+     "zh": "部位冲突",
+     "ru": "Конфликты слотов",
+     "es": "Conflictos de ranuras",
+     "pl": "Konflikty slotów"
+    },
+    "OptCat_Tabs": {
+     "en": "Tabs",
+     "de": "Reiter",
+     "zh": "标签页",
+     "ru": "Вкладки",
+     "es": "Pestañas",
+     "pl": "Karty"
+    },
+    "Lbl_ThemeSave": {
+     "en": "Save scheme as",
+     "de": "Schema speichern als",
+     "zh": "将配色另存为",
+     "ru": "Сохранить схему как",
+     "es": "Guardar esquema como",
+     "pl": "Zapisz schemat jako"
+    },
+    "Hint_ThemeName": {
+     "en": "name",
+     "de": "Name",
+     "zh": "名称",
+     "ru": "название",
+     "es": "nombre",
+     "pl": "nazwa"
+    },
+    "Btn_ThemeSave": {
+     "en": "save",
+     "de": "speichern",
+     "zh": "保存",
+     "ru": "сохранить",
+     "es": "guardar",
+     "pl": "zapisz"
+    },
+    "Lbl_ThemePresets": {
+     "en": "Saved schemes",
+     "de": "Gespeicherte Schemata",
+     "zh": "已保存的配色",
+     "ru": "Сохранённые схемы",
+     "es": "Esquemas guardados",
+     "pl": "Zapisane schematy"
+    },
+    "Lbl_ThemePresetsHint": {
+     "en": "Click applies a scheme, right click: apply or delete. The same name overwrites a scheme.",
+     "de": "Klick wendet ein Schema an, Rechtsklick: anwenden oder löschen. Derselbe Name überschreibt ein Schema.",
+     "zh": "单击应用配色，右键：应用或删除。使用相同名称会覆盖已有配色。",
+     "ru": "Щелчок применяет схему, правый щелчок: применить или удалить. То же имя перезаписывает схему.",
+     "es": "Un clic aplica un esquema; clic derecho: aplicar o eliminar. El mismo nombre sobrescribe un esquema.",
+     "pl": "Kliknięcie stosuje schemat, prawy przycisk: zastosuj lub usuń. Ta sama nazwa nadpisuje schemat."
+    },
+    "Lbl_WeaponCount": {
+     "en": "<m> models, <s> skins",
+     "de": "<m> Modelle, <s> Skins",
+     "zh": "<m> 个模型，<s> 个皮肤",
+     "ru": "модели: <m>, скины: <s>",
+     "es": "<m> modelos, <s> skins",
+     "pl": "modele: <m>, skórki: <s>"
+    },
+    "Lbl_OutfitScale": {
+     "en": "Outfit tile size",
+     "de": "Outfit-Kachelgröße",
+     "zh": "搭配图块大小",
+     "ru": "Размер плиток комплектов",
+     "es": "Tamaño de casillas de conjuntos",
+     "pl": "Rozmiar kafelków strojów"
+    },
+    "Lbl_LookScale": {
+     "en": "Look tile size",
+     "de": "Look-Kachelgröße",
+     "zh": "造型图块大小",
+     "ru": "Размер плиток образов",
+     "es": "Tamaño de casillas de looks",
+     "pl": "Rozmiar kafelków stylizacji"
+    },
+    "Lbl_OutfitCols": {
+     "en": "Outfit: pieces per row",
+     "de": "Outfit: Teile pro Zeile",
+     "zh": "搭配：每行件数",
+     "ru": "Комплект: вещей в ряду",
+     "es": "Conjunto: prendas por fila",
+     "pl": "Strój: części w rzędzie"
+    },
+    "Lbl_OutfitRows": {
+     "en": "Outfit: rows of pieces",
+     "de": "Outfit: Zeilen mit Teilen",
+     "zh": "搭配：行数",
+     "ru": "Комплект: рядов вещей",
+     "es": "Conjunto: filas de prendas",
+     "pl": "Strój: rzędy części"
+    },
+    "Lbl_QuickControl": {
+     "en": "Control",
+     "de": "Steuerung",
+     "zh": "操作",
+     "ru": "Управление",
+     "es": "Control",
+     "pl": "Sterowanie"
+    },
+    "Lbl_QuickAlpha": {
+     "en": "Quick menu opacity",
+     "de": "Deckkraft des Schnellmenüs",
+     "zh": "快捷菜单不透明度",
+     "ru": "Непрозрачность быстрого меню",
+     "es": "Opacidad del menú rápido",
+     "pl": "Krycie szybkiego menu"
+    },
+    "Lbl_TabStyle": {
+     "en": "Tab bar",
+     "de": "Reiterleiste",
+     "zh": "标签栏",
+     "ru": "Панель вкладок",
+     "es": "Barra de pestañas",
+     "pl": "Pasek kart"
+    },
+    "Chip_TabStyle0": {
+     "en": "Text only",
+     "de": "Nur Text",
+     "zh": "仅文字",
+     "ru": "Только текст",
+     "es": "Solo texto",
+     "pl": "Tylko tekst"
+    },
+    "Chip_TabStyle1": {
+     "en": "Icons only",
+     "de": "Nur Icons",
+     "zh": "仅图标",
+     "ru": "Только значки",
+     "es": "Solo iconos",
+     "pl": "Tylko ikony"
+    },
+    "Chip_TabStyle2": {
+     "en": "Icons and text",
+     "de": "Icons und Text",
+     "zh": "图标和文字",
+     "ru": "Значки и текст",
+     "es": "Iconos y texto",
+     "pl": "Ikony i tekst"
+    },
+    "Lbl_TabIconPos": {
+     "en": "Icon position",
+     "de": "Icon-Position",
+     "zh": "图标位置",
+     "ru": "Положение значка",
+     "es": "Posición del icono",
+     "pl": "Położenie ikony"
+    },
+    "Chip_TabIconPos0": {
+     "en": "left of the text",
+     "de": "links vom Text",
+     "zh": "文字左侧",
+     "ru": "слева от текста",
+     "es": "a la izquierda del texto",
+     "pl": "na lewo od tekstu"
+    },
+    "Chip_TabIconPos1": {
+     "en": "right of the text",
+     "de": "rechts vom Text",
+     "zh": "文字右侧",
+     "ru": "справа от текста",
+     "es": "a la derecha del texto",
+     "pl": "na prawo od tekstu"
+    },
+    "Lbl_TabsHint": {
+     "en": "Switched-off tabs are left out of the tab bar. A jump into one (e.g. \"Show in tab\") shows it until you leave it.",
+     "de": "Abgeschaltete Reiter fehlen in der Reiterleiste. Ein Sprung hinein (z. B. „In Reiter zeigen“) zeigt ihn, bis man ihn verlässt.",
+     "zh": "关闭的标签页不会出现在标签栏中。跳转到其中一个（例如“在标签页中显示”）时会显示它，直到离开为止。",
+     "ru": "Отключённые вкладки не показываются в панели вкладок. Переход в такую вкладку (например, «Показать во вкладке») показывает её, пока вы её не покинете.",
+     "es": "Las pestañas desactivadas no aparecen en la barra de pestañas. Un salto a una de ellas (p. ej. «Mostrar en pestaña») la muestra hasta que la abandonas.",
+     "pl": "Wyłączone karty nie pojawiają się na pasku kart. Przejście do jednej z nich (np. „Pokaż w karcie”) pokazuje ją, dopóki jej nie opuścisz."
+    },
     "Hair_Black": {
      "en": "Black",
      "de": "Schwarz",
@@ -3813,6 +4278,62 @@
      "type": "bool"
     },
     {
+     "name": "LastOptionsCat",
+     "type": "name"
+    },
+    {
+     "name": "HiddenTabs",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "QuickKey",
+     "type": "name"
+    },
+    {
+     "name": "QuickItems",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "TabStyle",
+     "type": "int"
+    },
+    {
+     "name": "TabIconRight",
+     "type": "bool"
+    },
+    {
+     "name": "ThemePresets",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_ThemePreset"
+    },
+    {
+     "name": "OutfitScale",
+     "type": "float"
+    },
+    {
+     "name": "LookScale",
+     "type": "float"
+    },
+    {
+     "name": "OutfitCols",
+     "type": "int"
+    },
+    {
+     "name": "OutfitRows",
+     "type": "int"
+    },
+    {
+     "name": "ManageChipsCollapsed",
+     "type": "bool"
+    },
+    {
+     "name": "QuickAlpha",
+     "type": "float"
+    },
+    {
      "name": "ThemeBg",
      "type": "struct:/Script/CoreUObject.LinearColor"
     },
@@ -3865,6 +4386,14 @@
      "type": "object:/Game/Project/Character/Jodi/Jodi"
     },
     {
+     "name": "Wearer",
+     "type": "object:/Game/Project/Character/Jodi/Jodi_Base"
+    },
+    {
+     "name": "MenuTries",
+     "type": "int"
+    },
+    {
      "name": "PC",
      "type": "object:/Game/Project/Classes/TKA_Controller"
     },
@@ -3900,6 +4429,16 @@
     {
      "name": "ViewMod",
      "type": "name"
+    },
+    {
+     "name": "ModViewItems",
+     "type": "struct:/Game/Mod/AltUI/S_ClothesItem",
+     "container": "array"
+    },
+    {
+     "name": "ModViewPoses",
+     "type": "name",
+     "container": "array"
     },
     {
      "name": "ContentFrom",
@@ -4717,8 +5256,210 @@
      "type": "string"
     },
     {
-     "name": "WeaponsSeen",
+     "name": "FocusHeight",
+     "type": "float"
+    },
+    {
+     "name": "ViewFace",
+     "type": "int",
+     "default": "-1"
+    },
+    {
+     "name": "ThemePresets",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_ThemePreset"
+    },
+    {
+     "name": "ThemeColorsTmp",
+     "type": "struct:/Script/CoreUObject.LinearColor",
+     "container": "array"
+    },
+    {
+     "name": "ThemePresetKeys",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ThemeSaveOk",
+     "type": "bool"
+    },
+    {
+     "name": "OutfitScale",
+     "type": "float"
+    },
+    {
+     "name": "LookScale",
+     "type": "float"
+    },
+    {
+     "name": "OutfitCols",
      "type": "int"
+    },
+    {
+     "name": "OutfitRows",
+     "type": "int"
+    },
+    {
+     "name": "ManageGroup",
+     "type": "name"
+    },
+    {
+     "name": "QStripe",
+     "type": "int"
+    },
+    {
+     "name": "ManageChipsCollapsed",
+     "type": "bool"
+    },
+    {
+     "name": "ManageCountTmp",
+     "type": "int"
+    },
+    {
+     "name": "ManageChipSearchText",
+     "type": "string"
+    },
+    {
+     "name": "ManageNoGroup",
+     "type": "bool"
+    },
+    {
+     "name": "ManageInGroup",
+     "type": "bool"
+    },
+    {
+     "name": "ManageGroupKeys",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "ManageGroupList",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ManageChipOrder",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ManageGroupTmp",
+     "type": "name"
+    },
+    {
+     "name": "ManageChipCap",
+     "type": "text"
+    },
+    {
+     "name": "QuickAlpha",
+     "type": "float"
+    },
+    {
+     "name": "OptQuickAlpha",
+     "type": "float"
+    },
+    {
+     "name": "OptOutfitScale",
+     "type": "float"
+    },
+    {
+     "name": "OptLookScale",
+     "type": "float"
+    },
+    {
+     "name": "OptOutfitCols",
+     "type": "float"
+    },
+    {
+     "name": "OptOutfitRows",
+     "type": "float"
+    },
+    {
+     "name": "WCntFilter",
+     "type": "bool"
+    },
+    {
+     "name": "WCntRows",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "WCntAll",
+     "type": "int"
+    },
+    {
+     "name": "WCntHit",
+     "type": "int"
+    },
+    {
+     "name": "WCntM",
+     "type": "string"
+    },
+    {
+     "name": "WCntS",
+     "type": "string"
+    },
+    {
+     "name": "SortOut",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "SortHead",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "SortTail",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "SortK1",
+     "type": "int64",
+     "container": "array"
+    },
+    {
+     "name": "SortK2",
+     "type": "int64",
+     "container": "array"
+    },
+    {
+     "name": "SortKey1",
+     "type": "int64"
+    },
+    {
+     "name": "SortKey2",
+     "type": "int64"
+    },
+    {
+     "name": "SortLo",
+     "type": "int"
+    },
+    {
+     "name": "SortHi",
+     "type": "int"
+    },
+    {
+     "name": "SortStr",
+     "type": "string"
+    },
+    {
+     "name": "ChipOrder",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "WeaponActors",
+     "type": "name",
+     "container": "map",
+     "value_type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+    },
+    {
+     "name": "WeaponPollKeys",
+     "type": "name",
+     "container": "array"
     },
     {
      "name": "LookTypes",
@@ -4956,6 +5697,10 @@
      "type": "int"
     },
     {
+     "name": "TabP0",
+     "type": "float"
+    },
+    {
      "name": "LogSave",
      "type": "object:/Game/Mod/AltUI/SG_Log"
     },
@@ -4982,6 +5727,10 @@
     },
     {
      "name": "ViewShift",
+     "type": "float"
+    },
+    {
+     "name": "SettingsSaveTimer",
      "type": "float"
     },
     {
@@ -5548,6 +6297,145 @@
      "name": "FaceGroup",
      "type": "name",
      "default": "FaceExpr"
+    },
+    {
+     "name": "OptionsCat",
+     "type": "name",
+     "default": "General"
+    },
+    {
+     "name": "HiddenTabs",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "TabStyle",
+     "type": "int"
+    },
+    {
+     "name": "TabIconRight",
+     "type": "bool"
+    },
+    {
+     "name": "QuickKey",
+     "type": "name",
+     "default": "4"
+    },
+    {
+     "name": "QuickItems",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "QuickOpen",
+     "type": "bool"
+    },
+    {
+     "name": "QuickShown",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "QuickMarked",
+     "type": "int",
+     "default": "-1"
+    },
+    {
+     "name": "QOk",
+     "type": "bool"
+    },
+    {
+     "name": "QIdx",
+     "type": "int"
+    },
+    {
+     "name": "QStr",
+     "type": "string"
+    },
+    {
+     "name": "QTex",
+     "type": "object:/Script/Engine.Texture2D"
+    },
+    {
+     "name": "QNames",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "QLoop",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "QItemsLoop",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "QRowFields",
+     "type": "struct:/Game/Mod/AltUI/S_AltUIModField",
+     "container": "array"
+    },
+    {
+     "name": "QModOk",
+     "type": "bool"
+    },
+    {
+     "name": "QModCaption",
+     "type": "string"
+    },
+    {
+     "name": "SnapUnder",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "QRun",
+     "type": "string"
+    },
+    {
+     "name": "QStr2",
+     "type": "string"
+    },
+    {
+     "name": "QuickCapture",
+     "type": "bool"
+    },
+    {
+     "name": "QuickKeyHint",
+     "type": "text"
+    },
+    {
+     "name": "ModActions",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_AltUIModAction"
+    },
+    {
+     "name": "ModActionKeys",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "QFields",
+     "type": "struct:/Game/Mod/AltUI/S_AltUIModField",
+     "container": "array"
+    },
+    {
+     "name": "QModCls",
+     "type": "softclass:/Script/Engine.Actor"
+    },
+    {
+     "name": "QModKey",
+     "type": "name"
+    },
+    {
+     "name": "QModToggle",
+     "type": "bool"
+    },
+    {
+     "name": "QModIcon",
+     "type": "softobject:/Script/Engine.Texture2D"
     },
     {
      "name": "FacesSave",
@@ -12562,16 +13450,6 @@
         }
        },
        {
-        "id": "sOk",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@sEmpty.ReturnValue",
-         "B": "@or5.ReturnValue"
-        }
-       },
-       {
         "id": "io",
         "kind": "call_self",
         "function": "Is Owned",
@@ -12672,16 +13550,6 @@
         }
        },
        {
-        "id": "a1",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanAND",
-        "in": {
-         "A": "@gOkH.ReturnValue",
-         "B": "@sOk.ReturnValue"
-        }
-       },
-       {
         "id": "a2",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
@@ -12717,7 +13585,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanAND",
         "in": {
-         "A": "@a1.ReturnValue",
+         "A": "@gOkH.ReturnValue",
          "B": "@a3.ReturnValue"
         }
        },
@@ -12736,6 +13604,20 @@
         "kind": "branch",
         "in": {
          "Condition": "@all.ReturnValue"
+        }
+       },
+       {
+        "id": "bse",
+        "kind": "branch",
+        "in": {
+         "Condition": "@sEmpty.ReturnValue"
+        }
+       },
+       {
+        "id": "bsh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@or5.ReturnValue"
         }
        },
        {
@@ -12776,6 +13658,12 @@
        [
         "fe",
         "br",
+        "bse",
+        "add"
+       ],
+       [
+        "bse:else",
+        "bsh",
         "add"
        ],
        [
@@ -16574,6 +17462,287 @@
         }
        },
        {
+        "id": "lg62_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg62",
+        "kind": "get",
+        "var": "LastOptionsCat",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls62",
+        "kind": "set",
+        "var": "OptionsCat",
+        "in": {
+         "OptionsCat": "@lg62.LastOptionsCat"
+        }
+       },
+       {
+        "id": "ln62",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg62.LastOptionsCat",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb62",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln62.ReturnValue"
+        }
+       },
+       {
+        "id": "lg63_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg63",
+        "kind": "get",
+        "var": "HiddenTabs",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls63",
+        "kind": "set",
+        "var": "HiddenTabs",
+        "in": {
+         "HiddenTabs": "@lg63.HiddenTabs"
+        }
+       },
+       {
+        "id": "lg64_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg64",
+        "kind": "get",
+        "var": "QuickKey",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls64",
+        "kind": "set",
+        "var": "QuickKey",
+        "in": {
+         "QuickKey": "@lg64.QuickKey"
+        }
+       },
+       {
+        "id": "ln64",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg64.QuickKey",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb64",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln64.ReturnValue"
+        }
+       },
+       {
+        "id": "lg65_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg65",
+        "kind": "get",
+        "var": "QuickItems",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls65",
+        "kind": "set",
+        "var": "QuickItems",
+        "in": {
+         "QuickItems": "@lg65.QuickItems"
+        }
+       },
+       {
+        "id": "lg66_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg66",
+        "kind": "get",
+        "var": "TabStyle",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls66",
+        "kind": "set",
+        "var": "TabStyle",
+        "in": {
+         "TabStyle": "@lg66.TabStyle"
+        }
+       },
+       {
+        "id": "lg67_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg67",
+        "kind": "get",
+        "var": "TabIconRight",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls67",
+        "kind": "set",
+        "var": "TabIconRight",
+        "in": {
+         "TabIconRight": "@lg67.TabIconRight"
+        }
+       },
+       {
+        "id": "lg68_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg68",
+        "kind": "get",
+        "var": "ThemePresets",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls68",
+        "kind": "set",
+        "var": "ThemePresets",
+        "in": {
+         "ThemePresets": "@lg68.ThemePresets"
+        }
+       },
+       {
+        "id": "lg69_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg69",
+        "kind": "get",
+        "var": "ManageChipsCollapsed",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls69",
+        "kind": "set",
+        "var": "ManageChipsCollapsed",
+        "in": {
+         "ManageChipsCollapsed": "@lg69.ManageChipsCollapsed"
+        }
+       },
+       {
+        "id": "lg70_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg70",
+        "kind": "get",
+        "var": "QuickAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls70",
+        "kind": "set",
+        "var": "QuickAlpha",
+        "in": {
+         "QuickAlpha": "@lg70.QuickAlpha"
+        }
+       },
+       {
+        "id": "lg71_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg71",
+        "kind": "get",
+        "var": "OutfitScale",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls71",
+        "kind": "set",
+        "var": "OutfitScale",
+        "in": {
+         "OutfitScale": "@lg71.OutfitScale"
+        }
+       },
+       {
+        "id": "lg72_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg72",
+        "kind": "get",
+        "var": "LookScale",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls72",
+        "kind": "set",
+        "var": "LookScale",
+        "in": {
+         "LookScale": "@lg72.LookScale"
+        }
+       },
+       {
+        "id": "lg73_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg73",
+        "kind": "get",
+        "var": "OutfitCols",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls73",
+        "kind": "set",
+        "var": "OutfitCols",
+        "in": {
+         "OutfitCols": "@lg73.OutfitCols"
+        }
+       },
+       {
+        "id": "lg74_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg74",
+        "kind": "get",
+        "var": "OutfitRows",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls74",
+        "kind": "set",
+        "var": "OutfitRows",
+        "in": {
+         "OutfitRows": "@lg74.OutfitRows"
+        }
+       },
+       {
         "id": "gth_s",
         "kind": "get",
         "var": "Settings"
@@ -16592,293 +17761,293 @@
         }
        },
        {
-        "id": "lg62_s",
+        "id": "lg75_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg62",
+        "id": "lg75",
         "kind": "get",
         "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls62",
+        "id": "ls75",
         "kind": "set",
         "var": "ThemeBg",
         "in": {
-         "ThemeBg": "@lg62.ThemeBg"
+         "ThemeBg": "@lg75.ThemeBg"
         }
        },
        {
-        "id": "lg63_s",
+        "id": "lg76_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg63",
+        "id": "lg76",
         "kind": "get",
         "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls63",
+        "id": "ls76",
         "kind": "set",
         "var": "ThemeAccent",
         "in": {
-         "ThemeAccent": "@lg63.ThemeAccent"
+         "ThemeAccent": "@lg76.ThemeAccent"
         }
        },
        {
-        "id": "lg64_s",
+        "id": "lg77_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg64",
+        "id": "lg77",
         "kind": "get",
         "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls64",
+        "id": "ls77",
         "kind": "set",
         "var": "ThemeFill",
         "in": {
-         "ThemeFill": "@lg64.ThemeFill"
+         "ThemeFill": "@lg77.ThemeFill"
         }
        },
        {
-        "id": "lg65_s",
+        "id": "lg78_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg65",
+        "id": "lg78",
         "kind": "get",
         "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls65",
+        "id": "ls78",
         "kind": "set",
         "var": "ThemeFrame",
         "in": {
-         "ThemeFrame": "@lg65.ThemeFrame"
+         "ThemeFrame": "@lg78.ThemeFrame"
         }
        },
        {
-        "id": "lg66_s",
+        "id": "lg79_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg66",
+        "id": "lg79",
         "kind": "get",
         "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls66",
+        "id": "ls79",
         "kind": "set",
         "var": "ThemeWorn",
         "in": {
-         "ThemeWorn": "@lg66.ThemeWorn"
+         "ThemeWorn": "@lg79.ThemeWorn"
         }
        },
        {
-        "id": "lg67_s",
+        "id": "lg80_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg67",
+        "id": "lg80",
         "kind": "get",
         "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls67",
+        "id": "ls80",
         "kind": "set",
         "var": "ThemeRow",
         "in": {
-         "ThemeRow": "@lg67.ThemeRow"
+         "ThemeRow": "@lg80.ThemeRow"
         }
        },
        {
-        "id": "lg68_s",
+        "id": "lg81_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg68",
+        "id": "lg81",
         "kind": "get",
         "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls68",
+        "id": "ls81",
         "kind": "set",
         "var": "ThemeText",
         "in": {
-         "ThemeText": "@lg68.ThemeText"
+         "ThemeText": "@lg81.ThemeText"
         }
        },
        {
-        "id": "lg69_s",
+        "id": "lg82_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg69",
+        "id": "lg82",
         "kind": "get",
         "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls69",
+        "id": "ls82",
         "kind": "set",
         "var": "ThemeHead",
         "in": {
-         "ThemeHead": "@lg69.ThemeHead"
+         "ThemeHead": "@lg82.ThemeHead"
         }
        },
        {
-        "id": "lg70_s",
+        "id": "lg83_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg70",
+        "id": "lg83",
         "kind": "get",
         "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls70",
+        "id": "ls83",
         "kind": "set",
         "var": "ThemeLink",
         "in": {
-         "ThemeLink": "@lg70.ThemeLink"
+         "ThemeLink": "@lg83.ThemeLink"
         }
        },
        {
-        "id": "lg71_s",
+        "id": "lg84_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg71",
+        "id": "lg84",
         "kind": "get",
         "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "ls71",
+        "id": "ls84",
         "kind": "set",
         "var": "ThemeLine",
         "in": {
-         "ThemeLine": "@lg71.ThemeLine"
+         "ThemeLine": "@lg84.ThemeLine"
         }
        },
        {
-        "id": "lg72_s",
+        "id": "lg85_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg72",
+        "id": "lg85",
         "kind": "get",
         "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "lz72",
+        "id": "lz85",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg72.BgAlpha",
+         "A": "@lg85.BgAlpha",
          "B": "0.0"
         }
        },
        {
-        "id": "lv72",
+        "id": "lv85",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@ver.ReturnValue",
-         "B": "@lz72.ReturnValue"
+         "B": "@lz85.ReturnValue"
         }
        },
        {
-        "id": "ld72",
+        "id": "ld85",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg72.BgAlpha",
+         "A": "@lg85.BgAlpha",
          "B": "0.88",
-         "bPickA": "@lv72.ReturnValue"
+         "bPickA": "@lv85.ReturnValue"
         }
        },
        {
-        "id": "ls72",
+        "id": "ls85",
         "kind": "set",
         "var": "BgAlpha",
         "in": {
-         "BgAlpha": "@ld72.ReturnValue"
+         "BgAlpha": "@ld85.ReturnValue"
         }
        },
        {
-        "id": "lg73_s",
+        "id": "lg86_s",
         "kind": "get",
         "var": "Settings"
        },
        {
-        "id": "lg73",
+        "id": "lg86",
         "kind": "get",
         "var": "TileAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "lz73",
+        "id": "lz86",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg73.TileAlpha",
+         "A": "@lg86.TileAlpha",
          "B": "0.0"
         }
        },
        {
-        "id": "lv73",
+        "id": "lv86",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@ver.ReturnValue",
-         "B": "@lz73.ReturnValue"
+         "B": "@lz86.ReturnValue"
         }
        },
        {
-        "id": "ld73",
+        "id": "ld86",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg73.TileAlpha",
+         "A": "@lg86.TileAlpha",
          "B": "1.0",
-         "bPickA": "@lv73.ReturnValue"
+         "bPickA": "@lv86.ReturnValue"
         }
        },
        {
-        "id": "ls73",
+        "id": "ls86",
         "kind": "set",
         "var": "TileAlpha",
         "in": {
-         "TileAlpha": "@ld73.ReturnValue"
+         "TileAlpha": "@ld86.ReturnValue"
         }
        },
        {
@@ -17186,10 +18355,6 @@
         "lg61.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg62_s.Settings",
         "lg62.self"
        ],
@@ -17236,6 +18401,62 @@
        [
         "lg73_s.Settings",
         "lg73.self"
+       ],
+       [
+        "lg74_s.Settings",
+        "lg74.self"
+       ],
+       [
+        "gth_s.Settings",
+        "gth.self"
+       ],
+       [
+        "lg75_s.Settings",
+        "lg75.self"
+       ],
+       [
+        "lg76_s.Settings",
+        "lg76.self"
+       ],
+       [
+        "lg77_s.Settings",
+        "lg77.self"
+       ],
+       [
+        "lg78_s.Settings",
+        "lg78.self"
+       ],
+       [
+        "lg79_s.Settings",
+        "lg79.self"
+       ],
+       [
+        "lg80_s.Settings",
+        "lg80.self"
+       ],
+       [
+        "lg81_s.Settings",
+        "lg81.self"
+       ],
+       [
+        "lg82_s.Settings",
+        "lg82.self"
+       ],
+       [
+        "lg83_s.Settings",
+        "lg83.self"
+       ],
+       [
+        "lg84_s.Settings",
+        "lg84.self"
+       ],
+       [
+        "lg85_s.Settings",
+        "lg85.self"
+       ],
+       [
+        "lg86_s.Settings",
+        "lg86.self"
        ],
        [
         "gls.Settings",
@@ -17704,6 +18925,111 @@
         "ls61"
        ],
        [
+        "ls61",
+        "lb62"
+       ],
+       [
+        "lb61:else",
+        "lb62"
+       ],
+       [
+        "lb62",
+        "ls62"
+       ],
+       [
+        "ls62",
+        "ls63"
+       ],
+       [
+        "lb62:else",
+        "ls63"
+       ],
+       [
+        "ls63"
+       ],
+       [
+        "ls63",
+        "lb64"
+       ],
+       [
+        "lb64",
+        "ls64"
+       ],
+       [
+        "ls64",
+        "ls65"
+       ],
+       [
+        "lb64:else",
+        "ls65"
+       ],
+       [
+        "ls65"
+       ],
+       [
+        "ls65",
+        "ls66"
+       ],
+       [
+        "ls66"
+       ],
+       [
+        "ls66",
+        "ls67"
+       ],
+       [
+        "ls67"
+       ],
+       [
+        "ls67",
+        "ls68"
+       ],
+       [
+        "ls68"
+       ],
+       [
+        "ls68",
+        "ls69"
+       ],
+       [
+        "ls69"
+       ],
+       [
+        "ls69",
+        "ls70"
+       ],
+       [
+        "ls70"
+       ],
+       [
+        "ls70",
+        "ls71"
+       ],
+       [
+        "ls71"
+       ],
+       [
+        "ls71",
+        "ls72"
+       ],
+       [
+        "ls72"
+       ],
+       [
+        "ls72",
+        "ls73"
+       ],
+       [
+        "ls73"
+       ],
+       [
+        "ls73",
+        "ls74"
+       ],
+       [
+        "ls74"
+       ],
+       [
         "entry",
         "ex",
         "b",
@@ -17722,27 +19048,23 @@
         "cr"
        ],
        [
-        "ls61",
-        "bth"
-       ],
-       [
-        "lb61:else",
+        "ls74",
         "bth"
        ],
        [
         "bth",
-        "ls62",
-        "ls63",
-        "ls64",
-        "ls65",
-        "ls66",
-        "ls67",
-        "ls68",
-        "ls69",
-        "ls70",
-        "ls71",
-        "ls72",
-        "ls73",
+        "ls75",
+        "ls76",
+        "ls77",
+        "ls78",
+        "ls79",
+        "ls80",
+        "ls81",
+        "ls82",
+        "ls83",
+        "ls84",
+        "ls85",
+        "ls86",
         "ath"
        ],
        [
@@ -19060,16 +20382,16 @@
        {
         "id": "g62",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "OptionsCat"
        },
        {
         "id": "w62",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "LastOptionsCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs62.Settings",
-         "ThemeBg": "@g62.ThemeBg"
+         "LastOptionsCat": "@g62.OptionsCat"
         }
        },
        {
@@ -19080,16 +20402,16 @@
        {
         "id": "g63",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "HiddenTabs"
        },
        {
         "id": "w63",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "HiddenTabs",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs63.Settings",
-         "ThemeAccent": "@g63.ThemeAccent"
+         "HiddenTabs": "@g63.HiddenTabs"
         }
        },
        {
@@ -19100,16 +20422,16 @@
        {
         "id": "g64",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "QuickKey"
        },
        {
         "id": "w64",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "QuickKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs64.Settings",
-         "ThemeFill": "@g64.ThemeFill"
+         "QuickKey": "@g64.QuickKey"
         }
        },
        {
@@ -19120,16 +20442,16 @@
        {
         "id": "g65",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "QuickItems"
        },
        {
         "id": "w65",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "QuickItems",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs65.Settings",
-         "ThemeFrame": "@g65.ThemeFrame"
+         "QuickItems": "@g65.QuickItems"
         }
        },
        {
@@ -19140,16 +20462,16 @@
        {
         "id": "g66",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "TabStyle"
        },
        {
         "id": "w66",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "TabStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs66.Settings",
-         "ThemeWorn": "@g66.ThemeWorn"
+         "TabStyle": "@g66.TabStyle"
         }
        },
        {
@@ -19160,16 +20482,16 @@
        {
         "id": "g67",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "TabIconRight"
        },
        {
         "id": "w67",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "TabIconRight",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs67.Settings",
-         "ThemeRow": "@g67.ThemeRow"
+         "TabIconRight": "@g67.TabIconRight"
         }
        },
        {
@@ -19180,16 +20502,16 @@
        {
         "id": "g68",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "ThemePresets"
        },
        {
         "id": "w68",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemePresets",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs68.Settings",
-         "ThemeText": "@g68.ThemeText"
+         "ThemePresets": "@g68.ThemePresets"
         }
        },
        {
@@ -19200,16 +20522,16 @@
        {
         "id": "g69",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "ManageChipsCollapsed"
        },
        {
         "id": "w69",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ManageChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs69.Settings",
-         "ThemeHead": "@g69.ThemeHead"
+         "ManageChipsCollapsed": "@g69.ManageChipsCollapsed"
         }
        },
        {
@@ -19220,16 +20542,16 @@
        {
         "id": "g70",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "QuickAlpha"
        },
        {
         "id": "w70",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "QuickAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs70.Settings",
-         "ThemeLink": "@g70.ThemeLink"
+         "QuickAlpha": "@g70.QuickAlpha"
         }
        },
        {
@@ -19240,16 +20562,16 @@
        {
         "id": "g71",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "OutfitScale"
        },
        {
         "id": "w71",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "OutfitScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs71.Settings",
-         "ThemeLine": "@g71.ThemeLine"
+         "OutfitScale": "@g71.OutfitScale"
         }
        },
        {
@@ -19260,16 +20582,16 @@
        {
         "id": "g72",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "LookScale"
        },
        {
         "id": "w72",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "LookScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs72.Settings",
-         "BgAlpha": "@g72.BgAlpha"
+         "LookScale": "@g72.LookScale"
         }
        },
        {
@@ -19280,16 +20602,276 @@
        {
         "id": "g73",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "OutfitCols"
        },
        {
         "id": "w73",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "OutfitCols",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs73.Settings",
-         "TileAlpha": "@g73.TileAlpha"
+         "OutfitCols": "@g73.OutfitCols"
+        }
+       },
+       {
+        "id": "gs74",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g74",
+        "kind": "get",
+        "var": "OutfitRows"
+       },
+       {
+        "id": "w74",
+        "kind": "set",
+        "var": "OutfitRows",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs74.Settings",
+         "OutfitRows": "@g74.OutfitRows"
+        }
+       },
+       {
+        "id": "gs75",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g75",
+        "kind": "get",
+        "var": "ThemeBg"
+       },
+       {
+        "id": "w75",
+        "kind": "set",
+        "var": "ThemeBg",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs75.Settings",
+         "ThemeBg": "@g75.ThemeBg"
+        }
+       },
+       {
+        "id": "gs76",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g76",
+        "kind": "get",
+        "var": "ThemeAccent"
+       },
+       {
+        "id": "w76",
+        "kind": "set",
+        "var": "ThemeAccent",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs76.Settings",
+         "ThemeAccent": "@g76.ThemeAccent"
+        }
+       },
+       {
+        "id": "gs77",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g77",
+        "kind": "get",
+        "var": "ThemeFill"
+       },
+       {
+        "id": "w77",
+        "kind": "set",
+        "var": "ThemeFill",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs77.Settings",
+         "ThemeFill": "@g77.ThemeFill"
+        }
+       },
+       {
+        "id": "gs78",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g78",
+        "kind": "get",
+        "var": "ThemeFrame"
+       },
+       {
+        "id": "w78",
+        "kind": "set",
+        "var": "ThemeFrame",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs78.Settings",
+         "ThemeFrame": "@g78.ThemeFrame"
+        }
+       },
+       {
+        "id": "gs79",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g79",
+        "kind": "get",
+        "var": "ThemeWorn"
+       },
+       {
+        "id": "w79",
+        "kind": "set",
+        "var": "ThemeWorn",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs79.Settings",
+         "ThemeWorn": "@g79.ThemeWorn"
+        }
+       },
+       {
+        "id": "gs80",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g80",
+        "kind": "get",
+        "var": "ThemeRow"
+       },
+       {
+        "id": "w80",
+        "kind": "set",
+        "var": "ThemeRow",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs80.Settings",
+         "ThemeRow": "@g80.ThemeRow"
+        }
+       },
+       {
+        "id": "gs81",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g81",
+        "kind": "get",
+        "var": "ThemeText"
+       },
+       {
+        "id": "w81",
+        "kind": "set",
+        "var": "ThemeText",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs81.Settings",
+         "ThemeText": "@g81.ThemeText"
+        }
+       },
+       {
+        "id": "gs82",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g82",
+        "kind": "get",
+        "var": "ThemeHead"
+       },
+       {
+        "id": "w82",
+        "kind": "set",
+        "var": "ThemeHead",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs82.Settings",
+         "ThemeHead": "@g82.ThemeHead"
+        }
+       },
+       {
+        "id": "gs83",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g83",
+        "kind": "get",
+        "var": "ThemeLink"
+       },
+       {
+        "id": "w83",
+        "kind": "set",
+        "var": "ThemeLink",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs83.Settings",
+         "ThemeLink": "@g83.ThemeLink"
+        }
+       },
+       {
+        "id": "gs84",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g84",
+        "kind": "get",
+        "var": "ThemeLine"
+       },
+       {
+        "id": "w84",
+        "kind": "set",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs84.Settings",
+         "ThemeLine": "@g84.ThemeLine"
+        }
+       },
+       {
+        "id": "gs85",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g85",
+        "kind": "get",
+        "var": "BgAlpha"
+       },
+       {
+        "id": "w85",
+        "kind": "set",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs85.Settings",
+         "BgAlpha": "@g85.BgAlpha"
+        }
+       },
+       {
+        "id": "gs86",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g86",
+        "kind": "get",
+        "var": "TileAlpha"
+       },
+       {
+        "id": "w86",
+        "kind": "set",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs86.Settings",
+         "TileAlpha": "@g86.TileAlpha"
         }
        },
        {
@@ -19357,12 +20939,21 @@
          "SlotName": "AltUI",
          "UserIndex": "0"
         }
+       },
+       {
+        "id": "stz",
+        "kind": "set",
+        "var": "SettingsSaveTimer",
+        "in": {
+         "SettingsSaveTimer": "0.0"
+        }
        }
       ],
       "links": [],
       "exec": [
        [
         "entry",
+        "stz",
         "bv",
         "w0",
         "w1",
@@ -19438,6 +21029,19 @@
         "w71",
         "w72",
         "w73",
+        "w74",
+        "w75",
+        "w76",
+        "w77",
+        "w78",
+        "w79",
+        "w80",
+        "w81",
+        "w82",
+        "w83",
+        "w84",
+        "w85",
+        "w86",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",
@@ -24009,6 +25613,22 @@
        "name": "factors",
        "type": "float",
        "container": "array"
+      },
+      {
+       "name": "defer",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Save Settings Soon"
+    },
+    {
+     "name": "Settings Save Step",
+     "inputs": [
+      {
+       "name": "dt",
+       "type": "float"
       }
      ]
     },
@@ -24068,6 +25688,9 @@
     },
     {
      "name": "Apply Saved Colors"
+    },
+    {
+     "name": "Find Menu Wearer"
     },
     {
      "name": "Rebuild Options"
@@ -24516,6 +26139,582 @@
      ]
     },
     {
+     "name": "Tab Shown",
+     "inputs": [
+      {
+       "name": "page",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "First Visible Page",
+     "outputs": [
+      {
+       "name": "page",
+       "type": "name"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Toggle Tab Hidden",
+     "inputs": [
+      {
+       "name": "page",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Rebuild Option Cats"
+    },
+    {
+     "name": "Select Option Cat",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Rebuild Tab Chips"
+    },
+    {
+     "name": "Select Tab Style",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Preset Name Row",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Sort Chips",
+     "inputs": [
+      {
+       "name": "groups",
+       "type": "name",
+       "container": "array"
+      },
+      {
+       "name": "look",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "sorted",
+       "type": "name",
+       "container": "array"
+      }
+     ]
+    },
+    {
+     "name": "Theme Save"
+    },
+    {
+     "name": "Manage Row Group",
+     "inputs": [
+      {
+       "name": "kind",
+       "type": "name"
+      },
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "group",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Manage Row In Group",
+     "inputs": [
+      {
+       "name": "kind",
+       "type": "name"
+      },
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Manage Groups",
+     "outputs": [
+      {
+       "name": "groups",
+       "type": "name",
+       "container": "array"
+      }
+     ]
+    },
+    {
+     "name": "Rebuild Manage Chips"
+    },
+    {
+     "name": "Select Manage Group",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "On Manage Chip Search Changed",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "Clear Manage Chip Search Text"
+    },
+    {
+     "name": "Outfit Scale",
+     "outputs": [
+      {
+       "name": "scale",
+       "type": "float"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Look Scale",
+     "outputs": [
+      {
+       "name": "scale",
+       "type": "float"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Outfit Cols",
+     "outputs": [
+      {
+       "name": "n",
+       "type": "int"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Quick Alpha",
+     "outputs": [
+      {
+       "name": "alpha",
+       "type": "float"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Outfit Rows",
+     "outputs": [
+      {
+       "name": "n",
+       "type": "int"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Weapon Count Text",
+     "inputs": [
+      {
+       "name": "weapon",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "Save Theme Preset",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "ok",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Apply Theme Preset",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Delete Theme Preset",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Rebuild Theme Presets"
+    },
+    {
+     "name": "SubTab Context",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Preset Shown Name",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "s",
+       "type": "string"
+      },
+      {
+       "name": "default",
+       "type": "string"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Quick Sector At",
+     "inputs": [
+      {
+       "name": "dx",
+       "type": "float"
+      },
+      {
+       "name": "dy",
+       "type": "float"
+      },
+      {
+       "name": "radius",
+       "type": "float"
+      },
+      {
+       "name": "count",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Quick Item Kind",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "kind",
+       "type": "string"
+      },
+      {
+       "name": "id",
+       "type": "string"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Quick Find",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "ok",
+       "type": "bool"
+      },
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Quick Item Caption",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "caption",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "Quick Item Icon",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "tex",
+       "type": "object:/Script/Engine.Texture2D"
+      }
+     ]
+    },
+    {
+     "name": "Quick Add",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Run Quick Item",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Start Next Snapshot"
+    },
+    {
+     "name": "Open Quick Wheel"
+    },
+    {
+     "name": "Quick Lock",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Quick Hover",
+     "inputs": [
+      {
+       "name": "dx",
+       "type": "float"
+      },
+      {
+       "name": "dy",
+       "type": "float"
+      },
+      {
+       "name": "radius",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Close Quick Wheel"
+    },
+    {
+     "name": "Quick Release"
+    },
+    {
+     "name": "Quick Cancel"
+    },
+    {
+     "name": "Rebuild Quick Options"
+    },
+    {
+     "name": "Quick Noop"
+    },
+    {
+     "name": "Quick Toggle",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Quick Action",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Quick Key Captured",
+     "inputs": [
+      {
+       "name": "pressed",
+       "type": "struct:/Script/InputCore.Key"
+      }
+     ]
+    },
+    {
+     "name": "Mod Action Pos",
+     "inputs": [
+      {
+       "name": "order",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Quick Mod Info",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "ok",
+       "type": "bool"
+      },
+      {
+       "name": "caption",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Quick Mod Actor",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "actor",
+       "type": "object:/Script/Engine.Actor"
+      }
+     ]
+    },
+    {
+     "name": "Quick Item Live",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Quick Remove",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Quick Move",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      },
+      {
+       "name": "delta",
+       "type": "int"
+      }
+     ]
+    },
+    {
      "name": "Open Content",
      "inputs": [
       {
@@ -24548,6 +26747,15 @@
     },
     {
      "name": "Open Preset Content",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Open Face Content",
      "inputs": [
       {
        "name": "index",

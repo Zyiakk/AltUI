@@ -1,7 +1,7 @@
 """Generates assets/60_bploader.json: AltUI's entry point for the Blueprint Loader (Nexus 994).
 
 The loader starts the actor class named in a table called TKA_BlueprintLoader inside a mod's own folder. BP_AltUIManager
-takes its controller from GetOwner and needs Jodi, so the row cannot point at it directly: BP_AltUILoaderEntry does the
+takes its controller from GetOwner and needs Jodi (or a main menu / loading scene), so the row cannot point at it directly: BP_AltUILoaderEntry does the
 waiting and spawns the manager with the controller as owner - the same job the hook pak's camera class does, in an actor
 the loader can spawn.
 
@@ -23,7 +23,8 @@ def event_graph():
     g.custom("ev", "TryInit"); g.get("gsp", "Spawned"); g.branch("br", "@gsp.Spawned")
     g.call("pc", K_GS, "GetPlayerController", inp={"PlayerIndex": "0"})   # spawned without an owner, so not GetOwner as in the hook
     g.call("pawn", E_CTRL, "K2_GetPawn", inp={"self": "@pc.ReturnValue"})
-    g.cast("cj", P_JODI, "@pawn.ReturnValue", pure=False, miss="ignore")   # no Jodi yet (loading, main menu): the timer retries
+    g.cast("cj", P_JODI, "@pawn.ReturnValue", pure=False)   # no Jodi yet (loading): the timer retries
+    look_scene_branch(g)   # main menu / loading scene: no Jodi pawn ever, spawn anyway
     g.call("ld", K_SYS, "LoadClassAsset_Blocking", inp={"AssetClass": MGR + ".BP_AltUIManager_C"})
     g.n("cc", "class_cast", pure=True, cls=E_ACTOR, inp={"Class": "@ld.ReturnValue"})
     g.call("iv", K_SYS, "IsValidClass", inp={"Class": "@cc.AsActor"}); g.branch("br2", "@iv.ReturnValue")
@@ -39,6 +40,7 @@ def event_graph():
     g.self_("me4"); g.call("ct3", K_SYS, "K2_ClearTimer", inp={"Object": "@me4.self", "FunctionName": "TryInit"})   # someone else already spawned it
     g.chain("bp", "tm"); g.chain("ev", "br")
     g.chain("br:else", "cj", "ld", "br2", "all", "br3", "ct3")
+    g.chain("cj:CastFailed", "lvl"); g.chain("bm", "ld")
     g.chain("br3:else", "sp", "ssp", "ct"); g.chain("br2:else", "ct2")
     return g
 

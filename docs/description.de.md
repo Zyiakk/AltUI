@@ -42,11 +42,13 @@ Der Hook ersetzt *TKA_PlayerCameraManager* und startet von dort das Panel. Jeder
 * **Outfits · Looks** – die Vorlagen des Spiels mit Namen, und komplette Looks (Kleidung samt Farben, Frisur, Makeup, Augen, Haut, Körper, Gesicht) mit Foto aus dem Spiel.
 * **Rucksack · Frisuren · Aussehen** – was Jodi trägt und dabeihat; Frisuren und Haarfarben; Haut, Makeup und Augen, jeweils einfärbbar.
 * **Körperform** – Brust- und Taillenregler, Umschalter für konvertierte Body-Mods, Knochenregler je Körper.
-* **Gesicht** – Jodis Ausdruck, Blick und Mund als Regler; das Gesicht hält auch in Posen und beim Tanzen.
+* **Gesicht** – Jodis Ausdruck, Blick und Mund als Regler; das Gesicht hält auch in Posen und beim Tanzen; gespeicherte Gesichter mit Foto, ihre Werte unter „Inhalt anzeigen“.
 * **Waffen** – je Waffe ein Modell und ein Skin, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel.
 * **Posen** – jede Aktionsanimation des Spiels und der Pose-Mods, sortiert nach stehend, sitzend und liegend.
 * **Mods** – die Einstellungen anderer Mods, die sich dort eintragen: Schalter, Schieberegler, Zahlen, Auswahlen, Farben, Textfelder, Info-Zeilen, Tasten und Buttons. Nur sichtbar, wenn so ein Mod installiert ist.
-* **Optionen · Verwaltung** – Taste, Sprache, Farben, Kachelgröße; eigene Anzeigenamen für Mods, Gruppen und Teile.
+* **Schnellmenü** – **4** halten (änderbar) öffnet ein Rad mit dem, was du oft brauchst: freie Kamera, Foto-Modus, ein gespeichertes Outfit, ein Look, Gesicht oder Preset, eine Lieblingspose, ein Reiter und Aktionen anderer Mods. Bis zu 32 Einträge, ausgewählt und sortiert in den Optionen; über einem Eintrag loslassen führt ihn aus.
+* **Optionen** – in Kategorien, links aus einer Liste gewählt: Panel-Taste, Sprache, Farben (Schemata lassen sich unter einem Namen speichern), Reiterleiste mit Icons, Text oder beidem, Kachelgrößen, für Outfits und Looks getrennt. Reiter, die du nicht brauchst, lassen sich abschalten.
+* **Verwaltung** – eigene Anzeigenamen für Mods, Gruppen und Teile. Wie in Kleidung filtern Chips die Liste nach Mod oder Gruppe, und ein Suchfeld grenzt die Chips ein.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips mit dem Mod, aus dem ein Teil stammt.
 
 Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch (automatisch erkannt, in den Optionen umstellbar).
@@ -54,6 +56,7 @@ Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch (automatis
 ## Steuerung
 
 * **B** – öffnen / schließen (in den Optionen änderbar). **Esc** schließt.
+* **4** – halten für das Schnellmenü (in den Optionen änderbar); über einem Eintrag loslassen führt ihn aus, in der Mitte loslassen tut nichts.
 * Linksklick – auswählen / anziehen / anwenden. Rechtsklick – Kontextmenü. Mausrad – scrollen.
 
 ## Body-Mods
@@ -70,6 +73,8 @@ Was das Panel startet, ist absichtlich vom Panel selbst getrennt: alles, was der
 
 Der Blueprint Loader selbst braucht nichts: Er ist ein eigener Mod und wird auf seiner eigenen Seite aktualisiert. Eine AltUI_Hook_P.pak von vor 1.5.0 darf nicht in ~mods liegen bleiben (siehe den Hinweis unter Installation): löschen oder durch die aktuelle ersetzen.
 
+**Hook ohne Blueprint Loader:** Seit 1.8.0 legt AltUI deinen Look auch im Hauptmenü und in der Lade-Szene auf Jodi. Mit dem Hook allein braucht das die aktuelle AltUI_Hook_P.pak – eine ältere dafür ersetzen; in Levels funktioniert die ältere weiter. Mit dem Blueprint Loader erledigt das AltUI.pak selbst.
+
 Es sind keine Spiel-Assets enthalten; alles im Pak ist generiert.
 
 ## Was die Kombinationen bewirken
@@ -82,10 +87,9 @@ Es sind keine Spiel-Assets enthalten; alles im Pak ist generiert.
 
 ## Was es nicht kann
 
-Drei Grenzen, die man kennen sollte:
+Zwei Grenzen, die man kennen sollte:
 
 * **Make-up wird getönt, nicht umgefärbt.** Die Farbe wird mit der vorhandenen Zeichnung multipliziert: Blasses oder Neutrales nimmt sie fast voll an, Dunkles lässt sich nur abdunkeln oder verschieben. Weiß heißt „unverändert“, nicht weißes Make-up.
-* **Die Farben zeigen sich im Spiel, nicht im Hauptmenü.** AltUI legt sie auf Jodi, solange du in einem Level bist – dort läuft es. Im Hauptmenü steht sie in den Werksfarben des Spiels, was immer du gewählt hast.
 * **Ein umgewandelter Körper kann unter enger Kleidung durchscheinen.** Das Spiel drückt solche Stellen mit Morph-Targets flach, die am Körper-Mesh hängen; bringt ein Mesh keine mit, ist nichts zum Drücken da. Das liegt am Körper, nicht an der Umwandlung: der Konverter behält, was das Original hat – und hat das Original keine, kann sie niemand nachträglich hinzufügen.
 
 ## Quellcode & Fehlermeldungen

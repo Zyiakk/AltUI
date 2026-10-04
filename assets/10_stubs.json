@@ -1414,6 +1414,43 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/Character/Jodi/Jodi_Base",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/Character_Player_Base",
+   "variables": [
+    {
+     "name": "Eye Material",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    },
+    {
+     "name": "Eyelashes Material",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    },
+    {
+     "name": "Makeup Tex",
+     "type": "object:/Script/Engine.TextureRenderTarget2D"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Get Makeup Data",
+     "outputs": [
+      {
+       "name": "Makeup Data",
+       "type": "object:/Game/Project/Classes/Save/Makeup_Save"
+      }
+     ]
+    },
+    {
+     "name": "Update Makeup Texture"
+    },
+    {
+     "name": "Load Player Makeup"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/Classes/GameMode/TKA_GameState_Base",
    "mode": "augment",
    "functions": [

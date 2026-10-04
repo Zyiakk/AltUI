@@ -27,7 +27,7 @@ as well. When the mod is not running in the current level, its fields are greyed
 
 `<ModName>` is the pak's name without `.pak` - the same folder the game's mod loader uses for `TKA_Mod_Table`.
 
-### The three editor assets
+### The editor assets
 
 The two tables use AltUI's row structures, and the actor implements AltUI's interface. Copy these three files from
 [`uassets/`](uassets/) into your Unreal project at exactly `Content/Mod/AltUI/`:
@@ -137,6 +137,37 @@ Fields reach your actor one by one, each in its own call of an `On … Changed` 
 Every change arrives at once, so most mods need no "Apply" button: the field applies itself. A button suits actions
 that are not a value - reset, spawn, teleport, reload - or a step you want to happen only when the player asks for it.
 
+## The quick menu
+
+Besides the Mods tab, AltUI has a quick menu: a wheel the player opens by holding a key (4 unless they changed it) and
+closes on the item under the mouse. Under *Options › Quick menu* the player ticks what goes into the wheel. Your mod
+can be part of it in two ways, and neither needs a change to your actor or to `BPI_AltUIMod`.
+
+**Your buttons and toggles, automatically.** Every `Button` and `Toggle` field of your `AltUI_Fields` is offered,
+named "<entry caption> › <field label>". From the wheel, a button arrives exactly as from the panel:
+`On AltUI Changed` with its key and the value 1. A toggle is flipped: AltUI reads it with `Get AltUI Value` and sends
+`On AltUI Changed` with the opposite value (0 or 1).
+
+**Actions of your own, with an icon.** For something that should be in the wheel but not in the panel - or that
+deserves its own picture - add a third table to your mod's folder: `AltUI_Actions`, on the row structure
+`S_AltUIModAction` (copy it from [`uassets/`](uassets/) to `Content/Mod/AltUI/` like the other three, and do not ship
+it in your pak).
+
+| Column | Type | Meaning |
+|---|---|---|
+| `Caption` | Text | the name in the wheel and in the options list |
+| `Icon` | Soft object reference (Texture2D) | the picture in the wheel; empty shows the name only. 128 × 128 with a transparent background reads well |
+| `Actor` | Soft class reference (Actor) | the class of the actor that receives the action |
+| `Key` | Name | what your actor receives |
+| `Order` | Integer | position in the options list; lower first |
+
+Running an action calls `On AltUI Changed` on that actor with the action's `Key` and the value 1 - the same event
+your buttons use, so a `Switch on Name` over the key handles both. An action needs no entry in `AltUI_Entries`: a mod
+can bring actions only.
+
+While your actor is not in the level, its items stay in the wheel greyed out and do nothing. The example below has
+one action, "Lamp: next colour", with an icon.
+
 ## Keeping the values
 
 AltUI does not save your values; your mod does, the same way it would without AltUI. A `SaveGame` of your own is
@@ -192,7 +223,7 @@ Content Browser.
 **My tables are not read / my entry does not show.** Check that the row structures sit at exactly
 `Content/Mod/AltUI/` in your project, that the tables are named `AltUI_Entries` and `AltUI_Fields` and lie in
 `Content/Mod/<ModName>/` where `<ModName>` is your pak's name without `.pak`, and that your pak does not ship its own
-copy of AltUI's three assets.
+copy of AltUI's assets.
 
 **My entry is shown, but greyed out.** The actor of the entry's `Actor` class is not in the level - check that the
 Blueprint Loader is installed and your loader row names that class.

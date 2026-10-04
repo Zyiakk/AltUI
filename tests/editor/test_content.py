@@ -15,7 +15,7 @@ def main():
     mgr = cdo(M + "/BP_AltUIManager.BP_AltUIManager_C")
     mgr.call_method("Test Build"); mgr.call_method("Test Strings", args=(1,)); mgr.set_editor_property("PanelOpen", False)
     mgr.set_editor_property("HiddenItems", []); mgr.set_editor_property("Favorites", [])
-    for v in ("ViewOutfit", "ViewLook", "ViewPreset"): expect("%s closed by default" % v, mgr.get_editor_property(v), -1)
+    for v in ("ViewOutfit", "ViewLook", "ViewPreset", "ViewFace"): expect("%s closed by default" % v, mgr.get_editor_property(v), -1)
     # --- Content Snapshot: outfit (keys, own name), preset (skin), look (body), out-of-range index, unknown kind
     mgr.set_editor_property("Outfits", None); mgr.call_method("Test Load Outfits"); mgr.call_method("Test Load Settings")
     mgr.call_method("Test Add Outfit", args=(["Zeta_Neck", "SpikeBoots"],))
@@ -44,6 +44,18 @@ def main():
     mgr.set_editor_property("Page", "Looks"); mgr.call_method("Test Open Content", args=("Look", 7)); expect("invalid index closes the view", mgr.get_editor_property("ViewLook"), -1)
     mgr.call_method("Test Open Content", args=("Foo", 4)); expect("unknown kind ignored", content_open(mgr, "Looks"), False)
     mgr.call_method("Test Delete Look", args=(0,))
+    # --- saved face: snapshot with its values and mix only, title = its name; opened on the Face tab, closed by the back link
+    mgr.set_editor_property("FacesSave", None); mgr.set_editor_property("FaceValues", {"Face_Smile": 0.5, "Mouth_Close": 0.25})
+    mgr.call_method("Test Add Face", args=("Lächeln", True)); n = len(mgr.get_editor_property("FacesSave").get_editor_property("Faces")) - 1
+    ok, title, worn, makeup, skin, body = snap(mgr, "Face", n)
+    expect("face snapshot", (ok, title, worn, makeup, skin, body), (True, "Lächeln", 0, 0, "None", "None"))
+    mgr.call_method("Test Snap Face", args=("Face_Smile",))   # user struct fields are not readable by name from Python
+    expect("face values and mix", (mgr.get_editor_property("TmpI"), round(mgr.get_editor_property("TmpFloat"), 2), mgr.get_editor_property("TmpBool")), (2, 0.5, True))
+    expect("face out of range", snap(mgr, "Face", n + 1)[0], False)
+    mgr.set_editor_property("Page", "Face"); mgr.call_method("Test Open Content", args=("Face", n)); expect("view face index", mgr.get_editor_property("ViewFace"), n)
+    expect("open on face", content_open(mgr, "Face"), True); expect("not on looks", content_open(mgr, "Looks"), False)
+    mgr.call_method("Test Close Content"); expect("face closed", mgr.get_editor_property("ViewFace"), -1)
+    mgr.set_editor_property("FaceValues", {})
     # --- Go To Item: clothes (slot + group chip, search cleared, a filter that would hide the piece is switched off), hidden piece, hair, makeup type, skin, body
     mgr.set_editor_property("SearchText", "abc"); mgr.set_editor_property("CachedOnlyOwned", True); mgr.set_editor_property("CachedOnlyFav", True)
     mgr.call_method("Test Go To", args=("Alpha_Neck", "Neck"))

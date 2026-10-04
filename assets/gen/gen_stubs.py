@@ -138,6 +138,10 @@ assets = [
                                                 fn("Get Hairstyle Name", outputs=[param("name", "name")], pure=True), fn("Get Hairstyle Color", outputs=[param("color", S_LINCOLOR)], pure=True),
                                                 fn("Change Hairstyle", [param("Hairstyle", "name")]), fn("Change Hairstyle Color", [param("color", S_LINCOLOR, ref=True)]),
                                                 fn("Apply Makeup Preset", [param("data", "struct:" + P_PRESET_S, ref=True)])]),
+    # Jodi's parent in the game (the kit has no such asset): what AltUI puts on the body, face and colours through "Wearer" -
+    # the main menu's figure (Jodi_Intro) is a Jodi_Base, not a Jodi. Members as the game declares them on Jodi_Base.
+    blueprint(P_JODI_BASE, P_CPB, variables=[var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D")],
+              functions=[fn("Get Makeup Data", outputs=[param("Makeup Data", "object:" + P_MAKEUP_SAVE)]), fn("Update Makeup Texture"), fn("Load Player Makeup")]),
     blueprint(P_GS, mode="augment", functions=[fn("Get Wardrobe Data", outputs=[param("wardrobe data", "object:" + P_WD)])]),
     # Backpack: Bag_Comp (kit), PlayingHud/InventoryPanel (new, repair only), TKA_GameState (UserInterface, Default Underwear)
     blueprint(P_BAG, mode="augment", variables=[var("Clothes in bag", "name", "array")],

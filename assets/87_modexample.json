@@ -653,16 +653,6 @@
         }
        },
        {
-        "id": "cmk",
-        "kind": "cast",
-        "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
-        "pure": false,
-        "in": {
-         "Object": "@mk.ReturnValue"
-        },
-        "miss": "ignore"
-       },
-       {
         "id": "gLightOn",
         "kind": "get",
         "var": "LightOn"
@@ -673,7 +663,7 @@
         "var": "LightOn",
         "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
         "in": {
-         "self": "@cmk.AsSG_ExampleLamp",
+         "self": "@mk.ReturnValue",
          "LightOn": "@gLightOn.LightOn"
         }
        },
@@ -688,7 +678,7 @@
         "var": "Brightness",
         "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
         "in": {
-         "self": "@cmk.AsSG_ExampleLamp",
+         "self": "@mk.ReturnValue",
          "Brightness": "@gBrightness.Brightness"
         }
        },
@@ -703,7 +693,7 @@
         "var": "Colour",
         "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
         "in": {
-         "self": "@cmk.AsSG_ExampleLamp",
+         "self": "@mk.ReturnValue",
          "Colour": "@gColour.Colour"
         }
        },
@@ -718,7 +708,7 @@
         "var": "Height",
         "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
         "in": {
-         "self": "@cmk.AsSG_ExampleLamp",
+         "self": "@mk.ReturnValue",
          "Height": "@gHeight.Height"
         }
        },
@@ -733,7 +723,7 @@
         "var": "CustomColor",
         "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
         "in": {
-         "self": "@cmk.AsSG_ExampleLamp",
+         "self": "@mk.ReturnValue",
          "CustomColor": "@gCustomColor.CustomColor"
         }
        },
@@ -748,7 +738,7 @@
         "var": "Note",
         "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
         "in": {
-         "self": "@cmk.AsSG_ExampleLamp",
+         "self": "@mk.ReturnValue",
          "Note": "@gNote.Note"
         }
        },
@@ -763,7 +753,7 @@
         "var": "LightKey",
         "class": "/Game/Mod/AltUIMod_Example/SG_ExampleLamp",
         "in": {
-         "self": "@cmk.AsSG_ExampleLamp",
+         "self": "@mk.ReturnValue",
          "LightKey": "@gLightKey.LightKey"
         }
        },
@@ -773,7 +763,7 @@
         "class": "/Script/Engine.GameplayStatics",
         "function": "SaveGameToSlot",
         "in": {
-         "SaveGameObject": "@cmk.AsSG_ExampleLamp",
+         "SaveGameObject": "@mk.ReturnValue",
          "SlotName": "AltUIMod_Example",
          "UserIndex": "0"
         }
@@ -784,7 +774,6 @@
        [
         "entry",
         "mk",
-        "cmk",
         "sLightOn",
         "sBrightness",
         "sColour",
@@ -1367,6 +1356,56 @@
       "function": "Save"
      },
      {
+      "id": "k6",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_NameName",
+      "in": {
+       "A": "@oc.Key",
+       "B": "NextColour"
+      }
+     },
+     {
+      "id": "b6",
+      "kind": "branch",
+      "in": {
+       "Condition": "@k6.ReturnValue"
+      }
+     },
+     {
+      "id": "gco",
+      "kind": "get",
+      "var": "Colour"
+     },
+     {
+      "id": "nx",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Add_IntInt",
+      "in": {
+       "A": "@gco.Colour",
+       "B": "1"
+      }
+     },
+     {
+      "id": "md",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Percent_IntInt",
+      "in": {
+       "A": "@nx.ReturnValue",
+       "B": "4"
+      }
+     },
+     {
+      "id": "s6",
+      "kind": "set",
+      "var": "Colour",
+      "in": {
+       "Colour": "@md.ReturnValue"
+      }
+     },
+     {
       "id": "occ",
       "kind": "event",
       "class": "/Game/Mod/AltUI/BPI_AltUIMod.BPI_AltUIMod_C",
@@ -1552,6 +1591,12 @@
       "ap2"
      ],
      [
+      "b4:else",
+      "b6",
+      "s6",
+      "ap2"
+     ],
+     [
       "ap2",
       "sv2"
      ],
@@ -1675,6 +1720,34 @@
      "Type": "Button",
      "Label": "Back to the defaults",
      "Order": 9
+    }
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUIMod_Example/T_ExampleAction",
+   "file": "tex/example_action.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/AltUIMod_Example/AltUI_Actions",
+   "row_struct": "/Game/Mod/AltUI/S_AltUIModAction",
+   "composite": false,
+   "rows": {
+    "NextColour": {
+     "Caption": "Lamp: next colour",
+     "Icon": "/Game/Mod/AltUIMod_Example/T_ExampleAction.T_ExampleAction",
+     "Actor": "/Game/Mod/AltUIMod_Example/BP_AltUIModExample.BP_AltUIModExample_C",
+     "Key": "NextColour",
+     "Order": 0
     }
    }
   },

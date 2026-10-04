@@ -126,8 +126,54 @@
       "pure": false,
       "in": {
        "Object": "@pawn.ReturnValue"
-      },
-      "miss": "ignore"
+      }
+     },
+     {
+      "id": "lvl",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "GetCurrentLevelName",
+      "in": {
+       "bRemovePrefixString": "true"
+      }
+     },
+     {
+      "id": "menu",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "StartsWith",
+      "in": {
+       "SourceString": "@lvl.ReturnValue",
+       "InPrefix": "Menu_",
+       "SearchCase": "CaseSensitive"
+      }
+     },
+     {
+      "id": "load",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "EqualEqual_StrStr",
+      "in": {
+       "A": "@lvl.ReturnValue",
+       "B": "Loading"
+      }
+     },
+     {
+      "id": "or",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "BooleanOR",
+      "in": {
+       "A": "@menu.ReturnValue",
+       "B": "@load.ReturnValue"
+      }
+     },
+     {
+      "id": "bm",
+      "kind": "branch",
+      "in": {
+       "Condition": "@or.ReturnValue"
+      }
      },
      {
       "id": "ld",
@@ -270,6 +316,10 @@
     "links": [],
     "exec": [
      [
+      "lvl",
+      "bm"
+     ],
+     [
       "bp",
       "ldl",
       "brl",
@@ -292,6 +342,14 @@
       "all",
       "br3",
       "ct3"
+     ],
+     [
+      "cj:CastFailed",
+      "lvl"
+     ],
+     [
+      "bm",
+      "ld"
      ],
      [
       "br3:else",

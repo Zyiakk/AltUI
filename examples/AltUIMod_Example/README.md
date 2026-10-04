@@ -15,6 +15,10 @@ lamp in front of Jodi, and the Mods tab shows one entry, **"Example lamp"**, wit
 | Note | text | any text; the info line shows it |
 | Back to the defaults | button | everything back as it was |
 
+It also brings one action for AltUI's **quick menu** (`AltUI_Actions`): **"Lamp: next colour"**, with an icon of its
+own, steps through the colours. Tick it under *Options › Quick menu*, next to "Example lamp › Light" and "Example
+lamp › Back to the defaults", which the quick menu offers by itself because they are a toggle and a button.
+
 ## Try it
 
 1. Install the [Blueprint Loader](https://www.nexusmods.com/thekillingantidote/mods/994) - it starts the lamp's actor.
@@ -27,14 +31,14 @@ Without AltUI the lamp still shines, it just has no settings.
 
 ## Build your own from it
 
-The six files under `editor/` are the uncooked assets; [MOD_UI.md](../../MOD_UI.md) explains each of them and the
+The eight files under `editor/` are the uncooked assets; [MOD_UI.md](../../MOD_UI.md) explains each of them and the
 rules. They refer to each other by their full path - the actor to its save game, the tables and the loader row to the
 actor - and that path is `/Game/Mod/AltUIMod_Example/`. Copied into a folder with any other name, those references
 point at nothing: the blueprint shows broken nodes, does not compile, and the project does not cook. So:
 
-1. Copy the six files into your project at exactly `Content/Mod/AltUIMod_Example/` - that folder name, no other.
-2. Copy `S_AltUIModEntry.uasset`, `S_AltUIModField.uasset` and `BPI_AltUIMod.uasset` from
-   [`uassets/`](../../uassets/) into `Content/Mod/AltUI/`, again at exactly that path. Do not ship those three in your
+1. Copy the eight files into your project at exactly `Content/Mod/AltUIMod_Example/` - that folder name, no other.
+2. Copy `S_AltUIModEntry.uasset`, `S_AltUIModField.uasset`, `S_AltUIModAction.uasset` and `BPI_AltUIMod.uasset` from
+   [`uassets/`](../../uassets/) into `Content/Mod/AltUI/`, again at exactly that path. Do not ship those four in your
    pak.
 3. The loader row needs the Blueprint Loader's `BlueprintToLoad_Struct` at `Content/Mod/TKA_BlueprintLoader/`, and
    `TKA_Mod_Table` needs the game's `DLC_Struct` at `Content/Project/Tables/` - both are in any project that already

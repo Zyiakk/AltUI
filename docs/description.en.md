@@ -44,11 +44,13 @@ The hook replaces *TKA_PlayerCameraManager* and starts the panel from there. Any
 * **Outfits · Looks** – the game's presets with names, and complete looks (clothes with colours, hair, makeup, eyes, skin, body, face) saved with an in-game photo.
 * **Backpack · Coiffure · Appearance** – what Jodi wears and carries; hairstyles and hair colours; skin, makeup and eyes, each tintable.
 * **Body Shape** – breast / waist sliders, a switcher for converted body mods, bone-scale sliders per body.
-* **Face** – Jodi's expression, gaze and mouth as sliders; the face holds in poses and while dancing.
+* **Face** – Jodi's expression, gaze and mouth as sliders; the face holds in poses and while dancing; saved faces with a photo, their values under “View content”.
 * **Weapons** – a model and a skin per weapon, side by side from every weapon mod, with a rendered picture on each tile.
 * **Poses** – every action animation of the game and of pose mods, sorted into standing, sitting and lying.
 * **Mods** – the settings of other mods that register there: toggles, sliders, numbers, choices, colours, text fields, info lines, keys and buttons. Only shown when such a mod is installed.
-* **Options · Manage** – key, language, colours, tile size; your own display names for mods, groups and items.
+* **Quick menu** – hold **4** (changeable) and a wheel opens with what you use most: free camera, photo mode, a saved outfit, look, face or preset, a favourite pose, a tab, and actions of other mods. Up to 32 items, picked and sorted in Options; let go on one to run it.
+* **Options** – sorted into categories you pick from a list on the left: panel key, language, colours (schemes can be saved under a name), a tab bar with icons, text or both, and tile sizes, set separately for outfits and looks. Tabs you do not need can be switched off.
+* **Manage** – your own display names for mods, groups and items. As in Clothes, chips filter the list by mod or group, and a search field narrows down the chips.
 * Undo / redo (5 steps), tooltips showing which mod an item comes from.
 
 Languages: English, German, Chinese, Russian, Spanish, Polish (auto-detected, switchable in Options).
@@ -56,6 +58,7 @@ Languages: English, German, Chinese, Russian, Spanish, Polish (auto-detected, sw
 ## Controls
 
 * **B** – open / close (changeable in Options). **Esc** closes.
+* **4** – hold for the quick menu (changeable in Options); let go on an item to run it, or in the middle to do nothing.
 * Left click – select / wear / apply. Right click – context menu. Mouse wheel – scroll.
 
 ## Body mods
@@ -70,6 +73,8 @@ Whatever starts the panel is deliberately kept apart from the panel itself: ever
 
 The Blueprint Loader itself needs nothing: it is its own mod and updates on its own page. An AltUI_Hook_P.pak from before 1.5.0 must not stay in ~mods (see the note under Installation): delete it or replace it with the current one.
 
+**Using the hook without the Blueprint Loader:** Since 1.8.0 AltUI also puts your look on Jodi in the main menu and on the loading screen. With the hook alone that needs the current AltUI_Hook_P.pak – replace an older one to get it; in levels the older one keeps working. With the Blueprint Loader, AltUI.pak does it by itself.
+
 No game assets are included; everything in the pak is generated.
 
 ## What each combination does
@@ -82,10 +87,9 @@ No game assets are included; everything in the pak is generated.
 
 ## What it cannot do
 
-Three limits worth knowing:
+Two limits worth knowing:
 
 * **Make-up takes a tint, not a new colour.** The colour is multiplied onto the drawing that is already there, so a pale or neutral one takes it almost fully while a dark one can only be darkened or shifted. White means “unchanged”, not white make-up.
-* **Colours show in the game, not in the main menu.** AltUI puts them on Jodi while you are in a level, which is where it runs. The main menu shows her in the game’s factory colours, whatever you picked.
 * **A converted body can show parts of itself through tight clothes.** The game presses those flat with morph targets that sit on the body mesh, and a body whose mesh brings none has nothing to press with. That is the body, not the conversion: the converter keeps whatever the original has, and where the original has none, nothing can add them.
 
 ## Source & issues

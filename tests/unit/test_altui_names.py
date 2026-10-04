@@ -2,7 +2,7 @@
 import unittest, os, sys, json, tempfile, subprocess
 H = os.path.dirname(os.path.abspath(__file__)); S = os.path.join(H, "..", "..", "scripts"); sys.path.insert(0, S)
 import altui_names as an, savegame_gvas as gv
-EMPTY = {"mods": {}, "groups": {}, "items": {}, "hair": {}, "skins": {}, "makeup": {}}
+EMPTY = {"mods": {}, "groups": {}, "items": {}, "hair": {}, "skins": {}, "makeup": {}, "poses": {}, "presets": {}}
 
 
 class Convert(unittest.TestCase):
@@ -20,6 +20,12 @@ class Convert(unittest.TestCase):
         sg = gv.new_names_save(); sg.set_map("Names", {"item:Old": "x"})
         n = an.from_json(sg, {"items": {"A": "Alpha", "B": "  ", "C": " Cee "}, "groups": {"G": "Gee"}, "unknown": {"Z": "z"}})
         self.assertEqual(n, 3); self.assertEqual(sg.get("Names"), {"item:A": "Alpha", "item:C": "Cee", "group:G": "Gee"})
+
+    def test_poses_and_presets_survive_a_round_trip(self):
+        """import replaces every name: a kind without a section was lost on export -> import (poses until 2026-10-03)."""
+        sg = gv.new_names_save(); sg.set_map("Names", {"pose:Dance_1": "Tanz", "preset:7": "Abend", "item:A": "Alpha"})
+        doc = an.to_json(sg); self.assertEqual(doc["poses"], {"Dance_1": "Tanz"}); self.assertEqual(doc["presets"], {"7": "Abend"})
+        sg2 = gv.new_names_save(); an.from_json(sg2, doc); self.assertEqual(sg2.get("Names"), sg.get("Names"))
 
 
 class Cli(unittest.TestCase):

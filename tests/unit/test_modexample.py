@@ -19,6 +19,13 @@ class Example(unittest.TestCase):
         a = assets()
         self.assertEqual(a[MOD + "/AltUI_Entries"]["row_struct"], mu.ENTRY_STRUCT)
         self.assertEqual(a[MOD + "/AltUI_Fields"]["row_struct"], mu.FIELD_STRUCT)
+        self.assertEqual(a[MOD + "/AltUI_Actions"]["row_struct"], mu.ACTION_STRUCT)
+
+    def test_quick_action_with_icon_is_handled(self):
+        a = assets(); rows = a[MOD + "/AltUI_Actions"]["rows"]
+        self.assertEqual(list(rows), ["NextColour"]); r = rows["NextColour"]
+        self.assertTrue(r["Icon"].startswith(MOD + "/T_ExampleAction")); self.assertIn(MOD + "/T_ExampleAction", a)
+        eg = json.dumps(a[MOD + "/BP_AltUIModExample"]["event_graph"]); self.assertIn('"NextColour"', eg)
 
     def test_every_field_type_once_and_valid(self):
         rows = assets()[MOD + "/AltUI_Fields"]["rows"]

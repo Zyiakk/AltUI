@@ -20,11 +20,11 @@ grep -q "BPGEN manifest ok .*87_modexample.json" "$BUILD/modexample.log"
 "$(dirname "$0")/ue.sh" "$UPROJECT" -run=cook -targetplatform=LinuxNoEditor -iterate -unattended -nullrhi -nosplash -stdout \
   -cookdir="$KIT/Content/Mod/AltUIMod_Example" 2>&1 \
   | grep -E "LogCook: (Error|Warning)|Error:|Success|Failure" | tail -10 | tee "$BUILD/modexample_cook.log"
-for f in Mod/AltUIMod_Example/SG_ExampleLamp Mod/AltUIMod_Example/BP_AltUIModExample Mod/AltUIMod_Example/AltUI_Entries Mod/AltUIMod_Example/AltUI_Fields Mod/AltUIMod_Example/TKA_BlueprintLoader Mod/AltUIMod_Example/TKA_Mod_Table; do
+for f in Mod/AltUIMod_Example/SG_ExampleLamp Mod/AltUIMod_Example/BP_AltUIModExample Mod/AltUIMod_Example/AltUI_Entries Mod/AltUIMod_Example/AltUI_Fields Mod/AltUIMod_Example/AltUI_Actions Mod/AltUIMod_Example/T_ExampleAction Mod/AltUIMod_Example/TKA_BlueprintLoader Mod/AltUIMod_Example/TKA_Mod_Table; do
   test -f "$COOKED/$f.uasset" || { echo "cook: missing $f"; exit 1; }; done
 
 RSP="$BUILD/modexample.rsp"; : > "$RSP"
-for f in Mod/AltUIMod_Example/SG_ExampleLamp Mod/AltUIMod_Example/BP_AltUIModExample Mod/AltUIMod_Example/AltUI_Entries Mod/AltUIMod_Example/AltUI_Fields Mod/AltUIMod_Example/TKA_BlueprintLoader Mod/AltUIMod_Example/TKA_Mod_Table; do
+for f in Mod/AltUIMod_Example/SG_ExampleLamp Mod/AltUIMod_Example/BP_AltUIModExample Mod/AltUIMod_Example/AltUI_Entries Mod/AltUIMod_Example/AltUI_Fields Mod/AltUIMod_Example/AltUI_Actions Mod/AltUIMod_Example/T_ExampleAction Mod/AltUIMod_Example/TKA_BlueprintLoader Mod/AltUIMod_Example/TKA_Mod_Table; do
   for ext in .uasset .uexp .ubulk; do
     [ -f "$COOKED/$f$ext" ] && echo "\"$COOKED/$f$ext\" \"../../../TheKillingAntidote/Content/$f$ext\"" >> "$RSP"
   done

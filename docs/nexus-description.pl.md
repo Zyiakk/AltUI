@@ -43,14 +43,15 @@ Odinstalowanie: usuń skopiowane pliki. Własne zapisy moda (*Saved\SaveGames\Al
 * **Stylizacje** – kompletna stylizacja (ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, suwaki ciała, mod ciała, twarz) zapisana ze zdjęciem całej sylwetki z gry, z przodu albo tak, jak ją właśnie widzisz. Zastosuj, zaktualizuj, zmień nazwę, usuń.
 * **Plecak** – co Jodi nosi i ma przy sobie: załóż, zdejmij, napraw, z powrotem do szafy, uporządkuj.
 * **Fryzura** – wszystkie fryzury, kolor włosów, 14 naturalnych kolorów włosów, ustawienia fabryczne.
-* **Wygląd** – skóra, każdy typ makijażu, oczy, gotowe wyglądy z ikonami (zapisz, zaktualizuj, usuń).
+* **Wygląd** – skóra, każdy typ makijażu, oczy, gotowe wyglądy z ikonami (zapisz, zaktualizuj, zmień nazwę, usuń).
 * **Kształt ciała** – suwaki piersi / talii, przełącznik zainstalowanych modów ciała oraz – przy przekonwertowanych ciałach – suwaki kości: skala, biust, talia extra, pośladki/biodra, uda, łydki, ramiona, dłonie, stopy, zapisywane osobno dla każdego ciała.
-* **Twarz** – wyraz twarzy Jodi: miny z gry, kierunek spojrzenia i kształty ust jako suwaki; zaznaczony wpis zachowuje swoją wartość, także w pozach i podczas tańca, niezaznaczony zostaje przy grze. Zapisane twarze ze zdjęciem.
+* **Twarz** – wyraz twarzy Jodi: miny z gry, kierunek spojrzenia i kształty ust jako suwaki; zaznaczony wpis zachowuje swoją wartość, także w pozach i podczas tańca, niezaznaczony zostaje przy grze. Zapisane twarze ze zdjęciem. „Pokaż zawartość” wymienia ich wartości.
 * **Bronie** – model i skin na broń, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
 * **Mods** – ustawienia innych modów, które się tam rejestrują (widoczna tylko, gdy taki mod jest zainstalowany).
-* **Opcje** – klawisz panelu, język, szybkość przewijania, rozmiar kafelków, długość nazw grup i wysokość wiersza grup, część ekranu zostawiona dla Jodi, pole widzenia / odległość / przesuw kamery, kolorystyka i krycie, „można zdejmować bieliznę”, „nieposiadane” zablokowane / wyszarzone / jak posiadane, zwalnianie konfliktów slotów z gry (biustonosz vs. koszula …), łączenie grup / modów o tej samej nazwie, opcje podpowiedzi.
-* **Zarządzanie** – własne nazwy wyświetlane dla modów, grup, rzeczy, fryzur, skór i makijażu – widoczne w całym panelu i uwzględniane w wyszukiwaniu; „Zmień nazwę…” w menu kontekstowym każdego kafelka; eksport / import jako JSON przez `altui_names.pyz`.
+* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać.
+* **Opcje** – w kategoriach z listą po lewej; niepotrzebne karty można wyłączyć; klawisz panelu, język, szybkość przewijania, rozmiar kafelków, długość nazw grup i wysokość wiersza grup, część ekranu zostawiona dla Jodi, pole widzenia / odległość / przesuw kamery, kolorystyka i krycie, „można zdejmować bieliznę”, „nieposiadane” zablokowane / wyszarzone / jak posiadane, zwalnianie konfliktów slotów z gry (biustonosz vs. koszula …), łączenie grup / modów o tej samej nazwie, opcje podpowiedzi; pasek kart z ikonami, tekstem lub jednym i drugim, ikona po lewej lub prawej stronie tekstu; schematy kolorów zapisywane pod nazwą; własny rozmiar kafelków zestawów i looków oraz ile rzeczy pokazuje kafelek zestawu; krycie szybkiego menu.
+* **Zarządzanie** – własne nazwy wyświetlane dla modów, grup, rzeczy, fryzur, skór i makijażu – widoczne w całym panelu i uwzględniane w wyszukiwaniu; „Zmień nazwę…” w menu kontekstowym każdego kafelka; eksport / import jako JSON przez `altui_names.pyz`; jak w Ubraniach podzakładki filtrują listę według moda lub grupy, a pole wyszukiwania zawęża podzakładki; nazwy można zmieniać także pozom i gotowym wyglądom.
 * Cofnij / ponów (5 kroków), podpowiedzi pokazują, z którego moda pochodzi dana rzecz.
 
 Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski (wykrywany automatycznie, przełączany w opcjach).
@@ -58,6 +59,7 @@ Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski (wykrywan
 ## Sterowanie
 
 * **B** – otwiera / zamyka (zmienialne w opcjach). **Esc** zamyka.
+* **4** – przytrzymaj, aby otworzyć szybkie menu (zmienialne w opcjach); puść nad pozycją, aby ją wykonać, a puszczenie na środku nic nie robi.
 * Lewy przycisk – wybierz / załóż / zastosuj. Prawy przycisk – menu kontekstowe. Kółko myszy – przewijanie.
 * Dopóki panel jest otwarty, Jodi nie może chodzić; przeciąganie po tle obraca kamerę, +/− przybliża / oddala. Dwa okrągłe przyciski nad nimi otwierają wolną kamerę (mysz obraca, W A S D / Q E ruch, Shift szybciej, kółko = prędkość, do 6 m wokół Jodi, zatrzymuje się na ścianach; Esc powrót) oraz tryb zdjęć gry (Esc powrót).
 
@@ -87,7 +89,7 @@ Instrukcja krok po kroku z przykładem dla Windowsa i dla Linuksa (po angielsku)
 
 ## Ustawienia innych modów
 
-Mody obsługiwane w grze – na przykład lampa – mogą umieścić swoje ustawienia w AltUI zamiast zajmować własne klawisze. Zakładka **Mods** wyświetla je wtedy z przełącznikami, suwakami, liczbami, wyborami, kolorami, polami tekstowymi, wierszami informacyjnymi, klawiszami i przyciskami w stylu AltUI. Zakładka pojawia się tylko wtedy, gdy taki mod jest zainstalowany.
+Mody obsługiwane w grze – na przykład lampa – mogą umieścić swoje ustawienia w AltUI zamiast zajmować własne klawisze. Zakładka **Mods** wyświetla je wtedy z przełącznikami, suwakami, liczbami, wyborami, kolorami, polami tekstowymi, wierszami informacyjnymi, klawiszami i przyciskami w stylu AltUI. Zakładka pojawia się tylko wtedy, gdy taki mod jest zainstalowany. Ich przyciski i przełączniki mogą też trafić do szybkiego menu, a mod może dodać własne akcje z ikoną.
 
 Dla autorów modów (po angielsku): [MOD_UI.md](https://github.com/Zyiakk/AltUI/blob/main/MOD_UI.md) opisuje dwie tabele danych i interfejs, których potrzebuje mod; gotowy przykładowy mod do zainstalowania i odtworzenia jest w [examples/AltUIMod_Example](https://github.com/Zyiakk/AltUI/tree/main/examples/AltUIMod_Example).
 
@@ -98,6 +100,8 @@ Zrobione pod wersję gry 0.6.x. Działa z modami ubrań, fryzur, makijażu i map
 ## Aktualizacje
 
 Nowa wersja to nowe archiwum; AltUI.pak wystarczy skopiować na stary plik. Sam Blueprint Loader niczego nie potrzebuje – jest osobnym modem i aktualizuje się na własnej stronie. Stary AltUI_Hook_P.pak nie może jednak zostać w ~mods. To ten plik przejmuje klasę menedżera kamery, a wersja sprzed 1.5.0 nie uruchamia loadera – wtedy panel się otworzy, ale widok nie odsunie się na bok, a mody zrobione pod loader nie wystartują. Usuń go albo zastąp aktualnym. Z pakiem hooka: zmienia się rzadko, bo tylko uruchamia panel, cała reszta siedzi w AltUI.pak. Każdy wpis w changelogu mówi, czy hook się zmienił; jeśli stoi tam „unchanged”, twój dotychczasowy może zostać. Nowy hook jest potrzebny tylko wtedy, gdy changelog tak mówi albo gdy aktualizacja gry podmieni menedżera kamery gracza.
+
+**Hook bez Blueprint Loadera:** Od wersji 1.8.0 AltUI nakłada twój wygląd na Jodi także w menu głównym i na ekranie ładowania. Z samym hookiem potrzebny jest do tego aktualny AltUI_Hook_P.pak – zastąp nim starszy; na poziomach starszy dalej działa. Z Blueprint Loaderem robi to sam AltUI.pak.
 
 Żadne zasoby gry nie są dołączone; wszystko w paku jest generowane.
 
@@ -113,10 +117,9 @@ AltUI.pak to sam mod; potrzebny jest drugi plik, który go uruchomi. Efekt:
 
 ## Czego nie potrafi
 
-Trzy ograniczenia, o których warto wiedzieć:
+Dwa ograniczenia, o których warto wiedzieć:
 
 * **Makijaż jest tonowany, nie przebarwiany.** Kolor mnoży się przez istniejący rysunek: jasny lub neutralny przyjmuje go niemal w pełni, ciemny można tylko przyciemnić albo przesunąć. Biel oznacza „bez zmian”, a nie biały makijaż.
-* **Kolory widać w grze, nie w menu głównym.** AltUI nakłada je na Jodi, gdy jesteś na poziomie – tam działa. W menu głównym widać ją w fabrycznych kolorach gry.
 * **Przekonwertowane ciało może przebijać przez obcisłe ubrania.** Gra spłaszcza takie miejsca morph targetami osadzonymi w siatce ciała; jeśli siatka żadnych nie ma, nie ma czym spłaszczać. To kwestia ciała, nie konwersji: konwerter zachowuje to, co ma oryginał, a jeśli oryginał nie ma żadnych, nikt ich nie doda.
 
 ## Kod źródłowy i zgłaszanie błędów
