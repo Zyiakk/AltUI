@@ -49,12 +49,12 @@ Para desinstalar: borra los archivos que copiaste. Los guardados propios del mod
 * **Armas** – un modelo y un skin por arma, juntos de todos los mods de armas, con una imagen renderizada en cada casilla.
 * **Poses** – todas las animaciones de acción del juego y de los mods de poses, ordenadas en de pie, sentada y tumbada.
 * **Mods** – los ajustes de otros mods que se registran allí (solo visible si hay un mod así instalado).
-* **Menú rápido** – mantén **4** (cambiable) y se abre una rueda con lo que más usas: cámara libre, modo foto, un conjunto, look, rostro o preajuste guardado, una pose favorita, una pestaña y acciones de otros mods. Hasta 32 elementos, elegidos y ordenados en Opciones; suelta sobre uno para ejecutarlo.
+* **Menú rápido** – mantén **4** (cambiable) y se abre una rueda con lo que más usas: cámara libre, modo foto, un conjunto, look, rostro o preajuste guardado, una pose favorita, una pestaña y acciones de otros mods. Hasta 32 elementos, elegidos y ordenados en Opciones; suelta sobre uno para ejecutarlo. Un clic derecho en una casilla, una pestaña o la entrada de un mod la añade a la rueda o la quita.
 * **Opciones** – por categorías, con una lista a la izquierda; las pestañas que no necesites se pueden desactivar; tecla del panel, idioma, velocidad de desplazamiento, tamaño de las casillas, longitud de los nombres de grupo y altura de la fila de grupos, parte de la pantalla reservada para Jodi, FOV / distancia / seguimiento de la cámara, esquema de colores y opacidad, «se puede quitar la ropa interior», «objetos no poseídos» bloqueado / atenuado / como poseído, liberar los conflictos de ranura del juego (sujetador y camisa …), fusionar grupos / mods con el mismo nombre, opciones de tooltips; la barra de pestañas con iconos, texto o ambos, el icono a la izquierda o a la derecha del texto; esquemas de color guardados con un nombre; tamaño propio de las casillas de conjuntos y looks y cuántas prendas muestra una casilla de conjunto; opacidad del menú rápido.
 * **Gestión** – tus propios nombres para mods, grupos, prendas, peinados, piel y maquillaje – en todo el panel y en la búsqueda; «Renombrar…» en el menú contextual de cada casilla; exportables / importables como JSON con `altui_names.pyz`; como en Vestimenta, las subpestañas filtran la lista por mod o grupo y un campo de búsqueda acota las subpestañas; también se pueden renombrar poses y apariencias predefinidas.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
-Idiomas: inglés, alemán, chino, ruso, español, polaco (detección automática, cambiable en Opciones).
+Idiomas: inglés, alemán, chino, ruso, español, polaco, francés (detección automática, cambiable en Opciones).
 
 ## Controles
 

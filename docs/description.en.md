@@ -2,7 +2,7 @@
 
 Full description of the [Steam Workshop item](https://steamcommunity.com/sharedfiles/filedetails/?id=3802875867) – the workshop page itself shows a short version.
 
-This description in other languages: [DE](https://github.com/Zyiakk/AltUI/blob/main/docs/description.de.md) · [ZH](https://github.com/Zyiakk/AltUI/blob/main/docs/description.zh.md) · [RU](https://github.com/Zyiakk/AltUI/blob/main/docs/description.ru.md) · [ES](https://github.com/Zyiakk/AltUI/blob/main/docs/description.es.md) · [PL](https://github.com/Zyiakk/AltUI/blob/main/docs/description.pl.md)
+This description in other languages: [DE](https://github.com/Zyiakk/AltUI/blob/main/docs/description.de.md) · [ZH](https://github.com/Zyiakk/AltUI/blob/main/docs/description.zh.md) · [RU](https://github.com/Zyiakk/AltUI/blob/main/docs/description.ru.md) · [ES](https://github.com/Zyiakk/AltUI/blob/main/docs/description.es.md) · [PL](https://github.com/Zyiakk/AltUI/blob/main/docs/description.pl.md) · [FR](https://github.com/Zyiakk/AltUI/blob/main/docs/description.fr.md)
 
 The vanilla wardrobe gives every mod author their own tab, so with a few clothing mods installed the same kind of item is scattered across a dozen tabs and there is no way to search. AltUI sorts every item from the game and from all installed mods into **one list per slot** (tops, skirts, shoes, …), with search, filters, favourites and hiding – and puts hair, makeup, body and outfits into the same panel. It opens anywhere in a level with **B**; no trips to the wardrobe or the mirror.
 
@@ -48,12 +48,12 @@ The hook replaces *TKA_PlayerCameraManager* and starts the panel from there. Any
 * **Weapons** – a model and a skin per weapon, side by side from every weapon mod, with a rendered picture on each tile.
 * **Poses** – every action animation of the game and of pose mods, sorted into standing, sitting and lying.
 * **Mods** – the settings of other mods that register there: toggles, sliders, numbers, choices, colours, text fields, info lines, keys and buttons. Only shown when such a mod is installed.
-* **Quick menu** – hold **4** (changeable) and a wheel opens with what you use most: free camera, photo mode, a saved outfit, look, face or preset, a favourite pose, a tab, and actions of other mods. Up to 32 items, picked and sorted in Options; let go on one to run it.
+* **Quick menu** – hold **4** (changeable) and a wheel opens with what you use most: free camera, photo mode, a saved outfit, look, face or preset, a favourite pose, a tab, and actions of other mods. Up to 32 items, picked and sorted in Options; let go on one to run it. A right click on a tile, a tab or a mod's entry puts it into the wheel or takes it out.
 * **Options** – sorted into categories you pick from a list on the left: panel key, language, colours (schemes can be saved under a name), a tab bar with icons, text or both, and tile sizes, set separately for outfits and looks. Tabs you do not need can be switched off.
 * **Manage** – your own display names for mods, groups and items. As in Clothes, chips filter the list by mod or group, and a search field narrows down the chips.
 * Undo / redo (5 steps), tooltips showing which mod an item comes from.
 
-Languages: English, German, Chinese, Russian, Spanish, Polish (auto-detected, switchable in Options).
+Languages: English, German, Chinese, Russian, Spanish, Polish, French (auto-detected, switchable in Options).
 
 ## Controls
 

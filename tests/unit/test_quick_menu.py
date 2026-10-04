@@ -1,7 +1,7 @@
 """Quick menu (docs/specs/2026-10-03-quick-menu-design.md): data, strings, settings, graphs."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen"))
-from strings import STRINGS
+from strings import STRINGS, LANGS
 import gen_manager, gen_manager_ui as ui
 from tests.unit.test_options_cats import graph, calls, after
 
@@ -15,7 +15,7 @@ class QuickData(unittest.TestCase):
         self.assertEqual(ui.QUICK_MAX, 32); self.assertEqual(ui.QUICK_FIXED, ["freecam", "photo", "panel", "posestop"])
 
     def test_strings(self):
-        for k in QUICK_STRINGS: self.assertEqual(len(STRINGS[k]), 6, k)
+        for k in QUICK_STRINGS: self.assertEqual(len(STRINGS[k]), len(LANGS), k)
 
     def test_settings(self):
         rows = {(m, s) for m, s, _, _ in gen_manager.SETTINGS}

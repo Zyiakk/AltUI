@@ -20,6 +20,8 @@ U_WRAP = "/Script/UMG.WrapBox"; U_SCALE = "/Script/UMG.ScaleBox"; U_SIZE = "/Scr
 
 SC = 1.9   # global size factor (2560x1440)
 def sz(v): return int(round(v * SC))
+LIST_ROOM = sz(60)   # room below the last row of a virtual list: it can be scrolled up into the view
+OUTFIT_GAP = sz(6) + 1   # space between outfit tiles (wrap box padding; the manager's row height adds it)
 FULL = {"LayoutData": "(Anchors=(Minimum=(X=0,Y=0),Maximum=(X=1,Y=1)),Offsets=(Left=0,Top=0,Right=0,Bottom=0))"}
 FILL = {"Size": "(SizeRule=Fill,Value=1)"}
 COL_BG = "(R=0.02,G=0.02,B=0.03,A=0.88)"
@@ -142,7 +144,7 @@ def sizebox(name, wd, ht, children, slot=None):
 # a wrap box row stretches its tiles to the tallest one (tile lists add with VAlign_Fill).
 TILE_PAD = 4; TILE_SIDE = 3
 TILE_LISTS = {"OutfitList", "LooksList", "BagWorn", "BagList", "HairList", "LookList", "LookFavList", "FaceTiles", "PoseList", "PoseFavList",
-              "WeaponModelList", "WeaponList", "WeaponFavList", "FavList", "List"}
+              "WeaponModelList", "WeaponList", "WeaponFavList"}
 TILE_FILL_PAD = "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % (sz(TILE_PAD), sz(TILE_PAD + TILE_SIDE), sz(TILE_PAD), sz(TILE_PAD + TILE_SIDE))
 
 
@@ -278,6 +280,13 @@ def refresh_fn():
 
 def compute_fn(g):
     return fn("Compute Colors", graph=g)
+
+
+def reset_rename(g, tail, label):
+    """Init of a renameable tile: a rename still open on it ends without a word (tiles of the virtual lists are reused for other
+    entries); the keyboard focus stays where it is."""
+    g.set("rr_se", "Editing", inp={"Editing": "false"}); g.get("rr_ge", "NameEdit"); g.call("rr_hv", E_WIDGET, "SetVisibility", inp={"self": "@rr_ge.NameEdit", "InVisibility": "Collapsed"})
+    g.get("rr_gl", label); g.call("rr_sl", E_WIDGET, "SetVisibility", inp={"self": "@rr_gl.%s" % label, "InVisibility": "Visible"}); tail += ["rr_se", "rr_hv", "rr_sl"]
 
 
 def rename_tick(split=False):
@@ -450,7 +459,7 @@ def w_clothes_button():
                     text("Badge", "", 9, "(SpecifiedColor=(R=1,G=0.6,B=0.3,A=1))", center=True, props_extra={"Visibility": "Collapsed"}),
                 ])])])])
     hv, hf, eg = hover_parts(W_BTN, "Frame", "Fill")
-    g = G(); tail = ["entry"]
+    g = G(); tail = ["entry"]; reset_rename(g, tail, "Name")
     tile_scale(g, tail, [("Box", 104, None), ("IconBox", 88, 88), ("ColorizeBox", 20, 20), ("SwatchBox", 20, 20)])
     g.brk("bi", S_ITEM, "@entry.item")
     g.set("sn", "ItemName", inp={"ItemName": "@bi.Name"}); tail.append("sn")
@@ -530,7 +539,7 @@ def w_clothes_button():
     pr.call("nf", K_MATH, "Not_PreBool", inp={"A": "@hf.ReturnValue"}); pr.call("lost", K_MATH, "BooleanAND", inp={"A": "@ged.Editing", "B": "@nf.ReturnValue"}); pr.branch("b", "@lost.ReturnValue")
     pr.n("er", "call_self", function="End Rename"); pr.get("ged2", "Editing"); pr.link("ged2.Editing", "return.active"); pr.chain("entry", "b", "er", "return"); pr.chain("b:else", "return")
     return blueprint(W_BTN, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("ItemName", "name"), var("ItemSlot", "name"), var("Worn", "bool"), var("Owned", "bool"), var("Highlight", "bool"), var("Editing", "bool")] + hv,
-                     functions=[init, compute_fn(c), mouse_down_override("On Item Clicked", "On Item Context", "ItemName"), fn("Set Color Swatch", [param("color", S_LINCOLOR)], graph=sc),
+                     functions=[fn("Set Tile Size", [param("width", "float"), param("height", "float")], graph=tile_size_graph()), init, compute_fn(c), mouse_down_override("On Item Clicked", "On Item Context", "ItemName"), fn("Set Color Swatch", [param("color", S_LINCOLOR)], graph=sc),
                                 fn("Begin Rename", [param("current", "string")], graph=br), fn("End Rename", graph=er), fn("OnKeyUp", override=True, graph=ku), fn("Poll Rename", outputs=[param("active", "bool")], graph=pr)] + hf,
                      event_graph=eg, widget_tree=tree, defaults=HAND)
 
@@ -617,7 +626,7 @@ def w_top_tab():
         c.get("g" + wn, wn); c.call("c" + wn, E_IMAGE, "SetColorAndOpacity", inp={"self": "@g%s.%s" % (wn, wn), "InColorAndOpacity": mcol(c, "ci" + wn, "ColText")}); tail.append("c" + wn)
     c.chain(*tail)
     return blueprint(W_TOP, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Page", "name"), var("Selected", "bool")] + hv,
-                     functions=[init, compute_fn(c), refresh_fn(), mouse_down_override("Select Page", "Select Page", "Page")] + hf, event_graph=eg, widget_tree=tree, defaults=HAND)
+                     functions=[init, compute_fn(c), refresh_fn(), mouse_down_override("Select Page", "Tab Context", "Page")] + hf, event_graph=eg, widget_tree=tree, defaults=HAND)
 
 
 def tile_colors(*texts):
@@ -631,6 +640,84 @@ def tile_colors(*texts):
 # ---------------- W_OutfitButton (cols x rows piece icons + label; index -1 = "+ save") ----------------
 OUTFIT_MAX = 6            # the grid holds up to OUTFIT_MAX x OUTFIT_MAX icons; Init shows cols x rows of them (Options > Tiles, default 3 x 3)
 OUTFIT_ICONS = OUTFIT_MAX * OUTFIT_MAX
+
+
+W_VROW = M + "/W_VRow"
+
+
+def w_vrow():
+    """One row of tiles of a virtual list (vlist.py): exactly the tiles the list gives it, left to right, as high as Set Tile Size says."""
+    tree = w(U_SIZE, "Box", children=[w(E_BORDER, "Pad", props={"BrushColor": "(R=0,G=0,B=0,A=0)", "Padding": "(Left=0,Top=0,Right=0,Bottom=0)"}, children=[w(U_HBOX, "Row")])])
+    # Set Fit (lists whose rows grow with their content): no fixed height, at least min, the gap below as padding
+    f = G(); f.get("g", "Box"); f.call("ch", U_SIZE, "ClearHeightOverride", inp={"self": "@g.Box"}); f.get("g2", "Box"); f.call("mh", U_SIZE, "SetMinDesiredHeight", inp={"self": "@g2.Box", "InMinDesiredHeight": "@entry.min"})
+    f.make("m", "/Script/SlateCore.Margin", Left="0.0", Top="0.0", Right="0.0", Bottom="@entry.gap"); f.get("gp", "Pad"); f.call("pp", E_BORDER, "SetPadding", inp={"self": "@gp.Pad", "InPadding": "@m.Margin"})
+    f.chain("entry", "ch", "mh", "pp")
+    # Set Gap (growing rows, fixed height RowH + gap): the gap as padding below, so tiles that fill the row end above it
+    gp = G(); gp.make("m", "/Script/SlateCore.Margin", Left="0.0", Top="0.0", Right="0.0", Bottom="@entry.gap"); gp.get("g", "Pad")
+    gp.call("pp", E_BORDER, "SetPadding", inp={"self": "@g.Pad", "InPadding": "@m.Margin"}); gp.chain("entry", "pp")
+    # Content Height: the highest tile wants (desired sizes are bottom-up: the row's own fixed height does not change them)
+    ch = G(); ch.get("g", "Row"); ch.call("ac", U_PANELW, "GetAllChildren", inp={"self": "@g.Row"}); ch.set("s0", "MaxH", inp={"MaxH": "0.0"}); ch.foreach("fc", "@ac.ReturnValue")
+    ch.call("ds", E_WIDGET, "GetDesiredSize", inp={"self": "@fc.Array Element"}); ch.call("bd", K_MATH, "BreakVector2D", inp={"InVec": "@ds.ReturnValue"}); ch.get("gm", "MaxH")
+    ch.call("mx", K_MATH, "FMax", inp={"A": "@gm.MaxH", "B": "@bd.Y"}); ch.set("sm", "MaxH", inp={"MaxH": "@mx.ReturnValue"}); ch.get("gm2", "MaxH"); ch.link("gm2.MaxH", "return.h")
+    ch.chain("entry", "s0", "fc"); ch.chain("fc", "sm"); ch.chain("fc:Completed", "return")
+    c = G(); c.get("g", "Row"); c.call("c", U_PANELW, "ClearChildren", inp={"self": "@g.Row"}); c.chain("entry", "c")
+    a = G(); a.get("g", "Row"); a.call("a", U_HBOX, "AddChildToHorizontalBox", inp={"self": "@g.Row", "Content": "@entry.widget"})
+    a.make("m", "/Script/SlateCore.Margin", Left="@entry.left", Top="0.0", Right="0.0", Bottom="0.0")
+    a.call("p", "/Script/UMG.HorizontalBoxSlot", "SetPadding", inp={"self": "@a.ReturnValue", "InPadding": "@m.Margin"})
+    a.branch("bf", "@entry.fill")   # fill: the tiles of a growing row all as high as its highest
+    a.call("v", "/Script/UMG.HorizontalBoxSlot", "SetVerticalAlignment", inp={"self": "@a.ReturnValue", "InVerticalAlignment": "VAlign_Top"})
+    a.call("vf", "/Script/UMG.HorizontalBoxSlot", "SetVerticalAlignment", inp={"self": "@a.ReturnValue", "InVerticalAlignment": "VAlign_Fill"})
+    a.chain("entry", "a", "p", "bf", "vf"); a.chain("bf:else", "v")
+    return blueprint(W_VROW, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("MaxH", "float")],
+                     functions=[fn("Clear", graph=c), fn("Add", [param("widget", "object:" + E_WIDGET), param("left", "float"), param("fill", "bool")], graph=a),
+                                fn("Set Tile Size", [param("width", "float"), param("height", "float")], graph=tile_size_graph()),
+                                fn("Set Fit", [param("min", "float"), param("gap", "float")], graph=f), fn("Set Gap", [param("gap", "float")], graph=gp), fn("Content Height", outputs=[param("h", "float")], graph=ch)], widget_tree=tree)
+
+
+def vlist_panel_fns(L, scroll, vb, top, wrap, bottom):
+    """Panel side of the virtual list L (vlist.py): "<L> View" = the part of the list box (vb) inside the scroll box's viewport, in the
+    list's own coordinates (top / bottom) and its width - wherever the list sits in the scrolled content; "<L> Spacers" (heights of the
+    rows above / below the window), "<L> Clear" / "<L> Add" (the wrap box with the window's widgets)."""
+    v = G(); v.get("gs", scroll); v.call("geos", E_WIDGET, "GetCachedGeometry", inp={"self": "@gs." + scroll}); v.call("szs", K_SLATE, "GetLocalSize", inp={"Geometry": "@geos.ReturnValue"})
+    v.get("gv", vb); v.call("geov", E_WIDGET, "GetCachedGeometry", inp={"self": "@gv." + vb}); v.call("szv", K_SLATE, "GetLocalSize", inp={"Geometry": "@geov.ReturnValue"})
+    v.call("abs", K_SLATE, "LocalToAbsolute", inp={"Geometry": "@geov.ReturnValue", "LocalCoordinate": "(X=0,Y=0)"})
+    v.call("loc", K_SLATE, "AbsoluteToLocal", inp={"Geometry": "@geos.ReturnValue", "AbsoluteCoordinate": "@abs.ReturnValue"})
+    v.call("bl", K_MATH, "BreakVector2D", inp={"InVec": "@loc.ReturnValue"}); v.call("bs", K_MATH, "BreakVector2D", inp={"InVec": "@szs.ReturnValue"}); v.call("bv", K_MATH, "BreakVector2D", inp={"InVec": "@szv.ReturnValue"})
+    v.call("t", K_MATH, "Multiply_FloatFloat", inp={"A": "@bl.Y", "B": "-1.0"}); v.call("b", K_MATH, "Subtract_FloatFloat", inp={"A": "@bs.Y", "B": "@bl.Y"})
+    v.link("t.ReturnValue", "return.top"); v.link("b.ReturnValue", "return.bottom"); v.link("bv.X", "return.width"); v.chain("entry", "return")
+    s = G(); s.get("g", top); s.call("t", U_SIZE, "SetHeightOverride", inp={"self": "@g." + top, "InHeightOverride": "@entry.top"})
+    s.get("g2", bottom); s.call("b", U_SIZE, "SetHeightOverride", inp={"self": "@g2." + bottom, "InHeightOverride": "@entry.bottom"}); s.chain("entry", "t", "b")
+    a = G(); a.get("g", wrap); a.call("a", U_VBOX, "AddChildToVerticalBox", inp={"self": "@g." + wrap, "Content": "@entry.widget"}); a.chain("entry", "a")
+    c = G(); c.get("g", wrap); c.call("c", U_PANELW, "ClearChildren", inp={"self": "@g." + wrap}); c.chain("entry", "c")
+    y = G(); y.get("g", scroll); y.call("o", U_SCROLL, "GetScrollOffset", inp={"self": "@g." + scroll}); y.call("n", K_MATH, "Add_FloatFloat", inp={"A": "@o.ReturnValue", "B": "@entry.delta"})
+    y.call("n0", K_MATH, "FMax", inp={"A": "@n.ReturnValue", "B": "0.0"}); y.get("g2", scroll); y.call("s", U_SCROLL, "SetScrollOffset", inp={"self": "@g2." + scroll, "NewScrollOffset": "@n0.ReturnValue"}); y.chain("entry", "s")
+    return [fn(L + " Scroll By", [param("delta", "float")], graph=y), fn(L + " View", outputs=[param("top", "float"), param("bottom", "float"), param("width", "float")], graph=v),
+            fn(L + " Spacers", [param("top", "float"), param("bottom", "float")], graph=s),
+            fn(L + " Add", [param("widget", "object:" + E_WIDGET)], graph=a), fn(L + " Clear", graph=c)]
+
+
+def tile_size_graph(box="Box"):
+    """Set Tile Size(width, height) of a virtual-list widget: the SizeBox overrides; 0 or less keeps that side as it is."""
+    g = G(); g.call("pw", K_MATH, "Greater_FloatFloat", inp={"A": "@entry.width", "B": "0.0"}); g.branch("bw", "@pw.ReturnValue")
+    g.get("g1", box); g.call("sw", U_SIZE, "SetWidthOverride", inp={"self": "@g1." + box, "InWidthOverride": "@entry.width"})
+    g.call("ph", K_MATH, "Greater_FloatFloat", inp={"A": "@entry.height", "B": "0.0"}); g.branch("bh", "@ph.ReturnValue")
+    g.get("g2", box); g.call("sh", U_SIZE, "SetHeightOverride", inp={"self": "@g2." + box, "InHeightOverride": "@entry.height"})
+    g.chain("entry", "bw", "sw", "bh", "sh"); g.chain("bw:else", "bh"); return g
+
+
+W_LISTHEAD = M + "/W_ListHead"
+
+
+def w_list_head():
+    """Heading row of a virtual list (vlist.py): full width (Set Tile Size), the text in the heading or the dim text colour."""
+    tree = w(U_SIZE, "Box", props={"bOverride_HeightOverride": True, "HeightOverride": sz(30)}, children=[
+        text("Label", "", 13, slot={"VerticalAlignment": "VAlign_Bottom", "Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(4)})])
+    g = G(); g.get("gl", "Label"); g.call("st", E_TEXT, "SetText", inp={"self": "@gl.Label", "InText": "@entry.text"})
+    g.call("col", K_MATH, "SelectColor", inp={"A": mcol(g, "cd", "ColTextDim"), "B": mcol(g, "ch", "ColHead"), "bPickA": "@entry.dim"})
+    tail = ["entry", "st"]; text_color(g, "tc", "Label", "@col.ReturnValue", tail); g.chain(*tail)
+    return blueprint(W_LISTHEAD, E_USERWIDGET, variables=[var("Manager", "object:" + MGR)],
+                     functions=[fn("Init", [param("text", "text"), param("dim", "bool")], graph=g),
+                                fn("Set Tile Size", [param("width", "float"), param("height", "float")], graph=tile_size_graph())], widget_tree=tree)
 
 
 def w_outfit_button():
@@ -650,7 +737,7 @@ def w_outfit_button():
                 ])])])])
     tree = with_split(tree)
     hv, hf, eg = hover_parts(W_OUTFIT, "Frame", "Fill")
-    g = G(); tail = ["entry"]
+    g = G(); tail = ["entry"]; reset_rename(g, tail, "Label")
     # sizes: icons by the caller's scale; the tile as wide as cols icons, the "+" box cols x rows icons
     tile_scale(g, tail, [("Icon%dBox" % i, 46, 46) for i in range(OUTFIT_ICONS)], "@entry.scale")
     g.call("colf", K_MATH, "Conv_IntToFloat", inp={"InInt": "@entry.cols"}); g.call("rowf", K_MATH, "Conv_IntToFloat", inp={"InInt": "@entry.rows"})
@@ -742,7 +829,8 @@ def w_outfit_button():
     er = G(); er.set("se", "Editing", inp={"Editing": "false"})
     er.get("ge", "NameEdit"); er.call("hv", E_WIDGET, "SetVisibility", inp={"self": "@ge.NameEdit", "InVisibility": "Collapsed"})
     er.get("gl", "Label"); er.call("sl", E_WIDGET, "SetVisibility", inp={"self": "@gl.Label", "InVisibility": "Visible"})
-    er.chain("entry", "se", "hv", "sl")
+    er.get("gm", "Manager"); er.call("kf", MGR, "Focus Panel", inp={"self": "@gm.Manager"})   # typing goes nowhere else
+    er.chain("entry", "se", "hv", "sl", "kf")
     # OnKeyUp: only responsible while editing (key-ups bubble up from the text field; BPGen cannot bind OnTextCommitted).
     # Enter -> Manager.Set Outfit Name, Esc -> cancel; always Handled while editing (the panel never sees Esc or the panel key), otherwise Unhandled
     ku = G(); ku.get("ged", "Editing"); ku.branch("be", "@ged.Editing")
@@ -751,15 +839,16 @@ def w_outfit_button():
     ku.call("esc", K_IN, "EqualEqual_KeyKey", inp={"A": "@key.ReturnValue", "B": "Escape"}); ku.branch("bes", "@esc.ReturnValue")
     ku.get("ge", "NameEdit"); ku.call("gt", E_EDIT, "GetText", inp={"self": "@ge.NameEdit"}); ku.call("t2s", K_TXT, "Conv_TextToString", inp={"InText": "@gt.ReturnValue"})
     ku.get("gm", "Manager"); ku.get("gi", "Index"); ku.call("sn", MGR, "Set Outfit Name", inp={"self": "@gm.Manager", "index": "@gi.Index", "name": "@t2s.ReturnValue"})
-    ku.n("er", "call_self", function="End Rename")
+    ku.n("er", "call_self", function="End Rename"); ku.n("er_e", "call_self", function="End Rename")   # Enter: close the field first (a tile of a virtual list stays)
     ku.call("h", K_WBL, "Handled"); ku.link("h.ReturnValue", "return.ReturnValue")
     ku.n("r2", "return_new"); ku.call("u", K_WBL, "Unhandled"); ku.link("u.ReturnValue", "r2.ReturnValue")
-    ku.chain("entry", "be", "ben", "sn", "return"); ku.chain("ben:else", "bes", "er", "return"); ku.chain("bes:else", "return"); ku.chain("be:else", "r2")
+    ku.chain("entry", "be", "ben", "er_e", "sn", "return"); ku.chain("ben:else", "bes", "er", "return"); ku.chain("bes:else", "return"); ku.chain("be:else", "r2")
     # Tick: focus lost while renaming (click elsewhere) -> cancel (BPGen cannot bind OnTextCommitted)
     tk = rename_tick(split=True)
     return blueprint(W_OUTFIT, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Index", "int"), var("Editing", "bool"), var("SplitTile", "bool")] + hv,
                      functions=[init, tile_colors(("Label", "ColText"), ("Plus", "ColText"), ("SplitFront", "ColText"), ("SplitView", "ColText")),
                                 mouse_down_override("On Outfit Clicked", "On Outfit Context", "Index", pin="index", split=True),
+                                fn("Set Tile Size", [param("width", "float"), param("height", "float")], graph=tile_size_graph()),   # virtual outfit list: every tile as high as a row
                                 fn("Begin Rename", [param("current", "string")], graph=br), fn("End Rename", graph=er),
                                 fn("OnKeyUp", override=True, graph=ku), fn("Tick", override=True, graph=tk)] + hf, event_graph=eg, widget_tree=tree, defaults=HAND)
 
@@ -823,17 +912,18 @@ def w_look_button(path=W_LOOK, clicked="On Look Clicked", context="On Look Conte
     er = G(); er.set("se", "Editing", inp={"Editing": "false"})
     er.get("ge", "NameEdit"); er.call("hv", E_WIDGET, "SetVisibility", inp={"self": "@ge.NameEdit", "InVisibility": "Collapsed"})
     er.get("gl", "Label"); er.call("sl", E_WIDGET, "SetVisibility", inp={"self": "@gl.Label", "InVisibility": "Visible"})
-    er.chain("entry", "se", "hv", "sl")
+    er.get("gm", "Manager"); er.call("kf", MGR, "Focus Panel", inp={"self": "@gm.Manager"})   # typing goes nowhere else
+    er.chain("entry", "se", "hv", "sl", "kf")
     ku = G(); ku.get("ged", "Editing"); ku.branch("be", "@ged.Editing")
     ku.call("key", K_IN, "GetKey", inp={"Input": "@entry.InKeyEvent"})
     ku.call("ent", K_IN, "EqualEqual_KeyKey", inp={"A": "@key.ReturnValue", "B": "Enter"}); ku.branch("ben", "@ent.ReturnValue")
     ku.call("esc", K_IN, "EqualEqual_KeyKey", inp={"A": "@key.ReturnValue", "B": "Escape"}); ku.branch("bes", "@esc.ReturnValue")
     ku.get("ge", "NameEdit"); ku.call("gt", E_EDIT, "GetText", inp={"self": "@ge.NameEdit"}); ku.call("t2s", K_TXT, "Conv_TextToString", inp={"InText": "@gt.ReturnValue"})
     ku.get("gm", "Manager"); ku.get("gi", "Index"); ku.call("sn", MGR, rename, inp={"self": "@gm.Manager", "index": "@gi.Index", "name": "@t2s.ReturnValue"})
-    ku.n("er", "call_self", function="End Rename")
+    ku.n("er", "call_self", function="End Rename"); ku.n("er_e", "call_self", function="End Rename")   # Enter: close the field first (a tile of a virtual list stays)
     ku.call("h", K_WBL, "Handled"); ku.link("h.ReturnValue", "return.ReturnValue")
     ku.n("r2", "return_new"); ku.call("u", K_WBL, "Unhandled"); ku.link("u.ReturnValue", "r2.ReturnValue")
-    ku.chain("entry", "be", "ben", "sn", "return"); ku.chain("ben:else", "bes", "er", "return"); ku.chain("bes:else", "return"); ku.chain("be:else", "r2")
+    ku.chain("entry", "be", "ben", "er_e", "sn", "return"); ku.chain("ben:else", "bes", "er", "return"); ku.chain("bes:else", "return"); ku.chain("be:else", "r2")
     tk = rename_tick(split=True)
     return blueprint(path, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Index", "int"), var("Editing", "bool"), var("SplitTile", "bool")] + hv,
                      functions=[init, tile_colors(("Label", "ColText"), ("Plus", "ColText"), ("NoPhoto", "ColTextDim"), ("SplitFront", "ColText"), ("SplitView", "ColText")),
@@ -1342,7 +1432,11 @@ def w_mod_field():
     md.call("aco", K_MATH, "BooleanAND", inp={"A": "@aco0.ReturnValue", "B": "@isl.ReturnValue"}); md.branch("bco", "@aco.ReturnValue")
     md.get("gm4", "Manager"); md.get("gk4", "Key"); md.get("gcv", "ColorValue")
     md.call("omc", MGR, "Open Mod Color", inp={"self": "@gm4.Manager", "key": "@gk4.Key", "color": "@gcv.ColorValue"})
-    md.chain("entry", "bp", "mk", "return"); md.chain("bp:else", "bkr", "skn", "mkc", "r3"); md.chain("bkr:else", "bco", "omc", "r3"); md.chain("bco:else", "r2")
+    # Button / Toggle, right click: the quick menu row (Mod Field Context)
+    md.get("gt7", "Type"); md.call("ibt", K_MATH, "EqualEqual_NameName", inp={"A": "@gt7.Type", "B": "Button"}); md.call("itg", K_MATH, "EqualEqual_NameName", inp={"A": "@gt7.Type", "B": "Toggle"})
+    md.call("obt", K_MATH, "BooleanOR", inp={"A": "@ibt.ReturnValue", "B": "@itg.ReturnValue"}); md.call("abt", K_MATH, "BooleanAND", inp={"A": "@obt.ReturnValue", "B": "@isr.ReturnValue"}); md.branch("bmf", "@abt.ReturnValue")
+    md.get("gm7", "Manager"); md.get("gk7", "Key"); md.call("mfc", MGR, "Mod Field Context", inp={"self": "@gm7.Manager", "key": "@gk7.Key"})
+    md.chain("entry", "bp", "mk", "return"); md.chain("bp:else", "bkr", "skn", "mkc", "r3"); md.chain("bkr:else", "bco", "omc", "r3"); md.chain("bco:else", "bmf", "mfc", "r3"); md.chain("bmf:else", "r2")
     # OnMouseButtonUp: the pressed part, released over it -> its action; the press ends either way
     mu_ = G(); mu_.get("gpp", "PressPart"); mu_.call("pne", K_STR, "NotEqual_StrStr", inp={"A": "@gpp.PressPart", "B": ""}); mu_.branch("bp", "@pne.ReturnValue")
     mu_.call("ssp", K_IN, "PointerEvent_GetScreenSpacePosition", inp={"Input": "@entry.MouseEvent"})
@@ -1611,7 +1705,11 @@ def w_panel():
           w(U_VBOX, "Main", children=[
             # tabs wrap into a second row when the panel is narrow (half-width layouts do not fit ten tabs)
             w(U_WRAP, "TopTabs", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(10)}),
-            w(U_SCROLL, "OutfitScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_WRAP, "OutfitList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)})]),
+            # virtual: only the rows in view hold tiles; OutfitTop / OutfitBottom stand in for the rows above and below (Outfit Window Update)
+            w(U_SCROLL, "OutfitScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "OutfitVB", children=[
+                w(U_SIZE, "OutfitTop", props={"bOverride_HeightOverride": True, "HeightOverride": 0}),
+                w(U_VBOX, "OutfitList"),
+                w(U_SIZE, "OutfitBottom", props={"bOverride_HeightOverride": True, "HeightOverride": 0}), w(U_SIZE, "OutfitBottomRoom", props={"bOverride_HeightOverride": True, "HeightOverride": LIST_ROOM})])]),
             w(U_SCROLL, "LooksScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_WRAP, "LooksList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)})]),
             # content view (outfit / preset / look): back link + title, sections below
             w(U_VBOX, "ContentBox", props={"Visibility": "Collapsed"}, slot=FILL, children=[
@@ -1833,7 +1931,10 @@ def w_panel():
                 text("LblQuickInWheel", "In the wheel", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(14), sz(4))}),
                 w(U_VBOX, "QuickInWheel"),
                 text("LblQuickAvailable", "Available", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(18), sz(4))}),
-                w(U_VBOX, "QuickAvailable")]),
+                w(U_VBOX, "QuickAvailable", children=[   # virtual list "Qa" (vlist.py), three to a row
+                    w(U_SIZE, "QaTop", props={"bOverride_HeightOverride": True, "HeightOverride": 0}),
+                    w(U_VBOX, "QaWrap"),
+                    w(U_SIZE, "QaBottom", props={"bOverride_HeightOverride": True, "HeightOverride": 0}), w(U_SIZE, "QaBottomRoom", props={"bOverride_HeightOverride": True, "HeightOverride": LIST_ROOM})])]),
             w(U_SCROLL, "BagScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "BagVB", children=[
                 w(U_HBOX, "BagWornHead", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(6)}, children=[
                     text("BagWornHeader", "Worn", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"VerticalAlignment": "VAlign_Center"}),
@@ -1875,10 +1976,12 @@ def w_panel():
                         text("LblOnlyWorn", "only\nworn", 11, slot={"VerticalAlignment": "VAlign_Center"}),
                     ]),
                     w(U_SCROLL, "ListScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "ListVB", children=[
-                        text("FavHeader", "Favourites", 13, "(SpecifiedColor=(R=0.95,G=0.8,B=0.3,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
-                        w(U_WRAP, "FavList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=23)"}),
-                        text("AllHeader", "All", 13, "(SpecifiedColor=(R=0.7,G=0.7,B=0.7,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
-                        w(U_WRAP, "List", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)}),
+                        # virtual list "Clo" (vlist.py): the favourites / all headings are entries of it; FavHeader / AllHeader only keep
+                        # Set Strings' parameters and stay collapsed
+                        text("FavHeader", "Favourites", 13, props_extra={"Visibility": "Collapsed"}), text("AllHeader", "All", 13, props_extra={"Visibility": "Collapsed"}),
+                        w(U_SIZE, "CloTop", props={"bOverride_HeightOverride": True, "HeightOverride": 0}),
+                        w(U_VBOX, "List"),
+                        w(U_SIZE, "CloBottom", props={"bOverride_HeightOverride": True, "HeightOverride": 0}), w(U_SIZE, "CloBottomRoom", props={"bOverride_HeightOverride": True, "HeightOverride": LIST_ROOM}),
                         text("ListHint", "Only the first 400 matches are shown - please narrow the search.", 11, GREY, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(8)})])]),
                 ]),
             ]),
@@ -2030,10 +2133,7 @@ def w_panel():
     ku.chain("sc", "scm", "scl", "scp", "scw", "scc", "sclc", "scmc", "b", "cl", "return"); ku.chain("b:else", "bs", "r2"); ku.chain("bs:else", "return")
     # SetVisibility expects ESlateVisibility: via two branch paths (Visible / Collapsed)
     fv2 = G(); fv2.branch("b", "@entry.visible")
-    for i, wn in enumerate(["FavHeader", "FavList", "AllHeader"]):
-        fv2.get("g%d" % i, wn); fv2.call("v%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@g%d.%s" % (i, wn), "InVisibility": "Visible"})
-        fv2.get("h%d" % i, wn); fv2.call("c%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@h%d.%s" % (i, wn), "InVisibility": "Collapsed"})
-    fv2.chain("entry", "b", "v0", "v1", "v2"); fv2.chain("b:else", "c0", "c1", "c2")
+    fv2.chain("entry", "b")   # clothes favourites: the headings are entries of the virtual list now (kept for its callers)
     # Manage header: the hidden "View content" placeholder keeps its width only where rows have that link (Mods category)
     mcs = G(); mcs.branch("b", "@entry.keep"); mcs.get("g0", "HdrContent"); mcs.call("v0", E_WIDGET, "SetVisibility", inp={"self": "@g0.HdrContent", "InVisibility": "Hidden"})
     mcs.get("g1", "HdrContent"); mcs.call("c0", E_WIDGET, "SetVisibility", inp={"self": "@g1.HdrContent", "InVisibility": "Collapsed"}); mcs.chain("entry", "b", "v0"); mcs.chain("b:else", "c0")
@@ -2327,7 +2427,7 @@ def w_panel():
              fn("Apply Theme", graph=at), fn("Clear Theme Swatches", graph=cts), fn("Add Theme Swatch", [param("widget", "object:" + E_WIDGET), param("column", "int")], graph=ats),
              clear("Clear Theme Links", "ThemeLinks"), add("Add Theme Link", "ThemeLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear TopTabs", "TopTabs"), add("Add TopTab", "TopTabs", U_WRAP, "AddChildToWrapBox"),
-             clear("Clear Outfits", "OutfitList"), add("Add Outfit", "OutfitList", U_WRAP, "AddChildToWrapBox"),
+             *vlist_panel_fns("Ofl", "OutfitScroll", "OutfitVB", "OutfitTop", "OutfitList", "OutfitBottom"),
              clear("Clear Look Tiles", "LooksList"), add("Add Look Tile", "LooksList", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Bag Worn", "BagWorn"), add("Add Bag Worn", "BagWorn", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Bag List", "BagList"), add("Add Bag Item", "BagList", U_WRAP, "AddChildToWrapBox"),
@@ -2345,7 +2445,7 @@ def w_panel():
              clear("Clear Tab Icon Pos Chips", "TabIconPosChips"), add("Add Tab Icon Pos Chip", "TabIconPosChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Quick Key Links", "QuickKeyLinks"), qkl, fn("Set Quick Key Hint", [param("text", "text")], graph=qkh),
              clear("Clear Quick In Wheel", "QuickInWheel"), add("Add Quick In Wheel", "QuickInWheel", U_VBOX, "AddChildToVerticalBox"),
-             clear("Clear Quick Available", "QuickAvailable"), add("Add Quick Available", "QuickAvailable", U_VBOX, "AddChildToVerticalBox"),
+             *vlist_panel_fns("Qa", "OptionsScroll", "QuickAvailable", "QaTop", "QaWrap", "QaBottom"),
              clear("Clear Look", "LookList"), add("Add Look", "LookList", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Look Fav", "LookFavList"), add("Add Look Fav", "LookFavList", U_WRAP, "AddChildToWrapBox"), fn("Set Look Fav Visible", [param("visible", "bool")], graph=lfv), fn("Set Manage Content Space", [param("keep", "bool")], graph=mcs),
              clear("Clear Look SubTabs", "LookSubTabs"), add("Add Look SubTab", "LookSubTabs", U_WRAP, "AddChildToWrapBox"), fn("Set Look Chips Visible", [param("visible", "bool")], graph=lcv),
@@ -2391,9 +2491,9 @@ def w_panel():
              fn("Get Body Scales", outputs=[param(key.lower(), "float") for _, key in SCALE_ROWS], graph=gsc),
              fn("Set Body Scales", [param(key.lower(), "float") for _, key in SCALE_ROWS], graph=ssc),
              fn("Set Body Scales Enabled", [param("enabled", "bool")], graph=esc),
-             clear("Clear Fav", "FavList"), add("Add Fav", "FavList", U_WRAP, "AddChildToWrapBox"),
+             *vlist_panel_fns("Clo", "ListScroll", "ListVB", "CloTop", "List", "CloBottom"),
              fn("Set Fav Visible", [param("visible", "bool")], graph=fv2), fn("OnMouseButtonDown", override=True, graph=pm), fn("OnMouseMove", override=True, graph=mm), fn("OnMouseButtonUp", override=True, graph=mu),
-             clear("Clear List", "List"), add("Add Item", "List", U_WRAP, "AddChildToWrapBox"),
+
              clear("Clear SubTabs", "SubTabs"), add("Add SubTab", "SubTabs", U_WRAP, "AddChildToWrapBox"),
              fn("Get Search", outputs=[param("text", "text")], graph=gs, pure=True),
              fn("Get Chip Search", outputs=[param("text", "text")], graph=gcse, pure=True), fn("Clear Chip Search", graph=ccse),
@@ -2431,13 +2531,15 @@ W_QROW = M + "/W_QuickRow"
 
 
 def w_quick_row():
-    tree = w(E_BORDER, "Bg", props={"BrushColor": "(R=1,G=1,B=1,A=0)", "Padding": "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % (sz(6), sz(3), sz(6), sz(3))}, children=[
+    tree = w(E_BORDER, "Bg", props={"BrushColor": "(R=1,G=1,B=1,A=0)", "Padding": "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % (sz(6), sz(3), sz(6), sz(3)),
+                                    "VerticalAlignment": "VAlign_Center"}, children=[   # one or two lines: centred in the fixed row height
         w(U_HBOX, "Row", children=[
             sizebox("CheckBox", 20, 20, [w(E_IMAGE, "Check")], slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
             sizebox("IconBox", 32, 32, [w(U_SCALE, "IconScale", props={"Stretch": "ScaleToFit"}, children=[w(E_IMAGE, "Icon")])],
                     slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
-            text("Label", "", 13, slot={"Size": "(SizeRule=Fill,Value=1)", "VerticalAlignment": "VAlign_Center"}),
+            text("Label", "", 13, wrap=True, break_all=True, slot={"Size": "(SizeRule=Fill,Value=1)", "VerticalAlignment": "VAlign_Center"}),   # two lines in a third of the row, also without spaces
             w(U_HBOX, "Links", slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(12)})])])
+    tree = w(U_SIZE, "Box", props={"Clipping": "ClipToBounds"}, children=[tree])   # Set Tile Size: a third of the row in the "Available" list
     g = G(); tail = ["entry"]
     g.set("si", "Item", inp={"Item": "@entry.item"}); g.set("sm", "Mode", inp={"Mode": "@entry.mode"}); tail += ["si", "sm"]
     g.get("gl", "Label"); g.call("st", E_TEXT, "SetText", inp={"self": "@gl.Label", "InText": "@entry.caption"}); tail.append("st")
@@ -2471,7 +2573,7 @@ def w_quick_row():
     md.call("h", K_WBL, "Handled"); md.link("h.ReturnValue", "return.ReturnValue"); md.n("r2", "return_new"); md.call("u", K_WBL, "Unhandled"); md.link("u.ReturnValue", "r2.ReturnValue")
     md.chain("entry", "b", "t", "return"); md.chain("b:else", "r2")
     return blueprint(W_QROW, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Item", "string"), var("Mode", "int")],
-                     functions=[init, fn("Add Link", [param("widget", "object:" + E_WIDGET)], graph=a), compute_fn(c), fn("OnMouseButtonDown", override=True, graph=md)],
+                     functions=[fn("Set Tile Size", [param("width", "float"), param("height", "float")], graph=tile_size_graph()), init, fn("Add Link", [param("widget", "object:" + E_WIDGET)], graph=a), compute_fn(c), fn("OnMouseButtonDown", override=True, graph=md)],
                      widget_tree=tree, defaults=HAND)
 
 
@@ -2569,7 +2671,7 @@ def w_quick_wheel():
                 w(U_OVERLAY, "Sectors", slot=FILL_OV),
                 sizebox("CenterBox", C, C, [w(U_OVERLAY, "CenterOv", children=[
                     w(E_IMAGE, "CenterBg", props={"Brush": QSEC_BRUSH}, slot=FILL_OV),
-                    sizebox("CenterTextBox", C * 0.8, None, [text("CenterText", "", 13, wrap=True, center=True)], slot={"HorizontalAlignment": "HAlign_Center", "VerticalAlignment": "VAlign_Center"})])],
+                    sizebox("CenterTextBox", C * 0.8, None, [text("CenterText", "", 13, wrap=True, center=True, break_all=True)], slot={"HorizontalAlignment": "HAlign_Center", "VerticalAlignment": "VAlign_Center"})])],
                         slot={"HorizontalAlignment": "HAlign_Center", "VerticalAlignment": "VAlign_Center"})])])])
     # Init Center: the centre disc (the sector material with one sector, no hole) in a darker menu colour
     ic = G(); tail = ["entry"]
@@ -2615,5 +2717,5 @@ def w_quick_wheel():
                      widget_tree=tree, defaults={"bIsFocusable": "true"})
 
 
-assets = [w_quick_row(), w_quick_sector(), w_quick_wheel(), w_tooltip(), w_group_header(), w_value_row(), w_content_section(), w_slot_tab(), w_clothes_button(), w_sub_tab(), w_top_tab(), w_outfit_button(), w_look_button(scale_fn="Look Scale"), w_look_button(W_FACEBTN, "On Face Clicked", "On Face Context", "Set Face Name", "Btn_SaveFace", (104, 164), (88, 88)), w_text_button(), w_name_row(), w_conflict_row(), w_hair_swatch(), w_mod_field(), w_face_row(), w_round_button(), w_menu_row(), w_context_menu(), w_color_swatch(), w_panel()]
+assets = [w_quick_row(), w_quick_sector(), w_quick_wheel(), w_tooltip(), w_group_header(), w_value_row(), w_content_section(), w_slot_tab(), w_clothes_button(), w_sub_tab(), w_top_tab(), w_list_head(), w_vrow(), w_outfit_button(), w_look_button(scale_fn="Look Scale"), w_look_button(W_FACEBTN, "On Face Clicked", "On Face Context", "Set Face Name", "Btn_SaveFace", (104, 164), (88, 88)), w_text_button(), w_name_row(), w_conflict_row(), w_hair_swatch(), w_mod_field(), w_face_row(), w_round_button(), w_menu_row(), w_context_menu(), w_color_swatch(), w_panel()]
 write(os.path.join(os.path.dirname(__file__), "..", "40_widgets.json"), assets)

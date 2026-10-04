@@ -46,12 +46,12 @@ Hook podmienia *TKA_PlayerCameraManager* i stamtąd uruchamia panel. Każdy mod,
 * **Bronie** – model i skin na broń, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
 * **Mods** – ustawienia innych modów, które się tam rejestrują: przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, wiersze informacyjne, klawisze i przyciski. Widoczna tylko, gdy taki mod jest zainstalowany.
-* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać.
+* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać. Prawy klik na kafelku, karcie lub wpisie moda dodaje go do koła albo go z niego usuwa.
 * **Opcje** – podzielone na kategorie wybierane z listy po lewej: klawisz panelu, język, kolory (schematy można zapisać pod nazwą), pasek kart z ikonami, tekstem lub jednym i drugim oraz wielkość kafelków, osobno dla zestawów i looków. Niepotrzebne karty można wyłączyć.
 * **Zarządzanie** – własne nazwy modów, grup i przedmiotów. Jak w Ubraniach podzakładki filtrują listę według moda lub grupy, a pole wyszukiwania zawęża podzakładki.
 * Cofnij / ponów (5 kroków), dymki z nazwą moda, z którego pochodzi dana rzecz.
 
-Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski (wykrywane automatycznie, zmienialne w Opcjach).
+Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francuski (wykrywane automatycznie, zmienialne w Opcjach).
 
 ## Sterowanie
 

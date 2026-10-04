@@ -2,7 +2,7 @@
 (docs/specs/2026-10-03-options-categories-tabs-design.md)."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen"))
-from strings import STRINGS
+from strings import STRINGS, LANGS
 import gen_manager, gen_widgets, gen_manager_ui as ui
 
 
@@ -12,7 +12,7 @@ class OptionsData(unittest.TestCase):
         self.assertIn("Options", ui.TOP_TABS); self.assertEqual(len(ui.TOP_TABS), 13)
 
     def test_strings(self):
-        for c in gen_widgets.OPT_CATS: self.assertEqual(len(STRINGS["OptCat_" + c]), 6, c)
+        for c in gen_widgets.OPT_CATS: self.assertEqual(len(STRINGS["OptCat_" + c]), len(LANGS), c)
 
     def test_settings(self):
         rows = {(m, s) for m, s, _, _ in gen_manager.SETTINGS}

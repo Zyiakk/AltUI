@@ -6,7 +6,7 @@ from slots import SLOTS, GROUPS
 
 class Strings(unittest.TestCase):
     def test_keys_and_english(self):
-        self.assertEqual(LANGS, ["en", "de", "zh", "ru", "es", "pl"])
+        self.assertEqual(LANGS, ["en", "de", "zh", "ru", "es", "pl", "fr"])   # new ones at the end (LangChoice = chip index)
         for k, v in STRINGS.items():
             self.assertRegex(k, r"^[A-Za-z0-9_]+$"); self.assertEqual(len(v), len(LANGS), k); self.assertTrue(v[0].strip(), k)
 
@@ -27,7 +27,7 @@ class Strings(unittest.TestCase):
         self.assertEqual(set(STRINGS["Chip_LangPl"]), {"Polski"})
 
     def test_rows(self):
-        r = rows(); self.assertEqual(r["Tab_Clothes"], {"en": "Clothes", "de": "Kleidung", "zh": "服装", "ru": "Одежда", "es": "Vestimenta", "pl": "Ubrania"}); self.assertEqual(len(r), len(STRINGS))
+        r = rows(); self.assertEqual(r["Tab_Clothes"], {"en": "Clothes", "de": "Kleidung", "zh": "服装", "ru": "Одежда", "es": "Vestimenta", "pl": "Ubrania", "fr": "Vêtements"}); self.assertEqual(len(r), len(STRINGS))
 
 
 if __name__ == "__main__":

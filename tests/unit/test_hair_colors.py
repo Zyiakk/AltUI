@@ -8,8 +8,8 @@ class HairColors(unittest.TestCase):
         self.assertEqual(len(hair_colors.COLORS), 14)
         keys = [k for k, _, _ in hair_colors.COLORS]; self.assertEqual(len(set(keys)), 14)
         for k, rgb, names in hair_colors.COLORS:
-            self.assertEqual(len(rgb), 3, k); self.assertTrue(all(0.0 <= c <= 1.0 for c in rgb), k); self.assertEqual(len(names), len(strings.LANGS), k)
-            self.assertIn("Hair_" + k, strings.STRINGS)   # tooltips live in the string table
+            self.assertEqual(len(rgb), 3, k); self.assertTrue(all(0.0 <= c <= 1.0 for c in rgb), k); self.assertEqual(len(names), len(strings.LANGS) - 1, k)   # French comes from strings_fr.py
+            self.assertIn("Hair_" + k, strings.STRINGS); self.assertEqual(len(strings.STRINGS["Hair_" + k]), len(strings.LANGS), k)   # tooltips live in the string table
 
     def test_srgb_to_linear(self):
         self.assertAlmostEqual(hair_colors.lin(0), 0.0); self.assertAlmostEqual(hair_colors.lin(255), 1.0, places=6); self.assertAlmostEqual(hair_colors.lin(128), 0.2158605, places=5)

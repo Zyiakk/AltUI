@@ -49,12 +49,12 @@ Odinstalowanie: usuń skopiowane pliki. Własne zapisy moda (*Saved\SaveGames\Al
 * **Bronie** – model i skin na broń, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
 * **Mods** – ustawienia innych modów, które się tam rejestrują (widoczna tylko, gdy taki mod jest zainstalowany).
-* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać.
+* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać. Prawy klik na kafelku, karcie lub wpisie moda dodaje go do koła albo go z niego usuwa.
 * **Opcje** – w kategoriach z listą po lewej; niepotrzebne karty można wyłączyć; klawisz panelu, język, szybkość przewijania, rozmiar kafelków, długość nazw grup i wysokość wiersza grup, część ekranu zostawiona dla Jodi, pole widzenia / odległość / przesuw kamery, kolorystyka i krycie, „można zdejmować bieliznę”, „nieposiadane” zablokowane / wyszarzone / jak posiadane, zwalnianie konfliktów slotów z gry (biustonosz vs. koszula …), łączenie grup / modów o tej samej nazwie, opcje podpowiedzi; pasek kart z ikonami, tekstem lub jednym i drugim, ikona po lewej lub prawej stronie tekstu; schematy kolorów zapisywane pod nazwą; własny rozmiar kafelków zestawów i looków oraz ile rzeczy pokazuje kafelek zestawu; krycie szybkiego menu.
 * **Zarządzanie** – własne nazwy wyświetlane dla modów, grup, rzeczy, fryzur, skór i makijażu – widoczne w całym panelu i uwzględniane w wyszukiwaniu; „Zmień nazwę…” w menu kontekstowym każdego kafelka; eksport / import jako JSON przez `altui_names.pyz`; jak w Ubraniach podzakładki filtrują listę według moda lub grupy, a pole wyszukiwania zawęża podzakładki; nazwy można zmieniać także pozom i gotowym wyglądom.
 * Cofnij / ponów (5 kroków), podpowiedzi pokazują, z którego moda pochodzi dana rzecz.
 
-Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski (wykrywany automatycznie, przełączany w opcjach).
+Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francuski (wykrywany automatycznie, przełączany w opcjach).
 
 ## Sterowanie
 

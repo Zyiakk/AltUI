@@ -909,6 +909,11 @@
      "name": "pl",
      "type": "text",
      "internal_name": "pl_12_F436F7C74FB09EB5BDEBC9F4A45C090D"
+    },
+    {
+     "name": "fr",
+     "type": "text",
+     "internal_name": "fr_14_009B429C7885DD0B2A5C62856ED19154"
     }
    ]
   },
@@ -924,7 +929,8 @@
      "zh": "服装",
      "ru": "Одежда",
      "es": "Vestimenta",
-     "pl": "Ubrania"
+     "pl": "Ubrania",
+     "fr": "Vêtements"
     },
     "Tab_Outfits": {
      "en": "Outfits",
@@ -932,7 +938,8 @@
      "zh": "搭配",
      "ru": "Комплекты",
      "es": "Conjuntos",
-     "pl": "Stroje"
+     "pl": "Stroje",
+     "fr": "Tenues"
     },
     "Tab_Looks": {
      "en": "Looks",
@@ -940,7 +947,8 @@
      "zh": "造型",
      "ru": "Образы",
      "es": "Looks",
-     "pl": "Stylizacje"
+     "pl": "Stylizacje",
+     "fr": "Looks"
     },
     "Tab_Bag": {
      "en": "Backpack",
@@ -948,7 +956,8 @@
      "zh": "背包",
      "ru": "Рюкзак",
      "es": "Mochila",
-     "pl": "Plecak"
+     "pl": "Plecak",
+     "fr": "Sac à dos"
     },
     "Tab_Hair": {
      "en": "Coiffure",
@@ -956,7 +965,8 @@
      "zh": "发型",
      "ru": "Прическа",
      "es": "Peinado",
-     "pl": "Fryzura"
+     "pl": "Fryzura",
+     "fr": "Coiffure"
     },
     "Tab_Look": {
      "en": "Appearance",
@@ -964,7 +974,8 @@
      "zh": "外观",
      "ru": "Внешность",
      "es": "Apariencia",
-     "pl": "Wygląd"
+     "pl": "Wygląd",
+     "fr": "Apparence"
     },
     "Tab_Poses": {
      "en": "Poses",
@@ -972,7 +983,8 @@
      "zh": "姿势",
      "ru": "Позы",
      "es": "Poses",
-     "pl": "Pozy"
+     "pl": "Pozy",
+     "fr": "Poses"
     },
     "Tab_Weapons": {
      "en": "Weapons",
@@ -980,7 +992,8 @@
      "zh": "武器",
      "ru": "Оружие",
      "es": "Armas",
-     "pl": "Broń"
+     "pl": "Broń",
+     "fr": "Armes"
     },
     "Tab_Mods": {
      "en": "Mods",
@@ -988,15 +1001,17 @@
      "zh": "模组",
      "ru": "Моды",
      "es": "Mods",
-     "pl": "Mody"
+     "pl": "Mody",
+     "fr": "Mods"
     },
     "Lbl_ModInactive": {
-     "en": "This mod is not active here - its settings show once it runs in this level.",
-     "de": "Dieser Mod ist hier nicht aktiv – seine Einstellungen erscheinen, sobald er in diesem Level läuft.",
-     "zh": "此模组在这里未运行——它在本关卡运行后才会显示设置。",
-     "ru": "Этот мод здесь не активен – его настройки появятся, когда он заработает на этом уровне.",
-     "es": "Este mod no está activo aquí: sus ajustes aparecen cuando funcione en este nivel.",
-     "pl": "Ten mod nie jest tu aktywny – jego ustawienia pojawią się, gdy zadziała na tym poziomie."
+     "en": "This mod is not running here. If the Blueprint Loader starts it: TKA_BlueprintLoader.pak belongs in Content\\Paks\\~mods, and an AltUI_Hook_P.pak there must be from AltUI 1.5.0 or newer. Some mods only run in certain levels.",
+     "de": "Dieser Mod läuft hier nicht. Startet ihn der Blueprint Loader: TKA_BlueprintLoader.pak gehört nach Content\\Paks\\~mods, und eine AltUI_Hook_P.pak dort muss von AltUI 1.5.0 oder neuer sein. Manche Mods laufen nur in bestimmten Levels.",
+     "zh": "此模组在这里没有运行。如果它由 Blueprint Loader 启动：TKA_BlueprintLoader.pak 应放在 Content\\Paks\\~mods 中，那里的 AltUI_Hook_P.pak 必须来自 AltUI 1.5.0 或更新版本。有些模组只在特定关卡中运行。",
+     "ru": "Этот мод здесь не запущен. Если его запускает Blueprint Loader: TKA_BlueprintLoader.pak должен лежать в Content\\Paks\\~mods, а AltUI_Hook_P.pak там должен быть из AltUI 1.5.0 или новее. Некоторые моды работают только на определённых уровнях.",
+     "es": "Este mod no se está ejecutando aquí. Si lo inicia el Blueprint Loader: TKA_BlueprintLoader.pak va en Content\\Paks\\~mods, y un AltUI_Hook_P.pak allí debe ser de AltUI 1.5.0 o posterior. Algunos mods solo funcionan en ciertos niveles.",
+     "pl": "Ten mod tu nie działa. Jeśli uruchamia go Blueprint Loader: TKA_BlueprintLoader.pak powinien leżeć w Content\\Paks\\~mods, a AltUI_Hook_P.pak w tym folderze musi pochodzić z AltUI 1.5.0 lub nowszego. Niektóre mody działają tylko na wybranych poziomach.",
+     "fr": "Ce mod ne tourne pas ici. Si le Blueprint Loader le démarre : TKA_BlueprintLoader.pak va dans Content\\Paks\\~mods, et un AltUI_Hook_P.pak à cet endroit doit venir d'AltUI 1.5.0 ou plus récent. Certains mods ne tournent que dans certains niveaux."
     },
     "Lbl_ModNoFields": {
      "en": "No settings.",
@@ -1004,7 +1019,8 @@
      "zh": "没有设置。",
      "ru": "Нет настроек.",
      "es": "Sin ajustes.",
-     "pl": "Brak ustawień."
+     "pl": "Brak ustawień.",
+     "fr": "Aucun réglage."
     },
     "Tab_Body": {
      "en": "Body Shape",
@@ -1012,7 +1028,8 @@
      "zh": "身材",
      "ru": "Форма тела",
      "es": "Curvas",
-     "pl": "Kształt ciała"
+     "pl": "Kształt ciała",
+     "fr": "Morphologie"
     },
     "Tab_Options": {
      "en": "Options",
@@ -1020,7 +1037,8 @@
      "zh": "选项",
      "ru": "Настройки",
      "es": "Opciones",
-     "pl": "Opcje"
+     "pl": "Opcje",
+     "fr": "Paramètres"
     },
     "Chip_All": {
      "en": "All",
@@ -1028,7 +1046,8 @@
      "zh": "全部",
      "ru": "Все",
      "es": "Todo",
-     "pl": "Wszystko"
+     "pl": "Wszystko",
+     "fr": "Tout"
     },
     "Chip_More": {
      "en": "...",
@@ -1036,7 +1055,8 @@
      "zh": "...",
      "ru": "...",
      "es": "...",
-     "pl": "..."
+     "pl": "...",
+     "fr": "..."
     },
     "Chip_Standard": {
      "en": "Standard",
@@ -1044,7 +1064,8 @@
      "zh": "默认",
      "ru": "Стандарт",
      "es": "Estándar",
-     "pl": "Standard"
+     "pl": "Standard",
+     "fr": "Standard"
     },
     "Group_Basis": {
      "en": "No group",
@@ -1052,7 +1073,8 @@
      "zh": "无分组",
      "ru": "Без группы",
      "es": "Sin grupo",
-     "pl": "Bez grupy"
+     "pl": "Bez grupy",
+     "fr": "Sans groupe"
     },
     "Group_Tops": {
      "en": "Tops",
@@ -1060,7 +1082,8 @@
      "zh": "上装",
      "ru": "Верх",
      "es": "Superiores",
-     "pl": "Góra"
+     "pl": "Góra",
+     "fr": "Hauts"
     },
     "Group_Bottoms": {
      "en": "Bottoms",
@@ -1068,7 +1091,8 @@
      "zh": "下装",
      "ru": "Низ",
      "es": "Inferiores",
-     "pl": "Dół"
+     "pl": "Dół",
+     "fr": "Bas"
     },
     "Group_Dresses": {
      "en": "Dresses",
@@ -1076,7 +1100,8 @@
      "zh": "连衣裙",
      "ru": "Платья",
      "es": "Vestidos",
-     "pl": "Sukienki"
+     "pl": "Sukienki",
+     "fr": "Robes"
     },
     "Group_Shoes": {
      "en": "Shoes",
@@ -1084,7 +1109,8 @@
      "zh": "鞋子",
      "ru": "Обувь",
      "es": "Zapatos",
-     "pl": "Obuwie"
+     "pl": "Obuwie",
+     "fr": "Chaussures"
     },
     "Group_Accessories": {
      "en": "Accessories",
@@ -1092,7 +1118,8 @@
      "zh": "配饰",
      "ru": "Аксессуары",
      "es": "Accesorios",
-     "pl": "Akcesoria"
+     "pl": "Akcesoria",
+     "fr": "Accessoires"
     },
     "Group_Hidden": {
      "en": "Hidden",
@@ -1100,7 +1127,8 @@
      "zh": "已隐藏",
      "ru": "Скрытые",
      "es": "Ocultos",
-     "pl": "Ukryte"
+     "pl": "Ukryte",
+     "fr": "Masqués"
     },
     "Slot_Bra": {
      "en": "Bra",
@@ -1108,7 +1136,8 @@
      "zh": "胸罩",
      "ru": "Бюстгальтер",
      "es": "Sostén",
-     "pl": "Biustonosz"
+     "pl": "Biustonosz",
+     "fr": "Soutien-gorge"
     },
     "Slot_Shirt": {
      "en": "Shirt",
@@ -1116,7 +1145,8 @@
      "zh": "衬衫",
      "ru": "Рубашка",
      "es": "Camisa",
-     "pl": "Koszula"
+     "pl": "Koszula",
+     "fr": "Chemise"
     },
     "Slot_Top": {
      "en": "Top",
@@ -1124,7 +1154,8 @@
      "zh": "上衣",
      "ru": "Топ",
      "es": "Top",
-     "pl": "Top"
+     "pl": "Top",
+     "fr": "Haut"
     },
     "Slot_Sweater": {
      "en": "Sweater",
@@ -1132,7 +1163,8 @@
      "zh": "毛衣",
      "ru": "Свитер",
      "es": "Suéter",
-     "pl": "Sweter"
+     "pl": "Sweter",
+     "fr": "Pull"
     },
     "Slot_Coat": {
      "en": "Coat",
@@ -1140,7 +1172,8 @@
      "zh": "外套",
      "ru": "Пальто",
      "es": "Abrigo",
-     "pl": "Płaszcz"
+     "pl": "Płaszcz",
+     "fr": "Manteau"
     },
     "Slot_Corset": {
      "en": "Corset",
@@ -1148,7 +1181,8 @@
      "zh": "束身衣",
      "ru": "Корсет",
      "es": "Corsé",
-     "pl": "Gorset"
+     "pl": "Gorset",
+     "fr": "Corset"
     },
     "Slot_Briefs": {
      "en": "Briefs",
@@ -1156,7 +1190,8 @@
      "zh": "三角裤",
      "ru": "Трусы",
      "es": "Bragas",
-     "pl": "Majtki"
+     "pl": "Majtki",
+     "fr": "Slip"
     },
     "Slot_Pants": {
      "en": "Pants",
@@ -1164,7 +1199,8 @@
      "zh": "裤子",
      "ru": "Брюки",
      "es": "Pantalones",
-     "pl": "Spodnie"
+     "pl": "Spodnie",
+     "fr": "Pantalon"
     },
     "Slot_Panties": {
      "en": "Panties",
@@ -1172,7 +1208,8 @@
      "zh": "内裤",
      "ru": "Трусики",
      "es": "Braguitas",
-     "pl": "Figi"
+     "pl": "Figi",
+     "fr": "Culotte"
     },
     "Slot_Leggings": {
      "en": "Leggings",
@@ -1180,7 +1217,8 @@
      "zh": "打底裤",
      "ru": "Леггинсы",
      "es": "Leggings",
-     "pl": "Legginsy"
+     "pl": "Legginsy",
+     "fr": "Legging"
     },
     "Slot_Skirt": {
      "en": "Skirt",
@@ -1188,7 +1226,8 @@
      "zh": "裙子",
      "ru": "Юбка",
      "es": "Falda",
-     "pl": "Spódnica"
+     "pl": "Spódnica",
+     "fr": "Jupe"
     },
     "Slot_Garter": {
      "en": "Garter",
@@ -1196,7 +1235,8 @@
      "zh": "吊袜带",
      "ru": "Подвязки",
      "es": "Liguero",
-     "pl": "Podwiązka"
+     "pl": "Podwiązka",
+     "fr": "Porte-jarretelles"
     },
     "Slot_Socks": {
      "en": "Socks",
@@ -1204,7 +1244,8 @@
      "zh": "袜子",
      "ru": "Носки",
      "es": "Calcetines",
-     "pl": "Skarpetki"
+     "pl": "Skarpetki",
+     "fr": "Chaussettes"
     },
     "Slot_Loose": {
      "en": "Loose",
@@ -1212,7 +1253,8 @@
      "zh": "宽松",
      "ru": "Свободное",
      "es": "Suelto",
-     "pl": "Luźne"
+     "pl": "Luźne",
+     "fr": "Ample"
     },
     "Slot_Suit": {
      "en": "Suit",
@@ -1220,7 +1262,8 @@
      "zh": "连身衣",
      "ru": "Комбинезон",
      "es": "Mono",
-     "pl": "Kombinezon"
+     "pl": "Kombinezon",
+     "fr": "Combinaison"
     },
     "Slot_Dress": {
      "en": "Dress",
@@ -1228,7 +1271,8 @@
      "zh": "连衣裙",
      "ru": "Платье",
      "es": "Vestido",
-     "pl": "Sukienka"
+     "pl": "Sukienka",
+     "fr": "Robe"
     },
     "Slot_Leotard": {
      "en": "Leotard",
@@ -1236,7 +1280,8 @@
      "zh": "紧身衣",
      "ru": "Трико",
      "es": "Maillot",
-     "pl": "Trykot"
+     "pl": "Trykot",
+     "fr": "Body"
     },
     "Slot_Swim": {
      "en": "Swimwear",
@@ -1244,7 +1289,8 @@
      "zh": "泳装",
      "ru": "Купальник",
      "es": "Traje de baño",
-     "pl": "Strój kąpielowy"
+     "pl": "Strój kąpielowy",
+     "fr": "Maillot de bain"
     },
     "Slot_Shoes": {
      "en": "Shoes",
@@ -1252,7 +1298,8 @@
      "zh": "鞋子",
      "ru": "Обувь",
      "es": "Zapatos",
-     "pl": "Obuwie"
+     "pl": "Obuwie",
+     "fr": "Chaussures"
     },
     "Slot_Boots": {
      "en": "Boots",
@@ -1260,7 +1307,8 @@
      "zh": "靴子",
      "ru": "Сапоги",
      "es": "Botas",
-     "pl": "Kozaki"
+     "pl": "Kozaki",
+     "fr": "Bottes"
     },
     "Slot_Belt": {
      "en": "Belt",
@@ -1268,7 +1316,8 @@
      "zh": "腰带",
      "ru": "Ремень",
      "es": "Cinturón",
-     "pl": "Pasek"
+     "pl": "Pasek",
+     "fr": "Ceinture"
     },
     "Slot_Arms": {
      "en": "Arms",
@@ -1276,7 +1325,8 @@
      "zh": "臂饰",
      "ru": "Руки",
      "es": "Brazos",
-     "pl": "Ramiona"
+     "pl": "Ramiona",
+     "fr": "Bras"
     },
     "Slot_Gloves": {
      "en": "Gloves",
@@ -1284,7 +1334,8 @@
      "zh": "手套",
      "ru": "Перчатки",
      "es": "Guantes",
-     "pl": "Rękawiczki"
+     "pl": "Rękawiczki",
+     "fr": "Gants"
     },
     "Slot_Neck": {
      "en": "Neck",
@@ -1292,7 +1343,8 @@
      "zh": "颈饰",
      "ru": "Шея",
      "es": "Cuello",
-     "pl": "Szyja"
+     "pl": "Szyja",
+     "fr": "Cou"
     },
     "Slot_Necklace": {
      "en": "Necklace",
@@ -1300,7 +1352,8 @@
      "zh": "项链",
      "ru": "Ожерелье",
      "es": "Collar",
-     "pl": "Naszyjnik"
+     "pl": "Naszyjnik",
+     "fr": "Collier"
     },
     "Slot_Glasses": {
      "en": "Glasses",
@@ -1308,7 +1361,8 @@
      "zh": "眼镜",
      "ru": "Очки",
      "es": "Gafas",
-     "pl": "Okulary"
+     "pl": "Okulary",
+     "fr": "Lunettes"
     },
     "Slot_Ears": {
      "en": "Ears",
@@ -1316,7 +1370,8 @@
      "zh": "耳饰",
      "ru": "Уши",
      "es": "Orejas",
-     "pl": "Uszy"
+     "pl": "Uszy",
+     "fr": "Oreilles"
     },
     "Slot_Headwear": {
      "en": "Headwear",
@@ -1324,7 +1379,8 @@
      "zh": "头饰",
      "ru": "Головной убор",
      "es": "Sombrero",
-     "pl": "Nakrycie głowy"
+     "pl": "Nakrycie głowy",
+     "fr": "Couvre-chef"
     },
     "Slot_Mask": {
      "en": "Mask",
@@ -1332,7 +1388,8 @@
      "zh": "面具",
      "ru": "Маска",
      "es": "Máscara",
-     "pl": "Maska"
+     "pl": "Maska",
+     "fr": "Masque"
     },
     "Slot_Tail": {
      "en": "Tail",
@@ -1340,7 +1397,8 @@
      "zh": "尾巴",
      "ru": "Хвост",
      "es": "Cola",
-     "pl": "Ogon"
+     "pl": "Ogon",
+     "fr": "Queue"
     },
     "Slot_Backpack": {
      "en": "Backpack",
@@ -1348,7 +1406,8 @@
      "zh": "背包",
      "ru": "Рюкзак",
      "es": "Mochila",
-     "pl": "Plecak"
+     "pl": "Plecak",
+     "fr": "Sac à dos"
     },
     "Slot_Holster": {
      "en": "Holster",
@@ -1356,7 +1415,8 @@
      "zh": "枪套",
      "ru": "Кобура",
      "es": "Funda",
-     "pl": "Kabura"
+     "pl": "Kabura",
+     "fr": "Holster"
     },
     "Slot_Acc": {
      "en": "Accessory",
@@ -1364,7 +1424,8 @@
      "zh": "配件",
      "ru": "Аксессуар",
      "es": "Accesorio",
-     "pl": "Akcesorium"
+     "pl": "Akcesorium",
+     "fr": "Accessoire"
     },
     "Slot_Unknown": {
      "en": "Unknown",
@@ -1372,7 +1433,8 @@
      "zh": "未知",
      "ru": "Неизвестно",
      "es": "Desconocido",
-     "pl": "Nieznane"
+     "pl": "Nieznane",
+     "fr": "Inconnu"
     },
     "Slot_All": {
      "en": "All",
@@ -1380,7 +1442,8 @@
      "zh": "全部",
      "ru": "Все",
      "es": "Todo",
-     "pl": "Wszystko"
+     "pl": "Wszystko",
+     "fr": "Tout"
     },
     "Lbl_Search": {
      "en": "Search...",
@@ -1388,7 +1451,8 @@
      "zh": "搜索...",
      "ru": "Поиск...",
      "es": "Buscar...",
-     "pl": "Szukaj..."
+     "pl": "Szukaj...",
+     "fr": "Rechercher..."
     },
     "Lbl_OnlyOwned": {
      "en": "only\nowned",
@@ -1396,7 +1460,8 @@
      "zh": "仅\n已拥有",
      "ru": "только\nв наличии",
      "es": "solo\nposeídos",
-     "pl": "tylko\nposiadane"
+     "pl": "tylko\nposiadane",
+     "fr": "possédés\nseulement"
     },
     "Lbl_OnlyFav": {
      "en": "only\nfavourites",
@@ -1404,7 +1469,8 @@
      "zh": "仅\n收藏",
      "ru": "только\nизбранное",
      "es": "solo\nfavoritos",
-     "pl": "tylko\nulubione"
+     "pl": "tylko\nulubione",
+     "fr": "favoris\nseulement"
     },
     "Lbl_OnlyVanilla": {
      "en": "only\nvanilla",
@@ -1412,7 +1478,8 @@
      "zh": "仅\n原版",
      "ru": "только\nоригинал",
      "es": "solo\nvanilla",
-     "pl": "tylko\nvanilla"
+     "pl": "tylko\nvanilla",
+     "fr": "vanilla\nseulement"
     },
     "Lbl_OnlyWorn": {
      "en": "only\nworn",
@@ -1420,7 +1487,8 @@
      "zh": "仅\n已穿着",
      "ru": "только\nнадетое",
      "es": "solo\npuestos",
-     "pl": "tylko\nzałożone"
+     "pl": "tylko\nzałożone",
+     "fr": "portés\nseulement"
     },
     "Lbl_Favorites": {
      "en": "Favourites",
@@ -1428,7 +1496,8 @@
      "zh": "收藏",
      "ru": "Избранное",
      "es": "Favoritos",
-     "pl": "Ulubione"
+     "pl": "Ulubione",
+     "fr": "Favoris"
     },
     "Lbl_All": {
      "en": "All",
@@ -1436,7 +1505,8 @@
      "zh": "全部",
      "ru": "Все",
      "es": "Todo",
-     "pl": "Wszystko"
+     "pl": "Wszystko",
+     "fr": "Tout"
     },
     "Lbl_ListHint": {
      "en": "Only the first 400 matches are shown - please narrow the search.",
@@ -1444,7 +1514,8 @@
      "zh": "仅显示前 400 个结果，请缩小搜索范围。",
      "ru": "Показаны только первые 400 результатов – уточните поиск.",
      "es": "Solo se muestran los primeros 400 resultados: acota la búsqueda.",
-     "pl": "Wyświetlono tylko pierwszych 400 wyników – zawęź wyszukiwanie."
+     "pl": "Wyświetlono tylko pierwszych 400 wyników – zawęź wyszukiwanie.",
+     "fr": "Seuls les 400 premiers résultats sont affichés – veuillez affiner la recherche."
     },
     "Lbl_Worn": {
      "en": "Worn",
@@ -1452,7 +1523,8 @@
      "zh": "已穿着",
      "ru": "Надето",
      "es": "Puesto",
-     "pl": "Założone"
+     "pl": "Założone",
+     "fr": "Porté"
     },
     "Lbl_InBag": {
      "en": "In backpack",
@@ -1460,7 +1532,8 @@
      "zh": "背包中",
      "ru": "В рюкзаке",
      "es": "En la mochila",
-     "pl": "W plecaku"
+     "pl": "W plecaku",
+     "fr": "Dans le sac à dos"
     },
     "Lbl_BagEmpty": {
      "en": "Backpack is empty",
@@ -1468,7 +1541,8 @@
      "zh": "背包是空的",
      "ru": "Рюкзак пуст",
      "es": "La mochila está vacía",
-     "pl": "Plecak jest pusty"
+     "pl": "Plecak jest pusty",
+     "fr": "Le sac à dos est vide"
     },
     "Lbl_Breast": {
      "en": "Breast",
@@ -1476,7 +1550,8 @@
      "zh": "胸部",
      "ru": "Грудь",
      "es": "Pecho",
-     "pl": "Piersi"
+     "pl": "Piersi",
+     "fr": "Poitrine"
     },
     "Lbl_Waist": {
      "en": "Waist",
@@ -1484,7 +1559,8 @@
      "zh": "腰",
      "ru": "Талия",
      "es": "Cintura",
-     "pl": "Talia"
+     "pl": "Talia",
+     "fr": "Taille"
     },
     "Lbl_ScaleHint": {
      "en": "The sliders below only work with converted bodies (bodypak.pyz).",
@@ -1492,7 +1568,8 @@
      "zh": "以下滑块仅对已转换的身体（bodypak.pyz）有效。",
      "ru": "Ползунки ниже работают только с конвертированными телами (bodypak.pyz).",
      "es": "Los deslizadores siguientes solo funcionan con cuerpos convertidos (bodypak.pyz).",
-     "pl": "Poniższe suwaki działają tylko z przekonwertowanymi ciałami (bodypak.pyz)."
+     "pl": "Poniższe suwaki działają tylko z przekonwertowanymi ciałami (bodypak.pyz).",
+     "fr": "Les curseurs ci-dessous ne fonctionnent qu'avec des corps convertis (bodypak.pyz)."
     },
     "Lbl_ScBreast": {
      "en": "Bust",
@@ -1500,7 +1577,8 @@
      "zh": "胸围",
      "ru": "Бюст",
      "es": "Busto",
-     "pl": "Biust"
+     "pl": "Biust",
+     "fr": "Buste"
     },
     "Lbl_ScWaist": {
      "en": "Waist Extra",
@@ -1508,7 +1586,8 @@
      "zh": "腰围 Extra",
      "ru": "Талия Extra",
      "es": "Cintura Extra",
-     "pl": "Talia Extra"
+     "pl": "Talia Extra",
+     "fr": "Taille (extra)"
     },
     "Lbl_ScGlutes": {
      "en": "Hips / glutes",
@@ -1516,7 +1595,8 @@
      "zh": "臀部 / 髋部",
      "ru": "Таз / ягодицы",
      "es": "Caderas / glúteos",
-     "pl": "Biodra / pośladki"
+     "pl": "Biodra / pośladki",
+     "fr": "Hanches / fessiers"
     },
     "Lbl_ScThighs": {
      "en": "Thighs",
@@ -1524,7 +1604,8 @@
      "zh": "大腿",
      "ru": "Бёдра",
      "es": "Muslos",
-     "pl": "Uda"
+     "pl": "Uda",
+     "fr": "Cuisses"
     },
     "Lbl_ScCalves": {
      "en": "Calves",
@@ -1532,7 +1613,8 @@
      "zh": "小腿",
      "ru": "Икры",
      "es": "Pantorrillas",
-     "pl": "Łydki"
+     "pl": "Łydki",
+     "fr": "Mollets"
     },
     "Lbl_ScArms": {
      "en": "Arms",
@@ -1540,7 +1622,8 @@
      "zh": "手臂",
      "ru": "Руки",
      "es": "Brazos",
-     "pl": "Ramiona"
+     "pl": "Ramiona",
+     "fr": "Bras"
     },
     "Lbl_ScHands": {
      "en": "Hands",
@@ -1548,7 +1631,8 @@
      "zh": "手",
      "ru": "Кисти",
      "es": "Manos",
-     "pl": "Dłonie"
+     "pl": "Dłonie",
+     "fr": "Mains"
     },
     "Lbl_ScFeet": {
      "en": "Feet",
@@ -1556,7 +1640,8 @@
      "zh": "脚",
      "ru": "Стопы",
      "es": "Pies",
-     "pl": "Stopy"
+     "pl": "Stopy",
+     "fr": "Pieds"
     },
     "Lbl_ScHeight": {
      "en": "Scale",
@@ -1564,7 +1649,8 @@
      "zh": "缩放",
      "ru": "Масштаб",
      "es": "Escala",
-     "pl": "Skala"
+     "pl": "Skala",
+     "fr": "Échelle"
     },
     "Btn_ScReset": {
      "en": "Reset shape",
@@ -1572,7 +1658,8 @@
      "zh": "重置体型",
      "ru": "Сбросить форму",
      "es": "Restablecer forma",
-     "pl": "Zresetuj kształt"
+     "pl": "Zresetuj kształt",
+     "fr": "Réinitialiser la forme"
     },
     "Msg_NoScale": {
      "en": "This body has no shape sliders – convert it again with bodypak 1.4",
@@ -1580,7 +1667,8 @@
      "zh": "此身体没有体型滑块 – 请用 bodypak 1.4 重新转换",
      "ru": "У этого тела нет ползунков формы – сконвертируйте его заново с bodypak 1.4",
      "es": "Este cuerpo no tiene deslizadores de forma – conviértelo de nuevo con bodypak 1.4",
-     "pl": "To ciało nie ma suwaków kształtu – przekonwertuj je ponownie za pomocą bodypak 1.4"
+     "pl": "To ciało nie ma suwaków kształtu – przekonwertuj je ponownie za pomocą bodypak 1.4",
+     "fr": "Ce corps n'a pas de curseurs de forme – convertissez-le à nouveau avec bodypak 1.4"
     },
     "Lbl_GroupLen": {
      "en": "Group names: max. characters",
@@ -1588,7 +1676,8 @@
      "zh": "分组名称：最多字符数",
      "ru": "Названия групп: макс. символов",
      "es": "Nombres de grupo: máx. caracteres",
-     "pl": "Nazwy grup: maks. znaków"
+     "pl": "Nazwy grup: maks. znaków",
+     "fr": "Noms de groupe : nombre max. de caractères"
     },
     "Lbl_ChipH": {
      "en": "Group chip area: max. height",
@@ -1596,7 +1685,8 @@
      "zh": "分组标签区域：最大高度",
      "ru": "Область групп: макс. высота",
      "es": "Área de grupos: altura máx.",
-     "pl": "Obszar grup: maks. wysokość"
+     "pl": "Obszar grup: maks. wysokość",
+     "fr": "Zone des groupes : hauteur max."
     },
     "Opt_Unlimited": {
      "en": "unlimited",
@@ -1604,7 +1694,8 @@
      "zh": "不限",
      "ru": "без ограничения",
      "es": "sin límite",
-     "pl": "bez ograniczeń"
+     "pl": "bez ograniczeń",
+     "fr": "illimité"
     },
     "Lbl_Scroll": {
      "en": "Scroll speed",
@@ -1612,7 +1703,8 @@
      "zh": "滚动速度",
      "ru": "Скорость прокрутки",
      "es": "Velocidad de desplazamiento",
-     "pl": "Szybkość przewijania"
+     "pl": "Szybkość przewijania",
+     "fr": "Vitesse de défilement"
     },
     "Lbl_Scale": {
      "en": "Tile size",
@@ -1620,7 +1712,8 @@
      "zh": "图块大小",
      "ru": "Размер плиток",
      "es": "Tamaño de las casillas",
-     "pl": "Rozmiar kafelków"
+     "pl": "Rozmiar kafelków",
+     "fr": "Taille des tuiles"
     },
     "Lbl_Fov": {
      "en": "Camera FOV (Jodi view)",
@@ -1628,7 +1721,8 @@
      "zh": "相机视野（Jodi 视图）",
      "ru": "Угол обзора камеры (вид Jodi)",
      "es": "FOV de la cámara (vista de Jodi)",
-     "pl": "Pole widzenia kamery (widok Jodi)"
+     "pl": "Pole widzenia kamery (widok Jodi)",
+     "fr": "Champ de vision (vue Jodi)"
     },
     "Lbl_Dist": {
      "en": "Camera distance (Jodi view)",
@@ -1636,7 +1730,8 @@
      "zh": "相机距离（Jodi 视图）",
      "ru": "Расстояние камеры (вид Jodi)",
      "es": "Distancia de la cámara (vista de Jodi)",
-     "pl": "Odległość kamery (widok Jodi)"
+     "pl": "Odległość kamery (widok Jodi)",
+     "fr": "Distance de la caméra (vue Jodi)"
     },
     "Menu_ForceSkin": {
      "en": "Force skins onto this model",
@@ -1644,7 +1739,8 @@
      "zh": "在此模型上强制应用涂装",
      "ru": "Принудительно применять скины к этой модели",
      "es": "Forzar los skins en este modelo",
-     "pl": "Wymuś skiny na tym modelu"
+     "pl": "Wymuś skiny na tym modelu",
+     "fr": "Forcer les skins sur ce modèle"
     },
     "Menu_UnforceSkin": {
      "en": "Back to the mod's own materials",
@@ -1652,7 +1748,8 @@
      "zh": "恢复模组自带的材质",
      "ru": "Вернуть собственные материалы мода",
      "es": "Volver a los materiales propios del mod",
-     "pl": "Powrót do własnych materiałów moda"
+     "pl": "Powrót do własnych materiałów moda",
+     "fr": "Revenir aux matériaux du mod"
     },
     "Menu_MagExclude": {
      "en": "Leave the magazine out of it",
@@ -1660,7 +1757,8 @@
      "zh": "不包括弹匣",
      "ru": "Не применять к магазину",
      "es": "Dejar el cargador fuera",
-     "pl": "Pomiń magazynek"
+     "pl": "Pomiń magazynek",
+     "fr": "Laisser le chargeur de côté"
     },
     "Menu_MagInclude": {
      "en": "Include the magazine again",
@@ -1668,7 +1766,8 @@
      "zh": "重新包括弹匣",
      "ru": "Снова применять к магазину",
      "es": "Incluir el cargador de nuevo",
-     "pl": "Znów uwzględnij magazynek"
+     "pl": "Znów uwzględnij magazynek",
+     "fr": "Inclure à nouveau le chargeur"
     },
     "Menu_OpticsExclude": {
      "en": "Leave the optics out of it",
@@ -1676,7 +1775,8 @@
      "zh": "不包括瞄准镜",
      "ru": "Не применять к прицелу",
      "es": "Dejar la óptica fuera",
-     "pl": "Pomiń optykę"
+     "pl": "Pomiń optykę",
+     "fr": "Laisser la visée de côté"
     },
     "Menu_OpticsInclude": {
      "en": "Include the optics again",
@@ -1684,7 +1784,8 @@
      "zh": "重新包括瞄准镜",
      "ru": "Снова применять к прицелу",
      "es": "Incluir la óptica de nuevo",
-     "pl": "Znów uwzględnij optykę"
+     "pl": "Znów uwzględnij optykę",
+     "fr": "Inclure à nouveau la visée"
     },
     "Menu_BarrelExclude": {
      "en": "Leave the suppressor out of it",
@@ -1692,7 +1793,8 @@
      "zh": "不包括消音器",
      "ru": "Не применять к глушителю",
      "es": "Dejar el silenciador fuera",
-     "pl": "Pomiń tłumik"
+     "pl": "Pomiń tłumik",
+     "fr": "Laisser le silencieux de côté"
     },
     "Menu_BarrelInclude": {
      "en": "Include the suppressor again",
@@ -1700,7 +1802,8 @@
      "zh": "重新包括消音器",
      "ru": "Снова применять к глушителю",
      "es": "Incluir el silenciador de nuevo",
-     "pl": "Znów uwzględnij tłumik"
+     "pl": "Znów uwzględnij tłumik",
+     "fr": "Inclure à nouveau le silencieux"
     },
     "Menu_GripExclude": {
      "en": "Leave the grip out of it",
@@ -1708,7 +1811,8 @@
      "zh": "不包括握把",
      "ru": "Не применять к рукояти",
      "es": "Dejar la empuñadura fuera",
-     "pl": "Pomiń chwyt"
+     "pl": "Pomiń chwyt",
+     "fr": "Laisser la poignée de côté"
     },
     "Menu_GripInclude": {
      "en": "Include the grip again",
@@ -1716,7 +1820,8 @@
      "zh": "重新包括握把",
      "ru": "Снова применять к рукояти",
      "es": "Incluir la empuñadura de nuevo",
-     "pl": "Znów uwzględnij chwyt"
+     "pl": "Znów uwzględnij chwyt",
+     "fr": "Inclure à nouveau la poignée"
     },
     "Menu_OwnIcon": {
      "en": "Show the mod's own picture",
@@ -1724,7 +1829,8 @@
      "zh": "显示模组自带的图片",
      "ru": "Показать собственное изображение мода",
      "es": "Mostrar la imagen propia del mod",
-     "pl": "Pokaż własny obraz moda"
+     "pl": "Pokaż własny obraz moda",
+     "fr": "Afficher l'image du mod"
     },
     "Menu_RenderedIcon": {
      "en": "Show the rendered picture",
@@ -1732,7 +1838,8 @@
      "zh": "显示渲染的图片",
      "ru": "Показать отрендеренное изображение",
      "es": "Mostrar la imagen renderizada",
-     "pl": "Pokaż wyrenderowany obraz"
+     "pl": "Pokaż wyrenderowany obraz",
+     "fr": "Afficher l'image rendue"
     },
     "Lbl_Height": {
      "en": "Camera height (Jodi view)",
@@ -1740,7 +1847,8 @@
      "zh": "相机高度（Jodi 视图）",
      "ru": "Высота камеры (вид Jodi)",
      "es": "Altura de la cámara (vista de Jodi)",
-     "pl": "Wysokość kamery (widok Jodi)"
+     "pl": "Wysokość kamery (widok Jodi)",
+     "fr": "Hauteur de la caméra (vue Jodi)"
     },
     "Lbl_Unlimited": {
      "en": "show unlimited items at once",
@@ -1748,7 +1856,8 @@
      "zh": "同时显示所有物品（不限数量）",
      "ru": "показывать все предметы сразу (без ограничения)",
      "es": "mostrar todos los objetos a la vez (sin límite)",
-     "pl": "pokazuj wszystkie przedmioty naraz (bez ograniczeń)"
+     "pl": "pokazuj wszystkie przedmioty naraz (bez ograniczeń)",
+     "fr": "afficher un nombre illimité d'éléments"
     },
     "Lbl_Layout": {
      "en": "Space for Jodi",
@@ -1756,7 +1865,8 @@
      "zh": "为 Jodi 留出空间",
      "ru": "Место для Jodi",
      "es": "Espacio para Jodi",
-     "pl": "Miejsce dla Jodi"
+     "pl": "Miejsce dla Jodi",
+     "fr": "Place pour Jodi"
     },
     "Lbl_Pan": {
      "en": "Camera follows slot / face",
@@ -1764,7 +1874,8 @@
      "zh": "相机跟随部位 / 面部",
      "ru": "Камера следует за слотом / лицом",
      "es": "La cámara sigue la ranura / la cara",
-     "pl": "Kamera podąża za slotem / twarzą"
+     "pl": "Kamera podąża za slotem / twarzą",
+     "fr": "La caméra suit l'emplacement / le visage"
     },
     "Lbl_CamRight": {
      "en": "Camera height with the right mouse button",
@@ -1772,7 +1883,8 @@
      "zh": "用鼠标右键调整相机高度",
      "ru": "Высота камеры правой кнопкой мыши",
      "es": "Altura de la cámara con el botón derecho",
-     "pl": "Wysokość kamery prawym przyciskiem myszy"
+     "pl": "Wysokość kamery prawym przyciskiem myszy",
+     "fr": "Hauteur de la caméra avec le bouton droit de la souris"
     },
     "Lbl_Nude": {
      "en": "Underwear may be taken off",
@@ -1780,7 +1892,8 @@
      "zh": "允许脱下内衣",
      "ru": "Нижнее белье можно снять",
      "es": "Se puede quitar la ropa interior",
-     "pl": "Można zdejmować bieliznę"
+     "pl": "Można zdejmować bieliznę",
+     "fr": "Les sous-vêtements peuvent être retirés"
     },
     "Lbl_Conflicts": {
      "en": "Slot conflicts",
@@ -1788,7 +1901,8 @@
      "zh": "部位冲突",
      "ru": "Конфликты слотов",
      "es": "Conflictos de ranuras",
-     "pl": "Konflikty slotów"
+     "pl": "Konflikty slotów",
+     "fr": "Conflits d'emplacements"
     },
     "Lbl_ConflictsHint": {
      "en": "Active = allowed in combo. The mirror wardrobe follows the game; meshes may clip.",
@@ -1796,7 +1910,8 @@
      "zh": "激活 = 允许搭配。镜子衣柜仍按游戏规则；模型可能穿模。",
      "ru": "Активно = сочетание разрешено. Гардероб у зеркала следует игре; модели могут пересекаться.",
      "es": "Activo = combinación permitida. El armario del espejo sigue al juego; las mallas pueden atravesarse.",
-     "pl": "Aktywne = połączenie dozwolone. Szafa przy lustrze nadal trzyma się gry; modele mogą się przenikać."
+     "pl": "Aktywne = połączenie dozwolone. Szafa przy lustrze nadal trzyma się gry; modele mogą się przenikać.",
+     "fr": "Actif = autorisé ensemble. La garde-robe du miroir suit le jeu ; les maillages peuvent se chevaucher."
     },
     "Btn_FreeAll": {
      "en": "all free",
@@ -1804,7 +1919,8 @@
      "zh": "全部允许",
      "ru": "всё разрешить",
      "es": "todo libre",
-     "pl": "wszystko wolne"
+     "pl": "wszystko wolne",
+     "fr": "tout libre"
     },
     "Btn_Vanilla": {
      "en": "Vanilla",
@@ -1812,7 +1928,8 @@
      "zh": "原版",
      "ru": "Оригинал",
      "es": "Vanilla",
-     "pl": "Vanilla"
+     "pl": "Vanilla",
+     "fr": "Vanilla"
     },
     "Lbl_Merge": {
      "en": "Merge groups with the same name (clothes)",
@@ -1820,7 +1937,8 @@
      "zh": "合并同名分组（服装）",
      "ru": "Объединять группы с одинаковым именем (одежда)",
      "es": "Fusionar grupos con el mismo nombre (ropa)",
-     "pl": "Łącz grupy o tej samej nazwie (ubrania)"
+     "pl": "Łącz grupy o tej samej nazwie (ubrania)",
+     "fr": "Fusionner les groupes de même nom (vêtements)"
     },
     "Lbl_MergeMods": {
      "en": "Merge mods with the same name (appearance)",
@@ -1828,7 +1946,8 @@
      "zh": "合并同名模组（外观）",
      "ru": "Объединять моды с одинаковым именем (внешность)",
      "es": "Fusionar mods con el mismo nombre (apariencia)",
-     "pl": "Łącz mody o tej samej nazwie (wygląd)"
+     "pl": "Łącz mody o tej samej nazwie (wygląd)",
+     "fr": "Fusionner les mods de même nom (apparence)"
     },
     "Lbl_ChipSearch": {
      "en": "Show chip search",
@@ -1836,7 +1955,8 @@
      "zh": "显示分组搜索",
      "ru": "Показывать поиск групп",
      "es": "Mostrar la búsqueda de grupos",
-     "pl": "Pokaż wyszukiwanie grup"
+     "pl": "Pokaż wyszukiwanie grup",
+     "fr": "Afficher la recherche de groupes"
     },
     "Lbl_Unowned": {
      "en": "Not owned items",
@@ -1844,7 +1964,8 @@
      "zh": "未拥有的物品",
      "ru": "Предметы не в наличии",
      "es": "Objetos no poseídos",
-     "pl": "Nieposiadane przedmioty"
+     "pl": "Nieposiadane przedmioty",
+     "fr": "Éléments non possédés"
     },
     "Chip_Unowned0": {
      "en": "locked",
@@ -1852,7 +1973,8 @@
      "zh": "锁定",
      "ru": "заблокировано",
      "es": "bloqueado",
-     "pl": "zablokowane"
+     "pl": "zablokowane",
+     "fr": "verrouillés"
     },
     "Chip_Unowned1": {
      "en": "greyed",
@@ -1860,7 +1982,8 @@
      "zh": "变灰",
      "ru": "затемнено",
      "es": "atenuado",
-     "pl": "wyszarzone"
+     "pl": "wyszarzone",
+     "fr": "grisés"
     },
     "Chip_Unowned2": {
      "en": "like owned",
@@ -1868,7 +1991,8 @@
      "zh": "视为已拥有",
      "ru": "как в наличии",
      "es": "como poseído",
-     "pl": "jak posiadane"
+     "pl": "jak posiadane",
+     "fr": "comme possédés"
     },
     "Lbl_TipNoPrefix": {
      "en": "Tooltips without prefixes",
@@ -1876,7 +2000,8 @@
      "zh": "提示不显示前缀",
      "ru": "Подсказки без префиксов",
      "es": "Tooltips sin prefijos",
-     "pl": "Podpowiedzi bez przedrostków"
+     "pl": "Podpowiedzi bez przedrostków",
+     "fr": "Infobulles sans préfixes"
     },
     "Lbl_TipNoIds": {
      "en": "Tooltips: display names only",
@@ -1884,7 +2009,8 @@
      "zh": "提示仅显示名称",
      "ru": "Подсказки: только отображаемые имена",
      "es": "Tooltips: solo nombres visibles",
-     "pl": "Podpowiedzi: tylko nazwy wyświetlane"
+     "pl": "Podpowiedzi: tylko nazwy wyświetlane",
+     "fr": "Infobulles : noms affichés seulement"
     },
     "Lbl_LayoutNone": {
      "en": "None",
@@ -1892,7 +2018,8 @@
      "zh": "无",
      "ru": "Нет",
      "es": "Ninguno",
-     "pl": "Brak"
+     "pl": "Brak",
+     "fr": "Aucune"
     },
     "Lbl_LayoutThird": {
      "en": "One third",
@@ -1900,7 +2027,8 @@
      "zh": "三分之一",
      "ru": "Треть",
      "es": "Un tercio",
-     "pl": "Jedna trzecia"
+     "pl": "Jedna trzecia",
+     "fr": "Un tiers"
     },
     "Lbl_LayoutHalf": {
      "en": "One half",
@@ -1908,7 +2036,8 @@
      "zh": "一半",
      "ru": "Половина",
      "es": "La mitad",
-     "pl": "Połowa"
+     "pl": "Połowa",
+     "fr": "La moitié"
     },
     "Lbl_LayoutQuarter": {
      "en": "One quarter",
@@ -1916,7 +2045,8 @@
      "zh": "四分之一",
      "ru": "Четверть",
      "es": "Un cuarto",
-     "pl": "Jedna czwarta"
+     "pl": "Jedna czwarta",
+     "fr": "Un quart"
     },
     "Lbl_LayoutFifth": {
      "en": "One fifth",
@@ -1924,7 +2054,8 @@
      "zh": "五分之一",
      "ru": "Пятая часть",
      "es": "Un quinto",
-     "pl": "Jedna piąta"
+     "pl": "Jedna piąta",
+     "fr": "Un cinquième"
     },
     "Lbl_Theme": {
      "en": "Colours",
@@ -1932,7 +2063,8 @@
      "zh": "颜色",
      "ru": "Цвета",
      "es": "Colores",
-     "pl": "Kolory"
+     "pl": "Kolory",
+     "fr": "Couleurs"
     },
     "Lbl_ToggleKey": {
      "en": "Panel key",
@@ -1940,7 +2072,8 @@
      "zh": "面板按键",
      "ru": "Клавиша панели",
      "es": "Tecla del panel",
-     "pl": "Klawisz panelu"
+     "pl": "Klawisz panelu",
+     "fr": "Touche du panneau"
     },
     "Theme_Bg": {
      "en": "Background",
@@ -1948,7 +2081,8 @@
      "zh": "背景",
      "ru": "Фон",
      "es": "Fondo",
-     "pl": "Tło"
+     "pl": "Tło",
+     "fr": "Fond"
     },
     "Theme_Accent": {
      "en": "Selection",
@@ -1956,7 +2090,8 @@
      "zh": "选中",
      "ru": "Выделение",
      "es": "Selección",
-     "pl": "Zaznaczenie"
+     "pl": "Zaznaczenie",
+     "fr": "Sélection"
     },
     "Theme_Fill": {
      "en": "Tile fill",
@@ -1964,7 +2099,8 @@
      "zh": "卡片填充",
      "ru": "Заливка плитки",
      "es": "Relleno de ficha",
-     "pl": "Wypełnienie kafelka"
+     "pl": "Wypełnienie kafelka",
+     "fr": "Fond des tuiles"
     },
     "Theme_Frame": {
      "en": "Tile frame",
@@ -1972,7 +2108,8 @@
      "zh": "卡片边框",
      "ru": "Рамка плитки",
      "es": "Borde de ficha",
-     "pl": "Ramka kafelka"
+     "pl": "Ramka kafelka",
+     "fr": "Cadre des tuiles"
     },
     "Theme_Worn": {
      "en": "Worn",
@@ -1980,7 +2117,8 @@
      "zh": "已穿戴",
      "ru": "Надето",
      "es": "Puesto",
-     "pl": "Założone"
+     "pl": "Założone",
+     "fr": "Porté"
     },
     "Theme_Row": {
      "en": "Rows / chips",
@@ -1988,7 +2126,8 @@
      "zh": "行 / 标签",
      "ru": "Строки / метки",
      "es": "Filas / etiquetas",
-     "pl": "Wiersze / etykiety"
+     "pl": "Wiersze / etykiety",
+     "fr": "Lignes / puces"
     },
     "Theme_Text": {
      "en": "Text",
@@ -1996,7 +2135,8 @@
      "zh": "文字",
      "ru": "Текст",
      "es": "Texto",
-     "pl": "Tekst"
+     "pl": "Tekst",
+     "fr": "Texte"
     },
     "Theme_Head": {
      "en": "Headings",
@@ -2004,7 +2144,8 @@
      "zh": "标题",
      "ru": "Заголовки",
      "es": "Títulos",
-     "pl": "Nagłówki"
+     "pl": "Nagłówki",
+     "fr": "Titres"
     },
     "Theme_Link": {
      "en": "Buttons / icons",
@@ -2012,7 +2153,8 @@
      "zh": "按钮 / 图标",
      "ru": "Кнопки / значки",
      "es": "Botones / iconos",
-     "pl": "Przyciski / ikony"
+     "pl": "Przyciski / ikony",
+     "fr": "Boutons / icônes"
     },
     "Theme_Line": {
      "en": "Lines / hover",
@@ -2020,7 +2162,8 @@
      "zh": "线条 / 悬停",
      "ru": "Линии / наведение",
      "es": "Líneas / hover",
-     "pl": "Linie / najechanie"
+     "pl": "Linie / najechanie",
+     "fr": "Traits / survol"
     },
     "Lbl_BgAlpha": {
      "en": "Background opacity",
@@ -2028,7 +2171,8 @@
      "zh": "背景不透明度",
      "ru": "Непрозрачность фона",
      "es": "Opacidad del fondo",
-     "pl": "Krycie tła"
+     "pl": "Krycie tła",
+     "fr": "Opacité du fond"
     },
     "Lbl_TileAlpha": {
      "en": "Tile opacity",
@@ -2036,7 +2180,8 @@
      "zh": "卡片不透明度",
      "ru": "Непрозрачность плиток",
      "es": "Opacidad de fichas",
-     "pl": "Krycie kafelków"
+     "pl": "Krycie kafelków",
+     "fr": "Opacité des tuiles"
     },
     "Btn_ThemeReset": {
      "en": "Reset colours (default)",
@@ -2044,7 +2189,8 @@
      "zh": "重置颜色（默认）",
      "ru": "Сбросить цвета (по умолчанию)",
      "es": "Restablecer colores (predeterminado)",
-     "pl": "Przywróć kolory (domyślne)"
+     "pl": "Przywróć kolory (domyślne)",
+     "fr": "Réinitialiser les couleurs (par défaut)"
     },
     "Lbl_Language": {
      "en": "Language",
@@ -2052,7 +2198,8 @@
      "zh": "语言",
      "ru": "Язык",
      "es": "Idioma",
-     "pl": "Język"
+     "pl": "Język",
+     "fr": "Langue"
     },
     "Chip_LangAuto": {
      "en": "Auto (game)",
@@ -2060,7 +2207,8 @@
      "zh": "自动（跟随游戏）",
      "ru": "Авто (игра)",
      "es": "Auto (juego)",
-     "pl": "Auto (gra)"
+     "pl": "Auto (gra)",
+     "fr": "Auto (jeu)"
     },
     "Chip_LangEn": {
      "en": "English",
@@ -2068,7 +2216,8 @@
      "zh": "English",
      "ru": "English",
      "es": "English",
-     "pl": "English"
+     "pl": "English",
+     "fr": "English"
     },
     "Chip_LangDe": {
      "en": "Deutsch",
@@ -2076,7 +2225,8 @@
      "zh": "Deutsch",
      "ru": "Deutsch",
      "es": "Deutsch",
-     "pl": "Deutsch"
+     "pl": "Deutsch",
+     "fr": "Deutsch"
     },
     "Chip_LangZh": {
      "en": "中文",
@@ -2084,7 +2234,8 @@
      "zh": "中文",
      "ru": "中文",
      "es": "中文",
-     "pl": "中文"
+     "pl": "中文",
+     "fr": "中文"
     },
     "Chip_LangRu": {
      "en": "Русский",
@@ -2092,7 +2243,8 @@
      "zh": "Русский",
      "ru": "Русский",
      "es": "Русский",
-     "pl": "Русский"
+     "pl": "Русский",
+     "fr": "Русский"
     },
     "Chip_LangEs": {
      "en": "Español",
@@ -2100,7 +2252,8 @@
      "zh": "Español",
      "ru": "Español",
      "es": "Español",
-     "pl": "Español"
+     "pl": "Español",
+     "fr": "Español"
     },
     "Chip_LangPl": {
      "en": "Polski",
@@ -2108,7 +2261,17 @@
      "zh": "Polski",
      "ru": "Polski",
      "es": "Polski",
-     "pl": "Polski"
+     "pl": "Polski",
+     "fr": "Polski"
+    },
+    "Chip_LangFr": {
+     "en": "Français",
+     "de": "Français",
+     "zh": "Français",
+     "ru": "Français",
+     "es": "Français",
+     "pl": "Français",
+     "fr": "Français"
     },
     "Lbl_Placeholder": {
      "en": "This tab is not finished yet.",
@@ -2116,7 +2279,8 @@
      "zh": "此页面尚未完成。",
      "ru": "Эта вкладка еще в разработке.",
      "es": "Esta pestaña aún no está terminada.",
-     "pl": "Ta zakładka nie jest jeszcze gotowa."
+     "pl": "Ta zakładka nie jest jeszcze gotowa.",
+     "fr": "Cet onglet n'est pas encore terminé."
     },
     "Lbl_Outfit": {
      "en": "Outfit",
@@ -2124,7 +2288,8 @@
      "zh": "搭配",
      "ru": "Комплект",
      "es": "Conjunto",
-     "pl": "Strój"
+     "pl": "Strój",
+     "fr": "Tenue"
     },
     "Lbl_Pieces": {
      "en": "pieces",
@@ -2132,7 +2297,8 @@
      "zh": "件",
      "ru": "шт.",
      "es": "prendas",
-     "pl": "części"
+     "pl": "części",
+     "fr": "pièces"
     },
     "Lbl_Look": {
      "en": "Look",
@@ -2140,7 +2306,8 @@
      "zh": "造型",
      "ru": "Образ",
      "es": "Look",
-     "pl": "Stylizacja"
+     "pl": "Stylizacja",
+     "fr": "Look"
     },
     "Lbl_NoPhoto": {
      "en": "no photo",
@@ -2148,7 +2315,8 @@
      "zh": "无照片",
      "ru": "нет фото",
      "es": "sin foto",
-     "pl": "brak zdjęcia"
+     "pl": "brak zdjęcia",
+     "fr": "pas de photo"
     },
     "Btn_HairColor": {
      "en": "Hair colour...",
@@ -2156,7 +2324,8 @@
      "zh": "发色...",
      "ru": "Цвет волос...",
      "es": "Color de pelo...",
-     "pl": "Kolor włosów..."
+     "pl": "Kolor włosów...",
+     "fr": "Couleur des cheveux..."
     },
     "Btn_ScanPoses": {
      "en": "Measure all",
@@ -2164,7 +2333,8 @@
      "zh": "全部测量",
      "ru": "Измерить все",
      "es": "Medir todas",
-     "pl": "Zmierz wszystkie"
+     "pl": "Zmierz wszystkie",
+     "fr": "Tout mesurer"
     },
     "Btn_ScanCancel": {
      "en": "Cancel",
@@ -2172,7 +2342,8 @@
      "zh": "取消",
      "ru": "Отмена",
      "es": "Cancelar",
-     "pl": "Anuluj"
+     "pl": "Anuluj",
+     "fr": "Annuler"
     },
     "Lbl_PoseStand": {
      "en": "Standing",
@@ -2180,7 +2351,8 @@
      "zh": "站姿",
      "ru": "Стоя",
      "es": "De pie",
-     "pl": "Stojąca"
+     "pl": "Stojąca",
+     "fr": "Debout"
     },
     "Lbl_PoseSit": {
      "en": "Sitting",
@@ -2188,7 +2360,8 @@
      "zh": "坐姿",
      "ru": "Сидя",
      "es": "Sentada",
-     "pl": "Siedząca"
+     "pl": "Siedząca",
+     "fr": "Assise"
     },
     "Lbl_PoseLie": {
      "en": "Lying",
@@ -2196,7 +2369,8 @@
      "zh": "躺姿",
      "ru": "Лёжа",
      "es": "Tumbada",
-     "pl": "Leżąca"
+     "pl": "Leżąca",
+     "fr": "Allongée"
     },
     "Lbl_PoseMove": {
      "en": "In motion",
@@ -2204,7 +2378,8 @@
      "zh": "动作",
      "ru": "В движении",
      "es": "En movimiento",
-     "pl": "W ruchu"
+     "pl": "W ruchu",
+     "fr": "En mouvement"
     },
     "Menu_PoseSetStand": {
      "en": "Mark as standing",
@@ -2212,7 +2387,8 @@
      "zh": "标记为站姿",
      "ru": "Отметить как стоя",
      "es": "Marcar como de pie",
-     "pl": "Oznacz jako stojącą"
+     "pl": "Oznacz jako stojącą",
+     "fr": "Marquer comme debout"
     },
     "Menu_PoseSetSit": {
      "en": "Mark as sitting",
@@ -2220,7 +2396,8 @@
      "zh": "标记为坐姿",
      "ru": "Отметить как сидя",
      "es": "Marcar como sentada",
-     "pl": "Oznacz jako siedzącą"
+     "pl": "Oznacz jako siedzącą",
+     "fr": "Marquer comme assise"
     },
     "Menu_PoseSetLie": {
      "en": "Mark as lying",
@@ -2228,7 +2405,8 @@
      "zh": "标记为躺姿",
      "ru": "Отметить как лёжа",
      "es": "Marcar como tumbada",
-     "pl": "Oznacz jako leżącą"
+     "pl": "Oznacz jako leżącą",
+     "fr": "Marquer comme allongée"
     },
     "Menu_PoseSetMove": {
      "en": "Mark as in motion",
@@ -2236,7 +2414,8 @@
      "zh": "标记为动作",
      "ru": "Отметить как в движении",
      "es": "Marcar en movimiento",
-     "pl": "Oznacz jako w ruchu"
+     "pl": "Oznacz jako w ruchu",
+     "fr": "Marquer comme en mouvement"
     },
     "Menu_PoseSetStill": {
      "en": "Remove “in motion”",
@@ -2244,7 +2423,8 @@
      "zh": "取消动作标记",
      "ru": "Убрать «в движении»",
      "es": "Quitar «en movimiento»",
-     "pl": "Usuń „w ruchu”"
+     "pl": "Usuń „w ruchu”",
+     "fr": "Retirer « en mouvement »"
     },
     "Menu_PoseReset": {
      "en": "Reset measurement",
@@ -2252,7 +2432,8 @@
      "zh": "重置测量",
      "ru": "Сбросить измерение",
      "es": "Restablecer medición",
-     "pl": "Zresetuj pomiar"
+     "pl": "Zresetuj pomiar",
+     "fr": "Réinitialiser la mesure"
     },
     "Lbl_PoseChapters": {
      "en": "Chapters",
@@ -2260,7 +2441,8 @@
      "zh": "章节",
      "ru": "Разделы",
      "es": "Capítulos",
-     "pl": "Rozdziały"
+     "pl": "Rozdziały",
+     "fr": "Chapitres"
     },
     "Lbl_PoseUnsorted": {
      "en": "Not measured",
@@ -2268,7 +2450,8 @@
      "zh": "未测量",
      "ru": "Не измерено",
      "es": "Sin medir",
-     "pl": "Niezmierzone"
+     "pl": "Niezmierzone",
+     "fr": "Non mesurées"
     },
     "Pose_Default": {
      "en": "No pose",
@@ -2276,7 +2459,8 @@
      "zh": "无姿势",
      "ru": "Без позы",
      "es": "Sin pose",
-     "pl": "Bez pozy"
+     "pl": "Bez pozy",
+     "fr": "Aucune pose"
     },
     "Skin_Original": {
      "en": "Original",
@@ -2284,7 +2468,8 @@
      "zh": "原版",
      "ru": "Оригинал",
      "es": "Original",
-     "pl": "Oryginalny"
+     "pl": "Oryginalny",
+     "fr": "Original"
     },
     "Hdr_WeaponModels": {
      "en": "Model",
@@ -2292,7 +2477,8 @@
      "zh": "模型",
      "ru": "Модель",
      "es": "Modelo",
-     "pl": "Model"
+     "pl": "Model",
+     "fr": "Modèle"
     },
     "Hdr_WeaponSkins": {
      "en": "Skin",
@@ -2300,7 +2486,8 @@
      "zh": "皮肤",
      "ru": "Скин",
      "es": "Skin",
-     "pl": "Skin"
+     "pl": "Skin",
+     "fr": "Skin"
     },
     "Btn_RedoIcons": {
      "en": "Take pictures again",
@@ -2308,7 +2495,8 @@
      "zh": "重新拍摄",
      "ru": "Переснять",
      "es": "Volver a tomar",
-     "pl": "Zrób zdjęcia ponownie"
+     "pl": "Zrób zdjęcia ponownie",
+     "fr": "Reprendre les images"
     },
     "Btn_StopPose": {
      "en": "Stop pose",
@@ -2316,7 +2504,8 @@
      "zh": "停止姿势",
      "ru": "Остановить позу",
      "es": "Detener pose",
-     "pl": "Zakończ pozę"
+     "pl": "Zakończ pozę",
+     "fr": "Arrêter la pose"
     },
     "Btn_BagCleanup": {
      "en": "Tidy up backpack",
@@ -2324,7 +2513,8 @@
      "zh": "整理背包",
      "ru": "Разобрать рюкзак",
      "es": "Ordenar la mochila",
-     "pl": "Uporządkuj plecak"
+     "pl": "Uporządkuj plecak",
+     "fr": "Ranger le sac à dos"
     },
     "Btn_BagAll": {
      "en": "Everything into the backpack",
@@ -2332,7 +2522,8 @@
      "zh": "全部放入背包",
      "ru": "Всё в рюкзак",
      "es": "Todo a la mochila",
-     "pl": "Wszystko do plecaka"
+     "pl": "Wszystko do plecaka",
+     "fr": "Tout dans le sac à dos"
     },
     "Btn_Undo": {
      "en": "Undo",
@@ -2340,7 +2531,8 @@
      "zh": "撤销",
      "ru": "Отменить",
      "es": "Deshacer",
-     "pl": "Cofnij"
+     "pl": "Cofnij",
+     "fr": "Annuler"
     },
     "Btn_Redo": {
      "en": "Redo",
@@ -2348,7 +2540,8 @@
      "zh": "重做",
      "ru": "Повторить",
      "es": "Rehacer",
-     "pl": "Ponów"
+     "pl": "Ponów",
+     "fr": "Rétablir"
     },
     "Btn_SavePreset": {
      "en": "Save current appearance",
@@ -2356,7 +2549,8 @@
      "zh": "保存当前外观",
      "ru": "Сохранить текущую внешность",
      "es": "Guardar la apariencia actual",
-     "pl": "Zapisz obecny wygląd"
+     "pl": "Zapisz obecny wygląd",
+     "fr": "Enregistrer l'apparence actuelle"
     },
     "Btn_SaveOutfit": {
      "en": "Save current outfit",
@@ -2364,7 +2558,8 @@
      "zh": "保存当前搭配",
      "ru": "Сохранить текущий комплект",
      "es": "Guardar el conjunto actual",
-     "pl": "Zapisz obecny strój"
+     "pl": "Zapisz obecny strój",
+     "fr": "Enregistrer la tenue actuelle"
     },
     "Btn_SavePresetFront": {
      "en": "Save current appearance from the front",
@@ -2372,7 +2567,8 @@
      "zh": "从正面保存当前外观",
      "ru": "Сохранить текущую внешность спереди",
      "es": "Guardar la apariencia actual de frente",
-     "pl": "Zapisz obecny wygląd z przodu"
+     "pl": "Zapisz obecny wygląd z przodu",
+     "fr": "Enregistrer l'apparence actuelle de face"
     },
     "Btn_SavePresetView": {
      "en": "Save current appearance as seen",
@@ -2380,7 +2576,8 @@
      "zh": "按当前视角保存当前外观",
      "ru": "Сохранить текущую внешность как видно",
      "es": "Guardar la apariencia actual como se ve",
-     "pl": "Zapisz obecny wygląd jak widać"
+     "pl": "Zapisz obecny wygląd jak widać",
+     "fr": "Enregistrer l'apparence actuelle telle que vue"
     },
     "Btn_SaveLookFront": {
      "en": "Save current look from the front",
@@ -2388,7 +2585,8 @@
      "zh": "从正面保存当前造型",
      "ru": "Сохранить текущий образ спереди",
      "es": "Guardar el look actual de frente",
-     "pl": "Zapisz obecną stylizację z przodu"
+     "pl": "Zapisz obecną stylizację z przodu",
+     "fr": "Enregistrer le look actuel de face"
     },
     "Btn_SaveLookView": {
      "en": "Save current look as seen",
@@ -2396,7 +2594,8 @@
      "zh": "按当前视角保存当前造型",
      "ru": "Сохранить текущий образ как видно",
      "es": "Guardar el look actual como se ve",
-     "pl": "Zapisz obecną stylizację jak widać"
+     "pl": "Zapisz obecną stylizację jak widać",
+     "fr": "Enregistrer le look actuel tel que vu"
     },
     "Btn_SaveFaceFront": {
      "en": "Save current face from the front",
@@ -2404,7 +2603,8 @@
      "zh": "从正面保存当前面部",
      "ru": "Сохранить текущее лицо спереди",
      "es": "Guardar el rostro actual de frente",
-     "pl": "Zapisz obecną twarz z przodu"
+     "pl": "Zapisz obecną twarz z przodu",
+     "fr": "Enregistrer le visage actuel de face"
     },
     "Btn_SaveFaceView": {
      "en": "Save current face as seen",
@@ -2412,7 +2612,8 @@
      "zh": "按当前视角保存当前面部",
      "ru": "Сохранить текущее лицо как видно",
      "es": "Guardar el rostro actual como se ve",
-     "pl": "Zapisz obecną twarz jak widać"
+     "pl": "Zapisz obecną twarz jak widać",
+     "fr": "Enregistrer le visage actuel tel que vu"
     },
     "Btn_SaveLook": {
      "en": "Save current look",
@@ -2420,7 +2621,8 @@
      "zh": "保存当前造型",
      "ru": "Сохранить текущий образ",
      "es": "Guardar el look actual",
-     "pl": "Zapisz obecną stylizację"
+     "pl": "Zapisz obecną stylizację",
+     "fr": "Enregistrer le look actuel"
     },
     "Btn_Back": {
      "en": "← Back",
@@ -2428,7 +2630,8 @@
      "zh": "← 返回",
      "ru": "← Назад",
      "es": "← Atrás",
-     "pl": "← Powrót"
+     "pl": "← Powrót",
+     "fr": "← Retour"
     },
     "Menu_FavAdd": {
      "en": "Add to favourites",
@@ -2436,7 +2639,8 @@
      "zh": "加入收藏",
      "ru": "В избранное",
      "es": "Añadir a favoritos",
-     "pl": "Dodaj do ulubionych"
+     "pl": "Dodaj do ulubionych",
+     "fr": "Ajouter aux favoris"
     },
     "Menu_FavRemove": {
      "en": "Remove from favourites",
@@ -2444,7 +2648,8 @@
      "zh": "取消收藏",
      "ru": "Убрать из избранного",
      "es": "Quitar de favoritos",
-     "pl": "Usuń z ulubionych"
+     "pl": "Usuń z ulubionych",
+     "fr": "Retirer des favoris"
     },
     "Menu_Hide": {
      "en": "Hide",
@@ -2452,7 +2657,8 @@
      "zh": "隐藏",
      "ru": "Скрыть",
      "es": "Ocultar",
-     "pl": "Ukryj"
+     "pl": "Ukryj",
+     "fr": "Masquer"
     },
     "Menu_Unhide": {
      "en": "Unhide",
@@ -2460,7 +2666,8 @@
      "zh": "取消隐藏",
      "ru": "Показать",
      "es": "Mostrar",
-     "pl": "Pokaż"
+     "pl": "Pokaż",
+     "fr": "Afficher à nouveau"
     },
     "Menu_EyeIris": {
      "en": "Iris colour...",
@@ -2468,7 +2675,8 @@
      "zh": "虹膜颜色...",
      "ru": "Цвет радужки...",
      "es": "Color del iris...",
-     "pl": "Kolor tęczówki..."
+     "pl": "Kolor tęczówki...",
+     "fr": "Couleur de l'iris..."
     },
     "Menu_Lashes": {
      "en": "Eyelash colour...",
@@ -2476,7 +2684,8 @@
      "zh": "睫毛颜色...",
      "ru": "Цвет ресниц...",
      "es": "Color de las pestañas...",
-     "pl": "Kolor rzęs..."
+     "pl": "Kolor rzęs...",
+     "fr": "Couleur des cils..."
     },
     "Menu_EyeReset": {
      "en": "Reset colours (default)",
@@ -2484,7 +2693,8 @@
      "zh": "重置颜色（默认）",
      "ru": "Сбросить цвета (по умолчанию)",
      "es": "Restablecer colores (predeterminado)",
-     "pl": "Przywróć kolory (domyślne)"
+     "pl": "Przywróć kolory (domyślne)",
+     "fr": "Réinitialiser les couleurs (par défaut)"
     },
     "Menu_Tint": {
      "en": "Tint...",
@@ -2492,7 +2702,8 @@
      "zh": "染色…",
      "ru": "Тонировать...",
      "es": "Teñir...",
-     "pl": "Tonowanie..."
+     "pl": "Tonowanie...",
+     "fr": "Teinte..."
     },
     "Menu_TintReset": {
      "en": "Reset tint (default)",
@@ -2500,7 +2711,8 @@
      "zh": "重置染色（默认）",
      "ru": "Сбросить тонировку (по умолчанию)",
      "es": "Restablecer el teñido (predeterminado)",
-     "pl": "Przywróć tonowanie (domyślne)"
+     "pl": "Przywróć tonowanie (domyślne)",
+     "fr": "Réinitialiser la teinte (par défaut)"
     },
     "Menu_ColorSlot": {
      "en": "Colour: %s...",
@@ -2508,7 +2720,8 @@
      "zh": "颜色：%s...",
      "ru": "Цвет: %s...",
      "es": "Color: %s...",
-     "pl": "Kolor: %s..."
+     "pl": "Kolor: %s...",
+     "fr": "Couleur : %s..."
     },
     "Menu_Color": {
      "en": "Colour...",
@@ -2516,7 +2729,8 @@
      "zh": "颜色...",
      "ru": "Цвет...",
      "es": "Color...",
-     "pl": "Kolor..."
+     "pl": "Kolor...",
+     "fr": "Couleur..."
     },
     "Menu_PutInBag": {
      "en": "Put in backpack",
@@ -2524,7 +2738,8 @@
      "zh": "放入背包",
      "ru": "В рюкзак",
      "es": "Meter en la mochila",
-     "pl": "Do plecaka"
+     "pl": "Do plecaka",
+     "fr": "Mettre dans le sac à dos"
     },
     "Menu_Wear": {
      "en": "Wear",
@@ -2532,7 +2747,8 @@
      "zh": "穿上",
      "ru": "Надеть",
      "es": "Vestir",
-     "pl": "Załóż"
+     "pl": "Załóż",
+     "fr": "Porter"
     },
     "Menu_TakeOff": {
      "en": "Take off",
@@ -2540,7 +2756,8 @@
      "zh": "脱下",
      "ru": "Снять",
      "es": "Quitar",
-     "pl": "Zdejmij"
+     "pl": "Zdejmij",
+     "fr": "Enlever"
     },
     "Menu_Repair": {
      "en": "Repair (sewing kit)",
@@ -2548,7 +2765,8 @@
      "zh": "修补（针线包）",
      "ru": "Починить (набор для шитья)",
      "es": "Reparar (kit de costura)",
-     "pl": "Napraw (zestaw do szycia)"
+     "pl": "Napraw (zestaw do szycia)",
+     "fr": "Réparer (kit de couture)"
     },
     "Menu_BagRemove": {
      "en": "Remove from backpack",
@@ -2556,7 +2774,8 @@
      "zh": "从背包移除",
      "ru": "Убрать из рюкзака",
      "es": "Sacar de la mochila",
-     "pl": "Wyjmij z plecaka"
+     "pl": "Wyjmij z plecaka",
+     "fr": "Retirer du sac à dos"
     },
     "Menu_ToWardrobe": {
      "en": "To wardrobe",
@@ -2564,7 +2783,8 @@
      "zh": "放回衣柜",
      "ru": "В гардероб",
      "es": "Al armario",
-     "pl": "Do szafy"
+     "pl": "Do szafy",
+     "fr": "Vers la garde-robe"
     },
     "Menu_HairReset": {
      "en": "Reset hair colour (default)",
@@ -2572,7 +2792,8 @@
      "zh": "重置发色（默认）",
      "ru": "Сбросить цвет волос (по умолчанию)",
      "es": "Restablecer color de pelo (predeterminado)",
-     "pl": "Przywróć kolor włosów (domyślny)"
+     "pl": "Przywróć kolor włosów (domyślny)",
+     "fr": "Réinitialiser la couleur des cheveux (par défaut)"
     },
     "Menu_ClothesReset": {
      "en": "Reset colour (default)",
@@ -2580,7 +2801,8 @@
      "zh": "重置颜色（默认）",
      "ru": "Сбросить цвет (по умолчанию)",
      "es": "Restablecer color (predeterminado)",
-     "pl": "Przywróć kolor (domyślny)"
+     "pl": "Przywróć kolor (domyślny)",
+     "fr": "Réinitialiser la couleur (par défaut)"
     },
     "Menu_Apply": {
      "en": "Apply",
@@ -2588,7 +2810,8 @@
      "zh": "应用",
      "ru": "Применить",
      "es": "Aplicar",
-     "pl": "Zastosuj"
+     "pl": "Zastosuj",
+     "fr": "Appliquer"
     },
     "Menu_Delete": {
      "en": "Delete",
@@ -2596,7 +2819,8 @@
      "zh": "删除",
      "ru": "Удалить",
      "es": "Borrar",
-     "pl": "Usuń"
+     "pl": "Usuń",
+     "fr": "Supprimer"
     },
     "Menu_Rename": {
      "en": "Rename…",
@@ -2604,7 +2828,8 @@
      "zh": "重命名…",
      "ru": "Переименовать…",
      "es": "Renombrar…",
-     "pl": "Zmień nazwę…"
+     "pl": "Zmień nazwę…",
+     "fr": "Renommer…"
     },
     "Menu_UpdateFront": {
      "en": "Update (photo from the front)",
@@ -2612,7 +2837,8 @@
      "zh": "更新（正面照片）",
      "ru": "Обновить (фото спереди)",
      "es": "Actualizar (foto de frente)",
-     "pl": "Aktualizuj (zdjęcie z przodu)"
+     "pl": "Aktualizuj (zdjęcie z przodu)",
+     "fr": "Mettre à jour (photo de face)"
     },
     "Menu_UpdateView": {
      "en": "Update (photo as seen)",
@@ -2620,7 +2846,8 @@
      "zh": "更新（当前视角照片）",
      "ru": "Обновить (фото как видно)",
      "es": "Actualizar (foto como se ve)",
-     "pl": "Aktualizuj (zdjęcie jak widać)"
+     "pl": "Aktualizuj (zdjęcie jak widać)",
+     "fr": "Mettre à jour (photo telle que vue)"
     },
     "Menu_ViewContent": {
      "en": "View content",
@@ -2628,7 +2855,26 @@
      "zh": "查看内容",
      "ru": "Показать содержимое",
      "es": "Ver contenido",
-     "pl": "Pokaż zawartość"
+     "pl": "Pokaż zawartość",
+     "fr": "Voir le contenu"
+    },
+    "Menu_QuickAdd": {
+     "en": "Add to quick menu",
+     "de": "Ins Schnellmenü",
+     "zh": "加入快捷菜单",
+     "ru": "В быстрое меню",
+     "es": "Añadir al menú rápido",
+     "pl": "Dodaj do szybkiego menu",
+     "fr": "Ajouter au menu rapide"
+    },
+    "Menu_QuickRemove": {
+     "en": "Remove from quick menu",
+     "de": "Aus dem Schnellmenü",
+     "zh": "从快捷菜单移除",
+     "ru": "Убрать из быстрого меню",
+     "es": "Quitar del menú rápido",
+     "pl": "Usuń z szybkiego menu",
+     "fr": "Retirer du menu rapide"
     },
     "Menu_ShowIn": {
      "en": "Show in tab",
@@ -2636,7 +2882,8 @@
      "zh": "在选项卡中显示",
      "ru": "Показать во вкладке",
      "es": "Mostrar en la pestaña",
-     "pl": "Pokaż w zakładce"
+     "pl": "Pokaż w zakładce",
+     "fr": "Afficher dans l'onglet"
     },
     "Menu_Cancel": {
      "en": "Cancel",
@@ -2644,7 +2891,8 @@
      "zh": "取消",
      "ru": "Отмена",
      "es": "Cancelar",
-     "pl": "Anuluj"
+     "pl": "Anuluj",
+     "fr": "Annuler"
     },
     "State_NotOwned": {
      "en": "not owned",
@@ -2652,7 +2900,8 @@
      "zh": "未拥有",
      "ru": "нет в наличии",
      "es": "no poseído",
-     "pl": "nieposiadane"
+     "pl": "nieposiadane",
+     "fr": "non possédé"
     },
     "State_Fav": {
      "en": "* favourite",
@@ -2660,7 +2909,8 @@
      "zh": "★ 收藏",
      "ru": "★ избранное",
      "es": "★ favorito",
-     "pl": "★ ulubione"
+     "pl": "★ ulubione",
+     "fr": "* favori"
     },
     "State_Damaged": {
      "en": "damaged",
@@ -2668,7 +2918,8 @@
      "zh": "已损坏",
      "ru": "повреждено",
      "es": "dañado",
-     "pl": "uszkodzone"
+     "pl": "uszkodzone",
+     "fr": "abîmé"
     },
     "Tip_Vanilla": {
      "en": "Vanilla",
@@ -2676,7 +2927,8 @@
      "zh": "原版",
      "ru": "Оригинал",
      "es": "Original",
-     "pl": "Oryginał"
+     "pl": "Oryginał",
+     "fr": "Vanilla"
     },
     "Tip_Mod": {
      "en": "Mod",
@@ -2684,7 +2936,8 @@
      "zh": "模组",
      "ru": "Мод",
      "es": "Mod",
-     "pl": "Mod"
+     "pl": "Mod",
+     "fr": "Mod"
     },
     "Msg_WearFailed": {
      "en": "Could not wear: ",
@@ -2692,7 +2945,8 @@
      "zh": "无法穿上：",
      "ru": "Не удалось надеть: ",
      "es": "No se pudo vestir: ",
-     "pl": "Nie udało się założyć: "
+     "pl": "Nie udało się założyć: ",
+     "fr": "Impossible de porter : "
     },
     "Msg_NotOwned": {
      "en": "Not owned: ",
@@ -2700,7 +2954,8 @@
      "zh": "未拥有：",
      "ru": "Нет в наличии: ",
      "es": "No poseído: ",
-     "pl": "Nieposiadane: "
+     "pl": "Nieposiadane: ",
+     "fr": "Non possédé : "
     },
     "Msg_BagFull": {
      "en": "Backpack is full",
@@ -2708,7 +2963,8 @@
      "zh": "背包已满",
      "ru": "Рюкзак полон",
      "es": "La mochila está llena",
-     "pl": "Plecak jest pełny"
+     "pl": "Plecak jest pełny",
+     "fr": "Votre sac à dos est plein"
     },
     "Msg_HairLocked": {
      "en": "Hairstyle not unlocked yet (visit the mirror)",
@@ -2716,7 +2972,8 @@
      "zh": "发型尚未解锁（请前往镜子）",
      "ru": "Прическа еще не открыта (посетите зеркало)",
      "es": "Peinado aún no desbloqueado (visita el espejo)",
-     "pl": "Fryzura jeszcze nie odblokowana (odwiedź lustro)"
+     "pl": "Fryzura jeszcze nie odblokowana (odwiedź lustro)",
+     "fr": "Coiffure pas encore débloquée (passez au miroir)"
     },
     "Msg_BodyMissing": {
      "en": "Body mod not found: ",
@@ -2724,7 +2981,8 @@
      "zh": "未找到身体模组：",
      "ru": "Мод тела не найден: ",
      "es": "Mod de cuerpo no encontrado: ",
-     "pl": "Nie znaleziono moda ciała: "
+     "pl": "Nie znaleziono moda ciała: ",
+     "fr": "Mod de corps introuvable : "
     },
     "Msg_LookMissing": {
      "en": "Not available: ",
@@ -2732,7 +2990,8 @@
      "zh": "不可用：",
      "ru": "Недоступно: ",
      "es": "No disponible: ",
-     "pl": "Niedostępne: "
+     "pl": "Niedostępne: ",
+     "fr": "Indisponible : "
     },
     "Look_All": {
      "en": "All",
@@ -2740,7 +2999,8 @@
      "zh": "全部",
      "ru": "Все",
      "es": "Todo",
-     "pl": "Wszystko"
+     "pl": "Wszystko",
+     "fr": "Tout"
     },
     "Menu_LookOnlyMod": {
      "en": "Only this mod",
@@ -2748,7 +3008,8 @@
      "zh": "仅此模组",
      "ru": "Только этот мод",
      "es": "Solo este mod",
-     "pl": "Tylko ten mod"
+     "pl": "Tylko ten mod",
+     "fr": "Seulement ce mod"
     },
     "Look_Presets": {
      "en": "Presets",
@@ -2756,7 +3017,8 @@
      "zh": "预设",
      "ru": "Предустановки",
      "es": "Preajustes",
-     "pl": "Presety"
+     "pl": "Presety",
+     "fr": "Préréglages"
     },
     "Look_Skin": {
      "en": "Skin",
@@ -2764,7 +3026,8 @@
      "zh": "肌肤",
      "ru": "Кожа",
      "es": "Piel",
-     "pl": "Skóra"
+     "pl": "Skóra",
+     "fr": "Peau"
     },
     "Look_Eyebrow": {
      "en": "Eyebrows",
@@ -2772,7 +3035,8 @@
      "zh": "眉毛",
      "ru": "Брови",
      "es": "Cejas",
-     "pl": "Brwi"
+     "pl": "Brwi",
+     "fr": "Sourcils"
     },
     "Look_Eyeshadow": {
      "en": "Eyeshadow",
@@ -2780,7 +3044,8 @@
      "zh": "眼影",
      "ru": "Тени для век",
      "es": "Sombra de ojos",
-     "pl": "Cienie do powiek"
+     "pl": "Cienie do powiek",
+     "fr": "Fard à paupières"
     },
     "Look_Eyeliner": {
      "en": "Eyeliner",
@@ -2788,7 +3053,8 @@
      "zh": "眼线",
      "ru": "Подводка",
      "es": "Delineador de ojos",
-     "pl": "Kredka do oczu"
+     "pl": "Kredka do oczu",
+     "fr": "Eyeliner"
     },
     "Look_Eye": {
      "en": "Eyes",
@@ -2796,7 +3062,8 @@
      "zh": "美瞳",
      "ru": "Глаза",
      "es": "Pupilas",
-     "pl": "Oczy"
+     "pl": "Oczy",
+     "fr": "Yeux"
     },
     "Look_Eyelashes": {
      "en": "Eyelashes",
@@ -2804,7 +3071,8 @@
      "zh": "睫毛",
      "ru": "Ресницы",
      "es": "Pestañas",
-     "pl": "Rzęsy"
+     "pl": "Rzęsy",
+     "fr": "Cils"
     },
     "Look_Cheeks": {
      "en": "Cheeks",
@@ -2812,7 +3080,8 @@
      "zh": "脸颊",
      "ru": "Щеки",
      "es": "Mejillas",
-     "pl": "Policzki"
+     "pl": "Policzki",
+     "fr": "Joues"
     },
     "Look_Lips": {
      "en": "Lips",
@@ -2820,7 +3089,8 @@
      "zh": "嘴唇",
      "ru": "Губы",
      "es": "Labios",
-     "pl": "Usta"
+     "pl": "Usta",
+     "fr": "Lèvres"
     },
     "Look_Nose": {
      "en": "Nose Shadow",
@@ -2828,7 +3098,8 @@
      "zh": "鼻影",
      "ru": "Тени для носа",
      "es": "Sombra de la nariz",
-     "pl": "Cienie do nosa"
+     "pl": "Cienie do nosa",
+     "fr": "Contouring"
     },
     "Look_Nails": {
      "en": "Manicure",
@@ -2836,7 +3107,8 @@
      "zh": "美甲",
      "ru": "Маникюр",
      "es": "Manicura",
-     "pl": "Paznokcie"
+     "pl": "Paznokcie",
+     "fr": "Manucure"
     },
     "Look_Tattoo": {
      "en": "Tattoos",
@@ -2844,7 +3116,8 @@
      "zh": "纹身",
      "ru": "Тату",
      "es": "Tatuajes",
-     "pl": "Tatuaże"
+     "pl": "Tatuaże",
+     "fr": "Tatouages"
     },
     "Tab_Manage": {
      "en": "Manage",
@@ -2852,7 +3125,8 @@
      "zh": "管理",
      "ru": "Управление",
      "es": "Gestión",
-     "pl": "Zarządzanie"
+     "pl": "Zarządzanie",
+     "fr": "Gestion"
     },
     "Cat_Mods": {
      "en": "Mods",
@@ -2860,7 +3134,8 @@
      "zh": "模组",
      "ru": "Моды",
      "es": "Mods",
-     "pl": "Mody"
+     "pl": "Mody",
+     "fr": "Mods"
     },
     "Cat_Clothes": {
      "en": "Clothes",
@@ -2868,7 +3143,8 @@
      "zh": "服装",
      "ru": "Одежда",
      "es": "Ropa",
-     "pl": "Ubrania"
+     "pl": "Ubrania",
+     "fr": "Vêtements"
     },
     "Cat_Vanilla": {
      "en": "Vanilla",
@@ -2876,7 +3152,8 @@
      "zh": "原版",
      "ru": "Оригинал",
      "es": "Vanilla",
-     "pl": "Vanilla"
+     "pl": "Vanilla",
+     "fr": "Vanilla"
     },
     "Cat_Hair": {
      "en": "Hairstyles",
@@ -2884,7 +3161,8 @@
      "zh": "发型",
      "ru": "Причёски",
      "es": "Peinados",
-     "pl": "Fryzury"
+     "pl": "Fryzury",
+     "fr": "Coiffures"
     },
     "Cat_Skin": {
      "en": "Skins",
@@ -2892,7 +3170,8 @@
      "zh": "皮肤",
      "ru": "Скины",
      "es": "Pieles",
-     "pl": "Skiny"
+     "pl": "Skiny",
+     "fr": "Peaux"
     },
     "Lbl_OnlyMods": {
      "en": "only\nmods",
@@ -2900,7 +3179,8 @@
      "zh": "仅\n模组",
      "ru": "только\nмоды",
      "es": "solo\nmods",
-     "pl": "tylko\nmody"
+     "pl": "tylko\nmody",
+     "fr": "mods\nseulement"
     },
     "Lbl_CaseSens": {
      "en": "case-\nsensitive",
@@ -2908,7 +3188,8 @@
      "zh": "区分\n大小写",
      "ru": "учёт\nрегистра",
      "es": "mayús./\nminús.",
-     "pl": "wielkość\nliter"
+     "pl": "wielkość\nliter",
+     "fr": "respecter\nla casse"
     },
     "Lbl_AlsoAffects": {
      "en": "also affects:",
@@ -2916,7 +3197,8 @@
      "zh": "同时影响：",
      "ru": "также затрагивает:",
      "es": "también afecta a:",
-     "pl": "dotyczy też:"
+     "pl": "dotyczy też:",
+     "fr": "concerne aussi :"
     },
     "Lbl_Vanilla": {
      "en": "Vanilla",
@@ -2924,7 +3206,8 @@
      "zh": "原版",
      "ru": "Оригинал",
      "es": "Vanilla",
-     "pl": "Vanilla"
+     "pl": "Vanilla",
+     "fr": "Vanilla"
     },
     "Btn_Revert": {
      "en": "↺",
@@ -2932,7 +3215,8 @@
      "zh": "↺",
      "ru": "↺",
      "es": "↺",
-     "pl": "↺"
+     "pl": "↺",
+     "fr": "↺"
     },
     "Tip_DistPlus": {
      "en": "Camera closer (mouse wheel over Jodi too)",
@@ -2940,7 +3224,8 @@
      "zh": "相机拉近（也可用鼠标滚轮，在 Jodi 上）",
      "ru": "Камера ближе (также колесом мыши над Jodi)",
      "es": "Cámara más cerca (también con la rueda sobre Jodi)",
-     "pl": "Kamera bliżej (także kółkiem myszy nad Jodi)"
+     "pl": "Kamera bliżej (także kółkiem myszy nad Jodi)",
+     "fr": "Caméra plus proche (aussi molette sur Jodi)"
     },
     "Tip_DistMinus": {
      "en": "Camera farther (mouse wheel over Jodi too)",
@@ -2948,7 +3233,8 @@
      "zh": "相机拉远（也可用鼠标滚轮，在 Jodi 上）",
      "ru": "Камера дальше (также колесом мыши над Jodi)",
      "es": "Cámara más lejos (también con la rueda sobre Jodi)",
-     "pl": "Kamera dalej (także kółkiem myszy nad Jodi)"
+     "pl": "Kamera dalej (także kółkiem myszy nad Jodi)",
+     "fr": "Caméra plus éloignée (aussi molette sur Jodi)"
     },
     "Tip_FreeCam": {
      "en": "Free camera – mouse looks, W A S D move, Q / E down / up, Shift fast, wheel = speed, Esc back",
@@ -2956,7 +3242,8 @@
      "zh": "自由相机 – 鼠标转向，W A S D 移动，Q / E 下 / 上，Shift 加速，滚轮 = 速度，Esc 返回",
      "ru": "Свободная камера – мышь поворачивает, W A S D движение, Q / E вниз / вверх, Shift быстро, колесо = скорость, Esc назад",
      "es": "Cámara libre – el ratón gira, W A S D mueven, Q / E bajar / subir, Shift rápido, rueda = velocidad, Esc volver",
-     "pl": "Wolna kamera – mysz obraca, W A S D ruch, Q / E w dół / w górę, Shift szybko, kółko = prędkość, Esc powrót"
+     "pl": "Wolna kamera – mysz obraca, W A S D ruch, Q / E w dół / w górę, Shift szybko, kółko = prędkość, Esc powrót",
+     "fr": "Caméra libre – la souris oriente, W A S D déplacent, Q / E descendre / monter, Maj rapide, molette = vitesse, Échap pour revenir"
     },
     "Tip_PhotoMode": {
      "en": "The game's photo mode – Esc back",
@@ -2964,7 +3251,8 @@
      "zh": "游戏的拍照模式 – Esc 返回",
      "ru": "Фоторежим игры – Esc назад",
      "es": "Modo foto del juego – Esc volver",
-     "pl": "Tryb zdjęć gry – Esc powrót"
+     "pl": "Tryb zdjęć gry – Esc powrót",
+     "fr": "Le mode photo du jeu – Échap pour revenir"
     },
     "Tip_Revert": {
      "en": "Back to the default name",
@@ -2972,7 +3260,8 @@
      "zh": "恢复默认名称",
      "ru": "Вернуть стандартное имя",
      "es": "Volver al nombre por defecto",
-     "pl": "Powrót do domyślnej nazwy"
+     "pl": "Powrót do domyślnej nazwy",
+     "fr": "Revenir au nom par défaut"
     },
     "Hint_Name": {
      "en": "display name…",
@@ -2980,7 +3269,8 @@
      "zh": "显示名称…",
      "ru": "отображаемое имя…",
      "es": "nombre mostrado…",
-     "pl": "nazwa wyświetlana…"
+     "pl": "nazwa wyświetlana…",
+     "fr": "nom affiché…"
     },
     "Btn_ModContent": {
      "en": "View content",
@@ -2988,7 +3278,8 @@
      "zh": "查看内容",
      "ru": "Показать содержимое",
      "es": "Ver contenido",
-     "pl": "Pokaż zawartość"
+     "pl": "Pokaż zawartość",
+     "fr": "Voir le contenu"
     },
     "Btn_SearchName": {
      "en": "search",
@@ -2996,7 +3287,8 @@
      "zh": "搜索",
      "ru": "искать",
      "es": "buscar",
-     "pl": "szukaj"
+     "pl": "szukaj",
+     "fr": "chercher"
     },
     "Btn_LikePak": {
      "en": "like pak",
@@ -3004,7 +3296,8 @@
      "zh": "同 pak",
      "ru": "как pak",
      "es": "como pak",
-     "pl": "jak pak"
+     "pl": "jak pak",
+     "fr": "comme le pak"
     },
     "Btn_LikeGroup": {
      "en": "like g",
@@ -3012,7 +3305,8 @@
      "zh": "同 g",
      "ru": "как g",
      "es": "como g",
-     "pl": "jak g"
+     "pl": "jak g",
+     "fr": "comme g"
     },
     "Tip_Default": {
      "en": "Default: ",
@@ -3020,7 +3314,8 @@
      "zh": "默认：",
      "ru": "Стандарт: ",
      "es": "Por defecto: ",
-     "pl": "Domyślnie: "
+     "pl": "Domyślnie: ",
+     "fr": "Par défaut : "
     },
     "Tip_Id": {
      "en": "id: ",
@@ -3028,7 +3323,8 @@
      "zh": "id: ",
      "ru": "id: ",
      "es": "id: ",
-     "pl": "id: "
+     "pl": "id: ",
+     "fr": "id : "
     },
     "Tip_Pak": {
      "en": "pak: ",
@@ -3036,7 +3332,8 @@
      "zh": "pak: ",
      "ru": "pak: ",
      "es": "pak: ",
-     "pl": "pak: "
+     "pl": "pak: ",
+     "fr": "pak : "
     },
     "Tip_Grp": {
      "en": "g: ",
@@ -3044,7 +3341,8 @@
      "zh": "g: ",
      "ru": "g: ",
      "es": "g: ",
-     "pl": "g: "
+     "pl": "g: ",
+     "fr": "g : "
     },
     "Tip_Slot": {
      "en": "s: ",
@@ -3052,7 +3350,8 @@
      "zh": "s: ",
      "ru": "s: ",
      "es": "s: ",
-     "pl": "s: "
+     "pl": "s: ",
+     "fr": "e : "
     },
     "Lbl_HdrName": {
      "en": "Default name",
@@ -3060,7 +3359,8 @@
      "zh": "默认名称",
      "ru": "Стандартное имя",
      "es": "Nombre por defecto",
-     "pl": "Nazwa domyślna"
+     "pl": "Nazwa domyślna",
+     "fr": "Nom par défaut"
     },
     "Lbl_KindMod": {
      "en": "PAK",
@@ -3068,7 +3368,8 @@
      "zh": "PAK",
      "ru": "PAK",
      "es": "PAK",
-     "pl": "PAK"
+     "pl": "PAK",
+     "fr": "PAK"
     },
     "Lbl_KindGroup": {
      "en": "G",
@@ -3076,7 +3377,8 @@
      "zh": "G",
      "ru": "G",
      "es": "G",
-     "pl": "G"
+     "pl": "G",
+     "fr": "G"
     },
     "Lbl_HdrDisplay": {
      "en": "Display name",
@@ -3084,7 +3386,8 @@
      "zh": "显示名称",
      "ru": "Отображаемое имя",
      "es": "Nombre mostrado",
-     "pl": "Nazwa wyświetlana"
+     "pl": "Nazwa wyświetlana",
+     "fr": "Nom affiché"
     },
     "Lbl_HdrIds": {
      "en": "Identifiers",
@@ -3092,7 +3395,8 @@
      "zh": "标识符",
      "ru": "Идентификаторы",
      "es": "Identificadores",
-     "pl": "Identyfikatory"
+     "pl": "Identyfikatory",
+     "fr": "Identifiants"
     },
     "Menu_OnlyGroup": {
      "en": "Only this group",
@@ -3100,7 +3404,8 @@
      "zh": "仅此分组",
      "ru": "Только эта группа",
      "es": "Solo este grupo",
-     "pl": "Tylko ta grupa"
+     "pl": "Tylko ta grupa",
+     "fr": "Seulement ce groupe"
     },
     "Menu_ModContent": {
      "en": "View mod content",
@@ -3108,7 +3413,8 @@
      "zh": "查看模组内容",
      "ru": "Содержимое мода",
      "es": "Ver contenido del mod",
-     "pl": "Pokaż zawartość moda"
+     "pl": "Pokaż zawartość moda",
+     "fr": "Voir le contenu du mod"
     },
     "Menu_RenameMod": {
      "en": "Rename mod…",
@@ -3116,7 +3422,8 @@
      "zh": "重命名模组…",
      "ru": "Переименовать мод…",
      "es": "Renombrar mod…",
-     "pl": "Zmień nazwę moda…"
+     "pl": "Zmień nazwę moda…",
+     "fr": "Renommer le mod…"
     },
     "Menu_RenameGroup": {
      "en": "Rename group…",
@@ -3124,7 +3431,8 @@
      "zh": "重命名分组…",
      "ru": "Переименовать группу…",
      "es": "Renombrar grupo…",
-     "pl": "Zmień nazwę grupy…"
+     "pl": "Zmień nazwę grupy…",
+     "fr": "Renommer le groupe…"
     },
     "Btn_HairNatural": {
      "en": "Natural hair colours",
@@ -3132,7 +3440,8 @@
      "zh": "自然发色",
      "ru": "Естественные цвета волос",
      "es": "Colores de pelo naturales",
-     "pl": "Naturalne kolory włosów"
+     "pl": "Naturalne kolory włosów",
+     "fr": "Couleurs naturelles"
     },
     "Tab_Face": {
      "en": "Face",
@@ -3140,7 +3449,8 @@
      "zh": "面部",
      "ru": "Лицо",
      "es": "Rostro",
-     "pl": "Twarz"
+     "pl": "Twarz",
+     "fr": "Visage"
     },
     "Cat_FaceExpr": {
      "en": "Expression",
@@ -3148,7 +3458,8 @@
      "zh": "表情",
      "ru": "Выражение",
      "es": "Expresión",
-     "pl": "Mimika"
+     "pl": "Mimika",
+     "fr": "Expression"
     },
     "Cat_FaceEyes": {
      "en": "Gaze",
@@ -3156,7 +3467,8 @@
      "zh": "视线",
      "ru": "Взгляд",
      "es": "Mirada",
-     "pl": "Spojrzenie"
+     "pl": "Spojrzenie",
+     "fr": "Regard"
     },
     "Cat_FaceMouth": {
      "en": "Mouth",
@@ -3164,7 +3476,8 @@
      "zh": "嘴型",
      "ru": "Рот",
      "es": "Boca",
-     "pl": "Usta"
+     "pl": "Usta",
+     "fr": "Bouche"
     },
     "Cat_FaceSaved": {
      "en": "Saved faces",
@@ -3172,7 +3485,8 @@
      "zh": "已保存的面部",
      "ru": "Сохранённые лица",
      "es": "Rostros guardados",
-     "pl": "Zapisane twarze"
+     "pl": "Zapisane twarze",
+     "fr": "Visages enregistrés"
     },
     "Face_Idle": {
      "en": "Relaxed",
@@ -3180,7 +3494,8 @@
      "zh": "放松",
      "ru": "Расслабленное",
      "es": "Relajada",
-     "pl": "Zrelaksowana"
+     "pl": "Zrelaksowana",
+     "fr": "Détendue"
     },
     "Face_Focus": {
      "en": "Focused",
@@ -3188,7 +3503,8 @@
      "zh": "专注",
      "ru": "Сосредоточенное",
      "es": "Concentrada",
-     "pl": "Skupiona"
+     "pl": "Skupiona",
+     "fr": "Concentrée"
     },
     "Face_Smile": {
      "en": "Smile",
@@ -3196,7 +3512,8 @@
      "zh": "微笑",
      "ru": "Улыбка",
      "es": "Sonrisa",
-     "pl": "Uśmiech"
+     "pl": "Uśmiech",
+     "fr": "Sourire"
     },
     "Face_Pain": {
      "en": "Pain",
@@ -3204,7 +3521,8 @@
      "zh": "痛苦",
      "ru": "Боль",
      "es": "Dolor",
-     "pl": "Ból"
+     "pl": "Ból",
+     "fr": "Douleur"
     },
     "Face_Fright": {
      "en": "Fright",
@@ -3212,7 +3530,8 @@
      "zh": "惊吓",
      "ru": "Испуг",
      "es": "Susto",
-     "pl": "Przerażenie"
+     "pl": "Przerażenie",
+     "fr": "Effroi"
     },
     "Face_Tired": {
      "en": "Tired",
@@ -3220,7 +3539,8 @@
      "zh": "疲惫",
      "ru": "Усталость",
      "es": "Cansada",
-     "pl": "Zmęczenie"
+     "pl": "Zmęczenie",
+     "fr": "Fatiguée"
     },
     "Face_Suffering1": {
      "en": "Suffering 1",
@@ -3228,7 +3548,8 @@
      "zh": "煎熬 1",
      "ru": "Страдание 1",
      "es": "Sufrimiento 1",
-     "pl": "Cierpienie 1"
+     "pl": "Cierpienie 1",
+     "fr": "Souffrance 1"
     },
     "Face_Suffering2": {
      "en": "Suffering 2",
@@ -3236,7 +3557,8 @@
      "zh": "煎熬 2",
      "ru": "Страдание 2",
      "es": "Sufrimiento 2",
-     "pl": "Cierpienie 2"
+     "pl": "Cierpienie 2",
+     "fr": "Souffrance 2"
     },
     "Face_LookSide": {
      "en": "Left ↔ right",
@@ -3244,7 +3566,8 @@
      "zh": "左 ↔ 右",
      "ru": "Влево ↔ вправо",
      "es": "Izquierda ↔ derecha",
-     "pl": "Lewo ↔ prawo"
+     "pl": "Lewo ↔ prawo",
+     "fr": "Gauche ↔ droite"
     },
     "Face_LookUpDown": {
      "en": "Up ↔ down",
@@ -3252,7 +3575,8 @@
      "zh": "上 ↔ 下",
      "ru": "Вверх ↔ вниз",
      "es": "Arriba ↔ abajo",
-     "pl": "Góra ↔ dół"
+     "pl": "Góra ↔ dół",
+     "fr": "Haut ↔ bas"
     },
     "Face_MouthAH": {
      "en": "A (open)",
@@ -3260,7 +3584,8 @@
      "zh": "A（张开）",
      "ru": "А (открыт)",
      "es": "A (abierta)",
-     "pl": "A (otwarte)"
+     "pl": "A (otwarte)",
+     "fr": "A (ouverte)"
     },
     "Face_MouthEE": {
      "en": "E / I",
@@ -3268,7 +3593,8 @@
      "zh": "E / I",
      "ru": "Э / И",
      "es": "E / I",
-     "pl": "E / I"
+     "pl": "E / I",
+     "fr": "É / I"
     },
     "Face_MouthUU": {
      "en": "O / U",
@@ -3276,7 +3602,8 @@
      "zh": "O / U",
      "ru": "О / У",
      "es": "O / U",
-     "pl": "O / U"
+     "pl": "O / U",
+     "fr": "O / OU"
     },
     "Face_MouthFV": {
      "en": "F / V",
@@ -3284,7 +3611,8 @@
      "zh": "F / V",
      "ru": "Ф / В",
      "es": "F / V",
-     "pl": "F / W"
+     "pl": "F / W",
+     "fr": "F / V"
     },
     "Face_MouthTH": {
      "en": "TH / L",
@@ -3292,7 +3620,8 @@
      "zh": "TH / L",
      "ru": "Т / Л",
      "es": "TH / L",
-     "pl": "TH / L"
+     "pl": "TH / L",
+     "fr": "TH / L"
     },
     "Face_MouthBPM": {
      "en": "B / P / M (closed)",
@@ -3300,7 +3629,8 @@
      "zh": "B / P / M（闭合）",
      "ru": "Б / П / М (закрыт)",
      "es": "B / P / M (cerrada)",
-     "pl": "B / P / M (zamknięte)"
+     "pl": "B / P / M (zamknięte)",
+     "fr": "B / P / M (fermée)"
     },
     "Face_MouthSH": {
      "en": "SH / CH",
@@ -3308,7 +3638,8 @@
      "zh": "SH / CH",
      "ru": "Ш / Ч",
      "es": "SH / CH",
-     "pl": "SZ / CZ"
+     "pl": "SZ / CZ",
+     "fr": "CH / J"
     },
     "Face_MouthClose": {
      "en": "Close mouth",
@@ -3316,7 +3647,8 @@
      "zh": "闭嘴",
      "ru": "Закрыть рот",
      "es": "Cerrar la boca",
-     "pl": "Zamknij usta"
+     "pl": "Zamknij usta",
+     "fr": "Fermer la bouche"
     },
     "Btn_FaceBlended": {
      "en": "Expressions blended (together max. 100 %)",
@@ -3324,7 +3656,8 @@
      "zh": "表情混合（合计最多 100 %）",
      "ru": "Выражения смешиваются (вместе макс. 100 %)",
      "es": "Expresiones mezcladas (juntas máx. 100 %)",
-     "pl": "Mimika mieszana (razem maks. 100 %)"
+     "pl": "Mimika mieszana (razem maks. 100 %)",
+     "fr": "Expressions mélangées (ensemble max. 100 %)"
     },
     "Btn_FaceAdded": {
      "en": "Expressions added up",
@@ -3332,7 +3665,8 @@
      "zh": "表情叠加",
      "ru": "Выражения складываются",
      "es": "Expresiones sumadas",
-     "pl": "Mimika sumowana"
+     "pl": "Mimika sumowana",
+     "fr": "Expressions additionnées"
     },
     "Btn_FaceAllFixed": {
      "en": "Fix all",
@@ -3340,7 +3674,8 @@
      "zh": "全部固定",
      "ru": "Закрепить все",
      "es": "Fijar todo",
-     "pl": "Ustal wszystkie"
+     "pl": "Ustal wszystkie",
+     "fr": "Tout fixer"
     },
     "Btn_FaceAllGame": {
      "en": "All to the game",
@@ -3348,7 +3683,8 @@
      "zh": "全部交给游戏",
      "ru": "Всё игре",
      "es": "Todo al juego",
-     "pl": "Wszystko grze"
+     "pl": "Wszystko grze",
+     "fr": "Tout au jeu"
     },
     "Btn_SaveFace": {
      "en": "Save current face",
@@ -3356,7 +3692,8 @@
      "zh": "保存当前面部",
      "ru": "Сохранить текущее лицо",
      "es": "Guardar el rostro actual",
-     "pl": "Zapisz obecną twarz"
+     "pl": "Zapisz obecną twarz",
+     "fr": "Enregistrer le visage actuel"
     },
     "Lbl_KeyPress": {
      "en": "Press a key … (Esc: cancel)",
@@ -3364,7 +3701,8 @@
      "zh": "请按一个键 …（Esc：取消）",
      "ru": "Нажмите клавишу … (Esc: отмена)",
      "es": "Pulsa una tecla … (Esc: cancelar)",
-     "pl": "Naciśnij klawisz … (Esc: anuluj)"
+     "pl": "Naciśnij klawisz … (Esc: anuluj)",
+     "fr": "Appuyez sur une touche … (Échap : annuler)"
     },
     "Lbl_KeyNone": {
      "en": "none",
@@ -3372,7 +3710,8 @@
      "zh": "无",
      "ru": "нет",
      "es": "ninguna",
-     "pl": "brak"
+     "pl": "brak",
+     "fr": "aucune"
     },
     "Lbl_FaceMix": {
      "en": "Expressions mixed",
@@ -3380,7 +3719,8 @@
      "zh": "表情混合方式",
      "ru": "Смешение выражений",
      "es": "Mezcla de expresiones",
-     "pl": "Mieszanie mimiki"
+     "pl": "Mieszanie mimiki",
+     "fr": "Mélange des expressions"
     },
     "Lbl_FaceBlendedShort": {
      "en": "blended",
@@ -3388,7 +3728,8 @@
      "zh": "混合",
      "ru": "смешиваются",
      "es": "mezcladas",
-     "pl": "łączona"
+     "pl": "łączona",
+     "fr": "mélangées"
     },
     "Lbl_FaceAddedShort": {
      "en": "added up",
@@ -3396,7 +3737,8 @@
      "zh": "叠加",
      "ru": "складываются",
      "es": "sumadas",
-     "pl": "sumowana"
+     "pl": "sumowana",
+     "fr": "additionnées"
     },
     "Lbl_Face": {
      "en": "Face",
@@ -3404,7 +3746,8 @@
      "zh": "面部",
      "ru": "Лицо",
      "es": "Rostro",
-     "pl": "Twarz"
+     "pl": "Twarz",
+     "fr": "Visage"
     },
     "Lbl_FaceGame": {
      "en": "game",
@@ -3412,7 +3755,8 @@
      "zh": "游戏",
      "ru": "игра",
      "es": "juego",
-     "pl": "gra"
+     "pl": "gra",
+     "fr": "jeu"
     },
     "Lbl_FaceHint": {
      "en": "A ticked entry keeps its value, also during poses. Unticked entries are left to the game's animation.",
@@ -3420,7 +3764,8 @@
      "zh": "勾选的项目保持其数值，姿势中也一样。未勾选的项目由游戏动画决定。",
      "ru": "Отмеченный пункт сохраняет своё значение, и в позах тоже. Неотмеченные пункты определяет анимация игры.",
      "es": "Una entrada marcada mantiene su valor, también en las poses. Las no marcadas las decide la animación del juego.",
-     "pl": "Zaznaczony element zachowuje swoją wartość, także w pozach. Niezaznaczone ustala animacja gry."
+     "pl": "Zaznaczony element zachowuje swoją wartość, także w pozach. Niezaznaczone ustala animacja gry.",
+     "fr": "Une entrée cochée garde sa valeur, même pendant les poses. Les entrées non cochées sont laissées à l'animation du jeu."
     },
     "Lbl_FaceNoMorphs": {
      "en": "The current body has no face morphs – these settings have no effect on it.",
@@ -3428,7 +3773,8 @@
      "zh": "当前身体没有面部变形 – 这些设置对它无效。",
      "ru": "У текущего тела нет морфов лица – эти настройки на него не действуют.",
      "es": "El cuerpo actual no tiene morphs faciales – estos ajustes no le afectan.",
-     "pl": "Obecne ciało nie ma morfów twarzy – te ustawienia na nie nie działają."
+     "pl": "Obecne ciało nie ma morfów twarzy – te ustawienia na nie nie działają.",
+     "fr": "Le corps actuel n'a pas de morphs de visage – ces réglages n'ont aucun effet sur lui."
     },
     "OptCat_Quick": {
      "en": "Quick menu",
@@ -3436,7 +3782,8 @@
      "zh": "快捷菜单",
      "ru": "Быстрое меню",
      "es": "Menú rápido",
-     "pl": "Szybkie menu"
+     "pl": "Szybkie menu",
+     "fr": "Menu rapide"
     },
     "Lbl_QuickKey": {
      "en": "Key (hold)",
@@ -3444,7 +3791,8 @@
      "zh": "按键（按住）",
      "ru": "Клавиша (удерживать)",
      "es": "Tecla (mantener)",
-     "pl": "Klawisz (przytrzymaj)"
+     "pl": "Klawisz (przytrzymaj)",
+     "fr": "Touche (maintenir)"
     },
     "Lbl_QuickInWheel": {
      "en": "In the wheel",
@@ -3452,7 +3800,8 @@
      "zh": "轮盘中",
      "ru": "В колесе",
      "es": "En la rueda",
-     "pl": "W kole"
+     "pl": "W kole",
+     "fr": "Dans la roue"
     },
     "Lbl_QuickAvailable": {
      "en": "Available",
@@ -3460,7 +3809,8 @@
      "zh": "可用",
      "ru": "Доступно",
      "es": "Disponible",
-     "pl": "Dostępne"
+     "pl": "Dostępne",
+     "fr": "Disponibles"
     },
     "Lbl_QuickEmpty": {
      "en": "Quick menu is empty – Options › Quick menu",
@@ -3468,7 +3818,8 @@
      "zh": "快捷菜单为空 – 选项 › 快捷菜单",
      "ru": "Быстрое меню пусто – Настройки › Быстрое меню",
      "es": "El menú rápido está vacío – Opciones › Menú rápido",
-     "pl": "Szybkie menu jest puste – Opcje › Szybkie menu"
+     "pl": "Szybkie menu jest puste – Opcje › Szybkie menu",
+     "fr": "Le menu rapide est vide – Paramètres › Menu rapide"
     },
     "Lbl_QuickKeyTaken": {
      "en": "That is the panel key.",
@@ -3476,7 +3827,8 @@
      "zh": "这是面板按键。",
      "ru": "Это клавиша панели.",
      "es": "Esa es la tecla del panel.",
-     "pl": "To klawisz panelu."
+     "pl": "To klawisz panelu.",
+     "fr": "C'est la touche du panneau."
     },
     "QuickGrp_Camera": {
      "en": "Camera and panel",
@@ -3484,7 +3836,8 @@
      "zh": "相机与面板",
      "ru": "Камера и панель",
      "es": "Cámara y panel",
-     "pl": "Kamera i panel"
+     "pl": "Kamera i panel",
+     "fr": "Caméra et panneau"
     },
     "QuickGrp_Outfits": {
      "en": "Outfits",
@@ -3492,7 +3845,8 @@
      "zh": "搭配",
      "ru": "Комплекты",
      "es": "Conjuntos",
-     "pl": "Stroje"
+     "pl": "Stroje",
+     "fr": "Tenues"
     },
     "QuickGrp_Looks": {
      "en": "Looks",
@@ -3500,7 +3854,8 @@
      "zh": "造型",
      "ru": "Образы",
      "es": "Looks",
-     "pl": "Stylizacje"
+     "pl": "Stylizacje",
+     "fr": "Looks"
     },
     "QuickGrp_Faces": {
      "en": "Faces",
@@ -3508,7 +3863,8 @@
      "zh": "面部",
      "ru": "Лица",
      "es": "Rostros",
-     "pl": "Twarze"
+     "pl": "Twarze",
+     "fr": "Visages"
     },
     "QuickGrp_Presets": {
      "en": "Presets",
@@ -3516,7 +3872,8 @@
      "zh": "预设",
      "ru": "Пресеты",
      "es": "Preajustes",
-     "pl": "Presety"
+     "pl": "Presety",
+     "fr": "Préréglages"
     },
     "QuickGrp_Poses": {
      "en": "Favourite poses",
@@ -3524,7 +3881,8 @@
      "zh": "收藏的姿势",
      "ru": "Избранные позы",
      "es": "Poses favoritas",
-     "pl": "Ulubione pozy"
+     "pl": "Ulubione pozy",
+     "fr": "Poses favorites"
     },
     "QuickGrp_Tabs": {
      "en": "Open a tab",
@@ -3532,7 +3890,8 @@
      "zh": "打开标签页",
      "ru": "Открыть вкладку",
      "es": "Abrir pestaña",
-     "pl": "Otwórz kartę"
+     "pl": "Otwórz kartę",
+     "fr": "Ouvrir un onglet"
     },
     "QuickGrp_ModEntries": {
      "en": "Open a mod entry",
@@ -3540,7 +3899,8 @@
      "zh": "打开模组条目",
      "ru": "Открыть запись мода",
      "es": "Abrir entrada de mod",
-     "pl": "Otwórz wpis moda"
+     "pl": "Otwórz wpis moda",
+     "fr": "Ouvrir une entrée de mod"
     },
     "QuickGrp_ModActions": {
      "en": "Actions of mods",
@@ -3548,7 +3908,8 @@
      "zh": "模组的操作",
      "ru": "Действия модов",
      "es": "Acciones de mods",
-     "pl": "Akcje modów"
+     "pl": "Akcje modów",
+     "fr": "Actions des mods"
     },
     "Quick_FreeCam": {
      "en": "Free camera",
@@ -3556,7 +3917,8 @@
      "zh": "自由相机",
      "ru": "Свободная камера",
      "es": "Cámara libre",
-     "pl": "Wolna kamera"
+     "pl": "Wolna kamera",
+     "fr": "Caméra libre"
     },
     "Quick_Photo": {
      "en": "Photo mode",
@@ -3564,7 +3926,8 @@
      "zh": "拍照模式",
      "ru": "Фоторежим",
      "es": "Modo foto",
-     "pl": "Tryb zdjęć"
+     "pl": "Tryb zdjęć",
+     "fr": "Mode photo"
     },
     "Quick_Panel": {
      "en": "Open AltUI",
@@ -3572,7 +3935,8 @@
      "zh": "打开 AltUI",
      "ru": "Открыть AltUI",
      "es": "Abrir AltUI",
-     "pl": "Otwórz AltUI"
+     "pl": "Otwórz AltUI",
+     "fr": "Ouvrir AltUI"
     },
     "Quick_PoseStop": {
      "en": "Stop pose",
@@ -3580,7 +3944,8 @@
      "zh": "停止姿势",
      "ru": "Остановить позу",
      "es": "Detener pose",
-     "pl": "Zatrzymaj pozę"
+     "pl": "Zatrzymaj pozę",
+     "fr": "Arrêter la pose"
     },
     "Quick_Outfit": {
      "en": "Outfit",
@@ -3588,7 +3953,8 @@
      "zh": "搭配",
      "ru": "Комплект",
      "es": "Conjunto",
-     "pl": "Strój"
+     "pl": "Strój",
+     "fr": "Tenue"
     },
     "Quick_Preset": {
      "en": "Preset",
@@ -3596,7 +3962,8 @@
      "zh": "预设",
      "ru": "Пресет",
      "es": "Preajuste",
-     "pl": "Preset"
+     "pl": "Preset",
+     "fr": "Préréglage"
     },
     "OptCat_General": {
      "en": "General",
@@ -3604,7 +3971,8 @@
      "zh": "常规",
      "ru": "Общие",
      "es": "General",
-     "pl": "Ogólne"
+     "pl": "Ogólne",
+     "fr": "Général"
     },
     "OptCat_Tiles": {
      "en": "Tiles",
@@ -3612,7 +3980,8 @@
      "zh": "图块",
      "ru": "Плитки",
      "es": "Casillas",
-     "pl": "Kafelki"
+     "pl": "Kafelki",
+     "fr": "Tuiles"
     },
     "OptCat_Groups": {
      "en": "Groups",
@@ -3620,7 +3989,8 @@
      "zh": "分组",
      "ru": "Группы",
      "es": "Grupos",
-     "pl": "Grupy"
+     "pl": "Grupy",
+     "fr": "Groupes"
     },
     "OptCat_Camera": {
      "en": "Camera",
@@ -3628,7 +3998,8 @@
      "zh": "相机",
      "ru": "Камера",
      "es": "Cámara",
-     "pl": "Kamera"
+     "pl": "Kamera",
+     "fr": "Caméra"
     },
     "OptCat_Controls": {
      "en": "Controls",
@@ -3636,7 +4007,8 @@
      "zh": "操作",
      "ru": "Управление",
      "es": "Controles",
-     "pl": "Sterowanie"
+     "pl": "Sterowanie",
+     "fr": "Commandes"
     },
     "OptCat_Theme": {
      "en": "Colours",
@@ -3644,7 +4016,8 @@
      "zh": "颜色",
      "ru": "Цвета",
      "es": "Colores",
-     "pl": "Kolory"
+     "pl": "Kolory",
+     "fr": "Couleurs"
     },
     "OptCat_Conflicts": {
      "en": "Slot conflicts",
@@ -3652,7 +4025,8 @@
      "zh": "部位冲突",
      "ru": "Конфликты слотов",
      "es": "Conflictos de ranuras",
-     "pl": "Konflikty slotów"
+     "pl": "Konflikty slotów",
+     "fr": "Conflits d'emplacements"
     },
     "OptCat_Tabs": {
      "en": "Tabs",
@@ -3660,7 +4034,8 @@
      "zh": "标签页",
      "ru": "Вкладки",
      "es": "Pestañas",
-     "pl": "Karty"
+     "pl": "Karty",
+     "fr": "Onglets"
     },
     "Lbl_ThemeSave": {
      "en": "Save scheme as",
@@ -3668,7 +4043,8 @@
      "zh": "将配色另存为",
      "ru": "Сохранить схему как",
      "es": "Guardar esquema como",
-     "pl": "Zapisz schemat jako"
+     "pl": "Zapisz schemat jako",
+     "fr": "Enregistrer le thème sous"
     },
     "Hint_ThemeName": {
      "en": "name",
@@ -3676,7 +4052,8 @@
      "zh": "名称",
      "ru": "название",
      "es": "nombre",
-     "pl": "nazwa"
+     "pl": "nazwa",
+     "fr": "nom"
     },
     "Btn_ThemeSave": {
      "en": "save",
@@ -3684,7 +4061,8 @@
      "zh": "保存",
      "ru": "сохранить",
      "es": "guardar",
-     "pl": "zapisz"
+     "pl": "zapisz",
+     "fr": "enregistrer"
     },
     "Lbl_ThemePresets": {
      "en": "Saved schemes",
@@ -3692,7 +4070,8 @@
      "zh": "已保存的配色",
      "ru": "Сохранённые схемы",
      "es": "Esquemas guardados",
-     "pl": "Zapisane schematy"
+     "pl": "Zapisane schematy",
+     "fr": "Thèmes enregistrés"
     },
     "Lbl_ThemePresetsHint": {
      "en": "Click applies a scheme, right click: apply or delete. The same name overwrites a scheme.",
@@ -3700,7 +4079,8 @@
      "zh": "单击应用配色，右键：应用或删除。使用相同名称会覆盖已有配色。",
      "ru": "Щелчок применяет схему, правый щелчок: применить или удалить. То же имя перезаписывает схему.",
      "es": "Un clic aplica un esquema; clic derecho: aplicar o eliminar. El mismo nombre sobrescribe un esquema.",
-     "pl": "Kliknięcie stosuje schemat, prawy przycisk: zastosuj lub usuń. Ta sama nazwa nadpisuje schemat."
+     "pl": "Kliknięcie stosuje schemat, prawy przycisk: zastosuj lub usuń. Ta sama nazwa nadpisuje schemat.",
+     "fr": "Un clic applique un thème, clic droit : appliquer ou supprimer. Le même nom remplace un thème."
     },
     "Lbl_WeaponCount": {
      "en": "<m> models, <s> skins",
@@ -3708,7 +4088,8 @@
      "zh": "<m> 个模型，<s> 个皮肤",
      "ru": "модели: <m>, скины: <s>",
      "es": "<m> modelos, <s> skins",
-     "pl": "modele: <m>, skórki: <s>"
+     "pl": "modele: <m>, skórki: <s>",
+     "fr": "<m> modèles, <s> skins"
     },
     "Lbl_OutfitScale": {
      "en": "Outfit tile size",
@@ -3716,7 +4097,8 @@
      "zh": "搭配图块大小",
      "ru": "Размер плиток комплектов",
      "es": "Tamaño de casillas de conjuntos",
-     "pl": "Rozmiar kafelków strojów"
+     "pl": "Rozmiar kafelków strojów",
+     "fr": "Taille des tuiles de tenue"
     },
     "Lbl_LookScale": {
      "en": "Look tile size",
@@ -3724,7 +4106,8 @@
      "zh": "造型图块大小",
      "ru": "Размер плиток образов",
      "es": "Tamaño de casillas de looks",
-     "pl": "Rozmiar kafelków stylizacji"
+     "pl": "Rozmiar kafelków stylizacji",
+     "fr": "Taille des tuiles de look"
     },
     "Lbl_OutfitCols": {
      "en": "Outfit: pieces per row",
@@ -3732,7 +4115,8 @@
      "zh": "搭配：每行件数",
      "ru": "Комплект: вещей в ряду",
      "es": "Conjunto: prendas por fila",
-     "pl": "Strój: części w rzędzie"
+     "pl": "Strój: części w rzędzie",
+     "fr": "Tenue : pièces par ligne"
     },
     "Lbl_OutfitRows": {
      "en": "Outfit: rows of pieces",
@@ -3740,7 +4124,8 @@
      "zh": "搭配：行数",
      "ru": "Комплект: рядов вещей",
      "es": "Conjunto: filas de prendas",
-     "pl": "Strój: rzędy części"
+     "pl": "Strój: rzędy części",
+     "fr": "Tenue : lignes de pièces"
     },
     "Lbl_QuickControl": {
      "en": "Control",
@@ -3748,7 +4133,8 @@
      "zh": "操作",
      "ru": "Управление",
      "es": "Control",
-     "pl": "Sterowanie"
+     "pl": "Sterowanie",
+     "fr": "Commande"
     },
     "Lbl_QuickAlpha": {
      "en": "Quick menu opacity",
@@ -3756,7 +4142,8 @@
      "zh": "快捷菜单不透明度",
      "ru": "Непрозрачность быстрого меню",
      "es": "Opacidad del menú rápido",
-     "pl": "Krycie szybkiego menu"
+     "pl": "Krycie szybkiego menu",
+     "fr": "Opacité du menu rapide"
     },
     "Lbl_TabStyle": {
      "en": "Tab bar",
@@ -3764,7 +4151,8 @@
      "zh": "标签栏",
      "ru": "Панель вкладок",
      "es": "Barra de pestañas",
-     "pl": "Pasek kart"
+     "pl": "Pasek kart",
+     "fr": "Barre d'onglets"
     },
     "Chip_TabStyle0": {
      "en": "Text only",
@@ -3772,7 +4160,8 @@
      "zh": "仅文字",
      "ru": "Только текст",
      "es": "Solo texto",
-     "pl": "Tylko tekst"
+     "pl": "Tylko tekst",
+     "fr": "Texte seul"
     },
     "Chip_TabStyle1": {
      "en": "Icons only",
@@ -3780,7 +4169,8 @@
      "zh": "仅图标",
      "ru": "Только значки",
      "es": "Solo iconos",
-     "pl": "Tylko ikony"
+     "pl": "Tylko ikony",
+     "fr": "Icônes seules"
     },
     "Chip_TabStyle2": {
      "en": "Icons and text",
@@ -3788,7 +4178,8 @@
      "zh": "图标和文字",
      "ru": "Значки и текст",
      "es": "Iconos y texto",
-     "pl": "Ikony i tekst"
+     "pl": "Ikony i tekst",
+     "fr": "Icônes et texte"
     },
     "Lbl_TabIconPos": {
      "en": "Icon position",
@@ -3796,7 +4187,8 @@
      "zh": "图标位置",
      "ru": "Положение значка",
      "es": "Posición del icono",
-     "pl": "Położenie ikony"
+     "pl": "Położenie ikony",
+     "fr": "Position des icônes"
     },
     "Chip_TabIconPos0": {
      "en": "left of the text",
@@ -3804,7 +4196,8 @@
      "zh": "文字左侧",
      "ru": "слева от текста",
      "es": "a la izquierda del texto",
-     "pl": "na lewo od tekstu"
+     "pl": "na lewo od tekstu",
+     "fr": "à gauche du texte"
     },
     "Chip_TabIconPos1": {
      "en": "right of the text",
@@ -3812,7 +4205,8 @@
      "zh": "文字右侧",
      "ru": "справа от текста",
      "es": "a la derecha del texto",
-     "pl": "na prawo od tekstu"
+     "pl": "na prawo od tekstu",
+     "fr": "à droite du texte"
     },
     "Lbl_TabsHint": {
      "en": "Switched-off tabs are left out of the tab bar. A jump into one (e.g. \"Show in tab\") shows it until you leave it.",
@@ -3820,7 +4214,8 @@
      "zh": "关闭的标签页不会出现在标签栏中。跳转到其中一个（例如“在标签页中显示”）时会显示它，直到离开为止。",
      "ru": "Отключённые вкладки не показываются в панели вкладок. Переход в такую вкладку (например, «Показать во вкладке») показывает её, пока вы её не покинете.",
      "es": "Las pestañas desactivadas no aparecen en la barra de pestañas. Un salto a una de ellas (p. ej. «Mostrar en pestaña») la muestra hasta que la abandonas.",
-     "pl": "Wyłączone karty nie pojawiają się na pasku kart. Przejście do jednej z nich (np. „Pokaż w karcie”) pokazuje ją, dopóki jej nie opuścisz."
+     "pl": "Wyłączone karty nie pojawiają się na pasku kart. Przejście do jednej z nich (np. „Pokaż w karcie”) pokazuje ją, dopóki jej nie opuścisz.",
+     "fr": "Les onglets désactivés n'apparaissent pas dans la barre d'onglets. Un saut vers l'un d'eux (p. ex. « Afficher dans l'onglet ») l'affiche jusqu'à ce que vous le quittiez."
     },
     "Hair_Black": {
      "en": "Black",
@@ -3828,7 +4223,8 @@
      "zh": "黑色",
      "ru": "Чёрный",
      "es": "Negro",
-     "pl": "Czarny"
+     "pl": "Czarny",
+     "fr": "Noir"
     },
     "Hair_BlackBrown": {
      "en": "Black-brown",
@@ -3836,7 +4232,8 @@
      "zh": "黑棕色",
      "ru": "Чёрно-каштановый",
      "es": "Castaño oscuro",
-     "pl": "Czarnobrązowy"
+     "pl": "Czarnobrązowy",
+     "fr": "Brun noir"
     },
     "Hair_DarkBrown": {
      "en": "Dark brown",
@@ -3844,7 +4241,8 @@
      "zh": "深棕色",
      "ru": "Тёмно-каштановый",
      "es": "Marrón oscuro",
-     "pl": "Ciemnobrązowy"
+     "pl": "Ciemnobrązowy",
+     "fr": "Brun foncé"
     },
     "Hair_Chestnut": {
      "en": "Chestnut",
@@ -3852,7 +4250,8 @@
      "zh": "栗色",
      "ru": "Каштановый",
      "es": "Castaño",
-     "pl": "Kasztanowy"
+     "pl": "Kasztanowy",
+     "fr": "Châtain"
     },
     "Hair_MediumBrown": {
      "en": "Medium brown",
@@ -3860,7 +4259,8 @@
      "zh": "中棕色",
      "ru": "Русый",
      "es": "Marrón medio",
-     "pl": "Średni brąz"
+     "pl": "Średni brąz",
+     "fr": "Brun moyen"
     },
     "Hair_LightBrown": {
      "en": "Light brown",
@@ -3868,7 +4268,8 @@
      "zh": "浅棕色",
      "ru": "Светло-русый",
      "es": "Marrón claro",
-     "pl": "Jasnobrązowy"
+     "pl": "Jasnobrązowy",
+     "fr": "Brun clair"
     },
     "Hair_DarkBlonde": {
      "en": "Dark blonde",
@@ -3876,7 +4277,8 @@
      "zh": "深金色",
      "ru": "Тёмно-русый",
      "es": "Rubio oscuro",
-     "pl": "Ciemny blond"
+     "pl": "Ciemny blond",
+     "fr": "Blond foncé"
     },
     "Hair_Honey": {
      "en": "Honey blonde",
@@ -3884,7 +4286,8 @@
      "zh": "蜂蜜金色",
      "ru": "Медовый",
      "es": "Rubio miel",
-     "pl": "Miodowy blond"
+     "pl": "Miodowy blond",
+     "fr": "Blond miel"
     },
     "Hair_LightBlonde": {
      "en": "Light blonde",
@@ -3892,7 +4295,8 @@
      "zh": "浅金色",
      "ru": "Светлый блонд",
      "es": "Rubio claro",
-     "pl": "Jasny blond"
+     "pl": "Jasny blond",
+     "fr": "Blond clair"
     },
     "Hair_Platinum": {
      "en": "Platinum blonde",
@@ -3900,7 +4304,8 @@
      "zh": "白金色",
      "ru": "Платиновый",
      "es": "Rubio platino",
-     "pl": "Platynowy blond"
+     "pl": "Platynowy blond",
+     "fr": "Blond platine"
     },
     "Hair_Copper": {
      "en": "Copper",
@@ -3908,7 +4313,8 @@
      "zh": "铜红色",
      "ru": "Медный",
      "es": "Cobre",
-     "pl": "Miedziany"
+     "pl": "Miedziany",
+     "fr": "Cuivré"
     },
     "Hair_Auburn": {
      "en": "Auburn",
@@ -3916,7 +4322,8 @@
      "zh": "赤褐色",
      "ru": "Тёмно-рыжий",
      "es": "Caoba",
-     "pl": "Kasztanowo-rudy"
+     "pl": "Kasztanowo-rudy",
+     "fr": "Auburn"
     },
     "Hair_StrawberryBlonde": {
      "en": "Strawberry blonde",
@@ -3924,7 +4331,8 @@
      "zh": "草莓金色",
      "ru": "Клубничный блонд",
      "es": "Rubio fresa",
-     "pl": "Truskawkowy blond"
+     "pl": "Truskawkowy blond",
+     "fr": "Blond vénitien"
     },
     "Hair_Silver": {
      "en": "Silver grey",
@@ -3932,7 +4340,8 @@
      "zh": "银灰色",
      "ru": "Серебристый",
      "es": "Gris plateado",
-     "pl": "Srebrnoszary"
+     "pl": "Srebrnoszary",
+     "fr": "Gris argenté"
     }
    }
   },
@@ -5217,10 +5626,6 @@
      "type": "name"
     },
     {
-     "name": "TmpTex",
-     "type": "object:/Script/Engine.Texture2D"
-    },
-    {
      "name": "TmpComps",
      "type": "object:/Script/Engine.ActorComponent",
      "container": "array"
@@ -5551,11 +5956,6 @@
     },
     {
      "name": "TmpNames2",
-     "type": "name",
-     "container": "array"
-    },
-    {
-     "name": "TmpNames3",
      "type": "name",
      "container": "array"
     },
@@ -6347,6 +6747,534 @@
     {
      "name": "QIdx",
      "type": "int"
+    },
+    {
+     "name": "QOutfitIdx",
+     "type": "string",
+     "container": "map",
+     "value_type": "int"
+    },
+    {
+     "name": "TileKeys",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "OflKind",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "OflRef",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "OflRowStart",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "OflRowY",
+     "type": "float",
+     "container": "array"
+    },
+    {
+     "name": "OflCols",
+     "type": "int"
+    },
+    {
+     "name": "OflFirst",
+     "type": "int"
+    },
+    {
+     "name": "OflLast",
+     "type": "int"
+    },
+    {
+     "name": "OflDirty",
+     "type": "bool"
+    },
+    {
+     "name": "OflRowsDirty",
+     "type": "bool"
+    },
+    {
+     "name": "OflTileW",
+     "type": "float"
+    },
+    {
+     "name": "OflTileH",
+     "type": "float"
+    },
+    {
+     "name": "OflHeadH",
+     "type": "float"
+    },
+    {
+     "name": "OflLoop",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "OflTilePool",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "OflHeadPool",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "OflVTop",
+     "type": "float"
+    },
+    {
+     "name": "OflVBottom",
+     "type": "float"
+    },
+    {
+     "name": "OflVWidth",
+     "type": "float"
+    },
+    {
+     "name": "OflCur",
+     "type": "int"
+    },
+    {
+     "name": "OflY",
+     "type": "float"
+    },
+    {
+     "name": "OflA",
+     "type": "int"
+    },
+    {
+     "name": "OflB",
+     "type": "int"
+    },
+    {
+     "name": "OflTC",
+     "type": "int"
+    },
+    {
+     "name": "OflHC",
+     "type": "int"
+    },
+    {
+     "name": "OflLoop2",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "OflRowPool",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "OflRC",
+     "type": "int"
+    },
+    {
+     "name": "OflSeen",
+     "type": "bool"
+    },
+    {
+     "name": "OflTCW",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "OflHCW",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "OflRCW",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "OflRowH",
+     "type": "float",
+     "container": "array"
+    },
+    {
+     "name": "OflMeasW",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "OflRowOf",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "OflSettle",
+     "type": "int"
+    },
+    {
+     "name": "OflScrollTo",
+     "type": "int",
+     "default": "-1"
+    },
+    {
+     "name": "CloKind",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "CloRef",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "CloRowStart",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "CloRowY",
+     "type": "float",
+     "container": "array"
+    },
+    {
+     "name": "CloCols",
+     "type": "int"
+    },
+    {
+     "name": "CloFirst",
+     "type": "int"
+    },
+    {
+     "name": "CloLast",
+     "type": "int"
+    },
+    {
+     "name": "CloDirty",
+     "type": "bool"
+    },
+    {
+     "name": "CloRowsDirty",
+     "type": "bool"
+    },
+    {
+     "name": "CloTileW",
+     "type": "float"
+    },
+    {
+     "name": "CloTileH",
+     "type": "float"
+    },
+    {
+     "name": "CloHeadH",
+     "type": "float"
+    },
+    {
+     "name": "CloLoop",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "CloTilePool",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "CloHeadPool",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "CloVTop",
+     "type": "float"
+    },
+    {
+     "name": "CloVBottom",
+     "type": "float"
+    },
+    {
+     "name": "CloVWidth",
+     "type": "float"
+    },
+    {
+     "name": "CloCur",
+     "type": "int"
+    },
+    {
+     "name": "CloY",
+     "type": "float"
+    },
+    {
+     "name": "CloA",
+     "type": "int"
+    },
+    {
+     "name": "CloB",
+     "type": "int"
+    },
+    {
+     "name": "CloTC",
+     "type": "int"
+    },
+    {
+     "name": "CloHC",
+     "type": "int"
+    },
+    {
+     "name": "CloLoop2",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "CloRowPool",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "CloRC",
+     "type": "int"
+    },
+    {
+     "name": "CloSeen",
+     "type": "bool"
+    },
+    {
+     "name": "CloTCW",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "CloHCW",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "CloRCW",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "CloRowH",
+     "type": "float",
+     "container": "array"
+    },
+    {
+     "name": "CloMeasW",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "CloRowOf",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "CloSettle",
+     "type": "int"
+    },
+    {
+     "name": "CloScrollTo",
+     "type": "int",
+     "default": "-1"
+    },
+    {
+     "name": "QaKind",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "QaRef",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "QaRowStart",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "QaRowY",
+     "type": "float",
+     "container": "array"
+    },
+    {
+     "name": "QaCols",
+     "type": "int"
+    },
+    {
+     "name": "QaFirst",
+     "type": "int"
+    },
+    {
+     "name": "QaLast",
+     "type": "int"
+    },
+    {
+     "name": "QaDirty",
+     "type": "bool"
+    },
+    {
+     "name": "QaRowsDirty",
+     "type": "bool"
+    },
+    {
+     "name": "QaTileW",
+     "type": "float"
+    },
+    {
+     "name": "QaTileH",
+     "type": "float"
+    },
+    {
+     "name": "QaHeadH",
+     "type": "float"
+    },
+    {
+     "name": "QaLoop",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "QaTilePool",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "QaHeadPool",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "QaVTop",
+     "type": "float"
+    },
+    {
+     "name": "QaVBottom",
+     "type": "float"
+    },
+    {
+     "name": "QaVWidth",
+     "type": "float"
+    },
+    {
+     "name": "QaCur",
+     "type": "int"
+    },
+    {
+     "name": "QaY",
+     "type": "float"
+    },
+    {
+     "name": "QaA",
+     "type": "int"
+    },
+    {
+     "name": "QaB",
+     "type": "int"
+    },
+    {
+     "name": "QaTC",
+     "type": "int"
+    },
+    {
+     "name": "QaHC",
+     "type": "int"
+    },
+    {
+     "name": "QaLoop2",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "QaRowPool",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "QaRC",
+     "type": "int"
+    },
+    {
+     "name": "QaSeen",
+     "type": "bool"
+    },
+    {
+     "name": "QaTCW",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "QaHCW",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "QaRCW",
+     "type": "object:/Script/UMG.UserWidget"
+    },
+    {
+     "name": "QaRowH",
+     "type": "float",
+     "container": "array"
+    },
+    {
+     "name": "QaMeasW",
+     "type": "object:/Script/UMG.UserWidget",
+     "container": "array"
+    },
+    {
+     "name": "QaRowOf",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "QaSettle",
+     "type": "int"
+    },
+    {
+     "name": "QaScrollTo",
+     "type": "int",
+     "default": "-1"
+    },
+    {
+     "name": "QaItems",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "QPaks",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "ContextQuick",
+     "type": "string"
+    },
+    {
+     "name": "CamClosePanel",
+     "type": "bool"
+    },
+    {
+     "name": "QaTint",
+     "type": "bool",
+     "container": "array"
+    },
+    {
+     "name": "QaHeads",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "CloItems",
+     "type": "struct:/Game/Mod/AltUI/S_ClothesItem",
+     "container": "array"
+    },
+    {
+     "name": "CloFavIdx",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "PerfT",
+     "type": "float"
+    },
+    {
+     "name": "PerfMs",
+     "type": "float"
     },
     {
      "name": "QStr",
@@ -22441,11 +23369,33 @@
         }
        },
        {
+        "id": "p6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "StartsWith",
+        "in": {
+         "SourceString": "@cl.ReturnValue",
+         "InPrefix": "fr",
+         "SearchCase": "IgnoreCase"
+        }
+       },
+       {
+        "id": "i6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "6",
+         "B": "@i5.ReturnValue",
+         "bPickA": "@p6.ReturnValue"
+        }
+       },
+       {
         "id": "s2",
         "kind": "set",
         "var": "Lang",
         "in": {
-         "Lang": "@i5.ReturnValue"
+         "Lang": "@i6.ReturnValue"
         }
        }
       ],
@@ -22679,12 +23629,42 @@
         }
        },
        {
+        "id": "is6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@gl.Lang",
+         "B": "6"
+        }
+       },
+       {
+        "id": "sfr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@br.fr"
+        }
+       },
+       {
+        "id": "t6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@sfr.ReturnValue",
+         "B": "@t5.ReturnValue",
+         "bPickA": "@is6.ReturnValue"
+        }
+       },
+       {
         "id": "emp",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
         "function": "IsEmpty",
         "in": {
-         "InString": "@t5.ReturnValue"
+         "InString": "@t6.ReturnValue"
         }
        },
        {
@@ -22694,7 +23674,7 @@
         "function": "SelectString",
         "in": {
          "A": "@sen.ReturnValue",
-         "B": "@t5.ReturnValue",
+         "B": "@t6.ReturnValue",
          "bPickA": "@emp.ReturnValue"
         }
        },
@@ -26488,6 +27468,9 @@
      "pure": true
     },
     {
+     "name": "Quick Index Outfits"
+    },
+    {
      "name": "Quick Find",
      "inputs": [
       {
@@ -26600,6 +27583,190 @@
     },
     {
      "name": "Quick Noop"
+    },
+    {
+     "name": "Perf Mark",
+     "inputs": [
+      {
+       "name": "label",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Focus Panel"
+    },
+    {
+     "name": "Quick Context Toggle"
+    },
+    {
+     "name": "Tab Context",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Mod Entry Context",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Mod Field Context",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Ofl Window Update"
+    },
+    {
+     "name": "Ofl Rows Build"
+    },
+    {
+     "name": "Ofl Rows Y"
+    },
+    {
+     "name": "Ofl Measure"
+    },
+    {
+     "name": "Ofl Init Tile",
+     "inputs": [
+      {
+       "name": "tile",
+       "type": "object:/Script/UMG.UserWidget"
+      },
+      {
+       "name": "kind",
+       "type": "int"
+      },
+      {
+       "name": "ref",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Ofl Init Head",
+     "inputs": [
+      {
+       "name": "head",
+       "type": "object:/Script/UMG.UserWidget"
+      },
+      {
+       "name": "ref",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Clo Window Update"
+    },
+    {
+     "name": "Clo Rows Build"
+    },
+    {
+     "name": "Clo Rows Y"
+    },
+    {
+     "name": "Clo Measure"
+    },
+    {
+     "name": "Clo Init Tile",
+     "inputs": [
+      {
+       "name": "tile",
+       "type": "object:/Script/UMG.UserWidget"
+      },
+      {
+       "name": "kind",
+       "type": "int"
+      },
+      {
+       "name": "ref",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Clo Init Head",
+     "inputs": [
+      {
+       "name": "head",
+       "type": "object:/Script/UMG.UserWidget"
+      },
+      {
+       "name": "ref",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Qa Window Update"
+    },
+    {
+     "name": "Qa Rows Build"
+    },
+    {
+     "name": "Qa Rows Y"
+    },
+    {
+     "name": "Qa Measure"
+    },
+    {
+     "name": "Qa Init Tile",
+     "inputs": [
+      {
+       "name": "tile",
+       "type": "object:/Script/UMG.UserWidget"
+      },
+      {
+       "name": "kind",
+       "type": "int"
+      },
+      {
+       "name": "ref",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Qa Init Head",
+     "inputs": [
+      {
+       "name": "head",
+       "type": "object:/Script/UMG.UserWidget"
+      },
+      {
+       "name": "ref",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Rebuild Quick Available"
+    },
+    {
+     "name": "Init Outfit Tile",
+     "inputs": [
+      {
+       "name": "tile",
+       "type": "object:/Script/UMG.UserWidget"
+      },
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
     },
     {
      "name": "Quick Toggle",

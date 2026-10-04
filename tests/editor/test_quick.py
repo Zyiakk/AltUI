@@ -29,6 +29,9 @@ def main():
     mgr.call_method("Test Quick Remove", ("panel",)); expect("remove", [str(x) for x in mgr.get_editor_property("QuickItems")], ["freecam", "tab:Clothes"])
     for it, want in (("freecam", True), ("posestop", True), ("tab:Clothes", True), ("tab:Nowhere", False), ("look:99999", False), ("modentry:Nope/Nope", False), ("bogus", False)):
         mgr.call_method("Test Quick Find", (it,)); expect("find " + it, mgr.get_editor_property("TmpBool"), want)
+    # a mod item whose target is gone (a mod renamed its row) shows its own id, not the caption looked up before it
+    mgr.set_editor_property("QModCaption", "Stale caption")
+    mgr.call_method("Test Quick Caption", ("modaction:Gone|Renamed_Row",)); expect("missing mod action: its id", str(mgr.get_editor_property("TmpStr")), "modaction:Gone|Renamed_Row")
     # settings round trip
     mgr.set_editor_property("QuickKey", "F"); mgr.call_method("Test Save Settings")
     mgr.set_editor_property("QuickKey", "4"); mgr.set_editor_property("QuickItems", []); mgr.call_method("Test Load Settings")

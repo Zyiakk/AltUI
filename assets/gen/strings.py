@@ -1,10 +1,10 @@
-"""UI strings of the slot inventory: KEY -> (en, de, zh, ru, es, pl). English is the base and fallback (empty cell -> en).
+"""UI strings of the slot inventory: KEY -> (en, de, zh, ru, es, pl, fr); the French column comes from strings_fr.py. English is the base and fallback (empty cell -> en).
 Chinese terms follow the game's terminology (Localization/Game/zh/Game.locres): 服装 clothes, 背包 backpack,
 衣柜 wardrobe, 外观 appearance, 肌肤 skin, 胸部/腰/臀部 breast/waist/hip, 应用/取消/删除 apply/cancel/delete, 针线包 sewing kit.
 Makeup categories (Look_*) reuse the game's terms; MakeupTypeTable.Caption is only a fallback for unknown types.
 RU/ES also follow the game locres (Брови/Cejas, Тени для век/Sombra de ojos, Глаза/Pupilas, Гардероб/Armario, Рюкзак/Mochila, Форма тела/Curvas, Комплекты/Conjuntos).
 PL likewise (Plecak, Szafa, Wygląd, Skóra, Talia, Brwi, Cienie do powiek, Rzęsy, Paznokcie, Kredka do oczu, Obuwie, Fryzura, Zestaw do szycia, Anuluj, Usuń, Załóż, Opcje)."""
-LANGS = ["en", "de", "zh", "ru", "es", "pl"]
+LANGS = ["en", "de", "zh", "ru", "es", "pl", "fr"]   # new languages at the end: LangChoice keeps its chip index
 LIST_CAP = 400   # tiles per list page (Rebuild List); also inserted into Lbl_ListHint
 import hair_colors
 
@@ -19,12 +19,12 @@ STRINGS = {
     "Tab_Poses": ("Poses", "Posen", "姿势", "Позы", "Poses", "Pozy"),
     "Tab_Weapons": ("Weapons", "Waffen", "武器", "Оружие", "Armas", "Broń"),
     "Tab_Mods": ("Mods", "Mods", "模组", "Моды", "Mods", "Mody"),
-    "Lbl_ModInactive": ("This mod is not active here - its settings show once it runs in this level.",
-                        "Dieser Mod ist hier nicht aktiv – seine Einstellungen erscheinen, sobald er in diesem Level läuft.",
-                        "此模组在这里未运行——它在本关卡运行后才会显示设置。",
-                        "Этот мод здесь не активен – его настройки появятся, когда он заработает на этом уровне.",
-                        "Este mod no está activo aquí: sus ajustes aparecen cuando funcione en este nivel.",
-                        "Ten mod nie jest tu aktywny – jego ustawienia pojawią się, gdy zadziała na tym poziomie."),
+    "Lbl_ModInactive": ("This mod is not running here. If the Blueprint Loader starts it: TKA_BlueprintLoader.pak belongs in Content\\Paks\\~mods, and an AltUI_Hook_P.pak there must be from AltUI 1.5.0 or newer. Some mods only run in certain levels.",
+                        "Dieser Mod läuft hier nicht. Startet ihn der Blueprint Loader: TKA_BlueprintLoader.pak gehört nach Content\\Paks\\~mods, und eine AltUI_Hook_P.pak dort muss von AltUI 1.5.0 oder neuer sein. Manche Mods laufen nur in bestimmten Levels.",
+                        "此模组在这里没有运行。如果它由 Blueprint Loader 启动：TKA_BlueprintLoader.pak 应放在 Content\\Paks\\~mods 中，那里的 AltUI_Hook_P.pak 必须来自 AltUI 1.5.0 或更新版本。有些模组只在特定关卡中运行。",
+                        "Этот мод здесь не запущен. Если его запускает Blueprint Loader: TKA_BlueprintLoader.pak должен лежать в Content\\Paks\\~mods, а AltUI_Hook_P.pak там должен быть из AltUI 1.5.0 или новее. Некоторые моды работают только на определённых уровнях.",
+                        "Este mod no se está ejecutando aquí. Si lo inicia el Blueprint Loader: TKA_BlueprintLoader.pak va en Content\\Paks\\~mods, y un AltUI_Hook_P.pak allí debe ser de AltUI 1.5.0 o posterior. Algunos mods solo funcionan en ciertos niveles.",
+                        "Ten mod tu nie działa. Jeśli uruchamia go Blueprint Loader: TKA_BlueprintLoader.pak powinien leżeć w Content\\Paks\\~mods, a AltUI_Hook_P.pak w tym folderze musi pochodzić z AltUI 1.5.0 lub nowszego. Niektóre mody działają tylko na wybranych poziomach."),
     "Lbl_ModNoFields": ("No settings.", "Keine Einstellungen.", "没有设置。", "Нет настроек.", "Sin ajustes.", "Brak ustawień."),
     "Tab_Body": ("Body Shape", "Körperform", "身材", "Форма тела", "Curvas", "Kształt ciała"),
     "Tab_Options": ("Options", "Optionen", "选项", "Настройки", "Opciones", "Opcje"),
@@ -175,6 +175,7 @@ STRINGS = {
     "Chip_LangRu": ("Русский", "Русский", "Русский", "Русский", "Русский", "Русский"),
     "Chip_LangEs": ("Español", "Español", "Español", "Español", "Español", "Español"),
     "Chip_LangPl": ("Polski", "Polski", "Polski", "Polski", "Polski", "Polski"),
+    "Chip_LangFr": ("Français", "Français", "Français", "Français", "Français", "Français"),
     "Lbl_Placeholder": ("This tab is not finished yet.", "Dieser Reiter ist noch in Arbeit.", "此页面尚未完成。", "Эта вкладка еще в разработке.", "Esta pestaña aún no está terminada.", "Ta zakładka nie jest jeszcze gotowa."),
     "Lbl_Outfit": ("Outfit", "Outfit", "搭配", "Комплект", "Conjunto", "Strój"),
     "Lbl_Pieces": ("pieces", "Teile", "件", "шт.", "prendas", "części"),
@@ -243,6 +244,8 @@ STRINGS = {
     "Menu_UpdateFront": ("Update (photo from the front)", "Aktualisieren (Foto frontal)", "更新（正面照片）", "Обновить (фото спереди)", "Actualizar (foto de frente)", "Aktualizuj (zdjęcie z przodu)"),
     "Menu_UpdateView": ("Update (photo as seen)", "Aktualisieren (Foto wie gesehen)", "更新（当前视角照片）", "Обновить (фото как видно)", "Actualizar (foto como se ve)", "Aktualizuj (zdjęcie jak widać)"),
     "Menu_ViewContent": ("View content", "Inhalt anzeigen", "查看内容", "Показать содержимое", "Ver contenido", "Pokaż zawartość"),
+    "Menu_QuickAdd": ("Add to quick menu", "Ins Schnellmenü", "加入快捷菜单", "В быстрое меню", "Añadir al menú rápido", "Dodaj do szybkiego menu"),
+    "Menu_QuickRemove": ("Remove from quick menu", "Aus dem Schnellmenü", "从快捷菜单移除", "Убрать из быстрого меню", "Quitar del menú rápido", "Usuń z szybkiego menu"),
     "Menu_ShowIn": ("Show in tab", "Im Reiter anzeigen", "在选项卡中显示", "Показать во вкладке", "Mostrar en la pestaña", "Pokaż w zakładce"),
     "Menu_Cancel": ("Cancel", "Abbrechen", "取消", "Отмена", "Cancelar", "Anuluj"),
     # Tile states
@@ -431,8 +434,10 @@ STRINGS.update({   # Face tab (assets/gen/face.py): groups, one caption per entr
                      "Wyłączone karty nie pojawiają się na pasku kart. Przejście do jednej z nich (np. „Pokaż w karcie”) pokazuje ją, dopóki jej nie opuścisz."),
 })
 STRINGS.update(hair_colors.string_rows())   # tooltips of the natural hair colour swatches
+from strings_fr import FR
+STRINGS = {k: tuple(v) + (FR[k],) for k, v in STRINGS.items()}   # the French column (a missing key fails here, on purpose)
 
 
 def rows():
-    """Rows for the BPGen table stub: {key: {"en": ..., "de": ..., "zh": ..., "ru": ..., "es": ..., "pl": ...}}."""
+    """Rows for the BPGen table stub: {key: {"en": ..., "de": ..., ..., "fr": ...}}."""
     return {k: {l: t.format(n=LIST_CAP) for l, t in zip(LANGS, v)} for k, v in STRINGS.items()}
