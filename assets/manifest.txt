@@ -4,6 +4,9 @@
 20_hook.json
 25_bodyscale.json
 27_cammod.json
+28_ragdoll.json
+28b_anims.json
+29_move.json
 30_manager.json
 40_widgets.json
 50_manager_ui.json

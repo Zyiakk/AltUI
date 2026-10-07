@@ -43,12 +43,15 @@ Der Hook ersetzt *TKA_PlayerCameraManager* und startet von dort das Panel. Jeder
 * **Rucksack · Frisuren · Aussehen** – was Jodi trägt und dabeihat; Frisuren und Haarfarben; Haut, Makeup und Augen, jeweils einfärbbar.
 * **Körperform** – Brust- und Taillenregler, Umschalter für konvertierte Body-Mods, Knochenregler je Körper.
 * **Gesicht** – Jodis Ausdruck, Blick und Mund als Regler; das Gesicht hält auch in Posen und beim Tanzen; gespeicherte Gesichter mit Foto, ihre Werte unter „Inhalt anzeigen“.
-* **Waffen** – je Waffe ein Modell und ein Skin, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel.
+* **Waffen** – je Waffe Modell, Skin und Schussgeräusch, Nahkampfwaffen eingeschlossen, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel; ein Klick auf einen Sound spielt ihn ab.
 * **Posen** – jede Aktionsanimation des Spiels und der Pose-Mods, sortiert nach stehend, sitzend und liegend.
 * **Mods** – die Einstellungen anderer Mods, die sich dort eintragen: Schalter, Schieberegler, Zahlen, Auswahlen, Farben, Textfelder, Info-Zeilen, Tasten und Buttons. Nur sichtbar, wenn so ein Mod installiert ist.
 * **Schnellmenü** – **4** halten (änderbar) öffnet ein Rad mit dem, was du oft brauchst: freie Kamera, Foto-Modus, ein gespeichertes Outfit, ein Look, Gesicht oder Preset, eine Lieblingspose, ein Reiter und Aktionen anderer Mods. Bis zu 32 Einträge, ausgewählt und sortiert in den Optionen; über einem Eintrag loslassen führt ihn aus. Ein Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods legt ihn ins Rad oder nimmt ihn heraus.
 * **Optionen** – in Kategorien, links aus einer Liste gewählt: Panel-Taste, Sprache, Farben (Schemata lassen sich unter einem Namen speichern), Reiterleiste mit Icons, Text oder beidem, Kachelgrößen, für Outfits und Looks getrennt. Reiter, die du nicht brauchst, lassen sich abschalten.
 * **Verwaltung** – eigene Anzeigenamen für Mods, Gruppen und Teile. Wie in Kleidung filtern Chips die Liste nach Mod oder Gruppe, und ein Suchfeld grenzt die Chips ein.
+* **Ragdolls** – Kopien von Jodi, Zombies und Menschen als Figuren mit Physik: aufstellen, Gelenk für Gelenk posieren, einfrieren oder fallen lassen; Posen je Figurart und ganze Szenen je Level werden gespeichert. Ein Ragdoll-Modus bewegt sie ohne Panel.
+* **Kodex** – das AltUI-Handbuch in allen sieben Sprachen, die Enzyklopädie des Spiels und die Code-Schlösser des aktuellen Levels; jeder Code bleibt verdeckt, bis du ihn anklickst.
+* **Bewegung** – Jodis eigenes Geh- und Renntempo (50–200 %), unter Optionen.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips mit dem Mod, aus dem ein Teil stammt.
 
 Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch, Französisch (automatisch erkannt, in den Optionen umstellbar).

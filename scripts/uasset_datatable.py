@@ -81,11 +81,12 @@ def new_datatable(package_path, object_name, struct_package, struct_name):
     return pkg, sidx
 
 
-def texture_import(pkg, package_path, object_name=None):
+def texture_import(pkg, package_path, object_name=None, class_name="Texture2D"):
+    """Import of an asset in another package (a texture by default; a SoundCue / SoundWave for the sound table)."""
     eng = pkg.find_import("Package", "/Script/Engine")
     p = pkg.find_import("Package", package_path) or pkg.add_import("/Script/CoreUObject", "Package", 0, package_path)
     obj = object_name or package_path.rsplit("/", 1)[1]
-    return pkg.find_import("Texture2D", obj, p) or pkg.add_import("/Script/Engine", "Texture2D", p, obj)
+    return pkg.find_import(class_name, obj, p) or pkg.add_import("/Script/Engine", class_name, p, obj)
 
 
 def finish_table(pkg, struct_index, rows):

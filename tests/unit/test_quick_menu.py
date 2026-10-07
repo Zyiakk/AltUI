@@ -7,12 +7,12 @@ from tests.unit.test_options_cats import graph, calls, after
 
 QUICK_STRINGS = ["OptCat_Quick", "Lbl_QuickKey", "Lbl_QuickInWheel", "Lbl_QuickAvailable", "Lbl_QuickEmpty", "Lbl_QuickKeyTaken", "QuickGrp_Camera",
                  "QuickGrp_Outfits", "QuickGrp_Looks", "QuickGrp_Faces", "QuickGrp_Presets", "QuickGrp_Poses", "QuickGrp_Tabs", "QuickGrp_ModEntries",
-                 "Quick_FreeCam", "Quick_Photo", "Quick_Panel", "Quick_PoseStop", "Quick_Outfit", "Quick_Preset"]
+                 "Quick_FreeCam", "Quick_Photo", "Quick_Panel", "Quick_PoseStop", "Quick_Outfit", "Quick_Preset", "Quick_SpeedToggle"]
 
 
 class QuickData(unittest.TestCase):
     def test_constants(self):
-        self.assertEqual(ui.QUICK_MAX, 32); self.assertEqual(ui.QUICK_FIXED, ["freecam", "photo", "panel", "posestop"])
+        self.assertEqual(ui.QUICK_MAX, 32); self.assertEqual(ui.QUICK_FIXED, ["freecam", "photo", "panel", "posestop", "ragdoll", "ragdolltoggle", "ragdollclear", "ragdollmode", "ragdollaim", "speedtoggle"])
 
     def test_strings(self):
         for k in QUICK_STRINGS: self.assertEqual(len(STRINGS[k]), len(LANGS), k)
@@ -32,7 +32,7 @@ class QuickData(unittest.TestCase):
         for kind, fns in (("freecam", ["Open Panel", "Start Free Cam"]), ("photo", ["Open Panel", "Start Photo Mode"]), ("panel", ["Open Panel"]),
                           ("posestop", ["Stop Pose"]), ("tab", ["Open Panel", "Select Page"]), ("pose", ["Pose Clicked"]),
                           ("modentry", ["Open Panel", "Select Page", "Select Mod Entry"]), ("outfit", ["On Outfit Clicked"]), ("look", ["Apply Look"]),
-                          ("face", ["On Face Clicked"]), ("preset", ["Preset Clicked"])):
+                          ("face", ["On Face Clicked"]), ("preset", ["Preset Clicked"]), ("speedtoggle", ["Toggle Move"])):
             reach = after(g, "qb_" + kind)
             for f in fns: self.assertTrue(any(n in reach for n in calls(g, f)), (kind, f))
 
@@ -95,7 +95,7 @@ class QuickData(unittest.TestCase):
         a = {x["path"].rsplit("/", 1)[1]: x for x in json.load(open(os.path.join(H, "..", "..", "assets", "40_widgets.json")))["assets"]}
         init = next(f for f in a["W_QuickRow"]["functions"] if f["name"] == "Init")["graph"]
         vis = {n["in"]["InVisibility"] for n in init["nodes"] if n.get("function") == "SetVisibility" and "IconBox" in json.dumps(n["in"])}
-        self.assertEqual(vis, {"Hidden", "Collapsed"})   # Hidden for items, Collapsed only for headings
+        self.assertEqual(vis, {"Visible", "Hidden", "Collapsed"})   # Visible with an icon (pooled rows), Hidden for items without, Collapsed only for headings
 
 
     def test_initials_without_icon(self):

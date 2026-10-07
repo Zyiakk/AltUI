@@ -52,11 +52,17 @@ def declared_purity():
     return pure
 
 
+# engine functions that are impure although they look like getters - each was once left outside a chain and pruned
+# (2026-10-05: LoadClassAsset_Blocking in Spawn Zombie Ragdoll; earlier Map_Keys, DoesSaveGameExist)
+ENGINE_IMPURE = {"LoadClassAsset_Blocking", "LoadAsset_Blocking", "DoesSaveGameExist", "Map_Keys"}
+
+
 def impure_self_calls(path):
     """{function name: pure?} over all assets, plus every graph - a call_self of an impure function that hangs outside
     every exec chain is silently pruned by the compiler and answers with the default value ("was pruned because its Exec
     pin is not connected", 2026-09-25: Select Page never rebuilt the weapon models, and the colour probe answered 'no')."""
     pure, out = declared_purity(), []
+    pure.update({f: False for f in ENGINE_IMPURE})
     for f in sorted(glob.glob(os.path.join(ASSETS, "*.json"))):
         for name, g in graphs(json.load(open(f))):
             inchain = {s.split(":")[0] for c in g.get("exec", []) for s in c}

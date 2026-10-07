@@ -72,6 +72,12 @@
 #include "AnimGraphNode_LocalToComponentSpace.h"
 #include "AnimGraphNode_ComponentToLocalSpace.h"
 #include "AnimGraphNode_ModifyBone.h"
+#include "AnimGraphNode_PoseSnapshot.h"
+#include "AnimGraphNode_SequencePlayer.h"
+#include "AnimGraphNode_TwoWayBlend.h"
+#include "Animation/AnimSequence.h"
+#include "AnimationBlueprintLibrary.h"
+#include "Factories/FbxAnimSequenceImportData.h"
 #include "K2Node_VariableGet.h"
 #include "Engine/SimpleConstructionScript.h"
 #include "Engine/SCS_Node.h"
@@ -401,7 +407,26 @@ static bool MakeAnimBlueprint(const TSharedPtr<FJsonObject>& A, FString& Err) {
   if (Roots.Num() == 0) { Err = TEXT("animblueprint: no Output Pose node"); return false; }
   const UEdGraphSchema* Schema = G->GetSchema();
   int32 X = -400;
-  FGraphNodeCreator<UAnimGraphNode_LinkedInputPose> CIn(*G); UAnimGraphNode_LinkedInputPose* In = CIn.CreateNode(); In->NodePosX = X; CIn.Finalize();
+  UEdGraphNode* In = nullptr;
+  if (JStr(A, TEXT("source")) == TEXT("snapshot")) {
+    // the pose comes from a PoseSnapshot variable (SnapshotPose / a saved pose): Pose Snapshot node in "Snapshot Pin" mode, its
+    // hidden Snapshot pin shown and fed from the variable named by "snapshot_var" (a standalone ABP, no Input Pose)
+    FGraphNodeCreator<UAnimGraphNode_PoseSnapshot> CS(*G); UAnimGraphNode_PoseSnapshot* S = CS.CreateNode(); S->NodePosX = X;
+    S->Node.Mode = ESnapshotSourceMode::SnapshotPin; CS.Finalize();
+    bool bShown = false;
+    for (FOptionalPinFromProperty& O : S->ShowPinForProperties) if (O.PropertyName == TEXT("Snapshot")) { O.bShowPin = true; bShown = true; }
+    if (!bShown) { Err = TEXT("animblueprint: Pose Snapshot node has no optional Snapshot pin"); return false; }
+    S->ReconstructNode();
+    UEdGraphPin* SnapPin = S->FindPin(TEXT("Snapshot"));
+    if (!SnapPin) { Err = TEXT("animblueprint: Snapshot pin not shown after ReconstructNode"); return false; }
+    FGraphNodeCreator<UK2Node_VariableGet> CG(*G); UK2Node_VariableGet* GetV = CG.CreateNode(); GetV->NodePosX = X - 300; GetV->NodePosY = 200;
+    GetV->VariableReference.SetSelfMember(FName(*JStr(A, TEXT("snapshot_var")))); CG.Finalize();
+    UEdGraphPin* Out = nullptr; for (UEdGraphPin* P : GetV->Pins) if (P->Direction == EGPD_Output) Out = P;
+    if (!Out || !Schema->TryCreateConnection(Out, SnapPin)) { Err = TEXT("animblueprint: variable->Snapshot link failed: ") + JStr(A, TEXT("snapshot_var")); return false; }
+    In = S;
+  } else {
+    FGraphNodeCreator<UAnimGraphNode_LinkedInputPose> CIn(*G); UAnimGraphNode_LinkedInputPose* LI = CIn.CreateNode(); LI->NodePosX = X; CIn.Finalize(); In = LI;
+  }
   X += 300;
   FGraphNodeCreator<UAnimGraphNode_LocalToComponentSpace> CL2C(*G); UAnimGraphNode_LocalToComponentSpace* L2C = CL2C.CreateNode(); L2C->NodePosX = X; CL2C.Finalize();
   if (!Schema->TryCreateConnection(PosePin(In, EGPD_Output), PosePin(L2C, EGPD_Input))) { Err = TEXT("animblueprint: link InputPose->LocalToComponent failed"); return false; }
@@ -667,6 +692,196 @@ static bool MakeCloth(USkeletalMesh* M, const TSharedPtr<FJsonObject>& C, FStrin
   return true;
 }
 
+// "skeleton": a stand-in for a game skeleton the kit does not have (animation blueprints need a target skeleton to compile).
+// Empty (no bones) and only created when nothing is at the path - a real skeleton is never touched. The mod pak only holds
+// Mod/AltUI, so the stand-in never ships; in the game the reference resolves to the real skeleton by path.
+static bool MakeSkeletonStub(const TSharedPtr<FJsonObject>& A, FString& Err) {
+  const FString Path = JStr(A, TEXT("path")); FString Dir, Name;
+  Path.Split(TEXT("/"), &Dir, &Name, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
+  if (LoadObject<USkeleton>(nullptr, *(Path + TEXT(".") + Name), nullptr, LOAD_NoWarn | LOAD_Quiet)) return true;
+  UPackage* Pkg = CreatePackage(*Path);
+  USkeleton* S = NewObject<USkeleton>(Pkg, *Name, RF_Public | RF_Standalone);
+  if (!S) { Err = TEXT("skeleton: cannot create ") + Path; return false; }
+  FAssetRegistryModule::AssetCreated(S); Pkg->MarkPackageDirty();
+  UE_LOG(LogBPGen, Display, TEXT("BPGEN skeleton stub %s"), *Path);
+  return BPGenAssets::SaveAsset(S);
+}
+
+// "animsequence_stub": a stand-in for a game animation the kit does not have (a child ABP's override needs an asset to point at).
+// Empty, only created when nothing is at the path, never packed (the pak holds Mod/AltUI only); in the game the reference resolves
+// to the real animation by path.
+static bool MakeAnimSequenceStub(const TSharedPtr<FJsonObject>& A, FString& Err) {
+  const FString Path = JStr(A, TEXT("path")); FString Dir, Name;
+  Path.Split(TEXT("/"), &Dir, &Name, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
+  if (LoadObject<UAnimSequenceBase>(nullptr, *(Path + TEXT(".") + Name), nullptr, LOAD_NoWarn | LOAD_Quiet)) return true;
+  USkeleton* Skel = Cast<USkeleton>(BPGenTypes::LoadObj(JStr(A, TEXT("skeleton"))));
+  if (!Skel) { Err = TEXT("animsequence_stub: skeleton not found ") + JStr(A, TEXT("skeleton")); return false; }
+  UPackage* Pkg = CreatePackage(*Path);
+  UAnimSequence* S = NewObject<UAnimSequence>(Pkg, *Name, RF_Public | RF_Standalone);
+  if (!S) { Err = TEXT("animsequence_stub: cannot create ") + Path; return false; }
+  S->SetSkeleton(Skel);
+  FAssetRegistryModule::AssetCreated(S); Pkg->MarkPackageDirty();
+  UE_LOG(LogBPGen, Display, TEXT("BPGEN animsequence stub %s"), *Path);
+  return BPGenAssets::SaveAsset(S);
+}
+
+// "animstub": a stand-in for a game animation blueprint (Jodi_Anim) that carries sequence players whose compiled properties have the
+// names of the game's nodes (the child's cooked CDO addresses the game's property by name). The compiler numbers the properties per node
+// type (AnimGraphNode_SequencePlayer, _1, _2, ...), so the stub gets as many players as the highest wanted number needs and checks the
+// names after compiling. Players chained by Two-Way Blends into Output Pose - isolated nodes are pruned. Only created when nothing is at
+// the path, never packed.
+static bool MakeAnimStub(const TSharedPtr<FJsonObject>& A, FString& Err) {
+  const FString Path = JStr(A, TEXT("path")); FString Dir, Name;
+  Path.Split(TEXT("/"), &Dir, &Name, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
+  if (LoadObject<UAnimBlueprint>(nullptr, *(Path + TEXT(".") + Name), nullptr, LOAD_NoWarn | LOAD_Quiet)) return true;
+  USkeleton* Skel = Cast<USkeleton>(BPGenTypes::LoadObj(JStr(A, TEXT("skeleton"))));
+  if (!Skel) { Err = TEXT("animstub: skeleton not found ") + JStr(A, TEXT("skeleton")); return false; }
+  UPackage* Pkg = CreatePackage(*Path);
+  UAnimBlueprint* BP = Cast<UAnimBlueprint>(FKismetEditorUtilities::CreateBlueprint(UAnimInstance::StaticClass(), Pkg, *Name, BPTYPE_Normal,
+      UAnimBlueprint::StaticClass(), UAnimBlueprintGeneratedClass::StaticClass(), FName("BPGen")));
+  if (!BP) { Err = TEXT("animstub: CreateBlueprint failed ") + Path; return false; }
+  BP->TargetSkeleton = Skel;
+  UEdGraph* G = nullptr; for (UEdGraph* FG : BP->FunctionGraphs) if (FG->IsA<UAnimationGraph>()) G = FG;
+  TArray<UAnimGraphNode_Root*> Roots; if (G) G->GetNodesOfClass(Roots);
+  if (!G || Roots.Num() == 0) { Err = TEXT("animstub: no AnimGraph / Output Pose in ") + Path; return false; }
+  const UEdGraphSchema* Schema = G->GetSchema(); int32 X = -1200; UEdGraphNode* Prev = nullptr;
+  const auto* Players = JArr(A, TEXT("players"));
+  if (!Players || Players->Num() == 0) { Err = TEXT("animstub: no players"); return false; }
+  int32 Count = 0;
+  for (const auto& PV : *Players) {   // "AnimGraphNode_SequencePlayer_<n>" needs n + 1 players, the bare name one
+    FString L, R; const FString NodeName = JStr(PV->AsObject(), TEXT("name"));
+    Count = FMath::Max(Count, NodeName.Split(TEXT("_"), &L, &R, ESearchCase::IgnoreCase, ESearchDir::FromEnd) && R.IsNumeric() ? FCString::Atoi(*R) + 1 : 1);
+  }
+  UAnimSequenceBase* Seq = nullptr;   // a player without a sequence fails to compile: every player gets the first given asset
+  for (const auto& PV : *Players) if (!Seq && !JStr(PV->AsObject(), TEXT("asset")).IsEmpty()) Seq = Cast<UAnimSequenceBase>(BPGenTypes::LoadObj(JStr(PV->AsObject(), TEXT("asset"))));
+  if (!Seq) { Err = TEXT("animstub: no loadable asset among the players"); return false; }
+  for (int32 i = 0; i < Count; ++i) {
+    FGraphNodeCreator<UAnimGraphNode_SequencePlayer> C(*G); UAnimGraphNode_SequencePlayer* N = C.CreateNode(); N->NodePosX = X; N->NodePosY = 200 + 150 * i;
+    N->Node.Sequence = Seq; C.Finalize();
+    if (!Prev) { Prev = N; continue; }
+    X += 300;
+    FGraphNodeCreator<UAnimGraphNode_TwoWayBlend> CB(*G); UAnimGraphNode_TwoWayBlend* B = CB.CreateNode(); B->NodePosX = X; CB.Finalize();
+    if (!Schema->TryCreateConnection(PosePin(Prev, EGPD_Output), B->FindPin(TEXT("A"))) || !Schema->TryCreateConnection(PosePin(N, EGPD_Output), B->FindPin(TEXT("B")))) {
+      Err = TEXT("animstub: blend link failed"); return false; }
+    Prev = B;
+  }
+  Roots[0]->NodePosX = X + 300;
+  if (!Schema->TryCreateConnection(PosePin(Prev, EGPD_Output), PosePin(Roots[0], EGPD_Input))) { Err = TEXT("animstub: link ->Output Pose failed"); return false; }
+  FCompilerResultsLog Results; Results.bSilentMode = false;
+  FKismetEditorUtilities::CompileBlueprint(BP, EBlueprintCompileOptions::SkipGarbageCollection, &Results);
+  if (BP->Status == BS_Error || Results.NumErrors > 0) { Err = FString::Printf(TEXT("compile errors (%d) in %s"), Results.NumErrors, *Path); return false; }
+  for (const auto& PV : *Players) {   // the compiled class must carry the properties under the given names
+    const FString NodeName = JStr(PV->AsObject(), TEXT("name"));
+    if (!FindFProperty<FStructProperty>(BP->GeneratedClass, *NodeName)) {
+      FString Have; for (TFieldIterator<FStructProperty> It(BP->GeneratedClass, EFieldIteratorFlags::ExcludeSuper); It; ++It) Have += It->GetName() + TEXT(" ");
+      Err = TEXT("animstub: no property ") + NodeName + TEXT(" after compiling ") + Path + TEXT(" (has: ") + Have + TEXT(")"); return false; }
+  }
+  FAssetRegistryModule::AssetCreated(BP);
+  UE_LOG(LogBPGen, Display, TEXT("BPGEN animstub %s"), *Path);
+  return BPGenAssets::SaveAsset(BP);
+}
+
+// "animchild": a child of an animation blueprint that only swaps the assets of named parent nodes (ParentAssetOverrides by the parent
+// node's GUID; the compiler patches them into the child's CDO). At runtime state machines, notifies and sync groups come from the root
+// class (UAnimBlueprintGeneratedClass::GetRootClass), so the child carries nothing but the swapped assets.
+static bool MakeAnimChild(const TSharedPtr<FJsonObject>& A, FString& Err) {
+  FString Name; const FString Path = JStr(A, TEXT("path")); UPackage* Pkg = BPGenAssets::MakePackage(Path, Name);
+  if (FindObject<UAnimBlueprint>(Pkg, *Name)) { Err = TEXT("animchild: exists ") + Path; return false; }
+  const FString ParentPath = JStr(A, TEXT("parent")); FString PDir, PName; ParentPath.Split(TEXT("/"), &PDir, &PName, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
+  UAnimBlueprint* Parent = LoadObject<UAnimBlueprint>(nullptr, *(ParentPath + TEXT(".") + PName));
+  if (!Parent || !Parent->GeneratedClass) { Err = TEXT("animchild: parent not found ") + ParentPath; return false; }
+  USkeleton* Skel = Cast<USkeleton>(BPGenTypes::LoadObj(JStr(A, TEXT("skeleton"))));
+  if (!Skel) { Err = TEXT("animchild: skeleton not found ") + JStr(A, TEXT("skeleton")); return false; }
+  UAnimBlueprint* BP = Cast<UAnimBlueprint>(FKismetEditorUtilities::CreateBlueprint(Parent->GeneratedClass, Pkg, *Name, BPTYPE_Normal,
+      UAnimBlueprint::StaticClass(), UAnimBlueprintGeneratedClass::StaticClass(), FName("BPGen")));
+  if (!BP) { Err = TEXT("animchild: CreateBlueprint failed ") + Path; return false; }
+  BP->TargetSkeleton = Skel;
+  TArray<UAnimGraphNode_Base*> ParentNodes; FBlueprintEditorUtils::GetAllNodesOfClass<UAnimGraphNode_Base>(Parent, ParentNodes);
+  const TSharedPtr<FJsonObject>* Ov = nullptr;
+  if (!A->TryGetObjectField(TEXT("overrides"), Ov) || !Ov) { Err = TEXT("animchild: no overrides"); return false; }
+  UAnimBlueprintGeneratedClass* PClass = Cast<UAnimBlueprintGeneratedClass>(Parent->GeneratedClass);
+  for (const auto& KV : (*Ov)->Values) {   // the key is the compiled property name of the parent node
+    UAnimGraphNode_Base* const* Found = ParentNodes.FindByPredicate([&](UAnimGraphNode_Base* N) {
+      FStructProperty* P = PClass ? PClass->GetPropertyForNode<FAnimNode_Base>(N) : nullptr; return P && P->GetName() == KV.Key; });
+    if (!Found) { Err = TEXT("animchild: parent node not found ") + KV.Key; return false; }
+    UAnimationAsset* Asset = Cast<UAnimationAsset>(BPGenTypes::LoadObj(KV.Value->AsString()));
+    if (!Asset) { Err = TEXT("animchild: asset not found ") + KV.Value->AsString(); return false; }
+    BP->ParentAssetOverrides.Add(FAnimParentNodeAssetOverride((*Found)->NodeGuid, Asset));
+  }
+  FCompilerResultsLog Results; Results.bSilentMode = false;
+  FKismetEditorUtilities::CompileBlueprint(BP, EBlueprintCompileOptions::SkipGarbageCollection, &Results);
+  UE_LOG(LogBPGen, Display, TEXT("BPGEN compiled %s errors=%d warnings=%d"), *Path, Results.NumErrors, Results.NumWarnings);
+  if (BP->Status == BS_Error || Results.NumErrors > 0) { Err = FString::Printf(TEXT("compile errors (%d) in %s"), Results.NumErrors, *Path); return false; }
+  return BPGenAssets::SaveAsset(BP);
+}
+
+// "animimport": an animation FBX (Blender, docs/specs/2026-10-06-anim-pipeline-design.md) onto an existing skeleton as AnimSequence, then
+// the game's curves ({name: [[t, v], ...]}), sync markers ([[name, t]]) and notifies by name ([[name, t]], like the game's "Footstep" -
+// no notify class, Jodi_Anim handles AnimNotify_<name>). Logs pelvis / foot transforms at time 0 for the round trip check.
+static bool MakeAnimImport(const TSharedPtr<FJsonObject>& A, FString& Err) {
+  const FString Path = JStr(A, TEXT("path")); FString Dir, Name;
+  Path.Split(TEXT("/"), &Dir, &Name, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
+  USkeleton* Skel = LoadObject<USkeleton>(nullptr, *JStr(A, TEXT("skeleton")));
+  if (!Skel) { Err = TEXT("animimport: skeleton not found ") + JStr(A, TEXT("skeleton")); return false; }
+  FString File = JStr(A, TEXT("fbx"));
+  if (FPaths::IsRelative(File)) File = FPaths::Combine(BPGenAssets::BaseDir, File);
+  if (!FPaths::FileExists(File)) { Err = TEXT("animimport: file missing ") + File; return false; }
+  UFbxFactory* F = NewObject<UFbxFactory>(); F->AddToRoot(); F->SetDetectImportTypeOnImport(false);
+  UFbxImportUI* UI = F->ImportUI;
+  UI->bImportMesh = false; UI->bImportAsSkeletal = true; UI->MeshTypeToImport = FBXIT_Animation; UI->OriginalImportType = FBXIT_Animation;
+  UI->Skeleton = Skel; UI->bImportAnimations = true; UI->bCreatePhysicsAsset = false; UI->bImportMaterials = false; UI->bImportTextures = false;
+  UI->bAutomatedImportShouldDetectType = false;
+  UI->AnimSequenceImportData->AnimationLength = FBXALIT_ExportedTime; UI->AnimSequenceImportData->bRemoveRedundantKeys = false;
+  UI->AnimSequenceImportData->bImportCustomAttribute = false; UI->AnimSequenceImportData->bDeleteExistingMorphTargetCurves = false;
+  UI->AnimSequenceImportData->bUseDefaultSampleRate = false; UI->AnimSequenceImportData->CustomSampleRate = 30;
+  UAssetImportTask* T = NewObject<UAssetImportTask>(); T->AddToRoot();
+  T->Filename = File; T->DestinationPath = Dir; T->DestinationName = Name;
+  T->bReplaceExisting = true; T->bAutomated = true; T->bSave = false; T->Factory = F; T->Options = UI;
+  FModuleManager::LoadModuleChecked<FAssetToolsModule>("AssetTools").Get().ImportAssetTasks({T});
+  UAnimSequence* S = LoadObject<UAnimSequence>(nullptr, *(Path + TEXT(".") + Name), nullptr, LOAD_NoWarn | LOAD_Quiet);
+  if (!S) for (const FString& OP : T->ImportedObjectPaths) if (UAnimSequence* AS = LoadObject<UAnimSequence>(nullptr, *OP, nullptr, LOAD_NoWarn | LOAD_Quiet)) S = AS;
+  T->RemoveFromRoot(); F->RemoveFromRoot();
+  if (!S) { Err = TEXT("animimport: no AnimSequence from ") + File; return false; }
+  if (S->GetName() != Name) { Err = TEXT("animimport: imported as ") + S->GetPathName() + TEXT(", expected ") + Path; return false; }
+  // curves (the game's movement data); every key time clamped into the sequence
+  const TSharedPtr<FJsonObject>* Curves = nullptr;
+  if (A->TryGetObjectField(TEXT("curves"), Curves)) for (const auto& KV : (*Curves)->Values) {
+    TArray<float> Ts, Vs; TArray<FString> Modes;
+    for (const auto& R : KV.Value->AsArray()) { const auto& P = R->AsArray(); Ts.Add(FMath::Clamp((float)P[0]->AsNumber(), 0.f, S->SequenceLength)); Vs.Add((float)P[1]->AsNumber()); Modes.Add(P.Num() > 2 ? P[2]->AsString() : TEXT("linear")); }
+    UAnimationBlueprintLibrary::AddCurve(S, FName(*KV.Key), ERawCurveTrackTypes::RCT_Float, false);
+    UAnimationBlueprintLibrary::AddFloatCurveKeys(S, FName(*KV.Key), Ts, Vs);
+    for (FFloatCurve& C : S->RawCurveData.FloatCurves) if (C.Name.DisplayName == FName(*KV.Key)) {   // interpolation per key (the game's FootPhase steps)
+      for (int32 i = 0; i < C.FloatCurve.Keys.Num() && i < Modes.Num(); ++i)
+        C.FloatCurve.Keys[i].InterpMode = Modes[i] == TEXT("constant") ? RCIM_Constant : Modes[i] == TEXT("cubic") ? RCIM_Cubic : RCIM_Linear;
+    }
+  }
+  if (const auto* Markers = JArr(A, TEXT("markers"))) {
+    UAnimationBlueprintLibrary::AddAnimationNotifyTrack(S, TEXT("Markers"));
+    for (const auto& M : *Markers) { const auto& P = M->AsArray(); UAnimationBlueprintLibrary::AddAnimationSyncMarker(S, FName(*P[0]->AsString()), (float)P[1]->AsNumber(), TEXT("Markers")); }
+  }
+  if (const auto* Notes = JArr(A, TEXT("notifies"))) {
+    if (S->AnimNotifyTracks.Num() == 0) S->AnimNotifyTracks.Add(FAnimNotifyTrack(TEXT("1"), FLinearColor::White));
+    for (const auto& M : *Notes) {
+      const auto& P = M->AsArray(); FAnimNotifyEvent E; E.NotifyName = FName(*P[0]->AsString());
+      E.Link(S, (float)P[1]->AsNumber()); E.TriggerTimeOffset = GetTriggerTimeOffsetForType(S->CalculateOffsetForNotify(E.GetTime()));
+      E.TrackIndex = 0; S->Notifies.Add(E);
+    }
+    S->RefreshCacheData();
+  }
+  S->MarkPackageDirty(); S->PostEditChange();
+  FString Probe;
+  for (const TCHAR* B : {TEXT("pelvis"), TEXT("foot_l"), TEXT("calf_r")}) {
+    const int32 Track = S->GetAnimationTrackNames().IndexOfByKey(FName(B)); if (Track == INDEX_NONE) continue;
+    FTransform X; S->GetBoneTransform(X, Track, 0.f, true);
+    const int32 SI = Skel->GetReferenceSkeleton().FindBoneIndex(FName(B));
+    Probe += FString::Printf(TEXT(" %s t=%s r=%s ref=%s"), B, *X.GetTranslation().ToString(), *X.GetRotation().ToString(),
+      SI == INDEX_NONE ? TEXT("-") : *Skel->GetReferenceSkeleton().GetRefBonePose()[SI].GetTranslation().ToString());
+  }
+  UE_LOG(LogBPGen, Display, TEXT("BPGEN animimport %s len=%.4f frames=%d curves=%d markers=%d notifies=%d%s"), *Name, S->SequenceLength, S->GetRawNumberOfFrames(),
+    S->RawCurveData.FloatCurves.Num(), S->AuthoredSyncMarkers.Num(), S->Notifies.Num(), *Probe);
+  return BPGenAssets::SaveAsset(S);
+}
+
 bool BPGenAssets::Process(const TSharedPtr<FJsonObject>& A, FString& Err) {
   const FString Type = JStr(A, TEXT("type"));
   UE_LOG(LogBPGen, Display, TEXT("BPGEN process %s %s"), *Type, *JStr(A, TEXT("path")));
@@ -677,6 +892,11 @@ bool BPGenAssets::Process(const TSharedPtr<FJsonObject>& A, FString& Err) {
   if (Type == TEXT("materialinstance")) return MakeMaterialInstance(A, Err);
   if (Type == TEXT("skeletalmesh")) return MakeSkeletalMesh(A, Err);
   if (Type == TEXT("animblueprint")) return MakeAnimBlueprint(A, Err);
+  if (Type == TEXT("skeleton")) return MakeSkeletonStub(A, Err);
+  if (Type == TEXT("animsequence_stub")) return MakeAnimSequenceStub(A, Err);
+  if (Type == TEXT("animstub")) return MakeAnimStub(A, Err);
+  if (Type == TEXT("animchild")) return MakeAnimChild(A, Err);
+  if (Type == TEXT("animimport")) return MakeAnimImport(A, Err);
   if (Type == TEXT("blueprint")) { UBlueprint* BP = EnsureBlueprint(A, Err); return BP && SaveAsset(BP); }
   Err = TEXT("unknown asset type ") + Type; return false;
 }

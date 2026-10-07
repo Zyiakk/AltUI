@@ -7,6 +7,8 @@ set -e; cd "$(dirname "$0")"; source ./config.sh; mkdir -p "$BUILD"
 [[ " $* " == *" --no-cook "* ]]  || scripts/cook.sh
 scripts/pak.sh
 python3 scripts/verify_stubs.py
+python3 scripts/verify_styles.py
+python3 scripts/verify_anims.py
 python3 scripts/verify_pak.py "$BUILD/AltUI.pak" "$BUILD/AltUI_Hook_P.pak"
 [[ " $* " == *" --no-deploy "* ]] || scripts/deploy.sh "$@"
 echo "BUILD OK"

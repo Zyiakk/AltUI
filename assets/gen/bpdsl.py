@@ -54,7 +54,10 @@ P_MTYPE_T = "/Game/Project/Tables/MakeupTypeTable"; P_MTYPE_S = "/Game/Project/T
 P_MDATA_S = "/Game/Project/Tables/MakeupDataStruct"
 P_ANIM_T = "/Game/Project/Tables/AnimationTable"; P_ANIM_S = "/Game/Project/Tables/Animation_Struct"   # action animations ("poses"); the loader merges Mod_AnimationTable rows into it
 P_ITEM_T = "/Game/Project/Tables/ItemTable"; P_ITEM_S = "/Game/Project/Tables/ItemStruct"
-P_PAINT_T = "/Game/Project/Tables/GunPaint"; P_PAINT_S = "/Game/Project/Tables/GunPaintStruct"
+P_PAINT_T = "/Game/Project/Tables/GunPaint"; P_PAINT_S = "/Game/Project/Tables/GunPaintStruct"; P_GUN_S = "/Game/Project/Classes/Struct/Gun_Struct"
+P_ARCH_T = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Archives"; P_ARCH_S = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Mail_Struct"   # Kodex: encyclopedia (Jodi's office PC)
+P_NOTE_SAVE = "/Game/Project/Classes/Save/Note_Save"; P_SETTINGS_SAVE = "/Game/Project/Classes/Save/Settings_Save"; P_PWCOMP = "/Game/Project/Classes/Items/ItemComp_Password"; P_ZOMBIE = "/Game/Project/Zombie/Zombie_Base"; P_SHATTERER = "/Game/Project/Zombie/Shatterer"
+P_INTERACTIVE = "/Game/Project/Classes/InteractiveActor/InteractiveActor_Base"; P_ITEMCOMP = "/Game/Project/Classes/Items/ItemComponent"
 P_WEAPON = "/Game/Project/Actors/Weapons/Weapon_Base"; P_GUN = "/Game/Project/Actors/Weapons/Weapon_Gun_Base"; P_EQUIPBASE = "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"; P_MAGCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Mag_Comp"; P_OPTICSCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp"; P_BARRELCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Barrel_Comp"; P_GRIPCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Grip_Comp"
 P_PRESET_SAVE = "/Game/Project/Classes/Save/MakeupPreset_Save"; P_PRESET_S = "/Game/Project/Classes/Struct/MakeupPreset_Struct"
 P_DLC_T = "/Game/Project/Tables/DLC_MainTable"; P_DLC_S = "/Game/Project/Tables/DLC_Struct"   # filled by the game loader: one row per mounted mod (pak base name)
@@ -219,9 +222,32 @@ def struct(path, members):
 def enum(path, values): return {"type": "enum", "path": path, "values": list(values)}
 
 
-def animblueprint(path, skeleton, variables, nodes):
-    """Post-process AnimBlueprint: variables (Vector) + a chain of ModifyBone nodes (scale only, component space), see BPGenAssets MakeAnimBlueprint."""
-    return {"type": "animblueprint", "path": path, "skeleton": skeleton, "variables": list(variables), "nodes": list(nodes)}
+def animblueprint(path, skeleton, variables, nodes, snapshot_var=None):
+    """AnimBlueprint: variables + a chain of ModifyBone nodes (component space), see BPGenAssets MakeAnimBlueprint. Without snapshot_var a
+    post-process ABP (Input Pose first); with it a standalone ABP whose pose comes from that PoseSnapshot variable (Pose Snapshot node)."""
+    d = {"type": "animblueprint", "path": path, "skeleton": skeleton, "variables": list(variables), "nodes": list(nodes)}
+    if snapshot_var: d.update(source="snapshot", snapshot_var=snapshot_var)
+    return d
+
+
+def skeleton_stub(path):
+    """A stand-in for a game skeleton the kit lacks (BPGenAssets MakeSkeletonStub): empty, only created when nothing is there, never packed."""
+    return {"type": "skeleton", "path": path}
+
+
+def animsequence_stub(path, skeleton):
+    """A stand-in for a game animation the kit lacks (BPGenAssets MakeAnimSequenceStub): empty, only created when nothing is there, never packed."""
+    return {"type": "animsequence_stub", "path": path, "skeleton": skeleton}
+
+
+def animstub(path, skeleton, players):
+    """A stand-in for a game ABP (BPGenAssets MakeAnimStub) carrying only sequence players under the game's node names: players = [(name, asset or None)]."""
+    return {"type": "animstub", "path": path, "skeleton": skeleton, "players": [dict(name=n, **({"asset": a} if a else {})) for n, a in players]}
+
+
+def animchild(path, parent, skeleton, overrides):
+    """Child ABP of `parent` that swaps the assets of named parent nodes (BPGenAssets MakeAnimChild): overrides = {node name: asset path}."""
+    return {"type": "animchild", "path": path, "parent": parent, "skeleton": skeleton, "overrides": dict(overrides)}
 
 
 def datatable(path, row_struct, composite=False, rows=None, parent_tables=None):

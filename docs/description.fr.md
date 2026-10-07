@@ -43,12 +43,15 @@ Le hook remplace *TKA_PlayerCameraManager* et démarre le panneau depuis là. To
 * **Sac à dos · Coiffure · Apparence** – ce que Jodi porte et transporte ; coiffures et couleurs de cheveux ; peau, maquillage et yeux, chacun teintable.
 * **Morphologie** – curseurs poitrine / taille, un sélecteur pour les mods de corps convertis, des curseurs d'échelle des os par corps.
 * **Visage** – l'expression, le regard et la bouche de Jodi en curseurs ; le visage tient pendant les poses et la danse ; visages enregistrés avec une photo, leurs valeurs sous « Voir le contenu ».
-* **Armes** – un modèle et un skin par arme, côte à côte depuis tous les mods d'armes, avec une image rendue sur chaque tuile.
+* **Armes** – un modèle, un skin et un son de tir par arme, armes de mêlée comprises, côte à côte depuis tous les mods d'armes, avec une image rendue sur chaque tuile ; un clic sur un son le joue.
 * **Poses** – chaque animation d'action du jeu et des mods de poses, triées en debout, assise et allongée.
 * **Mods** – les réglages des autres mods qui s'y enregistrent : interrupteurs, curseurs, nombres, choix, couleurs, champs de texte, lignes d'info, touches et boutons. Affiché seulement quand un tel mod est installé.
 * **Menu rapide** – maintenez **4** (modifiable) et une roue s'ouvre avec ce que vous utilisez le plus : caméra libre, mode photo, une tenue, un look, un visage ou un préréglage enregistré, une pose favorite, un onglet et des actions d'autres mods. Jusqu'à 32 éléments, choisis et ordonnés dans les Paramètres ; relâchez sur l'un d'eux pour le lancer. Un clic droit sur une tuile, un onglet ou l'entrée d'un mod l'ajoute à la roue ou l'en retire.
 * **Paramètres** – rangés en catégories choisies dans une liste à gauche : touche du panneau, langue, couleurs (les thèmes peuvent être enregistrés sous un nom), une barre d'onglets avec icônes, texte ou les deux, et la taille des tuiles, réglable à part pour les tenues et les looks. Les onglets inutiles peuvent être désactivés.
 * **Gestion** – vos propres noms affichés pour les mods, les groupes et les pièces. Comme dans Vêtements, des puces filtrent la liste par mod ou par groupe, et un champ de recherche réduit les puces.
+* **Ragdolls** – des copies de Jodi, des zombies et des humains comme figures avec physique : les placer, les poser articulation par articulation, les figer ou les laisser tomber ; les poses par type de figure et des scènes entières par niveau sont enregistrées. Un mode ragdoll les déplace sans le panneau.
+* **Codex** – le manuel d'AltUI dans les sept langues, l'encyclopédie du jeu et les serrures à code du niveau actuel ; chaque code reste caché jusqu'au clic.
+* **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres.
 * Annuler / rétablir (5 étapes), infobulles indiquant de quel mod vient une pièce.
 
 Langues : anglais, allemand, chinois, russe, espagnol, polonais, français (détectée automatiquement, modifiable dans les Paramètres).

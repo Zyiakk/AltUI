@@ -41,7 +41,7 @@ assets = [
     # two lenses and one pair of lashes: the eye colours are kept per row, so the tests need more than one of each
     datatable(P_EYE_T, P_EYE_S, rows={"Eye_1": {"Type": "Eye"}, "Eye_2": {"Type": "Eye"}, "Eyelashes_1": {"Type": "Eyelashes"}}),
     datatable(P_MTYPE_T, P_MTYPE_S, rows={"Eyebrow": {"Single": True}, "Eye": {"Single": True, "EyeTable": True}, "Eyelashes": {"Single": True, "EyeTable": True}, "Lips": {"Single": True, "Caption": "Lippen", "CameraPosition": 983}, "Cheeks": {"Single": False}}),
-    datatable(P_DLC_T, P_DLC_S, rows={"Body_TestBody": {"Caption": "Test Body"}, "SomeMod": {"Caption": "Some Mod"}, "WeaponAltUI_SkinTest": {"Caption": "Test Skin Mod"}, "WeaponAltUI_ModelTest": {"Caption": "Test Weapon Mod"}, "AltUIMod_Test": {"Caption": "Test Mods Tab"}}),   # editor test: filter on prefix Body_
+    datatable(P_DLC_T, P_DLC_S, rows={"Body_TestBody": {"Caption": "Test Body"}, "SomeMod": {"Caption": "Some Mod"}, "WeaponAltUI_SkinTest": {"Caption": "Test Skin Mod"}, "WeaponAltUI_ModelTest": {"Caption": "Test Weapon Mod"}, "WeaponAltUI_SoundTest": {"Caption": "Test Sound Mod"}, "AltUIMod_Test": {"Caption": "Test Mods Tab"}}),   # editor test: filter on prefix Body_
     # Poses: AnimationTable (Animation_Struct) + a mod table for the origin test (Dressup_* rows are skipped by Collect Pose Rows)
     struct(P_ANIM_S, [param("Title", "text", internal_name="Title_5_5208877E43BB2E535DB3DFAF646E90DA"),
                       param("Montage", "object:/Script/Engine.AnimMontage", internal_name="Montage_2_99AB9F0E40D705D77C9E079E70FA0B9B"),
@@ -63,13 +63,31 @@ assets = [
                        param("Flag", "int", internal_name="Flag_7_1EFEACDB4FF292F408E2F4AF64A1289A")]),
     datatable(P_ITEM_T, P_ITEM_S, rows={"UMP45": {"HyperBoxGroup": "Weapon", "Caption": "UMP45"}, "HK416": {"HyperBoxGroup": "Weapon", "Caption": "HK416"}, "Medicine": {"HyperBoxGroup": "Item"}}),
     datatable(P_PAINT_T, P_PAINT_S, rows={"GunPaint_Pink": {}, "GunPaint_Camo": {}}),
+    # Kodex encyclopedia: the archive of Jodi's office PC (Computer_Jodi reads rows 0-3 always, the rest from Note_Save.Notes);
+    # only the members AltUI reads, internal names as in the game
+    struct(P_ARCH_S, [param("Title", "text", internal_name="Title_2_B048B9A74E9883DAF84A80B1A875CC4F"),
+                      param("Content", "text", internal_name="Content_4_EC3177DC4A1F131934EE488FA8EE4C64"),
+                      param("Image", "object:" + E_TEX2D, internal_name="Image_12_C768945E4ACE98A45AC78BA2F6EDFFD6")]),
+    datatable(P_ARCH_T, P_ARCH_S, rows={"Arch_%s" % c: {} for c in "ABCDEF"}),
+    blueprint(P_NOTE_SAVE, "/Script/Engine.SaveGame", variables=[var("Notes", "string", "array")]),
+    blueprint(P_SETTINGS_SAVE, "/Script/Engine.SaveGame", variables=[var("RunMode", "int")]),   # Jodi.Settings: RunMode 2 = run key toggles by speed (BP_AltUIMove)
+    # Kodex passwords: code locks carry an ItemComp_Password (Password is in the kit already); locked = Item State 1
+    blueprint(P_ITEMCOMP, mode="augment", functions=[fn("Is Locked", outputs=[param("Yes", "bool")], pure=True)]),
+    blueprint(P_PWCOMP, mode="augment", variables=[var("Password", "string")]),
+    blueprint(P_SHATTERER, mode="augment", variables=[var("gas tank", "object:/Script/Engine.Actor")]),   # Ragdolls: its tank moves to the copy, then cleared
+    blueprint(P_ZOMBIE, mode="augment", variables=[var("Crystal", "object:/Script/Engine.Actor")]),   # Ragdolls: cleared before a copied zombie goes (its on destroyed drops it)   # the game reads/writes it (Dices_Password, ChangePassword)
     # the mesh components are reached with GetComponentsByClass (a stub variable named SkeletalMesh is refused - it collides with the engine class)
     blueprint(P_WEAPON, E_ACTOR, functions=[fn("Get Weapon Name", outputs=[param("name", "name")], pure=True)]),
     # Gun_Equipment_Base_C derives from StaticMeshComponent, so the magazine is a component of the weapon - Mount Mag hangs
     # one of the given class on it. A freshly spawned weapon actor has none; only the game's own equip flow puts it there.
     blueprint(P_EQUIPBASE, "/Script/Engine.StaticMeshComponent"),   # magazine, optics, suppressor, grip all derive from this
-    blueprint(P_MAGCOMP, P_EQUIPBASE), blueprint(P_OPTICSCOMP, P_EQUIPBASE), blueprint(P_BARRELCOMP, P_EQUIPBASE), blueprint(P_GRIPCOMP, P_EQUIPBASE),
-    blueprint(P_GUN, P_WEAPON, variables=[var("Equipment Mag", "object:" + P_MAGCOMP)],
+    blueprint(P_MAGCOMP, P_EQUIPBASE), blueprint(P_OPTICSCOMP, P_EQUIPBASE), blueprint(P_GRIPCOMP, P_EQUIPBASE),
+    blueprint(P_BARRELCOMP, P_EQUIPBASE, variables=[var("Shot Sound", "object:/Script/Engine.SoundBase")]),   # the suppressor's own shot sound (Apply Influence sets it on the gun)
+    # Gun Data: only the member AltUI reads (the game's paint, written by Change Gun Paint); the internal name must match the game
+    struct(P_GUN_S, [param("PaintName", "name", internal_name="PaintName_29_FA1F96D44E7CE9841245EC85AD208267")]),
+    # Shot Sound: what Shoot Fx plays (Reset Default Attributes sets the class's own); Equipment Suppressor: the mounted barrel part
+    blueprint(P_GUN, P_WEAPON, variables=[var("Equipment Mag", "object:" + P_MAGCOMP), var("Gun Data", "struct:" + P_GUN_S),
+                                          var("Shot Sound", "object:/Script/Engine.SoundBase"), var("Equipment Suppressor", "object:" + P_BARRELCOMP)],
               functions=[fn("Change Gun Paint", [param("paint name", "name")]), fn("Reset Gun Paint"),
                          fn("Mount Mag", [param("class", "class:/Script/Engine.StaticMeshComponent")], [param("installed", "bool")])]),
     struct(P_PRESET_S, [param("HairstyleName", "name", internal_name="HairstyleName_7_3260D22B43C665CF63750083BF1D2497"),
@@ -125,10 +143,12 @@ assets = [
         fn("Is Clothes Damaged", [param("clothes", "name")], [param("yes", "bool")], pure=True),
         fn("Remove Clothing From Bag", [param("clothing name", "name")]), fn("Reset Clothes Physics"),
         fn("update body mask"),   # sets MaskThreshold, the morph "Nipple" and the breast constraint profile
-        fn("Change Breast Constraint Profile", [param("morph", "float")])], variables=[var("Breast Morph Weight", "float")]),   # component "Bag" (Bag_Comp) exists in the kit
+        fn("Change Breast Constraint Profile", [param("morph", "float")]),
+        fn("Is Wanna Run ?", outputs=[param("Yes", "bool")], pure=True), fn("Change Wanna Run", [param("run", "bool")])], variables=[var("Breast Morph Weight", "float")]),   # walk / run speed (BP_AltUIMove)   # component "Bag" (Bag_Comp) exists in the kit
     # breast / hip jiggle bodies: the game switches them on here; AltUI calls it again after re-instantiating the physics state (height slider)
-    blueprint(P_CB, mode="augment", functions=[fn("Enable Boobs Physics", [param("hip", "bool")])]),
-    blueprint(P_JODI, mode="augment", variables=[var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("Weapons", "name", "map", value_type="object:" + P_WEAPON), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True),
+    blueprint(P_CB, mode="augment", functions=[fn("Enable Boobs Physics", [param("hip", "bool")]),
+                                               fn("Is Crouching", outputs=[param("yes", "bool")], pure=True)], variables=[var("Speed 2d", "float"), var("Anim Blueprint", "object:/Script/Engine.AnimInstance")]),   # BP_AltUIMove (Anim Blueprint: set once in Begin Play Ex - reset after a style switch)
+    blueprint(P_JODI, mode="augment", variables=[var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("Weapons", "name", "map", value_type="object:" + P_WEAPON), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True), fn("Wanna Running"),
                                                 fn("Use Clothes from Bag", [param("clothes name", "name"), param("is wear", "bool")]),
                                                 fn("Got Clothes", [param("clothes name", "name"), param("wear", "bool")]),
                                                 fn("Get Makeup Data", outputs=[param("Makeup Data", "object:" + P_MAKEUP_SAVE)]),
@@ -153,7 +173,8 @@ assets = [
     blueprint(P_GS2, mode="augment", variables=[var("UserInterface", "object:" + P_HUD), var("Default Underwear", "name", "array")],
               functions=[fn("Set Nude Allowed", [param("allow", "bool")]),   # real function in TKA_GameState_Base (Allow Naked); in game only reachable via a disabled cheat
                          # photo mode (Camera_Free + PhotoModeUI): entered from the game's pause menu; Is In Photo Mode = IsValid(photo mode camera)
-                         fn("Enter Photo Mode"), fn("Try Exit Photo Mode"), fn("Is In Photo Mode", outputs=[param("yes", "bool")])]),
+                         fn("Enter Photo Mode"), fn("Try Exit Photo Mode"), fn("Is In Photo Mode", outputs=[param("yes", "bool")]),
+                         fn("Get Note Save", outputs=[param("note save", "object:" + P_NOTE_SAVE)])]),
     blueprint(P_PC, mode="augment", functions=[fn("ShowMouseCursor", [param("show", "bool")]),
                                               fn("Set Widget Focus", [param("widget", "object:" + E_WIDGET)]),
                                               fn("Enable Player Control", [param("Base", "bool"), param("Playing", "bool")])]),

@@ -10,13 +10,16 @@ API_DIR = os.environ.get("GAME_API_DIR")
 if not API_DIR or not os.path.isdir(API_DIR):
     print("VERIFY STUBS SKIPPED (GAME_API_DIR not set)"); sys.exit(0)
 STUBS = {  # cooked stub -> (API dump, checked functions)
-    "Project/Classes/Character_Player_Base": ("Character_Player_Base", ["Wear The Clothes", "Take off this clothes", "Get Wearing Clothes Names", "is clothes wearing", "Find Clothes Component With Name", "Get Clothes Color", "Save Clothes Color", "Restore Clothes Color"]),
-    "Project/Character/Jodi/Jodi": ("Jodi", ["Save Appearance", "Is Input Enabled ?"]),
+    "Project/Classes/Character_Player_Base": ("Character_Player_Base", ["Wear The Clothes", "Take off this clothes", "Get Wearing Clothes Names", "is clothes wearing", "Find Clothes Component With Name", "Get Clothes Color", "Save Clothes Color", "Restore Clothes Color", "Is Wanna Run ?", "Change Wanna Run"]),
+    "Project/Classes/Character_Base": ("Character_Base", ["Is Crouching"]),   # walk / run speed (BP_AltUIMove)
+    "Project/Character/Jodi/Jodi": ("Jodi", ["Save Appearance", "Is Input Enabled ?", "Wanna Running"]),
     "Project/Character/Jodi/Jodi_Base": ("Jodi_Base", ["Get Makeup Data", "Update Makeup Texture", "Load Player Makeup"]),
     "Project/Classes/GameMode/TKA_GameState_Base": ("TKA_GameState_Base", ["Get Wardrobe Data", "Pop Attention"]),
     "Project/Classes/TKA_Controller": ("TKA_Controller", ["ShowMouseCursor", "Set Widget Focus", "Enable Player Control"]),
     "Project/Classes/Misc/WardrobeData": ("WardrobeData", ["Has This Clothes"]),
     "Project/Classes/Misc/Clothes_Comp": ("Clothes_Comp", ["Change Color"]),
+    "Project/Classes/GameMode/TKA_GameState": ("TKA_GameState", ["Get Note Save"]),   # Kodex: the encyclopedia's unlock list
+    "Project/Classes/Items/ItemComponent": ("ItemComponent", ["Is Locked"]),   # Kodex: lock state of a code lock
 }
 
 

@@ -43,12 +43,15 @@ El hook sustituye *TKA_PlayerCameraManager* y lanza el panel desde ahí. Cualqui
 * **Mochila · Peinados · Aspecto** – lo que Jodi lleva puesto y encima; peinados y colores de pelo; piel, maquillaje y ojos, todos coloreables.
 * **Figura** – deslizadores de pecho y cintura, selector de cuerpos convertidos y deslizadores de huesos por cuerpo.
 * **Rostro** – la expresión, la mirada y la boca de Jodi como deslizadores; el rostro se mantiene también en poses y al bailar; rostros guardados con foto, sus valores en «Ver contenido».
-* **Armas** – un modelo y un skin por arma, juntos de todos los mods de armas, con una imagen renderizada en cada casilla.
+* **Armas** – un modelo, un skin y un sonido de disparo por arma, incluidas las armas cuerpo a cuerpo, juntos de todos los mods de armas, con una imagen renderizada en cada casilla; un clic en un sonido lo reproduce.
 * **Poses** – todas las animaciones de acción del juego y de los mods de poses, ordenadas en de pie, sentada y tumbada.
 * **Mods** – los ajustes de otros mods que se registran allí: interruptores, deslizadores, números, opciones, colores, campos de texto, líneas de información, teclas y botones. Solo visible si hay un mod así instalado.
 * **Menú rápido** – mantén **4** (cambiable) y se abre una rueda con lo que más usas: cámara libre, modo foto, un conjunto, look, rostro o preajuste guardado, una pose favorita, una pestaña y acciones de otros mods. Hasta 32 elementos, elegidos y ordenados en Opciones; suelta sobre uno para ejecutarlo. Un clic derecho en una casilla, una pestaña o la entrada de un mod la añade a la rueda o la quita.
 * **Opciones** – ordenadas en categorías que eliges en una lista a la izquierda: tecla del panel, idioma, colores (los esquemas se pueden guardar con un nombre), barra de pestañas con iconos, texto o ambos, y tamaño de casilla, por separado para conjuntos y looks. Las pestañas que no necesites se pueden desactivar.
 * **Gestión** – tus propios nombres para mods, grupos y prendas. Como en Vestimenta, las subpestañas filtran la lista por mod o grupo, y un campo de búsqueda acota las subpestañas.
+* **Ragdolls** – copias de Jodi, zombis y personas como figuras con física: colocarlas, posarlas articulación por articulación, congelarlas o dejarlas caer; se guardan poses por tipo de figura y escenas completas por nivel. Un modo ragdoll las mueve sin el panel.
+* **Códice** – el manual de AltUI en los siete idiomas, la enciclopedia del juego y las cerraduras de código del nivel actual; cada código queda oculto hasta que lo pulsas.
+* **Movimiento** – velocidad propia de Jodi al andar y al correr (50–200 %), en Opciones.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
 Idiomas: inglés, alemán, chino, ruso, español, polaco y francés (detección automática, cambiable en Opciones).

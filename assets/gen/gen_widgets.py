@@ -2,6 +2,7 @@
 import os, re, sys; sys.path.insert(0, os.path.dirname(__file__)); sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "scripts"))
 from bpdsl import *
 import bodyscale_groups as bg
+import gen_move
 
 MGR = M + "/BP_AltUIManager"
 S_ITEM = M + "/S_ClothesItem"
@@ -13,7 +14,7 @@ W_BTN = M + "/W_ClothesButton"
 W_SUB = M + "/W_SubTab"
 W_ROUND = M + "/W_RoundButton"; T_PLUS = M + "/T_Plus"; T_MINUS = M + "/T_Minus"; T_CAM = M + "/T_Cam"; T_PHOTO = M + "/T_Photo"; T_COLORIZE = M + "/T_Colorize"
 W_TOP = M + "/W_TopTab"
-W_OUTFIT = M + "/W_OutfitButton"; W_LOOK = M + "/W_LookButton"; W_FACEBTN = M + "/W_FaceButton"; W_TOOLTIP = M + "/W_Tooltip"; W_SECTION = M + "/W_ContentSection"; W_VALROW = M + "/W_ValueRow"
+W_OUTFIT = M + "/W_OutfitButton"; W_LOOK = M + "/W_LookButton"; W_FACEBTN = M + "/W_FaceButton"; W_KODEXTILE = M + "/W_KodexTile"; W_RAGTILE = M + "/W_RagTile"; W_LINKROW = M + "/W_LinkRow"; W_RAGPOSES = M + "/W_RagPoses"; W_TOOLTIP = M + "/W_Tooltip"; W_SECTION = M + "/W_ContentSection"; W_VALROW = M + "/W_ValueRow"
 U_OVERLAY = "/Script/UMG.Overlay"; K_SLATE = "/Script/UMG.SlateBlueprintLibrary"
 U_VBOX = "/Script/UMG.VerticalBox"; U_HBOX = "/Script/UMG.HorizontalBox"; U_SCROLL = "/Script/UMG.ScrollBox"
 U_WRAP = "/Script/UMG.WrapBox"; U_SCALE = "/Script/UMG.ScaleBox"; U_SIZE = "/Script/UMG.SizeBox"; U_CANVAS = "/Script/UMG.CanvasPanel"; U_PANELW = "/Script/UMG.PanelWidget"
@@ -31,7 +32,7 @@ COL_BG = "(R=0.02,G=0.02,B=0.03,A=0.88)"
 T_ROUNDBOX = M + "/T_RoundBox"
 T_CHECK_ON = M + "/T_CheckOn"; T_CHECK_OFF = M + "/T_CheckOff"
 W_TXT = M + "/W_TextButton"
-W_NAMEROW = M + "/W_NameRow"; W_HSWATCH = M + "/W_HairSwatch"; W_CONFLICT = M + "/W_ConflictRow"
+W_NAMEROW = M + "/W_NameRow"; W_HSWATCH = M + "/W_HairSwatch"; W_CONFLICT = M + "/W_ConflictRow"; W_KODEXLOCK = M + "/W_KodexLockRow"
 SEARCH_FONT = 16; SEARCH_PAD = 7
 CHECK_SIZE = int(round(sz(SEARCH_FONT) * 1.2 + 2 * sz(SEARCH_PAD) + 2 * sz(1)))   # = height of the search bar
 COL_LINK = "(SpecifiedColor=(R=0.62,G=0.76,B=1.0,A=1))"
@@ -369,6 +370,60 @@ def w_value_row():
                      functions=[fn("Init", [param("label", "text"), param("value", "text"), param("header", "bool")], graph=g), fn("Set Stripe", [param("on", "bool")], graph=s),
                                 compute_fn(c)], widget_tree=tree)
 
+
+# ---------------- W_LinkRow (Ragdolls tab: a caption, indented on demand, and a row of W_TextButton links) ----------------
+def w_link_row():
+    tree = w(E_BORDER, "Fill", props={"BrushColor": COL_NONE, "Padding": "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % (sz(6), sz(3), sz(6), sz(3))}, children=[
+        w(U_HBOX, "HB", children=[
+            w(U_SIZE, "Indent", props={"bOverride_WidthOverride": True, "WidthOverride": 0}),
+            w(U_SIZE, "LabelBox", props={"bOverride_MinDesiredWidth": True, "MinDesiredWidth": sz(220)}, slot={"VerticalAlignment": "VAlign_Center"}, children=[text("Label", "", 13, WHITE)]),
+            w(U_HBOX, "Links", slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(12)})])])
+    g = G(); g.set("sh", "Header", inp={"Header": "@entry.header"})
+    g.get("gl", "Label"); g.call("sl", E_TEXT, "SetText", inp={"self": "@gl.Label", "InText": "@entry.caption"})
+    g.call("iw", K_MATH, "Conv_IntToFloat", inp={"InInt": "@entry.indent"}); g.call("iws", K_MATH, "Multiply_FloatFloat", inp={"A": "@iw.ReturnValue", "B": str(float(sz(1)))})
+    g.get("gi", "Indent"); g.call("si", U_SIZE, "SetWidthOverride", inp={"self": "@gi.Indent", "InWidthOverride": "@iws.ReturnValue"})
+    g.get("gk", "Links"); g.call("ck", U_PANELW, "ClearChildren", inp={"self": "@gk.Links"})
+    g.n("cc", "call_self", function="Compute Colors"); g.chain("entry", "sh", "sl", "si", "ck", "cc")
+    al = G(); al.get("gk", "Links"); al.call("a", U_HBOX, "AddChildToHorizontalBox", inp={"self": "@gk.Links", "Content": "@entry.widget"})
+    al.call("pd", "/Script/UMG.HorizontalBoxSlot", "SetPadding", inp={"self": "@a.ReturnValue", "InPadding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(10)}); al.chain("entry", "a", "pd")
+    s = G(); s.set("ss", "Stripe", inp={"Stripe": "@entry.on"}); s.n("cc", "call_self", function="Compute Colors"); s.chain("entry", "ss", "cc")
+    c = G(); tail = ["entry"]; c.get("ghd", "Header"); c.get("gst", "Stripe")
+    c.call("lc", K_MATH, "SelectColor", inp={"A": mcol(c, "chd", "ColHead"), "B": mcol(c, "ctx", "ColText"), "bPickA": "@ghd.Header"}); text_color(c, "tl", "Label", "@lc.ReturnValue", tail)
+    c.call("fc", K_MATH, "SelectColor", inp={"A": mcol(c, "crw", "ColRow"), "B": COL_NONE, "bPickA": "@gst.Stripe"})
+    c.get("gf", "Fill"); c.call("sf", E_BORDER, "SetBrushColor", inp={"self": "@gf.Fill", "InBrushColor": "@fc.ReturnValue"}); tail.append("sf"); c.chain(*tail)
+    return blueprint(W_LINKROW, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Header", "bool"), var("Stripe", "bool")],
+                     functions=[fn("Init", [param("caption", "text"), param("indent", "int"), param("header", "bool")], graph=g), fn("Add Link", [param("widget", "object:" + E_WIDGET)], graph=al),
+                                fn("Set Stripe", [param("on", "bool")], graph=s), compute_fn(c)], widget_tree=tree)
+
+
+
+# ---------------- W_RagPoses (Ragdolls tab, an opened figure: its poses - a name + "save pose", one chip per pose of its type, a hint) ----------------
+def w_rag_poses():
+    pad = "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(24)
+    tree = w(E_BORDER, "Fill", props={"BrushColor": COL_NONE, "Padding": "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % (sz(6), sz(6), sz(6), sz(6))}, children=[
+        w(U_VBOX, "VB", children=[
+            w(U_HBOX, "Row", slot={"Padding": pad}, children=[
+                w(U_SIZE, "LabelBox", props={"bOverride_MinDesiredWidth": True, "MinDesiredWidth": sz(196)}, slot={"VerticalAlignment": "VAlign_Center"}, children=[text("Label", "", 13, WHITE)]),
+                sizebox("NameBox", 220, None, [w(E_EDIT, "NameEdit", props={"HintText": "", "WidgetStyle": EDIT_STYLE, "SelectAllTextWhenFocused": True})], slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(12)}),
+                w(U_HBOX, "Links", slot={"VerticalAlignment": "VAlign_Center"})]),
+            w(U_WRAP, "Chips", props=OPT_CHIP_WRAP, slot={"Padding": "(Left=%d,Top=%d,Right=0,Bottom=0)" % (sz(24), sz(6))}),
+            text("Hint", "", 11, GREY, wrap=True, slot={"Padding": "(Left=%d,Top=%d,Right=%d,Bottom=0)" % (sz(24), sz(4), sz(12))})])])
+    g = G(); g.get("gl", "Label"); g.call("sl", E_TEXT, "SetText", inp={"self": "@gl.Label", "InText": "@entry.caption"})
+    g.get("gk", "Links"); g.call("ck", U_PANELW, "ClearChildren", inp={"self": "@gk.Links"}); g.get("gc", "Chips"); g.call("cc", U_PANELW, "ClearChildren", inp={"self": "@gc.Chips"})
+    g.n("col", "call_self", function="Compute Colors"); g.chain("entry", "sl", "ck", "cc", "col")
+    h = G(); h.get("g", "Hint"); h.call("t", E_TEXT, "SetText", inp={"self": "@g.Hint", "InText": "@entry.text"}); h.call("e", K_TXT, "TextIsEmpty", inp={"InText": "@entry.text"})
+    h.branch("b", "@e.ReturnValue")
+    h.get("g2", "Hint"); h.call("hc", E_WIDGET, "SetVisibility", inp={"self": "@g2.Hint", "InVisibility": "Collapsed"}); h.get("g3", "Hint"); h.call("hv", E_WIDGET, "SetVisibility", inp={"self": "@g3.Hint", "InVisibility": "Visible"})
+    h.chain("entry", "t", "b", "hc"); h.chain("b:else", "hv")
+    al = G(); al.get("gk", "Links"); al.call("a", U_HBOX, "AddChildToHorizontalBox", inp={"self": "@gk.Links", "Content": "@entry.widget"})
+    al.call("pd", "/Script/UMG.HorizontalBoxSlot", "SetPadding", inp={"self": "@a.ReturnValue", "InPadding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(10)}); al.chain("entry", "a", "pd")
+    ac = G(); ac.get("gc", "Chips"); ac.call("a", U_WRAP, "AddChildToWrapBox", inp={"self": "@gc.Chips", "Content": "@entry.widget"}); ac.chain("entry", "a")
+    gn = G(); gn.get("g", "NameEdit"); gn.call("t", E_EDIT, "GetText", inp={"self": "@g.NameEdit"}); gn.link("t.ReturnValue", "return.text")
+    c = G(); tail = ["entry"]; text_color(c, "tl", "Label", mcol(c, "ctx", "ColText"), tail); text_color(c, "th", "Hint", mcol(c, "cdm", "ColTextDim"), tail); c.chain(*tail)
+    return blueprint(W_RAGPOSES, E_USERWIDGET, variables=[var("Manager", "object:" + MGR)],
+                     functions=[fn("Init", [param("caption", "text")], graph=g), fn("Set Hint", [param("text", "text")], graph=h),
+                                fn("Add Link", [param("widget", "object:" + E_WIDGET)], graph=al), fn("Add Chip", [param("widget", "object:" + E_WIDGET)], graph=ac),
+                                fn("Get Name", outputs=[param("text", "text")], graph=gn, pure=True), compute_fn(c)], widget_tree=tree)
 
 # ---------------- W_SlotTab ----------------
 def w_slot_tab():
@@ -854,7 +909,10 @@ def w_outfit_button():
 
 
 # ---------------- W_LookButton (portrait photo + name; index -1 = "+ save"; inline rename like W_OutfitButton) ----------------
-def w_look_button(path=W_LOOK, clicked="On Look Clicked", context="On Look Context", rename="Set Look Name", add_key="Btn_SaveLook", box=(104, 236), photo=(88, 176), scale_fn=None):
+RAG_LABEL_H, RAG_LINKS_H = 30, 22   # Ragdolls tiles: caption 2 lines, variant link row - fixed, so every tile of a row is equally high
+
+
+def w_look_button(path=W_LOOK, clicked="On Look Clicked", context="On Look Context", rename="Set Look Name", add_key="Btn_SaveLook", box=(104, 236), photo=(88, 176), scale_fn=None, links=False):
     """Tile with a photo and a renameable caption; the "+" tile (index < 0) saves. Looks (portrait photo) and saved faces
     (W_FaceButton: square photo, face functions) share it."""
     tree = sizebox("Box", box[0], None, [   # photo + 2 x (frame 1 + fill 4 + TILE_SIDE 3); height from the content
@@ -866,7 +924,11 @@ def w_look_button(path=W_LOOK, clicked="On Look Clicked", context="On Look Conte
                         text("NoPhoto", "", 10, GREY, center=True, slot={"HorizontalAlignment": "HAlign_Center", "VerticalAlignment": "VAlign_Center"}),
                         text("Plus", "+", 44, WHITE, center=True, slot={"HorizontalAlignment": "HAlign_Center", "VerticalAlignment": "VAlign_Center"})])],
                             slot={"HorizontalAlignment": "HAlign_Center"}),
-                    text("Label", "Look", 11, WHITE, wrap=True, center=True, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)}),
+                    *([w(U_SIZE, "LabelBox", props={"bOverride_HeightOverride": True, "HeightOverride": sz(RAG_LABEL_H)}, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)},
+                         children=[text("Label", "Look", 11, WHITE, wrap=True, center=True, slot={"VerticalAlignment": "VAlign_Center"})]),
+                       w(U_SIZE, "VarsBox", props={"bOverride_HeightOverride": True, "HeightOverride": sz(RAG_LINKS_H)},
+                         children=[w(U_HBOX, "Vars", slot={"HorizontalAlignment": "HAlign_Center", "VerticalAlignment": "VAlign_Center"})])] if links else
+                      [text("Label", "Look", 11, WHITE, wrap=True, center=True, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)})]),
                     w(E_EDIT, "NameEdit", props={"Visibility": "Collapsed", "SelectAllTextWhenFocused": True, "ClearKeyboardFocusOnCommit": False,
                                                 "WidgetStyle": "(Font=(Size=%d),Padding=(Left=%d,Top=%d,Right=%d,Bottom=%d),BackgroundColor=(SpecifiedColor=(R=0.1,G=0.1,B=0.12,A=1)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))" % (sz(11), sz(4), sz(2), sz(4), sz(2))},
                       slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)}),
@@ -929,7 +991,14 @@ def w_look_button(path=W_LOOK, clicked="On Look Clicked", context="On Look Conte
                      functions=[init, tile_colors(("Label", "ColText"), ("Plus", "ColText"), ("NoPhoto", "ColTextDim"), ("SplitFront", "ColText"), ("SplitView", "ColText")),
                                 mouse_down_override(clicked, context, "Index", pin="index", split=True),
                                 fn("Begin Rename", [param("current", "string")], graph=br), fn("End Rename", graph=er),
-                                fn("OnKeyUp", override=True, graph=ku), fn("Tick", override=True, graph=tk)] + hf, event_graph=eg, widget_tree=tree, defaults=HAND)
+                                fn("OnKeyUp", override=True, graph=ku), fn("Tick", override=True, graph=tk)] + hf + ([add_var_fn()] if links else []), event_graph=eg, widget_tree=tree, defaults=HAND)
+
+
+def add_var_fn():
+    """Ragdolls tile: a variant link into the row under the caption (its own click handling keeps the tile's click away)."""
+    av = G(); av.get("gv", "Vars"); av.call("a", U_HBOX, "AddChildToHorizontalBox", inp={"self": "@gv.Vars", "Content": "@entry.widget"})
+    av.call("pd", "/Script/UMG.HorizontalBoxSlot", "SetPadding", inp={"self": "@a.ReturnValue", "InPadding": "(Left=%d,Top=0,Right=%d,Bottom=0)" % (sz(3), sz(3))}); av.chain("entry", "a", "pd")
+    return fn("Add Var", [param("widget", "object:" + E_WIDGET)], graph=av)
 
 
 # ---------------- W_TextButton (text link: click -> Manager.On Menu Action(action)) ----------------
@@ -1216,6 +1285,33 @@ def w_name_row():
                      functions=[init, fn("Show Custom", [param("custom", "string")], graph=sc), fn("Commit", graph=cm), fn("Cancel", graph=ca), fn("Refresh", [param("custom", "string"), param("origin", "text")], graph=rf), fn("Focus Edit", graph=fe), compute_fn(c),
                                 fn("OnKeyDown", override=True, graph=kd), fn("OnKeyUp", override=True, graph=ku), fn("Tick", override=True, graph=tk), fn("OnMouseButtonDown", override=True, graph=md)] + hf,
                      event_graph=eg, widget_tree=tree)
+
+
+# ---------------- W_KodexLockRow (Codex > Passwords: one code lock as a table row - lock · place · state · code link) ----------------
+def w_kodex_lock_row():
+    # zebra stripe as W_ConflictRow; fixed columns so the rows line up, the place takes the rest; the code link (W_TextButton, "show code" /
+    # "code: 1234") is added into CodeBox by the manager
+    cell = {"VerticalAlignment": "VAlign_Center"}
+    tree = w(E_BORDER, "Bg", props={"BrushColor": "(R=1,G=1,B=1,A=0)", "Padding": "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % (sz(8), sz(4), sz(8), sz(4))}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % CONFLICT_GAP}, children=[
+        w(U_HBOX, "Row", children=[
+            sizebox("LockBox", 90, None, [text("Lock", "Lock 1", 13, slot=cell)], slot=cell),
+            w(U_HBOX, "PlaceBox", slot={"Size": "(SizeRule=Fill,Value=1)", "VerticalAlignment": "VAlign_Center"}, children=[text("Place", "3 m", 13, slot=cell)]),
+            sizebox("StateBox", 110, None, [text("State", "open", 13, slot=cell)], slot=cell),
+            sizebox("CodeSize", 150, None, [w(U_HBOX, "CodeBox")], slot=cell)])])
+    g = G()
+    for n in ("Lock", "Place", "State"):
+        g.get("g" + n, n); g.call("s" + n, E_TEXT, "SetText", inp={"self": "@g%s.%s" % (n, n), "InText": "@entry.%s" % n.lower()})
+    g.call("bc", K_MATH, "SelectColor", inp={"A": "(R=1,G=1,B=1,A=0.05)", "B": "(R=1,G=1,B=1,A=0)", "bPickA": "@entry.tinted"})
+    g.get("gb", "Bg"); g.call("sb", E_BORDER, "SetBrushColor", inp={"self": "@gb.Bg", "InBrushColor": "@bc.ReturnValue"})
+    g.n("cc", "call_self", function="Compute Colors"); g.chain("entry", "sLock", "sPlace", "sState", "sb", "cc")
+    l = G(); l.get("g", "CodeBox"); l.call("a", U_HBOX, "AddChildToHorizontalBox", inp={"self": "@g.CodeBox", "Content": "@entry.widget"}); l.chain("entry", "a")
+    c = G(); tail = ["entry"]
+    for n in ("Lock", "Place", "State"): text_color(c, "t" + n, n, mcol(c, "c" + n, "ColText"), tail)
+    c.chain(*tail)
+    return blueprint(W_KODEXLOCK, E_USERWIDGET, variables=[var("Manager", "object:" + MGR)],
+                     functions=[fn("Init", [param("lock", "text"), param("place", "text"), param("state", "text"), param("tinted", "bool")], graph=g),
+                                fn("Add Link", [param("widget", "object:" + E_WIDGET)], graph=l), compute_fn(c)],
+                     widget_tree=tree)
 
 
 # ---------------- W_ConflictRow (options: slot caption · one W_SubTab chip per conflicting slot · links "all free" / "Vanilla") ----------------
@@ -1591,33 +1687,34 @@ def w_hair_swatch():
 # ---------------- W_AltUI (Panel) ----------------
 BODY_ROWS = [("Breast", "Breast"), ("Waist", "Waist")]   # the game has no hip morph (Makeup_Save.Hip is an unused remnant)
 SCALE_ROWS = [("Sc" + k, k) for k in bg.SLIDER_ORDER]   # bone-scale sliders (ABP_BodyScale), captions via Lbl_Sc<Key>; row order = SLIDER_ORDER
-OPTION_ROWS = [("Scroll", "Scroll speed"), ("Scale", "Tile size"), ("OutfitScale", "Outfit tile size"), ("LookScale", "Look tile size"), ("OutfitCols", "Outfit pieces per row"), ("OutfitRows", "Outfit rows of pieces"), ("Fov", "Camera FOV (Jodi view)"), ("Dist", "Camera distance (Jodi view)"), ("Height", "Camera height (Jodi view)"), ("GroupLen", "Group names: max. characters"), ("ChipH", "Group chip area: max. height"),
-               ("BgAlpha", "Background opacity"), ("TileAlpha", "Tile opacity"), ("QuickAlpha", "Quick menu opacity")]   # sliders of Get/Set Option Values (the last two sit in the theme block)
-OPT_CATS = ["General", "Tiles", "Groups", "Camera", "Controls", "Quick", "Theme", "Conflicts", "Tabs"]   # Options page: left list (key = widget OptCat_<key>, text OptCat_<key>)
+OPTION_ROWS = [("Scroll", "Scroll speed"), ("Scale", "Tile size"), ("OutfitScale", "Outfit tile size"), ("LookScale", "Look tile size"), ("RagScale", "Ragdoll tile size"), ("OutfitCols", "Outfit pieces per row"), ("OutfitRows", "Outfit rows of pieces"), ("Fov", "Camera FOV (Jodi view)"), ("Dist", "Camera distance (Jodi view)"), ("Height", "Camera height (Jodi view)"), ("GroupLen", "Group names: max. characters"), ("ChipH", "Group chip area: max. height"),
+               ("BgAlpha", "Background opacity"), ("TileAlpha", "Tile opacity"), ("QuickAlpha", "Quick menu opacity"), ("WalkSpeed", "Walk speed"), ("RunSpeed", "Run speed")]   # sliders of Get/Set Option Values (the last two sit in the theme block)
+OPT_CATS = ["General", "Tiles", "Groups", "Camera", "Controls", "Move", "Quick", "Theme", "Conflicts", "Tabs"]   # Options page: left list (key = widget OptCat_<key>, text OptCat_<key>)
 OPTION_ROWS_MAIN = 11   # the first rows sit in the options block, the rest below the theme grid
 PANEL_TEXTS = [("search", "Search"), ("chipsearch", "ChipSearch"), ("onlyowned", "LblOwned"), ("onlyfav", "LblFav"), ("onlyvanilla", "LblVanilla"), ("onlyworn", "LblOnlyWorn"), ("favorites", "FavHeader"), ("all", "AllHeader"), ("listhint", "ListHint"),
                ("lookonlyfav", "LblLookFav"), ("lookonlyworn", "LblLookWorn"), ("lookfavorites", "LookFavHeader"), ("lookall", "LookAllHeader"),
                ("worn", "BagWornHeader"), ("inbag", "BagListHeader"), ("bagempty", "BagEmpty"), ("breast", "LblBreast"), ("waist", "LblWaist"),
                ("scbreast", "LblScBreast"), ("scwaist", "LblScWaist"), ("scglutes", "LblScGlutes"), ("scthighs", "LblScThighs"), ("sccalves", "LblScCalves"), ("scarms", "LblScArms"), ("schands", "LblScHands"), ("scfeet", "LblScFeet"), ("scheight", "LblScHeight"),
-               ("scroll", "LblScroll"), ("scale", "LblScale"), ("quickalpha", "LblQuickAlpha"), ("outfitscale", "LblOutfitScale"), ("lookscale", "LblLookScale"), ("outfitcols", "LblOutfitCols"), ("outfitrows", "LblOutfitRows"), ("fov", "LblFov"), ("dist", "LblDist"), ("height", "LblHeight"), ("grouplen", "LblGroupLen"), ("chiph", "LblChipH"), ("unlimited", "LblUnlimited"), ("layout", "LblLayout"),
-               ("language", "LblLanguage"), ("placeholder", "PlaceholderText"), ("pan", "LblPan"), ("camright", "LblCamRight"), ("nude", "LblNude"), ("merge", "LblMerge"), ("mergemods", "LblMergeMods"), ("chipsearchopt", "LblChipSearch"), ("tipnoprefix", "LblTipNoPrefix"), ("tipnoids", "LblTipNoIds"), ("conflicts", "LblConflicts"), ("conflictshint", "LblConflictsHint"), ("unowned", "LblUnowned"), ("scalehint", "LblScaleHint"),
-               ("theme", "LblTheme"), ("bgalpha", "LblBgAlpha"), ("tilealpha", "LblTileAlpha"), ("key", "LblKey"), ("onlymods", "LblOnlyMods"), ("casesens", "LblCaseSens"), ("managesearch", "ManageSearch"), ("looksearch", "LookSearch"), ("lookchipsearch", "LookChipSearch"), ("hdrname", "HdrName"), ("hdrdisplay", "HdrDisplay"), ("hdrorigin", "HdrOrigin"), ("hdrcontent", "HdrContent"), ("posesearch", "PoseSearch"), ("posefavorites", "PoseFavHeader"), ("poseall", "PoseAllHeader"), ("weaponsearch", "WeaponSearch"), ("weaponfavorites", "WeaponFavHeader"), ("weaponall", "WeaponAllHeader"), ("weaponmodels", "WeaponModelHeader"), ("tabshint", "LblTabsHint"), ("quickkey", "LblQuickKey"), ("quickinwheel", "LblQuickInWheel"), ("quickavailable", "LblQuickAvailable"), ("tabstyle", "LblTabStyle"), ("tabiconpos", "LblTabIconPos"), ("themesave", "LblThemeSave"), ("themename", "ThemeNameEdit"), ("themepresets", "LblThemePresets"), ("themepresetshint", "ThemePresetsHint"), ("managechipsearch", "ManageChipSearch"), ("quickcontrol", "LblQuickControl"), ("quickkeywidth", "QuickKeyWidth")]   # parameter of Set Strings -> widget name (order = gen_manager_ui.PANEL_STRINGS)
+               ("scroll", "LblScroll"), ("scale", "LblScale"), ("quickalpha", "LblQuickAlpha"), ("outfitscale", "LblOutfitScale"), ("lookscale", "LblLookScale"), ("ragscale", "LblRagScale"), ("outfitcols", "LblOutfitCols"), ("outfitrows", "LblOutfitRows"), ("fov", "LblFov"), ("dist", "LblDist"), ("height", "LblHeight"), ("grouplen", "LblGroupLen"), ("chiph", "LblChipH"), ("unlimited", "LblUnlimited"), ("layout", "LblLayout"),
+               ("language", "LblLanguage"), ("placeholder", "PlaceholderText"), ("pan", "LblPan"), ("camright", "LblCamRight"), ("nude", "LblNude"), ("merge", "LblMerge"), ("mergemods", "LblMergeMods"), ("chipsearchopt", "LblChipSearch"), ("tipnoprefix", "LblTipNoPrefix"), ("tipnoids", "LblTipNoIds"), ("kodexall", "LblKodexAll"), ("moveon", "LblMoveOn"), ("walkspeed", "LblWalkSpeed"), ("runspeed", "LblRunSpeed"), ("walkstyle", "LblWalkStyle"), ("runstyle", "LblRunStyle"), ("conflicts", "LblConflicts"), ("conflictshint", "LblConflictsHint"), ("unowned", "LblUnowned"), ("scalehint", "LblScaleHint"),
+               ("theme", "LblTheme"), ("bgalpha", "LblBgAlpha"), ("tilealpha", "LblTileAlpha"), ("key", "LblKey"), ("onlymods", "LblOnlyMods"), ("casesens", "LblCaseSens"), ("managesearch", "ManageSearch"), ("looksearch", "LookSearch"), ("lookchipsearch", "LookChipSearch"), ("hdrname", "HdrName"), ("hdrdisplay", "HdrDisplay"), ("hdrorigin", "HdrOrigin"), ("hdrcontent", "HdrContent"), ("posesearch", "PoseSearch"), ("posefavorites", "PoseFavHeader"), ("poseall", "PoseAllHeader"), ("weaponsearch", "WeaponSearch"), ("weaponfavorites", "WeaponFavHeader"), ("weaponall", "WeaponAllHeader"), ("weaponmodels", "WeaponModelHeader"), ("weaponsounds", "WeaponSoundHeader"), ("tabshint", "LblTabsHint"), ("quickkey", "LblQuickKey"), ("quickinwheel", "LblQuickInWheel"), ("quickavailable", "LblQuickAvailable"), ("tabstyle", "LblTabStyle"), ("tabiconpos", "LblTabIconPos"), ("themesave", "LblThemeSave"), ("themename", "ThemeNameEdit"), ("themepresets", "LblThemePresets"), ("themepresetshint", "ThemePresetsHint"), ("managechipsearch", "ManageChipSearch"), ("quickcontrol", "LblQuickControl"), ("quickkeywidth", "QuickKeyWidth")]   # parameter of Set Strings -> widget name (order = gen_manager_ui.PANEL_STRINGS)
 THEME_COLS = 5   # theme grid: fixed columns (entries fill column-wise), the wrap box wraps whole columns on narrow panels
 THEME_REFRESH = [("TopTabs", W_TOP), ("TabChips", W_SUB), ("QuickKeyLinks", W_TXT), ("LayoutChips", W_SUB), ("UnownedChips", W_SUB), ("ThemePresetChips", W_SUB), ("ManageChips", W_SUB), ("ManageChipSearchLinks", W_TXT), ("ThemeSaveLinks", W_TXT), ("TabStyleChips", W_SUB), ("TabIconPosChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("ThemeLinks", W_TXT), ("StatusLinks", W_TXT), ("StatusRight", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
 SUBTABS_MAX_H, SUBTABS_MAX_H_MAX = 112, 500   # default ~3.5 chip rows (80 showed 2.5); option range (unscaled units, x SC at runtime)
-SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll"]
+SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll", "KodexCatScroll", "KodexScroll", "RagScroll"]
 # panel-owned texts coloured by Apply Theme: widget -> derived colour
-PANEL_TEXT_COLORS = {"ColHead": ["LblQuickControl", "LblQuickInWheel", "LblQuickAvailable", "BagWornHeader", "BagListHeader", "FavHeader", "LookFavHeader", "PoseFavHeader", "WeaponFavHeader", "LblTheme", "ContentTitle", "LblConflicts"],
-                     "ColTextDim": ["ModHint", "FaceHint", "LblTabsHint", "ThemePresetsHint", "LblQuickKeyHint", "AllHeader", "LookAllHeader", "PoseAllHeader", "WeaponAllHeader", "WeaponModelHeader", "ListHint", "BagEmpty", "PlaceholderText", "HdrName", "HdrDisplay", "HdrOrigin", "LblConflictsHint", "LblScaleHint"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS] + ["Val" + k for k, _ in SCALE_ROWS],
-                     "ColText": ["LblQuickKey", "LblOwned", "LblFav", "LblVanilla", "LblOnlyWorn", "LblLookFav", "LblLookWorn", "LblOnlyMods", "LblCaseSens", "LblUnlimited", "LblPan", "LblCamRight", "LblNude", "LblMerge", "LblMergeMods", "LblChipSearch", "LblTipNoPrefix", "LblTipNoIds", "LblUnowned", "LblTabStyle", "LblTabIconPos", "LblThemeSave", "LblThemePresets", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS] + ["Lbl" + k for k, _ in SCALE_ROWS]}
+PANEL_TEXT_COLORS = {"ColHead": ["KodexTitle", "LblQuickControl", "LblQuickInWheel", "LblQuickAvailable", "BagWornHeader", "BagListHeader", "FavHeader", "LookFavHeader", "PoseFavHeader", "WeaponFavHeader", "LblTheme", "ContentTitle", "LblConflicts"],
+                     "ColTextDim": ["RagHint", "RagPresetsHint", "ModHint", "FaceHint", "LblTabsHint", "ThemePresetsHint", "LblQuickKeyHint", "AllHeader", "LookAllHeader", "PoseAllHeader", "WeaponAllHeader", "WeaponModelHeader", "ListHint", "BagEmpty", "PlaceholderText", "HdrName", "HdrDisplay", "HdrOrigin", "LblConflictsHint", "LblScaleHint"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS] + ["Val" + k for k, _ in SCALE_ROWS],
+                     "ColText": ["KodexBody", "LblRagKinds", "LblRagSave", "LblRagPresets", "LblQuickKey", "LblOwned", "LblFav", "LblVanilla", "LblOnlyWorn", "LblLookFav", "LblLookWorn", "LblOnlyMods", "LblCaseSens", "LblUnlimited", "LblPan", "LblCamRight", "LblNude", "LblMerge", "LblMergeMods", "LblChipSearch", "LblTipNoPrefix", "LblTipNoIds", "LblKodexAll", "LblMoveOn", "LblWalkStyle", "LblRunStyle", "LblUnowned", "LblTabStyle", "LblTabIconPos", "LblThemeSave", "LblThemePresets", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS] + ["Lbl" + k for k, _ in SCALE_ROWS]}
 
 
 # Options page: which category block (OptCat_<key>) every row of the former single options list belongs to
-OPT_CAT_ROWS = {"General": ["RowLanguage", "RowLayout", "RowNude", "RowUnowned"],
-                "Tiles": ["RowScale", "RowOutfitScale", "RowLookScale", "RowOutfitCols", "RowOutfitRows", "RowUnlimited", "RowTipNoPrefix", "RowTipNoIds"],
+OPT_CAT_ROWS = {"General": ["RowLanguage", "RowLayout", "RowNude", "RowUnowned", "RowKodexAll"],
+                "Tiles": ["RowScale", "RowOutfitScale", "RowLookScale", "RowRagScale", "RowOutfitCols", "RowOutfitRows", "RowUnlimited", "RowTipNoPrefix", "RowTipNoIds"],
                 "Groups": ["RowMerge", "RowMergeMods", "RowGroupLen", "RowChipH", "RowChipSearch"],
                 "Camera": ["RowFov", "RowDist", "RowHeight", "RowPan"],
                 "Controls": ["RowKey", "RowScroll", "RowCamRight"],
+                "Move": ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "MoveLinks", "RowWalkStyle", "RowRunStyle"],
                 "Quick": ["LblQuickControl", "RowQuickKey", "RowQuickAlpha", "LblQuickInWheel", "QuickInWheel", "LblQuickAvailable", "QuickAvailable"],
                 "Theme": ["LblTheme", "ThemeGrid", "RowBgAlpha", "RowTileAlpha", "ThemeLinks", "RowThemeSave", "RowThemePresets"],
                 "Conflicts": ["LblConflicts", "LblConflictsHint", "ConflictLinks", "ConflictRows"],
@@ -1699,7 +1796,7 @@ def w_panel():
         # Jodi drag: transparent catcher over the free area (Set Left Free anchors it 0..fraction); clicks on Jodi start the drag, everything else bubbles to the viewport
         w(E_BORDER, "JodiCatcher", props={"BrushColor": "(R=0,G=0,B=0,A=0)", "Visibility": "Collapsed"},
           slot={"LayoutData": "(Anchors=(Minimum=(X=0,Y=0),Maximum=(X=0,Y=1)),Offsets=(Left=0,Top=0,Right=0,Bottom=0))", "ZOrder": 0}),
-        round_btn("BtnPhoto", sz(10.5) + 3 * (BTN_R + sz(5))), round_btn("BtnCam", sz(10.5) + 2 * (BTN_R + sz(5))),
+        round_btn("BtnPhoto", sz(10.5) + 4 * (BTN_R + sz(5))), round_btn("BtnCam", sz(10.5) + 3 * (BTN_R + sz(5))), round_btn("BtnRag", sz(10.5) + 2 * (BTN_R + sz(5))),   # Ragdolls mode right under the free camera
         round_btn("BtnPlus", sz(10.5) + BTN_R + sz(5)), round_btn("BtnMinus", sz(10.5)),
         w(E_BORDER, "Bg", props={"BrushColor": COL_BG, "Padding": "(Left=46,Top=30,Right=46,Bottom=46)"}, slot=FULL, children=[
           w(U_VBOX, "Main", children=[
@@ -1802,7 +1899,9 @@ def w_panel():
                             w(E_EDIT, "WeaponSearch", props={"HintText": "Search...", "WidgetStyle": SEARCH_STYLE}, slot=FILL),
                             w(U_HBOX, "WeaponSearchLinks", slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(4)})])])])]),
                     w(U_SCROLL, "WeaponScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "WeaponVB", children=[
-                        # two axes, one scroll area: the model of the weapon above, its skin below
+                        # one scroll area: the shot sounds as text buttons on top (they wrap), then the model tiles, then the skin tiles
+                        text("WeaponSoundHeader", "Sound", 13, "(SpecifiedColor=(R=0.7,G=0.7,B=0.7,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
+                        w(U_WRAP, "WeaponSoundList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=19)"}),
                         text("WeaponModelHeader", "Model", 13, "(SpecifiedColor=(R=0.7,G=0.7,B=0.7,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
                         w(U_WRAP, "WeaponModelList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=23)"}),
                         text("WeaponFavHeader", "Favourites", 13, "(SpecifiedColor=(R=0.95,G=0.8,B=0.3,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
@@ -1840,6 +1939,34 @@ def w_panel():
                         text("HdrOrigin", "Identifiers", 11, GREY, slot=dict(FILL1, Padding="(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8))),
                         w(E_TEXT, "HdrContent", props={"Text": "View content", "Font": "(Size=%d)" % sz(11), "Visibility": "Hidden"}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(ROW_PAD)})]),
                     w(U_SCROLL, "ManageScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "ManageRows")])])]),
+            # Ragdolls: spawn / remove links, a hint while there are no figures, one W_LinkRow per figure (and per joint when opened)
+            w(U_SCROLL, "RagScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "RagBox", children=[
+                w(U_HBOX, "RagTop", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(12)}),
+                # zombies / NPCs: one W_RagTile per base kind (picture from the encyclopedia, variant links in the tile)
+                text("LblRagKinds", "", 13, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(6)}),
+                w(U_WRAP, "RagKinds", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(10))}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(16)}),
+                text("RagHint", "", 13, GREY, wrap=True, props_extra={"LineHeightPercentage": 1.5}, slot={"Padding": "(Left=0,Top=0,Right=%d,Bottom=%d)" % (sz(12), sz(12))}),
+                w(U_VBOX, "RagRows"),
+                # saved scenes of this level: a name + "save" (the same name overwrites), one chip per scene (click loads, right click: load / delete)
+                w(U_HBOX, "RagSaveRow", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(24), sz(6))}, children=[
+                    text("LblRagSave", "", 13, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(12)}),
+                    sizebox("RagNameBox", 260, None, [w(E_EDIT, "RagNameEdit", props={"HintText": "", "WidgetStyle": EDIT_STYLE, "SelectAllTextWhenFocused": True})], slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(12)}),
+                    w(U_HBOX, "RagSaveLinks", slot={"VerticalAlignment": "VAlign_Center"})]),
+                text("LblRagPresets", "", 13, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(6), sz(6))}),
+                w(U_WRAP, "RagPresetChips", props=OPT_CHIP_WRAP),
+                text("RagPresetsHint", "", 11, GREY, wrap=True, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(4)})])]),
+            # Kodex: sections on the left (manual chapters, encyclopedia, passwords), on the right one area the manager fills:
+            # back link, title, picture, text, tiles, link rows (Rebuild Kodex shows what the section needs)
+            w(U_HBOX, "KodexHB", props={"Visibility": "Collapsed"}, slot=FILL, children=[
+                sizebox("KodexLeftSize", 300, 100, [w(U_SCROLL, "KodexCatScroll", props={"WheelScrollMultiplier": 2.0}, children=[w(U_VBOX, "KodexCats")])],
+                        slot={"Size": "(SizeRule=Automatic)", "VerticalAlignment": "VAlign_Fill", "Padding": "(Left=0,Top=0,Right=30,Bottom=0)"}),
+                w(U_SCROLL, "KodexScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "KodexBox", children=[
+                    w(U_HBOX, "KodexBack", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(8)}),
+                    text("KodexTitle", "", 18, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(10)}),
+                    sizebox("KodexImageBox", 320, 480, [w(E_IMAGE, "KodexImage")], slot={"HorizontalAlignment": "HAlign_Left", "Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(12)}),
+                    text("KodexBody", "", 13, wrap=True, props_extra={"LineHeightPercentage": 1.5}, slot={"Padding": "(Left=0,Top=0,Right=%d,Bottom=%d)" % (sz(12), sz(12))}),
+                    w(U_WRAP, "KodexTiles", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)}),
+                    w(U_VBOX, "KodexLinks")])])]),
             # Body Shape: body chips (Standard + body mods) above the sliders
             w(U_VBOX, "BodyBox", props={"Visibility": "Collapsed"}, slot=FILL, children=[
                 w(U_WRAP, "BodyChips", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(14)})] +
@@ -1857,6 +1984,13 @@ def w_panel():
                 w(U_HBOX, "RowCamRight", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(6)}, children=[
                     w(E_CHECK, "OptCamRight", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblCamRight", "Camera height with the right mouse button", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
+                w(U_HBOX, "RowMoveOn", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
+                    w(E_CHECK, "OptMoveOn", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
+                    text("LblMoveOn", "Own walk / run speed", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
+                w(U_HBOX, "MoveLinks", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(10)}),
+                *[w(U_HBOX, "Row%sStyle" % k, props={} if len(styles) > 1 else {"Visibility": "Collapsed"}, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(14), sz(6))}, children=[
+                    sizebox("Lbl%sStyleBox" % k, OPT_LBL_W, 24, [text("Lbl%sStyle" % k, cap, 13, slot={"VerticalAlignment": "VAlign_Center"})], slot={"VerticalAlignment": "VAlign_Top", "Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)}),
+                    w(U_WRAP, "%sStyleChips" % k, props=OPT_CHIP_WRAP, slot=OPT_CHIP_SLOT)]) for k, cap, styles in (("Walk", "Walk style", gen_move.WALK_STYLES), ("Run", "Run style", gen_move.RUN_STYLES))],   # a row only with a choice
                 w(U_HBOX, "RowNude", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptNude", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblNude", "Underwear may be taken off", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
@@ -1872,6 +2006,9 @@ def w_panel():
                 w(U_HBOX, "RowTipNoPrefix", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptTipNoPrefix", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblTipNoPrefix", "Tooltips without prefixes", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
+                w(U_HBOX, "RowKodexAll", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
+                    w(E_CHECK, "OptKodexAll", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
+                    text("LblKodexAll", "Codex: show all encyclopedia entries", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
                 w(U_HBOX, "RowTipNoIds", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptTipNoIds", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblTipNoIds", "Tooltips: display names only", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
@@ -2156,14 +2293,22 @@ def w_panel():
     pm.get("gjc", "JodiCatcher"); pm.call("hov", E_WIDGET, "IsHovered", inp={"self": "@gjc.JodiCatcher"}); pm.branch("bh", "@hov.ReturnValue")
     pm.call("btn", K_IN, "PointerEvent_GetEffectingButton", inp={"Input": "@entry.MouseEvent"})
     pm.call("isr", K_IN, "EqualEqual_KeyKey", inp={"A": "@btn.ReturnValue", "B": "RightMouseButton"})   # the manager needs the button: with the option on, right drags the height and left only turns
-    pm.get("gm2", "Manager"); pm.call("bd", MGR, "Begin Jodi Drag", inp={"self": "@gm2.Manager", "right": "@isr.ReturnValue"}); pm.branch("bj", "@bd.yes")
+    pm.get("gm2", "Manager"); pm.call("psh", K_IN, "InputEvent_IsShiftDown", inp={"Input": "@entry.MouseEvent"})   # Ragdolls: Shift + click locks / frees a joint
+    pm.call("bd", MGR, "Begin Jodi Drag", inp={"self": "@gm2.Manager", "right": "@isr.ReturnValue", "shift": "@psh.ReturnValue"}); pm.branch("bj", "@bd.yes")
     pm.call("h", K_WBL, "Handled"); pm.self_("me"); pm.call("cap", K_WBL, "CaptureMouse", inp={"Reply": "@h.ReturnValue", "CapturingWidget": "@me.self"}); pm.link("cap.ReturnValue", "return.ReturnValue")
     pm.n("r2", "return_new"); pm.call("u", K_WBL, "Unhandled"); pm.link("u.ReturnValue", "r2.ReturnValue")
     pm.chain("entry", "cm", "bh", "bd", "bj", "return"); pm.chain("bh:else", "r2"); pm.chain("bj:else", "r2")
+    # OnMouseWheel: a frozen ragdoll being dragged -> Manager.Rag Lift(notches), Handled (the panel holds the mouse during the drag, so the
+    # player controller's wheel axis does not see it); else Unhandled as before
+    mw = G(); mw.get("gm", "Manager"); mw.get("grm", "RagMove", cls=MGR); mw.link("gm.Manager", "grm.self"); mw.branch("b", "@grm.RagMove")
+    mw.call("wd", K_IN, "PointerEvent_GetWheelDelta", inp={"Input": "@entry.MouseEvent"}); mw.get("gm2", "Manager"); mw.call("rl", MGR, "Rag Lift", inp={"self": "@gm2.Manager", "notches": "@wd.ReturnValue"})
+    mw.call("h", K_WBL, "Handled"); mw.link("h.ReturnValue", "return.ReturnValue")
+    mw.n("r2", "return_new"); mw.call("u", K_WBL, "Unhandled"); mw.link("u.ReturnValue", "r2.ReturnValue")
+    mw.chain("entry", "b", "rl", "return"); mw.chain("b:else", "r2")
     # OnMouseMove: drag running -> Manager.Jodi Drag(cursor delta), Handled; else Unhandled
     mm = G(); mm.get("gm", "Manager"); mm.get("gjd", "JodiDrag", cls=MGR); mm.link("gm.Manager", "gjd.self"); mm.branch("b", "@gjd.JodiDrag")
     mm.call("cd", K_IN, "PointerEvent_GetCursorDelta", inp={"Input": "@entry.MouseEvent"}); mm.call("bv", K_MATH, "BreakVector2D", inp={"InVec": "@cd.ReturnValue"})
-    mm.get("gm2", "Manager"); mm.call("jd", MGR, "Jodi Drag", inp={"self": "@gm2.Manager", "dx": "@bv.X", "dy": "@bv.Y"})
+    mm.get("gm2", "Manager"); mm.call("jd", MGR, "Jodi Drag", inp={"self": "@gm2.Manager", "dx": "@bv.X", "dy": "@bv.Y", "shift": "false"})
     mm.call("h", K_WBL, "Handled"); mm.link("h.ReturnValue", "return.ReturnValue")
     mm.n("r2", "return_new"); mm.call("u", K_WBL, "Unhandled"); mm.link("u.ReturnValue", "r2.ReturnValue")
     mm.chain("entry", "b", "jd", "return"); mm.chain("b:else", "r2")
@@ -2174,7 +2319,7 @@ def w_panel():
     mu.n("r2", "return_new"); mu.call("u", K_WBL, "Unhandled"); mu.link("u.ReturnValue", "r2.ReturnValue")
     mu.chain("entry", "b", "ed", "return"); mu.chain("b:else", "r2")
     # Set Page(page): exactly one page visible (Clothes = HB, Outfits = OutfitScroll, Bag = BagScroll)
-    sp = G(); pages = [("HB", "Clothes"), ("OutfitScroll", "Outfits"), ("LooksScroll", "Looks"), ("BagScroll", "Bag"), ("HairScroll", "Hair"), ("PoseHB", "Poses"), ("WeaponHB", "Weapons"), ("ModsHB", "Mods"), ("FaceHB", "Face"), ("LookHB", "Look"), ("BodyBox", "Body"), ("OptionsHB", "Options"), ("ContentBox", "Content"), ("ManageHB", "Manage")]
+    sp = G(); pages = [("HB", "Clothes"), ("OutfitScroll", "Outfits"), ("LooksScroll", "Looks"), ("BagScroll", "Bag"), ("HairScroll", "Hair"), ("PoseHB", "Poses"), ("WeaponHB", "Weapons"), ("ModsHB", "Mods"), ("FaceHB", "Face"), ("LookHB", "Look"), ("BodyBox", "Body"), ("OptionsHB", "Options"), ("ContentBox", "Content"), ("ManageHB", "Manage"), ("RagScroll", "Ragdolls"), ("KodexHB", "Kodex")]
     sp.set("sk", "TmpKnown", inp={"TmpKnown": "false"})
     for i, (wn, page) in enumerate(pages):
         sp.call("eq%d" % i, K_MATH, "EqualEqual_NameName", inp={"A": "@entry.page", "B": page}); sp.branch("b%d" % i, "@eq%d.ReturnValue" % i)
@@ -2253,6 +2398,8 @@ def w_panel():
     gov.get("gcsh", "OptChipSearch"); gov.call("vcsh", E_CHECK, "IsChecked", inp={"self": "@gcsh.OptChipSearch"}); gov.link("vcsh.ReturnValue", "return.chipsearch")
     gov.get("gtp", "OptTipNoPrefix"); gov.call("vtp", E_CHECK, "IsChecked", inp={"self": "@gtp.OptTipNoPrefix"}); gov.link("vtp.ReturnValue", "return.tipnoprefix")
     gov.get("gti", "OptTipNoIds"); gov.call("vti", E_CHECK, "IsChecked", inp={"self": "@gti.OptTipNoIds"}); gov.link("vti.ReturnValue", "return.tipnoids")
+    gov.get("gkx", "OptKodexAll"); gov.call("vkx", E_CHECK, "IsChecked", inp={"self": "@gkx.OptKodexAll"}); gov.link("vkx.ReturnValue", "return.kodexall")
+    gov.get("gmo", "OptMoveOn"); gov.call("vmo", E_CHECK, "IsChecked", inp={"self": "@gmo.OptMoveOn"}); gov.link("vmo.ReturnValue", "return.moveon")
     gov.chain("entry", "return")
     # static texts (language): search field hint + labels
     sst = G(); tail = ["entry"]
@@ -2272,7 +2419,9 @@ def w_panel():
     su.get("g6", "OptTipNoIds"); su.call("s6", E_CHECK, "SetIsChecked", inp={"self": "@g6.OptTipNoIds", "InIsChecked": "@entry.tipnoids"})
     su.get("g7", "OptMergeMods"); su.call("s7", E_CHECK, "SetIsChecked", inp={"self": "@g7.OptMergeMods", "InIsChecked": "@entry.mergemods"})
     su.get("g9", "OptChipSearch"); su.call("s9", E_CHECK, "SetIsChecked", inp={"self": "@g9.OptChipSearch", "InIsChecked": "@entry.chipsearch"})
-    su.get("g8", "OptCamRight"); su.call("s8", E_CHECK, "SetIsChecked", inp={"self": "@g8.OptCamRight", "InIsChecked": "@entry.camright"}); su.chain("entry", "s", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9")
+    su.get("g8", "OptCamRight"); su.call("s8", E_CHECK, "SetIsChecked", inp={"self": "@g8.OptCamRight", "InIsChecked": "@entry.camright"}); su.get("g10", "OptKodexAll"); su.call("s10", E_CHECK, "SetIsChecked", inp={"self": "@g10.OptKodexAll", "InIsChecked": "@entry.kodexall"})
+    su.get("g11", "OptMoveOn"); su.call("s11", E_CHECK, "SetIsChecked", inp={"self": "@g11.OptMoveOn", "InIsChecked": "@entry.moveon"})
+    su.chain("entry", "s", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11")
     # keep the left side of the panel free: anchor of the background border (Minimum.X = fraction)
     la = G(); la.get("g", "Bg"); la.call("sl", "/Script/UMG.WidgetLayoutLibrary", "SlotAsCanvasSlot", inp={"Widget": "@g.Bg"})
     la.call("mk", K_MATH, "MakeVector2D", inp={"X": "@entry.fraction", "Y": "0.0"})
@@ -2282,7 +2431,7 @@ def w_panel():
     la.call("mk2", K_MATH, "MakeVector2D", inp={"X": "@entry.fraction", "Y": "1.0"}); la.make("an2", "/Script/Slate.Anchors", Minimum="@mk2.ReturnValue", Maximum="@mk2.ReturnValue")
     la.call("gt0", K_MATH, "Greater_FloatFloat", inp={"A": "@entry.fraction", "B": "0.0"}); la.branch("bv", "@gt0.ReturnValue")
     tail = ["sa"]; on = ["bv"]; off = ["bv:else"]
-    for b in ("BtnPlus", "BtnMinus", "BtnCam", "BtnPhoto"):
+    for b in ("BtnPlus", "BtnMinus", "BtnCam", "BtnPhoto", "BtnRag"):
         la.get("g" + b, b); la.call("sl" + b, "/Script/UMG.WidgetLayoutLibrary", "SlotAsCanvasSlot", inp={"Widget": "@g%s.%s" % (b, b)})
         la.call("sa" + b, "/Script/UMG.CanvasPanelSlot", "SetAnchors", inp={"self": "@sl%s.ReturnValue" % b, "InAnchors": "@an2.Anchors"}); tail.append("sa" + b)
         la.get("h" + b, b); la.call("sv" + b, E_WIDGET, "SetVisibility", inp={"self": "@h%s.%s" % (b, b), "InVisibility": "Visible"}); on.append("sv" + b)
@@ -2297,13 +2446,13 @@ def w_panel():
     # +/- round buttons: pass the manager through, set action + icon (tree instances otherwise never get an init)
     ib = G(); tail = ["entry"]
     for b, action, tex, tipkey in (("BtnPlus", "DistPlus", T_PLUS, "Tip_DistPlus"), ("BtnMinus", "DistMinus", T_MINUS, "Tip_DistMinus"),
-                                   ("BtnCam", "FreeCam", T_CAM, "Tip_FreeCam"), ("BtnPhoto", "PhotoMode", T_PHOTO, "Tip_PhotoMode")):
+                                   ("BtnCam", "FreeCam", T_CAM, "Tip_FreeCam"), ("BtnPhoto", "PhotoMode", T_PHOTO, "Tip_PhotoMode"), ("BtnRag", "ModeRagdoll", M + "/T_RagMode", "Tip_RagdollMode")):
         ib.get("g" + b, b); ib.get("m" + b, "Manager"); ib.n("s" + b, "set", var="Manager", cls=W_ROUND, inp={"self": "@g%s.%s" % (b, b), "Manager": "@m%s.Manager" % b})
         ib.get("h" + b, b); ib.call("i" + b, W_ROUND, "Init", inp={"self": "@h%s.%s" % (b, b), "action": action, "icon": tex, "tip": mt(ib, "t" + b, tipkey)}); tail += ["s" + b, "i" + b]
     ib.chain(*tail)
     # Set Cam Mode(on): free cam hides Bg + the round buttons (input goes to the game viewport meanwhile); off restores Bg (buttons come back via Set Left Free)
     scm = G(); scm.branch("b", "@entry.on"); on = ["b"]
-    for i, wn in enumerate(("Bg", "BtnPlus", "BtnMinus", "BtnCam", "BtnPhoto", "JodiCatcher")):
+    for i, wn in enumerate(("Bg", "BtnPlus", "BtnMinus", "BtnCam", "BtnPhoto", "BtnRag", "JodiCatcher")):
         scm.get("g%d" % i, wn); scm.call("c%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@g%d.%s" % (i, wn), "InVisibility": "Collapsed"}); on.append("c%d" % i)
     scm.get("gbg", "Bg"); scm.call("vbg", E_WIDGET, "SetVisibility", inp={"self": "@gbg.Bg", "InVisibility": "Visible"})
     scm.chain("entry", *on); scm.chain("b:else", "vbg")
@@ -2386,6 +2535,28 @@ def w_panel():
         ats.call("p%d" % i, "/Script/UMG.VerticalBoxSlot", "SetPadding", inp={"self": "@a%d.ReturnValue" % i, "InPadding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(6)})
         ats.chain(prev, "b%d" % i, "a%d" % i, "p%d" % i); prev = "b%d:else" % i
     # content view: title + scroll a tile into view on the page's scroll box (Show in tab)
+    # Kodex: text (an empty body is hidden), picture (None hides it), scroll to the top
+    kt = G(); kt.get("gt", "KodexTitle"); kt.call("st", E_TEXT, "SetText", inp={"self": "@gt.KodexTitle", "InText": "@entry.title"})
+    kt.get("gb", "KodexBody"); kt.call("sb", E_TEXT, "SetText", inp={"self": "@gb.KodexBody", "InText": "@entry.body"})
+    kt.call("emp", K_TXT, "TextIsEmpty", inp={"InText": "@entry.body"})
+    kt.branch("be", "@emp.ReturnValue"); kt.get("gb2", "KodexBody"); kt.call("hb", E_WIDGET, "SetVisibility", inp={"self": "@gb2.KodexBody", "InVisibility": "Collapsed"})
+    kt.get("gb3", "KodexBody"); kt.call("vb", E_WIDGET, "SetVisibility", inp={"self": "@gb3.KodexBody", "InVisibility": "Visible"})
+    kt.chain("entry", "st", "sb", "be", "hb"); kt.chain("be:else", "vb")
+    ki = G(); ki.call("iv", K_SYS, "IsValid", inp={"Object": "@entry.tex"}); ki.branch("b", "@iv.ReturnValue")
+    ki.get("gi", "KodexImage"); ki.call("sb", E_IMAGE, "SetBrushFromTexture", inp={"self": "@gi.KodexImage", "Texture": "@entry.tex", "bMatchSize": "false"})
+    ki.get("gx", "KodexImageBox"); ki.call("vx", E_WIDGET, "SetVisibility", inp={"self": "@gx.KodexImageBox", "InVisibility": "Visible"})
+    ki.get("gx2", "KodexImageBox"); ki.call("hx", E_WIDGET, "SetVisibility", inp={"self": "@gx2.KodexImageBox", "InVisibility": "Collapsed"})
+    ki.chain("entry", "b", "sb", "vx"); ki.chain("b:else", "hx")
+    rh = G(); rh.get("g", "RagHint"); rh.call("t", E_TEXT, "SetText", inp={"self": "@g.RagHint", "InText": "@entry.text"}); rh.call("e", K_TXT, "TextIsEmpty", inp={"InText": "@entry.text"})
+    rh.branch("b", "@e.ReturnValue"); rh.get("g2", "RagHint"); rh.call("h", E_WIDGET, "SetVisibility", inp={"self": "@g2.RagHint", "InVisibility": "Collapsed"})
+    rh.get("g3", "RagHint"); rh.call("s", E_WIDGET, "SetVisibility", inp={"self": "@g3.RagHint", "InVisibility": "Visible"}); rh.chain("entry", "t", "b", "h"); rh.chain("b:else", "s")
+    rt = G(); tail = ["entry"]
+    for w_, pn in (("LblRagSave", "save"), ("LblRagPresets", "presets"), ("RagPresetsHint", "hint")):
+        rt.get("g" + pn, w_); rt.call("s" + pn, E_TEXT, "SetText", inp={"self": "@g%s.%s" % (pn, w_), "InText": "@entry." + pn}); tail.append("s" + pn)
+    rt.chain(*tail)
+    grn = G(); grn.get("g", "RagNameEdit"); grn.call("t", E_EDIT, "GetText", inp={"self": "@g.RagNameEdit"}); grn.link("t.ReturnValue", "return.text")
+    crn = G(); crn.get("g", "RagNameEdit"); crn.call("st", E_EDIT, "SetText", inp={"self": "@g.RagNameEdit", "InText": ""}); crn.chain("entry", "st")
+    ks = G(); ks.get("g", "KodexScroll"); ks.call("s", U_SCROLL, "ScrollToStart", inp={"self": "@g.KodexScroll"}); ks.chain("entry", "s")
     ct = G(); ct.get("g", "ContentTitle"); ct.call("s", E_TEXT, "SetText", inp={"self": "@g.ContentTitle", "InText": "@entry.text"}); ct.chain("entry", "s")
     si = G(); prev = "entry"
     for i, (page, box) in enumerate([("Clothes", "ListScroll"), ("Hair", "HairScroll"), ("Look", "LookScroll"), ("Manage", "ManageScroll")]):
@@ -2409,6 +2580,11 @@ def w_panel():
         wfv.get("g%d" % i, wn); wfv.call("v%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@g%d.%s" % (i, wn), "InVisibility": "Visible"})
         wfv.get("h%d" % i, wn); wfv.call("c%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@h%d.%s" % (i, wn), "InVisibility": "Collapsed"})
     wfv.chain("entry", "b", "v0", "v1"); wfv.chain("b:else", "c0", "c1")
+    wsv = G(); wsv.branch("b", "@entry.visible")
+    for i, wn in enumerate(["WeaponSoundHeader", "WeaponSoundList"]):
+        wsv.get("g%d" % i, wn); wsv.call("v%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@g%d.%s" % (i, wn), "InVisibility": "Visible"})
+        wsv.get("h%d" % i, wn); wsv.call("c%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@h%d.%s" % (i, wn), "InVisibility": "Collapsed"})
+    wsv.chain("entry", "b", "v0", "v1"); wsv.chain("b:else", "c0", "c1")
     wcv = G(); wcv.branch("b", "@entry.visible")
     wcv.get("g0", "WeaponSubTabsBox"); wcv.call("v0", E_WIDGET, "SetVisibility", inp={"self": "@g0.WeaponSubTabsBox", "InVisibility": "Visible"})
     wcv.get("h0", "WeaponSubTabsBox"); wcv.call("c0", E_WIDGET, "SetVisibility", inp={"self": "@h0.WeaponSubTabsBox", "InVisibility": "Collapsed"})
@@ -2439,6 +2615,17 @@ def w_panel():
              clear("Clear Hair Links", "HairLinks"), add("Add Hair Link", "HairLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear Hair", "HairList"), add("Add Hair", "HairList", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Look Cats", "LookCats"), add("Add Look Cat", "LookCats", U_VBOX, "AddChildToVerticalBox"),
+             clear("Clear Rag Kinds", "RagKinds"), add("Add Rag Kind", "RagKinds", U_WRAP, "AddChildToWrapBox"), set_hint_fn("Set Rag Kinds Title", "LblRagKinds"), clear("Clear Rag Top", "RagTop"), add("Add Rag Top", "RagTop", U_HBOX, "AddChildToHorizontalBox"), clear("Clear Rag Rows", "RagRows"), add("Add Rag Row", "RagRows", U_VBOX, "AddChildToVerticalBox"),
+             fn("Set Rag Hint", [param("text", "text")], graph=rh), fn("Set Rag Texts", [param("save", "text"), param("presets", "text"), param("hint", "text")], graph=rt),
+             fn("Get Rag Name", outputs=[param("text", "text")], graph=grn, pure=True), fn("Clear Rag Name", graph=crn),
+             clear("Clear Rag Save Links", "RagSaveLinks"), add("Add Rag Save Link", "RagSaveLinks", U_HBOX, "AddChildToHorizontalBox"),
+             clear("Clear Rag Preset Chips", "RagPresetChips"), add("Add Rag Preset Chip", "RagPresetChips", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear Kodex Cats", "KodexCats"), add("Add Kodex Cat", "KodexCats", U_VBOX, "AddChildToVerticalBox"),
+             clear("Clear Kodex Tiles", "KodexTiles"), add("Add Kodex Tile", "KodexTiles", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear Kodex Links", "KodexLinks"), add("Add Kodex Link", "KodexLinks", U_VBOX, "AddChildToVerticalBox"),
+             clear("Clear Kodex Back", "KodexBack"), add("Add Kodex Back", "KodexBack", U_HBOX, "AddChildToHorizontalBox"),
+             fn("Set Kodex Text", [param("title", "text"), param("body", "text")], graph=kt), fn("Set Kodex Image", [param("tex", "object:" + E_TEX2D)], graph=ki),
+             fn("Kodex Scroll Top", graph=ks),
              clear("Clear Option Cats", "OptionCats"), add("Add Option Cat", "OptionCats", U_VBOX, "AddChildToVerticalBox"), fn("Set Option Cat", [param("cat", "name")], graph=soc),
              clear("Clear Tab Chips", "TabChips"), add("Add Tab Chip", "TabChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Tab Style Chips", "TabStyleChips"), add("Add Tab Style Chip", "TabStyleChips", U_WRAP, "AddChildToWrapBox"),
@@ -2463,6 +2650,7 @@ def w_panel():
              clear("Clear Pose Search Links", "PoseSearchLinks"), add("Add Pose Search Link", "PoseSearchLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear Weapon Cats", "WeaponCats"), add("Add Weapon Cat", "WeaponCats", U_VBOX, "AddChildToVerticalBox"),
              clear("Clear Weapon Models", "WeaponModelList"), add("Add Weapon Model", "WeaponModelList", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear Weapon Sounds", "WeaponSoundList"), add("Add Weapon Sound", "WeaponSoundList", U_WRAP, "AddChildToWrapBox"), fn("Set Weapon Sounds Visible", [param("visible", "bool")], graph=wsv),
              clear("Clear Weapon Skins", "WeaponList"), add("Add Weapon Skin", "WeaponList", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Weapon Skin Fav", "WeaponFavList"), add("Add Weapon Skin Fav", "WeaponFavList", U_WRAP, "AddChildToWrapBox"), fn("Set Weapon Fav Visible", [param("visible", "bool")], graph=wfv),
              clear("Clear Weapon SubTabs", "WeaponSubTabs"), add("Add Weapon SubTab", "WeaponSubTabs", U_WRAP, "AddChildToWrapBox"), fn("Set Weapon Chips Visible", [param("visible", "bool")], graph=wcv),
@@ -2471,12 +2659,15 @@ def w_panel():
              fn("Get Pose Search", outputs=[param("text", "text")], graph=gps, pure=True), fn("Clear Pose Search", graph=cps),
              fn("Get Look Only Fav", outputs=[param("yes", "bool")], graph=glf, pure=True), fn("Set Look Only Fav", [param("yes", "bool")], graph=slf),
              fn("Get Look Only Worn", outputs=[param("yes", "bool")], graph=glw, pure=True), fn("Set Look Only Worn", [param("yes", "bool")], graph=slw),
-             fn("Get Option Values", outputs=[param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool")], graph=gov),
-             fn("Set Option Checks", [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool")], graph=su), fn("Set Left Free", [param("fraction", "float")], graph=la), fn("Set Cam Mode", [param("on", "bool")], graph=scm),
+             fn("Get Option Values", outputs=[param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool")], graph=gov),
+             fn("Set Option Checks", [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool")], graph=su), fn("Set Left Free", [param("fraction", "float")], graph=la), fn("Set Cam Mode", [param("on", "bool")], graph=scm),
              clear("Clear Layout Chips", "LayoutChips"), add("Add Layout Chip", "LayoutChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Unowned Chips", "UnownedChips"), add("Add Unowned Chip", "UnownedChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Conflict Rows", "ConflictRows"), add("Add Conflict Row", "ConflictRows", U_VBOX, "AddChildToVerticalBox"),
              clear("Clear Conflict Links", "ConflictLinks"), add("Add Conflict Link", "ConflictLinks", U_HBOX, "AddChildToHorizontalBox"),
+             clear("Clear Move Links", "MoveLinks"), add("Add Move Link", "MoveLinks", U_HBOX, "AddChildToHorizontalBox"),
+             clear("Clear Walk Style Chips", "WalkStyleChips"), add("Add Walk Style Chip", "WalkStyleChips", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear Run Style Chips", "RunStyleChips"), add("Add Run Style Chip", "RunStyleChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Body Chips", "BodyChips"), add("Add Body Chip", "BodyChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Lang Chips", "LangChips"), add("Add Lang Chip", "LangChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Key Chips", "KeyChips"), add("Add Key Chip", "KeyChips", U_WRAP, "AddChildToWrapBox"),
@@ -2492,7 +2683,7 @@ def w_panel():
              fn("Set Body Scales", [param(key.lower(), "float") for _, key in SCALE_ROWS], graph=ssc),
              fn("Set Body Scales Enabled", [param("enabled", "bool")], graph=esc),
              *vlist_panel_fns("Clo", "ListScroll", "ListVB", "CloTop", "List", "CloBottom"),
-             fn("Set Fav Visible", [param("visible", "bool")], graph=fv2), fn("OnMouseButtonDown", override=True, graph=pm), fn("OnMouseMove", override=True, graph=mm), fn("OnMouseButtonUp", override=True, graph=mu),
+             fn("Set Fav Visible", [param("visible", "bool")], graph=fv2), fn("OnMouseButtonDown", override=True, graph=pm), fn("OnMouseMove", override=True, graph=mm), fn("OnMouseButtonUp", override=True, graph=mu), fn("OnMouseWheel", override=True, graph=mw),
 
              clear("Clear SubTabs", "SubTabs"), add("Add SubTab", "SubTabs", U_WRAP, "AddChildToWrapBox"),
              fn("Get Search", outputs=[param("text", "text")], graph=gs, pure=True),
@@ -2555,7 +2746,10 @@ def w_quick_row():
     g.get("gib4", "IconBox"); g.call("hh", E_WIDGET, "SetVisibility", inp={"self": "@gib4.IconBox", "InVisibility": "Hidden"})
     g.call("op", K_MATH, "SelectFloat", inp={"A": "1.0", "B": "0.45", "bPickA": "@entry.valid"})
     g.get("gl2", "Label"); g.call("so", E_WIDGET, "SetRenderOpacity", inp={"self": "@gl2.Label", "InOpacity": "@op.ReturnValue"})
-    g.chain(*tail); g.chain("bc", "sb", "bi"); g.chain("bc:else", "hc", "bi"); g.chain("bi", "sbi", "so"); g.chain("bi:else", "bhd", "hi", "so"); g.chain("bhd:else", "hh", "so")
+    # pooled by the "Available" list: what one item hides, the next one shows again (else icons stayed hidden, game test 2026-10-06)
+    g.get("gcb2", "CheckBox"); g.call("vc", E_WIDGET, "SetVisibility", inp={"self": "@gcb2.CheckBox", "InVisibility": "Visible"})
+    g.get("gib2", "IconBox"); g.call("vi", E_WIDGET, "SetVisibility", inp={"self": "@gib2.IconBox", "InVisibility": "Visible"})
+    g.chain(*tail); g.chain("bc", "vc", "sb", "bi"); g.chain("bc:else", "hc", "bi"); g.chain("bi", "vi", "sbi", "so"); g.chain("bi:else", "bhd", "hi", "so"); g.chain("bhd:else", "hh", "so")
     g.n("cc", "call_self", function="Compute Colors"); g.chain("so", "sbg", "cc")
     # zebra stripe like the slot conflicts: tinted rows a light white, headings never
     g.call("tbc", K_MATH, "SelectColor", inp={"A": "(R=1,G=1,B=1,A=0.05)", "B": "(R=1,G=1,B=1,A=0)", "bPickA": "@entry.tinted"})
@@ -2717,5 +2911,7 @@ def w_quick_wheel():
                      widget_tree=tree, defaults={"bIsFocusable": "true"})
 
 
-assets = [w_quick_row(), w_quick_sector(), w_quick_wheel(), w_tooltip(), w_group_header(), w_value_row(), w_content_section(), w_slot_tab(), w_clothes_button(), w_sub_tab(), w_top_tab(), w_list_head(), w_vrow(), w_outfit_button(), w_look_button(scale_fn="Look Scale"), w_look_button(W_FACEBTN, "On Face Clicked", "On Face Context", "Set Face Name", "Btn_SaveFace", (104, 164), (88, 88)), w_text_button(), w_name_row(), w_conflict_row(), w_hair_swatch(), w_mod_field(), w_face_row(), w_round_button(), w_menu_row(), w_context_menu(), w_color_swatch(), w_panel()]
+assets = [w_quick_row(), w_quick_sector(), w_quick_wheel(), w_tooltip(), w_group_header(), w_value_row(), w_content_section(), w_slot_tab(), w_clothes_button(), w_sub_tab(), w_top_tab(), w_list_head(), w_vrow(), w_outfit_button(), w_look_button(scale_fn="Look Scale"), w_look_button(W_FACEBTN, "On Face Clicked", "On Face Context", "Set Face Name", "Btn_SaveFace", (104, 164), (88, 88)),
+          w_look_button(W_KODEXTILE, "Kodex Tile Clicked", "Kodex Tile Clicked", "Kodex Noop Rename", "Btn_SaveLook", (136, 236), (120, 180)),
+          w_look_button(W_RAGTILE, "Rag Kind Clicked", "Rag Kind Clicked", "Kodex Noop Rename", "Btn_SaveLook", (104, 196), (88, 132), scale_fn="Rag Scale", links=True), w_text_button(), w_link_row(), w_rag_poses(), w_name_row(), w_conflict_row(), w_kodex_lock_row(), w_hair_swatch(), w_mod_field(), w_face_row(), w_round_button(), w_menu_row(), w_context_menu(), w_color_swatch(), w_panel()]
 write(os.path.join(os.path.dirname(__file__), "..", "40_widgets.json"), assets)

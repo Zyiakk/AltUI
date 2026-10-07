@@ -71,6 +71,21 @@ class Definition(unittest.TestCase):
         self.assertEqual(len(set(names)), len(names))
         self.assertTrue(names[0].startswith("Weapon_2_"), names[0])
 
+    def test_shot_targets(self):
+        self.assertEqual(ws.shot_targets("/Game/Project/Sounds/Weapons/HK416/HK416_Shot"), [("HK416", "wave")])
+        self.assertEqual(ws.shot_targets("/Game/Project/sounds/weapons/HK416/HK416_Shot_Cue"), [("HK416", "sound")])
+        self.assertEqual(ws.shot_targets("/Game/Project/Sounds/Weapons/SMG_Single_Shot"), [("UMP45", "sound")])
+        self.assertEqual(ws.shot_targets("/Game/Project/sounds/weapons/DesertEagle/DesertEagle_Shot"), [("DesertEagle", "sound")])
+        self.assertEqual(ws.shot_targets("/Game/Project/Sounds/Weapons/Shotgun_DryFire"), [])
+
+    def test_every_shot_weapon_is_a_tab_weapon(self):
+        self.assertEqual([w for w in ws.VANILLA_SHOT if w not in ws.WEAPONS], [])
+
+    def test_sound_member_names_are_stable(self):
+        names = [i for _, i, _ in ws.sound_struct_members()]
+        self.assertEqual(len(set(names)), 3)
+        self.assertTrue(names[2].startswith("Sound_6_"), names[2])
+
 
 class Convert(unittest.TestCase):
     def setUp(self):
@@ -182,6 +197,70 @@ class Models(unittest.TestCase):
         model_pak(src, extra)
         with self.assertRaises(SystemExit):
             weaponpak.convert(src, name="Own", out_dir=self.d)
+
+
+def sound_pak(path, rel, cls="SoundWave", extra=()):
+    """A shot-sound replacer: one sound package at <rel> below Content/Project/."""
+    entries = list(extra) + mesh_entries(rel, rel.rsplit("/", 1)[1], cls)
+    bodypak.write_pak(path, "../../../TheKillingAntidote/Content/Project/", [], entries, 5)
+
+
+class Sounds(unittest.TestCase):
+    def setUp(self):
+        self.d = tempfile.mkdtemp(); self.addCleanup(shutil.rmtree, self.d, ignore_errors=True)
+
+    def files(self, log):
+        return sorted(k.lstrip("/") for k in Pak(log["pak"]).files)
+
+    def test_a_shot_sound_replacer_becomes_a_sound_row(self):
+        src = os.path.join(self.d, "UMP45-SFX.pak"); sound_pak(src, "sounds/weapons/SMG_Single_Shot")
+        log = weaponpak.convert(src, name="UMPSound", title="UMP Sound", out_dir=self.d)
+        self.assertEqual(log["weapon"], "UMP45"); self.assertEqual(log["sound"], "SMG_Single_Shot")
+        got = self.files(log)
+        self.assertIn("SMG_Single_Shot.uasset", got); self.assertIn(ws.SOUND_TABLE_NAME + ".uasset", got)
+        self.assertNotIn(ws.MODEL_TABLE_NAME + ".uasset", got); self.assertNotIn(ws.TABLE_NAME + ".uasset", got)
+        pk = Pak(log["pak"])
+        table = Package.from_bytes(pk.read("/" + ws.SOUND_TABLE_NAME + ".uasset"), pk.read("/" + ws.SOUND_TABLE_NAME + ".uexp"))
+        refs = [(im.class_name, im.object_name) for im in table.imports]
+        self.assertIn(("Package", "/Game/Mod/" + ws.MOD_PREFIX + "UMPSound/SMG_Single_Shot"), refs)
+        self.assertIn(("SoundWave", "SMG_Single_Shot"), refs)
+
+    def test_a_model_pak_with_a_sound_writes_both_rows(self):
+        src = os.path.join(self.d, "UMP45_Main.pak")
+        model_pak(src, mesh_entries("sounds/weapons/SMG_Single_Shot", "SMG_Single_Shot", "SoundWave"))
+        log = weaponpak.convert(src, name="NewUMP", out_dir=self.d)
+        got = self.files(log)
+        self.assertIn(ws.MODEL_TABLE_NAME + ".uasset", got); self.assertIn(ws.SOUND_TABLE_NAME + ".uasset", got)
+        self.assertEqual(log["sound"], "SMG_Single_Shot")
+
+    def test_a_wave_behind_the_cue_gets_a_copy_of_the_cue(self):
+        S = "/Game/Project/Sounds/Weapons/HK416/"
+        game = os.path.join(self.d, "pakchunk0-WindowsNoEditor.pak")
+        bodypak.write_pak(game, "../../../TheKillingAntidote/Content/Project/", [],
+                          mesh_entries("Sounds/Weapons/HK416/HK416_Shot_Cue", "HK416_Shot_Cue", "SoundCue",
+                                       [(S + "HK416_Shot", "SoundWave"), ("/Game/Project/Sounds/SoundAttenuation", "SoundAttenuation")]), 6)
+        src = os.path.join(self.d, "G36C-SFX.pak"); sound_pak(src, "sounds/weapons/HK416/HK416_Shot")
+        log = weaponpak.convert(src, name="G36CSound", title="G36C", out_dir=self.d, game=game)
+        self.assertEqual(log["weapon"], "HK416"); self.assertEqual(log["sound"], "HK416_Shot_Cue")
+        pk = Pak(log["pak"]); got = self.files(log)
+        self.assertIn("HK416_Shot.uasset", got); self.assertIn("HK416_Shot_Cue.uasset", got)
+        cue = Package.from_bytes(pk.read("/HK416_Shot_Cue.uasset"), pk.read("/HK416_Shot_Cue.uexp"))
+        pkgs = [bodypak.import_name(im) for im in cue.imports if im.class_name == "Package"]
+        self.assertIn("/Game/Mod/" + ws.MOD_PREFIX + "G36CSound/HK416_Shot", pkgs)
+        self.assertNotIn(S + "HK416_Shot", pkgs)
+        self.assertIn("/Game/Project/Sounds/SoundAttenuation", pkgs)   # the game's attenuation stays the game's
+        table = Package.from_bytes(pk.read("/" + ws.SOUND_TABLE_NAME + ".uasset"), pk.read("/" + ws.SOUND_TABLE_NAME + ".uexp"))
+        self.assertIn(("SoundCue", "HK416_Shot_Cue"), [(im.class_name, im.object_name) for im in table.imports])
+
+    def test_a_wave_behind_the_cue_without_the_game_is_refused(self):
+        src = os.path.join(self.d, "G36C-SFX.pak"); sound_pak(src, "sounds/weapons/HK416/HK416_Shot")
+        with self.assertRaises(SystemExit):
+            weaponpak.convert(src, name="X", out_dir=self.d, game=os.path.join(self.d, "missing.pak"))
+
+    def test_other_sounds_stay_skipped(self):
+        src = os.path.join(self.d, "dry.pak"); sound_pak(src, "sounds/weapons/Shotgun_DryFire")
+        with self.assertRaises(SystemExit):
+            weaponpak.convert(src, name="Dry", out_dir=self.d)
 
 
 if __name__ == "__main__":

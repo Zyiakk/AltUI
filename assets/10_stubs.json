@@ -195,6 +195,9 @@
     "WeaponAltUI_ModelTest": {
      "Caption": "Test Weapon Mod"
     },
+    "WeaponAltUI_SoundTest": {
+     "Caption": "Test Sound Mod"
+    },
     "AltUIMod_Test": {
      "Caption": "Test Mods Tab"
     }
@@ -342,6 +345,116 @@
    }
   },
   {
+   "type": "struct",
+   "path": "/Game/Project/Maps/JodisOffice/Computer/Jodi_Mail_Struct",
+   "members": [
+    {
+     "name": "Title",
+     "type": "text",
+     "internal_name": "Title_2_B048B9A74E9883DAF84A80B1A875CC4F"
+    },
+    {
+     "name": "Content",
+     "type": "text",
+     "internal_name": "Content_4_EC3177DC4A1F131934EE488FA8EE4C64"
+    },
+    {
+     "name": "Image",
+     "type": "object:/Script/Engine.Texture2D",
+     "internal_name": "Image_12_C768945E4ACE98A45AC78BA2F6EDFFD6"
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Maps/JodisOffice/Computer/Jodi_Archives",
+   "row_struct": "/Game/Project/Maps/JodisOffice/Computer/Jodi_Mail_Struct",
+   "composite": false,
+   "rows": {
+    "Arch_A": {},
+    "Arch_B": {},
+    "Arch_C": {},
+    "Arch_D": {},
+    "Arch_E": {},
+    "Arch_F": {}
+   }
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/Note_Save",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Notes",
+     "type": "string",
+     "container": "array"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/Settings_Save",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "RunMode",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Items/ItemComponent",
+   "mode": "augment",
+   "functions": [
+    {
+     "name": "Is Locked",
+     "outputs": [
+      {
+       "name": "Yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Items/ItemComp_Password",
+   "mode": "augment",
+   "variables": [
+    {
+     "name": "Password",
+     "type": "string"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Zombie/Shatterer",
+   "mode": "augment",
+   "variables": [
+    {
+     "name": "gas tank",
+     "type": "object:/Script/Engine.Actor"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Zombie/Zombie_Base",
+   "mode": "augment",
+   "variables": [
+    {
+     "name": "Crystal",
+     "type": "object:/Script/Engine.Actor"
+    }
+   ]
+  },
+  {
    "type": "blueprint",
    "path": "/Game/Project/Actors/Weapons/Weapon_Base",
    "mode": "create",
@@ -379,15 +492,32 @@
   },
   {
    "type": "blueprint",
-   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Barrel_Comp",
+   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Grip_Comp",
    "mode": "create",
    "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"
   },
   {
    "type": "blueprint",
-   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Grip_Comp",
+   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Barrel_Comp",
    "mode": "create",
-   "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"
+   "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base",
+   "variables": [
+    {
+     "name": "Shot Sound",
+     "type": "object:/Script/Engine.SoundBase"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Classes/Struct/Gun_Struct",
+   "members": [
+    {
+     "name": "PaintName",
+     "type": "name",
+     "internal_name": "PaintName_29_FA1F96D44E7CE9841245EC85AD208267"
+    }
+   ]
   },
   {
    "type": "blueprint",
@@ -398,6 +528,18 @@
     {
      "name": "Equipment Mag",
      "type": "object:/Game/Project/Actors/Weapons/Equipment/Gun_Mag_Comp"
+    },
+    {
+     "name": "Gun Data",
+     "type": "struct:/Game/Project/Classes/Struct/Gun_Struct"
+    },
+    {
+     "name": "Shot Sound",
+     "type": "object:/Script/Engine.SoundBase"
+    },
+    {
+     "name": "Equipment Suppressor",
+     "type": "object:/Game/Project/Actors/Weapons/Equipment/Gun_Barrel_Comp"
     }
    ],
    "functions": [
@@ -1197,6 +1339,25 @@
        "type": "float"
       }
      ]
+    },
+    {
+     "name": "Is Wanna Run ?",
+     "outputs": [
+      {
+       "name": "Yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Change Wanna Run",
+     "inputs": [
+      {
+       "name": "run",
+       "type": "bool"
+      }
+     ]
     }
    ]
   },
@@ -1204,6 +1365,16 @@
    "type": "blueprint",
    "path": "/Game/Project/Classes/Character_Base",
    "mode": "augment",
+   "variables": [
+    {
+     "name": "Speed 2d",
+     "type": "float"
+    },
+    {
+     "name": "Anim Blueprint",
+     "type": "object:/Script/Engine.AnimInstance"
+    }
+   ],
    "functions": [
     {
      "name": "Enable Boobs Physics",
@@ -1213,6 +1384,16 @@
        "type": "bool"
       }
      ]
+    },
+    {
+     "name": "Is Crouching",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
     }
    ]
   },
@@ -1221,6 +1402,10 @@
    "path": "/Game/Project/Character/Jodi/Jodi",
    "mode": "augment",
    "variables": [
+    {
+     "name": "Settings",
+     "type": "object:/Game/Project/Classes/Save/Settings_Save"
+    },
     {
      "name": "Eye Material",
      "type": "object:/Script/Engine.MaterialInstanceDynamic"
@@ -1269,6 +1454,9 @@
       }
      ],
      "pure": true
+    },
+    {
+     "name": "Wanna Running"
     },
     {
      "name": "Use Clothes from Bag",
@@ -1584,6 +1772,15 @@
       {
        "name": "yes",
        "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Get Note Save",
+     "outputs": [
+      {
+       "name": "note save",
+       "type": "object:/Game/Project/Classes/Save/Note_Save"
       }
      ]
     }

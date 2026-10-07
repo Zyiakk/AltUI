@@ -21,7 +21,7 @@ def main():
     expect("current page shown although hidden", mgr.get_editor_property("TmpBool"), True)
     mgr.set_editor_property("Page", "Options"); mgr.call_method("Test First Visible Page")
     expect("first visible skips hidden", str(mgr.get_editor_property("TmpName")), "Looks")
-    mgr.set_editor_property("HiddenTabs", ["Clothes", "Outfits", "Looks", "Bag", "Hair", "Poses", "Weapons", "Look", "Body", "Face", "Mods", "Manage"])
+    mgr.set_editor_property("HiddenTabs", ["Clothes", "Outfits", "Looks", "Bag", "Hair", "Poses", "Weapons", "Look", "Body", "Face", "Mods", "Manage", "Ragdolls", "Kodex"])
     mgr.call_method("Test First Visible Page"); expect("all hidden -> Options", str(mgr.get_editor_property("TmpName")), "Options")
     mgr.set_editor_property("HiddenTabs", ["Clothes", "Outfits"])
     mgr.call_method("Test Toggle Tab Hidden", ("Options",)); expect("options never hidden", "Options" in names(mgr, "HiddenTabs"), False)

@@ -43,12 +43,15 @@ Hook podmienia *TKA_PlayerCameraManager* i stamtąd uruchamia panel. Każdy mod,
 * **Plecak · Fryzury · Wygląd** – co Jodi nosi i ma przy sobie; fryzury i kolory włosów; skóra, makijaż i oczy, każde do podbarwienia.
 * **Sylwetka** – suwaki biustu i talii, przełącznik przekonwertowanych modów ciała, suwaki kości dla każdego ciała.
 * **Twarz** – mimika, spojrzenie i usta Jodi jako suwaki; twarz trzyma się także w pozach i podczas tańca; zapisane twarze ze zdjęciem, ich wartości w „Pokaż zawartość”.
-* **Bronie** – model i skin na broń, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku.
+* **Bronie** – model, skin i dźwięk strzału na broń, także broń do walki wręcz, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku; kliknięcie dźwięku go odtwarza.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
 * **Mods** – ustawienia innych modów, które się tam rejestrują: przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, wiersze informacyjne, klawisze i przyciski. Widoczna tylko, gdy taki mod jest zainstalowany.
 * **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać. Prawy klik na kafelku, karcie lub wpisie moda dodaje go do koła albo go z niego usuwa.
 * **Opcje** – podzielone na kategorie wybierane z listy po lewej: klawisz panelu, język, kolory (schematy można zapisać pod nazwą), pasek kart z ikonami, tekstem lub jednym i drugim oraz wielkość kafelków, osobno dla zestawów i looków. Niepotrzebne karty można wyłączyć.
 * **Zarządzanie** – własne nazwy modów, grup i przedmiotów. Jak w Ubraniach podzakładki filtrują listę według moda lub grupy, a pole wyszukiwania zawęża podzakładki.
+* **Ragdolle** – kopie Jodi, zombie i ludzie jako figury z fizyką: ustawianie, pozowanie staw po stawie, zamrażanie albo puszczanie bezwładnie; pozy zapisują się dla każdego rodzaju figury, całe sceny dla każdego poziomu. Tryb ragdolli porusza nimi bez panelu.
+* **Kodeks** – podręcznik AltUI we wszystkich siedmiu językach, encyklopedia gry i zamki szyfrowe bieżącego poziomu; każdy kod pozostaje ukryty, dopóki go nie klikniesz.
+* **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach.
 * Cofnij / ponów (5 kroków), dymki z nazwą moda, z którego pochodzi dana rzecz.
 
 Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francuski (wykrywane automatycznie, zmienialne w Opcjach).

@@ -45,12 +45,15 @@ The hook replaces *TKA_PlayerCameraManager* and starts the panel from there. Any
 * **Backpack · Coiffure · Appearance** – what Jodi wears and carries; hairstyles and hair colours; skin, makeup and eyes, each tintable.
 * **Body Shape** – breast / waist sliders, a switcher for converted body mods, bone-scale sliders per body.
 * **Face** – Jodi's expression, gaze and mouth as sliders; the face holds in poses and while dancing; saved faces with a photo, their values under “View content”.
-* **Weapons** – a model and a skin per weapon, side by side from every weapon mod, with a rendered picture on each tile.
+* **Weapons** – model, skin and shot sound per weapon, melee weapons included, side by side from every weapon mod, with a rendered picture on each tile; a click on a sound plays it.
 * **Poses** – every action animation of the game and of pose mods, sorted into standing, sitting and lying.
 * **Mods** – the settings of other mods that register there: toggles, sliders, numbers, choices, colours, text fields, info lines, keys and buttons. Only shown when such a mod is installed.
 * **Quick menu** – hold **4** (changeable) and a wheel opens with what you use most: free camera, photo mode, a saved outfit, look, face or preset, a favourite pose, a tab, and actions of other mods. Up to 32 items, picked and sorted in Options; let go on one to run it. A right click on a tile, a tab or a mod's entry puts it into the wheel or takes it out.
 * **Options** – sorted into categories you pick from a list on the left: panel key, language, colours (schemes can be saved under a name), a tab bar with icons, text or both, and tile sizes, set separately for outfits and looks. Tabs you do not need can be switched off.
 * **Manage** – your own display names for mods, groups and items. As in Clothes, chips filter the list by mod or group, and a search field narrows down the chips.
+* **Ragdolls** – copies of Jodi, zombies and people as figures with physics: place them, pose them joint by joint, freeze them or let them fall; poses per kind of figure and whole scenes per level are saved. A ragdolls mode moves them without the panel.
+* **Codex** – the AltUI manual in all seven languages, the game's encyclopedia and the code locks of the current level, each code hidden until you click it.
+* **Movement** – Jodi's own walk and run speed (50–200 %), under Options.
 * Undo / redo (5 steps), tooltips showing which mod an item comes from.
 
 Languages: English, German, Chinese, Russian, Spanish, Polish, French (auto-detected, switchable in Options).

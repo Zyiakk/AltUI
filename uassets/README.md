@@ -1,13 +1,13 @@
 # Editor assets
 
-Eight assets from `AltUI.pak` to build a mod against in the Unreal Editor, so it arrives ready for AltUI without
+Nine assets from `AltUI.pak` to build a mod against in the Unreal Editor, so it arrives ready for AltUI without
 going through the converters. They are needed while you build only: in the finished game they are loaded from
 `AltUI.pak`, which the player has installed.
 
 | Files | For |
 |---|---|
 | `S_BodyScale.uasset`, `ABP_BodyScale.uasset` | a body for the **Body Shape** tab, without `bodypak.pyz` |
-| `S_WeaponSkin.uasset`, `S_WeaponModel.uasset` | a weapon skin or model for the **Weapons** tab, without `weaponpak.pyz` |
+| `S_WeaponSkin.uasset`, `S_WeaponModel.uasset`, `S_WeaponSound.uasset` | a weapon skin, model or shot sound for the **Weapons** tab, without `weaponpak.pyz` |
 | `S_AltUIModEntry.uasset`, `S_AltUIModField.uasset`, `BPI_AltUIMod.uasset` | your mod's settings in the **Mods** tab - see [MOD_UI.md](../MOD_UI.md) |
 | `S_AltUIModAction.uasset` | actions of your mod for the **quick menu** (`AltUI_Actions`) - see [MOD_UI.md](../MOD_UI.md#the-quick-menu) |
 
@@ -212,6 +212,23 @@ python3 pak11_extract.py "<game>/Content/Paks/pakchunk0-WindowsNoEditor.pak" lis
 ```
 
 `pak11_extract.py` is in `scripts/` of this repository and needs nothing but Python 3.
+
+### `S_WeaponSound.uasset`
+
+**Where the file goes:** `Content/Mod/AltUI/S_WeaponSound.uasset` - same rule, same reason as above.
+
+**Building the table:** a **Data Table** with `S_WeaponSound` as its row structure, named `Mod_WeaponSound`, in your
+mod folder. One row per shot sound.
+
+| Column | What goes in |
+|---|---|
+| `Weapon` | the weapon that fires with this sound |
+| `Caption` | the name on the tile |
+| `Sound` | a SoundCue or a SoundWave |
+
+The sound becomes the weapon's shot sound when it is chosen in the Sound section, independent of model and skin. A
+mounted suppressor with a sound of its own still wins. Prefer a **SoundCue** with an attenuation: a bare SoundWave
+plays as loud far away as up close.
 
 ### The weapons
 

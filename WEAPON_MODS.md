@@ -20,6 +20,13 @@ per weapon in the panel.
 The textures and meshes themselves are copied unchanged, so the result is exactly what the modder made. Whatever a
 mesh needs from the same pak – materials, physics assets – travels with it.
 
+A mod that replaces a weapon's **shot sound** (often a separate `…-SFX.pak` next to the model) is converted the same
+way. The sound then has its own section in the panel: you pick it per weapon, independent of the model, and every
+other weapon keeps its sound. For the HK416 and the SA58 the game plays the shot through a sound cue, and a replacer
+changes only the wave behind it; the converter then copies the game's cue into the mod so the shot keeps fading with
+distance. It reads that cue from the game's `pakchunk0-WindowsNoEditor.pak` and looks for it at the usual Steam place –
+pass `--game <…/Content/Paks/pakchunk0-WindowsNoEditor.pak>` when the game is installed elsewhere.
+
 ## 2. What you need
 
 | | |
@@ -56,8 +63,8 @@ more:
 ## 4. Converting
 
 ```
-python  weaponpak.pyz <Original.pak> [--name <Name>] [--title "Display name"] [--weapon <Weapon>] [--out <folder>] [--force]     (Windows)
-python3 weaponpak.pyz <Original.pak> [--name <Name>] [--title "Display name"] [--weapon <Weapon>] [--out <folder>] [--force]     (Linux)
+python  weaponpak.pyz <Original.pak> [--name <Name>] [--title "Display name"] [--weapon <Weapon>] [--out <folder>] [--force] [--game <pakchunk0>]     (Windows)
+python3 weaponpak.pyz <Original.pak> [--name <Name>] [--title "Display name"] [--weapon <Weapon>] [--out <folder>] [--force] [--game <pakchunk0>]     (Linux)
 ```
 
 | Option | What it does | Default |
@@ -67,16 +74,45 @@ python3 weaponpak.pyz <Original.pak> [--name <Name>] [--title "Display name"] [-
 | `--weapon` | Which of the game's weapons this mod is for. Only needed when the converter cannot tell – see below. | Read from the folder the mod replaces. |
 | `--out` | Where to write the converted pak. | Next to the input file. |
 | `--force` | Overwrite an existing output pak. | Off; the converter stops instead. |
+| `--game` | The game's `pakchunk0-WindowsNoEditor.pak`. Only needed for a shot sound of the HK416 or SA58, and only when the game is not at the usual Steam place. | The usual Steam install path. |
 
-The weapon names the game knows:
+### When `--weapon` is needed
+
+The converter reads the weapon from the folder the mod replaces, `Project/Models/Weapon/<Weapon>/`, or from the shot
+sound it replaces. That works for every gun. Two of the game's gun folders are named differently from the weapon in
+them – `m1014` is the `Shotgun`, `mgl` the `GrenadeLauncher` – and the converter knows that too.
+
+**Melee weapons always need `--weapon`.** The game keeps all six of them in one folder, `Project/Models/Weapon/Meelee/`
+(spelled that way), so the folder does not say which one a mod replaces, and the converter stops with
+`cannot tell which weapon this is (folders: meelee, …) - use --weapon <name>`. The same happens with a mod whose files
+sit in a folder of its own or that covers more than one weapon. Which weapon a melee mod replaces usually says its page
+or its file name (`RockGuitar_PipeWrench.pak`); after the conversion, the line `meshes:` shows the game's mesh it took
+(see [Reading the output](#reading-the-output)), which should match the table:
+
+| In the game | `--weapon` | The game's mesh the mod replaces |
+|---|---|---|
+| Knife | `Knife` | `KnifeCombat` |
+| Fire Axe | `Hatchet` | `hatchet` |
+| Machete | `Machete` | `SM_Machete` |
+| Adjustable Wrench | `Wrench` | `SM_Wrench` |
+| Pipe Wrench | `MonkeyWrench` | `SM_MonkeyWrench` |
+| Hammer | `IronHammer` | `SM_IronHammer` |
+
+Windows:
 
 ```
-Knife         Hatchet   Machete   Wrench   MonkeyWrench   IronHammer   Glock      Revolver
-DesertEagle   Shotgun   UMP45     HK416    SA58           Bow          Speargun   GrenadeLauncher
+python weaponpak.pyz SomeKnife.pak --weapon Knife --name SomeKnife --title "Some knife"
+python weaponpak.pyz SomeAxe.pak --weapon Hatchet --name SomeAxe --title "Some axe"
+python weaponpak.pyz SomeMachete.pak --weapon Machete --name SomeMachete --title "Some machete"
+python weaponpak.pyz SomeWrench.pak --weapon Wrench --name SomeWrench --title "Some wrench"
+python weaponpak.pyz SomePipeWrench.pak --weapon MonkeyWrench --name SomePipeWrench --title "Some pipe wrench"
+python weaponpak.pyz SomeHammer.pak --weapon IronHammer --name SomeHammer --title "Some hammer"
 ```
 
-Two of the game's folders are named differently from the weapon in them: `m1014` is the `Shotgun`, `mgl` the
-`GrenadeLauncher`. The converter knows that; you only need the names above when you pass `--weapon` yourself.
+Linux: the same with `python3`.
+
+The guns' names, for the rare case they are needed: `Glock`, `Revolver`, `DesertEagle`, `Shotgun`, `UMP45`, `HK416`,
+`SA58`, `Bow`, `Speargun`, `GrenadeLauncher`. The names are case-sensitive.
 
 ### Reading the output
 
@@ -100,6 +136,13 @@ the modder's project:
 WeaponAltUI_MyPistol.pak  (Glock, 9786337 bytes)
   meshes: Ammo_AmmoEmpty, Ammo_AmmoFull, Glock, Glock_Static
   skipped: Models/Weapon/Glock/Materials/Cartridge_Mat_009.uasset
+```
+
+A **sound** mod names the sound the weapon will fire with:
+
+```
+WeaponAltUI_G36CSound.pak  (HK416, 19150 bytes)
+  sound: HK416_Shot_Cue
 ```
 
 Skipped files are normal. What matters is that the `meshes:` line (for a model mod) is there and that no error
@@ -209,7 +252,7 @@ panel. Only the original replacers have to go.
 | Message | What it means |
 |---|---|
 | `no weapon textures or meshes in this pak (expected Models/Weapon/<weapon>/…)` | Not a weapon mod, or it replaces something else. Check that you picked the right pak – a sound pak (`…_SFX.pak`) gives this too. |
-| `cannot tell which weapon this is (folders: …)` | The mod's folder name is not one the converter knows. Pass `--weapon <Weapon>` from the list in section 4. |
+| `cannot tell which weapon this is (folders: …)` | A melee mod (`folders: meelee` – all melee weapons share that folder), or the mod's folder name is not one the converter knows. Pass `--weapon <Weapon>`; see [When `--weapon` is needed](#when---weapon-is-needed). |
 | `unknown weapon '…' (known: …)` | The `--weapon` you passed is not one of the game's weapon names. |
 | `the pak has skin textures but no base colour texture (…_BaseColor / _BC / _D)` | A skin needs a base colour texture; this pak has only extras. Nothing to convert. |
 | `the pak brings its own skeleton (…)` | The mod ships a skeleton of its own. Converting it would leave the weapon standing still in the game, because the animations are made for the original skeleton – so the converter stops instead. |
@@ -230,6 +273,6 @@ panel. Only the original replacers have to go.
 
 ## 10. Building an AltUI weapon mod in the editor
 
-If the mod is yours, you can build the AltUI version directly instead of converting a replacer: the two structs to
+If the mod is yours, you can build the AltUI version directly instead of converting a replacer: the three structs to
 build against are in [`uassets/`](uassets/README.md), and a finished example – one texture, one table row – is in
 [`examples/WeaponAltUI_Example/`](examples/WeaponAltUI_Example/).

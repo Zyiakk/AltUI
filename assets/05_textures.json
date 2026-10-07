@@ -132,6 +132,19 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_RagMode",
+   "file": "tex/ragmode.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_Pose",
    "file": "tex/pose.png",
    "props": {
@@ -303,6 +316,32 @@
    "type": "texture",
    "path": "/Game/Mod/AltUI/T_TabManage",
    "file": "tex/tab_manage.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_TabRagdolls",
+   "file": "tex/tab_ragdolls.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_TabKodex",
+   "file": "tex/tab_kodex.png",
    "props": {
     "CompressionSettings": "TC_EditorIcon",
     "LODGroup": "TEXTUREGROUP_UI",

@@ -34,7 +34,17 @@ El hook sustituye uno de los blueprints del propio juego (el gestor de cámara d
 
 El encuadre de cámara junto al panel abierto ya no depende del hook – se engancha al gestor de cámara que tenga el nivel, incluido el del propio juego.
 
-Para desinstalar: borra los archivos que copiaste. Los guardados propios del mod (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Faces.sav*, *AltUI_Names.sav*, las fotos de looks y rostros en *Saved\SaveGames\AltUI\* y las imágenes de armas en *Saved\SaveGames\WeaponIcons\*) también se pueden borrar; no se toca nada más – ropa, conjuntos, maquillaje y peinado se escriben a través de los guardados del propio juego.
+Para desinstalar: borra los archivos que copiaste. AltUI guarda sus propios datos en la carpeta de partidas del juego, en Windows `%LOCALAPPDATA%\TheKillingAntidote\Saved\SaveGames\`; para quitarlo todo, borra allí también:
+
+* `AltUI.sav` – ajustes y elecciones
+* `AltUI_Looks.sav` – looks guardados
+* `AltUI_Faces.sav` – rostros guardados
+* `AltUI_Names.sav` – tus propios nombres
+* `AltUI_Ragdolls.sav` – escenas y poses de ragdolls
+* `AltUI\` – fotos de looks, rostros y apariencias predefinidas
+* `WeaponIcons\` – imágenes de armas de las casillas
+
+No se toca nada más – ropa, conjuntos, maquillaje y peinado se escriben a través de los guardados del propio juego.
 
 ## Qué hace
 
@@ -46,12 +56,15 @@ Para desinstalar: borra los archivos que copiaste. Los guardados propios del mod
 * **Apariencia** – piel, todos los tipos de maquillaje, ojos, apariencias predefinidas con iconos (guardar, actualizar, renombrar, borrar).
 * **Curvas** – deslizadores de pecho / cintura, un selector de los mods de cuerpo instalados y – para cuerpos convertidos – deslizadores de escala de huesos: escala, busto, cintura extra, glúteos/caderas, muslos, pantorrillas, brazos, manos, pies, guardados por cuerpo.
 * **Rostro** – la expresión facial de Jodi: las expresiones del juego, la dirección de la mirada y las formas de la boca como deslizadores; una entrada marcada mantiene su valor, también en poses y al bailar, una sin marcar queda en manos del juego. Rostros guardados con foto. «Ver contenido» muestra sus valores.
-* **Armas** – un modelo y un skin por arma, juntos de todos los mods de armas, con una imagen renderizada en cada casilla.
+* **Armas** – un modelo, un skin y un sonido de disparo por arma, incluidas las armas cuerpo a cuerpo, juntos de todos los mods de armas, con una imagen renderizada en cada casilla; un clic en un sonido lo reproduce.
 * **Poses** – todas las animaciones de acción del juego y de los mods de poses, ordenadas en de pie, sentada y tumbada.
 * **Mods** – los ajustes de otros mods que se registran allí (solo visible si hay un mod así instalado).
 * **Menú rápido** – mantén **4** (cambiable) y se abre una rueda con lo que más usas: cámara libre, modo foto, un conjunto, look, rostro o preajuste guardado, una pose favorita, una pestaña y acciones de otros mods. Hasta 32 elementos, elegidos y ordenados en Opciones; suelta sobre uno para ejecutarlo. Un clic derecho en una casilla, una pestaña o la entrada de un mod la añade a la rueda o la quita.
 * **Opciones** – por categorías, con una lista a la izquierda; las pestañas que no necesites se pueden desactivar; tecla del panel, idioma, velocidad de desplazamiento, tamaño de las casillas, longitud de los nombres de grupo y altura de la fila de grupos, parte de la pantalla reservada para Jodi, FOV / distancia / seguimiento de la cámara, esquema de colores y opacidad, «se puede quitar la ropa interior», «objetos no poseídos» bloqueado / atenuado / como poseído, liberar los conflictos de ranura del juego (sujetador y camisa …), fusionar grupos / mods con el mismo nombre, opciones de tooltips; la barra de pestañas con iconos, texto o ambos, el icono a la izquierda o a la derecha del texto; esquemas de color guardados con un nombre; tamaño propio de las casillas de conjuntos y looks y cuántas prendas muestra una casilla de conjunto; opacidad del menú rápido.
 * **Gestión** – tus propios nombres para mods, grupos, prendas, peinados, piel y maquillaje – en todo el panel y en la búsqueda; «Renombrar…» en el menú contextual de cada casilla; exportables / importables como JSON con `altui_names.pyz`; como en Vestimenta, las subpestañas filtran la lista por mod o grupo y un campo de búsqueda acota las subpestañas; también se pueden renombrar poses y apariencias predefinidas.
+* **Ragdolls** – copias de Jodi, zombis y personas como figuras con física: colocarlas, posarlas articulación por articulación, congelarlas o dejarlas caer; se guardan poses por tipo de figura y escenas completas por nivel. Un modo ragdoll las mueve sin el panel.
+* **Códice** – el manual de AltUI en los siete idiomas, la enciclopedia del juego y las cerraduras de código del nivel actual; cada código queda oculto hasta que lo pulsas.
+* **Movimiento** – velocidad propia de Jodi al andar y al correr (50–200 %), en Opciones.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
 Idiomas: inglés, alemán, chino, ruso, español, polaco, francés (detección automática, cambiable en Opciones).
@@ -61,7 +74,7 @@ Idiomas: inglés, alemán, chino, ruso, español, polaco, francés (detección a
 * **B** – abrir / cerrar (cambiable en Opciones). **Esc** cierra.
 * **4** – mantener para el menú rápido (cambiable en Opciones); suelta sobre un elemento para ejecutarlo, o en el centro para no hacer nada.
 * Clic izquierdo – seleccionar / ponerse / aplicar. Clic derecho – menú contextual. Rueda del ratón – desplazar.
-* Mientras el panel está abierto Jodi no puede andar; arrastra sobre el fondo para girar la cámara, +/− acerca / aleja la cámara. Los dos botones redondos de encima abren una cámara libre (el ratón gira, W A S D / Q E mueven, Shift más rápido, rueda = velocidad, hasta 6 m de Jodi, se detiene en las paredes; Esc vuelve) y el modo foto del juego (Esc vuelve).
+* Mientras el panel está abierto Jodi no puede andar; arrastra sobre el fondo para girar la cámara, +/− acerca / aleja la cámara. Los tres botones redondos de encima abren una cámara libre (el ratón gira, W A S D / Q E mueven, Shift más rápido, rueda = velocidad, hasta 6 m de Jodi, se detiene en las paredes; Esc vuelve), el modo foto del juego (Esc vuelve) y el modo ragdoll (Esc vuelve).
 
 ## Mods de cuerpo
 

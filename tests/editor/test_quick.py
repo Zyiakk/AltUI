@@ -43,5 +43,8 @@ def main():
     mgr.set_editor_property("QuickAlpha", 0.35); expect("own quick opacity", qa(), 0.35)
     mgr.call_method("Test Save Settings"); mgr.set_editor_property("QuickAlpha", 0.0); mgr.call_method("Test Load Settings"); expect("quick opacity round trip", qa(), 0.35)
     mgr.set_editor_property("QuickAlpha", 0.0)
+    # quick action "own speed on / off" (Toggle Move; Run Quick Item needs the panel)
+    mgr.set_editor_property("MoveOn", False); mgr.call_method("Test Toggle Move"); expect("own speed switched on", mgr.get_editor_property("MoveOn"), True)
+    mgr.call_method("Test Toggle Move"); expect("and off again", mgr.get_editor_property("MoveOn"), False)
     mgr.set_editor_property("QuickKey", "4"); mgr.set_editor_property("QuickItems", []); mgr.call_method("Test Save Settings")   # leave a sane save behind
 run(main)

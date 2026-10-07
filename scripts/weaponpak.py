@@ -2,7 +2,7 @@
 """Weapon mod converter: a pak that replaces Project/Models/Weapon/<W>/… -> WeaponAltUI_<Name>.pak
 (TKA mod: /Game/Mod/WeaponAltUI_<Name>/ + Mod_WeaponSkin and/or Mod_WeaponModel), selectable in AltUI (Weapons tab).
 
-  weaponpak.py <Replacer.pak> [--name MySkin] [--title "Display name"] [--weapon UMP45] [--out DIR] [--force]
+  weaponpak.py <Replacer.pak> [--name MySkin] [--title "Display name"] [--weapon UMP45] [--out DIR] [--force] [--game <pakchunk0>]
 
 Taken over are the skin textures (with the item icon, if the pak replaces one) and the weapon meshes with everything
 they reference inside the pak; a pak with both becomes one mod with one row per kind. Everything else is skipped and
@@ -36,6 +36,17 @@ def make_model_table(package_dir, row, weapon, caption, icon):
         if typ == "name": data += name_prop(pkg, internal, weapon)
         elif typ == "text": data += text_prop(pkg, internal, caption)
         elif icon: data += object_prop(pkg, internal, texture_import(pkg, package_dir + "/" + icon))
+    return finish_table(pkg, s, [(row, data + end_props(pkg))])
+
+
+def make_sound_table(package_dir, row, weapon, caption, sound_rel, sound_class):
+    """Mod_WeaponSound with one row: weapon, caption and the sound the weapon fires with (a SoundCue or a SoundWave)."""
+    pkg, s = new_datatable(package_dir + "/" + ws.SOUND_TABLE_NAME, ws.SOUND_TABLE_NAME, ws.SOUND_STRUCT_PATH, "S_WeaponSound")
+    data = b""
+    for name, internal, typ in ws.sound_struct_members():
+        if typ == "name": data += name_prop(pkg, internal, weapon)
+        elif typ == "text": data += text_prop(pkg, internal, caption)
+        else: data += object_prop(pkg, internal, texture_import(pkg, package_dir + "/" + sound_rel, class_name=sound_class))
     return finish_table(pkg, s, [(row, data + end_props(pkg))])
 
 
@@ -75,6 +86,39 @@ def copy_package(pk, key, rel):
     return out
 
 
+PAK0 = "steamapps/common/TheKillingAntidote/TheKillingAntidote/Content/Paks/pakchunk0-WindowsNoEditor.pak"
+# the usual install places; $GAME (the game folder TheKillingAntidote/TheKillingAntidote, as in config.sh) comes first when set
+GAME_PAKS = ([os.path.join(os.environ["GAME"], "Content", "Paks", "pakchunk0-WindowsNoEditor.pak")] if os.environ.get("GAME") else []) + \
+            [os.path.expanduser("~/.local/share/Steam/" + PAK0), os.path.expanduser("~/.steam/steam/" + PAK0), "C:/Program Files (x86)/Steam/" + PAK0]
+
+
+def game_pak(game=None):
+    """The game's pakchunk0 - given, or the first of the usual install places that exists."""
+    for p in ([game] if game else GAME_PAKS):
+        if p and os.path.isfile(p): return p
+    raise SystemExit("this pak replaces the wave behind the game's sound cue; the copy of that cue comes from the game: "
+                     "--game <…/Content/Paks/pakchunk0-WindowsNoEditor.pak>")
+
+
+def cue_copy(game, cue_path, wave_old, wave_new, rel):
+    """Entries for a copy of the game's SoundCue <cue_path> whose wave import points at <wave_new>.
+
+    A replacer of HK416_Shot changes the wave and keeps the game's cue, which carries the attenuation and the sound class.
+    Played without that cue the shot would sound as loud at fifty metres as at one. The cue's export data stays byte for
+    byte - only the import's package name changes (appended to the name table, so the name indices stay valid)."""
+    gp = open_pak(game)
+    key = next((k for k in gp.files if (pkg_path(gp, k) or "").lower() == cue_path.lower()), None)
+    if key is None: raise SystemExit("%s not found in %s" % (cue_path, game))
+    pkg = load_pkg(gp, key); hit = False
+    for im in pkg.imports:
+        if im.class_name == "Package" and import_name(im).lower() == wave_old.lower():
+            im.object_name = wave_new; im.object_number = 0; hit = True
+    if not hit: raise SystemExit("the game's %s does not reference %s" % (cue_path, wave_old))
+    ua, ux = pkg.write()
+    if ux != gp.read(key[:-len(".uasset")] + ".uexp"): raise SystemExit("rewriting %s changed its export data" % cue_path)
+    return [(rel + ".uasset",) + plain_entry(ua), (rel + ".uexp",) + plain_entry(ux)]
+
+
 def mesh_plan(pk, meshes, mod):
     """{entry key: path in the mod pak} and the relocate map for package_entries.
 
@@ -111,9 +155,12 @@ def mesh_plan(pk, meshes, mod):
 def collect(pk, weapon=None):
     """Skin textures {role: entry key}, model meshes {entry key: package name}, the weapon and the item icon key;
     raises SystemExit on unusable input."""
-    tex, meshes, icon_key, folders = {}, {}, None, set()
+    tex, meshes, icon_key, folders, sounds, sound_weapons = {}, {}, None, set(), {}, set()
     for key in sorted(pk.files):
         if not key.lower().endswith(".uasset"): continue
+        hits = ws.shot_targets(pkg_path(pk, key) or "")
+        if hits:
+            sounds[key] = hits; sound_weapons.update(w for w, _ in hits); continue
         rel = weapon_rel(pk, key)
         if rel and "/" in rel:
             folder, tail = rel.split("/", 1)
@@ -132,23 +179,26 @@ def collect(pk, weapon=None):
         rank = (weapon_rel(pk, key).count("/"), key)
         if base not in by_name or rank < by_name[base][0]: by_name[base] = (rank, key)
     meshes = {key: base for base, (_, key) in by_name.items()}
-    if not tex and not meshes:
-        raise SystemExit("no weapon textures or meshes in this pak (expected Models/Weapon/<weapon>/…)")
+    if not tex and not meshes and not sounds:
+        raise SystemExit("no weapon textures, meshes or shot sound in this pak (expected Models/Weapon/<weapon>/… or the game's shot sound)")
     if tex and "MainTex" not in tex:
         # a model mod whose own material set happens to end in _Normal / _ORM: that is no skin one could put on another
         # model, and the meshes take their textures along anyway. Only a pak without meshes has nothing usable left.
         if not meshes: raise SystemExit("the pak has skin textures but no base colour texture (…_BaseColor / _BC / _D)")
         tex = {}
     if weapon is None:
-        cand = {ws.weapon_of_folder(f) for f in folders}
+        cand = {ws.weapon_of_folder(f) for f in folders} | sound_weapons
         if len(cand) != 1 or None in cand:
-            raise SystemExit("cannot tell which weapon this is (folders: %s) - use --weapon <name>" % ", ".join(sorted(folders)))
+            raise SystemExit("cannot tell which weapon this is (folders: %s, sounds of: %s) - use --weapon <name>"
+                             % (", ".join(sorted(folders)), ", ".join(sorted(sound_weapons))))
         weapon = cand.pop()
     if weapon not in ws.WEAPONS: raise SystemExit("unknown weapon %r (known: %s)" % (weapon, ", ".join(ws.WEAPONS)))
-    return tex, meshes, weapon, icon_key
+    sounds = {k: next(kind for w, kind in hits if w == weapon) for k, hits in sounds.items() if any(w == weapon for w, _ in hits)}
+    if len(sounds) > 1: raise SystemExit("more than one shot sound for %s in this pak: %s" % (weapon, ", ".join(sorted(sounds))))
+    return tex, meshes, weapon, icon_key, sounds
 
 
-def convert(src, name=None, title=None, out_dir=None, force=False, weapon=None):
+def convert(src, name=None, title=None, out_dir=None, force=False, weapon=None, game=None):
     pk = open_pak(src)
     name = name or re.sub(r"[^A-Za-z0-9_]", "_", os.path.splitext(os.path.basename(src))[0])
     if not re.fullmatch(r"[A-Za-z0-9_]+", name): raise SystemExit("invalid name (allowed: A-Z a-z 0-9 _): " + name)
@@ -157,7 +207,7 @@ def convert(src, name=None, title=None, out_dir=None, force=False, weapon=None):
     out_dir = out_dir or os.path.dirname(os.path.abspath(src))
     out_pak = os.path.join(out_dir, mod + ".pak")
     if os.path.exists(out_pak) and not force: raise SystemExit("target already exists (--force to overwrite): " + out_pak)
-    tex, meshes, weapon, icon_key = collect(pk, weapon)
+    tex, meshes, weapon, icon_key, sounds = collect(pk, weapon)
     entries, names, taken = [], {}, []
     # the package keeps its original asset name: a cooked package's object is named after the source file, so renaming it
     # would make /Game/Mod/<mod>/<file>.<file> unresolvable (the reference then silently stays None)
@@ -170,13 +220,26 @@ def convert(src, name=None, title=None, out_dir=None, force=False, weapon=None):
     mesh_rel, relocate = mesh_plan(pk, meshes, mod) if meshes else ({}, {})
     for key, rel in sorted(mesh_rel.items(), key=lambda kv: kv[1]):
         entries += package_entries(pk, key, rel, relocate); taken.append(key)
+    sound_rel = None
+    for key, kind in sounds.items():
+        wave_rel = os.path.splitext(os.path.basename(key))[0]
+        entries += copy_package(pk, key, wave_rel); taken.append(key)
+        if kind == "wave":
+            cue_path, wave_path = ws.VANILLA_SHOT[weapon]
+            sound_rel = cue_path.rsplit("/", 1)[1]
+            entries += cue_copy(game_pak(game), cue_path, wave_path, "/Game/Mod/%s/%s" % (mod, wave_rel), sound_rel)
+            sound_class = "SoundCue"
+        else:
+            sound_rel, sound_class = wave_rel, asset_class(pk, key)
+        ua, ux = make_sound_table("/Game/Mod/" + mod, name, weapon, title, sound_rel, sound_class).write()
+        entries.append((ws.SOUND_TABLE_NAME + ".uasset",) + plain_entry(ua)); entries.append((ws.SOUND_TABLE_NAME + ".uexp",) + plain_entry(ux))
     if tex:
         ua, ux = make_skin_table("/Game/Mod/" + mod, name, weapon, title, names).write()
         entries.append((ws.TABLE_NAME + ".uasset",) + plain_entry(ua)); entries.append((ws.TABLE_NAME + ".uexp",) + plain_entry(ux))
     if meshes:
         ua, ux = make_model_table("/Game/Mod/" + mod, name, weapon, title, names.get("Icon")).write()
         entries.append((ws.MODEL_TABLE_NAME + ".uasset",) + plain_entry(ua)); entries.append((ws.MODEL_TABLE_NAME + ".uexp",) + plain_entry(ux))
-    kind = "skin and model" if tex and meshes else ("skin" if tex else "model")
+    kind = " and ".join(k for k, on in (("skin", tex), ("model", meshes), ("sound", sounds)) if on)
     ma, mx = __import__("uasset_datatable").make_mod_table("/Game/Mod/" + mod, title, "Weapon %s, converted from %s" % (kind, os.path.basename(src)), []).write()
     entries.append(("TKA_Mod_Table.uasset",) + plain_entry(ma)); entries.append(("TKA_Mod_Table.uexp",) + plain_entry(mx))
     keep = {k[:-len(".uasset")] + ext for k in taken for ext in (".uasset", ".uexp", ".ubulk")}
@@ -185,7 +248,7 @@ def convert(src, name=None, title=None, out_dir=None, force=False, weapon=None):
     os.makedirs(out_dir, exist_ok=True)
     write_pak(out_pak, MOUNT_PREFIX + mod + "/", comps, entries, zlib.crc32(mod.lower().encode()))
     errs = verify(out_pak, mod, entries)
-    log = {"name": name, "mod": mod, "title": title, "weapon": weapon, "textures": names, "meshes": sorted(meshes.values()),
+    log = {"name": name, "mod": mod, "title": title, "weapon": weapon, "textures": names, "meshes": sorted(meshes.values()), "sound": sound_rel,
            "companions": sorted(v for k, v in mesh_rel.items() if k not in meshes), "source": os.path.abspath(src),
            "source_sha256": sha256_file(src), "pak": out_pak, "size": os.path.getsize(out_pak),
            "files": [rel for rel, _, _ in entries], "dropped": dropped, "verify": errs}
@@ -197,10 +260,12 @@ def convert(src, name=None, title=None, out_dir=None, force=False, weapon=None):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Weapon replacer pak -> AltUI weapon mod (skin and/or model)")
     ap.add_argument("src"); ap.add_argument("--name"); ap.add_argument("--title"); ap.add_argument("--weapon"); ap.add_argument("--out"); ap.add_argument("--force", action="store_true")
+    ap.add_argument("--game", help="the game's pakchunk0 (only for a wave behind the game's sound cue)")
     a = ap.parse_args(argv)
-    log = convert(a.src, a.name, a.title, a.out, a.force, a.weapon)
+    log = convert(a.src, a.name, a.title, a.out, a.force, a.weapon, a.game)
     print("%s  (%s, %d bytes)" % (log["pak"], log["weapon"], log["size"]))
     if log["meshes"]: print("  meshes:", ", ".join(log["meshes"]))
+    if log["sound"]: print("  sound:", log["sound"])
     for k in log["dropped"]: print("  skipped:", k)
 
 

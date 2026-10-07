@@ -39,13 +39,14 @@ class MenuWearer(unittest.TestCase):
 
     def test_level_applies_the_look_at_once(self):
         """No level-load timers any more: the game dresses Jodi in her own BeginPlay (and on possession), before the
-        manager exists - the look goes on at the end of BeginPlay, in the order body, underwear, colours, face."""
+        manager exists - the look goes on at the end of BeginPlay, in the order body, underwear, colours, face (then the walk
+        speed / style, which needs no look)."""
         nodes = {n["id"]: n for n in self.eg["nodes"]}
         timers = {n["in"].get("FunctionName") for n in self.eg["nodes"] if n.get("function") == "K2_SetTimer"}
         self.assertFalse(timers & {"Apply Saved Body", "Fix Loaded Underwear", "Apply Saved Colors", "Apply Face"})
         chain = next(c for c in self.eg["exec"] if c and c[0] == "bp")
         order = [nodes[i].get("function") for i in chain if nodes.get(i, {}).get("kind") == "call_self"]
-        self.assertEqual(order[-4:], ["Apply Saved Body", "Fix Loaded Underwear", "Apply Saved Colors", "Apply Face"])
+        self.assertEqual(order[-5:], ["Apply Saved Body", "Fix Loaded Underwear", "Apply Saved Colors", "Apply Face", "Apply Move"])
         self.assertLess(order.index("Build Catalog"), order.index("Fix Loaded Underwear"))   # Worn In Slot needs the catalog
 
     def test_find_menu_wearer_searches_jodi_base_and_retries(self):

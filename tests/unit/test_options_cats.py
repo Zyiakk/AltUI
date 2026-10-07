@@ -8,8 +8,8 @@ import gen_manager, gen_widgets, gen_manager_ui as ui
 
 class OptionsData(unittest.TestCase):
     def test_cats_and_tabs(self):
-        self.assertEqual(gen_widgets.OPT_CATS, ["General", "Tiles", "Groups", "Camera", "Controls", "Quick", "Theme", "Conflicts", "Tabs"])
-        self.assertIn("Options", ui.TOP_TABS); self.assertEqual(len(ui.TOP_TABS), 13)
+        self.assertEqual(gen_widgets.OPT_CATS, ["General", "Tiles", "Groups", "Camera", "Controls", "Move", "Quick", "Theme", "Conflicts", "Tabs"])
+        self.assertIn("Options", ui.TOP_TABS); self.assertEqual(len(ui.TOP_TABS), 15)
 
     def test_strings(self):
         for c in gen_widgets.OPT_CATS: self.assertEqual(len(STRINGS["OptCat_" + c]), len(LANGS), c)

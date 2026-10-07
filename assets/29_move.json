@@ -1,0 +1,2195 @@
+{
+ "assets": [
+  {
+   "type": "animsequence_stub",
+   "path": "/Game/Project/Character/Jodi/Animations/Female_Walk",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton"
+  },
+  {
+   "type": "animsequence_stub",
+   "path": "/Game/Project/Character/Jodi/Animations/Female_Run",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton"
+  },
+  {
+   "type": "animstub",
+   "path": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "players": [
+    {
+     "name": "AnimGraphNode_SequencePlayer_1",
+     "asset": "/Game/Project/Character/Jodi/Animations/Female_Walk"
+    },
+    {
+     "name": "AnimGraphNode_SequencePlayer_4",
+     "asset": "/Game/Project/Character/Jodi/Animations/Female_Run"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "mode": "augment",
+   "variables": [
+    {
+     "name": "Anim Move Start",
+     "type": "object:/Script/Engine.AnimSequence"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BP_AltUIMove",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "variables": [
+    {
+     "name": "On",
+     "type": "bool"
+    },
+    {
+     "name": "Walk",
+     "type": "float"
+    },
+    {
+     "name": "Run",
+     "type": "float"
+    },
+    {
+     "name": "Bound",
+     "type": "object:/Game/Project/Classes/Character_Player_Base"
+    },
+    {
+     "name": "Factor",
+     "type": "float",
+     "default": "1.0"
+    },
+    {
+     "name": "Rate",
+     "type": "float",
+     "default": "1.0"
+    },
+    {
+     "name": "LastSet",
+     "type": "float",
+     "default": "-1.0"
+    },
+    {
+     "name": "LastBase",
+     "type": "float"
+    },
+    {
+     "name": "Idle",
+     "type": "bool"
+    },
+    {
+     "name": "TmpFloat",
+     "type": "float"
+    },
+    {
+     "name": "TmpInt",
+     "type": "int"
+    },
+    {
+     "name": "RunAction",
+     "type": "int"
+    },
+    {
+     "name": "WalkStyle",
+     "type": "name"
+    },
+    {
+     "name": "RunStyle",
+     "type": "name"
+    },
+    {
+     "name": "TmpClass",
+     "type": "class:/Script/CoreUObject.Object"
+    },
+    {
+     "name": "TmpObj",
+     "type": "object:/Script/CoreUObject.Object"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Target Factor",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      },
+      {
+       "name": "walk",
+       "type": "float"
+      },
+      {
+       "name": "run",
+       "type": "float"
+      },
+      {
+       "name": "wanna run",
+       "type": "bool"
+      },
+      {
+       "name": "crouch",
+       "type": "bool"
+      },
+      {
+       "name": "falling",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "factor",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "pct",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@entry.run",
+         "B": "@entry.walk",
+         "bPickA": "@entry.wanna run"
+        }
+       },
+       {
+        "id": "set",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@pct.ReturnValue",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "p0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@pct.ReturnValue",
+         "B": "100.0",
+         "bPickA": "@set.ReturnValue"
+        }
+       },
+       {
+        "id": "f",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@p0.ReturnValue",
+         "B": "100.0"
+        }
+       },
+       {
+        "id": "off",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@entry.on"
+        }
+       },
+       {
+        "id": "n1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@off.ReturnValue",
+         "B": "@entry.crouch"
+        }
+       },
+       {
+        "id": "n2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@n1.ReturnValue",
+         "B": "@entry.falling"
+        }
+       },
+       {
+        "id": "r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "@f.ReturnValue",
+         "bPickA": "@n2.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "r.ReturnValue",
+        "return.factor"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Rate Target",
+     "inputs": [
+      {
+       "name": "factor",
+       "type": "float"
+      },
+      {
+       "name": "speed",
+       "type": "float"
+      },
+      {
+       "name": "montage",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "rate",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "mv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@entry.speed",
+         "B": "10.0"
+        }
+       },
+       {
+        "id": "nm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@entry.montage"
+        }
+       },
+       {
+        "id": "ok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@mv.ReturnValue",
+         "B": "@nm.ReturnValue"
+        }
+       },
+       {
+        "id": "r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@entry.factor",
+         "B": "1.0",
+         "bPickA": "@ok.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "r.ReturnValue",
+        "return.rate"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Run Fix",
+     "inputs": [
+      {
+       "name": "speed",
+       "type": "float"
+      },
+      {
+       "name": "factor",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "action",
+       "type": "int"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@entry.speed",
+         "B": "250.0"
+        }
+       },
+       {
+        "id": "fm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@entry.factor",
+         "B": "0.01"
+        }
+       },
+       {
+        "id": "un",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@entry.speed",
+         "B": "@fm.ReturnValue"
+        }
+       },
+       {
+        "id": "gu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@un.ReturnValue",
+         "B": "250.0"
+        }
+       },
+       {
+        "id": "same",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_BoolBool",
+        "in": {
+         "A": "@gs.ReturnValue",
+         "B": "@gu.ReturnValue"
+        }
+       },
+       {
+        "id": "act",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "2",
+         "B": "1",
+         "bPickA": "@gu.ReturnValue"
+        }
+       },
+       {
+        "id": "r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "0",
+         "B": "@act.ReturnValue",
+         "bPickA": "@same.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "r.ReturnValue",
+        "return.action"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Check Run Key",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bound"
+       },
+       {
+        "id": "cj",
+        "kind": "cast",
+        "class": "/Game/Project/Character/Jodi/Jodi",
+        "pure": true,
+        "in": {
+         "Object": "@gb.Bound"
+        }
+       },
+       {
+        "id": "ie",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jodi/Jodi",
+        "function": "Is Input Enabled ?",
+        "in": {
+         "self": "@cj.AsJodi"
+        }
+       },
+       {
+        "id": "gst",
+        "kind": "get",
+        "var": "Settings",
+        "class": "/Game/Project/Character/Jodi/Jodi"
+       },
+       {
+        "id": "vs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gst.Settings"
+        }
+       },
+       {
+        "id": "grm",
+        "kind": "get",
+        "var": "RunMode",
+        "class": "/Game/Project/Classes/Save/Settings_Save"
+       },
+       {
+        "id": "m2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@grm.RunMode",
+         "B": "2"
+        }
+       },
+       {
+        "id": "ok1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ie.yes",
+         "B": "@vs.ReturnValue"
+        }
+       },
+       {
+        "id": "bok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ok1.ReturnValue"
+        }
+       },
+       {
+        "id": "bm2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@m2.ReturnValue"
+        }
+       },
+       {
+        "id": "pc",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetPlayerController",
+        "in": {
+         "PlayerIndex": "0"
+        }
+       },
+       {
+        "id": "ins",
+        "kind": "call",
+        "class": "/Script/Engine.InputSettings",
+        "function": "GetInputSettings"
+       },
+       {
+        "id": "am",
+        "kind": "call",
+        "class": "/Script/Engine.InputSettings",
+        "function": "GetActionMappingByName",
+        "in": {
+         "self": "@ins.ReturnValue",
+         "InActionName": "Run"
+        }
+       },
+       {
+        "id": "fk",
+        "kind": "foreach",
+        "in": {
+         "Array": "@am.OutMappings"
+        }
+       },
+       {
+        "id": "bk",
+        "kind": "break",
+        "struct": "/Script/Engine.InputActionKeyMapping",
+        "in": {
+         "InputActionKeyMapping": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "jp",
+        "kind": "call",
+        "class": "/Script/Engine.PlayerController",
+        "function": "WasInputKeyJustPressed",
+        "in": {
+         "self": "@pc.ReturnValue",
+         "Key": "@bk.Key"
+        }
+       },
+       {
+        "id": "bjp",
+        "kind": "branch",
+        "in": {
+         "Condition": "@jp.ReturnValue"
+        }
+       },
+       {
+        "id": "gsp",
+        "kind": "get",
+        "var": "Speed 2d",
+        "class": "/Game/Project/Classes/Character_Base"
+       },
+       {
+        "id": "gf",
+        "kind": "get",
+        "var": "Factor"
+       },
+       {
+        "id": "rf",
+        "kind": "call_self",
+        "function": "Run Fix",
+        "in": {
+         "speed": "@gsp.Speed 2d",
+         "factor": "@gf.Factor"
+        }
+       },
+       {
+        "id": "sa",
+        "kind": "set",
+        "var": "RunAction",
+        "in": {
+         "RunAction": "@rf.action"
+        }
+       },
+       {
+        "id": "e1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@sa.Output_Get",
+         "B": "1"
+        }
+       },
+       {
+        "id": "b1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e1.ReturnValue"
+        }
+       },
+       {
+        "id": "e2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@sa.Output_Get",
+         "B": "2"
+        }
+       },
+       {
+        "id": "b2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e2.ReturnValue"
+        }
+       },
+       {
+        "id": "wr",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jodi/Jodi",
+        "function": "Wanna Running",
+        "in": {
+         "self": "@cj.AsJodi"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Change Wanna Run",
+        "in": {
+         "self": "@gb.Bound",
+         "run": "false"
+        }
+       }
+      ],
+      "links": [
+       [
+        "cj.AsJodi",
+        "gst.self"
+       ],
+       [
+        "gst.Settings",
+        "grm.self"
+       ],
+       [
+        "gb.Bound",
+        "gsp.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bok",
+        "bm2",
+        "fk"
+       ],
+       [
+        "fk",
+        "bjp",
+        "sa",
+        "b1",
+        "wr"
+       ],
+       [
+        "b1:else",
+        "b2",
+        "sr"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Style Class",
+     "inputs": [
+      {
+       "name": "walk",
+       "type": "name"
+      },
+      {
+       "name": "run",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "cls",
+       "type": "class:/Script/CoreUObject.Object"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "s0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectClass",
+        "in": {
+         "A": "/Game/Project/Character/Jodi/Jodi_Anim",
+         "B": "/Game/Project/Character/Jodi/Jodi_Anim",
+         "bSelectA": "true"
+        }
+       }
+      ],
+      "links": [
+       [
+        "s0.ReturnValue",
+        "return.cls"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Style Loop",
+     "inputs": [
+      {
+       "name": "walk",
+       "type": "name"
+      },
+      {
+       "name": "run",
+       "type": "name"
+      },
+      {
+       "name": "running",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "loop",
+       "type": "object:/Script/CoreUObject.Object"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "None",
+         "B": "None",
+         "bSelectA": "@entry.running"
+        }
+       }
+      ],
+      "links": [
+       [
+        "r.ReturnValue",
+        "return.loop"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Apply Start Loop",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bound"
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Mesh",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "ai",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "GetAnimInstance",
+        "in": {
+         "self": "@gm.Mesh"
+        }
+       },
+       {
+        "id": "ja",
+        "kind": "cast",
+        "class": "/Game/Project/Character/Jodi/Jodi_Anim",
+        "pure": true,
+        "in": {
+         "Object": "@ai.ReturnValue"
+        }
+       },
+       {
+        "id": "vja",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@ja.AsJodi Anim"
+        }
+       },
+       {
+        "id": "gws",
+        "kind": "get",
+        "var": "WalkStyle"
+       },
+       {
+        "id": "grs",
+        "kind": "get",
+        "var": "RunStyle"
+       },
+       {
+        "id": "wr",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Is Wanna Run ?",
+        "in": {
+         "self": "@gb.Bound"
+        }
+       },
+       {
+        "id": "sl",
+        "kind": "call_self",
+        "function": "Style Loop",
+        "in": {
+         "walk": "@gws.WalkStyle",
+         "run": "@grs.RunStyle",
+         "running": "@wr.Yes"
+        }
+       },
+       {
+        "id": "cs",
+        "kind": "cast",
+        "class": "/Script/Engine.AnimSequence",
+        "pure": true,
+        "in": {
+         "Object": "@sl.loop"
+        }
+       },
+       {
+        "id": "vl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@cs.AsAnim Sequence"
+        }
+       },
+       {
+        "id": "gms",
+        "kind": "get",
+        "var": "Anim Move Start",
+        "class": "/Game/Project/Character/Jodi/Jodi_Anim"
+       },
+       {
+        "id": "vms",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gms.Anim Move Start"
+        }
+       },
+       {
+        "id": "ne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_ObjectObject",
+        "in": {
+         "A": "@gms.Anim Move Start",
+         "B": "@cs.AsAnim Sequence"
+        }
+       },
+       {
+        "id": "a1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@vja.ReturnValue",
+         "B": "@vl.ReturnValue"
+        }
+       },
+       {
+        "id": "a2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a1.ReturnValue",
+         "B": "@vms.ReturnValue"
+        }
+       },
+       {
+        "id": "a3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a2.ReturnValue",
+         "B": "@ne.ReturnValue"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@a3.ReturnValue"
+        }
+       },
+       {
+        "id": "sms",
+        "kind": "set",
+        "var": "Anim Move Start",
+        "class": "/Game/Project/Character/Jodi/Jodi_Anim",
+        "in": {
+         "self": "@ja.AsJodi Anim",
+         "Anim Move Start": "@cs.AsAnim Sequence"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gb.Bound",
+        "gm.self"
+       ],
+       [
+        "ja.AsJodi Anim",
+        "gms.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "sms"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Style",
+     "inputs": [
+      {
+       "name": "walk",
+       "type": "name"
+      },
+      {
+       "name": "run",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "sw",
+        "kind": "set",
+        "var": "WalkStyle",
+        "in": {
+         "WalkStyle": "@entry.walk"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "set",
+        "var": "RunStyle",
+        "in": {
+         "RunStyle": "@entry.run"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sw",
+        "sr"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Style",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bound"
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Mesh",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "ai",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "GetAnimInstance",
+        "in": {
+         "self": "@gm.Mesh"
+        }
+       },
+       {
+        "id": "vai",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@ai.ReturnValue"
+        }
+       },
+       {
+        "id": "oc",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetObjectClass",
+        "in": {
+         "Object": "@ai.ReturnValue"
+        }
+       },
+       {
+        "id": "jc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectClass",
+        "in": {
+         "A": "/Game/Project/Character/Jodi/Jodi_Anim",
+         "B": "/Game/Project/Character/Jodi/Jodi_Anim",
+         "bSelectA": "true"
+        }
+       },
+       {
+        "id": "ours",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "ClassIsChildOf",
+        "in": {
+         "TestClass": "@oc.ReturnValue",
+         "ParentClass": "@jc.ReturnValue"
+        }
+       },
+       {
+        "id": "gws",
+        "kind": "get",
+        "var": "WalkStyle"
+       },
+       {
+        "id": "grs",
+        "kind": "get",
+        "var": "RunStyle"
+       },
+       {
+        "id": "sc",
+        "kind": "call_self",
+        "function": "Style Class",
+        "in": {
+         "walk": "@gws.WalkStyle",
+         "run": "@grs.RunStyle"
+        }
+       },
+       {
+        "id": "ne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_ClassClass",
+        "in": {
+         "A": "@oc.ReturnValue",
+         "B": "@sc.cls"
+        }
+       },
+       {
+        "id": "mp",
+        "kind": "call",
+        "class": "/Script/Engine.AnimInstance",
+        "function": "IsAnyMontagePlaying",
+        "in": {
+         "self": "@ai.ReturnValue"
+        }
+       },
+       {
+        "id": "nmp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@mp.ReturnValue"
+        }
+       },
+       {
+        "id": "a1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@vai.ReturnValue",
+         "B": "@ours.ReturnValue"
+        }
+       },
+       {
+        "id": "a2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a1.ReturnValue",
+         "B": "@ne.ReturnValue"
+        }
+       },
+       {
+        "id": "a3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a2.ReturnValue",
+         "B": "@nmp.ReturnValue"
+        }
+       },
+       {
+        "id": "bgo",
+        "kind": "branch",
+        "in": {
+         "Condition": "@a3.ReturnValue"
+        }
+       },
+       {
+        "id": "sac",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "SetAnimClass",
+        "in": {
+         "self": "@gm.Mesh",
+         "NewClass": "@sc.cls"
+        }
+       },
+       {
+        "id": "ai2",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "GetAnimInstance",
+        "in": {
+         "self": "@gm.Mesh"
+        }
+       },
+       {
+        "id": "sab",
+        "kind": "set",
+        "var": "Anim Blueprint",
+        "class": "/Game/Project/Classes/Character_Base",
+        "in": {
+         "self": "@gb.Bound",
+         "Anim Blueprint": "@ai2.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gb.Bound",
+        "gm.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bgo",
+        "sac",
+        "sab"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Bind",
+     "inputs": [
+      {
+       "name": "jodi",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bound"
+       },
+       {
+        "id": "vb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gb.Bound"
+        }
+       },
+       {
+        "id": "bb",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vb.ReturnValue"
+        }
+       },
+       {
+        "id": "ra",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "RemoveTickPrerequisiteActor",
+        "in": {
+         "self": "@me.self",
+         "PrerequisiteActor": "@gb.Bound"
+        }
+       },
+       {
+        "id": "gcm0",
+        "kind": "get",
+        "var": "CharacterMovement",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "rc",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "RemoveTickPrerequisiteActor",
+        "in": {
+         "self": "@gcm0.CharacterMovement",
+         "PrerequisiteActor": "@me.self"
+        }
+       },
+       {
+        "id": "gm0",
+        "kind": "get",
+        "var": "Mesh",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "r1",
+        "kind": "set",
+        "var": "GlobalAnimRateScale",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "in": {
+         "self": "@gm0.Mesh",
+         "GlobalAnimRateScale": "1.0"
+        }
+       },
+       {
+        "id": "sb",
+        "kind": "set",
+        "var": "Bound",
+        "in": {
+         "Bound": "@entry.jodi"
+        }
+       },
+       {
+        "id": "vn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@entry.jodi"
+        }
+       },
+       {
+        "id": "bn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vn.ReturnValue"
+        }
+       },
+       {
+        "id": "aa",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddTickPrerequisiteActor",
+        "in": {
+         "self": "@me.self",
+         "PrerequisiteActor": "@entry.jodi"
+        }
+       },
+       {
+        "id": "gcm1",
+        "kind": "get",
+        "var": "CharacterMovement",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "ac",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "AddTickPrerequisiteActor",
+        "in": {
+         "self": "@gcm1.CharacterMovement",
+         "PrerequisiteActor": "@me.self"
+        }
+       },
+       {
+        "id": "sf",
+        "kind": "set",
+        "var": "Factor",
+        "in": {
+         "Factor": "1.0"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "set",
+        "var": "Rate",
+        "in": {
+         "Rate": "1.0"
+        }
+       },
+       {
+        "id": "sl",
+        "kind": "set",
+        "var": "LastSet",
+        "in": {
+         "LastSet": "-1.0"
+        }
+       },
+       {
+        "id": "si",
+        "kind": "set",
+        "var": "Idle",
+        "in": {
+         "Idle": "false"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gb.Bound",
+        "gcm0.self"
+       ],
+       [
+        "gb.Bound",
+        "gm0.self"
+       ],
+       [
+        "entry.jodi",
+        "gcm1.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bb",
+        "ra",
+        "rc",
+        "r1",
+        "sb"
+       ],
+       [
+        "bb:else",
+        "sb"
+       ],
+       [
+        "sb",
+        "sf",
+        "sr",
+        "sl",
+        "si",
+        "bn",
+        "aa",
+        "ac"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Speeds",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      },
+      {
+       "name": "walk",
+       "type": "float"
+      },
+      {
+       "name": "run",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "so",
+        "kind": "set",
+        "var": "On",
+        "in": {
+         "On": "@entry.on"
+        }
+       },
+       {
+        "id": "sw",
+        "kind": "set",
+        "var": "Walk",
+        "in": {
+         "Walk": "@entry.walk"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "set",
+        "var": "Run",
+        "in": {
+         "Run": "@entry.run"
+        }
+       },
+       {
+        "id": "si",
+        "kind": "set",
+        "var": "Idle",
+        "in": {
+         "Idle": "false"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "so",
+        "sw",
+        "sr",
+        "si"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply",
+     "inputs": [
+      {
+       "name": "dt",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bound"
+       },
+       {
+        "id": "wr",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Is Wanna Run ?",
+        "in": {
+         "self": "@gb.Bound"
+        }
+       },
+       {
+        "id": "cr",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Base",
+        "function": "Is Crouching",
+        "in": {
+         "self": "@gb.Bound"
+        }
+       },
+       {
+        "id": "gcm",
+        "kind": "get",
+        "var": "CharacterMovement",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "fa",
+        "kind": "call",
+        "class": "/Script/Engine.CharacterMovementComponent",
+        "function": "IsFalling",
+        "in": {
+         "self": "@gcm.CharacterMovement"
+        }
+       },
+       {
+        "id": "go",
+        "kind": "get",
+        "var": "On"
+       },
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "Walk"
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "Run"
+       },
+       {
+        "id": "tf",
+        "kind": "call_self",
+        "function": "Target Factor",
+        "in": {
+         "on": "@go.On",
+         "walk": "@gw.Walk",
+         "run": "@gr.Run",
+         "wanna run": "@wr.Yes",
+         "crouch": "@cr.yes",
+         "falling": "@fa.ReturnValue"
+        }
+       },
+       {
+        "id": "gf",
+        "kind": "get",
+        "var": "Factor"
+       },
+       {
+        "id": "fi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FInterpTo",
+        "in": {
+         "Current": "@gf.Factor",
+         "Target": "@tf.factor",
+         "DeltaTime": "@entry.dt",
+         "InterpSpeed": "8.0"
+        }
+       },
+       {
+        "id": "sf",
+        "kind": "set",
+        "var": "Factor",
+        "in": {
+         "Factor": "@fi.ReturnValue"
+        }
+       },
+       {
+        "id": "gr1",
+        "kind": "get",
+        "var": "Rate"
+       },
+       {
+        "id": "f1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NearlyEqual_FloatFloat",
+        "in": {
+         "A": "@sf.Output_Get",
+         "B": "1.0",
+         "ErrorTolerance": "0.001"
+        }
+       },
+       {
+        "id": "r1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NearlyEqual_FloatFloat",
+        "in": {
+         "A": "@gr1.Rate",
+         "B": "1.0",
+         "ErrorTolerance": "0.001"
+        }
+       },
+       {
+        "id": "noff",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@go.On"
+        }
+       },
+       {
+        "id": "i1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@f1.ReturnValue",
+         "B": "@r1.ReturnValue"
+        }
+       },
+       {
+        "id": "i2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@i1.ReturnValue",
+         "B": "@noff.ReturnValue"
+        }
+       },
+       {
+        "id": "bi",
+        "kind": "branch",
+        "in": {
+         "Condition": "@i2.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Mesh",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "rs1",
+        "kind": "set",
+        "var": "GlobalAnimRateScale",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "in": {
+         "self": "@gm.Mesh",
+         "GlobalAnimRateScale": "1.0"
+        }
+       },
+       {
+        "id": "si",
+        "kind": "set",
+        "var": "Idle",
+        "in": {
+         "Idle": "true"
+        }
+       },
+       {
+        "id": "gmw",
+        "kind": "get",
+        "var": "MaxWalkSpeed",
+        "class": "/Script/Engine.CharacterMovementComponent"
+       },
+       {
+        "id": "gls",
+        "kind": "get",
+        "var": "LastSet"
+       },
+       {
+        "id": "glb",
+        "kind": "get",
+        "var": "LastBase"
+       },
+       {
+        "id": "ours",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NearlyEqual_FloatFloat",
+        "in": {
+         "A": "@gmw.MaxWalkSpeed",
+         "B": "@gls.LastSet",
+         "ErrorTolerance": "0.01"
+        }
+       },
+       {
+        "id": "base",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@glb.LastBase",
+         "B": "@gmw.MaxWalkSpeed",
+         "bPickA": "@ours.ReturnValue"
+        }
+       },
+       {
+        "id": "slb",
+        "kind": "set",
+        "var": "LastBase",
+        "in": {
+         "LastBase": "@base.ReturnValue"
+        }
+       },
+       {
+        "id": "mul",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@slb.Output_Get",
+         "B": "@sf.Output_Get"
+        }
+       },
+       {
+        "id": "smw",
+        "kind": "set",
+        "var": "MaxWalkSpeed",
+        "class": "/Script/Engine.CharacterMovementComponent",
+        "in": {
+         "self": "@gcm.CharacterMovement",
+         "MaxWalkSpeed": "@mul.ReturnValue"
+        }
+       },
+       {
+        "id": "sls",
+        "kind": "set",
+        "var": "LastSet",
+        "in": {
+         "LastSet": "@mul.ReturnValue"
+        }
+       },
+       {
+        "id": "ai",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "GetAnimInstance",
+        "in": {
+         "self": "@gm.Mesh"
+        }
+       },
+       {
+        "id": "mp",
+        "kind": "call",
+        "class": "/Script/Engine.AnimInstance",
+        "function": "IsAnyMontagePlaying",
+        "in": {
+         "self": "@ai.ReturnValue"
+        }
+       },
+       {
+        "id": "gsp",
+        "kind": "get",
+        "var": "Speed 2d",
+        "class": "/Game/Project/Classes/Character_Base"
+       },
+       {
+        "id": "rt",
+        "kind": "call_self",
+        "function": "Rate Target",
+        "in": {
+         "factor": "@sf.Output_Get",
+         "speed": "@gsp.Speed 2d",
+         "montage": "@mp.ReturnValue"
+        }
+       },
+       {
+        "id": "gr2",
+        "kind": "get",
+        "var": "Rate"
+       },
+       {
+        "id": "ri",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FInterpTo",
+        "in": {
+         "Current": "@gr2.Rate",
+         "Target": "@rt.rate",
+         "DeltaTime": "@entry.dt",
+         "InterpSpeed": "8.0"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "set",
+        "var": "Rate",
+        "in": {
+         "Rate": "@ri.ReturnValue"
+        }
+       },
+       {
+        "id": "rs2",
+        "kind": "set",
+        "var": "GlobalAnimRateScale",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "in": {
+         "self": "@gm.Mesh",
+         "GlobalAnimRateScale": "@sr.Output_Get"
+        }
+       },
+       {
+        "id": "crk",
+        "kind": "call_self",
+        "function": "Check Run Key"
+       }
+      ],
+      "links": [
+       [
+        "gb.Bound",
+        "gcm.self"
+       ],
+       [
+        "gb.Bound",
+        "gm.self"
+       ],
+       [
+        "gcm.CharacterMovement",
+        "gmw.self"
+       ],
+       [
+        "gb.Bound",
+        "gsp.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "sf",
+        "bi",
+        "rs1",
+        "si"
+       ],
+       [
+        "bi:else",
+        "slb",
+        "smw",
+        "sls",
+        "sr",
+        "rs2",
+        "crk"
+       ]
+      ]
+     }
+    }
+   ],
+   "event_graph": {
+    "nodes": [
+     {
+      "id": "tk",
+      "kind": "event",
+      "class": "/Script/Engine.Actor",
+      "name": "ReceiveTick"
+     },
+     {
+      "id": "pp",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "GetPlayerCharacter",
+      "in": {
+       "PlayerIndex": "0"
+      }
+     },
+     {
+      "id": "cp",
+      "kind": "cast",
+      "class": "/Game/Project/Classes/Character_Player_Base",
+      "pure": true,
+      "in": {
+       "Object": "@pp.ReturnValue"
+      }
+     },
+     {
+      "id": "gb",
+      "kind": "get",
+      "var": "Bound"
+     },
+     {
+      "id": "ne",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "NotEqual_ObjectObject",
+      "in": {
+       "A": "@cp.AsCharacter Player Base",
+       "B": "@gb.Bound"
+      }
+     },
+     {
+      "id": "bne",
+      "kind": "branch",
+      "in": {
+       "Condition": "@ne.ReturnValue"
+      }
+     },
+     {
+      "id": "bd",
+      "kind": "call_self",
+      "function": "Bind",
+      "in": {
+       "jodi": "@cp.AsCharacter Player Base"
+      }
+     },
+     {
+      "id": "gb2",
+      "kind": "get",
+      "var": "Bound"
+     },
+     {
+      "id": "vb",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "IsValid",
+      "in": {
+       "Object": "@gb2.Bound"
+      }
+     },
+     {
+      "id": "gi",
+      "kind": "get",
+      "var": "Idle"
+     },
+     {
+      "id": "ni",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Not_PreBool",
+      "in": {
+       "A": "@gi.Idle"
+      }
+     },
+     {
+      "id": "go",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "BooleanAND",
+      "in": {
+       "A": "@vb.ReturnValue",
+       "B": "@ni.ReturnValue"
+      }
+     },
+     {
+      "id": "bgo",
+      "kind": "branch",
+      "in": {
+       "Condition": "@go.ReturnValue"
+      }
+     },
+     {
+      "id": "ap",
+      "kind": "call_self",
+      "function": "Apply",
+      "in": {
+       "dt": "@tk.DeltaSeconds"
+      }
+     },
+     {
+      "id": "gb3",
+      "kind": "get",
+      "var": "Bound"
+     },
+     {
+      "id": "vb3",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "IsValid",
+      "in": {
+       "Object": "@gb3.Bound"
+      }
+     },
+     {
+      "id": "bvs",
+      "kind": "branch",
+      "in": {
+       "Condition": "@vb3.ReturnValue"
+      }
+     },
+     {
+      "id": "aps",
+      "kind": "call_self",
+      "function": "Apply Style"
+     },
+     {
+      "id": "asl",
+      "kind": "call_self",
+      "function": "Apply Start Loop"
+     },
+     {
+      "id": "ttf",
+      "kind": "custom_event",
+      "name": "Test Target Factor",
+      "inputs": [
+       {
+        "name": "on",
+        "type": "bool"
+       },
+       {
+        "name": "walk",
+        "type": "float"
+       },
+       {
+        "name": "run",
+        "type": "float"
+       },
+       {
+        "name": "wanna run",
+        "type": "bool"
+       },
+       {
+        "name": "crouch",
+        "type": "bool"
+       },
+       {
+        "name": "falling",
+        "type": "bool"
+       }
+      ]
+     },
+     {
+      "id": "ttf_c",
+      "kind": "call_self",
+      "function": "Target Factor",
+      "in": {
+       "on": "@ttf.on",
+       "walk": "@ttf.walk",
+       "run": "@ttf.run",
+       "wanna run": "@ttf.wanna run",
+       "crouch": "@ttf.crouch",
+       "falling": "@ttf.falling"
+      }
+     },
+     {
+      "id": "ttf_s",
+      "kind": "set",
+      "var": "TmpFloat",
+      "in": {
+       "TmpFloat": "@ttf_c.factor"
+      }
+     },
+     {
+      "id": "trt",
+      "kind": "custom_event",
+      "name": "Test Rate Target",
+      "inputs": [
+       {
+        "name": "factor",
+        "type": "float"
+       },
+       {
+        "name": "speed",
+        "type": "float"
+       },
+       {
+        "name": "montage",
+        "type": "bool"
+       }
+      ]
+     },
+     {
+      "id": "trt_c",
+      "kind": "call_self",
+      "function": "Rate Target",
+      "in": {
+       "factor": "@trt.factor",
+       "speed": "@trt.speed",
+       "montage": "@trt.montage"
+      }
+     },
+     {
+      "id": "trt_s",
+      "kind": "set",
+      "var": "TmpFloat",
+      "in": {
+       "TmpFloat": "@trt_c.rate"
+      }
+     },
+     {
+      "id": "tsc",
+      "kind": "custom_event",
+      "name": "Test Style Class",
+      "inputs": [
+       {
+        "name": "walk",
+        "type": "name"
+       },
+       {
+        "name": "run",
+        "type": "name"
+       }
+      ]
+     },
+     {
+      "id": "tsc_c",
+      "kind": "call_self",
+      "function": "Style Class",
+      "in": {
+       "walk": "@tsc.walk",
+       "run": "@tsc.run"
+      }
+     },
+     {
+      "id": "tsc_s",
+      "kind": "set",
+      "var": "TmpClass",
+      "in": {
+       "TmpClass": "@tsc_c.cls"
+      }
+     },
+     {
+      "id": "tslp",
+      "kind": "custom_event",
+      "name": "Test Style Loop",
+      "inputs": [
+       {
+        "name": "walk",
+        "type": "name"
+       },
+       {
+        "name": "run",
+        "type": "name"
+       },
+       {
+        "name": "running",
+        "type": "bool"
+       }
+      ]
+     },
+     {
+      "id": "tslp_c",
+      "kind": "call_self",
+      "function": "Style Loop",
+      "in": {
+       "walk": "@tslp.walk",
+       "run": "@tslp.run",
+       "running": "@tslp.running"
+      }
+     },
+     {
+      "id": "tslp_s",
+      "kind": "set",
+      "var": "TmpObj",
+      "in": {
+       "TmpObj": "@tslp_c.loop"
+      }
+     },
+     {
+      "id": "trf",
+      "kind": "custom_event",
+      "name": "Test Run Fix",
+      "inputs": [
+       {
+        "name": "speed",
+        "type": "float"
+       },
+       {
+        "name": "factor",
+        "type": "float"
+       }
+      ]
+     },
+     {
+      "id": "trf_c",
+      "kind": "call_self",
+      "function": "Run Fix",
+      "in": {
+       "speed": "@trf.speed",
+       "factor": "@trf.factor"
+      }
+     },
+     {
+      "id": "trf_s",
+      "kind": "set",
+      "var": "TmpInt",
+      "in": {
+       "TmpInt": "@trf_c.action"
+      }
+     }
+    ],
+    "links": [],
+    "exec": [
+     [
+      "tk",
+      "bne",
+      "bd",
+      "bvs",
+      "aps",
+      "asl",
+      "bgo",
+      "ap"
+     ],
+     [
+      "bne:else",
+      "bvs"
+     ],
+     [
+      "bvs:else",
+      "bgo"
+     ],
+     [
+      "ttf",
+      "ttf_s"
+     ],
+     [
+      "trt",
+      "trt_s"
+     ],
+     [
+      "tsc",
+      "tsc_s"
+     ],
+     [
+      "tslp",
+      "tslp_s"
+     ],
+     [
+      "trf",
+      "trf_s"
+     ]
+    ]
+   }
+  }
+ ]
+}

@@ -34,7 +34,17 @@ Der Hook ersetzt eines der Blueprints des Spiels (den Player-Kamera-Manager) und
 
 Die Kameraführung neben dem offenen Panel hängt nicht mehr am Hook – sie hängt sich an den Kamera-Manager, den das Level ohnehin hat, auch an den des Spiels.
 
-Deinstallation: die kopierten Dateien löschen. Die eigenen Speicherdateien des Mods (*Saved\SaveGames\AltUI.sav*, *AltUI_Looks.sav*, *AltUI_Faces.sav*, *AltUI_Names.sav*, die Look- und Gesichtsfotos in *Saved\SaveGames\AltUI\* und die Waffen-Kacheln in *Saved\SaveGames\WeaponIcons\*) können ebenfalls gelöscht werden; sonst wird nichts angefasst – Kleidung, Outfits, Makeup und Frisur laufen über die Speicherdateien des Spiels.
+Deinstallation: die kopierten Dateien löschen. AltUI legt eigene Daten im Spielstand-Ordner des Spiels ab, unter Windows `%LOCALAPPDATA%\TheKillingAntidote\Saved\SaveGames\`; um alles zu entfernen, dort auch diese löschen:
+
+* `AltUI.sav` – Einstellungen und Auswahl
+* `AltUI_Looks.sav` – gespeicherte Looks
+* `AltUI_Faces.sav` – gespeicherte Gesichter
+* `AltUI_Names.sav` – eigene Namen
+* `AltUI_Ragdolls.sav` – Ragdoll-Szenen und -Posen
+* `AltUI\` – Fotos von Looks, Gesichtern und Aussehen-Vorlagen
+* `WeaponIcons\` – Waffenbilder der Kacheln
+
+Sonst wird nichts angefasst – Kleidung, Outfits, Makeup und Frisur laufen über die Speicherdateien des Spiels.
 
 ## Was es kann
 
@@ -46,12 +56,15 @@ Deinstallation: die kopierten Dateien löschen. Die eigenen Speicherdateien des 
 * **Aussehen** – Haut, jeder Makeup-Typ, Augen, Aussehen-Vorlagen mit Symbolen (speichern, aktualisieren, umbenennen, löschen).
 * **Körperform** – Regler für Brust / Taille, ein Umschalter für installierte Body-Mods und – bei konvertierten Bodies – Bone-Regler: Skalierung, Busen, Taille extra, Po/Hüfte, Oberschenkel, Waden, Arme, Hände, Füße, je Body gespeichert.
 * **Gesicht** – Jodis Gesichtsausdruck: die Ausdrücke des Spiels, Blickrichtung und Mundformen als Regler; ein angehakter Eintrag behält seinen Wert, auch in Posen und beim Tanzen, ein nicht angehakter bleibt dem Spiel überlassen. Gespeicherte Gesichter mit Foto. „Inhalt anzeigen“ listet ihre Werte auf.
-* **Waffen** – je Waffe ein Modell und ein Skin, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel.
+* **Waffen** – je Waffe Modell, Skin und Schussgeräusch, Nahkampfwaffen eingeschlossen, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel; ein Klick auf einen Sound spielt ihn ab.
 * **Posen** – jede Aktionsanimation des Spiels und der Pose-Mods, sortiert nach stehend, sitzend und liegend.
 * **Mods** – die Einstellungen anderer Mods, die sich dort eintragen (nur sichtbar, wenn so ein Mod installiert ist).
 * **Schnellmenü** – **4** halten (änderbar) öffnet ein Rad mit dem, was du oft brauchst: freie Kamera, Foto-Modus, ein gespeichertes Outfit, ein Look, Gesicht oder Preset, eine Lieblingspose, ein Reiter und Aktionen anderer Mods. Bis zu 32 Einträge, ausgewählt und sortiert in den Optionen; über einem Eintrag loslassen führt ihn aus. Ein Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods legt ihn ins Rad oder nimmt ihn heraus.
 * **Optionen** – in Kategorien mit einer Liste links; Reiter, die du nicht brauchst, lassen sich abschalten; Taste für das Panel, Sprache, Scroll-Geschwindigkeit, Kachelgröße, Länge der Gruppennamen und Höhe der Gruppenzeile, freier Bildschirmanteil für Jodi, Kamera-FOV / -Abstand / -Schwenk, Farbschema und Deckkraft, „Unterwäsche darf ausgezogen werden“, „Nicht im Besitz“ gesperrt / ausgegraut / wie im Besitz, Slot-Konflikte des Spiels (BH vs. Shirt …) freigeben, gleichnamige Gruppen / Mods zusammenlegen, Tooltip-Optionen; Reiterleiste mit Icons, Text oder beidem, das Icon links oder rechts vom Text; Farbschemata unter einem Namen speichern; eigene Größen für Outfit- und Look-Kacheln und wie viele Teile eine Outfit-Kachel zeigt; Deckkraft des Schnellmenüs.
 * **Verwaltung** – eigene Anzeigenamen für Mods, Gruppen, Teile, Frisuren, Haut und Makeup – überall im Panel und in der Suche; „Umbenennen…“ im Kontextmenü jeder Kachel; als JSON exportier-/importierbar mit `altui_names.pyz`; wie in Kleidung filtern Chips die Liste nach Mod oder Gruppe, ein Suchfeld grenzt die Chips ein; auch Posen und Aussehen-Vorlagen lassen sich umbenennen.
+* **Ragdolls** – Kopien von Jodi, Zombies und Menschen als Figuren mit Physik: aufstellen, Gelenk für Gelenk posieren, einfrieren oder fallen lassen; Posen je Figurart und ganze Szenen je Level werden gespeichert. Ein Ragdoll-Modus bewegt sie ohne Panel.
+* **Kodex** – das AltUI-Handbuch in allen sieben Sprachen, die Enzyklopädie des Spiels und die Code-Schlösser des aktuellen Levels; jeder Code bleibt verdeckt, bis du ihn anklickst.
+* **Bewegung** – Jodis eigenes Geh- und Renntempo (50–200 %), unter Optionen.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips zeigen, aus welchem Mod ein Teil stammt.
 
 Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch, Französisch (automatisch erkannt, in den Optionen umschaltbar).

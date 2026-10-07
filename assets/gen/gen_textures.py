@@ -92,6 +92,14 @@ def circle_photo(path, size=64, ss=4):
     big.resize((size, size), Image.LANCZOS).save(path)
 
 
+def circle_ragdoll(path, size=64, ss=4):
+    """Jointed puppet (the Ragdolls tab glyph, smaller) in a white ring: Ragdolls mode button."""
+    S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 255)
+    w = int(S * 0.08); m = w // 2; d.ellipse((m, m, S - 1 - m, S - 1 - m), outline=W, width=w)
+    I = int(S * 0.56); inner = Image.new("RGBA", (I, I), (0, 0, 0, 0)); tab_ragdolls(ImageDraw.Draw(inner), I, W, (0, 0, 0, 0))
+    big.alpha_composite(inner, ((S - I) // 2, (S - I) // 2)); big.resize((size, size), Image.LANCZOS).save(path)
+
+
 def color_glyph(path, size=48, ss=4):
     """Three overlapping pastel discs (red top, green left, blue right) with a light centre - the vanilla "colour adjustable" subscript."""
     S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big)
@@ -252,6 +260,27 @@ def tab_manage(d, S, W, C):
     d.polygon([p(0.36, hw + 0.01), p(0.40, hw + 0.01), p(0.40, -hw - 0.01), p(0.36, -hw - 0.01)], fill=C)   # ferrule gap
 
 
+def tab_ragdolls(d, S, W, C):
+    """Jointed puppet: round head, body, limbs bent at the joints, a dot at every joint."""
+    lw = int(S * 0.085)
+    d.ellipse((S * 0.40, S * 0.03, S * 0.60, S * 0.23), fill=W)                                       # head
+    d.line(_pts(S, [(0.50, 0.25), (0.50, 0.58)]), fill=W, width=int(S * 0.12))                        # body
+    for pts in ([(0.50, 0.30), (0.28, 0.42), (0.18, 0.60)], [(0.50, 0.30), (0.72, 0.38), (0.86, 0.22)],   # arms (one raised)
+                [(0.50, 0.58), (0.36, 0.76), (0.40, 0.96)], [(0.50, 0.58), (0.68, 0.74), (0.80, 0.92)]):  # legs
+        d.line(_pts(S, pts), fill=W, width=lw, joint="curve")
+        for x, y in pts[1:2]: d.ellipse((S * x - lw * 0.9, S * y - lw * 0.9, S * x + lw * 0.9, S * y + lw * 0.9), fill=W)
+
+
+def tab_kodex(d, S, W, C):
+    """Open book: two pages curving up from the spine, text lines cut into them."""
+    for side in (-1, 1):
+        def px(x): return S * (0.5 + side * x)
+        d.polygon([(px(0.03), S * 0.24), (px(0.15), S * 0.15), (px(0.47), S * 0.18), (px(0.47), S * 0.80), (px(0.15), S * 0.77), (px(0.03), S * 0.86)], fill=W)
+        for y in (0.33, 0.46, 0.59):
+            d.line([(px(0.12), S * y), (px(0.38), S * (y + 0.01))], fill=C, width=int(S * 0.045))
+    d.rectangle((S * 0.485, S * 0.20, S * 0.515, S * 0.90), fill=C)                                   # spine gap
+
+
 def altui_panel(d, S, W, C):
     """The AltUI panel, stylised: frame, tab bar with the chosen tab underlined, category list on the left, tile grid on the right."""
     d.rounded_rectangle((S * 0.04, S * 0.10, S * 0.96, S * 0.90), radius=int(S * 0.08), outline=W, width=int(S * 0.06))
@@ -266,7 +295,7 @@ def altui_panel(d, S, W, C):
 
 
 TAB_ICON_DRAW = {"Clothes": tab_clothes, "Outfits": tab_outfits, "Looks": tab_looks, "Bag": tab_bag, "Hair": tab_hair, "Weapons": tab_weapons,
-                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Manage": tab_manage}
+                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Manage": tab_manage, "Ragdolls": tab_ragdolls, "Kodex": tab_kodex}
 T_ALTUI = M + "/T_AltUI"
 TAB_ICONS = dict({k: M + "/T_Tab" + k for k in TAB_ICON_DRAW}, Poses=T_POSE)   # page -> texture; Poses uses the pose tiles' stick figure
 
@@ -279,7 +308,7 @@ def build(assets_dir):
     circle_arrow(os.path.join(assets_dir, "tex", "undo.png"), False); circle_arrow(os.path.join(assets_dir, "tex", "redo.png"), True)
     circle_glyph(os.path.join(assets_dir, "tex", "plus.png"), True); circle_glyph(os.path.join(assets_dir, "tex", "minus.png"), False)
     color_glyph(os.path.join(assets_dir, "tex", "colorize.png"))
-    circle_cam(os.path.join(assets_dir, "tex", "cam.png")); circle_photo(os.path.join(assets_dir, "tex", "photo.png"))
+    circle_cam(os.path.join(assets_dir, "tex", "cam.png")); circle_photo(os.path.join(assets_dir, "tex", "photo.png")); circle_ragdoll(os.path.join(assets_dir, "tex", "ragmode.png"))
     stick_figure(os.path.join(assets_dir, "tex", "pose.png"))
     for k, f in TAB_ICON_DRAW.items(): _glyph(os.path.join(assets_dir, "tex", "tab_%s.png" % k.lower()), f)
     _glyph(os.path.join(assets_dir, "tex", "altui.png"), altui_panel)
@@ -293,6 +322,7 @@ def build(assets_dir):
             {"type": "texture", "path": T_COLORIZE, "file": "tex/colorize.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CAM, "file": "tex/cam.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_PHOTO, "file": "tex/photo.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_RagMode", "file": "tex/ragmode.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_POSE, "file": "tex/pose.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_ALTUI, "file": "tex/altui.png", "props": TEX_PROPS}] + \
            [{"type": "texture", "path": M + "/T_Tab" + k, "file": "tex/tab_%s.png" % k.lower(), "props": TEX_PROPS} for k in TAB_ICON_DRAW]

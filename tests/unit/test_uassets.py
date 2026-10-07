@@ -41,7 +41,8 @@ class ShippedUassets(unittest.TestCase):
 
     def test_weapon_struct_members(self):
         for name, members in (("S_WeaponSkin.uasset", ws.struct_members()),
-                              ("S_WeaponModel.uasset", ws.model_struct_members())):
+                              ("S_WeaponModel.uasset", ws.model_struct_members()),
+                              ("S_WeaponSound.uasset", ws.sound_struct_members())):
             b = read(name)
             self.assertEqual(set(m.decode() for m in re.findall(rb"\w+_\d+_[0-9A-F]{32}", b)),
                              set(n for _, n, _ in members), name)
@@ -50,7 +51,8 @@ class ShippedUassets(unittest.TestCase):
     def test_weapon_structs_reference_nothing_but_themselves(self):
         # a modder drops the file into their own project: a reference to game content would make it unopenable there
         for name, path in (("S_WeaponSkin.uasset", ws.STRUCT_PATH),
-                           ("S_WeaponModel.uasset", ws.MODEL_STRUCT_PATH)):
+                           ("S_WeaponModel.uasset", ws.MODEL_STRUCT_PATH),
+                           ("S_WeaponSound.uasset", ws.SOUND_STRUCT_PATH)):
             self.assertEqual(set(re.findall(REF, read(name))), {path.encode()}, name)
 
 
