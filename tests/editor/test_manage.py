@@ -21,7 +21,8 @@ def main():
     mgr.call_method("Test Build"); mgr.call_method("Test Strings", args=(1,)); mgr.call_method("Test Load Names")
     mgr.call_method("Test Set Custom Name", args=("item", "ModThing", "")); mgr.call_method("Test Set Custom Name", args=("group", "SomeGroup", ""))
     # Mods: header, then its groups (indented rows); vanilla has no header
-    expect("mods category", rows(mgr, "Mods"), ["mod:SomeMod", "group:SomeGroup"])
+    WMODS = ["mod:WeaponAltUI_SkinTest", "mod:WeaponAltUI_ModelTest", "mod:WeaponAltUI_SoundTest"]   # weapon mods of the kit: listed, no groups
+    expect("mods category", rows(mgr, "Mods"), ["mod:SomeMod", "group:SomeGroup"] + WMODS)
     expect("mods search by group keeps the header", rows(mgr, "Mods", "somegroup"), ["mod:SomeMod", "group:SomeGroup"])
     expect("mods search by caption", rows(mgr, "Mods", "some mod"), ["mod:SomeMod"])
     expect("mods search miss", rows(mgr, "Mods", "zzz"), [])
@@ -53,7 +54,7 @@ def main():
     # Mods: a chip per mod; the chosen one keeps its header with its groups, the others go; group rows are no chips of their own
     mchip = rgroup("mod", "SomeMod"); expect("group row of the Mods category has no chip", rgroup("group", "SomeGroup"), "None")
     mgr.set_editor_property("ManageCat", "Mods"); mgr.call_method("Test Manage Groups")
-    expect("mods chips", [str(n) for n in mgr.get_editor_property("TmpNames")], [mchip])
+    expect("mods chips", [str(n) for n in mgr.get_editor_property("TmpNames")], [mchip] + [w[4:] for w in WMODS])
     mgr.set_editor_property("ManageGroup", mchip); expect("mod chip keeps header and groups", rows(mgr, "Mods"), ["mod:SomeMod", "group:SomeGroup"])
     mgr.set_editor_property("ManageGroup", "NoSuchMod"); expect("another mod's chip hides it", rows(mgr, "Mods"), [])
     mgr.set_editor_property("ManageGroup", "None"); mgr.set_editor_property("ManageCat", "Clothes")
@@ -72,11 +73,11 @@ def main():
     expect("vanilla item row", origin3(mgr, "item", "Zeta_Neck"), ("id: Zeta_Neck\nVanilla", "None", ""))
     expect("makeup row: type line", origin3(mgr, "makeup", "Lips_01"), ("id: Lips_01\nVanilla", "None", "Lips"))   # Look Caption: own string key Look_Lips (en)
     expect("unshared group", origin(mgr, "group", "SomeGroup"), "g: SomeGroup")
-    mgr.set_editor_property("ModGroupPairs", ["SomeMod|SomeGroup", "OtherMod|SomeGroup"])
+    mgr.set_editor_property("ModGroupPairs", ["SomeMod|SomeGroup", "OtherMod|SomeGroup"]); mgr.call_method("Test Index Mod Group Pairs")
     expect("shared group lists the other pak", origin(mgr, "group", "SomeGroup"), "g: SomeGroup\n\nalso affects:\nPAK: OtherMod")
     mgr.call_method("Test Set Custom Name", args=("mod", "OtherMod", "Other Name"))
     expect("shared group shows the other pak's display name", origin(mgr, "group", "SomeGroup"), "g: SomeGroup\n\nalso affects:\nPAK: Other Name")
-    mgr.call_method("Test Set Custom Name", args=("mod", "OtherMod", "")); mgr.set_editor_property("ModGroupPairs", ["SomeMod|SomeGroup"])
+    mgr.call_method("Test Set Custom Name", args=("mod", "OtherMod", "")); mgr.set_editor_property("ModGroupPairs", ["SomeMod|SomeGroup"]); mgr.call_method("Test Index Mod Group Pairs")
     # rename from context menus: kind of a tile row, inline finish (trim, default = nothing), jump to the Manage row
     def kind(name):
         mgr.call_method("Test Rename Kind", args=(name,)); return str(mgr.get_editor_property("TmpName"))
@@ -105,9 +106,9 @@ def main():
     expect("vanilla category ignores only-mods", rows(mgr, "Vanilla", only_mods=False), ["group:Lace", "group:Kpop"])
     expect("vanilla search by caption", rows(mgr, "Vanilla", "kpop"), ["group:Kpop"])
     expect("vanilla search miss", rows(mgr, "Vanilla", "somegroup"), [])
-    mgr.set_editor_property("TmpParentMod", "None"); mgr.set_editor_property("ModGroupPairs", ["SomeMod|Kpop"])
+    mgr.set_editor_property("TmpParentMod", "None"); mgr.set_editor_property("ModGroupPairs", ["SomeMod|Kpop"]); mgr.call_method("Test Index Mod Group Pairs")
     expect("vanilla group shared with a pak", origin(mgr, "group", "Kpop"), "g: Kpop\n\nalso affects:\nPAK: Some Mod")   # the pak's display name (DLC caption)
-    mgr.set_editor_property("ModGroupPairs", ["SomeMod|SomeGroup"])
+    mgr.set_editor_property("ModGroupPairs", ["SomeMod|SomeGroup"]); mgr.call_method("Test Index Mod Group Pairs")
     # 'Rename group…' from a tile: vanilla piece -> Vanilla category, mod piece -> Mods
     mgr.call_method("Test Rename Group Of Item", args=("Alpha_Neck",)); expect("rename group of a vanilla piece", str(mgr.get_editor_property("ManageCat")), "Vanilla")
     mgr.call_method("Test Rename Group Of Item", args=("ModThing",)); expect("rename group of a mod piece", str(mgr.get_editor_property("ManageCat")), "Mods")

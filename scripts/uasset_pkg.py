@@ -124,7 +124,9 @@ class Package:
         if p.legacy_file_version != -4:
             p.legacy_ue3_version = i32()
         p.file_version_ue4 = i32(); p.file_version_licensee = i32()
-        if p.file_version_ue4 != 0:
+        # 522 = VER_UE4_AUTOMATIC_VERSION of 4.27: a versioned cook of the game's engine has the same summary layout as
+        # the unversioned one this reader assumes (round trip byte-identical); older versions do not
+        if p.file_version_ue4 not in (0, 522):
             raise NotImplementedError("versioned package (FileVersionUE4=%d)" % p.file_version_ue4)
         ncv = i32(); p.custom_versions = d[pos - 4:pos + ncv * 20]; pos += ncv * 20
         total_header = i32()
@@ -217,9 +219,11 @@ class Package:
     def import_by_index(self, i):
         return self.imports[-i - 1]
 
-    def find_import(self, class_name, object_name, outer=None):
+    def find_import(self, class_name, object_name, outer=None, object_number=None):
+        """object_number None = any; Foo and Foo_2 (name Foo, number 3) are different objects."""
         for k, im in enumerate(self.imports):
-            if im.class_name == class_name and im.object_name == object_name and (outer is None or im.outer == outer):
+            if im.class_name == class_name and im.object_name == object_name and (outer is None or im.outer == outer) \
+                    and (object_number is None or im.object_number == object_number):
                 return -(k + 1)
         return 0
 

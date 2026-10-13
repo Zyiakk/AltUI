@@ -6,7 +6,7 @@ Die Garderobe des Spiels gibt jedem Mod-Autor einen eigenen Reiter. Mit ein paar
 
 Auch auf [Nexus Mods](https://www.nexusmods.com/thekillingantidote/mods/988) (beide Dateien in einem Archiv). Derselbe Mod – eine Quelle wählen, nicht beide.
 
-> ⚠️ **Warnung:** Gemacht für Spielversion 0.6.x. Ein Spiel-Update, das die Kleidungs-/Makeup-Tabellen oder den Kamera-Manager ändert, kann den Mod kaputt machen.
+> ⚠️ **Warnung:** Gemacht für Spielversion 0.6.x. Ein Spiel-Update, das die Kleidungs-/Makeup-Tabellen oder den Kamera-Manager ändert, kann den Mod kaputt machen. AltUI prüft beim Start die Tabellen des Spiels und warnt, bevor es etwas anfasst, wenn sie sich geändert haben.
 
 ## ⚠ Installation – zuerst lesen
 
@@ -38,20 +38,22 @@ Der Hook ersetzt *TKA_PlayerCameraManager* und startet von dort das Panel. Jeder
 
 ## Was es kann
 
-* **Kleidung** – jedes Teil des Spiels und deiner Mods, eine Liste je Slot, mit Suche, Filtern, Favoriten und Ausblenden.
-* **Outfits · Looks** – die Vorlagen des Spiels mit Namen, und komplette Looks (Kleidung samt Farben, Frisur, Makeup, Augen, Haut, Körper, Gesicht) mit Foto aus dem Spiel.
+* **Schnellmenü** – **4** halten (änderbar) öffnet ein Rad mit dem, was du oft brauchst: freie Kamera, Foto-Modus, ein gespeichertes Outfit, ein Look, Gesicht oder Preset, eine Lieblingspose, ein Reiter und Aktionen anderer Mods. Bis zu 32 Einträge, ausgewählt und sortiert in den Optionen; über einem Eintrag loslassen führt ihn aus. Ein Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods legt ihn ins Rad oder nimmt ihn heraus. Dazu Zeitlupe, Zeit anhalten, Jodi ausblenden und Befehle an Follower.
+* **Kleidung** – jedes Teil des Spiels und deiner Mods, eine Liste je Slot, mit Suche, Filtern, Favoriten und Ausblenden. Schadensregler im Kontextmenü; eine Farbe je Material-Slot, auch für Schmuck, gespeichert je Spielstand.
+* **Outfits · Looks** – die Vorlagen des Spiels mit Namen, und komplette Looks (Kleidung samt Farben, Frisur, Makeup, Augen, Haut, Körper, Gesicht) mit Foto aus dem Spiel. Ein Look lässt sich als Follower, als NPC oder als Ragdoll erzeugen.
 * **Rucksack · Frisuren · Aussehen** – was Jodi trägt und dabeihat; Frisuren und Haarfarben; Haut, Makeup und Augen, jeweils einfärbbar.
-* **Körperform** – Brust- und Taillenregler, Umschalter für konvertierte Body-Mods, Knochenregler je Körper.
+* **Inventar** – Jodis Gegenstände und die Hyper Item-Box untereinander: ein Klick verschiebt einen Gegenstand, Rechtsklick benutzt, untersucht, wirft weg oder entlädt; alles läuft über die Funktionen des Spiels. Wahlweise ein Katalog „Alle Items“.
+* **Körperform** – Brust- und Taillenregler, Umschalter für konvertierte Body-Mods, Knochenregler je Körper. Für Brust und Po: Wackeln, Winkel und Hüftbreite.
 * **Gesicht** – Jodis Ausdruck, Blick und Mund als Regler; das Gesicht hält auch in Posen und beim Tanzen; gespeicherte Gesichter mit Foto, ihre Werte unter „Inhalt anzeigen“.
-* **Waffen** – je Waffe Modell, Skin und Schussgeräusch, Nahkampfwaffen eingeschlossen, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel; ein Klick auf einen Sound spielt ihn ab.
+* **Waffen** – je Waffe Modell, Skin und Schussgeräusch, Nahkampfwaffen eingeschlossen, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel; ein Klick auf einen Sound spielt ihn ab. Aufsätze je Slot (Visier, Lauf, Griff, Magazin) aus dem Rucksack oder der Item-Box.
 * **Posen** – jede Aktionsanimation des Spiels und der Pose-Mods, sortiert nach stehend, sitzend und liegend.
 * **Mods** – die Einstellungen anderer Mods, die sich dort eintragen: Schalter, Schieberegler, Zahlen, Auswahlen, Farben, Textfelder, Info-Zeilen, Tasten und Buttons. Nur sichtbar, wenn so ein Mod installiert ist.
-* **Schnellmenü** – **4** halten (änderbar) öffnet ein Rad mit dem, was du oft brauchst: freie Kamera, Foto-Modus, ein gespeichertes Outfit, ein Look, Gesicht oder Preset, eine Lieblingspose, ein Reiter und Aktionen anderer Mods. Bis zu 32 Einträge, ausgewählt und sortiert in den Optionen; über einem Eintrag loslassen führt ihn aus. Ein Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods legt ihn ins Rad oder nimmt ihn heraus.
 * **Optionen** – in Kategorien, links aus einer Liste gewählt: Panel-Taste, Sprache, Farben (Schemata lassen sich unter einem Namen speichern), Reiterleiste mit Icons, Text oder beidem, Kachelgrößen, für Outfits und Looks getrennt. Reiter, die du nicht brauchst, lassen sich abschalten.
 * **Verwaltung** – eigene Anzeigenamen für Mods, Gruppen und Teile. Wie in Kleidung filtern Chips die Liste nach Mod oder Gruppe, und ein Suchfeld grenzt die Chips ein.
 * **Ragdolls** – Kopien von Jodi, Zombies und Menschen als Figuren mit Physik: aufstellen, Gelenk für Gelenk posieren, einfrieren oder fallen lassen; Posen je Figurart und ganze Szenen je Level werden gespeichert. Ein Ragdoll-Modus bewegt sie ohne Panel.
+* **Follower** – Looks werden zu Followern, die mit Jodi gehen und kämpfen, oder zu NPCs, die an ihrem Platz bleiben: Befehle, Gegenstände und Waffen zum Übergeben, Kleidung, die Schaden nimmt wie bei den NPCs des Spiels. In einer eigenen Speicherdatei, nie im Spielstand.
 * **Kodex** – das AltUI-Handbuch in allen sieben Sprachen, die Enzyklopädie des Spiels und die Code-Schlösser des aktuellen Levels; jeder Code bleibt verdeckt, bis du ihn anklickst.
-* **Bewegung** – Jodis eigenes Geh- und Renntempo (50–200 %), unter Optionen.
+* **Bewegung** – Jodis eigenes Geh- und Renntempo (50–200 %), unter Optionen. Zeitlupe mit eigenem Tempo.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips mit dem Mod, aus dem ein Teil stammt.
 
 Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch, Französisch (automatisch erkannt, in den Optionen umstellbar).
@@ -60,6 +62,7 @@ Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch, Französi
 
 * **B** – öffnen / schließen (in den Optionen änderbar). **Esc** schließt.
 * **4** – halten für das Schnellmenü (in den Optionen änderbar); über einem Eintrag loslassen führt ihn aus, in der Mitte loslassen tut nichts.
+* **B im Hauptmenü** – ein kleines Menü für die Menü-Szenen, die Lade-Szene, die nächste Kamera und das Ausblenden des Spielmenüs.
 * Linksklick – auswählen / anziehen / anwenden. Rechtsklick – Kontextmenü. Mausrad – scrollen.
 
 ## Body-Mods

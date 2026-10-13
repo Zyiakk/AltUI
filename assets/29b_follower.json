@@ -1,0 +1,1510 @@
+{
+ "assets": [
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BP_AltUIFollower",
+   "mode": "create",
+   "parent": "/Game/Project/Character/Npc/NPC_Female",
+   "variables": [
+    {
+     "name": "FollowerId",
+     "type": "name"
+    },
+    {
+     "name": "LookParts",
+     "type": "struct:/Game/Mod/AltUI/S_RagPart",
+     "container": "array"
+    },
+    {
+     "name": "LookMorphN",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "LookMorphV",
+     "type": "float",
+     "container": "array"
+    },
+    {
+     "name": "LookComps",
+     "type": "object:/Script/Engine.SceneComponent",
+     "container": "array"
+    },
+    {
+     "name": "TmpMid",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    },
+    {
+     "name": "LookHair",
+     "type": "name"
+    },
+    {
+     "name": "LookHairColor",
+     "type": "struct:/Script/CoreUObject.LinearColor"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Need to Save",
+     "pure": true,
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "no",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "false",
+         "B": "false"
+        }
+       }
+      ],
+      "links": [
+       [
+        "no.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Mutate",
+     "override": true,
+     "graph": {
+      "nodes": [],
+      "links": [],
+      "exec": []
+     }
+    },
+    {
+     "name": "delay to mutant",
+     "override": true,
+     "graph": {
+      "nodes": [],
+      "links": [],
+      "exec": []
+     }
+    },
+    {
+     "name": "Load Path",
+     "inputs": [
+      {
+       "name": "path",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "object",
+       "type": "object:/Script/CoreUObject.Object"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "@entry.path"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@sp.ReturnValue"
+        }
+       },
+       {
+        "id": "ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@sr.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "ld.ReturnValue",
+        "return.object"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "ld",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Mats",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.MeshComponent"
+      },
+      {
+       "name": "mats",
+       "type": "struct:/Game/Mod/AltUI/S_RagMat",
+       "container": "array"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "fm",
+        "kind": "foreach",
+        "in": {
+         "Array": "@entry.mats"
+        }
+       },
+       {
+        "id": "bm",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_RagMat",
+        "in": {
+         "S_RagMat": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "lp",
+        "kind": "call_self",
+        "function": "Load Path",
+        "in": {
+         "path": "@bm.Path"
+        }
+       },
+       {
+        "id": "cm",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInterface",
+        "pure": true,
+        "in": {
+         "Object": "@lp.object"
+        }
+       },
+       {
+        "id": "bd",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bm.Dynamic"
+        }
+       },
+       {
+        "id": "sm",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@entry.mesh",
+         "ElementIndex": "@fm.Array Index",
+         "Material": "@cm.AsMaterial Interface"
+        }
+       },
+       {
+        "id": "dm",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@entry.mesh",
+         "ElementIndex": "@fm.Array Index",
+         "SourceMaterial": "@cm.AsMaterial Interface",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "sdm",
+        "kind": "set",
+        "var": "TmpMid",
+        "in": {
+         "TmpMid": "@dm.ReturnValue"
+        }
+       },
+       {
+        "id": "fs",
+        "kind": "foreach",
+        "in": {
+         "Array": "@bm.ScalarNames"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@bm.ScalarValues",
+         "Index": "@fs.Array Index"
+        }
+       },
+       {
+        "id": "gd1",
+        "kind": "get",
+        "var": "TmpMid"
+       },
+       {
+        "id": "ss",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@gd1.TmpMid",
+         "ParameterName": "@fs.Array Element",
+         "Value": "@sv.Item"
+        }
+       },
+       {
+        "id": "fv",
+        "kind": "foreach",
+        "in": {
+         "Array": "@bm.VectorNames"
+        }
+       },
+       {
+        "id": "vv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@bm.VectorValues",
+         "Index": "@fv.Array Index"
+        }
+       },
+       {
+        "id": "gd2",
+        "kind": "get",
+        "var": "TmpMid"
+       },
+       {
+        "id": "sv2",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@gd2.TmpMid",
+         "ParameterName": "@fv.Array Element",
+         "Value": "@vv.Item"
+        }
+       },
+       {
+        "id": "ft",
+        "kind": "foreach",
+        "in": {
+         "Array": "@bm.TextureNames"
+        }
+       },
+       {
+        "id": "tv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@bm.TexturePaths",
+         "Index": "@ft.Array Index"
+        }
+       },
+       {
+        "id": "tl",
+        "kind": "call_self",
+        "function": "Load Path",
+        "in": {
+         "path": "@tv.Item"
+        }
+       },
+       {
+        "id": "tc",
+        "kind": "cast",
+        "class": "/Script/Engine.Texture",
+        "pure": true,
+        "in": {
+         "Object": "@tl.object"
+        }
+       },
+       {
+        "id": "gd3",
+        "kind": "get",
+        "var": "TmpMid"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetTextureParameterValue",
+        "in": {
+         "self": "@gd3.TmpMid",
+         "ParameterName": "@ft.Array Element",
+         "Value": "@tc.AsTexture"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "fm"
+       ],
+       [
+        "fm",
+        "lp",
+        "bd",
+        "dm",
+        "sdm",
+        "fs"
+       ],
+       [
+        "bd:else",
+        "sm"
+       ],
+       [
+        "fs",
+        "ss"
+       ],
+       [
+        "fs:Completed",
+        "fv"
+       ],
+       [
+        "fv",
+        "sv2"
+       ],
+       [
+        "fv:Completed",
+        "ft"
+       ],
+       [
+        "ft",
+        "tl",
+        "st"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Look",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "glc",
+        "kind": "get",
+        "var": "LookComps"
+       },
+       {
+        "id": "fo",
+        "kind": "foreach",
+        "in": {
+         "Array": "@glc.LookComps"
+        }
+       },
+       {
+        "id": "dc",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "K2_DestroyComponent",
+        "in": {
+         "self": "@fo.Array Element",
+         "Object": "@fo.Array Element"
+        }
+       },
+       {
+        "id": "glc2",
+        "kind": "get",
+        "var": "LookComps"
+       },
+       {
+        "id": "clc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@glc2.LookComps"
+        }
+       },
+       {
+        "id": "cmp",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_GetComponentsByClass",
+        "in": {
+         "ComponentClass": "/Script/Engine.MeshComponent"
+        }
+       },
+       {
+        "id": "fh",
+        "kind": "foreach",
+        "in": {
+         "Array": "@cmp.ReturnValue"
+        }
+       },
+       {
+        "id": "gm1",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "nm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_ObjectObject",
+        "in": {
+         "A": "@fh.Array Element",
+         "B": "@gm1.Mesh"
+        }
+       },
+       {
+        "id": "icc",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/Misc/Clothes_Comp",
+        "pure": true,
+        "in": {
+         "Object": "@fh.Array Element"
+        }
+       },
+       {
+        "id": "vcc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@icc.AsClothes Comp"
+        }
+       },
+       {
+        "id": "ihc",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/Misc/Hair_Comp",
+        "pure": true,
+        "in": {
+         "Object": "@fh.Array Element"
+        }
+       },
+       {
+        "id": "vhc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@ihc.AsHair Comp"
+        }
+       },
+       {
+        "id": "ogm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@vcc.ReturnValue",
+         "B": "@vhc.ReturnValue"
+        }
+       },
+       {
+        "id": "nog",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@ogm.ReturnValue"
+        }
+       },
+       {
+        "id": "hdo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@nm.ReturnValue",
+         "B": "@nog.ReturnValue"
+        }
+       },
+       {
+        "id": "bnm",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hdo.ReturnValue"
+        }
+       },
+       {
+        "id": "chs",
+        "kind": "cast",
+        "class": "/Script/Engine.SceneComponent",
+        "pure": true,
+        "in": {
+         "Object": "@fh.Array Element"
+        }
+       },
+       {
+        "id": "hide",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@chs.AsScene Component",
+         "bNewVisibility": "false",
+         "bPropagateToChildren": "false"
+        }
+       },
+       {
+        "id": "glp",
+        "kind": "get",
+        "var": "LookParts"
+       },
+       {
+        "id": "ln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@glp.LookParts"
+        }
+       },
+       {
+        "id": "has",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@ln.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bhas",
+        "kind": "branch",
+        "in": {
+         "Condition": "@has.ReturnValue"
+        }
+       },
+       {
+        "id": "glp0",
+        "kind": "get",
+        "var": "LookParts"
+       },
+       {
+        "id": "p0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@glp0.LookParts",
+         "Index": "0"
+        }
+       },
+       {
+        "id": "b0",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_RagPart",
+        "in": {
+         "S_RagPart": "@p0.Item"
+        }
+       },
+       {
+        "id": "l0",
+        "kind": "call_self",
+        "function": "Load Path",
+        "in": {
+         "path": "@b0.Mesh"
+        }
+       },
+       {
+        "id": "c0",
+        "kind": "cast",
+        "class": "/Script/Engine.SkeletalMesh",
+        "pure": false,
+        "in": {
+         "Object": "@l0.object"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "gm2",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "ssk",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "SetSkeletalMesh",
+        "in": {
+         "self": "@gm2.Mesh",
+         "NewMesh": "@c0.AsSkeletal Mesh",
+         "bReinitPose": "true"
+        }
+       },
+       {
+        "id": "gm3",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "show",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gm3.Mesh",
+         "bNewVisibility": "true",
+         "bPropagateToChildren": "false"
+        }
+       },
+       {
+        "id": "gm4",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "am0",
+        "kind": "call_self",
+        "function": "Apply Mats",
+        "in": {
+         "mesh": "@gm4.Mesh",
+         "mats": "@b0.Mats"
+        }
+       },
+       {
+        "id": "gm5",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "gai",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "GetAnimInstance",
+        "in": {
+         "self": "@gm5.Mesh"
+        }
+       },
+       {
+        "id": "sab",
+        "kind": "set",
+        "var": "Anim Blueprint",
+        "in": {
+         "Anim Blueprint": "@gai.ReturnValue"
+        }
+       },
+       {
+        "id": "gmb",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "gm0",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "GetMaterial",
+        "in": {
+         "self": "@gmb.Mesh",
+         "ElementIndex": "0"
+        }
+       },
+       {
+        "id": "cbm",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": false,
+        "in": {
+         "Object": "@gm0.ReturnValue"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "me2",
+        "kind": "self"
+       },
+       {
+        "id": "sbm",
+        "kind": "set",
+        "var": "Body Material",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "in": {
+         "self": "@me2.self",
+         "Body Material": "@cbm.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "gmb2",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "nbm",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@gmb2.Mesh",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "sbm2",
+        "kind": "set",
+        "var": "Body Material",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "in": {
+         "self": "@me2.self",
+         "Body Material": "@nbm.ReturnValue"
+        }
+       },
+       {
+        "id": "gmn",
+        "kind": "get",
+        "var": "LookMorphN"
+       },
+       {
+        "id": "fmn",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gmn.LookMorphN"
+        }
+       },
+       {
+        "id": "gmv",
+        "kind": "get",
+        "var": "LookMorphV"
+       },
+       {
+        "id": "mv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gmv.LookMorphV",
+         "Index": "@fmn.Array Index"
+        }
+       },
+       {
+        "id": "gm6",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "smv",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "SetMorphTarget",
+        "in": {
+         "self": "@gm6.Mesh",
+         "MorphTargetName": "@fmn.Array Element",
+         "Value": "@mv.Item",
+         "bRemoveZeroWeight": "true"
+        }
+       },
+       {
+        "id": "glh",
+        "kind": "get",
+        "var": "LookHair"
+       },
+       {
+        "id": "hh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@glh.LookHair",
+         "B": "None"
+        }
+       },
+       {
+        "id": "bhh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hh.ReturnValue"
+        }
+       },
+       {
+        "id": "me3",
+        "kind": "self"
+       },
+       {
+        "id": "chx",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Change Hairstyle Ex",
+        "in": {
+         "self": "@me3.self",
+         "hairstyle": "@glh.LookHair"
+        }
+       },
+       {
+        "id": "ghc",
+        "kind": "get",
+        "var": "Hair Comps",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "fhc",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ghc.Hair Comps"
+        }
+       },
+       {
+        "id": "glhc",
+        "kind": "get",
+        "var": "LookHairColor"
+       },
+       {
+        "id": "hcc",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Misc/Hair_Comp",
+        "function": "Change Color",
+        "in": {
+         "self": "@fhc.Array Element",
+         "color": "@glhc.LookHairColor"
+        }
+       },
+       {
+        "id": "glp1",
+        "kind": "get",
+        "var": "LookParts"
+       },
+       {
+        "id": "fp",
+        "kind": "foreach",
+        "in": {
+         "Array": "@glp1.LookParts"
+        }
+       },
+       {
+        "id": "gt0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@fp.Array Index",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bgt",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gt0.ReturnValue"
+        }
+       },
+       {
+        "id": "bp",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_RagPart",
+        "in": {
+         "S_RagPart": "@fp.Array Element"
+        }
+       },
+       {
+        "id": "lp",
+        "kind": "call_self",
+        "function": "Load Path",
+        "in": {
+         "path": "@bp.Mesh"
+        }
+       },
+       {
+        "id": "bsk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bp.Skeletal"
+        }
+       },
+       {
+        "id": "idtf68",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "nk",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "Class": "/Script/Engine.SkeletalMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@idtf68.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "cnk",
+        "kind": "cast",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@nk.ReturnValue"
+        }
+       },
+       {
+        "id": "ckm",
+        "kind": "cast",
+        "class": "/Script/Engine.SkeletalMesh",
+        "pure": true,
+        "in": {
+         "Object": "@lp.object"
+        }
+       },
+       {
+        "id": "gm7",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "katt",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@cnk.AsSkeletal Mesh Component",
+         "Parent": "@gm7.Mesh",
+         "SocketName": "None",
+         "LocationRule": "SnapToTarget",
+         "RotationRule": "SnapToTarget",
+         "ScaleRule": "SnapToTarget",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "ksk",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "SetSkeletalMesh",
+        "in": {
+         "self": "@cnk.AsSkeletal Mesh Component",
+         "NewMesh": "@ckm.AsSkeletal Mesh",
+         "bReinitPose": "true"
+        }
+       },
+       {
+        "id": "gm8",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "kmp",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "SetMasterPoseComponent",
+        "in": {
+         "self": "@cnk.AsSkeletal Mesh Component",
+         "NewMasterBoneComponent": "@gm8.Mesh",
+         "bForceUpdate": "true"
+        }
+       },
+       {
+        "id": "amk",
+        "kind": "call_self",
+        "function": "Apply Mats",
+        "in": {
+         "mesh": "@cnk.AsSkeletal Mesh Component",
+         "mats": "@bp.Mats"
+        }
+       },
+       {
+        "id": "glk",
+        "kind": "get",
+        "var": "LookComps"
+       },
+       {
+        "id": "ak",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@glk.LookComps",
+         "NewItem": "@cnk.AsSkeletal Mesh Component"
+        }
+       },
+       {
+        "id": "idtf80",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "ns",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@idtf80.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "cns",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@ns.ReturnValue"
+        }
+       },
+       {
+        "id": "csm",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMesh",
+        "pure": true,
+        "in": {
+         "Object": "@lp.object"
+        }
+       },
+       {
+        "id": "ssm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@cns.AsStatic Mesh Component",
+         "NewMesh": "@csm.AsStatic Mesh"
+        }
+       },
+       {
+        "id": "srt",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeTransform",
+        "in": {
+         "self": "@cns.AsStatic Mesh Component",
+         "NewTransform": "@bp.Rel",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "gm9",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "att",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@cns.AsStatic Mesh Component",
+         "Parent": "@gm9.Mesh",
+         "SocketName": "@bp.Socket",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "ams",
+        "kind": "call_self",
+        "function": "Apply Mats",
+        "in": {
+         "mesh": "@cns.AsStatic Mesh Component",
+         "mats": "@bp.Mats"
+        }
+       },
+       {
+        "id": "gls",
+        "kind": "get",
+        "var": "LookComps"
+       },
+       {
+        "id": "as",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gls.LookComps",
+         "NewItem": "@cns.AsStatic Mesh Component"
+        }
+       }
+      ],
+      "links": [
+       [
+        "me3.self",
+        "ghc.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "fo"
+       ],
+       [
+        "fo",
+        "dc"
+       ],
+       [
+        "fo:Completed",
+        "clc",
+        "fh"
+       ],
+       [
+        "fh",
+        "bnm",
+        "hide"
+       ],
+       [
+        "fh:Completed",
+        "bhas",
+        "l0",
+        "c0",
+        "ssk",
+        "show",
+        "am0",
+        "sab",
+        "cbm",
+        "sbm",
+        "fmn"
+       ],
+       [
+        "cbm:CastFailed",
+        "nbm",
+        "sbm2",
+        "fmn"
+       ],
+       [
+        "fmn",
+        "smv"
+       ],
+       [
+        "fmn:Completed",
+        "bhh",
+        "chx",
+        "fhc"
+       ],
+       [
+        "fhc",
+        "hcc"
+       ],
+       [
+        "fhc:Completed",
+        "fp"
+       ],
+       [
+        "bhh:else",
+        "fp"
+       ],
+       [
+        "fp",
+        "bgt",
+        "lp",
+        "bsk",
+        "nk",
+        "katt",
+        "ksk",
+        "kmp",
+        "amk",
+        "ak"
+       ],
+       [
+        "bsk:else",
+        "ns",
+        "ssm",
+        "srt",
+        "att",
+        "ams",
+        "as"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Init Npc Appearance",
+     "override": true,
+     "graph": {
+      "nodes": [],
+      "links": [],
+      "exec": []
+     }
+    },
+    {
+     "name": "Check Appearence",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "cc",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "check clothes covering",
+        "in": {
+         "self": "@me.self"
+        }
+       },
+       {
+        "id": "bm",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "update body mask",
+        "in": {
+         "self": "@me.self"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "cc",
+        "bm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Npc Appearance",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "glp",
+        "kind": "get",
+        "var": "LookParts"
+       },
+       {
+        "id": "ln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@glp.LookParts"
+        }
+       },
+       {
+        "id": "has",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@ln.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@has.ReturnValue"
+        }
+       },
+       {
+        "id": "al",
+        "kind": "call_self",
+        "function": "Apply Look"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "al"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Look",
+     "inputs": [
+      {
+       "name": "parts",
+       "type": "struct:/Game/Mod/AltUI/S_RagPart",
+       "container": "array"
+      },
+      {
+       "name": "names",
+       "type": "name",
+       "container": "array"
+      },
+      {
+       "name": "values",
+       "type": "float",
+       "container": "array"
+      },
+      {
+       "name": "clothes",
+       "type": "name",
+       "container": "array"
+      },
+      {
+       "name": "worn",
+       "type": "name",
+       "container": "array"
+      },
+      {
+       "name": "colors",
+       "type": "name",
+       "container": "map",
+       "value_type": "struct:/Script/CoreUObject.LinearColor"
+      },
+      {
+       "name": "damage",
+       "type": "name",
+       "container": "map",
+       "value_type": "float"
+      },
+      {
+       "name": "hair",
+       "type": "name"
+      },
+      {
+       "name": "haircolor",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "sp",
+        "kind": "set",
+        "var": "LookParts",
+        "in": {
+         "LookParts": "@entry.parts"
+        }
+       },
+       {
+        "id": "sn",
+        "kind": "set",
+        "var": "LookMorphN",
+        "in": {
+         "LookMorphN": "@entry.names"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "set",
+        "var": "LookMorphV",
+        "in": {
+         "LookMorphV": "@entry.values"
+        }
+       },
+       {
+        "id": "sh",
+        "kind": "set",
+        "var": "LookHair",
+        "in": {
+         "LookHair": "@entry.hair"
+        }
+       },
+       {
+        "id": "shc",
+        "kind": "set",
+        "var": "LookHairColor",
+        "in": {
+         "LookHairColor": "@entry.haircolor"
+        }
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "spc",
+        "kind": "set",
+        "var": "Save Player Clothes",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "in": {
+         "self": "@me.self",
+         "Save Player Clothes": "@entry.worn"
+        }
+       },
+       {
+        "id": "gbg",
+        "kind": "get",
+        "var": "Bag",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "apc",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Misc/Bag_Comp",
+        "function": "Append Clothes",
+        "in": {
+         "self": "@gbg.Bag",
+         "Clothes": "@entry.clothes"
+        }
+       },
+       {
+        "id": "scc",
+        "kind": "set",
+        "var": "Clothes Colors",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "in": {
+         "self": "@me.self",
+         "Clothes Colors": "@entry.colors"
+        }
+       },
+       {
+        "id": "scd",
+        "kind": "set",
+        "var": "Save Clothes Damaged",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "in": {
+         "self": "@me.self",
+         "Save Clothes Damaged": "@entry.damage"
+        }
+       },
+       {
+        "id": "al",
+        "kind": "call_self",
+        "function": "Apply Look"
+       }
+      ],
+      "links": [
+       [
+        "me.self",
+        "gbg.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "sp",
+        "sn",
+        "sv",
+        "sh",
+        "shc",
+        "spc",
+        "apc",
+        "scc",
+        "scd",
+        "al"
+       ]
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

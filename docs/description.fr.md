@@ -6,7 +6,7 @@ La garde-robe du jeu donne à chaque auteur de mod son propre onglet : avec quel
 
 Aussi sur [Nexus Mods](https://www.nexusmods.com/thekillingantidote/mods/988) (les deux fichiers dans une seule archive). C'est le même mod – choisissez une source, pas les deux.
 
-> ⚠️ **Attention :** conçu pour la version 0.6.x du jeu. Une mise à jour du jeu qui modifie les tables de vêtements / de maquillage ou le gestionnaire de caméra peut casser le mod.
+> ⚠️ **Attention :** conçu pour la version 0.6.x du jeu. Une mise à jour du jeu qui modifie les tables de vêtements / de maquillage ou le gestionnaire de caméra peut casser le mod. Au démarrage, AltUI vérifie les tables du jeu et, si elles ont changé, avertit avant de toucher à quoi que ce soit.
 
 ## ⚠ Installation – à lire d'abord
 
@@ -38,20 +38,22 @@ Le hook remplace *TKA_PlayerCameraManager* et démarre le panneau depuis là. To
 
 ## Ce qu'il fait
 
-* **Vêtements** – chaque pièce du jeu et de vos mods, une liste par emplacement, avec recherche, filtres, favoris et masquage.
-* **Tenues · Looks** – les tenues du jeu avec des noms, et des looks complets (vêtements avec couleurs, coiffure, maquillage, yeux, peau, corps, visage) enregistrés avec une photo prise en jeu.
+* **Menu rapide** – maintenez **4** (modifiable) et une roue s'ouvre avec ce que vous utilisez le plus : caméra libre, mode photo, une tenue, un look, un visage ou un préréglage enregistré, une pose favorite, un onglet et des actions d'autres mods. Jusqu'à 32 éléments, choisis et ordonnés dans les Paramètres ; relâchez sur l'un d'eux pour le lancer. Un clic droit sur une tuile, un onglet ou l'entrée d'un mod l'ajoute à la roue ou l'en retire. Aussi : ralenti, arrêt du temps, masquer Jodi et ordres aux compagnons.
+* **Vêtements** – chaque pièce du jeu et de vos mods, une liste par emplacement, avec recherche, filtres, favoris et masquage. Curseur de dégâts dans le menu contextuel ; une couleur par emplacement de matériau, bijoux compris, gardée par sauvegarde.
+* **Tenues · Looks** – les tenues du jeu avec des noms, et des looks complets (vêtements avec couleurs, coiffure, maquillage, yeux, peau, corps, visage) enregistrés avec une photo prise en jeu. Un look peut apparaître comme compagnon, PNJ ou ragdoll.
 * **Sac à dos · Coiffure · Apparence** – ce que Jodi porte et transporte ; coiffures et couleurs de cheveux ; peau, maquillage et yeux, chacun teintable.
-* **Morphologie** – curseurs poitrine / taille, un sélecteur pour les mods de corps convertis, des curseurs d'échelle des os par corps.
+* **Inventaire** – les objets de Jodi et l'Hyper coffre de stockage l'un sous l'autre : un clic déplace un objet ; clic droit pour utiliser, examiner, jeter ou décharger ; tout passe par les fonctions du jeu. En option : un catalogue « Tous les objets ».
+* **Morphologie** – curseurs poitrine / taille, un sélecteur pour les mods de corps convertis, des curseurs d'échelle des os par corps. Pour la poitrine et les fesses : rebond, angle et largeur des hanches.
 * **Visage** – l'expression, le regard et la bouche de Jodi en curseurs ; le visage tient pendant les poses et la danse ; visages enregistrés avec une photo, leurs valeurs sous « Voir le contenu ».
-* **Armes** – un modèle, un skin et un son de tir par arme, armes de mêlée comprises, côte à côte depuis tous les mods d'armes, avec une image rendue sur chaque tuile ; un clic sur un son le joue.
+* **Armes** – un modèle, un skin et un son de tir par arme, armes de mêlée comprises, côte à côte depuis tous les mods d'armes, avec une image rendue sur chaque tuile ; un clic sur un son le joue. Accessoires par emplacement (viseur, canon, poignée, chargeur) depuis le sac à dos ou le coffre.
 * **Poses** – chaque animation d'action du jeu et des mods de poses, triées en debout, assise et allongée.
 * **Mods** – les réglages des autres mods qui s'y enregistrent : interrupteurs, curseurs, nombres, choix, couleurs, champs de texte, lignes d'info, touches et boutons. Affiché seulement quand un tel mod est installé.
-* **Menu rapide** – maintenez **4** (modifiable) et une roue s'ouvre avec ce que vous utilisez le plus : caméra libre, mode photo, une tenue, un look, un visage ou un préréglage enregistré, une pose favorite, un onglet et des actions d'autres mods. Jusqu'à 32 éléments, choisis et ordonnés dans les Paramètres ; relâchez sur l'un d'eux pour le lancer. Un clic droit sur une tuile, un onglet ou l'entrée d'un mod l'ajoute à la roue ou l'en retire.
 * **Paramètres** – rangés en catégories choisies dans une liste à gauche : touche du panneau, langue, couleurs (les thèmes peuvent être enregistrés sous un nom), une barre d'onglets avec icônes, texte ou les deux, et la taille des tuiles, réglable à part pour les tenues et les looks. Les onglets inutiles peuvent être désactivés.
 * **Gestion** – vos propres noms affichés pour les mods, les groupes et les pièces. Comme dans Vêtements, des puces filtrent la liste par mod ou par groupe, et un champ de recherche réduit les puces.
 * **Ragdolls** – des copies de Jodi, des zombies et des humains comme figures avec physique : les placer, les poser articulation par articulation, les figer ou les laisser tomber ; les poses par type de figure et des scènes entières par niveau sont enregistrées. Un mode ragdoll les déplace sans le panneau.
+* **Compagnons** – les looks deviennent des compagnons qui marchent et combattent avec Jodi, ou des PNJ qui restent sur place : ordres, objets et armes à donner, vêtements qui s'abîment comme ceux des PNJ du jeu. Gardés dans leur propre fichier, jamais dans la sauvegarde du jeu.
 * **Codex** – le manuel d'AltUI dans les sept langues, l'encyclopédie du jeu et les serrures à code du niveau actuel ; chaque code reste caché jusqu'au clic.
-* **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres.
+* **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres. Ralenti avec sa propre vitesse.
 * Annuler / rétablir (5 étapes), infobulles indiquant de quel mod vient une pièce.
 
 Langues : anglais, allemand, chinois, russe, espagnol, polonais, français (détectée automatiquement, modifiable dans les Paramètres).
@@ -60,6 +62,7 @@ Langues : anglais, allemand, chinois, russe, espagnol, polonais, français (dét
 
 * **B** – ouvrir / fermer (modifiable dans les Paramètres). **Échap** ferme.
 * **4** – maintenir pour le menu rapide (modifiable dans les Paramètres) ; relâchez sur un élément pour le lancer, ou au centre pour ne rien faire.
+* **B dans le menu principal** – un petit menu : les scènes du menu, la scène de chargement, la caméra suivante et masquer le menu du jeu.
 * Clic gauche – choisir / porter / appliquer. Clic droit – menu contextuel. Molette – défiler.
 
 ## Mods de corps

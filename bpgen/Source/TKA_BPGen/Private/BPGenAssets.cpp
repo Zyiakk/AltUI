@@ -239,6 +239,13 @@ static UBlueprint* EnsureBlueprint(const TSharedPtr<FJsonObject>& A, FString& Er
     BP = FKismetEditorUtilities::CreateBlueprint(Parent, Pkg, *Name, BPTYPE_Normal, BPClass, GenClass, FName("BPGen"));
     if (!BP) { Err = TEXT("CreateBlueprint failed ") + Path; return nullptr; }
   }
+  // functions to remove (an augment cannot take back what an earlier run added otherwise): gone if present
+  if (const auto* Rm = JArr(A, TEXT("remove_functions"))) for (const auto& RV : *Rm) {
+    if (UEdGraph* G = FindFnGraph(BP, FName(*RV->AsString()))) {
+      FBlueprintEditorUtils::RemoveGraph(BP, G, EGraphRemoveFlags::Recompile);
+      UE_LOG(LogTemp, Display, TEXT("BPGEN removed function %s from %s"), *RV->AsString(), *BP->GetPathName());
+    }
+  }
   // variables
   if (const auto* Vars = JArr(A, TEXT("variables"))) for (const auto& VV : *Vars) {
     const TSharedPtr<FJsonObject> V = VV->AsObject(); const FName VName(*JStr(V, TEXT("name")));
@@ -435,14 +442,16 @@ static bool MakeAnimBlueprint(const TSharedPtr<FJsonObject>& A, FString& Err) {
     const TSharedPtr<FJsonObject> N = NV->AsObject(); X += 300;
     FGraphNodeCreator<UAnimGraphNode_ModifyBone> CM(*G); UAnimGraphNode_ModifyBone* M = CM.CreateNode(); M->NodePosX = X;
     M->Node.BoneToModify.BoneName = FName(*JStr(N, TEXT("bone")));
-    const bool bTranslate = JStr(N, TEXT("kind")) == TEXT("translate");   // "translate": additive component-space translation from the variable instead of a scale
-    M->Node.TranslationMode = bTranslate ? BMM_Additive : BMM_Ignore; M->Node.RotationMode = BMM_Ignore;
-    M->Node.ScaleMode = bTranslate ? BMM_Ignore : (JStr(N, TEXT("mode")) == TEXT("Replace") ? BMM_Replace : BMM_Additive);
+    const FString Kind = JStr(N, TEXT("kind"));
+    const bool bTranslate = Kind == TEXT("translate");   // "translate": additive component-space translation from the variable instead of a scale
+    const bool bRotate = Kind == TEXT("rotate");         // "rotate": additive component-space rotation (Rotator variable)
+    M->Node.TranslationMode = bTranslate ? BMM_Additive : BMM_Ignore; M->Node.RotationMode = bRotate ? BMM_Additive : BMM_Ignore;
+    M->Node.ScaleMode = (bTranslate || bRotate) ? BMM_Ignore : (JStr(N, TEXT("mode")) == TEXT("Replace") ? BMM_Replace : BMM_Additive);
     M->Node.TranslationSpace = BCS_ComponentSpace; M->Node.RotationSpace = BCS_ComponentSpace; M->Node.ScaleSpace = BCS_ComponentSpace;
     CM.Finalize();
     if (!Schema->TryCreateConnection(PosePin(Prev, EGPD_Output), PosePin(M, EGPD_Input))) { Err = TEXT("animblueprint: pose link failed at ") + JStr(N, TEXT("bone")); return false; }
-    UEdGraphPin* ScalePin = M->FindPin(bTranslate ? TEXT("Translation") : TEXT("Scale"));
-    if (!ScalePin) { Err = TEXT("animblueprint: ModifyBone has no Scale / Translation pin (PinShownByDefault expected)"); return false; }
+    UEdGraphPin* ScalePin = M->FindPin(bTranslate ? TEXT("Translation") : (bRotate ? TEXT("Rotation") : TEXT("Scale")));
+    if (!ScalePin) { Err = TEXT("animblueprint: ModifyBone has no Scale / Translation / Rotation pin (PinShownByDefault expected)"); return false; }
     FGraphNodeCreator<UK2Node_VariableGet> CG(*G); UK2Node_VariableGet* GetV = CG.CreateNode(); GetV->NodePosX = X; GetV->NodePosY = 300;
     GetV->VariableReference.SetSelfMember(FName(*JStr(N, TEXT("var")))); CG.Finalize();
     UEdGraphPin* Out = nullptr; for (UEdGraphPin* P : GetV->Pins) if (P->Direction == EGPD_Output) Out = P;

@@ -54,7 +54,7 @@ def declared_purity():
 
 # engine functions that are impure although they look like getters - each was once left outside a chain and pruned
 # (2026-10-05: LoadClassAsset_Blocking in Spawn Zombie Ragdoll; earlier Map_Keys, DoesSaveGameExist)
-ENGINE_IMPURE = {"LoadClassAsset_Blocking", "LoadAsset_Blocking", "DoesSaveGameExist", "Map_Keys"}
+ENGINE_IMPURE = {"LoadClassAsset_Blocking", "LoadAsset_Blocking", "DoesSaveGameExist", "Map_Keys", "Map_Values"}
 
 
 def impure_self_calls(path):

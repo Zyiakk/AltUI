@@ -62,7 +62,10 @@ def f_modify_camera():
     g.call("pr0", K_MATH, "Subtract_VectorVector", inp={"A": "@entry.ViewLocation", "B": "@boffp.ReturnValue"})
     g.call("pr1", K_MATH, "Add_VectorVector", inp={"A": "@pr0.ReturnValue", "B": "@offp.ReturnValue"}); g.call("probe", K_MATH, "Add_VectorVector", inp={"A": "@pr1.ReturnValue", "B": "@offup.ReturnValue"})
     g.n("ign", "make_array", count=1, type="object:" + E_ACTOR, inp={"[0]": "@vt.ReturnValue"})   # Jodi herself never blocks the view of Jodi
-    g.call("tr", K_SYS, "SphereTraceSingle", inp={"Start": "@aloc.ReturnValue", "End": "@probe.ReturnValue", "Radius": str(CAM_TRACE_R), "TraceChannel": "TraceTypeQuery1",
+    # the Camera channel (TraceTypeQuery2), as the game's own camera: walls, doors and glass block it; every body ignores it (profiles
+    # Pawn, CharacterMesh, PlayerBody, CharacterPawn, Ragdoll - DefaultEngine.ini), so followers, NPCs, zombies and ragdolls walking
+    # through the view no longer pull the camera in (2026-10-10: Visibility made it jump and flicker); invisible walls ignore it too
+    g.call("tr", K_SYS, "SphereTraceSingle", inp={"Start": "@aloc.ReturnValue", "End": "@probe.ReturnValue", "Radius": str(CAM_TRACE_R), "TraceChannel": "TraceTypeQuery2",
                                                  "bTraceComplex": "false", "ActorsToIgnore": "@ign.Array", "DrawDebugType": "None", "bIgnoreSelf": "true",
                                                  "TraceColor": "(R=1,G=0,B=0,A=1)", "TraceHitColor": "(R=0,G=1,B=0,A=1)", "DrawTime": "5.0"})
     g.call("bhr", K_GS, "BreakHitResult", inp={"Hit": "@tr.OutHit"})

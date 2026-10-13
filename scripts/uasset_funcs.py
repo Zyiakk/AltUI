@@ -145,7 +145,7 @@ def dump(path):
     d, names, imps, exps, th = read_summary(path)
     uexp = path[:-7] + ".uexp"
     data = d + (open(uexp, "rb").read() if os.path.exists(uexp) else b"")
-    result = {"functions": {}, "class": None, "delegates": {}}
+    result = {"functions": {}, "class": None, "delegates": {}, "struct": None}
     for (on, cls, sup, outer, ssz, soff) in exps:
         cn = clsname(cls, imps, exps)
         try:
@@ -191,6 +191,9 @@ def dump(path):
                     if pf & CPF_ExposeOnSpawn: vis.append("exposeonspawn")
                     vars_.append({"name": f["name"], "type": typestr(f), "vis": vis, "pflags": hex(pf)})
                 result["class"] = {"name": on, "super": c["super"], "vars": vars_, "children": c["children"]}
+            elif cn == "UserDefinedStruct":   # members by their internal names (Name_<n>_<GUID>), as Break / Make nodes find them
+                c = parse_struct_export(data, names, imps, exps, soff, False)
+                result["struct"] = {"name": on, "members": [{"name": f["name"], "type": typestr(f)} for f in c["fields"] if f]}
         except Exception as e:
             result.setdefault("errors", {})[on] = str(e)
     return result

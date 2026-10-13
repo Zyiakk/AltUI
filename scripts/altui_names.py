@@ -5,7 +5,7 @@
     python3 altui_names.pyz import names.json [AltUI_Names.sav]
 
 Without the .sav path the game's default folder is used (Windows: %LOCALAPPDATA%\\TheKillingAntidote\\Saved\\SaveGames;
-Linux/Proton: the Steam compatdata prefix). JSON sections: mods, groups, items, hair, skins, makeup, poses, presets (appearance presets, by icon number) – identifier -> display name.
+Linux/Proton: the Steam compatdata prefix). JSON sections: mods (clothes, appearance, pose and weapon mods), groups, items, hair, skins, makeup, poses, presets (appearance presets, by icon number) – identifier -> display name.
 import replaces all names (what is missing in the JSON is removed) and keeps the previous file as AltUI_Names.sav.bak.
 Changes apply when the game is started next. Standard library only."""
 import sys, os, json, shutil, argparse

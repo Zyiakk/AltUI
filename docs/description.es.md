@@ -6,7 +6,7 @@ El vestuario del juego da a cada autor de mods su propia pestaña, así que con 
 
 También en [Nexus Mods](https://www.nexusmods.com/thekillingantidote/mods/988) (los dos archivos en un solo paquete). El mismo mod – elige una fuente, no las dos.
 
-> ⚠️ **Aviso:** hecho para la versión 0.6.x del juego. Una actualización del juego que cambie las tablas de ropa / maquillaje o el gestor de cámara puede romper el mod.
+> ⚠️ **Aviso:** hecho para la versión 0.6.x del juego. Una actualización del juego que cambie las tablas de ropa / maquillaje o el gestor de cámara puede romper el mod. Al arrancar, AltUI comprueba las tablas del juego y, si han cambiado, avisa antes de tocar nada.
 
 ## ⚠ Instalación – léelo primero
 
@@ -38,20 +38,22 @@ El hook sustituye *TKA_PlayerCameraManager* y lanza el panel desde ahí. Cualqui
 
 ## Qué hace
 
-* **Ropa** – cada prenda del juego y de tus mods, una lista por ranura, con búsqueda, filtros, favoritos y ocultación.
-* **Conjuntos · Looks** – los ajustes del juego con nombres, y looks completos (ropa con colores, pelo, maquillaje, ojos, piel, cuerpo, rostro) guardados con una foto del juego.
+* **Menú rápido** – mantén **4** (cambiable) y se abre una rueda con lo que más usas: cámara libre, modo foto, un conjunto, look, rostro o preajuste guardado, una pose favorita, una pestaña y acciones de otros mods. Hasta 32 elementos, elegidos y ordenados en Opciones; suelta sobre uno para ejecutarlo. Un clic derecho en una casilla, una pestaña o la entrada de un mod la añade a la rueda o la quita. También cámara lenta, detener el tiempo, ocultar a Jodi y órdenes a los seguidores.
+* **Ropa** – cada prenda del juego y de tus mods, una lista por ranura, con búsqueda, filtros, favoritos y ocultación. Control de daño en el menú contextual; un color por ranura de material, joyas incluidas, guardado por partida.
+* **Conjuntos · Looks** – los ajustes del juego con nombres, y looks completos (ropa con colores, pelo, maquillaje, ojos, piel, cuerpo, rostro) guardados con una foto del juego. Un look puede crearse como seguidor, PNJ o ragdoll.
 * **Mochila · Peinados · Aspecto** – lo que Jodi lleva puesto y encima; peinados y colores de pelo; piel, maquillaje y ojos, todos coloreables.
-* **Figura** – deslizadores de pecho y cintura, selector de cuerpos convertidos y deslizadores de huesos por cuerpo.
+* **Inventario** – los objetos de Jodi y la Hipercaja de almacenamiento, una lista bajo la otra: un clic mueve un objeto; clic derecho para usar, examinar, tirar o descargar; todo con las funciones propias del juego. Opcional: un catálogo «Todos los objetos».
+* **Figura** – deslizadores de pecho y cintura, selector de cuerpos convertidos y deslizadores de huesos por cuerpo. Para pecho y glúteos: rebote, ángulo y anchura de cadera.
 * **Rostro** – la expresión, la mirada y la boca de Jodi como deslizadores; el rostro se mantiene también en poses y al bailar; rostros guardados con foto, sus valores en «Ver contenido».
-* **Armas** – un modelo, un skin y un sonido de disparo por arma, incluidas las armas cuerpo a cuerpo, juntos de todos los mods de armas, con una imagen renderizada en cada casilla; un clic en un sonido lo reproduce.
+* **Armas** – un modelo, un skin y un sonido de disparo por arma, incluidas las armas cuerpo a cuerpo, juntos de todos los mods de armas, con una imagen renderizada en cada casilla; un clic en un sonido lo reproduce. Accesorios por ranura (mira, cañón, empuñadura, cargador) desde la mochila o la caja de almacenamiento.
 * **Poses** – todas las animaciones de acción del juego y de los mods de poses, ordenadas en de pie, sentada y tumbada.
 * **Mods** – los ajustes de otros mods que se registran allí: interruptores, deslizadores, números, opciones, colores, campos de texto, líneas de información, teclas y botones. Solo visible si hay un mod así instalado.
-* **Menú rápido** – mantén **4** (cambiable) y se abre una rueda con lo que más usas: cámara libre, modo foto, un conjunto, look, rostro o preajuste guardado, una pose favorita, una pestaña y acciones de otros mods. Hasta 32 elementos, elegidos y ordenados en Opciones; suelta sobre uno para ejecutarlo. Un clic derecho en una casilla, una pestaña o la entrada de un mod la añade a la rueda o la quita.
 * **Opciones** – ordenadas en categorías que eliges en una lista a la izquierda: tecla del panel, idioma, colores (los esquemas se pueden guardar con un nombre), barra de pestañas con iconos, texto o ambos, y tamaño de casilla, por separado para conjuntos y looks. Las pestañas que no necesites se pueden desactivar.
 * **Gestión** – tus propios nombres para mods, grupos y prendas. Como en Vestimenta, las subpestañas filtran la lista por mod o grupo, y un campo de búsqueda acota las subpestañas.
 * **Ragdolls** – copias de Jodi, zombis y personas como figuras con física: colocarlas, posarlas articulación por articulación, congelarlas o dejarlas caer; se guardan poses por tipo de figura y escenas completas por nivel. Un modo ragdoll las mueve sin el panel.
+* **Seguidores** – los looks se convierten en seguidores que caminan y luchan con Jodi, o en PNJ que se quedan en su sitio: órdenes, objetos y armas para dar, ropa que se daña como la de los PNJ del juego. Se guardan en un archivo propio, nunca en la partida del juego.
 * **Códice** – el manual de AltUI en los siete idiomas, la enciclopedia del juego y las cerraduras de código del nivel actual; cada código queda oculto hasta que lo pulsas.
-* **Movimiento** – velocidad propia de Jodi al andar y al correr (50–200 %), en Opciones.
+* **Movimiento** – velocidad propia de Jodi al andar y al correr (50–200 %), en Opciones. Cámara lenta con su propia velocidad.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
 Idiomas: inglés, alemán, chino, ruso, español, polaco y francés (detección automática, cambiable en Opciones).
@@ -60,6 +62,7 @@ Idiomas: inglés, alemán, chino, ruso, español, polaco y francés (detección 
 
 * **B** – abrir / cerrar (cambiable en Opciones). **Esc** cierra.
 * **4** – mantener para el menú rápido (cambiable en Opciones); suelta sobre un elemento para ejecutarlo, o en el centro para no hacer nada.
+* **B en el menú principal** – un pequeño menú: las escenas del menú, la escena de carga, la siguiente cámara y ocultar el menú del juego.
 * Clic izquierdo – seleccionar / ponerse / aplicar. Clic derecho – menú contextual. Rueda del ratón – desplazar.
 
 ## Mods de cuerpo

@@ -9,6 +9,7 @@ A = cfg.path("TKA_MOD_ARCHIVE")
 DV1 = A + "/Mods/TKA-UN_Dv1-fix1.3d.pak"; PUSSY = A + "/workshop/3612645999/Jodi_New_Pussy.pak"
 OG = A + "/workshop/3432791726/FemaleOGMORPH-0.6_P.pak"; SHOES = A + "/Mods/HMs_Shoes.pak"
 THICC = A + "/nexus/783/Jodithicctest4_P.pak"   # mesh + PostProcessAnimBlueprint TESTABP (bone scaling) in the same pak
+CUSTOM = A + "/other/JodiCustomWIP_P.pak"   # versioned cook (UE4 522) with its own Female_Skeleton + Female_PhysicsAsset
 UNREALPAK = cfg.path("UNREALPAK", "UnrealPak")
 # the paks of real mods are not part of the repository: without TKA_MOD_ARCHIVE those tests skip
 NEED_ARCHIVE = unittest.skipUnless(os.path.isdir(A), "no mod archive (TKA_MOD_ARCHIVE)")
@@ -84,9 +85,10 @@ class Convert(unittest.TestCase):
     def setUp(self):
         self.d = tempfile.mkdtemp(); self.addCleanup(shutil.rmtree, self.d, ignore_errors=True)
 
-    def assertTagAdded(self, out_uexp, src_uexp):
-        """Mesh without its own ABP: the export data grew by the 29-byte PostProcessAnimBlueprint tag, the mesh data behind it is unchanged."""
-        self.assertEqual(len(out_uexp), len(src_uexp) + 29); self.assertEqual(out_uexp[-4096:], src_uexp[-4096:])
+    def assertTagAdded(self, out_uexp, src_uexp, bones=0):
+        """Mesh without its own ABP: the export data grew by the 29-byte PostProcessAnimBlueprint tag (+ 66 bytes per bone bodybones
+        added: info 12, pose 40, name map 12, RequiredBones 2), the mesh data behind it is unchanged."""
+        self.assertEqual(len(out_uexp), len(src_uexp) + 29 + 66 * bones); self.assertEqual(out_uexp[-4096:], src_uexp[-4096:])
 
     def test_derive_name(self):
         self.assertEqual(bodypak.derive_name("/x/TKA-UN_Dv1-fix1.3d.pak"), bg.MOD_PREFIX + "TKA_UN_Dv1_fix1_3d")
@@ -99,7 +101,8 @@ class Convert(unittest.TestCase):
         pk = Pak(out); src = Pak(DV1)
         self.assertEqual(pk.mount, "../../../TheKillingAntidote/Content/Mod/" + bg.MOD_PREFIX + "TKA_UN_Dv1_fix1_3d/")
         self.assertEqual(sorted(pk.files), ["/Body_Scale.uasset", "/Body_Scale.uexp", "/Female.uasset", "/Female.uexp", "/TKA_Mod_Table.uasset", "/TKA_Mod_Table.uexp"])
-        self.assertTagAdded(pk.read("/Female.uexp"), src.read("/Female.uexp"))   # the uasset gets the ABP imports (test_abp_added_dv1)
+        self.assertEqual(log["bones_added"], ["Cam", "Prop_R2"])   # UN Dv1 was built against an older skeleton (bodybones)
+        self.assertTagAdded(pk.read("/Female.uexp"), src.read("/Female.uexp"), bones=2)   # the uasset gets the ABP imports (test_abp_added_dv1)
         self.assertEqual(pk.entry(pk.files["/Female.uexp"])["comp"], 0)   # tag inserted -> stored uncompressed (raw block copy: test_abp_attached_783)
         self.assertTrue(os.path.exists(os.path.join(self.d, bg.MOD_PREFIX + "TKA_UN_Dv1_fix1_3d_convert.json")))
         # mod table: row = name, Caption = title, no tables
@@ -117,6 +120,20 @@ class Convert(unittest.TestCase):
         self.assertEqual(log["companions"], {}); self.assertEqual(log["abp"], "AltUI")
         self.assertEqual(sorted(log["dropped"]), ["Jodi/Body/Skin/skin_hye.uasset", "Jodi/Body/Skin/skin_hye.ubulk", "Jodi/Body/Skin/skin_hye.uexp",
                                                   "Makeup/Eyelashes_1.uasset", "Makeup/Eyelashes_1.ubulk", "Makeup/Eyelashes_1.uexp"])
+
+    def test_game_skeleton_and_physics_stay(self):
+        """JodiCustomWIP ships Female_Skeleton and Female_PhysicsAsset from an older editor project. Moved into the mod folder the
+        skeleton would be another USkeleton and the game's animations would not run on the mesh: the mesh keeps the game's."""
+        from uasset_pkg import Package
+        out, log = bodypak.convert(CUSTOM, name="Body_JodiCustomWIP", title="Jodi Custom WIP", out_dir=self.d)
+        pk = Pak(out)
+        self.assertEqual(sorted(pk.files), ["/Body_Scale.uasset", "/Body_Scale.uexp", "/Female.uasset", "/Female.uexp",
+                                            "/TKA_Mod_Table.uasset", "/TKA_Mod_Table.uexp"])
+        self.assertEqual(log["companions"], {})
+        mesh = Package.from_bytes(pk.read("/Female.uasset"), pk.read("/Female.uexp"))
+        pkgs = {im.object_name for im in mesh.imports if im.class_name == "Package"}
+        self.assertIn("/Game/Project/Character/Jodi/Body/Female_Skeleton", pkgs)
+        self.assertIn("/Game/Project/Character/Jodi/Body/Female_PhysicsAsset", pkgs)
 
     def test_companion_assets_travel_with_the_mesh(self):
         """Nexus 783: the mesh imports /Game/Project/Character/Jodi/Body/TESTABP (PostProcessAnimBlueprint) that only exists in the
@@ -181,7 +198,7 @@ class Convert(unittest.TestCase):
         self.assertEqual([t for t in ta if t[0] != "PostProcessAnimBlueprint"], tb)
         self.assertEqual(dict(ta)["PostProcessAnimBlueprint"], struct.pack("<i", cls_idx))
         # the rest of the export (mesh data after the tags) is unchanged
-        self.assertEqual(fa.data[-1000:], fb.data[-1000:]); self.assertEqual(len(fa.data) - len(fb.data), 29)   # tag: name 8 + type 8 + size/index 8 + guid flag 1 + int32 4
+        self.assertEqual(fa.data[-1000:], fb.data[-1000:]); self.assertEqual(len(fa.data) - len(fb.data), 29 + 2 * 66)   # tag: name 8 + type 8 + size/index 8 + guid flag 1 + int32 4; Cam + Prop_R2 (bodybones)
         self.assertEqual([e.data for e in a.exports if e.object_name != "Female"], [e.data for e in b.exports if e.object_name != "Female"])
 
     def test_keep_abp(self):

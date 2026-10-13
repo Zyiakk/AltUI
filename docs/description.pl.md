@@ -6,7 +6,7 @@ Szafa w grze daje każdemu autorowi moda własną zakładkę. Przy kilku modach 
 
 Dostępny też na [Nexus Mods](https://www.nexusmods.com/thekillingantidote/mods/988) (oba pliki w jednym archiwum). Ten sam mod – wybierz jedno źródło, nie oba naraz.
 
-> ⚠️ **Uwaga:** Zrobione pod wersję gry 0.6.x. Aktualizacja gry, która zmieni tabele ubrań / makijażu albo menedżera kamery, może zepsuć moda.
+> ⚠️ **Uwaga:** Zrobione pod wersję gry 0.6.x. Aktualizacja gry, która zmieni tabele ubrań / makijażu albo menedżera kamery, może zepsuć moda. Przy starcie AltUI sprawdza tabele gry i, jeśli się zmieniły, ostrzega, zanim czegokolwiek dotknie.
 
 ## ⚠ Instalacja – przeczytaj najpierw
 
@@ -38,20 +38,22 @@ Hook podmienia *TKA_PlayerCameraManager* i stamtąd uruchamia panel. Każdy mod,
 
 ## Co potrafi
 
-* **Ubrania** – każda rzecz z gry i z twoich modów, jedna lista na slot, z wyszukiwaniem, filtrami, ulubionymi i ukrywaniem.
-* **Zestawy · Looki** – gotowe zestawy gry z nazwami oraz pełne looki (ubrania z kolorami, fryzura, makijaż, oczy, skóra, ciało, twarz) ze zdjęciem z gry.
+* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać. Prawy klik na kafelku, karcie lub wpisie moda dodaje go do koła albo go z niego usuwa. Do tego zwolnienie, zatrzymanie czasu, ukrycie Jodi i rozkazy dla towarzyszy.
+* **Ubrania** – każda rzecz z gry i z twoich modów, jedna lista na slot, z wyszukiwaniem, filtrami, ulubionymi i ukrywaniem. Suwak uszkodzeń w menu kontekstowym; kolor na każdy slot materiału, także dla biżuterii, osobno dla każdego zapisu gry.
+* **Zestawy · Looki** – gotowe zestawy gry z nazwami oraz pełne looki (ubrania z kolorami, fryzura, makijaż, oczy, skóra, ciało, twarz) ze zdjęciem z gry. Look można przywołać jako towarzysza, NPC albo ragdolla.
 * **Plecak · Fryzury · Wygląd** – co Jodi nosi i ma przy sobie; fryzury i kolory włosów; skóra, makijaż i oczy, każde do podbarwienia.
-* **Sylwetka** – suwaki biustu i talii, przełącznik przekonwertowanych modów ciała, suwaki kości dla każdego ciała.
+* **Ekwipunek** – przedmioty Jodi i Hiperskrzynia jedna pod drugą: kliknięcie przenosi przedmiot, prawy przycisk – użyj, obejrzyj, wyrzuć lub rozładuj; wszystko przez własne funkcje gry. Opcjonalnie katalog „Wszystkie przedmioty”.
+* **Sylwetka** – suwaki biustu i talii, przełącznik przekonwertowanych modów ciała, suwaki kości dla każdego ciała. Dla biustu i pośladków: falowanie, kąt i szerokość bioder.
 * **Twarz** – mimika, spojrzenie i usta Jodi jako suwaki; twarz trzyma się także w pozach i podczas tańca; zapisane twarze ze zdjęciem, ich wartości w „Pokaż zawartość”.
-* **Bronie** – model, skin i dźwięk strzału na broń, także broń do walki wręcz, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku; kliknięcie dźwięku go odtwarza.
+* **Bronie** – model, skin i dźwięk strzału na broń, także broń do walki wręcz, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku; kliknięcie dźwięku go odtwarza. Dodatki według slotu (celownik, lufa, chwyt, magazynek) z plecaka lub skrzyni.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
 * **Mods** – ustawienia innych modów, które się tam rejestrują: przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, wiersze informacyjne, klawisze i przyciski. Widoczna tylko, gdy taki mod jest zainstalowany.
-* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać. Prawy klik na kafelku, karcie lub wpisie moda dodaje go do koła albo go z niego usuwa.
 * **Opcje** – podzielone na kategorie wybierane z listy po lewej: klawisz panelu, język, kolory (schematy można zapisać pod nazwą), pasek kart z ikonami, tekstem lub jednym i drugim oraz wielkość kafelków, osobno dla zestawów i looków. Niepotrzebne karty można wyłączyć.
 * **Zarządzanie** – własne nazwy modów, grup i przedmiotów. Jak w Ubraniach podzakładki filtrują listę według moda lub grupy, a pole wyszukiwania zawęża podzakładki.
 * **Ragdolle** – kopie Jodi, zombie i ludzie jako figury z fizyką: ustawianie, pozowanie staw po stawie, zamrażanie albo puszczanie bezwładnie; pozy zapisują się dla każdego rodzaju figury, całe sceny dla każdego poziomu. Tryb ragdolli porusza nimi bez panelu.
+* **Towarzysze** – looki stają się towarzyszami, którzy chodzą i walczą razem z Jodi, albo NPC, którzy zostają na miejscu: rozkazy, przedmioty i broń do przekazania, ubrania niszczą się jak u NPC gry. Zapisywani w osobnym pliku, nigdy w zapisie gry.
 * **Kodeks** – podręcznik AltUI we wszystkich siedmiu językach, encyklopedia gry i zamki szyfrowe bieżącego poziomu; każdy kod pozostaje ukryty, dopóki go nie klikniesz.
-* **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach.
+* **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach. Zwolnienie z własną prędkością.
 * Cofnij / ponów (5 kroków), dymki z nazwą moda, z którego pochodzi dana rzecz.
 
 Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francuski (wykrywane automatycznie, zmienialne w Opcjach).
@@ -60,6 +62,7 @@ Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francusk
 
 * **B** – otwiera / zamyka (zmienialne w opcjach). **Esc** zamyka.
 * **4** – przytrzymaj, aby otworzyć szybkie menu (zmienialne w opcjach); puść nad pozycją, aby ją wykonać, a puszczenie na środku nic nie robi.
+* **B w menu głównym** – małe menu: sceny menu, scena ładowania, następna kamera i ukrycie menu gry.
 * Lewy przycisk – wybierz / załóż / zastosuj. Prawy przycisk – menu kontekstowe. Kółko myszy – przewijanie.
 
 ## Mody ciała

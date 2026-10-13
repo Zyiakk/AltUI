@@ -27,13 +27,13 @@ class MenuWearer(unittest.TestCase):
         cls.eg = next(o for o in walk(cls.doc) if o.get("path", "").endswith("BP_AltUIManager"))["event_graph"]
 
     def test_menu_branch_loads_settings_then_looks_for_the_figure(self):
-        self.assertIn(["cj:CastFailed", "mlds", "mfind"], self.eg["exec"])
+        self.assertIn(["cj:CastFailed", "mlds", "mfind", "msi"], self.eg["exec"])   # msi: Scene Init (scene picker)
         nodes = {n["id"]: n for n in self.eg["nodes"]}
         self.assertEqual(nodes["mlds"].get("function"), "Load Settings")
         self.assertEqual(nodes["mfind"].get("function"), "Find Menu Wearer")
 
     def test_game_branch_sets_wearer_and_goes_on_without_it(self):
-        chain = next(c for c in self.eg["exec"] if c and c[0] == "bp")
+        chain = next(c for c in self.eg["exec"] if c and c[0] == "bvg")   # BeginPlay goes on after the Version Gate
         self.assertLess(chain.index("swr"), chain.index("isg"))
         self.assertIn(["cjb:CastFailed", "isg"], self.eg["exec"])   # a failed Wearer cast must not cost the panel
 
@@ -44,7 +44,7 @@ class MenuWearer(unittest.TestCase):
         nodes = {n["id"]: n for n in self.eg["nodes"]}
         timers = {n["in"].get("FunctionName") for n in self.eg["nodes"] if n.get("function") == "K2_SetTimer"}
         self.assertFalse(timers & {"Apply Saved Body", "Fix Loaded Underwear", "Apply Saved Colors", "Apply Face"})
-        chain = next(c for c in self.eg["exec"] if c and c[0] == "bp")
+        chain = next(c for c in self.eg["exec"] if c and c[0] == "bvg")   # BeginPlay goes on after the Version Gate
         order = [nodes[i].get("function") for i in chain if nodes.get(i, {}).get("kind") == "call_self"]
         self.assertEqual(order[-5:], ["Apply Saved Body", "Fix Loaded Underwear", "Apply Saved Colors", "Apply Face", "Apply Move"])
         self.assertLess(order.index("Build Catalog"), order.index("Fix Loaded Underwear"))   # Worn In Slot needs the catalog

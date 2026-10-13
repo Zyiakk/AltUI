@@ -203,7 +203,11 @@ class Reader:
 
 
 def read_summary(path):
-    d = open(path, "rb").read()
+    return read_summary_bytes(open(path, "rb").read())
+
+
+def read_summary_bytes(d):
+    """read_summary of a .uasset already in memory (pak checks: no temp file needed - the summary is in the .uasset alone)."""
 
     def rstr(pos):
         l = struct.unpack_from("<i", d, pos)[0]; pos += 4

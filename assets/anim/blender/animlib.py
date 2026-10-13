@@ -39,8 +39,9 @@ def key_to_local(pos, quat_xyzw):
     return Matrix.Translation(Vector(pos)) @ Quaternion((w, -x, -y, -z)).to_matrix().to_4x4()
 
 
-def apply_psa(arm, psa_path, config_path=None, action_name=None):
-    """Keys every frame of the .psa onto the armature as a new action; returns (frames, fps)."""
+def apply_psa(arm, psa_path, config_path=None, action_name=None, unit=1.0):
+    """Keys every frame of the .psa onto the armature as a new action; returns (frames, fps). unit: armature length unit per
+    centimetre of the .psa (1.0 for the kit FBX in cm, 0.01 for an armature with its scale applied in metres)."""
     d = psalib.read(psa_path); a = d["anims"][0]; names = [b["name"] for b in d["bones"]]
     tbones = translation_bones(config_path) if config_path and os.path.exists(config_path) else None
     act = bpy.data.actions.new(action_name or a["name"]); arm.animation_data_create(); arm.animation_data.action = act
@@ -52,7 +53,7 @@ def apply_psa(arm, psa_path, config_path=None, action_name=None):
         for i, name in enumerate(names):
             pb = pbs.get(name)
             if pb is None: continue
-            loc = key_to_local(*keys[i])
+            pos, quat = keys[i]; loc = key_to_local([v * unit for v in pos], quat)
             if tbones is not None and name not in tbones:
                 loc = Matrix.Translation(rest[name].to_translation()) @ loc.to_quaternion().to_matrix().to_4x4()
             pb.matrix_basis = rest[name].inverted() @ loc

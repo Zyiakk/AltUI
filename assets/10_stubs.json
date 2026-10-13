@@ -267,6 +267,40 @@
    }
   },
   {
+   "type": "datatable",
+   "path": "/Game/Mod/SomeMod/Mod_EyesTable",
+   "row_struct": "/Game/Project/Tables/EyeStruct",
+   "composite": false,
+   "rows": {
+    "ModThing": {
+     "Type": "Eye"
+    }
+   }
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Mod/SomeMod/Mod_MakeupTable",
+   "row_struct": "/Game/Project/Tables/MakeupStruct",
+   "composite": false,
+   "rows": {
+    "Skin_Default": {
+     "Type": "Lips"
+    }
+   }
+  },
+  {
+   "type": "enum",
+   "path": "/Game/Project/Classes/Enum/ItemClass",
+   "values": [
+    "Tool",
+    "Collectible",
+    "Key",
+    "Weapon",
+    "Ammo",
+    "Consumable"
+   ]
+  },
+  {
    "type": "struct",
    "path": "/Game/Project/Tables/ItemStruct",
    "members": [
@@ -274,6 +308,31 @@
      "name": "Caption",
      "type": "text",
      "internal_name": "Caption_34_A1D1AEE6499506A034ED6E83F2123581"
+    },
+    {
+     "name": "Weight",
+     "type": "int",
+     "internal_name": "Weight_56_FFB819DE4B6F431FF2D096A9EE0A2195"
+    },
+    {
+     "name": "IsConsumable",
+     "type": "bool",
+     "internal_name": "IsConsumable_11_DD3ECA894EEB86F67E1EA3B2DC537792"
+    },
+    {
+     "name": "NumberOfPick",
+     "type": "int",
+     "internal_name": "NumberOfPick_59_F72BDAD8416971ADDC81DF9D6DD4A053"
+    },
+    {
+     "name": "ItemClass",
+     "type": "enum:/Game/Project/Classes/Enum/ItemClass",
+     "internal_name": "ItemClass_3_5CDBD46F4464FBF1033311A134618E0C"
+    },
+    {
+     "name": "Flag",
+     "type": "int",
+     "internal_name": "Flag_62_90A969094EF61FCCF71AB1B4C1584A25"
     },
     {
      "name": "Icon",
@@ -331,6 +390,70 @@
     },
     "Medicine": {
      "HyperBoxGroup": "Item"
+    },
+    "Glock": {
+     "HyperBoxGroup": "Weapon",
+     "Caption": "Glock",
+     "Weight": 100,
+     "ItemClass": "NewEnumerator3",
+     "Flag": 2,
+     "NumberOfPick": 1
+    },
+    "GlockAmmo": {
+     "HyperBoxGroup": "Ammo",
+     "Caption": "Glock ammo",
+     "Weight": 1,
+     "IsConsumable": true,
+     "ItemClass": "NewEnumerator4",
+     "NumberOfPick": 10
+    },
+    "Optics_RedDot": {
+     "HyperBoxGroup": "Equipment",
+     "Weight": 10,
+     "IsConsumable": true,
+     "ItemClass": "NewEnumerator1",
+     "NumberOfPick": 1
+    },
+    "Flashlight": {
+     "HyperBoxGroup": "Tool",
+     "Weight": 10,
+     "ItemClass": "NewEnumerator0",
+     "NumberOfPick": 1
+    },
+    "Pills": {
+     "HyperBoxGroup": "Tool",
+     "Caption": "Pills",
+     "Weight": 10,
+     "IsConsumable": true,
+     "ItemClass": "NewEnumerator0",
+     "Flag": 4,
+     "NumberOfPick": 1
+    },
+    "EntryCard_Red": {
+     "HyperBoxGroup": "None",
+     "ItemClass": "NewEnumerator2",
+     "Flag": 1,
+     "NumberOfPick": 1
+    },
+    "Decor_Dog": {
+     "HyperBoxGroup": "None",
+     "ItemClass": "NewEnumerator1",
+     "Flag": 1,
+     "NumberOfPick": 1,
+     "ActorClass": "/Script/Engine.Actor"
+    },
+    "EntryCard_Blue": {
+     "HyperBoxGroup": "None",
+     "ItemClass": "NewEnumerator2",
+     "Flag": 1,
+     "NumberOfPick": 1,
+     "ActorClass": "/Script/Engine.Actor"
+    },
+    "InvisibleHand": {
+     "HyperBoxGroup": "None",
+     "ItemClass": "NewEnumerator1",
+     "Flag": 8,
+     "NumberOfPick": 1
     }
    }
   },
@@ -469,6 +592,27 @@
       }
      ],
      "pure": true
+    },
+    {
+     "name": "Unload Ammo",
+     "outputs": [
+      {
+       "name": "succeed",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Attach to Hand"
+    },
+    {
+     "name": "Set Visible",
+     "inputs": [
+      {
+       "name": "visible",
+       "type": "bool"
+      }
+     ]
     }
    ]
   },
@@ -516,6 +660,17 @@
      "name": "PaintName",
      "type": "name",
      "internal_name": "PaintName_29_FA1F96D44E7CE9841245EC85AD208267"
+    },
+    {
+     "name": "GunName",
+     "type": "name",
+     "internal_name": "GunName_20_398D82A0403D587DA0A681A117336AE6"
+    },
+    {
+     "name": "Parts",
+     "type": "name",
+     "container": "array",
+     "internal_name": "Parts_9_2957A5274990B0EE840FDB8AEC3E0EEA"
     }
    ]
   },
@@ -556,6 +711,9 @@
      "name": "Reset Gun Paint"
     },
     {
+     "name": "Mark to Need Update Anim"
+    },
+    {
      "name": "Mount Mag",
      "inputs": [
       {
@@ -567,6 +725,184 @@
       {
        "name": "installed",
        "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Mount Equipment",
+     "inputs": [
+      {
+       "name": "equipment",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Apply Extra Attributes"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Tables/GunEquipmentStruct",
+   "members": [
+    {
+     "name": "Class",
+     "type": "class:/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base",
+     "internal_name": "Class_2_5AA802504CA431146E46D188B581CB9F"
+    },
+    {
+     "name": "Type",
+     "type": "int",
+     "internal_name": "Type_18_FA4814DC41DC3CE847D1A392C5DE5EC2"
+    },
+    {
+     "name": "Guns",
+     "type": "name",
+     "container": "array",
+     "internal_name": "Guns_17_C8B5F0414A9A2B5140E8F1826AE1E82B"
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/GunEquipment",
+   "row_struct": "/Game/Project/Tables/GunEquipmentStruct",
+   "composite": false,
+   "rows": {
+    "Optics_RedDot": {
+     "Class": "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp.Gun_Optics_Comp_C",
+     "Type": 0,
+     "Guns": [
+      "UMP45",
+      "HK416"
+     ]
+    },
+    "Silencer_PRS": {
+     "Class": "/Game/Project/Actors/Weapons/Equipment/Gun_Barrel_Comp.Gun_Barrel_Comp_C",
+     "Type": 1,
+     "Guns": [
+      "UMP45",
+      "HK416",
+      "Glock"
+     ]
+    },
+    "UMP45": {
+     "Type": 3,
+     "Guns": []
+    }
+   }
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/HyperBox_Save",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Clothes",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "Save Items_0",
+     "type": "name",
+     "container": "map",
+     "value_type": "int"
+    },
+    {
+     "name": "Guns",
+     "type": "struct:/Game/Project/Classes/Struct/Gun_Struct",
+     "container": "array"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Misc/HyperBoxData",
+   "mode": "create",
+   "parent": "/Script/CoreUObject.Object",
+   "variables": [
+    {
+     "name": "HyperBoxSave",
+     "type": "object:/Game/Project/Classes/Save/HyperBox_Save"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Add Item",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "count",
+       "type": "int"
+      },
+      {
+       "name": "is consumable",
+       "type": "bool"
+      },
+      {
+       "name": "update ui",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "increased",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Consume Item Count",
+     "inputs": [
+      {
+       "name": "item name",
+       "type": "name"
+      },
+      {
+       "name": "count",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Save"
+    },
+    {
+     "name": "Count Items",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "num",
+       "type": "int"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Add a Gun",
+     "inputs": [
+      {
+       "name": "weapon",
+       "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+      }
+     ]
+    },
+    {
+     "name": "Remove a Gun",
+     "inputs": [
+      {
+       "name": "IndexToRemove",
+       "type": "int"
       }
      ]
     }
@@ -772,6 +1108,10 @@
     {
      "name": "Hairstyles Save",
      "type": "object:/Game/Project/Classes/Save/Hairstyle_Save"
+    },
+    {
+     "name": "Level Name",
+     "type": "name"
     }
    ],
    "functions": [
@@ -804,6 +1144,17 @@
     {
      "name": "Image_Color",
      "type": "object:/Script/UMG.Image"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Init Paletter",
+     "inputs": [
+      {
+       "name": "initial color",
+       "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
     }
    ]
   },
@@ -908,6 +1259,15 @@
     {
      "name": "Type",
      "type": "name"
+    },
+    {
+     "name": "Damage",
+     "type": "float"
+    },
+    {
+     "name": "Materials for Damage",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic",
+     "container": "array"
     }
    ],
    "functions": [
@@ -917,6 +1277,47 @@
       {
        "name": "Color",
        "type": "struct:/Script/CoreUObject.LinearColor"
+      }
+     ]
+    },
+    {
+     "name": "Change Damage",
+     "inputs": [
+      {
+       "name": "Value",
+       "type": "float"
+      },
+      {
+       "name": "save",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Is Damaged",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Misc/Hair_Comp",
+   "mode": "create",
+   "parent": "/Script/Engine.SkeletalMeshComponent",
+   "functions": [
+    {
+     "name": "Change Color",
+     "inputs": [
+      {
+       "name": "color",
+       "type": "struct:/Script/CoreUObject.LinearColor",
+       "ref": true
       }
      ]
     }
@@ -1166,6 +1567,16 @@
     {
      "name": "Breast Morph Weight",
      "type": "float"
+    },
+    {
+     "name": "Body Material",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    },
+    {
+     "name": "Clothes Colors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
     }
    ],
    "functions": [
@@ -1317,6 +1728,36 @@
      "pure": true
     },
     {
+     "name": "Get Clothes Damage",
+     "inputs": [
+      {
+       "name": "clothes",
+       "type": "name",
+       "ref": true
+      }
+     ],
+     "outputs": [
+      {
+       "name": "damage",
+       "type": "float"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Store Clothes Damage",
+     "inputs": [
+      {
+       "name": "clothes",
+       "type": "name"
+      },
+      {
+       "name": "damage",
+       "type": "float"
+      }
+     ]
+    },
+    {
      "name": "Remove Clothing From Bag",
      "inputs": [
       {
@@ -1358,6 +1799,120 @@
        "type": "bool"
       }
      ]
+    },
+    {
+     "name": "Put Item to Bag",
+     "inputs": [
+      {
+       "name": "item name",
+       "type": "name"
+      },
+      {
+       "name": "num",
+       "type": "int"
+      },
+      {
+       "name": "is clothing",
+       "type": "bool"
+      },
+      {
+       "name": "fx",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "remove",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Consume Item",
+     "inputs": [
+      {
+       "name": "item name",
+       "type": "name"
+      },
+      {
+       "name": "num",
+       "type": "int"
+      },
+      {
+       "name": "destroy weapon",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "successed",
+       "type": "bool"
+      },
+      {
+       "name": "count",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Got A Gun",
+     "inputs": [
+      {
+       "name": "Gun Data",
+       "type": "struct:/Game/Project/Classes/Struct/Gun_Struct",
+       "ref": true
+      }
+     ],
+     "outputs": [
+      {
+       "name": "gun",
+       "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+      }
+     ]
+    },
+    {
+     "name": "Drop Item",
+     "inputs": [
+      {
+       "name": "item name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Equip This Weapon",
+     "inputs": [
+      {
+       "name": "weapon",
+       "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+      }
+     ]
+    },
+    {
+     "name": "Has This Item",
+     "inputs": [
+      {
+       "name": "item name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Get Weapon In Hand",
+     "outputs": [
+      {
+       "name": "weapon",
+       "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+      }
+     ],
+     "pure": true
     }
    ]
   },
@@ -1365,7 +1920,14 @@
    "type": "blueprint",
    "path": "/Game/Project/Classes/Character_Base",
    "mode": "augment",
+   "remove_functions": [
+    "Is Alive ?"
+   ],
    "variables": [
+    {
+     "name": "Health",
+     "type": "float"
+    },
     {
      "name": "Speed 2d",
      "type": "float"
@@ -1403,6 +1965,14 @@
    "mode": "augment",
    "variables": [
     {
+     "name": "previous weapon",
+     "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+    },
+    {
+     "name": "wanna toggle weapon",
+     "type": "bool"
+    },
+    {
      "name": "Settings",
      "type": "object:/Game/Project/Classes/Save/Settings_Save"
     },
@@ -1431,17 +2001,37 @@
      "type": "name"
     },
     {
-     "name": "Weapons",
-     "type": "name",
-     "container": "map",
-     "value_type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
-    },
-    {
      "name": "current weapon",
      "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
     }
    ],
    "functions": [
+    {
+     "name": "Wanna Use This Item",
+     "inputs": [
+      {
+       "name": "item name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Add Item to Shortcut",
+     "inputs": [
+      {
+       "name": "item name",
+       "type": "name"
+      },
+      {
+       "name": "group",
+       "type": "int"
+      },
+      {
+       "name": "gun",
+       "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+      }
+     ]
+    },
     {
      "name": "Save Appearance"
     },
@@ -1639,6 +2229,201 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/Classes/Character_Player_Base",
+   "mode": "augment",
+   "variables": [
+    {
+     "name": "Weapons",
+     "type": "name",
+     "container": "map",
+     "value_type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+    },
+    {
+     "name": "Heels Height Ratio",
+     "type": "float"
+    },
+    {
+     "name": "Heel Height",
+     "type": "float"
+    },
+    {
+     "name": "Feet Additive",
+     "type": "float"
+    },
+    {
+     "name": "Save Player Clothes",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "Save Clothes Damaged",
+     "type": "name",
+     "container": "map",
+     "value_type": "float"
+    },
+    {
+     "name": "Hair Comps",
+     "type": "object:/Game/Project/Classes/Misc/Hair_Comp",
+     "container": "array"
+    },
+    {
+     "name": "clothes component list",
+     "type": "object:/Game/Project/Classes/Misc/Clothes_Comp",
+     "container": "array"
+    },
+    {
+     "name": "Zombie in front of me",
+     "type": "object:/Game/Project/Classes/Character_Base"
+    },
+    {
+     "name": "is paralleled animation playing",
+     "type": "bool"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Check Appearence"
+    },
+    {
+     "name": "Set Heel Height",
+     "inputs": [
+      {
+       "name": "height ratio",
+       "type": "float"
+      },
+      {
+       "name": "thickness",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Change Hairstyle Ex",
+     "inputs": [
+      {
+       "name": "hairstyle",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "check clothes covering"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Character/Npc/Character_NPC",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/Character_Player_Base",
+   "variables": [
+    {
+     "name": "Distance to Master",
+     "type": "float"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Need to Save",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Mutate"
+    },
+    {
+     "name": "on Spawn in Runtime"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Character/Npc/NPC_Female",
+   "mode": "create",
+   "parent": "/Game/Project/Character/Npc/Character_NPC",
+   "variables": [
+    {
+     "name": "save order",
+     "type": "name"
+    },
+    {
+     "name": "Order Location",
+     "type": "struct:/Script/CoreUObject.Vector"
+    }
+   ],
+   "functions": [
+    {
+     "name": "delay to mutant"
+    },
+    {
+     "name": "Apply Npc Appearance"
+    },
+    {
+     "name": "Init Npc Appearance"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Controller/Npc_Controller",
+   "mode": "create",
+   "parent": "/Script/AIModule.AIController",
+   "variables": [
+    {
+     "name": "master",
+     "type": "object:/Game/Project/Character/Jodi/Jodi"
+    },
+    {
+     "name": "Order Location",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "Current Order",
+     "type": "name"
+    },
+    {
+     "name": "walking state",
+     "type": "int"
+    },
+    {
+     "name": "is busy",
+     "type": "bool"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Change Order",
+     "inputs": [
+      {
+       "name": "order",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Receive Order",
+     "inputs": [
+      {
+       "name": "order",
+       "type": "name"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/UserInterface/AttentionUI",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget"
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/Classes/GameMode/TKA_GameState_Base",
    "mode": "augment",
    "functions": [
@@ -1648,6 +2433,15 @@
       {
        "name": "wardrobe data",
        "type": "object:/Game/Project/Classes/Misc/WardrobeData"
+      }
+     ]
+    },
+    {
+     "name": "Get Attention UI",
+     "outputs": [
+      {
+       "name": "AttentionUI",
+       "type": "object:/Game/Project/UserInterface/AttentionUI"
       }
      ]
     }
@@ -1662,9 +2456,67 @@
      "name": "Clothes in bag",
      "type": "name",
      "container": "array"
+    },
+    {
+     "name": "bag Tools",
+     "type": "name",
+     "container": "map",
+     "value_type": "int"
+    },
+    {
+     "name": "total weight",
+     "type": "int"
+    },
+    {
+     "name": "weight capacity",
+     "type": "int"
+    },
+    {
+     "name": "Over weight ratio",
+     "type": "float"
     }
    ],
    "functions": [
+    {
+     "name": "Count Items",
+     "inputs": [
+      {
+       "name": "item name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "count",
+       "type": "int"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Can I Pickup This Item ?",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "name"
+      },
+      {
+       "name": "num",
+       "type": "int"
+      },
+      {
+       "name": "is clothes",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "ok",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
     {
      "name": "Has this Clothes ?",
      "inputs": [
@@ -1680,6 +2532,35 @@
       }
      ],
      "pure": true
+    },
+    {
+     "name": "Add Clothes To Bag",
+     "inputs": [
+      {
+       "name": "itemName",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Remove Clothes",
+     "inputs": [
+      {
+       "name": "clothes",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Append Clothes",
+     "inputs": [
+      {
+       "name": "Clothes",
+       "type": "name",
+       "container": "array",
+       "ref": true
+      }
+     ]
     },
     {
      "name": "Is Bag Full ?",
@@ -1725,6 +2606,12 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/UserInterface/Widgets/InventoryNpc",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget"
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/UserInterface/PlayingHud",
    "mode": "create",
    "parent": "/Script/UMG.UserWidget",
@@ -1732,6 +2619,29 @@
     {
      "name": "InventoryPanel",
      "type": "object:/Game/Project/UserInterface/Widgets/InventoryPanel"
+    },
+    {
+     "name": "InventoryNpc",
+     "type": "object:/Game/Project/UserInterface/Widgets/InventoryNpc"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Show Item Detail with Name",
+     "inputs": [
+      {
+       "name": "item name",
+       "type": "name"
+      },
+      {
+       "name": "button",
+       "type": "object:/Script/UMG.Widget"
+      },
+      {
+       "name": "gun",
+       "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+      }
+     ]
     }
    ]
   },
@@ -1783,6 +2693,15 @@
        "type": "object:/Game/Project/Classes/Save/Note_Save"
       }
      ]
+    },
+    {
+     "name": "Get Hyper Box Data",
+     "outputs": [
+      {
+       "name": "data",
+       "type": "object:/Game/Project/Classes/Misc/HyperBoxData"
+      }
+     ]
     }
    ]
   },
@@ -1819,6 +2738,85 @@
       {
        "name": "Playing",
        "type": "bool"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/UserInterface/MainMenuUI",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/UserInterface/LoadingUI",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "TextBlock_AnyKey",
+     "type": "object:/Script/UMG.TextBlock"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Maps/Menu/Menu_Camera",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Character/Jodi/Jodi_Intro",
+   "mode": "create",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Base",
+   "variables": [
+    {
+     "name": "Idle Animation",
+     "type": "object:/Script/Engine.AnimSequence"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Character/Jodi/Jodi_Intro_Anim",
+   "mode": "create",
+   "parent": "/Script/Engine.AnimInstance",
+   "variables": [
+    {
+     "name": "Sequence",
+     "type": "object:/Script/Engine.AnimSequenceBase"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Maps/Loading/LoadingPawn",
+   "mode": "create",
+   "parent": "/Script/Engine.Pawn",
+   "variables": [
+    {
+     "name": "ui",
+     "type": "object:/Game/Project/UserInterface/LoadingUI"
+    },
+    {
+     "name": "jodi",
+     "type": "object:/Game/Project/Character/Jodi/Jodi_Intro"
+    },
+    {
+     "name": "offset z",
+     "type": "float"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Init",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
       }
      ]
     }

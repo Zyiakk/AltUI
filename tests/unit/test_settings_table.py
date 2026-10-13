@@ -8,8 +8,17 @@ import gen_manager as gm
 class SettingsTable(unittest.TestCase):
     def test_own_colours_are_saved(self):
         mgr_vars = [e[0] for e in gm.SETTINGS]
-        for v in ("SlotColors", "EyeColors", "MakeupColors", "OutfitSlotColors"):
+        for v in ("EyeColors", "MakeupColors", "OutfitSlotColors"):
             self.assertIn(v, mgr_vars, v)
+
+    def test_slot_colours_live_in_the_games_save(self):
+        """Since 2026-10-11 the slot colours belong to the game's save (spec 2026-10-11-kleidungsfarben-pro-spielstand):
+        AltUI.sav keeps the old global map only as LegacySlotColors (migration source), GameColorSeen is not saved."""
+        pairs = {e[0]: e[1] for e in gm.SETTINGS}
+        self.assertNotIn("SlotColors", pairs)
+        self.assertEqual(pairs.get("LegacySlotColors"), "SlotColors")
+        self.assertIn("SlotColorsPerSave", pairs)
+        self.assertNotIn("GameColorSeen", pairs)
 
 
 if __name__ == "__main__":

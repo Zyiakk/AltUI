@@ -61,6 +61,16 @@
      "default": "(X=1,Y=1,Z=1)"
     },
     {
+     "name": "Pelvis",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
+     "name": "PelvisSpine",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=1,Y=1,Z=1)"
+    },
+    {
      "name": "RootShift",
      "type": "struct:/Script/CoreUObject.Vector",
      "default": "(X=0,Y=0,Z=0)"
@@ -69,6 +79,16 @@
      "name": "FeetShift",
      "type": "struct:/Script/CoreUObject.Vector",
      "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "BreastAngle",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "GlutesAngle",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
     }
    ],
    "nodes": [
@@ -191,6 +211,36 @@
      "bone": "Morph_Waist",
      "mode": "Additive",
      "var": "Waist"
+    },
+    {
+     "bone": "pelvis",
+     "mode": "Additive",
+     "var": "Pelvis"
+    },
+    {
+     "bone": "spine_01",
+     "mode": "Additive",
+     "var": "PelvisSpine"
+    },
+    {
+     "bone": "Breast_L",
+     "kind": "rotate",
+     "var": "BreastAngle"
+    },
+    {
+     "bone": "Breast_R",
+     "kind": "rotate",
+     "var": "BreastAngle"
+    },
+    {
+     "bone": "Hip_L",
+     "kind": "rotate",
+     "var": "GlutesAngle"
+    },
+    {
+     "bone": "Hip_R",
+     "kind": "rotate",
+     "var": "GlutesAngle"
     }
    ]
   }

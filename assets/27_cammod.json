@@ -543,7 +543,7 @@
          "Start": "@aloc.ReturnValue",
          "End": "@probe.ReturnValue",
          "Radius": "15.0",
-         "TraceChannel": "TraceTypeQuery1",
+         "TraceChannel": "TraceTypeQuery2",
          "bTraceComplex": "false",
          "ActorsToIgnore": "@ign.Array",
          "DrawDebugType": "None",

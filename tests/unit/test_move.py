@@ -28,8 +28,16 @@ class MoveAsset(unittest.TestCase):
 class MoveOptions(unittest.TestCase):
     def test_rows(self):
         import gen_widgets
-        self.assertEqual(gen_widgets.OPT_CAT_ROWS["Move"], ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "MoveLinks", "RowWalkStyle", "RowRunStyle"])
+        # "reset to default" below the slow motion row: it resets that one too (tester report 2026-10-12)
+        self.assertEqual(gen_widgets.OPT_CAT_ROWS["Move"], ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "RowSlowMoOn", "RowSlowMo", "MoveLinks"])
         self.assertIn(("WalkSpeed", "Walk speed"), gen_widgets.OPTION_ROWS); self.assertIn(("RunSpeed", "Run speed"), gen_widgets.OPTION_ROWS)
+
+    def test_reset_includes_slow_motion(self):
+        import json
+        d = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets", "50_manager_ui.json")))
+        mgr = next(a for a in d["assets"] if a["path"].endswith("BP_AltUIManager"))
+        g = next(f["graph"] for f in mgr["functions"] if f["name"] == "Reset Move Speeds")
+        self.assertTrue(any(n.get("var") == "SlowMoPct" and n.get("kind") == "set" for n in g["nodes"]))
 
     def test_strings(self):
         from strings import STRINGS, LANGS

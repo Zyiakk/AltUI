@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """verify_pak.py <mod.pak> <hook.pak> – checks contents, mount paths, imports, hook CDO. Exit 1 on error."""
-import sys, os, tempfile
+import sys, os
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, H)
 from pak11_extract import Pak
-from uasset_props import read_summary, Reader
+from uasset_props import read_summary_bytes, Reader
 W = os.path.dirname(H)
 _FL = os.environ.get("GAME_PAK_FILELIST")   # optional: text file listing every file in the game's paks -> import targets are checked against it
 GAME_FILES = set(l.strip() for l in open(_FL)) if _FL and os.path.exists(_FL) else None
@@ -25,9 +25,7 @@ def full_path(pk, k):
 
 
 def summary_of(uasset_bytes, uexp_bytes):
-    d = tempfile.mkdtemp()
-    ua = os.path.join(d, "a.uasset"); open(ua, "wb").write(uasset_bytes); open(ua[:-7] + ".uexp", "wb").write(uexp_bytes or b"")
-    data, names, imps, exps, th = read_summary(ua)
+    data, names, imps, exps, th = read_summary_bytes(uasset_bytes)   # in memory: a temp folder per asset filled the /tmp RAM disk (11 GB, 2026-10-11)
     pkgs = sorted({on for (cp, cn, outer, on) in imps if cn == "Package" and on.startswith("/")})
     return names, imps, exps, pkgs, data + (uexp_bytes or b"")
 

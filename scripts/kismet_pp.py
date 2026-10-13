@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Prints UAssetAPI KismetSerializer JSON (scratch bpdump) as pseudocode: one statement per line with offset."""
-import json, sys
+import json, re, sys
 
 
 def ex(e):
@@ -29,12 +29,16 @@ def ex(e):
     if i == "PopExecutionFlow": return "pop"
     if i == "PopExecutionFlowIfNot": return "if not %s pop" % ex(e.get("Condition") or e.get("BooleanExpression"))
     if i == "Return": return "return " + ex(e.get("Expression") or e.get("ReturnExpression"))
-    if i == "StructMemberContext": return ex(e.get("StructExpression")) + "." + str(e.get("Property", {}).get("MemberName") if isinstance(e.get("Property"), dict) else e.get("Property"))
+    if i == "StructMemberContext":
+        p = e.get("Property", {}).get("MemberName") if isinstance(e.get("Property"), dict) else e.get("Property")
+        if p is None and e.get("Property Name"):  # user struct members: Name_<n>_<GUID>
+            p = re.sub(r"_\d+_[0-9A-F]{32}$", "", e["Property Name"])
+        return ex(e.get("StructExpression")) + "." + str(p)
     if i in ("StructConst", "SetArray", "ArrayConst", "SetSet", "SetMap", "MapConst", "SetConst"):
         return "%s[%s]" % (i, ", ".join(ex(p) for p in (e.get("Value") or e.get("Elements") or [])))
     if i in ("Cast", "PrimitiveCast", "DynamicCast", "ObjToInterfaceCast", "MetaCast", "InterfaceToObjCast", "CrossInterfaceCast"):
         return "cast<%s>(%s)" % (e.get("ClassPtr") or e.get("ConversionType"), ex(e.get("Target")))
-    if i == "SwitchValue": return "switch(%s){%s}" % (ex(e.get("IndexTerm")), "; ".join("%s:%s" % (ex(c.get("CaseIndexValueTerm")), ex(c.get("CaseTerm"))) for c in e.get("Cases", [])) + " default:" + ex(e.get("DefaultTerm")))
+    if i == "SwitchValue": return "switch(%s){%s}" % (ex(e.get("IndexTerm") or e.get("Expression")), "; ".join("%s:%s" % (ex(c.get("CaseIndexValueTerm") or c.get("CaseValue")), ex(c.get("CaseTerm") or c.get("CaseResult"))) for c in e.get("Cases", [])) + " default:" + ex(e.get("DefaultTerm") or e.get("DefaultResult")))
     if i == "Skip": return ex(e.get("SkipExpression") or e.get("Expression"))
     if i == "VariableBase" or "Variable Name" in e: return e.get("Variable Name", "?")
     if i == "InterfaceContext": return ex(e.get("InterfaceValue"))

@@ -32,8 +32,8 @@ def main():
     mgr.call_method("Test Toggle Look Favorite", args=("Lips_01",)); expect("favourite removed", names(mgr, "Favorites"), [])
     mgr.call_method("Test Toggle Look Favorite", args=("Skin_Default",)); expect("skin favourite", names(mgr, "Favorites"), ["skin:Skin_Default"])
     mgr.call_method("Test Toggle Look Hidden", args=("Lips_01",)); expect("hidden added", names(mgr, "HiddenItems"), ["makeup:Lips_01"])
-    # chips: Vanilla + one per mod (ItemOriginMod), Hidden last while a row is hidden
-    origin = mgr.get_editor_property("ItemOriginMod"); origin["Lips_02"] = "ModA"; mgr.set_editor_property("ItemOriginMod", origin)
+    # chips: Vanilla + one per mod (ItemOriginMod, "look:" keys), Hidden last while a row is hidden
+    origin = mgr.get_editor_property("ItemOriginMod"); origin["look:Lips_02"] = "ModA"; mgr.set_editor_property("ItemOriginMod", origin)
     expect("groups of All", groups(mgr), ["Vanilla", "ModA", "Hidden"])
     expect("groups of Skin (nothing to choose)", groups(mgr, "Skin"), ["Vanilla"])
     # counts: total ignores the filters; filtered = chip + only favourites (+ search)
@@ -70,7 +70,7 @@ def main():
     # MergeMods: mods with the same shown name share one chip and one filter (own option, appearance only)
     def alias(mod):
         mgr.call_method("Test Mod Alias", args=(mod,)); return str(mgr.get_editor_property("TmpName"))
-    origin["Eyebrow_01"] = "ModB"; mgr.set_editor_property("ItemOriginMod", origin); mgr.set_editor_property("ModList", ["ModA", "ModB"])
+    origin["look:Eyebrow_01"] = "ModB"; mgr.set_editor_property("ItemOriginMod", origin); mgr.set_editor_property("ModList", ["ModA", "ModB"])
     mgr.call_method("Test Set Custom Name", args=("mod", "ModA", "Same")); mgr.call_method("Test Set Custom Name", args=("mod", "ModB", "Same"))
     mgr.set_editor_property("MergeMods", True); mgr.call_method("Test Build Group Aliases")
     expect("merge mods: alias", (alias("ModA"), alias("ModB"), alias("Vanilla")), ("ModA", "ModA", "Vanilla"))
@@ -79,17 +79,17 @@ def main():
     # renaming one of them apart ends the merge (Set Custom Name marks the catalog dirty; the appearance page rebuilds it like the clothes page)
     mgr.call_method("Test Set Custom Name", args=("mod", "ModB", "Other")); expect("rename marks dirty", mgr.get_editor_property("CatalogDirty"), True)
     mgr.call_method("Test Select Page", args=("Look",)); expect("appearance page rebuilds the dirty catalog", mgr.get_editor_property("CatalogDirty"), False)
-    origin = mgr.get_editor_property("ItemOriginMod"); origin["Lips_02"] = "ModA"; origin["Eyebrow_01"] = "ModB"; mgr.set_editor_property("ItemOriginMod", origin); mgr.set_editor_property("ModList", ["ModA", "ModB"])   # Build Catalog rescanned the stub tables (the map proxy is live)
+    origin = mgr.get_editor_property("ItemOriginMod"); origin["look:Lips_02"] = "ModA"; origin["look:Eyebrow_01"] = "ModB"; mgr.set_editor_property("ItemOriginMod", origin); mgr.set_editor_property("ModList", ["ModA", "ModB"])   # Build Catalog rescanned the stub tables (the map proxy is live)
     mgr.call_method("Test Build Group Aliases"); expect("renamed apart: own alias", alias("ModB"), "ModB")
     mgr.call_method("Test Set Custom Name", args=("mod", "ModB", "Same")); mgr.call_method("Test Build Group Aliases")
     mgr.set_editor_property("MergeMods", False); mgr.call_method("Test Build Group Aliases")
     expect("merge mods off: identity", alias("ModB"), "ModB"); expect("merge mods off: two chips (row order)", groups(mgr), ["Vanilla", "ModB", "ModA"]); expect("merge mods off: own filter", count(mgr, "All", True), 1)
-    mgr.set_editor_property("LookGroup", "None"); mgr.call_method("Test Set Custom Name", args=("mod", "ModA", "")); mgr.call_method("Test Set Custom Name", args=("mod", "ModB", "")); del origin["Eyebrow_01"]; mgr.set_editor_property("ModList", [])
+    mgr.set_editor_property("LookGroup", "None"); mgr.call_method("Test Set Custom Name", args=("mod", "ModA", "")); mgr.call_method("Test Set Custom Name", args=("mod", "ModB", "")); del origin["look:Eyebrow_01"]; mgr.set_editor_property("ModList", [])
     # settings roundtrip
     mgr.set_editor_property("LookOnlyFav", True); mgr.set_editor_property("LookOnlyWorn", True); mgr.set_editor_property("LookChipsCollapsed", True); mgr.call_method("Test Save Settings")
     mgr.set_editor_property("LookOnlyFav", False); mgr.set_editor_property("LookOnlyWorn", False); mgr.set_editor_property("LookChipsCollapsed", False); mgr.call_method("Test Load Settings")
     expect("settings roundtrip", (mgr.get_editor_property("LookOnlyFav"), mgr.get_editor_property("LookOnlyWorn"), mgr.get_editor_property("LookChipsCollapsed"), names(mgr, "Favorites")), (True, True, True, ["skin:Skin_Default"]))
     # clean up
-    del origin["Lips_02"]; mgr.set_editor_property("ItemOriginMod", origin)
+    del origin["look:Lips_02"]; mgr.set_editor_property("ItemOriginMod", origin)
     mgr.set_editor_property("Favorites", []); mgr.set_editor_property("HiddenItems", []); mgr.set_editor_property("LookOnlyFav", False); mgr.set_editor_property("LookOnlyWorn", False); mgr.set_editor_property("LookChipsCollapsed", False); mgr.set_editor_property("LookGroup", "None"); mgr.call_method("Test Save Settings")
 run(main)

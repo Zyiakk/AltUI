@@ -27,6 +27,15 @@ class BodyRows(unittest.TestCase):
         self.assertEqual([p["name"] for p in fns["Get Body Values"]["outputs"]], ["breast", "waist"])
         self.assertEqual([p["name"] for p in fns["Set Body Values"]["inputs"]], ["breast", "waist"])
 
+    def test_new_shape_rows(self):
+        names = set(widget_names(asset("40_widgets.json", "/W_AltUI")["widget_tree"]))
+        for k in ("BreastAngle", "BreastJiggle", "Nipple", "Pelvis", "GlutesAngle", "GlutesJiggle"):
+            self.assertIn("SldSc" + k, names); self.assertIn("Lbl_Sc" + k, STRINGS)
+        self.assertTrue({"LblScGrpBreast", "LblScGrpGlutes"} <= names); self.assertIn("Lbl_ScGrpBreast", STRINGS)
+        fns = {f["name"]: f for f in asset("40_widgets.json", "/W_AltUI")["functions"]}
+        self.assertEqual(len(fns["Get Body Scales"]["outputs"]), 15)   # 17 factors, two retired (softness)
+        self.assertFalse({"SldScBreastSoft", "SldScGlutesSoft"} & names)
+
     def test_no_hip_string(self):
         self.assertNotIn("Lbl_Hip", STRINGS); self.assertIn("Lbl_Waist", STRINGS)
 

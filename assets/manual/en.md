@@ -1,10 +1,12 @@
 ## About AltUI {#about}
 
-AltUI replaces the wardrobe and appearance screens of The Killing Antidote with one panel. It opens anywhere in a level with B – no trips to the wardrobe or the mirror.
+AltUI is an alternative to the wardrobe and appearance screens of The Killing Antidote: one panel for all of it, and the game's own screens keep working. It opens anywhere in a level with B – no trips to the wardrobe or the mirror.
 
 Every item from the game and from all installed mods is sorted into one list per slot, with search, filters, favourites and hiding. Hair, make-up, body, face, poses, weapons and saved outfits and looks are in the same panel, and so are ragdolls – copies of Jodi, zombies and people to place and pose – and Jodi's walk and run speed.
 
 The panel opens on the tab it was left on. Tabs you do not use can be switched off under Options › Tabs.
+
+An Inventory tab moves items between Jodi's backpack and the Hyper Storage Box, and looks become followers and NPCs who walk and fight with her.
 
 ## Installation and updates {#install}
 
@@ -30,10 +32,13 @@ AltUI keeps its own data in the game's save folder, on Windows %LOCALAPPDATA%\Th
 - AltUI_Faces.sav – saved faces
 - AltUI_Names.sav – your own names
 - AltUI_Ragdolls.sav – ragdoll scenes and poses
+- AltUI_Followers.sav – followers and NPCs
 - the folder AltUI – photos of looks, faces and appearance presets
 - the folder WeaponIcons – weapon pictures
 
 Clothes, outfits, make-up and hair are stored in the game's own save files and stay.
+
+After a game update, or with a mod that replaces tables of the game, AltUI may meet a game it was not made for. Then it shows a warning before it does anything: "Go on anyway (my own risk)" is remembered for this game version, "AltUI off for now" asks again in the next level.
 
 ## Controls {#controls}
 
@@ -45,6 +50,7 @@ Clothes, outfits, make-up and hair are stored in the game's own save files and s
 - The three round buttons above + and − open a free camera (mouse turns, W A S D and Q E move, Shift is faster, the wheel sets the speed, Esc returns), the game's photo mode (Esc returns) and the ragdolls mode (see "Ragdolls mode").
 - Undo and redo (five steps) are in the status bar at the bottom.
 - Hold 4 for the quick menu (see "Quick menu").
+- In the main menu, B opens a small menu: the three menu scenes and the loading scene, the next camera, and hiding the game's menu and texts (Esc brings them back).
 
 ## Clothes {#clothes}
 
@@ -55,6 +61,9 @@ The slots are on the left, the items of the chosen slot on the right.
 - Filters: only owned, only favourites, only vanilla, only worn.
 - Right click on an item: favourite, hide, colour via the game's palette, reset colour, put in backpack, rename, only this group, view mod content, show in tab.
 - Tooltips show which mod an item comes from.
+- Damage (in the context menu): 0 to 100 %, live on a worn piece; on any other piece it is kept until the piece is worn. Worn pieces without damage textures have no slider.
+- Under the game's colour palette a field shows the colour as #RRGGBB; type a code and press Enter to set it. "Remember" keeps the colour in AltUI, "Use" puts it on another piece or slot.
+- The search also finds a mod by the name of its pak, here and in every other tab.
 
 ## Outfits {#outfits}
 
@@ -73,6 +82,7 @@ A look is everything at once: clothes with their colours, hairstyle and hair col
 - The "+" tile saves the current look with a full-body photo – from the front or as you see her.
 - Click a look to apply it.
 - Right click: view content, rename, update (photo from the front or as seen), move, delete, add to or remove from the quick menu.
+- Right click also: "Spawn as ragdoll", "Spawn as follower", "Spawn as NPC" (see "Ragdolls" and "Followers").
 
 ## Backpack {#bag}
 
@@ -82,6 +92,20 @@ What Jodi wears and what she carries.
 - Right click: wear or take off, repair (needs a sewing kit), remove from backpack, back to the wardrobe.
 - "Tidy up backpack" removes the items that are not worn and are also in the wardrobe.
 - "Everything into the backpack" takes off every worn item and puts it into the backpack.
+- The context menu also has the damage slider (see "Clothes").
+
+## Inventory {#inventory}
+
+Jodi's items and the Hyper Storage Box, one list under the other.
+
+- The chips filter by the game's groups (weapons, ammo, weapon accessories, tools …). The weight shows what Jodi carries, what she can carry and how far she is overloaded.
+- A click puts one item into the box or takes one out. Right click: half or all, use, inspect, discard, quick slot 1 or 2, unload ammo, "Accessories…" (opens the gun in the Weapons tab).
+- Everything goes through the game's own functions, so the game's rules stay – overloading included.
+- "..." above a list folds it, ↑↓ gives it the full height (click again: back).
+- On maps where the game never saves the backpack (the shooting range, for example) the tab says so: keep what you want in the box.
+- "All items" is off by default (Options › General): every item of the game as a third list with its own search. A click puts one pack into the backpack; right click: five, or into the box.
+- "Auto-equip weapons" (Options › General, on by default): a gun from the box or the catalogue goes into Jodi's hand as in the game; off, she keeps what she holds.
+- The tile size of this tab is set under Options › Tiles.
 
 ## Coiffure {#hair}
 
@@ -90,6 +114,7 @@ All hairstyles from the game and from mods.
 - Click a hairstyle to wear it.
 - "Hair colour..." opens the game's palette; "Natural hair colours" shows 14 ready-made colours.
 - Right click: reset hair colour, rename, view mod content.
+- Right click on a hairstyle from a mod: "Rename mod…".
 
 ## Poses {#poses}
 
@@ -99,6 +124,7 @@ Every action animation the game and your pose mods know – the list behind the 
 - Poses are sorted by stance (standing, sitting, lying) and by chapter; chips filter by mod, the search finds titles.
 - Right click: favourite, hide, mark as standing / sitting / lying / in motion, rename, add to the quick menu.
 - "Measure all" plays every pose that has no stance yet once and sorts it.
+- A speaker in the corner of a tile marks a pose with a sound.
 
 ## Weapons {#weapons}
 
@@ -112,6 +138,9 @@ One entry per weapon on the left, melee weapons included. For each weapon, its m
 - A paint put on with a spray can in the game is kept: it becomes the chosen skin.
 - Right click on a mod model: force skins onto it, leave the magazine, optics, suppressor or grip out, show the mod's own picture.
 - Weapon mods and shot sound mods have to be converted with weaponpak.pyz first; see the WEAPON_MODS guide on the mod's page.
+- Weapon accessories: one row per slot the weapon takes (sights, barrel, grip, magazine), "None" first. Parts come from the backpack, or from the storage box and are taken into the backpack. Accessories only go on weapons Jodi carries; the weapon keeps the model, skin and sound chosen here.
+- "Show item pictures" in the status bar puts the item's or the mod's own picture on every tile instead of the rendered one.
+- Right click on a model, skin or sound from a mod: "Rename mod…".
 
 ## Appearance {#look}
 
@@ -126,6 +155,7 @@ Skin, every make-up type, eyes and the game's appearance presets.
 - Breast and waist sliders of the game.
 - Chips switch between the game's body and every converted body mod.
 - Converted bodies also get bone-scale sliders: scale, bust, waist, glutes and hips, thighs, calves, arms, hands, feet. They are kept per body; "Reset shape" sets them back.
+- Breast and glutes & hips: jiggle (0 % = animation only) adjusts the game's physics and works on every body; a bra still dampens as in the game. The nipple slider only works while the chest is uncovered. Angle and hip width exist only on converted bodies; the angle shows the more, the less jiggle there is (not at all at 100 %).
 - Body replacer mods have to be converted with bodypak.pyz first; see the BODY_MODS guide on the mod's page.
 
 ## Face {#face}
@@ -147,12 +177,12 @@ This tab only appears when such a mod is installed.
 
 The categories are on the left.
 
-- General: language, how much of the screen stays free for Jodi, underwear may be taken off, how items you do not own are shown, the Codex switch for the encyclopedia.
-- Tiles: tile size, own sizes for outfit, look and ragdoll tiles, pieces per outfit tile, no limit on long lists, tooltip details.
+- General: language, how much of the screen stays free for Jodi, underwear may be taken off, how items you do not own are shown, the Codex switch for the encyclopedia, the "All items" catalogue and "Auto-equip weapons" for the Inventory tab.
+- Tiles: tile size, own sizes for outfit, look and ragdoll tiles, pieces per outfit tile, no limit on long lists, tooltip details, the tile size of the Inventory tab.
 - Groups: merge groups or mods with the same name, length of group names, height of the chip area, chip search.
 - Camera: field of view, distance, height, camera follows the chosen slot.
-- Controls: panel key, scroll speed, camera height with the right mouse button.
-- Movement: Jodi's own walk and run speed (50 to 200 %, "Reset to 100 %"); crouching and jumping stay as they are.
+- Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.
+- Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. "Slow motion on" switches slow motion, "Slow motion speed" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry "Slow motion on / off" does the same as the switch. "Reset to default" sets walk, run and slow motion speed back.
 - Quick menu: its key, its opacity, what is in the wheel.
 - Colours: every panel colour, opacities, colour schemes saved under a name.
 - Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn.
@@ -165,6 +195,7 @@ Your own display names for mods, groups, clothes, hairstyles, skins, make-up, po
 - The names are used everywhere in the panel and found by the search; the original identifier stays searchable and shows in the tooltip.
 - Chips and a search filter the list; "only mods" hides the game's own entries; ↺ goes back to the default name.
 - With altui_names.pyz the names can be exported to a text file and imported again.
+- Weapon mods are listed with the other mods.
 
 ## Ragdolls {#ragdolls}
 
@@ -196,6 +227,23 @@ Moves and poses the figures without the panel, with the camera free in the room.
 - Drag on nothing to turn the camera.
 - Esc or B ends the mode.
 
+## Followers {#followers}
+
+Looks as people in the game: a follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
+
+- In the Looks tab, right click a look: "Spawn as follower" or "Spawn as NPC". The figure appears in front of Jodi wearing that look.
+- The tab "Followers" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: "Follow me", "Wait here", "Bring here", → NPC / → Follower, "Active", "Invulnerable" and "..." (rename, change look, revive, remove).
+- Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. "..." above a list folds it.
+- Clothes are real pieces of the figure, as with the game's NPCs: they take damage, can tear off and show up in the game's own NPC inventory, where you can swap them too. Under a figure, its pieces are tiles (a badge marks damaged ones): a click takes one off into Jodi's backpack; right click: repair with a sewing kit from Jodi's backpack, or repair all. In the backpack column, "Clothes" lists Jodi's pieces: a click gives one to the selected figure, which puts it on (her damage and colours go along).
+- "Active" off takes a figure out of the world, with everything it carries; on again, it comes back in front of Jodi.
+- A figure that is not invulnerable can fall. It stays in the list and "Revive" brings it back with what it carried. Figures never turn into zombies.
+- "Remove" asks first; the figure's items and guns go into the storage box, its clothes into Jodi's backpack.
+- "Change look" switches to the Looks tab: click the look the figure should wear.
+
+AltUI keeps the figures in a save of its own (AltUI_Followers.sav), the game's save never contains them. Following followers come along to every level and after loading; waiting followers and NPCs stay in their level at their place.
+
+Quick menu: "Follower: follow me / wait here" orders the follower in view, "All followers: follow / wait" all of them.
+
 ## Codex {#kodex}
 
 - Encyclopedia: the entries of the archive on Jodi's office computer, with picture and text. Only the ones the game has unlocked are shown – or all of them with the switch under Options › General.
@@ -207,6 +255,7 @@ Moves and poses the figures without the panel, with the camera free in the room.
 Hold 4 (another key under Options › Quick menu) and a wheel opens around the mouse. Let go on an item to run it; let go in the middle to do nothing.
 
 - Items: outfits, looks, faces, appearance presets, poses, tabs, settings of other mods and actions: free camera, photo mode, ragdolls mode, a copy of Jodi as a ragdoll, switch every ragdoll between active and frozen, activate / freeze the one in view, remove all ragdolls, own speed on / off.
+- More actions: "Slow motion on / off", "Stop time / go on" (everything stands still; the panel and the cameras keep working), "Hide / show Jodi" (with clothes, hair and weapon; she is back in the next level) and the orders for followers (see "Followers").
 - Add them under Options › Quick menu, or with a right click on a tile, a tab or a mod's entry ("Add to quick menu").
 - The order in the wheel is the order in the list under Options › Quick menu.
 

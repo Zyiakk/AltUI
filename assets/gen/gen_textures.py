@@ -4,11 +4,13 @@ from PIL import Image, ImageDraw
 from bpdsl import M, write
 
 T_ROUNDBOX = M + "/T_RoundBox"
+T_ROUNDFRAME = M + "/T_RoundFrame"   # the round box's outline only (frame over a see-through surface: a filled frame would tint it)
 T_CHECK_ON = M + "/T_CheckOn"
 T_UNDO = M + "/T_Undo"; T_REDO = M + "/T_Redo"
 T_CHECK_OFF = M + "/T_CheckOff"
 T_PLUS = M + "/T_Plus"; T_MINUS = M + "/T_Minus"; T_CAM = M + "/T_Cam"; T_PHOTO = M + "/T_Photo"; T_POSE = M + "/T_Pose"
 T_COLORIZE = M + "/T_Colorize"
+T_SOUND = M + "/T_Sound"
 TEX_PROPS = {"CompressionSettings": "TC_EditorIcon", "LODGroup": "TEXTUREGROUP_UI", "MipGenSettings": "TMGS_NoMipmaps",
              "NeverStream": True, "SRGB": True, "Filter": "TF_Bilinear"}
 
@@ -17,6 +19,15 @@ def round_box(path, size=48, radius=10, ss=4):
     """White rounded square with a smoothed edge (supersampling); alpha 0 outside."""
     big = Image.new("L", (size * ss, size * ss), 0)
     ImageDraw.Draw(big).rounded_rectangle((0, 0, size * ss - 1, size * ss - 1), radius=radius * ss, fill=255)
+    alpha = big.resize((size, size), Image.LANCZOS)
+    im = Image.new("RGBA", (size, size), (255, 255, 255, 0)); im.putalpha(alpha)
+    im.save(path)
+
+
+def round_frame(path, size=48, radius=10, ss=4, width=1.5):
+    """Outline of round_box (same corners), `width` texels wide, transparent inside."""
+    big = Image.new("L", (size * ss, size * ss), 0)
+    ImageDraw.Draw(big).rounded_rectangle((0, 0, size * ss - 1, size * ss - 1), radius=radius * ss, outline=255, width=int(width * ss))
     alpha = big.resize((size, size), Image.LANCZOS)
     im = Image.new("RGBA", (size, size), (255, 255, 255, 0)); im.putalpha(alpha)
     im.save(path)
@@ -112,6 +123,17 @@ def color_glyph(path, size=48, ss=4):
     big.resize((size, size), Image.LANCZOS).save(path)
 
 
+def speaker_glyph(path, size=48, ss=4):
+    """White loudspeaker with two sound arcs on a dark disc (reads on any tile picture): pose tiles whose row carries a sound."""
+    S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 245)
+    d.ellipse((0, 0, S - 1, S - 1), fill=(20, 20, 24, 200))
+    d.polygon(_pts(S, [(0.20, 0.40), (0.33, 0.40), (0.50, 0.25), (0.50, 0.75), (0.33, 0.60), (0.20, 0.60)]), fill=W)
+    lw = int(S * 0.06)
+    for r in (0.13, 0.25):
+        d.arc((S * (0.50 - r), S * (0.50 - r), S * (0.50 + r), S * (0.50 + r)), -50, 50, fill=W, width=lw)
+    big.resize((size, size), Image.LANCZOS).save(path)
+
+
 def stick_figure(path, size=128, ss=4):
     """White stick figure on transparent (head, body, one arm on the hip, one raised, legs apart): tile icon of the poses tab."""
     S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 255); lw = int(S * 0.06); cx = S / 2
@@ -168,6 +190,15 @@ def tab_bag(d, S, W, C):
     d.rounded_rectangle((S * 0.29, S * 0.55, S * 0.71, S * 0.84), radius=int(S * 0.06), fill=C)              # pocket
     d.rounded_rectangle((S * 0.34, S * 0.60, S * 0.66, S * 0.79), radius=int(S * 0.04), fill=W)
     d.rectangle((S * 0.29, S * 0.62, S * 0.71, S * 0.655), fill=C)                                           # pocket flap seam
+
+
+def tab_inventory(d, S, W, C):
+    """Storage box: a chest with a lid, the lid seam and a latch."""
+    d.rounded_rectangle((S * 0.08, S * 0.22, S * 0.92, S * 0.46), radius=int(S * 0.08), fill=W)              # lid
+    d.rounded_rectangle((S * 0.08, S * 0.44, S * 0.92, S * 0.88), radius=int(S * 0.05), fill=W)              # body
+    d.rectangle((S * 0.08, S * 0.435, S * 0.92, S * 0.475), fill=C)                                          # lid seam
+    d.rounded_rectangle((S * 0.42, S * 0.38, S * 0.58, S * 0.60), radius=int(S * 0.03), fill=C)              # latch
+    d.rounded_rectangle((S * 0.46, S * 0.42, S * 0.54, S * 0.56), radius=int(S * 0.02), fill=W)
 
 
 def tab_hair(d, S, W, C):
@@ -271,6 +302,16 @@ def tab_ragdolls(d, S, W, C):
         for x, y in pts[1:2]: d.ellipse((S * x - lw * 0.9, S * y - lw * 0.9, S * x + lw * 0.9, S * y + lw * 0.9), fill=W)
 
 
+def tab_followers(d, S, W, C):
+    """Two figures, head and shoulders: the one in front (right), the follower a step behind (left, smaller), a gap between them."""
+    d.ellipse((S * 0.14, S * 0.20, S * 0.38, S * 0.44), fill=W)                                        # behind: head
+    d.pieslice((S * 0.02, S * 0.50, S * 0.50, S * 1.14), 180, 360, fill=W)                             # behind: shoulders
+    d.ellipse((S * 0.54, S * 0.04, S * 0.86, S * 0.36), fill=C)                                        # gap around the front figure
+    d.pieslice((S * 0.36, S * 0.40, S * 1.04, S * 1.20), 180, 360, fill=C)
+    d.ellipse((S * 0.58, S * 0.08, S * 0.82, S * 0.32), fill=W)                                        # front: head
+    d.pieslice((S * 0.40, S * 0.44, S * 1.00, S * 1.16), 180, 360, fill=W)                             # front: shoulders
+
+
 def tab_kodex(d, S, W, C):
     """Open book: two pages curving up from the spine, text lines cut into them."""
     for side in (-1, 1):
@@ -294,8 +335,8 @@ def altui_panel(d, S, W, C):
             d.rounded_rectangle((S * x, S * y, S * (x + 0.13), S * (y + 0.15)), radius=int(S * 0.025), fill=W)
 
 
-TAB_ICON_DRAW = {"Clothes": tab_clothes, "Outfits": tab_outfits, "Looks": tab_looks, "Bag": tab_bag, "Hair": tab_hair, "Weapons": tab_weapons,
-                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Manage": tab_manage, "Ragdolls": tab_ragdolls, "Kodex": tab_kodex}
+TAB_ICON_DRAW = {"Clothes": tab_clothes, "Outfits": tab_outfits, "Looks": tab_looks, "Bag": tab_bag, "Inventory": tab_inventory, "Hair": tab_hair, "Weapons": tab_weapons,
+                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Manage": tab_manage, "Ragdolls": tab_ragdolls, "Followers": tab_followers, "Kodex": tab_kodex}
 T_ALTUI = M + "/T_AltUI"
 TAB_ICONS = dict({k: M + "/T_Tab" + k for k in TAB_ICON_DRAW}, Poses=T_POSE)   # page -> texture; Poses uses the pose tiles' stick figure
 
@@ -303,16 +344,18 @@ TAB_ICONS = dict({k: M + "/T_Tab" + k for k in TAB_ICON_DRAW}, Poses=T_POSE)   #
 def build(assets_dir):
     """Writes the PNGs under <assets_dir>/tex and returns the asset list (file relative to assets_dir)."""
     os.makedirs(os.path.join(assets_dir, "tex"), exist_ok=True)
-    round_box(os.path.join(assets_dir, "tex", "roundbox.png"))
+    round_box(os.path.join(assets_dir, "tex", "roundbox.png")); round_frame(os.path.join(assets_dir, "tex", "roundframe.png"))
     check_box(os.path.join(assets_dir, "tex", "check_on.png"), True); check_box(os.path.join(assets_dir, "tex", "check_off.png"), False)
     circle_arrow(os.path.join(assets_dir, "tex", "undo.png"), False); circle_arrow(os.path.join(assets_dir, "tex", "redo.png"), True)
     circle_glyph(os.path.join(assets_dir, "tex", "plus.png"), True); circle_glyph(os.path.join(assets_dir, "tex", "minus.png"), False)
     color_glyph(os.path.join(assets_dir, "tex", "colorize.png"))
+    speaker_glyph(os.path.join(assets_dir, "tex", "sound.png"))
     circle_cam(os.path.join(assets_dir, "tex", "cam.png")); circle_photo(os.path.join(assets_dir, "tex", "photo.png")); circle_ragdoll(os.path.join(assets_dir, "tex", "ragmode.png"))
     stick_figure(os.path.join(assets_dir, "tex", "pose.png"))
     for k, f in TAB_ICON_DRAW.items(): _glyph(os.path.join(assets_dir, "tex", "tab_%s.png" % k.lower()), f)
     _glyph(os.path.join(assets_dir, "tex", "altui.png"), altui_panel)
     return [{"type": "texture", "path": T_ROUNDBOX, "file": "tex/roundbox.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_ROUNDFRAME, "file": "tex/roundframe.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_ON, "file": "tex/check_on.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_OFF, "file": "tex/check_off.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_UNDO, "file": "tex/undo.png", "props": TEX_PROPS},
@@ -320,6 +363,7 @@ def build(assets_dir):
             {"type": "texture", "path": T_PLUS, "file": "tex/plus.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_MINUS, "file": "tex/minus.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_COLORIZE, "file": "tex/colorize.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_SOUND, "file": "tex/sound.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CAM, "file": "tex/cam.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_PHOTO, "file": "tex/photo.png", "props": TEX_PROPS},
             {"type": "texture", "path": M + "/T_RagMode", "file": "tex/ragmode.png", "props": TEX_PROPS},

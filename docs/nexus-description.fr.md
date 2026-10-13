@@ -6,7 +6,7 @@ La garde-robe du jeu donne à chaque auteur de mod son propre onglet : avec quel
 
 Aussi disponible sur le [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3802875867). Le même mod, les mêmes fichiers – choisissez une source, pas les deux.
 
-> ⚠ **Conçu pour la version 0.6.x du jeu.** Une mise à jour du jeu qui modifie les tables de vêtements / de maquillage ou le gestionnaire de caméra peut casser le mod.
+> ⚠ **Conçu pour la version 0.6.x du jeu.** Une mise à jour du jeu qui modifie les tables de vêtements / de maquillage ou le gestionnaire de caméra peut casser le mod. Au démarrage, AltUI vérifie les tables du jeu et, si elles ont changé, avertit avant de toucher à quoi que ce soit.
 
 ## Installation
 
@@ -41,30 +41,33 @@ Désinstallation : supprimez les fichiers copiés. AltUI garde ses propres donn�
 * `AltUI_Faces.sav` – visages enregistrés
 * `AltUI_Names.sav` – vos propres noms
 * `AltUI_Ragdolls.sav` – scènes et poses des ragdolls
+* `AltUI_Followers.sav` – compagnons et PNJ
 * `AltUI\` – photos des looks, des visages et des apparences enregistrées
 * `WeaponIcons\` – images des tuiles d'armes
 
-Rien d'autre n'est touché – vêtements, tenues, maquillage et coiffure passent par les fichiers de sauvegarde du jeu.
+Rien d'autre n'est touché – vêtements, tenues, maquillage et coiffure passent par les fichiers de sauvegarde du jeu. Les couleurs par emplacement d'AltUI sont dans la sauvegarde du jeu, en entrées supplémentaires commençant par AltUI# ; le jeu les ignore.
 
 ## Ce qu'il fait
 
-* **Vêtements** – chaque pièce connue du jeu et des mods, regroupée par emplacement, des sous-onglets par mod (repliables), recherche, filtres « possédés seulement » / « favoris seulement » / « vanilla seulement », favoris, couleur via la palette du jeu, réinitialisation de la couleur, vers le sac à dos et retour, masquage de pièces.
+* **Menu rapide** – maintenir **4** (modifiable) ouvre une roue avec ce dont vous vous servez souvent : caméra libre, mode photo, une tenue, un look, un visage ou un préréglage enregistré, une pose favorite, un onglet et des actions d'autres mods. Jusqu'à 32 éléments, choisis et ordonnés dans les Paramètres ; relâcher sur un élément le lance. Un clic droit sur une tuile, un onglet ou l'entrée d'un mod l'ajoute à la roue ou l'en retire. Aussi : ralenti, arrêt du temps, masquer Jodi et ordres aux compagnons.
+* **Vêtements** – chaque pièce connue du jeu et des mods, regroupée par emplacement, des sous-onglets par mod (repliables), recherche, filtres « possédés seulement » / « favoris seulement » / « vanilla seulement », favoris, couleur via la palette du jeu, réinitialisation de la couleur, vers le sac à dos et retour, masquage de pièces. Curseur de dégâts dans le menu contextuel ; une couleur par emplacement de matériau, bijoux compris, gardée par sauvegarde.
 * **Tenues** – les tenues enregistrées du jeu, avec des noms (clic droit → renommer).
-* **Looks** – un look complet (vêtements avec couleurs, coiffure et couleur de cheveux, maquillage, yeux, peau, curseurs du corps, mod de corps, visage), enregistré avec une photo en pied prise en jeu, de face ou tel que vous la voyez. Appliquer, mettre à jour, renommer, supprimer.
+* **Looks** – un look complet (vêtements avec couleurs, coiffure et couleur de cheveux, maquillage, yeux, peau, curseurs du corps, mod de corps, visage), enregistré avec une photo en pied prise en jeu, de face ou tel que vous la voyez. Appliquer, mettre à jour, renommer, supprimer. Un look peut apparaître comme compagnon, PNJ ou ragdoll.
 * **Sac à dos** – ce que Jodi porte et transporte : porter, enlever, réparer, remettre dans la garde-robe, ranger.
+* **Inventaire** – les objets de Jodi et l'Hyper coffre de stockage l'un sous l'autre : un clic déplace un objet ; clic droit pour utiliser, examiner, jeter ou décharger ; tout passe par les fonctions du jeu. En option : un catalogue « Tous les objets ».
 * **Coiffure** – toutes les coiffures, couleur des cheveux, 14 couleurs naturelles, réglage d'origine.
 * **Apparence** – peau, chaque type de maquillage, yeux, apparences enregistrées avec icônes (enregistrer, mettre à jour, renommer, supprimer).
-* **Morphologie** – curseurs de poitrine / taille, un sélecteur pour les mods de corps installés et – pour les corps convertis – des curseurs d'os : échelle, buste, taille extra, fessiers/hanches, cuisses, mollets, bras, mains, pieds, enregistrés par corps.
+* **Morphologie** – curseurs de poitrine / taille, un sélecteur pour les mods de corps installés et – pour les corps convertis – des curseurs d'os : échelle, buste, taille extra, fessiers/hanches, cuisses, mollets, bras, mains, pieds, enregistrés par corps. Pour la poitrine et les fesses : rebond, angle et largeur des hanches.
 * **Visage** – l'expression de Jodi : les expressions du jeu, la direction du regard et les formes de bouche en curseurs ; une entrée cochée garde sa valeur, même en pose et pendant la danse, une entrée non cochée est laissée au jeu. Visages enregistrés avec photo. « Voir le contenu » liste leurs valeurs.
-* **Armes** – un modèle, un skin et un son de tir par arme, armes de mêlée comprises, côte à côte depuis tous les mods d'armes, avec une image rendue sur chaque tuile ; un clic sur un son le joue.
+* **Armes** – un modèle, un skin et un son de tir par arme, armes de mêlée comprises, côte à côte depuis tous les mods d'armes, avec une image rendue sur chaque tuile ; un clic sur un son le joue. Accessoires par emplacement (viseur, canon, poignée, chargeur) depuis le sac à dos ou le coffre.
 * **Poses** – chaque animation d'action du jeu et des mods de poses, triées en debout, assise et allongée.
 * **Mods** – les réglages d'autres mods qui s'y enregistrent (visible seulement quand un tel mod est installé).
-* **Menu rapide** – maintenir **4** (modifiable) ouvre une roue avec ce dont vous vous servez souvent : caméra libre, mode photo, une tenue, un look, un visage ou un préréglage enregistré, une pose favorite, un onglet et des actions d'autres mods. Jusqu'à 32 éléments, choisis et ordonnés dans les Paramètres ; relâcher sur un élément le lance. Un clic droit sur une tuile, un onglet ou l'entrée d'un mod l'ajoute à la roue ou l'en retire.
 * **Paramètres** – en catégories avec une liste à gauche ; les onglets inutiles peuvent être désactivés ; touche du panneau, langue, vitesse de défilement, taille des tuiles, longueur des noms de groupe et hauteur de la ligne de groupes, part de l'écran laissée à Jodi, FOV / distance / déplacement de la caméra, thème de couleurs et opacité, « les sous-vêtements peuvent être retirés », « non possédés » verrouillés / grisés / comme possédés, lever les conflits d'emplacements du jeu (soutien-gorge contre chemise …), fusionner les groupes / mods de même nom, options des infobulles ; barre d'onglets avec icônes, texte ou les deux, l'icône à gauche ou à droite du texte ; thèmes de couleurs enregistrés sous un nom ; tailles propres pour les tuiles de tenues et de looks et nombre de pièces qu'affiche une tuile de tenue ; opacité du menu rapide.
 * **Gestion** – vos propres noms affichés pour les mods, groupes, pièces, coiffures, peaux et maquillages – partout dans le panneau et dans la recherche ; « Renommer… » dans le menu contextuel de chaque tuile ; exportables / importables en JSON avec `altui_names.pyz` ; comme dans Vêtements, des puces filtrent la liste par mod ou par groupe et un champ de recherche réduit les puces ; les poses et les apparences enregistrées se renomment aussi.
 * **Ragdolls** – des copies de Jodi, des zombies et des humains comme figures avec physique : les placer, les poser articulation par articulation, les figer ou les laisser tomber ; les poses par type de figure et des scènes entières par niveau sont enregistrées. Un mode ragdoll les déplace sans le panneau.
+* **Compagnons** – les looks deviennent des compagnons qui marchent et combattent avec Jodi, ou des PNJ qui restent sur place : ordres, objets et armes à donner, vêtements qui s'abîment comme ceux des PNJ du jeu. Gardés dans leur propre fichier, jamais dans la sauvegarde du jeu.
 * **Codex** – le manuel d'AltUI dans les sept langues, l'encyclopédie du jeu et les serrures à code du niveau actuel ; chaque code reste caché jusqu'au clic.
-* **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres.
+* **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres. Ralenti avec sa propre vitesse.
 * Annuler / rétablir (5 étapes), les infobulles indiquent de quel mod vient une pièce.
 
 Langues : anglais, allemand, chinois, russe, espagnol, polonais, français (détectée automatiquement, modifiable dans les Paramètres).
@@ -73,6 +76,7 @@ Langues : anglais, allemand, chinois, russe, espagnol, polonais, français (dét
 
 * **B** – ouvrir / fermer (modifiable dans les Paramètres). **Échap** ferme.
 * **4** – maintenir pour le menu rapide (modifiable dans les Paramètres) ; relâcher sur un élément le lance, relâcher au centre ne fait rien.
+* **B dans le menu principal** – un petit menu : les scènes du menu, la scène de chargement, la caméra suivante et masquer le menu du jeu.
 * Clic gauche – choisir / porter / appliquer. Clic droit – menu contextuel. Molette – défiler.
 * Tant que le panneau est ouvert, Jodi ne peut pas marcher ; faire glisser sur le fond fait tourner la caméra, +/− rapproche / éloigne la caméra. Les trois boutons ronds au-dessus ouvrent une caméra libre (la souris oriente, W A S D / Q E déplacent, Maj plus vite, molette = vitesse, jusqu'à 6 m autour de Jodi, s'arrête aux murs ; Échap pour revenir), le mode photo du jeu (Échap pour revenir) et le mode ragdoll (Échap pour revenir).
 

@@ -1,5 +1,95 @@
 # Changelog
 
+## 2.0.0 – 2026-10-13
+
+Replace `AltUI.pak`, `bodypak.pyz` and `weaponpak.pyz`. `AltUI_Hook_P.pak` and `altui_names.pyz` are the same as in
+1.8.0.
+
+Followers and NPCs made from looks, an Inventory tab with the Hyper Storage Box, weapon accessories, body physics,
+clothing colours per save game and a check for unknown game versions.
+
+* **Followers and NPCs.** Right click a look in the Looks tab: "Spawn as follower" or "Spawn as NPC". The figure appears
+  in front of Jodi wearing that look, its body sliders and the weapon looks chosen in AltUI included. A follower walks
+  with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
+  * A new tab **Followers** lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips:
+    Follow me, Wait here, Bring here (also from another level), → NPC / → Follower, Active, Invulnerable, and "..." for
+    rename, change look, revive and remove.
+  * Jodi's backpack and the storage box are at the top of the tab: a click gives one item or gun to the selected figure,
+    a click on one of its tiles takes it back.
+  * **Clothes are real pieces of the figure**, as with the game's own NPCs: they take damage, can tear off and show up in
+    the game's NPC inventory, where they can be swapped too. Under a figure its pieces are tiles: take one off into
+    Jodi's backpack, give her one, repair with a sewing kit. Damage, colours and AltUI's slot colours go along.
+  * A figure that is not invulnerable can fall; "Revive" brings it back with what it carried. Figures never turn into
+    zombies. "Remove" asks first; items and guns go into the storage box, clothes into Jodi's backpack.
+  * The figures are kept in `AltUI_Followers.sav`, never in the game's save: a save loaded without AltUI simply has
+    none of them. Following figures come along to every level; waiting ones and NPCs stay where they are.
+  * Quick menu: "Follower: follow me / wait here" for the follower in view, "All followers: follow / wait".
+* **Inventory tab.** Jodi's items and the **Hyper Storage Box** one under the other, with the game's groups as chips, the
+  weight with a bar (and how far she is overloaded), and its own tile size under *Options › Tiles*.
+  * A click puts one item into the box or takes one out; right click: half or all, use, inspect, discard, quick slot 1
+    or 2, unload ammo, accessories.
+  * Everything goes through the game's own functions, so the game's rules stay: Jodi may be overloaded and the game
+    deals with it. On maps where the game never saves the backpack (the shooting range, for example) the tab says so.
+  * Each list can be folded ("...") or given the full height (↑↓).
+  * **"All items" catalogue** – off by default (*Options › General*): every item of the game as a third list,
+    into the backpack or the box, one or five at a time.
+  * **Auto-equip weapons** (*Options › General*, on by default): a gun taken from the box or the catalogue goes into
+    Jodi's hand as the game does it; off, she keeps what she holds.
+* **Weapons: accessories.** A new section *Weapon accessories* in the Weapons tab: one row per slot the weapon takes
+  (sights, barrel, grip, magazine). Parts come from the backpack or the storage box; mounting and taking off work as in
+  the game, and the weapon keeps the model, skin and sound chosen in AltUI. "Accessories…" in the inventory menu of a
+  gun jumps there.
+* **Body physics.** Body Shape has new rows for breast and glutes & hips: **jiggle** (adjusts the game's physics, works on
+  every body; 0 % = animation only), **angle** and **hip width** (converted bodies), and **nipples** (only while the
+  chest is uncovered).
+* **Clothing colours per save game.** The slot colours set in AltUI now belong to the save game, like the game's own
+  colours: each save keeps its own, and a save that has none of AltUI's shows the game's colours. The colours from
+  before go into the first save loaded with 2.0.0.
+* **Clothes: damage slider.** The context menu of a piece (Clothes and Backpack tabs) has a *Damage* slider from 0 to
+  100 %: live on a worn piece, kept for later on any other. Worn pieces without damage textures show none.
+* **Colour palette: hex code.** Under the game's colour palette a field shows the colour as `#RRGGBB` and takes a typed
+  code. "Remember" keeps a colour inside AltUI and "Use" puts it on another piece.
+* **Main menu scenes.** The panel key (B) in the main menu opens a small menu: the three menu scenes and the loading
+  scene, the next camera, and hiding the game's menu and texts (Esc brings them back).
+* **Slow motion, stop time, hide Jodi.** New quick menu entries: "Slow motion on / off", "Stop time / go on" and
+  "Hide / show Jodi". *Options › Movement* has a switch for slow motion and its speed.
+* **Check for unknown game versions.** When the game has changed – an update, or a mod that replaces the game's tables
+  – AltUI shows a warning before it touches anything: go on anyway (remembered for this game version) or leave AltUI off
+  for now.
+* Smaller additions:
+  * The search finds a mod by its pak name, in every tab.
+  * Weapons: "Show item pictures" puts the item's or mod's own picture on every tile instead of the rendered one.
+  * Weapon mods are listed under *Manage › Mods*, and "View content" shows their models, skins and sounds. Skin, model
+    and sound tiles and hairstyles from mods have "Rename mod…"; the tooltip of a weapon tile names its mod.
+  * Pose tiles with a sound show a speaker in the corner.
+  * Body Shape: all rows share one label column, and "Reset shape" is a link below the sliders.
+  * *Options › Controls*: how far the mouse wheel lifts a ragdoll per notch.
+
+Fixes:
+
+* **Changing the body with a gun in hand** no longer spoils how Jodi holds it; before, her left hand came off the gun
+  and stayed off.
+* **Converted bodies hold guns with both hands.** `bodypak.pyz` adds the bones (`Cam`, `Prop_R2`) that bodies built
+  against an older skeleton lack; without them the left hand stayed off the gun. Convert such bodies again.
+* **`bodypak.pyz` and `weaponpak.pyz` convert mods cooked with Unreal's version stamp** (4.27), which they refused
+  before. A body that brings its own skeleton or physics asset keeps the game's, so the game's animations run on it.
+* **A colour set in the game's mirror wins** over AltUI's slot colours of that piece; opening the panel used to put
+  AltUI's colours back on.
+* **Resetting a piece's colour** gives every slot its own factory colour. AltUI used the game's reset before, which
+  gave all slots the colour of the first one.
+* **Mods with the same row names in different tables** no longer get mixed up (for example, eyes shown as another mod's
+  poses).
+* **Looks with eyes or make-up that are no longer installed** list them in the "not available" note with the missing
+  clothes.
+* **Weapons: mod chips** no longer go missing for a weapon whose mods bring only a model or a sound – when the tab
+  opens, after a click on a chip or while searching.
+* ***Manage › Mods*** opens noticeably faster with many mods installed.
+* **The panel camera** is no longer pulled in by followers, NPCs, zombies or ragdolls standing close.
+* **Context menus** stay on the screen near its edges.
+* **AltUI's notices** show above the panel instead of behind it.
+* **The panel key** no longer closes the panel while you type a scene, pose or theme name or into a Mods tab field.
+* French: the slot *Briefs* is now called *Dessous*.
+
 ## 1.9.0 – 2026-10-07
 
 Replace `AltUI.pak`, and `weaponpak.pyz` if you convert weapon mods. `AltUI_Hook_P.pak`, `bodypak.pyz` and

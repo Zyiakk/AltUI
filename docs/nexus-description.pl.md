@@ -6,7 +6,7 @@ Szafa w grze daje każdemu autorowi moda własną zakładkę. Przy kilku modach 
 
 Dostępny też w [Warsztacie Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3802875867). Ten sam mod, te same pliki – wybierz jedno źródło, nie oba naraz.
 
-> ⚠ **Zrobione pod wersję gry 0.6.x.** Aktualizacja gry, która zmieni tabele ubrań / makijażu albo menedżera kamery, może zepsuć moda.
+> ⚠ **Zrobione pod wersję gry 0.6.x.** Aktualizacja gry, która zmieni tabele ubrań / makijażu albo menedżera kamery, może zepsuć moda. Przy starcie AltUI sprawdza tabele gry i, jeśli się zmieniły, ostrzega, zanim czegokolwiek dotknie.
 
 ## Instalacja
 
@@ -41,30 +41,33 @@ Odinstalowanie: usuń skopiowane pliki. AltUI trzyma własne dane w folderze zap
 * `AltUI_Faces.sav` – zapisane twarze
 * `AltUI_Names.sav` – własne nazwy
 * `AltUI_Ragdolls.sav` – sceny i pozy ragdolli
+* `AltUI_Followers.sav` – towarzysze i NPC
 * `AltUI\` – zdjęcia stylizacji, twarzy i gotowych wyglądów
 * `WeaponIcons\` – obrazki broni na kafelkach
 
-Poza tym nic nie jest ruszane – ubrania, stroje, makijaż i fryzura idą przez zapisy samej gry.
+Poza tym nic nie jest ruszane – ubrania, stroje, makijaż i fryzura idą przez zapisy samej gry. Kolory slotów AltUI są w zapisie gry jako dodatkowe wpisy zaczynające się od AltUI#; gra je pomija.
 
 ## Co potrafi
 
-* **Ubrania** – każda rzecz, którą znają gra i mody, pogrupowana po slotach, podzakładki na mod (zwijane), wyszukiwanie, filtry „tylko posiadane” / „tylko ulubione” / „tylko vanilla”, ulubione, kolor z palety gry, reset koloru, do plecaka i z powrotem, ukrywanie rzeczy.
+* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać. Prawy klik na kafelku, karcie lub wpisie moda dodaje go do koła albo go z niego usuwa. Do tego zwolnienie, zatrzymanie czasu, ukrycie Jodi i rozkazy dla towarzyszy.
+* **Ubrania** – każda rzecz, którą znają gra i mody, pogrupowana po slotach, podzakładki na mod (zwijane), wyszukiwanie, filtry „tylko posiadane” / „tylko ulubione” / „tylko vanilla”, ulubione, kolor z palety gry, reset koloru, do plecaka i z powrotem, ukrywanie rzeczy. Suwak uszkodzeń w menu kontekstowym; kolor na każdy slot materiału, także dla biżuterii, osobno dla każdego zapisu gry.
 * **Stroje** – gotowe stroje gry, z nazwami (prawy przycisk → zmień nazwę).
-* **Stylizacje** – kompletna stylizacja (ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, suwaki ciała, mod ciała, twarz) zapisana ze zdjęciem całej sylwetki z gry, z przodu albo tak, jak ją właśnie widzisz. Zastosuj, zaktualizuj, zmień nazwę, usuń.
+* **Stylizacje** – kompletna stylizacja (ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, suwaki ciała, mod ciała, twarz) zapisana ze zdjęciem całej sylwetki z gry, z przodu albo tak, jak ją właśnie widzisz. Zastosuj, zaktualizuj, zmień nazwę, usuń. Look można przywołać jako towarzysza, NPC albo ragdolla.
 * **Plecak** – co Jodi nosi i ma przy sobie: załóż, zdejmij, napraw, z powrotem do szafy, uporządkuj.
+* **Ekwipunek** – przedmioty Jodi i Hiperskrzynia jedna pod drugą: kliknięcie przenosi przedmiot, prawy przycisk – użyj, obejrzyj, wyrzuć lub rozładuj; wszystko przez własne funkcje gry. Opcjonalnie katalog „Wszystkie przedmioty”.
 * **Fryzura** – wszystkie fryzury, kolor włosów, 14 naturalnych kolorów włosów, ustawienia fabryczne.
 * **Wygląd** – skóra, każdy typ makijażu, oczy, gotowe wyglądy z ikonami (zapisz, zaktualizuj, zmień nazwę, usuń).
-* **Kształt ciała** – suwaki piersi / talii, przełącznik zainstalowanych modów ciała oraz – przy przekonwertowanych ciałach – suwaki kości: skala, biust, talia extra, pośladki/biodra, uda, łydki, ramiona, dłonie, stopy, zapisywane osobno dla każdego ciała.
+* **Kształt ciała** – suwaki piersi / talii, przełącznik zainstalowanych modów ciała oraz – przy przekonwertowanych ciałach – suwaki kości: skala, biust, talia extra, pośladki/biodra, uda, łydki, ramiona, dłonie, stopy, zapisywane osobno dla każdego ciała. Dla biustu i pośladków: falowanie, kąt i szerokość bioder.
 * **Twarz** – wyraz twarzy Jodi: miny z gry, kierunek spojrzenia i kształty ust jako suwaki; zaznaczony wpis zachowuje swoją wartość, także w pozach i podczas tańca, niezaznaczony zostaje przy grze. Zapisane twarze ze zdjęciem. „Pokaż zawartość” wymienia ich wartości.
-* **Bronie** – model, skin i dźwięk strzału na broń, także broń do walki wręcz, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku; kliknięcie dźwięku go odtwarza.
+* **Bronie** – model, skin i dźwięk strzału na broń, także broń do walki wręcz, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku; kliknięcie dźwięku go odtwarza. Dodatki według slotu (celownik, lufa, chwyt, magazynek) z plecaka lub skrzyni.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące.
 * **Mods** – ustawienia innych modów, które się tam rejestrują (widoczna tylko, gdy taki mod jest zainstalowany).
-* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać. Prawy klik na kafelku, karcie lub wpisie moda dodaje go do koła albo go z niego usuwa.
 * **Opcje** – w kategoriach z listą po lewej; niepotrzebne karty można wyłączyć; klawisz panelu, język, szybkość przewijania, rozmiar kafelków, długość nazw grup i wysokość wiersza grup, część ekranu zostawiona dla Jodi, pole widzenia / odległość / przesuw kamery, kolorystyka i krycie, „można zdejmować bieliznę”, „nieposiadane” zablokowane / wyszarzone / jak posiadane, zwalnianie konfliktów slotów z gry (biustonosz vs. koszula …), łączenie grup / modów o tej samej nazwie, opcje podpowiedzi; pasek kart z ikonami, tekstem lub jednym i drugim, ikona po lewej lub prawej stronie tekstu; schematy kolorów zapisywane pod nazwą; własny rozmiar kafelków zestawów i looków oraz ile rzeczy pokazuje kafelek zestawu; krycie szybkiego menu.
 * **Zarządzanie** – własne nazwy wyświetlane dla modów, grup, rzeczy, fryzur, skór i makijażu – widoczne w całym panelu i uwzględniane w wyszukiwaniu; „Zmień nazwę…” w menu kontekstowym każdego kafelka; eksport / import jako JSON przez `altui_names.pyz`; jak w Ubraniach podzakładki filtrują listę według moda lub grupy, a pole wyszukiwania zawęża podzakładki; nazwy można zmieniać także pozom i gotowym wyglądom.
 * **Ragdolle** – kopie Jodi, zombie i ludzie jako figury z fizyką: ustawianie, pozowanie staw po stawie, zamrażanie albo puszczanie bezwładnie; pozy zapisują się dla każdego rodzaju figury, całe sceny dla każdego poziomu. Tryb ragdolli porusza nimi bez panelu.
+* **Towarzysze** – looki stają się towarzyszami, którzy chodzą i walczą razem z Jodi, albo NPC, którzy zostają na miejscu: rozkazy, przedmioty i broń do przekazania, ubrania niszczą się jak u NPC gry. Zapisywani w osobnym pliku, nigdy w zapisie gry.
 * **Kodeks** – podręcznik AltUI we wszystkich siedmiu językach, encyklopedia gry i zamki szyfrowe bieżącego poziomu; każdy kod pozostaje ukryty, dopóki go nie klikniesz.
-* **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach.
+* **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach. Zwolnienie z własną prędkością.
 * Cofnij / ponów (5 kroków), podpowiedzi pokazują, z którego moda pochodzi dana rzecz.
 
 Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francuski (wykrywany automatycznie, przełączany w opcjach).
@@ -73,6 +76,7 @@ Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francusk
 
 * **B** – otwiera / zamyka (zmienialne w opcjach). **Esc** zamyka.
 * **4** – przytrzymaj, aby otworzyć szybkie menu (zmienialne w opcjach); puść nad pozycją, aby ją wykonać, a puszczenie na środku nic nie robi.
+* **B w menu głównym** – małe menu: sceny menu, scena ładowania, następna kamera i ukrycie menu gry.
 * Lewy przycisk – wybierz / załóż / zastosuj. Prawy przycisk – menu kontekstowe. Kółko myszy – przewijanie.
 * Dopóki panel jest otwarty, Jodi nie może chodzić; przeciąganie po tle obraca kamerę, +/− przybliża / oddala. Trzy okrągłe przyciski nad nimi otwierają wolną kamerę (mysz obraca, W A S D / Q E ruch, Shift szybciej, kółko = prędkość, do 6 m wokół Jodi, zatrzymuje się na ścianach; Esc powrót), tryb zdjęć gry (Esc powrót) oraz tryb ragdolli (Esc powrót).
 

@@ -28,15 +28,19 @@ GROUPS = [
     ("Hands", ["hand_l", "hand_r"], "Additive"),
     ("Feet", ["foot_l", "foot_r"], "Additive"),
     ("Waist", ["Morph_Waist"], "Additive"),   # the game's own waist morph bone (child of spine_01, no children); added after the others - older Body_Scale rows lack it
+    ("Pelvis", ["pelvis"], "Additive"),          # hip width: sideways only (AXES), children compensated (PARENT_GROUP)
+    ("PelvisSpine", ["spine_01"], "Additive"),   # no factor of its own: net (1,1,1) / net(Pelvis) keeps the upper body as it was
 ]
 # per-axis weight of a slider factor (x = along the bone): axis = 1 + w * (f - 1), so 1 = the full factor, 0 = untouched. Limbs get
 # thicker only, hands grow in every direction, feet longer + wider (foot: y = length, z = width); the waist follows the direction of the
 # game's Female_Morph_Waist (Morph_Waist scale (-0.1, -0.4, 0) per unit -> x:y = 1:4, z untouched)
 AXES = {v: (0, 1, 1) for v, _, _ in GROUPS}; AXES["Hands"] = (1, 1, 1); AXES["Waist"] = (0.25, 1, 0)
 AXES["Breasts"] = (0.571, 1, 1); AXES["GlutesHips"] = (1, 1, 1)
+AXES["Pelvis"] = (0, 0, 1); AXES["PelvisSpine"] = (0, 0, 0)   # pelvis local Z = sideways (measured 2026-10-09, REFSKELT)
 BONE_GROUP = {b: v for v, bs, _ in GROUPS for b in bs}
 # nearest scaled ancestor of each group's bones (skeleton: foot < calf < thigh, calf_twist < calf, thigh_twist < thigh, hand < lowerarm < upperarm)
-PARENT_GROUP = {"LowerThighs": "Thighs", "UpperCalfs": "Thighs", "LowerCalfs": "UpperCalfs", "Feet": "UpperCalfs", "Lowerarms": "Upperarms", "Hands": "Lowerarms"}
+PARENT_GROUP = {"LowerThighs": "Thighs", "UpperCalfs": "Thighs", "LowerCalfs": "UpperCalfs", "Feet": "UpperCalfs", "Lowerarms": "Upperarms", "Hands": "Lowerarms",
+                "Thighs": "Pelvis", "GlutesHips": "Pelvis", "PelvisSpine": "Pelvis"}   # UE inherits scale per component index (FTransform::Multiply), so net / parent compensates even with other bone axes
 BONE_PARENT = {}
 for g, pg in PARENT_GROUP.items():
     for b, pb in zip(dict((v, bs) for v, bs, _ in GROUPS)[g], dict((v, bs) for v, bs, _ in GROUPS)[pg]):
@@ -73,8 +77,22 @@ def feet_shift(f):
 SLIDERS = [("Breast", ["Breasts"]), ("Glutes", ["GlutesHips"]), ("Thighs", ["Thighs", "LowerThighs"]),
            ("Calves", ["UpperCalfs", "LowerCalfs"]), ("Arms", ["Upperarms", "Lowerarms"]), ("Hands", ["Hands"]), ("Feet", ["Feet"]),
            ("Height", []),   # no bone group: the whole mesh component is scaled (SetRelativeScale3D) - physics, cloth and attachments follow, works without the ABP
-           ("Waist", ["Waist"])]   # appended last: factor arrays saved before it (8 entries) are padded with 1.0 (Body Scale Factors)
+           ("Waist", ["Waist"]),   # appended last: factor arrays saved before it (8 entries) are padded (Body Scale Factors)
+           # 2026-10-09 (spec body-physics): appended, the first nine keep their index
+           ("Pelvis", ["Pelvis", "PelvisSpine"]),
+           ("BreastAngle", []), ("GlutesAngle", []),          # ABP rotation (ROTATIONS), degrees
+           ("BreastJiggle", []), ("BreastSoft", []), ("GlutesJiggle", []), ("GlutesSoft", []),   # the game's physics (Apply Body Physics); *Soft: RETIRED
+           ("Nipple", [])]                                     # morph "Nipple", only while the chest is uncovered
 N_SLIDERS = len(SLIDERS); HEIGHT_INDEX = 7
+OLDEST_PADDED = 8   # shortest saved array that is padded with NEUTRAL (from before the waist slider); shorter = another layout, ignored
+NEUTRAL = [1.0] * 10 + [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0]   # factor that changes nothing, per SLIDERS entry
+ROTATIONS = [("BreastAngle", ["Breast_L", "Breast_R"]), ("GlutesAngle", ["Hip_L", "Hip_R"])]   # ABP Rotator variables: Roll = degrees about component X (sideways)
+PHYS_BONES = {"Breast": ["Breast_L", "Breast_R"], "Glutes": ["Hip_L", "Hip_R"]}   # the game's simulated bodies (Character_Base.Enable Boobs Physics)
+RETIRED = {"BreastSoft", "GlutesSoft"}   # 2026-10-10: mass scale changes nothing - UE 4.27 joint drives are acceleration drives (ConstraintDrives.cpp
+                                        # bIsAccelerationDrive = true), mass-independent. Kept as array slots (neutral) so saved arrays keep their indices; no row.
+ALL_BODIES = {"Height", "BreastJiggle", "GlutesJiggle", "Nipple"}   # work without ABP_BodyScale (component / physics / morph)
+DISPLAY = {"BreastAngle": "deg", "GlutesAngle": "deg", "BreastJiggle": "pct", "GlutesJiggle": "pct", "Nipple": "num"}   # default "x" (x1.00)
+GROUP_HEADS = {"BreastAngle": "Lbl_ScGrpBreast", "Pelvis": "Lbl_ScGrpGlutes"}   # a heading line above these rows
 
 
 def member_internal(i, name):
@@ -90,7 +108,10 @@ FACTOR_MIN, FACTOR_MAX = 0.5, 2.0
 # per-slider factor ranges (in-game findings 2026-09-19): height 1.2 still fits through doors, feet tip beyond 1.1, hands/arms/legs bend
 RANGES = {"Height": (0.9, 1.2), "Feet": (0.8, 1.1), "Hands": (0.8, 1.3), "Arms": (0.7, 2.0), "Calves": (0.8, 1.8), "Thighs": (0.8, 1.8), "Breast": (0.7, 1.7),
           "Waist": (1.5, 0.6)}   # waist: reversed (left = wider) like the game's own waist slider; 0.6 on y = one more full vanilla morph
-SLIDER_ORDER = ["Height", "Breast", "Waist", "Glutes", "Thighs", "Calves", "Arms", "Hands", "Feet"]   # rows on the Body Shape page (the factor array keeps SLIDERS' order)
+RANGES.update({"Pelvis": (0.8, 1.3), "BreastAngle": (-15.0, 15.0), "GlutesAngle": (-15.0, 15.0), "BreastJiggle": (0.0, 1.0), "GlutesJiggle": (0.0, 1.0),
+               "Nipple": (-1.0, 1.0)})   # start values, tuned in the game test
+SLIDER_ORDER = ["Height", "Breast", "Waist", "Glutes", "Thighs", "Calves", "Arms", "Hands", "Feet",
+                "BreastAngle", "BreastJiggle", "Nipple", "Pelvis", "GlutesAngle", "GlutesJiggle"]   # rows on the Body Shape page (the factor array keeps SLIDERS' order)
 # The game's breast / waist values are the Alpha of an "Apply Additive" node in Jodi_Anim (Female_Morph_Breasts = scale of Breast_L/R,
 # Female_Morph_Waist = scale of Morph_Waist); FInputScaleBias::ApplyTo clamps that Alpha to 0..1 in the engine (InputScaleBias.cpp), so
 # values outside 0..1 change nothing (checked 2026-09-21, an extended -0.5..1.5 range had no visible effect). Beyond 100 % the bone

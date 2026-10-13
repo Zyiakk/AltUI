@@ -21,6 +21,7 @@ MAGIC = 0x5A6F12E1; VERSION = 11
 MOUNT_PREFIX = "../../../TheKillingAntidote/Content/Mod/"
 CONTENT = "TheKillingAntidote/Content/"
 MESH_SUFFIX = "project/character/jodi/body/female.uasset"
+GAME_OWN = {"/Game/Project/Character/Jodi/Body/Female_Skeleton", "/Game/Project/Character/Jodi/Body/Female_PhysicsAsset"}
 
 
 def fstr(s):
@@ -151,11 +152,14 @@ def import_name(im):
 
 def companions(pk, mesh_key, name):
     """Packages of the source pak that the mesh imports, transitively (a body's own PostProcessAnimBlueprint, materials …).
-    They move into the mod folder: /Game/X/Y -> /Game/Mod/<name>/X/Y. Returns {old package path: (entry key, new package path)}."""
+    They move into the mod folder: /Game/X/Y -> /Game/Mod/<name>/X/Y. Returns {old package path: (entry key, new package path)}.
+    Not the game's skeleton and physics asset (GAME_OWN): a mod that ships them carries a copy from its own editor project,
+    and a moved skeleton is another USkeleton - the game's animation blueprint no longer runs on the mesh. The mesh keeps the
+    game's, as every other converted body does."""
     by_pkg = {}
     for k in pk.files:
         p = pkg_path(pk, k)
-        if p and k != mesh_key:
+        if p and k != mesh_key and p not in GAME_OWN:
             by_pkg[p] = k
     found = {}; todo = [mesh_key]
     while todo:
@@ -274,10 +278,18 @@ def convert(src, name=None, title=None, out_dir=None, force=False, keep_abp=Fals
     os.makedirs(out_dir, exist_ok=True)
     write_pak(out_pak, MOUNT_PREFIX + name + "/", comps, entries, zlib.crc32(name.lower().encode()))
     errs = verify(out_pak, name, entries)
+    # bones of the game's mesh the body lacks (bodies built against an older skeleton: Cam, Prop_R2 - left hand off the gun)
+    bones_added = None
+    if not errs:
+        try:
+            import bodybones
+            bones_added = bodybones.patch_pak(out_pak, backup=False)   # built-in bone values: no game install needed
+        except Exception as e:   # a mesh layout bodybones does not handle: the body is still usable
+            warnings.append("missing bones not checked: %s" % e)
     log = {"name": name, "title": title, "source": os.path.abspath(src), "source_sha256": sha256_file(src), "source_pak_version": pk.ver,
            "pak": out_pak, "size": os.path.getsize(out_pak), "files": [rel for rel, _, _ in entries],
            "companions": {old: new for old, (_, new) in relocate.items()}, "dropped": dropped, "abp": abp, "warnings": warnings,
-           "verify": errs, "status": "ok" if not errs else "verify-failed"}
+           "verify": errs, "status": "ok" if not errs else "verify-failed", "bones_added": bones_added}
     if defaults is not None:
         log["scale_defaults"] = defaults
     json.dump(log, open(os.path.join(out_dir, name + "_convert.json"), "w"), indent=1, ensure_ascii=False)
@@ -296,6 +308,8 @@ def main(argv=None):
     if log["abp"] == "AltUI":
         custom = ", ".join("%s=%s" % (k, "/".join("%.2f" % x for x in v)) for k, v in log["scale_defaults"].items() if v != [1.0, 1.0, 1.0])
         print("post-process blueprint: AltUI ABP_BodyScale (Body Shape sliders); defaults: " + (custom or "all 1.0"))
+    if log.get("bones_added"):
+        print("bones of the game's mesh added (the body was built against an older skeleton): " + ", ".join(log["bones_added"]))
     for w_ in log["warnings"]:
         print("warning: " + w_)
     for old, new in sorted(log["companions"].items()):

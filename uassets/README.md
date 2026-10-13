@@ -78,6 +78,8 @@ then start from the mesh as it is.
 | `Hands` | `hand_l`, `hand_r` |
 | `Feet` | `foot_l`, `foot_r` |
 | `Waist` | `Morph_Waist` (the game's own waist morph bone) |
+| `Pelvis` | `pelvis` (hip width: only the sideways axis is used) |
+| `PelvisSpine` | `spine_01` (keeps the upper body when the hip width changes; leave at `1,1,1`) |
 
 The members and their order are part of the struct: a table written with an edited or reordered copy cannot be read
 back. Use the file as it is.
@@ -85,7 +87,8 @@ back. Use the file as it is.
 ## `ABP_BodyScale.uasset`
 
 The post-process animation blueprint that does the scaling: one `ModifyBone` node per bone above, plus three that
-translate the root and the feet to keep the soles on the floor when the height and feet sliders move. Its variables are set by AltUI
+translate the root and the feet to keep the soles on the floor when the height and feet sliders move, and four that
+tilt the breasts and glutes (the angle sliders). Its variables are set by AltUI
 at runtime – the defaults in the asset scale nothing. It targets the skeleton
 `/Game/Project/Character/Jodi/Body/Female_Skeleton`, so it needs the modding kit's project.
 

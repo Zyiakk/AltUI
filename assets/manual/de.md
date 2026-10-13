@@ -1,10 +1,12 @@
 ## Über AltUI {#about}
 
-AltUI ersetzt Kleiderschrank und Aussehen von The Killing Antidote durch ein einziges Panel. Es öffnet sich überall in einem Level mit B – ohne Weg zum Kleiderschrank oder zum Spiegel.
+AltUI ist eine Alternative zu Kleiderschrank und Aussehen von The Killing Antidote: ein einziges Panel für alles, und die Bildschirme des Spiels bleiben nutzbar. Es öffnet sich überall in einem Level mit B – ohne Weg zum Kleiderschrank oder zum Spiegel.
 
 Jedes Teil aus dem Spiel und aus allen installierten Mods steht in einer Liste pro Slot, mit Suche, Filtern, Favoriten und Ausblenden. Frisur, Make-up, Körper, Gesicht, Posen, Waffen sowie gespeicherte Outfits und Looks liegen im selben Panel, ebenso Ragdolls – Kopien von Jodi, Zombies und Menschen zum Aufstellen und Posieren – und Jodis Geh- und Renntempo.
 
 Das Panel öffnet sich auf dem Reiter, auf dem es geschlossen wurde. Reiter, die du nicht brauchst, lassen sich unter Optionen › Reiter abschalten.
+
+Ein Reiter Inventar verschiebt Gegenstände zwischen Jodis Rucksack und der Hyper Item-Box, und aus Looks werden Follower und NPCs, die mit ihr gehen und kämpfen.
 
 ## Installation und Updates {#install}
 
@@ -30,10 +32,13 @@ AltUI legt eigene Daten im Spielstand-Ordner des Spiels ab, unter Windows %LOCAL
 - AltUI_Faces.sav – gespeicherte Gesichter
 - AltUI_Names.sav – eigene Namen
 - AltUI_Ragdolls.sav – Ragdoll-Szenen und -Posen
+- AltUI_Followers.sav – Follower und NPCs
 - der Ordner AltUI – Fotos von Looks, Gesichtern und Aussehen-Presets
 - der Ordner WeaponIcons – Waffenbilder
 
 Kleidung, Outfits, Make-up und Frisur stehen in den Spielständen des Spiels und bleiben erhalten.
+
+Nach einem Spiel-Update oder mit einer Mod, die Tabellen des Spiels ersetzt, kann AltUI auf ein Spiel treffen, für das es nicht gemacht ist. Dann zeigt es eine Warnung, bevor es irgendetwas tut: „Trotzdem weiter (eigenes Risiko)“ gilt für diese Spielversion, „AltUI vorerst aus“ fragt im nächsten Level wieder.
 
 ## Bedienung {#controls}
 
@@ -45,6 +50,7 @@ Kleidung, Outfits, Make-up und Frisur stehen in den Spielständen des Spiels und
 - Die drei runden Knöpfe über + und − öffnen eine freie Kamera (Maus dreht, W A S D und Q E bewegen, Shift ist schneller, das Mausrad stellt die Geschwindigkeit, Esc zurück), den Fotomodus des Spiels (Esc zurück) und den Ragdoll-Modus (siehe „Ragdoll-Modus“).
 - Rückgängig und Wiederherstellen (fünf Schritte) stehen in der Statusleiste unten.
 - 4 gedrückt halten öffnet das Schnellmenü (siehe „Schnellmenü“).
+- Im Hauptmenü öffnet B ein kleines Menü: die drei Menü-Szenen und die Lade-Szene, die nächste Kamera, Menü und Texte des Spiels ausblenden (Esc holt sie zurück).
 
 ## Kleidung {#clothes}
 
@@ -55,6 +61,9 @@ Links die Slots, rechts die Teile des gewählten Slots.
 - Filter: nur Besitz, nur Favoriten, nur Vanilla, nur getragen.
 - Rechtsklick auf ein Teil: Favorit, Ausblenden, Farbe über die Palette des Spiels, Farbe zurücksetzen, in den Rucksack, umbenennen, nur diese Gruppe, Mod-Inhalt anzeigen, im Reiter anzeigen.
 - Der Tooltip zeigt, aus welchem Mod ein Teil stammt.
+- Schaden (im Kontextmenü): 0 bis 100 %, an einem getragenen Teil sofort; bei jedem anderen Teil wird er gemerkt, bis es getragen wird. Getragene Teile ohne Schadens-Texturen haben keinen Regler.
+- Unter der Farbpalette des Spiels zeigt ein Feld die Farbe als #RRGGBB; einen Code eintippen und mit Enter bestätigen setzt ihn. „Merken“ behält die Farbe in AltUI, „Einsetzen“ legt sie auf ein anderes Teil oder einen anderen Slot.
+- Die Suche findet eine Mod auch über den Namen ihres Paks, hier und in jedem anderen Reiter.
 
 ## Outfits {#outfits}
 
@@ -73,6 +82,7 @@ Ein Look ist alles auf einmal: Kleidung mit ihren Farben, Frisur und Haarfarbe, 
 - Die „+“-Kachel speichert den aktuellen Look mit einem Ganzkörperfoto – frontal oder wie du sie gerade siehst.
 - Klick auf einen Look wendet ihn an.
 - Rechtsklick: Inhalt anzeigen, Umbenennen, Aktualisieren (Foto frontal oder wie gesehen), Verschieben, Löschen, ins Schnellmenü oder heraus.
+- Rechtsklick außerdem: „Als Ragdoll spawnen“, „Als Follower spawnen“, „Als NPC spawnen“ (siehe „Ragdolls“ und „Follower“).
 
 ## Rucksack {#bag}
 
@@ -82,6 +92,20 @@ Was Jodi trägt und was sie dabeihat.
 - Rechtsklick: Anziehen oder Ausziehen, Reparieren (braucht ein Nähset), aus dem Rucksack entfernen, zurück in den Kleiderschrank.
 - „Rucksack aufräumen“ entfernt die Teile, die nicht getragen werden und auch im Kleiderschrank sind.
 - „Alles in den Rucksack“ zieht jedes getragene Teil aus und legt es in den Rucksack.
+- Im Kontextmenü gibt es auch den Schadensregler (siehe „Kleidung“).
+
+## Inventar {#inventory}
+
+Jodis Gegenstände und die Hyper Item-Box, eine Liste unter der anderen.
+
+- Die Chips filtern nach den Gruppen des Spiels (Waffen, Munition, Waffenzubehör, Werkzeug …). Das Gewicht zeigt, was Jodi trägt, was sie tragen kann und wie weit sie überladen ist.
+- Ein Klick legt einen Gegenstand in die Box oder nimmt einen heraus. Rechtsklick: die Hälfte oder alle, verwenden, untersuchen, wegwerfen, Schnellwahl 1 oder 2, Munition entnehmen, „Zubehör …“ (öffnet die Waffe im Reiter Waffen).
+- Alles läuft über die Funktionen des Spiels, die Regeln des Spiels bleiben also – Überladen eingeschlossen.
+- „...“ über einer Liste klappt sie ein, ↑↓ gibt ihr die ganze Höhe (noch einmal: zurück).
+- Auf Karten, auf denen das Spiel den Rucksack nie speichert (zum Beispiel der Schießstand), sagt der Reiter das: Was du behalten willst, gehört in die Box.
+- „Alle Items“ ist standardmäßig aus (Optionen › Allgemein): jeder Gegenstand des Spiels als dritte Liste mit eigener Suche. Ein Klick legt eine Packung in den Rucksack; Rechtsklick: fünf, oder in die Box.
+- „Waffen automatisch ausrüsten“ (Optionen › Allgemein, standardmäßig an): Eine Waffe aus der Box oder dem Katalog kommt wie im Spiel in Jodis Hand; aus, behält sie, was sie hält.
+- Die Kachelgröße dieses Reiters steht unter Optionen › Kacheln.
 
 ## Frisur {#hair}
 
@@ -90,6 +114,7 @@ Alle Frisuren aus dem Spiel und aus Mods.
 - Klick auf eine Frisur setzt sie auf.
 - „Haarfarbe...“ öffnet die Palette des Spiels; „Natürliche Haarfarben“ zeigt 14 fertige Farben.
 - Rechtsklick: Haarfarbe zurücksetzen, umbenennen, Mod-Inhalt anzeigen.
+- Rechtsklick auf eine Frisur aus einer Mod: „Mod umbenennen…“.
 
 ## Posen {#poses}
 
@@ -99,6 +124,7 @@ Jede Aktionsanimation, die das Spiel und deine Posen-Mods kennen – die Liste h
 - Posen sind nach Haltung (stehend, sitzend, liegend) und nach Kapitel sortiert; Chips filtern nach Mod, die Suche findet Titel.
 - Rechtsklick: Favorit, Ausblenden, als stehend / sitzend / liegend / in Bewegung einordnen, umbenennen, ins Schnellmenü.
 - „Alle einmessen“ spielt jede Pose ohne Einordnung einmal ab und ordnet sie ein.
+- Ein Lautsprecher in der Ecke einer Kachel zeigt eine Pose mit Ton.
 
 ## Waffen {#weapons}
 
@@ -112,6 +138,9 @@ Links ein Eintrag pro Waffe, Nahkampfwaffen eingeschlossen. Für jede Waffe werd
 - Eine Lackierung, die im Spiel mit einer Sprühdose aufgetragen wurde, bleibt: Sie wird zum gewählten Skin.
 - Rechtsklick auf ein Mod-Modell: Skins darauf erzwingen, Magazin, Optik, Schalldämpfer oder Griff ausnehmen, eigenes Bild des Mods zeigen.
 - Waffen-Mods und Schussgeräusch-Mods müssen erst mit weaponpak.pyz umgewandelt werden; siehe die Anleitung WEAPON_MODS auf der Seite des Mods.
+- Waffenzubehör: eine Zeile je Slot, den die Waffe hat (Zielfernrohr, Lauf, Griff, Magazin), „Keins“ zuerst. Teile kommen aus dem Rucksack oder aus der Box und werden dann in den Rucksack genommen. Zubehör kommt nur an Waffen, die Jodi dabeihat; die Waffe behält das hier gewählte Modell, den Skin und den Sound.
+- „Item-Bilder zeigen“ in der Statusleiste zeigt auf jeder Kachel das eigene Bild des Items oder der Mod statt des gerenderten.
+- Rechtsklick auf ein Modell, einen Skin oder einen Sound aus einer Mod: „Mod umbenennen…“.
 
 ## Aussehen {#look}
 
@@ -126,6 +155,7 @@ Haut, jede Make-up-Art, Augen und die Aussehen-Presets des Spiels.
 - Brust- und Taillenregler des Spiels.
 - Chips wechseln zwischen dem Körper des Spiels und jedem umgewandelten Body-Mod.
 - Umgewandelte Bodys haben zusätzlich Knochen-Regler: Größe, Brust, Taille, Gesäß und Hüfte, Oberschenkel, Waden, Arme, Hände, Füße. Sie gelten je Body; „Form zurücksetzen“ stellt sie zurück.
+- Brust und Po & Hüfte: Wackeln (0 % = nur Animation) stellt die Physik des Spiels ein und wirkt bei jedem Body; ein BH dämpft weiter wie im Spiel. Der Nippel-Regler wirkt nur, solange die Brust frei ist. Winkel und Hüftbreite gibt es nur bei umgewandelten Bodys; der Winkel wirkt umso stärker, je weniger es wackelt (bei 100 % gar nicht).
 - Body-Ersatz-Mods müssen erst mit bodypak.pyz umgewandelt werden; siehe die Anleitung BODY_MODS auf der Seite des Mods.
 
 ## Gesicht {#face}
@@ -147,12 +177,12 @@ Der Reiter erscheint nur, wenn ein solcher Mod installiert ist.
 
 Links die Kategorien.
 
-- Allgemein: Sprache, wie viel vom Bildschirm für Jodi frei bleibt, Unterwäsche darf ausgezogen werden, wie Teile ohne Besitz erscheinen, der Kodex-Schalter für die Enzyklopädie.
-- Kacheln: Kachelgröße, eigene Größen für Outfit-, Look- und Ragdoll-Kacheln, Teile pro Outfit-Kachel, keine Grenze bei langen Listen, Tooltip-Angaben.
+- Allgemein: Sprache, wie viel vom Bildschirm für Jodi frei bleibt, Unterwäsche darf ausgezogen werden, wie Teile ohne Besitz erscheinen, der Kodex-Schalter für die Enzyklopädie, der Katalog „Alle Items“ und „Waffen automatisch ausrüsten“ für den Reiter Inventar.
+- Kacheln: Kachelgröße, eigene Größen für Outfit-, Look- und Ragdoll-Kacheln, Teile pro Outfit-Kachel, keine Grenze bei langen Listen, Tooltip-Angaben, die Kachelgröße des Reiters Inventar.
 - Gruppen: Gruppen oder Mods gleichen Namens zusammenfassen, Länge der Gruppennamen, Höhe des Chip-Bereichs, Chip-Suche.
 - Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot.
-- Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste.
-- Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %, „Auf 100 % zurücksetzen“); Ducken und Springen bleiben, wie sie sind.
+- Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.
+- Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück.
 - Schnellmenü: Taste, Deckkraft, was im Rad steht.
 - Farben: jede Farbe des Panels, Deckkraft, Farbschemata unter einem Namen gespeichert.
 - Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können.
@@ -165,6 +195,7 @@ Eigene Anzeigenamen für Mods, Gruppen, Kleidung, Frisuren, Haut, Make-up, Posen
 - Die Namen gelten überall im Panel und werden von der Suche gefunden; der ursprüngliche Bezeichner bleibt suchbar und steht im Tooltip.
 - Chips und eine Suche filtern die Liste; „nur Mods“ blendet die Einträge des Spiels aus; ↺ kehrt zum Standardnamen zurück.
 - Mit altui_names.pyz lassen sich die Namen in eine Textdatei exportieren und wieder importieren.
+- Waffen-Mods stehen bei den anderen Mods.
 
 ## Ragdolls {#ragdolls}
 
@@ -196,6 +227,23 @@ Figuren ohne Panel bewegen und posieren, die Kamera frei im Raum. Start mit dem 
 - Ziehen im Leeren dreht die Kamera.
 - Esc oder B beendet den Modus.
 
+## Follower {#followers}
+
+Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befehle an; ein NPC bleibt, wo er ist, und verteidigt sich.
+
+- Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.
+- Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, „Unverwundbar“ und „...“ (umbenennen, Look ändern, wiederbeleben, entfernen).
+- Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.
+- Die Kleidung besteht aus echten Stücken der Figur wie bei den NPCs des Spiels: Sie bekommt Schaden, kann abreißen und steht im Inventar-Dialog des Spiels, wo man sie auch tauschen kann. Unter einer Figur stehen ihre Stücke als Kacheln (beschädigte mit Markierung): Ein Klick zieht eines aus und legt es in Jodis Rucksack; Rechtsklick: mit einem Nähset aus Jodis Rucksack reparieren oder alle reparieren. In der Rucksack-Spalte listet „Kleidung“ Jodis Stücke: Ein Klick gibt eines an die ausgewählte Figur, die es anzieht (Schaden und Farben gehen mit).
+- „Aktiv“ aus nimmt eine Figur mit allem, was sie trägt, aus der Welt; wieder an, kommt sie vor Jodi zurück.
+- Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.
+- „Entfernen“ fragt nach; Items und Schusswaffen der Figur kommen in die Box, ihre Kleidung in Jodis Rucksack.
+- „Look ändern“ wechselt in den Looks-Reiter: den Look anklicken, den die Figur tragen soll.
+
+AltUI speichert die Figuren in einem eigenen Spielstand (AltUI_Followers.sav), der Spielstand des Spiels enthält sie nie. Folgende Follower kommen in jedes Level mit und sind nach dem Laden da; wartende Follower und NPCs bleiben in ihrem Level an ihrem Platz.
+
+Schnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im Blick, „Alle Follower: folgen / warten“ für alle.
+
 ## Kodex {#kodex}
 
 - Enzyklopädie: die Einträge des Archivs auf Jodis Bürocomputer, mit Bild und Text. Gezeigt werden nur die, die das Spiel freigeschaltet hat – oder alle mit dem Schalter unter Optionen › Allgemein.
@@ -207,6 +255,7 @@ Figuren ohne Panel bewegen und posieren, die Kamera frei im Raum. Start mit dem 
 4 gedrückt halten (andere Taste unter Optionen › Schnellmenü), und um die Maus öffnet sich ein Rad. Über einem Eintrag loslassen führt ihn aus; in der Mitte loslassen tut nichts.
 
 - Einträge: Outfits, Looks, Gesichter, Aussehen-Presets, Posen, Reiter, Einstellungen anderer Mods und Aktionen: freie Kamera, Fotomodus, Ragdoll-Modus, Kopie von Jodi als Ragdoll, alle Ragdolls zwischen aktiv und eingefroren umschalten, anvisierte aktivieren / einfrieren, alle Ragdolls entfernen, eigenes Tempo an / aus.
+- Weitere Aktionen: „Zeitlupe an / aus“, „Zeit anhalten / weiter“ (alles steht still; Panel und Kameras arbeiten weiter), „Jodi aus- / einblenden“ (mit Kleidung, Haaren und Waffe; im nächsten Level ist sie wieder da) und die Befehle an Follower (siehe „Follower“).
 - Hinzufügen unter Optionen › Schnellmenü oder per Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods („Ins Schnellmenü“).
 - Die Reihenfolge im Rad ist die Reihenfolge der Liste unter Optionen › Schnellmenü.
 

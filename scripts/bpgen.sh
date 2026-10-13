@@ -20,6 +20,6 @@ grep -q "DUMP DEFAULT ViewPitchMin -80" "$BUILD/bpgen.log"
 grep -E "DUMP FUNC BlueprintModifyCamera.*script=[1-9]" "$BUILD/bpgen.log" >/dev/null          # the framing lives in CM_AltUICam
 ! grep -q "DUMP FUNC BlueprintUpdateCamera" "$BUILD/bpgen.log" || { echo "BPGEN: hook still carries the camera override"; exit 1; }
 grep -E "DUMP FUNC ExecuteUbergraph_BP_AltUIManager.*script=[1-9]" "$BUILD/bpgen.log" >/dev/null
-test "$(grep -c 'DUMP VAR AnimGraphNode_ModifyBone.* FAnimNode_ModifyBone' "$BUILD/bpgen.log")" = 24   # 21 scale + 3 translate nodes (root, foot_l, foot_r)
+test "$(grep -c 'DUMP VAR AnimGraphNode_ModifyBone.* FAnimNode_ModifyBone' "$BUILD/bpgen.log")" = 30   # 23 scale + 3 translate (root, foot_l, foot_r) + 4 rotate (breasts, glutes)
 grep -q "DUMP VAR Breasts FVector" "$BUILD/bpgen.log"; grep -q "DUMP VAR Feet FVector" "$BUILD/bpgen.log"; grep -q "DUMP VAR Waist FVector" "$BUILD/bpgen.log"
 echo "BPGEN OK"

@@ -15,6 +15,19 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_RoundFrame",
+   "file": "tex/roundframe.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_CheckOn",
    "file": "tex/check_on.png",
    "props": {
@@ -95,6 +108,19 @@
    "type": "texture",
    "path": "/Game/Mod/AltUI/T_Colorize",
    "file": "tex/colorize.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_Sound",
+   "file": "tex/sound.png",
    "props": {
     "CompressionSettings": "TC_EditorIcon",
     "LODGroup": "TEXTUREGROUP_UI",
@@ -223,6 +249,19 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_TabInventory",
+   "file": "tex/tab_inventory.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_TabHair",
    "file": "tex/tab_hair.png",
    "props": {
@@ -329,6 +368,19 @@
    "type": "texture",
    "path": "/Game/Mod/AltUI/T_TabRagdolls",
    "file": "tex/tab_ragdolls.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_TabFollowers",
+   "file": "tex/tab_followers.png",
    "props": {
     "CompressionSettings": "TC_EditorIcon",
     "LODGroup": "TEXTUREGROUP_UI",

@@ -35,12 +35,16 @@ S_COLOR = "struct:/Script/CoreUObject.Color"
 # Game stubs
 P_CPB = "/Game/Project/Classes/Character_Player_Base"
 P_CB = "/Game/Project/Classes/Character_Base"
+P_CNPC = "/Game/Project/Character/Npc/Character_NPC"; P_NPCF = "/Game/Project/Character/Npc/NPC_Female"
+P_NPCCTRL = "/Game/Project/Classes/Controller/Npc_Controller"   # followers (stubs: gen_stubs.py)
 P_JODI = "/Game/Project/Character/Jodi/Jodi"
 P_JODI_BASE = "/Game/Project/Character/Jodi/Jodi_Base"   # parent of Jodi; the main menu's figure (Jodi_Intro) is one too, but no Jodi
 P_GS = "/Game/Project/Classes/GameMode/TKA_GameState_Base"
+P_ATTUI = "/Game/Project/UserInterface/AttentionUI"   # the game's notice widget (TKA_GameState_Base.Get Attention UI, on the player screen)
 P_GS2 = "/Game/Project/Classes/GameMode/TKA_GameState"
 P_BAG = "/Game/Project/Classes/Misc/Bag_Comp"
 P_HUD = "/Game/Project/UserInterface/PlayingHud"
+P_INVNPC = "/Game/Project/UserInterface/Widgets/InventoryNpc"   # the game's swap dialog with an NPC (PlayingHud.InventoryNpc)
 P_INV = "/Game/Project/UserInterface/Widgets/InventoryPanel"
 P_GI = "/Game/Project/Classes/TKA_GameInstance"
 P_HAIR_SAVE = "/Game/Project/Classes/Save/Hairstyle_Save"
@@ -54,6 +58,9 @@ P_MTYPE_T = "/Game/Project/Tables/MakeupTypeTable"; P_MTYPE_S = "/Game/Project/T
 P_MDATA_S = "/Game/Project/Tables/MakeupDataStruct"
 P_ANIM_T = "/Game/Project/Tables/AnimationTable"; P_ANIM_S = "/Game/Project/Tables/Animation_Struct"   # action animations ("poses"); the loader merges Mod_AnimationTable rows into it
 P_ITEM_T = "/Game/Project/Tables/ItemTable"; P_ITEM_S = "/Game/Project/Tables/ItemStruct"
+P_ITEMCLASS_E = "/Game/Project/Classes/Enum/ItemClass"   # ItemStruct.ItemClass: 0 tool, 1 collectible / part, 2 key / device, 3 weapon / thrown, 4 ammo, 5 consumable
+P_GEQ_T = "/Game/Project/Tables/GunEquipment"; P_GEQ_S = "/Game/Project/Tables/GunEquipmentStruct"   # weapon attachments (type 0 optics, 1 barrel, 2 grip, 3 magazine)
+P_HBSAVE = "/Game/Project/Classes/Save/HyperBox_Save"; P_HBDATA = "/Game/Project/Classes/Misc/HyperBoxData"   # storage box (inventory tab)
 P_PAINT_T = "/Game/Project/Tables/GunPaint"; P_PAINT_S = "/Game/Project/Tables/GunPaintStruct"; P_GUN_S = "/Game/Project/Classes/Struct/Gun_Struct"
 P_ARCH_T = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Archives"; P_ARCH_S = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Mail_Struct"   # Kodex: encyclopedia (Jodi's office PC)
 P_NOTE_SAVE = "/Game/Project/Classes/Save/Note_Save"; P_SETTINGS_SAVE = "/Game/Project/Classes/Save/Settings_Save"; P_PWCOMP = "/Game/Project/Classes/Items/ItemComp_Password"; P_ZOMBIE = "/Game/Project/Zombie/Zombie_Base"; P_SHATTERER = "/Game/Project/Zombie/Shatterer"
@@ -67,6 +74,7 @@ K_PATHS = "/Script/Engine.BlueprintPathsLibrary"; K_REND = "/Script/Engine.Kisme
 P_PC = "/Game/Project/Classes/TKA_Controller"
 P_WD = "/Game/Project/Classes/Misc/WardrobeData"
 P_CC = "/Game/Project/Classes/Misc/Clothes_Comp"
+P_HAIRC = "/Game/Project/Classes/Misc/Hair_Comp"   # the game's hair pieces (Character_Player_Base.Hair Comps)
 P_CT = "/Game/Project/Clothes/com_ClothesTable"
 P_CTV = "/Game/Project/Clothes/ClothesTable"
 P_CTT = "/Game/Project/Clothes/ClothesTypeTable"
@@ -181,7 +189,7 @@ def fn(name, inputs=(), outputs=(), graph=None, pure=False, override=False):
 
 
 def blueprint(path, parent=None, mode="create", variables=(), functions=(), event_graph=None, widget_tree=None, defaults=None,
-              interfaces=(), blueprint_type=None, components=()):
+              interfaces=(), blueprint_type=None, components=(), remove_functions=()):
     """blueprint_type="interface" makes a Blueprint interface (functions = signatures only); interfaces = paths of
     interfaces this blueprint implements (their functions get bodies through `functions`, their events in the event graph);
     components = component() entries, parents before their children."""
@@ -190,6 +198,7 @@ def blueprint(path, parent=None, mode="create", variables=(), functions=(), even
     if blueprint_type: d["blueprint_type"] = blueprint_type
     if interfaces: d["interfaces"] = list(interfaces)
     if components: d["components"] = list(components)
+    if remove_functions: d["remove_functions"] = list(remove_functions)   # names to take out of an existing blueprint (augment)
     if variables: d["variables"] = list(variables)
     if functions: d["functions"] = list(functions)
     if event_graph is not None: d["event_graph"] = event_graph.json() if isinstance(event_graph, G) else event_graph

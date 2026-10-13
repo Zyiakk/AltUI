@@ -1,10 +1,12 @@
 ## O AltUI {#about}
 
-AltUI zastępuje szafę i ekran wyglądu w The Killing Antidote jednym panelem. Otwiera się w dowolnym miejscu poziomu klawiszem B – bez chodzenia do szafy czy lustra.
+AltUI to alternatywa dla szafy i ekranu wyglądu w The Killing Antidote: jeden panel do wszystkiego, a ekrany gry nadal działają. Otwiera się w dowolnym miejscu poziomu klawiszem B – bez chodzenia do szafy czy lustra.
 
 Każdy element z gry i ze wszystkich zainstalowanych modów stoi na jednej liście na slot, z wyszukiwaniem, filtrami, ulubionymi i ukrywaniem. Fryzura, makijaż, ciało, twarz, pozy, broń oraz zapisane stroje i stylizacje są w tym samym panelu, a także ragdolle – kopie Jodi, zombie i ludzie do ustawiania i pozowania – oraz prędkość chodu i biegu Jodi.
 
 Panel otwiera się na karcie, na której został zamknięty. Nieużywane karty można wyłączyć w Opcje › Karty.
+
+Karta Ekwipunek przenosi przedmioty między plecakiem Jodi a hiperskrzynią, a stylizacje stają się towarzyszami i NPC, którzy chodzą i walczą razem z nią.
 
 ## Instalacja i aktualizacje {#install}
 
@@ -30,10 +32,13 @@ AltUI trzyma własne dane w folderze zapisów gry, w Windows %LOCALAPPDATA%\TheK
 - AltUI_Faces.sav – zapisane twarze
 - AltUI_Names.sav – własne nazwy
 - AltUI_Ragdolls.sav – sceny i pozy ragdolli
+- AltUI_Followers.sav – towarzysze i NPC
 - folder AltUI – zdjęcia stylizacji, twarzy i presetów wyglądu
 - folder WeaponIcons – obrazy broni
 
 Ubrania, stroje, makijaż i fryzura są zapisywane w zapisach samej gry i zostają.
+
+Po aktualizacji gry albo z modem, który zastępuje tabele gry, AltUI może trafić na grę, dla której nie został zrobiony. Wtedy pokazuje ostrzeżenie, zanim cokolwiek zrobi: „Kontynuuj mimo to (na własne ryzyko)” zostaje zapamiętane dla tej wersji gry, „Na razie wyłącz AltUI” pyta ponownie w następnym poziomie.
 
 ## Sterowanie {#controls}
 
@@ -45,6 +50,7 @@ Ubrania, stroje, makijaż i fryzura są zapisywane w zapisach samej gry i zostaj
 - Trzy okrągłe przyciski nad + i − otwierają swobodną kamerę (mysz obraca, W A S D i Q E przesuwają, Shift szybciej, kółko ustawia prędkość, Esc wraca), tryb fotograficzny gry (Esc wraca) i tryb ragdolli (zob. „Tryb ragdolli”).
 - Cofnij i Ponów (pięć kroków) są na pasku stanu na dole.
 - Przytrzymaj 4, aby otworzyć szybkie menu (zob. „Szybkie menu”).
+- W menu głównym B otwiera małe menu: trzy sceny menu i scenę ładowania, następną kamerę oraz ukrywanie menu i tekstów gry (Esc je przywraca).
 
 ## Ubrania {#clothes}
 
@@ -55,6 +61,9 @@ Po lewej sloty, po prawej elementy wybranego slotu.
 - Filtry: tylko posiadane, tylko ulubione, tylko vanilla, tylko założone.
 - Prawy przycisk na elemencie: ulubione, ukryj, kolor z palety gry, przywróć kolor, do plecaka, zmień nazwę, tylko ta grupa, pokaż zawartość moda, pokaż w zakładce.
 - Podpowiedź pokazuje, z którego moda pochodzi element.
+- Uszkodzenie (w menu kontekstowym): od 0 do 100 %, od razu na noszonym elemencie; przy każdym innym zostaje zapamiętane, aż element zostanie założony. Noszone elementy bez tekstur uszkodzeń nie mają suwaka.
+- Pod paletą kolorów gry pole pokazuje kolor jako #RRGGBB; wpisz kod i naciśnij Enter, aby go ustawić. „Zapamiętaj” zachowuje kolor w AltUI, „Użyj” nakłada go na inny element lub slot.
+- Wyszukiwanie znajduje mod także po nazwie jego paka, tutaj i w każdej innej karcie.
 
 ## Stroje {#outfits}
 
@@ -73,6 +82,7 @@ Stylizacja to wszystko naraz: ubrania z kolorami, fryzura i kolor włosów, maki
 - Kafelek „+” zapisuje aktualną stylizację ze zdjęciem całej postaci – z przodu albo tak, jak ją teraz widzisz.
 - Kliknięcie stylizacji ją stosuje.
 - Prawy przycisk: pokaż zawartość, zmień nazwę, aktualizuj (zdjęcie z przodu lub jak widać), przesuń, usuń, dodaj do szybkiego menu lub usuń z niego.
+- Prawy przycisk także: „Utwórz jako ragdoll”, „Utwórz jako towarzysza”, „Utwórz jako NPC” (zobacz „Ragdolle” i „Towarzysze”).
 
 ## Plecak {#bag}
 
@@ -82,6 +92,20 @@ To, co Jodi ma na sobie i co niesie.
 - Prawy przycisk: załóż lub zdejmij, napraw (potrzebny zestaw do szycia), usuń z plecaka, do szafy.
 - „Uporządkuj plecak” usuwa elementy, które nie są założone i są też w szafie.
 - „Wszystko do plecaka” zdejmuje każdy założony element i wkłada go do plecaka.
+- Menu kontekstowe ma też suwak uszkodzenia (zobacz „Ubrania”).
+
+## Ekwipunek {#inventory}
+
+Przedmioty Jodi i hiperskrzynia, jedna lista pod drugą.
+
+- Chipy filtrują według grup gry (broń, amunicja, akcesoria do broni, narzędzia…). Waga pokazuje, ile Jodi niesie, ile może unieść i jak bardzo jest przeciążona.
+- Kliknięcie wkłada jeden przedmiot do skrzyni albo wyjmuje jeden. Prawy przycisk: połowa albo wszystko, użyj, obejrzyj, wyrzuć, szybki wybór 1 lub 2, rozładuj, „Akcesoria…” (otwiera broń w karcie Broń).
+- Wszystko idzie przez funkcje samej gry, więc jej zasady zostają – razem z przeciążeniem.
+- „...” nad listą zwija ją, ↑↓ daje jej całą wysokość (jeszcze raz: powrót).
+- Na mapach, na których gra nigdy nie zapisuje plecaka (na przykład strzelnica), karta to mówi: to, co chcesz zachować, trzymaj w skrzyni.
+- „Wszystkie przedmioty” jest domyślnie wyłączony (Opcje › Ogólne): każdy przedmiot gry jako trzecia lista z własnym wyszukiwaniem. Kliknięcie wkłada jedną paczkę do plecaka; prawy przycisk: pięć albo do skrzyni.
+- „Automatycznie wyposażaj broń” (Opcje › Ogólne, domyślnie włączone): broń ze skrzyni lub z katalogu trafia do ręki Jodi tak jak w grze; wyłączone – Jodi trzyma to, co trzymała.
+- Rozmiar kafelków tej karty ustawia się w Opcje › Kafelki.
 
 ## Fryzura {#hair}
 
@@ -90,6 +114,7 @@ Wszystkie fryzury z gry i z modów.
 - Kliknięcie fryzury ją zakłada.
 - „Kolor włosów...” otwiera paletę gry; „Naturalne kolory włosów” daje 14 gotowych kolorów.
 - Prawy przycisk: przywróć kolor włosów, zmień nazwę, pokaż zawartość moda.
+- Prawy przycisk na fryzurze z moda: „Zmień nazwę moda…”.
 
 ## Pozy {#poses}
 
@@ -99,6 +124,7 @@ Każda animacja akcji, którą znają gra i twoje mody z pozami – lista za apl
 - Pozy są posortowane według postawy (stojąca, siedząca, leżąca) i rozdziału; chipy filtrują według moda, wyszukiwanie znajduje tytuły.
 - Prawy przycisk: ulubione, ukryj, oznacz jako stojąca / siedząca / leżąca / w ruchu, zmień nazwę, dodaj do szybkiego menu.
 - „Zmierz wszystkie” odtwarza raz każdą pozę, która nie ma jeszcze postawy, i ją sortuje.
+- Głośnik w rogu kafelka oznacza pozę z dźwiękiem.
 
 ## Broń {#weapons}
 
@@ -112,6 +138,9 @@ Po lewej jeden wpis na broń, także broń do walki wręcz. Dla każdej broni mo
 - Malowanie nałożone w grze puszką ze sprayem zostaje: staje się wybraną skórką.
 - Prawy przycisk na modelu z moda: wymuś na nim skórki, pomiń magazynek, celownik, tłumik lub chwyt, pokaż własny obraz moda.
 - Mody broni i dźwięków strzału trzeba najpierw przekonwertować za pomocą weaponpak.pyz; zob. poradnik WEAPON_MODS na stronie moda.
+- Akcesoria do broni: jeden wiersz na każdy slot broni (celownik, lufa, chwyt, magazynek), „Brak” na początku. Części pochodzą z plecaka albo ze skrzyni i wtedy trafiają do plecaka. Akcesoria można zakładać tylko na broń, którą Jodi ma przy sobie; broń zachowuje wybrany tu model, skórkę i dźwięk.
+- „Pokaż obrazy przedmiotów” na pasku stanu pokazuje na każdym kafelku własny obraz przedmiotu lub moda zamiast renderowanego.
+- Prawy przycisk na modelu, skórce lub dźwięku z moda: „Zmień nazwę moda…”.
 
 ## Wygląd {#look}
 
@@ -126,6 +155,7 @@ Skóra, każdy rodzaj makijażu, oczy i presety wyglądu z gry.
 - Suwaki biustu i talii z gry.
 - Chipy przełączają między ciałem z gry a każdym przekonwertowanym modem ciała.
 - Przekonwertowane ciała mają dodatkowo suwaki kości: skala, biust, talia, pośladki i biodra, uda, łydki, ręce, dłonie, stopy. Są zapisywane dla każdego ciała; „Zresetuj kształt” je przywraca.
+- Piersi oraz pośladki i biodra: kołysanie (0 % = tylko animacja) zmienia fizykę gry i działa z każdym ciałem; biustonosz nadal tłumi jak w grze. Suwak sutków działa tylko, gdy piersi są odsłonięte. Kąt i szerokość bioder są tylko przy przekonwertowanych ciałach; kąt działa tym mocniej, im mniejsze kołysanie (przy 100 % wcale).
 - Mody zastępujące ciało trzeba najpierw przekonwertować za pomocą bodypak.pyz; zob. poradnik BODY_MODS na stronie moda.
 
 ## Twarz {#face}
@@ -147,12 +177,12 @@ Ta karta pojawia się tylko wtedy, gdy taki mod jest zainstalowany.
 
 Po lewej kategorie.
 
-- Ogólne: język, ile ekranu zostaje wolne dla Jodi, czy można zdjąć bieliznę, jak wyglądają elementy, których nie masz, przełącznik Kodeksu dla encyklopedii.
-- Kafelki: rozmiar kafelków, osobne rozmiary dla kafelków strojów, stylizacji i ragdolli, elementy na kafelku stroju, bez limitu dla długich list, dane w podpowiedziach.
+- Ogólne: język, ile ekranu zostaje wolne dla Jodi, czy można zdjąć bieliznę, jak wyglądają elementy, których nie masz, przełącznik Kodeksu dla encyklopedii, katalog „Wszystkie przedmioty” i „Automatycznie wyposażaj broń” dla karty Ekwipunek.
+- Kafelki: rozmiar kafelków, osobne rozmiary dla kafelków strojów, stylizacji i ragdolli, elementy na kafelku stroju, bez limitu dla długich list, dane w podpowiedziach, rozmiar kafelków karty Ekwipunek.
 - Grupy: łączenie grup lub modów o tej samej nazwie, długość nazw grup, wysokość obszaru chipów, wyszukiwanie chipów.
 - Kamera: pole widzenia, odległość, wysokość, kamera podąża za wybranym slotem.
-- Sterowanie: klawisz panelu, prędkość przewijania, wysokość kamery prawym przyciskiem myszy.
-- Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %, „Przywróć 100 %”); kucanie i skakanie pozostają bez zmian.
+- Sterowanie: klawisz panelu, prędkość przewijania, wysokość kamery prawym przyciskiem myszy, jak wysoko kółko myszy podnosi ragdolla na jeden ząbek.
+- Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %); kucanie i skakanie pozostają bez zmian. „Zwolnienie wł.” włącza zwolnienie, „Tempo zwolnienia” (od 5 do 90 %, domyślnie 25 %) ustala, jak wolno płynie czas; pozycja szybkiego menu „Zwolnienie wł / wył” działa tak samo jak przełącznik. „Przywróć domyślne” przywraca prędkość chodu, biegu i zwolnienia.
 - Szybkie menu: klawisz, przezroczystość, co jest w kole.
 - Kolory: każdy kolor panelu, przezroczystość, schematy kolorów zapisane pod nazwą.
 - Konflikty slotów: rozdzielenie par slotów gry (na przykład biustonosz i koszula), aby można było nosić oba elementy.
@@ -165,6 +195,7 @@ Własne nazwy wyświetlane dla modów, grup, ubrań, fryzur, skór, makijażu, p
 - Nazwy są używane w całym panelu i znajdowane przez wyszukiwanie; oryginalny identyfikator nadal można wyszukać i widać go w podpowiedzi.
 - Chipy i wyszukiwanie filtrują listę; „tylko mody” ukrywa wpisy gry; ↺ przywraca nazwę domyślną.
 - Za pomocą altui_names.pyz nazwy można wyeksportować do pliku tekstowego i zaimportować z powrotem.
+- Mody broni są na liście razem z innymi modami.
 
 ## Ragdolle {#ragdolls}
 
@@ -196,6 +227,23 @@ Przesuwanie i pozowanie figur bez panelu, z kamerą poruszającą się swobodnie
 - Przeciąganie w pustym miejscu obraca kamerę.
 - Esc lub B kończy tryb.
 
+## Towarzysze {#followers}
+
+Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkazów; NPC zostaje na miejscu i się broni.
+
+- W zakładce Stylizacje prawy klik na stylizację: „Utwórz jako towarzysza” albo „Utwórz jako NPC”. Postać pojawia się przed Jodi w tej stylizacji.
+- Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, „Nieśmiertelny” i „...” (zmień nazwę, zmień stylizację, ożyw, usuń).
+- Kliknięcie wiersza wybiera postać. Na górze są plecak (po lewej) i skrzynia (po prawej): kliknięcie daje przedmiot wybranej postaci, broń razem z malowaniem i akcesoriami. Kliknięcie kafelka postaci oddaje go do plecaka; prawy klik: wszystko albo do skrzyni. „...” nad listą zwija ją.
+- Ubrania to prawdziwe rzeczy postaci, jak u NPC w grze: niszczą się, mogą zostać zerwane i widać je w ekwipunku NPC samej gry, gdzie można je też wymieniać. Pod postacią jej rzeczy są kafelkami (uszkodzone mają znacznik): kliknięcie zdejmuje rzecz i wkłada ją do plecaka Jodi; prawy klik: napraw zestawem do szycia z plecaka Jodi albo napraw wszystko. W kolumnie plecaka „Ubrania” pokazuje rzeczy Jodi: kliknięcie daje jedną wybranej postaci, która ją zakłada (uszkodzenia i kolory idą razem z nią).
+- Wyłączenie „Aktywny” zabiera postać ze świata razem z tym, co niesie; po włączeniu wraca przed Jodi.
+- Postać, która nie jest nieśmiertelna, może polec. Zostaje na liście, a „Ożyw” przywraca ją z jej rzeczami. Postacie nigdy nie zmieniają się w zombie.
+- „Usuń” pyta o potwierdzenie; przedmioty i broń postaci trafiają do skrzyni, a ubrania do plecaka Jodi.
+- „Zmień stylizację” przechodzi do zakładki Stylizacje: kliknij stylizację, którą postać ma nosić.
+
+AltUI przechowuje postacie we własnym zapisie (AltUI_Followers.sav); zapis gry nigdy ich nie zawiera. Podążający towarzysze przechodzą z Jodi do każdego poziomu i są po wczytaniu; czekający i NPC zostają w swoim poziomie na swoim miejscu.
+
+Szybkie menu: „Towarzysz: za mną / czekaj tutaj” dotyczy towarzysza w polu widzenia, „Wszyscy towarzysze: za mną / czekać” – wszystkich.
+
 ## Kodeks {#kodex}
 
 - Encyklopedia: wpisy z archiwum na komputerze w biurze Jodi, z obrazem i tekstem. Pokazywane są tylko te odblokowane w grze – albo wszystkie po włączeniu przełącznika w Opcje › Ogólne.
@@ -207,6 +255,7 @@ Przesuwanie i pozowanie figur bez panelu, z kamerą poruszającą się swobodnie
 Przytrzymaj 4 (inny klawisz w Opcje › Szybkie menu), a wokół myszy otworzy się koło. Puść nad wpisem, aby go wykonać; puść na środku, aby nic nie robić.
 
 - Wpisy: stroje, stylizacje, twarze, presety wyglądu, pozy, karty, ustawienia innych modów i akcje: swobodna kamera, tryb fotograficzny, tryb ragdolli, kopia Jodi jako ragdoll, przełączanie wszystkich ragdolli między aktywnymi a zamrożonymi, aktywuj / zamroź tę na środku, usuń wszystkie ragdolle, własna prędkość wł. / wył.
+- Dalsze akcje: „Zwolnienie wł / wył”, „Zatrzymaj czas / dalej” (wszystko staje; panel i kamery działają dalej), „Ukryj / pokaż Jodi” (z ubraniem, włosami i bronią; w następnym poziomie znów jest widoczna) oraz rozkazy dla towarzyszy (zobacz „Towarzysze”).
 - Dodaje się je w Opcje › Szybkie menu albo prawym przyciskiem na kafelku, karcie lub wpisie moda („Dodaj do szybkiego menu”).
 - Kolejność w kole to kolejność listy w Opcje › Szybkie menu.
 

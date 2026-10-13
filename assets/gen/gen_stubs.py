@@ -52,8 +52,19 @@ assets = [
     datatable(P_ANIM_T, P_ANIM_S, rows={"Dressup_Leg": {"Montage": ANIM_MONTAGE}, "SitFloor": {"Title": "Sit on the floor", "Montage": ANIM_MONTAGE},
                                         "ModPose": {"Montage": ANIM_MONTAGE}, "ModMarker": {"Title": "- [ TEST CHAPTER ] -"}}),
     datatable("/Game/Mod/SomeMod/Mod_AnimationTable", P_ANIM_S, rows={"ModPose": {"Montage": ANIM_MONTAGE}}),
+    # editor test (test_origin): a row name the mod also has as a clothes piece, and one that is a vanilla skin -> origin per table, "look:" only without an earlier table
+    datatable("/Game/Mod/SomeMod/Mod_EyesTable", P_EYE_S, rows={"ModThing": {"Type": "Eye"}}),
+    datatable("/Game/Mod/SomeMod/Mod_MakeupTable", P_MAKEUP_S, rows={"Skin_Default": {"Type": "Lips"}}),
     # Weapons: ItemTable (weapon rows), GunPaint (paint -> weapon -> material), a converted skin mod for the editor test
+    # ItemClass: only the byte value counts at runtime (the game's enum); display names are ours
+    enum(P_ITEMCLASS_E, ["Tool", "Collectible", "Key", "Weapon", "Ammo", "Consumable"]),
     struct(P_ITEM_S, [param("Caption", "text", internal_name="Caption_34_A1D1AEE6499506A034ED6E83F2123581"),
+                      # inventory tab: weight, stacking, pack size, kind (inventory.kind_of), flag bits (2 = gun)
+                      param("Weight", "int", internal_name="Weight_56_FFB819DE4B6F431FF2D096A9EE0A2195"),
+                      param("IsConsumable", "bool", internal_name="IsConsumable_11_DD3ECA894EEB86F67E1EA3B2DC537792"),
+                      param("NumberOfPick", "int", internal_name="NumberOfPick_59_F72BDAD8416971ADDC81DF9D6DD4A053"),
+                      param("ItemClass", "enum:" + P_ITEMCLASS_E, internal_name="ItemClass_3_5CDBD46F4464FBF1033311A134618E0C"),
+                      param("Flag", "int", internal_name="Flag_62_90A969094EF61FCCF71AB1B4C1584A25"),
                       param("Icon", "object:" + E_TEX2D, internal_name="Icon_8_9AB25FB442CDA342937A89A8A873CA63"),
                       param("HyperBoxGroup", "name", internal_name="HyperBoxGroup_47_F0D9C7BD4E11CB25AAFEDB863D1DF840"),
                       param("ActorClass", "class:" + E_ACTOR, internal_name="ActorClass_40_78EE9EE441407DEB19724494C04B03D6"),
@@ -61,7 +72,17 @@ assets = [
                       param("InteractiveClass", "class:" + E_ACTOR, internal_name="InteractiveClass_35_A72AD9944C232F519D9186A845495978")]),
     struct(P_PAINT_S, [param("Guns", "name", "map", value_type="object:/Script/Engine.MaterialInterface", internal_name="Guns_4_974505F844690AA9345864A13AD9C39D"),
                        param("Flag", "int", internal_name="Flag_7_1EFEACDB4FF292F408E2F4AF64A1289A")]),
-    datatable(P_ITEM_T, P_ITEM_S, rows={"UMP45": {"HyperBoxGroup": "Weapon", "Caption": "UMP45"}, "HK416": {"HyperBoxGroup": "Weapon", "Caption": "HK416"}, "Medicine": {"HyperBoxGroup": "Item"}}),
+    datatable(P_ITEM_T, P_ITEM_S, rows={"UMP45": {"HyperBoxGroup": "Weapon", "Caption": "UMP45"}, "HK416": {"HyperBoxGroup": "Weapon", "Caption": "HK416"}, "Medicine": {"HyperBoxGroup": "Item"},
+                                        # inventory tab (editor test): one row per kind, values as in the game
+                                        "Glock": {"HyperBoxGroup": "Weapon", "Caption": "Glock", "Weight": 100, "ItemClass": "NewEnumerator3", "Flag": 2, "NumberOfPick": 1},
+                                        "GlockAmmo": {"HyperBoxGroup": "Ammo", "Caption": "Glock ammo", "Weight": 1, "IsConsumable": True, "ItemClass": "NewEnumerator4", "NumberOfPick": 10},
+                                        "Optics_RedDot": {"HyperBoxGroup": "Equipment", "Weight": 10, "IsConsumable": True, "ItemClass": "NewEnumerator1", "NumberOfPick": 1},
+                                        "Flashlight": {"HyperBoxGroup": "Tool", "Weight": 10, "ItemClass": "NewEnumerator0", "NumberOfPick": 1},
+                                        "Pills": {"HyperBoxGroup": "Tool", "Caption": "Pills", "Weight": 10, "IsConsumable": True, "ItemClass": "NewEnumerator0", "Flag": 4, "NumberOfPick": 1},
+                                        "EntryCard_Red": {"HyperBoxGroup": "None", "ItemClass": "NewEnumerator2", "Flag": 1, "NumberOfPick": 1},
+                                        "Decor_Dog": {"HyperBoxGroup": "None", "ItemClass": "NewEnumerator1", "Flag": 1, "NumberOfPick": 1, "ActorClass": "/Script/Engine.Actor"},
+                                        "EntryCard_Blue": {"HyperBoxGroup": "None", "ItemClass": "NewEnumerator2", "Flag": 1, "NumberOfPick": 1, "ActorClass": "/Script/Engine.Actor"},
+                                        "InvisibleHand": {"HyperBoxGroup": "None", "ItemClass": "NewEnumerator1", "Flag": 8, "NumberOfPick": 1}}),
     datatable(P_PAINT_T, P_PAINT_S, rows={"GunPaint_Pink": {}, "GunPaint_Camo": {}}),
     # Kodex encyclopedia: the archive of Jodi's office PC (Computer_Jodi reads rows 0-3 always, the rest from Note_Save.Notes);
     # only the members AltUI reads, internal names as in the game
@@ -77,19 +98,41 @@ assets = [
     blueprint(P_SHATTERER, mode="augment", variables=[var("gas tank", "object:/Script/Engine.Actor")]),   # Ragdolls: its tank moves to the copy, then cleared
     blueprint(P_ZOMBIE, mode="augment", variables=[var("Crystal", "object:/Script/Engine.Actor")]),   # Ragdolls: cleared before a copied zombie goes (its on destroyed drops it)   # the game reads/writes it (Dices_Password, ChangePassword)
     # the mesh components are reached with GetComponentsByClass (a stub variable named SkeletalMesh is refused - it collides with the engine class)
-    blueprint(P_WEAPON, E_ACTOR, functions=[fn("Get Weapon Name", outputs=[param("name", "name")], pure=True)]),
+    blueprint(P_WEAPON, E_ACTOR, functions=[fn("Get Weapon Name", outputs=[param("name", "name")], pure=True),
+                                            fn("Unload Ammo", outputs=[param("succeed", "bool")]),   # inventory tab: "Unload"
+                                            fn("Attach to Hand"), fn("Set Visible", [param("visible", "bool")])]),   # body switch: the weapon in hand back on its socket
     # Gun_Equipment_Base_C derives from StaticMeshComponent, so the magazine is a component of the weapon - Mount Mag hangs
     # one of the given class on it. A freshly spawned weapon actor has none; only the game's own equip flow puts it there.
     blueprint(P_EQUIPBASE, "/Script/Engine.StaticMeshComponent"),   # magazine, optics, suppressor, grip all derive from this
     blueprint(P_MAGCOMP, P_EQUIPBASE), blueprint(P_OPTICSCOMP, P_EQUIPBASE), blueprint(P_GRIPCOMP, P_EQUIPBASE),
     blueprint(P_BARRELCOMP, P_EQUIPBASE, variables=[var("Shot Sound", "object:/Script/Engine.SoundBase")]),   # the suppressor's own shot sound (Apply Influence sets it on the gun)
     # Gun Data: only the member AltUI reads (the game's paint, written by Change Gun Paint); the internal name must match the game
-    struct(P_GUN_S, [param("PaintName", "name", internal_name="PaintName_29_FA1F96D44E7CE9841245EC85AD208267")]),
+    struct(P_GUN_S, [param("PaintName", "name", internal_name="PaintName_29_FA1F96D44E7CE9841245EC85AD208267"),
+                     param("GunName", "name", internal_name="GunName_20_398D82A0403D587DA0A681A117336AE6"),   # inventory tab: a gun in the storage box
+                     param("Parts", "name", "array", internal_name="Parts_9_2957A5274990B0EE840FDB8AEC3E0EEA")]),   # its mounted attachments (GunEquipment rows)
     # Shot Sound: what Shoot Fx plays (Reset Default Attributes sets the class's own); Equipment Suppressor: the mounted barrel part
     blueprint(P_GUN, P_WEAPON, variables=[var("Equipment Mag", "object:" + P_MAGCOMP), var("Gun Data", "struct:" + P_GUN_S),
                                           var("Shot Sound", "object:/Script/Engine.SoundBase"), var("Equipment Suppressor", "object:" + P_BARRELCOMP)],
-              functions=[fn("Change Gun Paint", [param("paint name", "name")]), fn("Reset Gun Paint"),
-                         fn("Mount Mag", [param("class", "class:/Script/Engine.StaticMeshComponent")], [param("installed", "bool")])]),
+              functions=[fn("Change Gun Paint", [param("paint name", "name")]), fn("Reset Gun Paint"), fn("Mark to Need Update Anim"),   # body switch: Jodi_Anim reads the gun again
+                         fn("Mount Mag", [param("class", "class:/Script/Engine.StaticMeshComponent")], [param("installed", "bool")]),
+                         # weapons tab, attachments: mount a GunEquipment row (the bag loses it, the replaced one goes back; the
+                         # mounted row again = take it off), then the stats
+                         fn("Mount Equipment", [param("equipment", "name")]), fn("Apply Extra Attributes")]),
+    struct(P_GEQ_S, [param("Class", "class:" + P_EQUIPBASE, internal_name="Class_2_5AA802504CA431146E46D188B581CB9F"),
+                     param("Type", "int", internal_name="Type_18_FA4814DC41DC3CE847D1A392C5DE5EC2"),
+                     param("Guns", "name", "array", internal_name="Guns_17_C8B5F0414A9A2B5140E8F1826AE1E82B")]),
+    datatable(P_GEQ_T, P_GEQ_S, rows={"Optics_RedDot": {"Class": P_OPTICSCOMP + ".Gun_Optics_Comp_C", "Type": 0, "Guns": ["UMP45", "HK416"]},
+                                      "Silencer_PRS": {"Class": P_BARRELCOMP + ".Gun_Barrel_Comp_C", "Type": 1, "Guns": ["UMP45", "HK416", "Glock"]},
+                                      "UMP45": {"Type": 3, "Guns": []}}),   # a plain magazine row: no class, never offered
+    # Inventory tab: the global storage box (TKA_GameState.Get Hyper Box Data, slot "StorageBox"). "Save Items_0" is the game's
+    # FName "Save Items" with number 1 - the same name text gives the same FName.
+    blueprint(P_HBSAVE, "/Script/Engine.SaveGame", variables=[var("Clothes", "name", "array"), var("Save Items_0", "name", "map", value_type="int"),
+                                                              var("Guns", "struct:" + P_GUN_S, "array")]),
+    blueprint(P_HBDATA, "/Script/CoreUObject.Object", variables=[var("HyperBoxSave", "object:" + P_HBSAVE)],
+              functions=[fn("Add Item", [param("name", "name"), param("count", "int"), param("is consumable", "bool"), param("update ui", "bool")], [param("increased", "int")]),
+                         fn("Consume Item Count", [param("item name", "name"), param("count", "int")]), fn("Save"),
+                         fn("Count Items", [param("item", "name")], [param("num", "int")], pure=True),
+                         fn("Add a Gun", [param("weapon", "object:" + P_WEAPON)]), fn("Remove a Gun", [param("IndexToRemove", "int")])]),
     struct(P_PRESET_S, [param("HairstyleName", "name", internal_name="HairstyleName_7_3260D22B43C665CF63750083BF1D2497"),
                         param("MakeupData", "name", "map", value_type="struct:" + P_MDATA_S, internal_name="MakeupData_8_229DF3ED46B7F843D59714B8DA28DCAE"),
                         param("SkinName", "name", internal_name="SkinName_10_D161C58143EEB746BDE0E195450CF92E"),
@@ -109,9 +152,10 @@ assets = [
     blueprint(P_HAIR_SAVE, "/Script/Engine.SaveGame", variables=[var("Hairstyles", "name", "set"), var("Hair Colors", "name", "map", value_type=S_COLOR)]),
     blueprint(P_PSAVE, "/Script/Engine.SaveGame", variables=[var("Wear Clothes", "name", "array")],
               functions=[fn("Collect Player Data", [param("player", "object:" + P_JODI)])]),   # player save game: pieces worn at save time; slot "TKAPlayer"
-    blueprint(P_GI, "/Script/Engine.GameInstance", variables=[var("Hairstyles Save", "object:" + P_HAIR_SAVE)],
+    blueprint(P_GI, "/Script/Engine.GameInstance", variables=[var("Hairstyles Save", "object:" + P_HAIR_SAVE), var("Level Name", "name")],   # Level Name: what Loading opens (menuscene.py)
               functions=[fn("Save Hair Color Data", [param("player", "object:" + P_JODI)]), fn("Add Hairstyles", [param("hairstyle name", "name")])]),
-    blueprint(P_PALR, E_USERWIDGET, variables=[var("Image_Color", "object:" + E_IMAGE)]),
+    blueprint(P_PALR, E_USERWIDGET, variables=[var("Image_Color", "object:" + E_IMAGE)],
+              functions=[fn("Init Paletter", [param("initial color", S_LINCOLOR)])]),   # sets Image_Color and the hue / lightness pointers (W_HexBar paste)
     blueprint(P_PAL, E_USERWIDGET, variables=[var("Paletter", "object:" + P_PALR)],
               functions=[fn("Show Palette", [param("panel", "object:" + E_WIDGET), param("button", "object:" + E_WIDGET), param("flag", "int"), param("initial color", S_LINCOLOR)]),
                          fn("Close Frame")]),
@@ -119,8 +163,12 @@ assets = [
               functions=[fn("Has This Clothes", [param("clothes", "name")], [param("yes", "bool")], pure=True),
                          fn("Add Item And Save", [param("name", "name")], [param("new clothes", "bool")])]),
     blueprint(P_CC, "/Script/Engine.SkeletalMeshComponent",
-              variables=[var("Color Adjustable", "bool"), var("Clothes Name", "name"), var("Type", "name")],
-              functions=[fn("Change Color", [param("Color", S_LINCOLOR)])]),
+              variables=[var("Color Adjustable", "bool"), var("Clothes Name", "name"), var("Type", "name"), var("Damage", "float"), var("Materials for Damage", "object:/Script/Engine.MaterialInstanceDynamic", "array")],
+              functions=[fn("Change Color", [param("Color", S_LINCOLOR)]),
+                         fn("Change Damage", [param("Value", "float"), param("save", "bool")]),   # scalar "Damage" on every damage material + Player.Store Clothes Damage
+                         fn("Is Damaged", outputs=[param("yes", "bool")], pure=True)]),   # Damage > 0.1 (Repair Clothes, followers' badge)
+    # followers wear the game's hair: Change Hairstyle Ex makes these, AltUI colours them with the look's hair colour
+    blueprint(P_HAIRC, "/Script/Engine.SkeletalMeshComponent", functions=[fn("Change Color", [param("color", S_LINCOLOR, ref=True)])]),
     datatable(P_CTV, P_CS, rows=test_clothes),
     datatable("/Game/Mod/SomeMod/Mod_ClothesTable", P_CS, rows={"ModThing": row("Top", "SomeGroup")}),   # editor test: item origin = mod "SomeMod" (loader row in DLC_MainTable), group for the Manage tab
     datatable(P_CT, P_CS, composite=True, parent_tables=[P_CTV, "/Game/Mod/SomeMod/Mod_ClothesTable"]),
@@ -141,14 +189,26 @@ assets = [
         fn("Save Clothes Color", [param("clothes name", "name"), param("color", S_LINCOLOR)]),
         fn("Restore Clothes Color", [param("clothes", "name")]),
         fn("Is Clothes Damaged", [param("clothes", "name")], [param("yes", "bool")], pure=True),
+        fn("Get Clothes Damage", [param("clothes", "name", ref=True)], [param("damage", "float")], pure=True), fn("Store Clothes Damage", [param("clothes", "name"), param("damage", "float")]),   # Save Clothes Damaged: per piece, worn or not
         fn("Remove Clothing From Bag", [param("clothing name", "name")]), fn("Reset Clothes Physics"),
         fn("update body mask"),   # sets MaskThreshold, the morph "Nipple" and the breast constraint profile
         fn("Change Breast Constraint Profile", [param("morph", "float")]),
-        fn("Is Wanna Run ?", outputs=[param("Yes", "bool")], pure=True), fn("Change Wanna Run", [param("run", "bool")])], variables=[var("Breast Morph Weight", "float")]),   # walk / run speed (BP_AltUIMove)   # component "Bag" (Bag_Comp) exists in the kit
+        fn("Is Wanna Run ?", outputs=[param("Yes", "bool")], pure=True), fn("Change Wanna Run", [param("run", "bool")]),
+        # inventory tab: the item functions the game's inventory / storage box panels call
+        fn("Put Item to Bag", [param("item name", "name"), param("num", "int"), param("is clothing", "bool"), param("fx", "bool")], [param("remove", "bool")]),
+        fn("Consume Item", [param("item name", "name"), param("num", "int"), param("destroy weapon", "bool")], [param("successed", "bool"), param("count", "int")]),
+        fn("Got A Gun", [param("Gun Data", "struct:" + P_GUN_S, ref=True)], [param("gun", "object:" + P_WEAPON)]),
+        fn("Drop Item", [param("item name", "name")]), fn("Equip This Weapon", [param("weapon", "object:" + P_WEAPON)]),
+        fn("Has This Item", [param("item name", "name")], [param("yes", "bool")], pure=True),
+        fn("Get Weapon In Hand", outputs=[param("weapon", "object:" + P_WEAPON)], pure=True)], variables=[var("Breast Morph Weight", "float"), var("Body Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Clothes Colors", "name", "map", value_type=S_LINCOLOR)]),   # walk / run speed (BP_AltUIMove)   # component "Bag" (Bag_Comp) exists in the kit
     # breast / hip jiggle bodies: the game switches them on here; AltUI calls it again after re-instantiating the physics state (height slider)
-    blueprint(P_CB, mode="augment", functions=[fn("Enable Boobs Physics", [param("hip", "bool")]),
-                                               fn("Is Crouching", outputs=[param("yes", "bool")], pure=True)], variables=[var("Speed 2d", "float"), var("Anim Blueprint", "object:/Script/Engine.AnimInstance")]),   # BP_AltUIMove (Anim Blueprint: set once in Begin Play Ex - reset after a style switch)
-    blueprint(P_JODI, mode="augment", variables=[var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("Weapons", "name", "map", value_type="object:" + P_WEAPON), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True), fn("Wanna Running"),
+    blueprint(P_CB, mode="augment", remove_functions=["Is Alive ?"],   # a stub of 2026-10-09 that collided with the kit's Jodi.Is Alive ?
+              functions=[fn("Enable Boobs Physics", [param("hip", "bool")]),
+                                               fn("Is Crouching", outputs=[param("yes", "bool")], pure=True),
+                                               ], variables=[var("Health", "float"), var("Speed 2d", "float"), var("Anim Blueprint", "object:/Script/Engine.AnimInstance")]),   # BP_AltUIMove (Anim Blueprint: set once in Begin Play Ex - reset after a style switch)
+    blueprint(P_JODI, mode="augment", variables=[var("previous weapon", "object:" + P_WEAPON), var("wanna toggle weapon", "bool"),   # inventory tab: Got A Gun's equip request (Inv Got Gun)
+                                                var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Wanna Use This Item", [param("item name", "name")]), fn("Add Item to Shortcut", [param("item name", "name"), param("group", "int"), param("gun", "object:" + P_WEAPON)]),   # inventory tab
+                                                fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True), fn("Wanna Running"),
                                                 fn("Use Clothes from Bag", [param("clothes name", "name"), param("is wear", "bool")]),
                                                 fn("Got Clothes", [param("clothes name", "name"), param("wear", "bool")]),
                                                 fn("Get Makeup Data", outputs=[param("Makeup Data", "object:" + P_MAKEUP_SAVE)]),
@@ -162,21 +222,53 @@ assets = [
     # the main menu's figure (Jodi_Intro) is a Jodi_Base, not a Jodi. Members as the game declares them on Jodi_Base.
     blueprint(P_JODI_BASE, P_CPB, variables=[var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D")],
               functions=[fn("Get Makeup Data", outputs=[param("Makeup Data", "object:" + P_MAKEUP_SAVE)]), fn("Update Makeup Texture"), fn("Load Player Makeup")]),
-    blueprint(P_GS, mode="augment", functions=[fn("Get Wardrobe Data", outputs=[param("wardrobe data", "object:" + P_WD)])]),
+    # followers (docs/specs/2026-10-09-followers-design.md): NPC_Female and its parents, only what AltUI overrides or calls
+    # Weapons (name -> weapon actor): on Character_Player_Base as in the game (the old kit had it on Jodi); Jodi and the followers inherit it
+    # Check Appearence: the follower overrides it (it would put the game's default clothes on a figure without clothes components)
+    # heels (Clothes_Comp.Wear of heeled shoes: Set Heel Height + Feet Additive; the anims read Heels Height Ratio / Feet Additive): the follower copies them
+    blueprint(P_CPB, mode="augment", variables=[var("Weapons", "name", "map", value_type="object:" + P_WEAPON), var("Heels Height Ratio", "float"), var("Heel Height", "float"),
+                                                var("Feet Additive", "float"),
+                                                var("Save Player Clothes", "name", "array"),   # On Begun Play puts these on (Wear These Clothes), then clears them
+                                                var("Save Clothes Damaged", "name", "map", value_type="float"),   # damage per piece (Store / Get Clothes Damage)
+                                                var("Hair Comps", "object:" + P_HAIRC, "array"), var("clothes component list", "object:" + P_CC, "array"),
+                                                var("Zombie in front of me", "object:" + P_CB), var("is paralleled animation playing", "bool")],   # ALTUI_FOLLOG (Fol Debug)
+              functions=[fn("Check Appearence"), fn("Set Heel Height", [param("height ratio", "float"), param("thickness", "float")]),
+                         fn("Change Hairstyle Ex", [param("hairstyle", "name")]),   # the hairstyle's Hair_Comps (HairstyleTable), unknown row -> the first
+                         fn("check clothes covering")]),   # the underwear rule (Bra01 / Briefs01 unless Is Nude Allowed); the follower's Check Appearence calls it
+    # on Spawn in Runtime: the game's start of a figure spawned while playing (-> On Begun Play: anim class, order, health)
+    blueprint(P_CNPC, P_CPB, variables=[var("Distance to Master", "float")], functions=[fn("Need to Save", outputs=[param("yes", "bool")], pure=True), fn("Mutate"), fn("on Spawn in Runtime")]),
+    blueprint(P_NPCF, P_CNPC, variables=[var("save order", "name"), var("Order Location", "struct:/Script/CoreUObject.Vector")],   # On Begun Play gives the controller these
+              functions=[fn("delay to mutant"), fn("Apply Npc Appearance"), fn("Init Npc Appearance")]),   # the follower applies its look in Apply, rolls nothing in Init
+    blueprint(P_NPCCTRL, "/Script/AIModule.AIController", variables=[var("master", "object:" + P_JODI), var("Order Location", "struct:/Script/CoreUObject.Vector"),   # Fol Spawn: order + place straight to the controller
+                                                                                   var("Current Order", "name"), var("walking state", "int"), var("is busy", "bool")],   # Current Order: Fol Sync (the game's NPC menu); the last two: ALTUI_FOLLOG
+              functions=[fn("Change Order", [param("order", "name")]), fn("Receive Order", [param("order", "name")])]),   # Receive Order: as the game's NPC menu (voice, stay = here)
+    blueprint(P_ATTUI, E_USERWIDGET),   # pop(): moved above AltUI's panel (the game adds it to the player screen, under every viewport widget)
+    blueprint(P_GS, mode="augment", functions=[fn("Get Wardrobe Data", outputs=[param("wardrobe data", "object:" + P_WD)]),
+                                               fn("Get Attention UI", outputs=[param("AttentionUI", "object:" + P_ATTUI)])]),
     # Backpack: Bag_Comp (kit), PlayingHud/InventoryPanel (new, repair only), TKA_GameState (UserInterface, Default Underwear)
-    blueprint(P_BAG, mode="augment", variables=[var("Clothes in bag", "name", "array")],
-              functions=[fn("Has this Clothes ?", [param("clothes name", "name")], [param("yes", "bool")], pure=True),
+    blueprint(P_BAG, mode="augment", variables=[var("Clothes in bag", "name", "array"), var("bag Tools", "name", "map", value_type="int"),   # inventory tab: items, weight
+                                                var("total weight", "int"), var("weight capacity", "int"), var("Over weight ratio", "float")],
+              functions=[fn("Count Items", [param("item name", "name")], [param("count", "int")], pure=True),
+                         fn("Can I Pickup This Item ?", [param("item", "name"), param("num", "int"), param("is clothes", "bool")], [param("ok", "bool")], pure=True),
+                         fn("Has this Clothes ?", [param("clothes name", "name")], [param("yes", "bool")], pure=True),
+                         fn("Add Clothes To Bag", [param("itemName", "name")]), fn("Remove Clothes", [param("clothes", "name")]),
+                         fn("Append Clothes", [param("Clothes", "name", "array", ref=True)]),   # followers: a figure's pieces before its start
                          fn("Is Bag Full ?", outputs=[param("yes", "bool")], pure=True)]),
     blueprint(P_INV, E_USERWIDGET, functions=[fn("Repair Clothes", [param("clothes", "name"), param("all", "bool")], [param("done", "bool")]),
                                               fn("Remove all undressed clothes")]),
-    blueprint(P_HUD, E_USERWIDGET, variables=[var("InventoryPanel", "object:" + P_INV)]),
+    blueprint(P_INVNPC, E_USERWIDGET),   # followers: Fol Watch compares the figures' clothes only while it is shown
+    blueprint(P_HUD, E_USERWIDGET, variables=[var("InventoryPanel", "object:" + P_INV), var("InventoryNpc", "object:" + P_INVNPC)],
+              functions=[fn("Show Item Detail with Name", [param("item name", "name"), param("button", "object:" + E_WIDGET), param("gun", "object:" + P_WEAPON)])]),
     blueprint(P_GS2, mode="augment", variables=[var("UserInterface", "object:" + P_HUD), var("Default Underwear", "name", "array")],
               functions=[fn("Set Nude Allowed", [param("allow", "bool")]),   # real function in TKA_GameState_Base (Allow Naked); in game only reachable via a disabled cheat
                          # photo mode (Camera_Free + PhotoModeUI): entered from the game's pause menu; Is In Photo Mode = IsValid(photo mode camera)
                          fn("Enter Photo Mode"), fn("Try Exit Photo Mode"), fn("Is In Photo Mode", outputs=[param("yes", "bool")]),
-                         fn("Get Note Save", outputs=[param("note save", "object:" + P_NOTE_SAVE)])]),
+                         fn("Get Note Save", outputs=[param("note save", "object:" + P_NOTE_SAVE)]),
+                         fn("Get Hyper Box Data", outputs=[param("data", "object:" + P_HBDATA)])]),   # inventory tab: the global storage box
     blueprint(P_PC, mode="augment", functions=[fn("ShowMouseCursor", [param("show", "bool")]),
                                               fn("Set Widget Focus", [param("widget", "object:" + E_WIDGET)]),
                                               fn("Enable Player Control", [param("Base", "bool"), param("Playing", "bool")])]),
 ]
+import menuscene
+assets += menuscene.stubs()   # main menu scene picker: MainMenuUI, LoadingUI, Menu_Camera, LoadingPawn, Jodi_Intro (+ anim)
 write(os.path.join(os.path.dirname(__file__), "..", "10_stubs.json"), assets)
