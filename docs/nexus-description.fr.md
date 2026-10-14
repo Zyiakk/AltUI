@@ -54,7 +54,7 @@ Rien d'autre n'est touché – vêtements, tenues, maquillage et coiffure passen
 * **Tenues** – les tenues enregistrées du jeu, avec des noms (clic droit → renommer).
 * **Looks** – un look complet (vêtements avec couleurs, coiffure et couleur de cheveux, maquillage, yeux, peau, curseurs du corps, mod de corps, visage), enregistré avec une photo en pied prise en jeu, de face ou tel que vous la voyez. Appliquer, mettre à jour, renommer, supprimer. Un look peut apparaître comme compagnon, PNJ ou ragdoll.
 * **Sac à dos** – ce que Jodi porte et transporte : porter, enlever, réparer, remettre dans la garde-robe, ranger.
-* **Inventaire** – les objets de Jodi et l'Hyper coffre de stockage l'un sous l'autre : un clic déplace un objet ; clic droit pour utiliser, examiner, jeter ou décharger ; tout passe par les fonctions du jeu. En option : un catalogue « Tous les objets ».
+* **Inventaire** – les objets de Jodi et l'Hyper coffre de stockage l'un sous l'autre : un clic déplace un objet ; clic droit pour utiliser, examiner, jeter ou décharger ; tout passe par les fonctions du jeu. En option : un catalogue « Tous les objets ». Un curseur choisit n'importe quelle quantité d'une pile ; avant que de très nombreux objets ne tombent au sol, un avertissement demande d'abord.
 * **Coiffure** – toutes les coiffures, couleur des cheveux, 14 couleurs naturelles, réglage d'origine.
 * **Apparence** – peau, chaque type de maquillage, yeux, apparences enregistrées avec icônes (enregistrer, mettre à jour, renommer, supprimer).
 * **Morphologie** – curseurs de poitrine / taille, un sélecteur pour les mods de corps installés et – pour les corps convertis – des curseurs d'os : échelle, buste, taille extra, fessiers/hanches, cuisses, mollets, bras, mains, pieds, enregistrés par corps. Pour la poitrine et les fesses : rebond, angle et largeur des hanches.
@@ -67,7 +67,7 @@ Rien d'autre n'est touché – vêtements, tenues, maquillage et coiffure passen
 * **Ragdolls** – des copies de Jodi, des zombies et des humains comme figures avec physique : les placer, les poser articulation par articulation, les figer ou les laisser tomber ; les poses par type de figure et des scènes entières par niveau sont enregistrées. Un mode ragdoll les déplace sans le panneau.
 * **Compagnons** – les looks deviennent des compagnons qui marchent et combattent avec Jodi, ou des PNJ qui restent sur place : ordres, objets et armes à donner, vêtements qui s'abîment comme ceux des PNJ du jeu. Gardés dans leur propre fichier, jamais dans la sauvegarde du jeu.
 * **Codex** – le manuel d'AltUI dans les sept langues, l'encyclopédie du jeu et les serrures à code du niveau actuel ; chaque code reste caché jusqu'au clic.
-* **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres. Ralenti avec sa propre vitesse.
+* **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres. Ralenti avec sa propre vitesse. Comment Jodi se tient : six autres animations d'attente du jeu, des mods d'attente ou une pose comme attente.
 * Annuler / rétablir (5 étapes), les infobulles indiquent de quel mod vient une pièce.
 
 Langues : anglais, allemand, chinois, russe, espagnol, polonais, français (détectée automatiquement, modifiable dans les Paramètres).
@@ -103,6 +103,18 @@ python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
 *--name* fait partie du nom du fichier (lettres, chiffres et _), *--title* est le texte de la puce, et *--weapon* n'est nécessaire que si le nom du dossier du mod ne dit pas pour quelle arme il est. Un pak peut apporter un skin, un modèle ou les deux. Copiez le *WeaponAltUI_SomeGun.pak* obtenu dans *TheKillingAntidote\Mods\* et retirez le remplaçant d'origine – sinon il continue d'écraser l'arme, quel que soit le choix dans le panneau.
 
 Guide pas à pas avec un exemple pour Windows et pour Linux (en anglais) : [WEAPON_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/WEAPON_MODS.md)
+
+## Mods d'attente
+
+Les mods d'attente remplacent l'animation de Jodi debout, donc un seul peut être actif. **idlepak.pyz** (dans la version publiée ; Python 3.8+, aucun paquet) transforme un tel remplacement en pak de mod à part : l'attente du jeu reste, et le mod devient un choix de plus sous Paramètres › Déplacement › Debout. AltUI doit être installé – le convertisseur construit le nouveau pak en partie à partir d'AltUI.pak.
+
+```
+python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
+```
+
+Copiez le IdleAltUI_SomeIdle.pak obtenu dans TheKillingAntidote\Mods\ et retirez le remplacement d'origine.
+
+idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Détails: [README](https://github.com/Zyiakk/AltUI#idle-mods)
 
 ## Réglages d'autres mods
 

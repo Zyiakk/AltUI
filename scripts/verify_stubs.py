@@ -46,6 +46,7 @@ VARS = {  # cooked stub -> (API dump, checked variables: name and type must matc
     "Project/Classes/Controller/Npc_Controller": ("Npc_Controller", ["master"]),   # followers
     "Project/Character/Npc/NPC_Female": ("NPC_Female", ["save order", "Order Location"]),
     "Project/Classes/Character_Base": ("Character_Base", ["Health", "Anim Blueprint"]),
+    "Project/Classes/TKA_Controller": ("TKA_Controller", ["Input Move Values"]),   # idle pose: raw move input
     "Project/UserInterface/PlayingHud": ("PlayingHud", ["InventoryNpc"]),   # followers: Fol Watch (the game's swap dialog)
     "Project/Classes/Character_Player_Base": ("Character_Player_Base", ["Bag", "Weapons", "Save Player Clothes", "Save Clothes Damaged", "Hair Comps", "clothes component list"]),   # followers: fallen when Health <= 0; anim instance after the body swap
 }

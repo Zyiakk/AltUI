@@ -108,6 +108,9 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * The game's item groups as chips; the weight with a bar.
 * A click moves one item into the box or out of it.
 * Right click: half or all, use, inspect, discard, quick slot, unload ammo and accessories.
+* A stack's menu ends with an amount: a slider and a number field, then one entry per target with that number.
+* "Discard all" asks first when it would put 100 or more objects on the ground – that many objects with physics at once
+  can crash the game: cancel, destroy instead, or drop anyway.
 * Everything runs through the game's own functions, so the game's rules stay.
 * Each list can be folded or given the full height.
 * On maps where the game never saves the backpack, the tab says so.
@@ -125,6 +128,7 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * One tile per pose with its title; a speaker marks poses with a sound.
 * Chips per mod, search, favourites and hiding.
 * A click plays the pose; a second click or "Stop pose" stops it.
+* "Use as idle" in a pose's menu: the pose starts after 1.5 s of standing still and ends when Jodi moves.
 
 ### Weapons
 
@@ -188,7 +192,8 @@ In categories, chosen in a list on the left:
 * **Camera:** field of view, distance and height of the view beside the panel; the camera follows the slot.
 * **Controls:** panel key, scroll speed and how far the mouse wheel lifts a ragdoll.
 * **Movement:** Jodi's own walk and run speed (50–200 %; crouching and jumping stay as they are), slow motion and its
-  speed.
+  speed, and how she stands: the game's usual idle, six other idle animations of the game, or an idle mod converted with
+  `idlepak.pyz` – see [Idle mods](#idle-mods).
 * **Quick menu:** its key, its opacity and the items in the wheel.
 * **Colours:** colour scheme and opacity; schemes saved under a name.
 * **Slot conflicts:** free the game's slot pairs, such as bra and shirt.
@@ -227,7 +232,8 @@ In categories, chosen in a list on the left:
 * A follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
 * The tab lists every figure with its status, and chips: follow me, wait here, bring here (also from another level),
   → NPC / → follower, active, invulnerable, and "..." for rename, change look, revive and remove.
-* Jodi's backpack and the storage box sit at the top: a click gives an item or a gun to the selected figure.
+* Jodi's backpack and the storage box sit at the top: a click gives an item or a gun to the selected figure; a stack's
+  menu has the amount row as in the Inventory tab.
 * A figure's clothes are real pieces, as with the game's own NPCs: they take damage, tear off and show up in the game's
   NPC inventory. In the tab they are tiles to take off, give or repair.
 * Figures are kept in `AltUI_Followers.sav`, never in the game's save.
@@ -315,6 +321,24 @@ On Windows the command is `python` instead of `python3`. The guns' names, for th
 
 **For weapon-mod authors.** A weapon mod can also be built for AltUI directly in the Unreal Editor, without the converter. [`uassets/`](uassets/) holds the two row structures it takes - `S_WeaponSkin` and `S_WeaponModel` - and [uassets/README.md](uassets/README.md) describes the tables, the columns and how a model's meshes have to be named. A finished example to install and to rebuild is in [`examples/WeaponAltUI_Example/`](examples/WeaponAltUI_Example/). Such a pak needs AltUI and does nothing without it.
 
+## Idle mods
+
+Idle mods replace Jodi's standing animation, so only one can be active and nothing can switch between them.
+`idlepak.pyz` (in the release, Python 3.8+, no packages; GPL-3, see LICENSE) converts such a replacer into an
+`IdleAltUI_<Name>.pak`: it replaces nothing any more, the game's own idle stays, and the mod becomes one more choice
+under *Options › Movement › Standing*.
+
+```
+python3 idlepak.pyz <Replacer.pak> [--name <Name>] [--title "Display name"] [--out <folder>] [--force] [--altui <AltUI.pak>]
+python3 idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
+```
+
+AltUI must be installed: the converter builds the new pak partly from `AltUI.pak` (AltUI's own idle template, pointed at
+the mod's animation) and looks for it in the usual Steam folders; if it is somewhere else, give the path with
+`--altui <path to AltUI.pak>`. Copy the resulting `IdleAltUI_<Name>.pak` to `TheKillingAntidote/Mods/` and remove the
+original replacer. The animation is taken byte for byte; everything else in the pak is left out and listed. On Windows the
+command is `python` instead of `python3`.
+
 ## Settings of other mods
 
 Mods that the player controls in the game can put their settings into AltUI instead of binding keys of their own: a
@@ -346,12 +370,14 @@ Everything in the paks is generated – no game assets are included.
 * Copy `bpgen/` to `<sample project>/Plugins/TKA_BPGen` and build the project once. Copy `config.example.sh` to `config.sh` and set the paths.
 * `./build.sh` – runs the generators (`assets/gen/*.py` → `assets/*.json`), the BPGen commandlet (adds the missing function stubs to the sample project's game classes and creates the widgets and the manager blueprint), cook, pak, verify, deploy (`--no-deploy` to skip). BPGen builds only the blueprints whose generated JSON changed since the last run, plus whatever refers to them; `--full` rebuilds everything from scratch.
 * Tests: `python3 -m unittest discover -s tests/unit`, editor tests `scripts/edtest.sh $PWD/tests/editor/test_<name>.py`.
-* `scripts/bodypak_dist.sh` builds `bodypak.pyz` (Python files + `LICENSE-GPL-3.0.txt`, nothing native). `scripts/oodle_kraken.py` is the Oodle Kraken decoder, a pure-Python port of [ooz](https://github.com/powzix/ooz) (GPL-3). `tools/fetch_ooz.sh` builds the original as `tools/ooz/libooz.so`; the repo's pak tooling and `tests/unit/test_kraken.py` use it through `scripts/oodle_native.py` (ctypes, much faster, reference for the port) – it never goes into the pyz.
+* `scripts/bodypak_dist.sh` builds `bodypak.pyz` (Python files + `LICENSE-GPL-3.0.txt`, nothing native); `weaponpak_dist.sh`, `idlepak_dist.sh` and `altui_names_dist.sh` build the other tools. `scripts/oodle_kraken.py` is the Oodle Kraken decoder, a pure-Python port of [ooz](https://github.com/powzix/ooz) (GPL-3). `tools/fetch_ooz.sh` builds the original as `tools/ooz/libooz.so`; the repo's pak tooling and `tests/unit/test_kraken.py` use it through `scripts/oodle_native.py` (ctypes, much faster, reference for the port) – it never goes into the pyz.
 
 ## Screenshots
 
 | | |
 |---|---|
+| **Inventory** – a chosen amount: slider and number field, one entry per target (new in 2.1.0) ![Inventory](versions/2.1.0/screenshots/63-inventory-catalogue-amount.jpg) | **Options › Movement** – “Standing”: the game's idles and an idle mod (new in 2.1.0) ![Options › Movement](versions/2.1.0/screenshots/64-options-movement-standing.jpg) |
+| **Poses** – “Use as idle” in a pose's menu (new in 2.1.0) ![Poses](versions/2.1.0/screenshots/65-poses-use-as-idle.jpg) | |
 | **Quick menu** – hold 4: a wheel of what you use most – poses, outfits, looks, slow motion, stop time, orders for followers ![Quick menu](versions/2.0.0/screenshots/01-quick-menu.jpg) | **Clothes** – one list per slot, group chips, search, “only worn” ![Clothes](versions/2.0.0/screenshots/02-clothes.jpg) |
 | **Clothes** – the chip row folded with “...” ![Clothes](versions/2.0.0/screenshots/03-clothes-chips-folded.jpg) | **Clothes** – favourites above all pieces ![Clothes](versions/2.0.0/screenshots/04-clothes-favourites.jpg) |
 | **Clothes** – the chip “No group” chosen; counts per slot ![Clothes](versions/2.0.0/screenshots/05-clothes-no-group-chip.jpg) | **Clothes** – the menu of a piece: one colour per material slot, damage slider ![Clothes](versions/2.0.0/screenshots/06-clothes-menu-colour-per-slot-damage.jpg) |

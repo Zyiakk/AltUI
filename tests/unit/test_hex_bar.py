@@ -35,7 +35,7 @@ class HexBar(unittest.TestCase):
 
     def test_close_color_hides_the_bar_on_both_ways(self):
         g = self.fns["Close Color"]["graph"]
-        self.assertIn(["entry", "bo", "cm", "s", "hhb", "b", "cf", "rm"], g["exec"]); self.assertIn(["bo:else", "s"], g["exec"])
+        self.assertIn(["entry", "bo", "cm", "s", "hhb", "ulk", "b", "cf", "rm"], g["exec"]); self.assertIn(["bo:else", "s"], g["exec"])
         self.assertTrue(self.calls("Close Color", "Hide Hex Bar"))
 
     def test_bar_handles_keys_while_typing(self):

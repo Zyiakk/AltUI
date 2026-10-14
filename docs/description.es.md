@@ -42,7 +42,7 @@ El hook sustituye *TKA_PlayerCameraManager* y lanza el panel desde ahí. Cualqui
 * **Ropa** – cada prenda del juego y de tus mods, una lista por ranura, con búsqueda, filtros, favoritos y ocultación. Control de daño en el menú contextual; un color por ranura de material, joyas incluidas, guardado por partida.
 * **Conjuntos · Looks** – los ajustes del juego con nombres, y looks completos (ropa con colores, pelo, maquillaje, ojos, piel, cuerpo, rostro) guardados con una foto del juego. Un look puede crearse como seguidor, PNJ o ragdoll.
 * **Mochila · Peinados · Aspecto** – lo que Jodi lleva puesto y encima; peinados y colores de pelo; piel, maquillaje y ojos, todos coloreables.
-* **Inventario** – los objetos de Jodi y la Hipercaja de almacenamiento, una lista bajo la otra: un clic mueve un objeto; clic derecho para usar, examinar, tirar o descargar; todo con las funciones propias del juego. Opcional: un catálogo «Todos los objetos».
+* **Inventario** – los objetos de Jodi y la Hipercaja de almacenamiento, una lista bajo la otra: un clic mueve un objeto; clic derecho para usar, examinar, tirar o descargar; todo con las funciones propias del juego. Opcional: un catálogo «Todos los objetos». Un deslizador elige cualquier cantidad de una pila; antes de que caigan al suelo muchísimos objetos, un aviso pregunta primero.
 * **Figura** – deslizadores de pecho y cintura, selector de cuerpos convertidos y deslizadores de huesos por cuerpo. Para pecho y glúteos: rebote, ángulo y anchura de cadera.
 * **Rostro** – la expresión, la mirada y la boca de Jodi como deslizadores; el rostro se mantiene también en poses y al bailar; rostros guardados con foto, sus valores en «Ver contenido».
 * **Armas** – un modelo, un skin y un sonido de disparo por arma, incluidas las armas cuerpo a cuerpo, juntos de todos los mods de armas, con una imagen renderizada en cada casilla; un clic en un sonido lo reproduce. Accesorios por ranura (mira, cañón, empuñadura, cargador) desde la mochila o la caja de almacenamiento.
@@ -53,7 +53,7 @@ El hook sustituye *TKA_PlayerCameraManager* y lanza el panel desde ahí. Cualqui
 * **Ragdolls** – copias de Jodi, zombis y personas como figuras con física: colocarlas, posarlas articulación por articulación, congelarlas o dejarlas caer; se guardan poses por tipo de figura y escenas completas por nivel. Un modo ragdoll las mueve sin el panel.
 * **Seguidores** – los looks se convierten en seguidores que caminan y luchan con Jodi, o en PNJ que se quedan en su sitio: órdenes, objetos y armas para dar, ropa que se daña como la de los PNJ del juego. Se guardan en un archivo propio, nunca en la partida del juego.
 * **Códice** – el manual de AltUI en los siete idiomas, la enciclopedia del juego y las cerraduras de código del nivel actual; cada código queda oculto hasta que lo pulsas.
-* **Movimiento** – velocidad propia de Jodi al andar y al correr (50–200 %), en Opciones. Cámara lenta con su propia velocidad.
+* **Movimiento** – velocidad propia de Jodi al andar y al correr (50–200 %), en Opciones. Cámara lenta con su propia velocidad. Cómo está de pie Jodi: seis animaciones de reposo más del juego, mods de reposo o una pose como reposo.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
 Idiomas: inglés, alemán, chino, ruso, español, polaco y francés (detección automática, cambiable en Opciones).
@@ -72,6 +72,18 @@ Todos los paks que sustituyen el cuerpo sobrescriben el mismo archivo del juego,
 Conversor (Python 3.8+, sin paquetes): https://github.com/Zyiakk/AltUI/releases/latest/download/bodypak.pyz
 
 Guía paso a paso con un ejemplo para Windows y otro para Linux (en inglés): [BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
+
+## Mods de reposo
+
+Los mods de reposo sustituyen la animación de Jodi de pie, así que solo puede haber uno activo. **idlepak.pyz** (en la versión publicada; Python 3.8+, sin paquetes) convierte un sustituto así en un pak de mod propio: el reposo del juego se mantiene y el mod pasa a ser una opción más en Opciones › Movimiento › De pie. AltUI debe estar instalado: el conversor construye el nuevo pak en parte a partir de AltUI.pak.
+
+```
+python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
+```
+
+Copia el IdleAltUI_SomeIdle.pak resultante en TheKillingAntidote\Mods\ y quita el sustituto original.
+
+idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Detalles: [README](https://github.com/Zyiakk/AltUI#idle-mods)
 
 ## Actualizaciones del mod y el segundo archivo
 

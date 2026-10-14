@@ -100,6 +100,8 @@ Jodis Gegenstände und die Hyper Item-Box, eine Liste unter der anderen.
 
 - Die Chips filtern nach den Gruppen des Spiels (Waffen, Munition, Waffenzubehör, Werkzeug …). Das Gewicht zeigt, was Jodi trägt, was sie tragen kann und wie weit sie überladen ist.
 - Ein Klick legt einen Gegenstand in die Box oder nimmt einen heraus. Rechtsklick: die Hälfte oder alle, verwenden, untersuchen, wegwerfen, Schnellwahl 1 oder 2, Munition entnehmen, „Zubehör …“ (öffnet die Waffe im Reiter Waffen).
+- Das Kontextmenü eines Stapels endet mit „Anzahl“: Regler und Zahlenfeld, darunter je Ziel ein Eintrag mit dieser Zahl („5 in die Box“, „5 nehmen“). Enter im Feld führt den ersten Eintrag aus. Im Katalog zählt die Zahl Stück, das Feld nimmt mehr, als der Regler erreicht. Waffen und Einzelstücke haben keine Anzahl.
+- „Alle wegwerfen“ legt je Packung ein Objekt auf den Boden. Ab 100 Objekten fragt ein Fenster zuerst: „Abbrechen“, „Stattdessen vernichten“ (die Gegenstände sind weg, nichts fällt) oder „Trotzdem ablegen“ – so viele Objekte mit Physik auf einmal können das Spiel abstürzen lassen. Esc bricht ab.
 - Alles läuft über die Funktionen des Spiels, die Regeln des Spiels bleiben also – Überladen eingeschlossen.
 - „...“ über einer Liste klappt sie ein, ↑↓ gibt ihr die ganze Höhe (noch einmal: zurück).
 - Auf Karten, auf denen das Spiel den Rucksack nie speichert (zum Beispiel der Schießstand), sagt der Reiter das: Was du behalten willst, gehört in die Box.
@@ -123,6 +125,7 @@ Jede Aktionsanimation, die das Spiel und deine Posen-Mods kennen – die Liste h
 - Klick auf eine Pose spielt sie ab; erneuter Klick oder „Pose beenden“ stoppt sie.
 - Posen sind nach Haltung (stehend, sitzend, liegend) und nach Kapitel sortiert; Chips filtern nach Mod, die Suche findet Titel.
 - Rechtsklick: Favorit, Ausblenden, als stehend / sitzend / liegend / in Bewegung einordnen, umbenennen, ins Schnellmenü.
+- Rechtsklick „Als Idle verwenden“: Die Pose beginnt nach 1,5 s Stillstand und endet, wenn Jodi losgeht, eine Waffe zieht oder sich duckt; „Nicht mehr als Idle“ schaltet das ab.
 - „Alle einmessen“ spielt jede Pose ohne Einordnung einmal ab und ordnet sie ein.
 - Ein Lautsprecher in der Ecke einer Kachel zeigt eine Pose mit Ton.
 
@@ -182,7 +185,7 @@ Links die Kategorien.
 - Gruppen: Gruppen oder Mods gleichen Namens zusammenfassen, Länge der Gruppennamen, Höhe des Chip-Bereichs, Chip-Suche.
 - Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot.
 - Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.
-- Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück.
+- Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).
 - Schnellmenü: Taste, Deckkraft, was im Rad steht.
 - Farben: jede Farbe des Panels, Deckkraft, Farbschemata unter einem Namen gespeichert.
 - Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können.
@@ -234,6 +237,7 @@ Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befeh
 - Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.
 - Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, „Unverwundbar“ und „...“ (umbenennen, Look ändern, wiederbeleben, entfernen).
 - Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.
+- Das Kontextmenü eines Stapels – bei Jodi oder der Figur – hat die Anzahl-Zeile wie im Reiter Inventar: „5 geben“, „5 nehmen“, in die Box.
 - Die Kleidung besteht aus echten Stücken der Figur wie bei den NPCs des Spiels: Sie bekommt Schaden, kann abreißen und steht im Inventar-Dialog des Spiels, wo man sie auch tauschen kann. Unter einer Figur stehen ihre Stücke als Kacheln (beschädigte mit Markierung): Ein Klick zieht eines aus und legt es in Jodis Rucksack; Rechtsklick: mit einem Nähset aus Jodis Rucksack reparieren oder alle reparieren. In der Rucksack-Spalte listet „Kleidung“ Jodis Stücke: Ein Klick gibt eines an die ausgewählte Figur, die es anzieht (Schaden und Farben gehen mit).
 - „Aktiv“ aus nimmt eine Figur mit allem, was sie trägt, aus der Welt; wieder an, kommt sie vor Jodi zurück.
 - Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.
@@ -263,4 +267,5 @@ Schnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im B
 
 - Kleidungs-Mods brauchen nichts Besonderes: AltUI liest die Tabellen des Spiels und ordnet jedes Teil seinem Slot zu.
 - Body- und Waffen-Ersatz-Mods lassen sich mit bodypak.pyz und weaponpak.pyz umwandeln, damit mehrere nebeneinander installiert sein können; sie lassen sich auch direkt im Unreal Editor für AltUI bauen.
+- Idle-Mods (ein Pak, das Jodis Idle-Animation ersetzt) lassen sich mit idlepak.pyz umwandeln: python3 idlepak.pyz <mod>.pak. Das neue IdleAltUI_….pak gehört nach Mods/ und erscheint unter Optionen › Bewegung › „Stehen“; das Idle des Spiels bleibt. AltUI muss installiert sein: Der Konverter baut das neue Pak zum Teil aus AltUI.pak und sucht es in den üblichen Steam-Ordnern; liegt es woanders, gibt man den Pfad mit --altui <Pfad zu AltUI.pak> an.
 - Mods können ihre Einstellungen über zwei Datentabellen und eine Schnittstelle im Reiter Mods zeigen; MOD_UI.md im Quell-Repository beschreibt, wie.

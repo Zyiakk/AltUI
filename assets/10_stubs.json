@@ -2709,6 +2709,12 @@
    "type": "blueprint",
    "path": "/Game/Project/Classes/TKA_Controller",
    "mode": "augment",
+   "variables": [
+    {
+     "name": "Input Move Values",
+     "type": "struct:/Script/CoreUObject.Vector"
+    }
+   ],
    "functions": [
     {
      "name": "ShowMouseCursor",

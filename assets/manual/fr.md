@@ -100,6 +100,8 @@ Les objets de Jodi et l'hyper coffre de stockage, une liste sous l'autre.
 
 - Les puces filtrent par les groupes du jeu (armes, munitions, accessoires d'armes, outils…). Le poids montre ce que Jodi porte, ce qu'elle peut porter et de combien elle est en surcharge.
 - Un clic met un objet dans le coffre ou en sort un. Clic droit : la moitié ou tout, utiliser, examiner, jeter, raccourci 1 ou 2, décharger, « Accessoires… » (ouvre l'arme dans l'onglet Armes).
+- Le menu contextuel d'une pile se termine par « Quantité » : un curseur et un champ numérique, puis une entrée par destination avec ce nombre (« Ranger 5 dans le coffre », « En prendre 5 »). Entrée dans le champ exécute la première entrée. Dans le catalogue, le nombre compte des unités et le champ accepte plus que le curseur. Les armes à feu et les objets uniques n'ont pas de quantité.
+- « Tout jeter » pose un objet au sol par paquet. À partir de 100 objets, une fenêtre demande d'abord : « Annuler », « Détruire à la place » (les objets disparaissent, rien ne tombe) ou « Jeter quand même » – autant d'objets physiques à la fois peuvent faire planter le jeu. Échap annule.
 - Tout passe par les fonctions du jeu lui-même, ses règles restent donc – surcharge comprise.
 - « ... » au-dessus d'une liste la replie, ↑↓ lui donne toute la hauteur (encore une fois : retour).
 - Sur les cartes où le jeu ne sauvegarde jamais le sac à dos (le stand de tir, par exemple), l'onglet le signale : gardez ce que vous voulez conserver dans le coffre.
@@ -123,6 +125,7 @@ Chaque animation d'action que connaissent le jeu et vos mods de poses – la lis
 - Un clic sur une pose la joue ; un nouveau clic ou « Arrêter la pose » l'arrête.
 - Les poses sont triées par posture (debout, assise, allongée) et par chapitre ; les puces filtrent par mod, la recherche trouve les titres.
 - Clic droit : favori, masquer, classer comme debout / assise / allongée / en mouvement, renommer, ajouter au menu rapide.
+- Clic droit « Utiliser au repos » : la pose commence après 1,5 s d'immobilité et s'arrête quand Jodi marche, sort une arme ou s'accroupit ; « Plus au repos » la désactive.
 - « Tout mesurer » joue une fois chaque pose qui n'a pas encore de posture et la classe.
 - Un haut-parleur dans le coin d'une tuile signale une pose avec son.
 
@@ -182,7 +185,7 @@ Cet onglet n'apparaît que si un tel mod est installé.
 - Groupes : fusionner les groupes ou les mods de même nom, longueur des noms de groupe, hauteur de la zone des puces, recherche dans les puces.
 - Caméra : champ de vision, distance, hauteur, la caméra suit l'emplacement choisi.
 - Commandes : touche du panneau, vitesse de défilement, hauteur de la caméra avec le bouton droit, de combien la molette soulève un ragdoll par cran.
-- Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti.
+- Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti. « Debout » choisit l'animation au repos de Jodi : celles du jeu (regarde autour, regarde ses ongles, regarde sa jambe, prudente, blessée, pose) et celles des mods de repos installés (IdleAltUI_…).
 - Menu rapide : sa touche, son opacité, ce qui figure dans la roue.
 - Couleurs : chaque couleur du panneau, opacités, schémas de couleurs enregistrés sous un nom.
 - Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux.
@@ -234,6 +237,7 @@ Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et o
 - Dans l'onglet Looks, clic droit sur un look : « Créer en compagnon » ou « Créer en PNJ ». La figure apparaît devant Jodi avec ce look.
 - L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », « Invulnérable » et « ... » (renommer, changer de look, ranimer, retirer).
 - Un clic sur une ligne sélectionne la figure. En haut se trouvent le sac à dos (à gauche) et la caisse (à droite) : un clic donne un objet à la figure sélectionnée, une arme avec sa peinture et ses accessoires. Un clic sur une tuile de la figure le rend au sac à dos ; clic droit : tout, ou dans la caisse. « ... » au-dessus d'une liste la replie.
+- Le menu contextuel d'une pile – de Jodi ou de la figure – a la ligne de quantité comme dans l'onglet Inventaire : « En donner 5 », « En prendre 5 », dans le coffre.
 - Les vêtements sont de vraies pièces de la figure, comme pour les PNJ du jeu : ils s'abîment, peuvent se déchirer et apparaissent dans l'inventaire PNJ du jeu, où l'on peut aussi les échanger. Sous une figure, ses pièces sont des tuiles (celles abîmées sont marquées) : un clic en enlève une et la met dans le sac à dos de Jodi ; clic droit : réparer avec un kit de couture du sac à dos de Jodi, ou tout réparer. Dans la colonne du sac à dos, « Vêtements » liste les pièces de Jodi : un clic en donne une à la figure sélectionnée, qui l'enfile (dégâts et couleurs suivent).
 - « Actif » désactivé retire la figure du monde avec tout ce qu'elle porte ; réactivée, elle revient devant Jodi.
 - Une figure qui n'est pas invulnérable peut tomber. Elle reste dans la liste et « Ranimer » la ramène avec ses affaires. Les figures ne deviennent jamais des zombies.
@@ -263,4 +267,5 @@ Maintenez 4 (autre touche dans Paramètres › Menu rapide) et une roue s'ouvre 
 
 - Les mods de vêtements n'ont besoin de rien de particulier : AltUI lit les tables du jeu et range chaque objet dans son emplacement.
 - Les mods qui remplacent le corps ou une arme peuvent être convertis avec bodypak.pyz et weaponpak.pyz pour en installer plusieurs côte à côte ; ils peuvent aussi être faits pour AltUI directement dans l'Unreal Editor.
+- Les mods d'attente (un pak qui remplace l'animation d'attente de Jodi) se convertissent avec idlepak.pyz : python3 idlepak.pyz <mod>.pak. Le nouveau IdleAltUI_….pak va dans Mods/ et apparaît sous Paramètres › Déplacement › « Debout » ; l'attente du jeu reste. AltUI doit être installé : le convertisseur construit le nouveau pak en partie à partir d'AltUI.pak et le cherche dans les dossiers Steam habituels ; s'il est ailleurs, indiquez le chemin avec --altui <chemin vers AltUI.pak>.
 - Les mods peuvent afficher leurs réglages dans l'onglet Mods grâce à deux tables de données et une interface ; MOD_UI.md dans le dépôt du code source explique comment.

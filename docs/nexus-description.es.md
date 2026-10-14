@@ -54,7 +54,7 @@ No se toca nada más – ropa, conjuntos, maquillaje y peinado se escriben a tra
 * **Conjuntos** – los conjuntos predefinidos del juego, con nombre (clic derecho → renombrar).
 * **Looks** – un look completo (ropa con colores, peinado y su color, maquillaje, ojos, piel, deslizadores del cuerpo, mod de cuerpo, rostro) guardado con una foto de cuerpo entero hecha en el juego, de frente o tal como la ves. Aplicar, actualizar, renombrar, borrar. Un look puede crearse como seguidor, PNJ o ragdoll.
 * **Mochila** – lo que Jodi lleva puesto y encima: ponerse, quitarse, reparar, devolver al vestuario, ordenar.
-* **Inventario** – los objetos de Jodi y la Hipercaja de almacenamiento, una lista bajo la otra: un clic mueve un objeto; clic derecho para usar, examinar, tirar o descargar; todo con las funciones propias del juego. Opcional: un catálogo «Todos los objetos».
+* **Inventario** – los objetos de Jodi y la Hipercaja de almacenamiento, una lista bajo la otra: un clic mueve un objeto; clic derecho para usar, examinar, tirar o descargar; todo con las funciones propias del juego. Opcional: un catálogo «Todos los objetos». Un deslizador elige cualquier cantidad de una pila; antes de que caigan al suelo muchísimos objetos, un aviso pregunta primero.
 * **Peinado** – todos los peinados, color de pelo, 14 colores de pelo naturales, valores de fábrica.
 * **Apariencia** – piel, todos los tipos de maquillaje, ojos, apariencias predefinidas con iconos (guardar, actualizar, renombrar, borrar).
 * **Curvas** – deslizadores de pecho / cintura, un selector de los mods de cuerpo instalados y – para cuerpos convertidos – deslizadores de escala de huesos: escala, busto, cintura extra, glúteos/caderas, muslos, pantorrillas, brazos, manos, pies, guardados por cuerpo. Para pecho y glúteos: rebote, ángulo y anchura de cadera.
@@ -67,7 +67,7 @@ No se toca nada más – ropa, conjuntos, maquillaje y peinado se escriben a tra
 * **Ragdolls** – copias de Jodi, zombis y personas como figuras con física: colocarlas, posarlas articulación por articulación, congelarlas o dejarlas caer; se guardan poses por tipo de figura y escenas completas por nivel. Un modo ragdoll las mueve sin el panel.
 * **Seguidores** – los looks se convierten en seguidores que caminan y luchan con Jodi, o en PNJ que se quedan en su sitio: órdenes, objetos y armas para dar, ropa que se daña como la de los PNJ del juego. Se guardan en un archivo propio, nunca en la partida del juego.
 * **Códice** – el manual de AltUI en los siete idiomas, la enciclopedia del juego y las cerraduras de código del nivel actual; cada código queda oculto hasta que lo pulsas.
-* **Movimiento** – velocidad propia de Jodi al andar y al correr (50–200 %), en Opciones. Cámara lenta con su propia velocidad.
+* **Movimiento** – velocidad propia de Jodi al andar y al correr (50–200 %), en Opciones. Cámara lenta con su propia velocidad. Cómo está de pie Jodi: seis animaciones de reposo más del juego, mods de reposo o una pose como reposo.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 
 Idiomas: inglés, alemán, chino, ruso, español, polaco, francés (detección automática, cambiable en Opciones).
@@ -103,6 +103,18 @@ python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
 *--name* pasa a formar parte del nombre del archivo (letras, cifras y _), *--title* es el texto del chip, y *--weapon* solo hace falta cuando el nombre de la carpeta del mod no dice para qué arma es. Un pak puede traer un skin, un modelo o ambos. Copia el *WeaponAltUI_SomeGun.pak* resultante en *TheKillingAntidote\Mods\* y quita el sustituto original; si no, sigue sobrescribiendo el arma, elijas lo que elijas en el panel.
 
 Guía paso a paso con un ejemplo para Windows y otro para Linux (en inglés): [WEAPON_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/WEAPON_MODS.md)
+
+## Mods de reposo
+
+Los mods de reposo sustituyen la animación de Jodi de pie, así que solo puede haber uno activo. **idlepak.pyz** (en la versión publicada; Python 3.8+, sin paquetes) convierte un sustituto así en un pak de mod propio: el reposo del juego se mantiene y el mod pasa a ser una opción más en Opciones › Movimiento › De pie. AltUI debe estar instalado: el conversor construye el nuevo pak en parte a partir de AltUI.pak.
+
+```
+python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
+```
+
+Copia el IdleAltUI_SomeIdle.pak resultante en TheKillingAntidote\Mods\ y quita el sustituto original.
+
+idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Detalles: [README](https://github.com/Zyiakk/AltUI#idle-mods)
 
 ## Ajustes de otros mods
 

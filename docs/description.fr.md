@@ -42,7 +42,7 @@ Le hook remplace *TKA_PlayerCameraManager* et démarre le panneau depuis là. To
 * **Vêtements** – chaque pièce du jeu et de vos mods, une liste par emplacement, avec recherche, filtres, favoris et masquage. Curseur de dégâts dans le menu contextuel ; une couleur par emplacement de matériau, bijoux compris, gardée par sauvegarde.
 * **Tenues · Looks** – les tenues du jeu avec des noms, et des looks complets (vêtements avec couleurs, coiffure, maquillage, yeux, peau, corps, visage) enregistrés avec une photo prise en jeu. Un look peut apparaître comme compagnon, PNJ ou ragdoll.
 * **Sac à dos · Coiffure · Apparence** – ce que Jodi porte et transporte ; coiffures et couleurs de cheveux ; peau, maquillage et yeux, chacun teintable.
-* **Inventaire** – les objets de Jodi et l'Hyper coffre de stockage l'un sous l'autre : un clic déplace un objet ; clic droit pour utiliser, examiner, jeter ou décharger ; tout passe par les fonctions du jeu. En option : un catalogue « Tous les objets ».
+* **Inventaire** – les objets de Jodi et l'Hyper coffre de stockage l'un sous l'autre : un clic déplace un objet ; clic droit pour utiliser, examiner, jeter ou décharger ; tout passe par les fonctions du jeu. En option : un catalogue « Tous les objets ». Un curseur choisit n'importe quelle quantité d'une pile ; avant que de très nombreux objets ne tombent au sol, un avertissement demande d'abord.
 * **Morphologie** – curseurs poitrine / taille, un sélecteur pour les mods de corps convertis, des curseurs d'échelle des os par corps. Pour la poitrine et les fesses : rebond, angle et largeur des hanches.
 * **Visage** – l'expression, le regard et la bouche de Jodi en curseurs ; le visage tient pendant les poses et la danse ; visages enregistrés avec une photo, leurs valeurs sous « Voir le contenu ».
 * **Armes** – un modèle, un skin et un son de tir par arme, armes de mêlée comprises, côte à côte depuis tous les mods d'armes, avec une image rendue sur chaque tuile ; un clic sur un son le joue. Accessoires par emplacement (viseur, canon, poignée, chargeur) depuis le sac à dos ou le coffre.
@@ -53,7 +53,7 @@ Le hook remplace *TKA_PlayerCameraManager* et démarre le panneau depuis là. To
 * **Ragdolls** – des copies de Jodi, des zombies et des humains comme figures avec physique : les placer, les poser articulation par articulation, les figer ou les laisser tomber ; les poses par type de figure et des scènes entières par niveau sont enregistrées. Un mode ragdoll les déplace sans le panneau.
 * **Compagnons** – les looks deviennent des compagnons qui marchent et combattent avec Jodi, ou des PNJ qui restent sur place : ordres, objets et armes à donner, vêtements qui s'abîment comme ceux des PNJ du jeu. Gardés dans leur propre fichier, jamais dans la sauvegarde du jeu.
 * **Codex** – le manuel d'AltUI dans les sept langues, l'encyclopédie du jeu et les serrures à code du niveau actuel ; chaque code reste caché jusqu'au clic.
-* **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres. Ralenti avec sa propre vitesse.
+* **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres. Ralenti avec sa propre vitesse. Comment Jodi se tient : six autres animations d'attente du jeu, des mods d'attente ou une pose comme attente.
 * Annuler / rétablir (5 étapes), infobulles indiquant de quel mod vient une pièce.
 
 Langues : anglais, allemand, chinois, russe, espagnol, polonais, français (détectée automatiquement, modifiable dans les Paramètres).
@@ -70,6 +70,18 @@ Langues : anglais, allemand, chinois, russe, espagnol, polonais, français (dét
 Les paks qui remplacent le corps écrasent tous le même fichier du jeu, donc un seul peut être actif. Un petit convertisseur transforme un remplaçant en pak de mod ordinaire qui garde le maillage sous son propre chemin ; autant de corps convertis que vous voulez peuvent être installés côte à côte et apparaissent comme puces dans l'onglet Morphologie.
 
 Guide (Windows, Linux) : [BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md) · bodypak.pyz : https://github.com/Zyiakk/AltUI/releases/latest/download/bodypak.pyz
+
+## Mods d'attente
+
+Les mods d'attente remplacent l'animation de Jodi debout, donc un seul peut être actif. **idlepak.pyz** (dans la version publiée ; Python 3.8+, aucun paquet) transforme un tel remplacement en pak de mod à part : l'attente du jeu reste, et le mod devient un choix de plus sous Paramètres › Déplacement › Debout. AltUI doit être installé – le convertisseur construit le nouveau pak en partie à partir d'AltUI.pak.
+
+```
+python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
+```
+
+Copiez le IdleAltUI_SomeIdle.pak obtenu dans TheKillingAntidote\Mods\ et retirez le remplacement d'origine.
+
+idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Détails: [README](https://github.com/Zyiakk/AltUI#idle-mods)
 
 ## Mises à jour du mod et le second fichier
 

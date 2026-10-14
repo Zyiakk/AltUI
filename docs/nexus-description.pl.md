@@ -54,7 +54,7 @@ Poza tym nic nie jest ruszane – ubrania, stroje, makijaż i fryzura idą przez
 * **Stroje** – gotowe stroje gry, z nazwami (prawy przycisk → zmień nazwę).
 * **Stylizacje** – kompletna stylizacja (ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, suwaki ciała, mod ciała, twarz) zapisana ze zdjęciem całej sylwetki z gry, z przodu albo tak, jak ją właśnie widzisz. Zastosuj, zaktualizuj, zmień nazwę, usuń. Look można przywołać jako towarzysza, NPC albo ragdolla.
 * **Plecak** – co Jodi nosi i ma przy sobie: załóż, zdejmij, napraw, z powrotem do szafy, uporządkuj.
-* **Ekwipunek** – przedmioty Jodi i Hiperskrzynia jedna pod drugą: kliknięcie przenosi przedmiot, prawy przycisk – użyj, obejrzyj, wyrzuć lub rozładuj; wszystko przez własne funkcje gry. Opcjonalnie katalog „Wszystkie przedmioty”.
+* **Ekwipunek** – przedmioty Jodi i Hiperskrzynia jedna pod drugą: kliknięcie przenosi przedmiot, prawy przycisk – użyj, obejrzyj, wyrzuć lub rozładuj; wszystko przez własne funkcje gry. Opcjonalnie katalog „Wszystkie przedmioty”. Suwak wybiera dowolną ilość ze stosu; zanim na ziemię trafi bardzo wiele obiektów, najpierw pyta ostrzeżenie.
 * **Fryzura** – wszystkie fryzury, kolor włosów, 14 naturalnych kolorów włosów, ustawienia fabryczne.
 * **Wygląd** – skóra, każdy typ makijażu, oczy, gotowe wyglądy z ikonami (zapisz, zaktualizuj, zmień nazwę, usuń).
 * **Kształt ciała** – suwaki piersi / talii, przełącznik zainstalowanych modów ciała oraz – przy przekonwertowanych ciałach – suwaki kości: skala, biust, talia extra, pośladki/biodra, uda, łydki, ramiona, dłonie, stopy, zapisywane osobno dla każdego ciała. Dla biustu i pośladków: falowanie, kąt i szerokość bioder.
@@ -67,7 +67,7 @@ Poza tym nic nie jest ruszane – ubrania, stroje, makijaż i fryzura idą przez
 * **Ragdolle** – kopie Jodi, zombie i ludzie jako figury z fizyką: ustawianie, pozowanie staw po stawie, zamrażanie albo puszczanie bezwładnie; pozy zapisują się dla każdego rodzaju figury, całe sceny dla każdego poziomu. Tryb ragdolli porusza nimi bez panelu.
 * **Towarzysze** – looki stają się towarzyszami, którzy chodzą i walczą razem z Jodi, albo NPC, którzy zostają na miejscu: rozkazy, przedmioty i broń do przekazania, ubrania niszczą się jak u NPC gry. Zapisywani w osobnym pliku, nigdy w zapisie gry.
 * **Kodeks** – podręcznik AltUI we wszystkich siedmiu językach, encyklopedia gry i zamki szyfrowe bieżącego poziomu; każdy kod pozostaje ukryty, dopóki go nie klikniesz.
-* **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach. Zwolnienie z własną prędkością.
+* **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach. Zwolnienie z własną prędkością. Jak stoi Jodi: sześć kolejnych animacji bezczynności z gry, mody bezczynności albo poza jako bezczynność.
 * Cofnij / ponów (5 kroków), podpowiedzi pokazują, z którego moda pochodzi dana rzecz.
 
 Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francuski (wykrywany automatycznie, przełączany w opcjach).
@@ -103,6 +103,18 @@ python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
 *--name* staje się częścią nazwy pliku (litery, cyfry i _), *--title* to tekst na chipie, a *--weapon* potrzebny jest tylko wtedy, gdy z nazwy folderu moda nie wynika, do jakiej broni jest. Pak może zawierać skin, model albo jedno i drugie. Powstały *WeaponAltUI_SomeGun.pak* skopiuj do *TheKillingAntidote\Mods\* i usuń pierwotny plik podmieniający – inaczej dalej nadpisuje broń, cokolwiek wybierzesz w panelu.
 
 Instrukcja krok po kroku z przykładem dla Windowsa i dla Linuksa (po angielsku): [WEAPON_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/WEAPON_MODS.md)
+
+## Mody bezczynności
+
+Mody bezczynności podmieniają animację, w której stoi Jodi, więc aktywny może być tylko jeden. **idlepak.pyz** (w wydaniu; Python 3.8+, bez dodatkowych pakietów) robi z takiego paka podmieniającego osobny pak moda: animacja gry zostaje, a mod staje się kolejnym wyborem w Opcje › Ruch › Stanie. AltUI musi być zainstalowany – konwerter buduje nowy pak częściowo z AltUI.pak.
+
+```
+python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
+```
+
+Skopiuj powstały IdleAltUI_SomeIdle.pak do TheKillingAntidote\Mods\ i usuń pierwotny pak podmieniający.
+
+idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Szczegóły: [README](https://github.com/Zyiakk/AltUI#idle-mods)
 
 ## Ustawienia innych modów
 

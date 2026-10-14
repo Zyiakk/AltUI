@@ -265,7 +265,8 @@ assets = [
                          fn("Enter Photo Mode"), fn("Try Exit Photo Mode"), fn("Is In Photo Mode", outputs=[param("yes", "bool")]),
                          fn("Get Note Save", outputs=[param("note save", "object:" + P_NOTE_SAVE)]),
                          fn("Get Hyper Box Data", outputs=[param("data", "object:" + P_HBDATA)])]),   # inventory tab: the global storage box
-    blueprint(P_PC, mode="augment", functions=[fn("ShowMouseCursor", [param("show", "bool")]),
+    blueprint(P_PC, mode="augment", variables=[var("Input Move Values", "struct:/Script/CoreUObject.Vector")],   # raw move input (idle pose: ends on it - a pose blocks the movement itself)
+              functions=[fn("ShowMouseCursor", [param("show", "bool")]),
                                               fn("Set Widget Focus", [param("widget", "object:" + E_WIDGET)]),
                                               fn("Enable Player Control", [param("Base", "bool"), param("Playing", "bool")])]),
 ]

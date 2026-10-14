@@ -100,6 +100,8 @@ Jodi's items and the Hyper Storage Box, one list under the other.
 
 - The chips filter by the game's groups (weapons, ammo, weapon accessories, tools …). The weight shows what Jodi carries, what she can carry and how far she is overloaded.
 - A click puts one item into the box or takes one out. Right click: half or all, use, inspect, discard, quick slot 1 or 2, unload ammo, "Accessories…" (opens the gun in the Weapons tab).
+- The context menu of a stack ends with "Amount": a slider and a number field, and below one entry per target with that number ("Put 5 in the box", "Take 5"). Enter in the field runs the first entry. In the catalogue the number counts pieces and the field takes more than the slider reaches. Guns and single items have no amount.
+- "Discard all" puts one object on the ground per pack. From 100 objects on a window asks first: "Cancel", "Destroy instead" (the items are gone, nothing falls) or "Drop anyway" – that many objects with physics at once can crash the game. Esc cancels.
 - Everything goes through the game's own functions, so the game's rules stay – overloading included.
 - "..." above a list folds it, ↑↓ gives it the full height (click again: back).
 - On maps where the game never saves the backpack (the shooting range, for example) the tab says so: keep what you want in the box.
@@ -123,6 +125,7 @@ Every action animation the game and your pose mods know – the list behind the 
 - Click a pose to play it; click again or press "Stop pose" to stop.
 - Poses are sorted by stance (standing, sitting, lying) and by chapter; chips filter by mod, the search finds titles.
 - Right click: favourite, hide, mark as standing / sitting / lying / in motion, rename, add to the quick menu.
+- Right click "Use as idle": the pose starts after 1.5 s of standing still and ends when Jodi walks, draws a weapon or crouches; "No longer as idle" switches it off.
 - "Measure all" plays every pose that has no stance yet once and sorts it.
 - A speaker in the corner of a tile marks a pose with a sound.
 
@@ -182,7 +185,7 @@ The categories are on the left.
 - Groups: merge groups or mods with the same name, length of group names, height of the chip area, chip search.
 - Camera: field of view, distance, height, camera follows the chosen slot.
 - Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.
-- Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. "Slow motion on" switches slow motion, "Slow motion speed" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry "Slow motion on / off" does the same as the switch. "Reset to default" sets walk, run and slow motion speed back.
+- Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. "Slow motion on" switches slow motion, "Slow motion speed" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry "Slow motion on / off" does the same as the switch. "Reset to default" sets walk, run and slow motion speed back. "Standing" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).
 - Quick menu: its key, its opacity, what is in the wheel.
 - Colours: every panel colour, opacities, colour schemes saved under a name.
 - Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn.
@@ -234,6 +237,7 @@ Looks as people in the game: a follower walks with Jodi, fights and takes orders
 - In the Looks tab, right click a look: "Spawn as follower" or "Spawn as NPC". The figure appears in front of Jodi wearing that look.
 - The tab "Followers" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: "Follow me", "Wait here", "Bring here", → NPC / → Follower, "Active", "Invulnerable" and "..." (rename, change look, revive, remove).
 - Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. "..." above a list folds it.
+- The context menu of a stack – Jodi's or the figure's – has the amount row as in the Inventory tab: "Give 5", "Take 5", into the box.
 - Clothes are real pieces of the figure, as with the game's NPCs: they take damage, can tear off and show up in the game's own NPC inventory, where you can swap them too. Under a figure, its pieces are tiles (a badge marks damaged ones): a click takes one off into Jodi's backpack; right click: repair with a sewing kit from Jodi's backpack, or repair all. In the backpack column, "Clothes" lists Jodi's pieces: a click gives one to the selected figure, which puts it on (her damage and colours go along).
 - "Active" off takes a figure out of the world, with everything it carries; on again, it comes back in front of Jodi.
 - A figure that is not invulnerable can fall. It stays in the list and "Revive" brings it back with what it carried. Figures never turn into zombies.
@@ -263,4 +267,5 @@ Hold 4 (another key under Options › Quick menu) and a wheel opens around the m
 
 - Clothes mods need nothing special: AltUI reads the game's tables and sorts every item by slot.
 - Body and weapon replacer mods can be converted with bodypak.pyz and weaponpak.pyz so that several can be installed side by side; they can also be built for AltUI directly in the Unreal Editor.
+- Idle mods (a pak that replaces Jodi's idle animation) can be converted with idlepak.pyz: python3 idlepak.pyz <mod>.pak. The new IdleAltUI_….pak goes into Mods/ and appears under Options › Movement › "Standing"; the game's own idle stays. AltUI must be installed: the converter builds the new pak partly from AltUI.pak and looks for it in the usual Steam folders; if it is somewhere else, give the path with --altui <path to AltUI.pak>.
 - Mods can show their settings in the Mods tab through two data tables and an interface; MOD_UI.md in the source repository describes how.

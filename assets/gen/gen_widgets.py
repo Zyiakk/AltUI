@@ -1283,6 +1283,84 @@ def w_menu_slider():
                                 fn("Tick", override=True, graph=tk), fn("OnMouseButtonDown", override=True, graph=md)],
                      widget_tree=tree)
 
+# ---------------- W_MenuAmount (context menu row: slider + number field for a chosen amount of a stack; Manager.Menu Amount Set) ----------------
+# docs/specs/2026-10-14-stack-amount-design.md. The slider covers Lo..Hi, the field Lo..FMax (the catalogue's field goes beyond
+# the slider). Dragging writes the field, typing moves the slider; every change goes to the manager, which renames the action
+# rows ("<action> n"). Enter runs the first action row (First), Esc closes the menu; both and all typing stay here.
+W_MAMOUNT = M + "/W_MenuAmount"
+AMOUNT_EDIT_W = 64   # x SC
+
+
+def w_menu_amount():
+    tree = w(E_BORDER, "Fill", props={"BrushColor": COL_NONE, "Padding": "(Left=23,Top=11,Right=23,Bottom=11)"}, children=[w(U_HBOX, "HB", children=[
+        text("Label", "Amount", 12, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(10)}),
+        sizebox("SldBox", 130, 24, [w(E_SLIDER, "Sld", props={"Value": 0.0, "StepSize": 0.001, "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)", "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                                                                "WidgetStyle": "(BarThickness=5.0)"})], slot={"VerticalAlignment": "VAlign_Center"}),
+        w(U_SIZE, "EditBox", props={"bOverride_WidthOverride": True, "WidthOverride": sz(AMOUNT_EDIT_W)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(8)},
+          children=[w(E_EDIT, "Edit", props={"SelectAllTextWhenFocused": True, "ClearKeyboardFocusOnCommit": False, "Justification": "Right", "WidgetStyle": EDIT_STYLE})])])])
+
+    def slider_of(g, p, n_pin):
+        """n -> slider value (n - Lo) / max(Hi - Lo, 1), 0..1."""
+        g.get(p + "lo", "Lo"); g.get(p + "hi", "Hi"); g.call(p + "d", K_MATH, "Subtract_IntInt", inp={"A": n_pin, "B": "@%slo.Lo" % p})
+        g.call(p + "r", K_MATH, "Subtract_IntInt", inp={"A": "@%shi.Hi" % p, "B": "@%slo.Lo" % p}); g.call(p + "rm", K_MATH, "Max", inp={"A": "@%sr.ReturnValue" % p, "B": "1"})
+        g.call(p + "df", K_MATH, "Conv_IntToFloat", inp={"InInt": "@%sd.ReturnValue" % p}); g.call(p + "rf", K_MATH, "Conv_IntToFloat", inp={"InInt": "@%srm.ReturnValue" % p})
+        g.call(p + "q", K_MATH, "Divide_FloatFloat", inp={"A": "@%sdf.ReturnValue" % p, "B": "@%srf.ReturnValue" % p})
+        g.call(p + "c", K_MATH, "FClamp", inp={"Value": "@%sq.ReturnValue" % p, "Min": "0", "Max": "1"}); return "@%sc.ReturnValue" % p
+
+    def int_text(g, p, n_pin):
+        g.call(p + "s", K_STR, "Conv_IntToString", inp={"InInt": n_pin}); g.call(p + "t", K_TXT, "Conv_StringToText", inp={"InString": "@%ss.ReturnValue" % p}); return "@%st.ReturnValue" % p
+
+    g = G(); g.set("slo", "Lo", inp={"Lo": "@entry.lo"}); g.set("shi", "Hi", inp={"Hi": "@entry.hi"}); g.set("sfm", "FMax", inp={"FMax": "@entry.fmax"}); g.set("sfi", "First", inp={"First": "@entry.first"})
+    g.set("sla", "Last", inp={"Last": "@entry.start"})
+    g.get("gl", "Label"); g.call("stl", E_TEXT, "SetText", inp={"self": "@gl.Label", "InText": "@entry.caption"})
+    v0 = slider_of(g, "v0", "@entry.start"); g.set("slv", "LastV", inp={"LastV": v0}); g.get("gs", "Sld"); g.call("ssv", E_SLIDER, "SetValue", inp={"self": "@gs.Sld", "InValue": v0})
+    g.get("ge", "Edit"); g.call("set", E_EDIT, "SetText", inp={"self": "@ge.Edit", "InText": int_text(g, "t0", "@entry.start")})
+    g.get("gm", "Manager"); g.call("mas", MGR, "Menu Amount Set", inp={"self": "@gm.Manager", "n": "@entry.start"})
+    g.n("cc", "call_self", function="Compute Colors"); g.chain("entry", "slo", "shi", "sfm", "sfi", "sla", "stl", "slv", "ssv", "set", "mas", "cc")
+    # Tick: typing (field focused) -> number clamped to Lo..FMax -> slider + manager; else a dragged slider (its value moved away
+    # from the one set last) -> number -> field + manager; an unfocused field always shows the number
+    tk = G(); tk.get("ge", "Edit"); tk.call("hf", E_WIDGET, "HasKeyboardFocus", inp={"self": "@ge.Edit"}); tk.branch("bf", "@hf.ReturnValue")
+    tk.get("ge2", "Edit"); tk.call("gt", E_EDIT, "GetText", inp={"self": "@ge2.Edit"}); tk.call("ts", K_TXT, "Conv_TextToString", inp={"InText": "@gt.ReturnValue"})
+    tk.call("ti", K_STR, "Conv_StringToInt", inp={"InString": "@ts.ReturnValue"}); tk.get("glo", "Lo"); tk.get("gfm", "FMax")
+    tk.call("tc", K_MATH, "Clamp", inp={"Value": "@ti.ReturnValue", "Min": "@glo.Lo", "Max": "@gfm.FMax"}); tk.get("gla", "Last")
+    tk.call("tne", K_MATH, "NotEqual_IntInt", inp={"A": "@tc.ReturnValue", "B": "@gla.Last"}); tk.branch("btn", "@tne.ReturnValue")
+    tk.set("tsl", "Last", inp={"Last": "@tc.ReturnValue"}); tv = slider_of(tk, "tv", "@tc.ReturnValue"); tk.set("tlv", "LastV", inp={"LastV": tv})
+    tk.get("gs", "Sld"); tk.call("tss", E_SLIDER, "SetValue", inp={"self": "@gs.Sld", "InValue": tv})
+    tk.get("gm", "Manager"); tk.call("tms", MGR, "Menu Amount Set", inp={"self": "@gm.Manager", "n": "@tc.ReturnValue"})
+    tk.get("gs2", "Sld"); tk.call("sv", E_SLIDER, "GetValue", inp={"self": "@gs2.Sld"}); tk.get("glv", "LastV")
+    tk.call("sne", K_MATH, "NotEqual_FloatFloat", inp={"A": "@sv.ReturnValue", "B": "@glv.LastV"}); tk.branch("bsn", "@sne.ReturnValue")
+    tk.get("glo2", "Lo"); tk.get("ghi2", "Hi"); tk.call("sr", K_MATH, "Subtract_IntInt", inp={"A": "@ghi2.Hi", "B": "@glo2.Lo"}); tk.call("srf", K_MATH, "Conv_IntToFloat", inp={"InInt": "@sr.ReturnValue"})
+    tk.call("sm", K_MATH, "Multiply_FloatFloat", inp={"A": "@sv.ReturnValue", "B": "@srf.ReturnValue"}); tk.call("srd", K_MATH, "Round", inp={"A": "@sm.ReturnValue"})
+    tk.call("sn", K_MATH, "Add_IntInt", inp={"A": "@srd.ReturnValue", "B": "@glo2.Lo"})
+    tk.set("ssl", "Last", inp={"Last": "@sn.ReturnValue"}); tk.set("ssv", "LastV", inp={"LastV": "@sv.ReturnValue"})
+    tk.get("gm2", "Manager"); tk.call("sms", MGR, "Menu Amount Set", inp={"self": "@gm2.Manager", "n": "@sn.ReturnValue"})
+    tk.get("ge3", "Edit"); tk.call("cur", E_EDIT, "GetText", inp={"self": "@ge3.Edit"}); tk.call("cs", K_TXT, "Conv_TextToString", inp={"InText": "@cur.ReturnValue"})
+    tk.get("gla2", "Last"); tk.call("ls", K_STR, "Conv_IntToString", inp={"InInt": "@gla2.Last"}); tk.call("fne", K_STR, "NotEqual_StrStr", inp={"A": "@cs.ReturnValue", "B": "@ls.ReturnValue"}); tk.branch("bfn", "@fne.ReturnValue")
+    tk.call("lt", K_TXT, "Conv_StringToText", inp={"InString": "@ls.ReturnValue"}); tk.get("ge4", "Edit"); tk.call("fst", E_EDIT, "SetText", inp={"self": "@ge4.Edit", "InText": "@lt.ReturnValue"})
+    tk.chain("entry", "bf", "btn", "tsl", "tlv", "tss", "tms"); tk.chain("bf:else", "bsn", "ssl", "ssv", "sms", "bfn"); tk.chain("bsn:else", "bfn"); tk.chain("bfn", "fst")
+    # keys: Esc and Enter always stay here (an Esc that reached the game would open its pause menu); typed keys while the field has focus
+    def keys(up):
+        k = G(); k.call("key", K_IN, "GetKey", inp={"Input": "@entry.InKeyEvent"})
+        k.call("esc", K_IN, "EqualEqual_KeyKey", inp={"A": "@key.ReturnValue", "B": "Escape"}); k.call("ent", K_IN, "EqualEqual_KeyKey", inp={"A": "@key.ReturnValue", "B": "Enter"})
+        k.get("ge", "Edit"); k.call("hf", E_WIDGET, "HasKeyboardFocus", inp={"self": "@ge.Edit"})
+        k.call("o1", K_MATH, "BooleanOR", inp={"A": "@esc.ReturnValue", "B": "@ent.ReturnValue"}); k.call("o2", K_MATH, "BooleanOR", inp={"A": "@o1.ReturnValue", "B": "@hf.ReturnValue"}); k.branch("b", "@o2.ReturnValue")
+        k.call("h", K_WBL, "Handled"); k.link("h.ReturnValue", "return.ReturnValue")
+        k.n("r2", "return_new"); k.call("u", K_WBL, "Unhandled"); k.link("u.ReturnValue", "r2.ReturnValue")
+        if not up:
+            k.chain("entry", "b", "return"); k.chain("b:else", "r2"); return k
+        k.branch("be", "@ent.ReturnValue"); k.get("gm", "Manager"); k.get("gf", "First"); k.call("ma", MGR, "On Menu Action", inp={"self": "@gm.Manager", "name": "@gf.First"})
+        k.branch("bx", "@esc.ReturnValue"); k.get("gm2", "Manager"); k.call("cm", MGR, "Close Menu", inp={"self": "@gm2.Manager"})
+        k.chain("entry", "b", "be", "ma", "return"); k.chain("be:else", "bx", "cm", "return"); k.chain("bx:else", "return"); k.chain("b:else", "r2"); return k
+    c = G(); ctail = ["entry"]; text_color(c, "tl", "Label", mcol(c, "ct", "ColText"), ctail)
+    c.get("gsl", "Sld"); c.call("sbc", E_SLIDER, "SetSliderBarColor", inp={"self": "@gsl.Sld", "InValue": mcol(c, "csl", "ColSlider")}); ctail.append("sbc"); c.chain(*ctail)
+    md = G(); md.call("h", K_WBL, "Handled"); md.link("h.ReturnValue", "return.ReturnValue"); md.chain("entry", "return")   # a click beside slider / field stays in the menu
+    return blueprint(W_MAMOUNT, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Lo", "int"), var("Hi", "int"), var("FMax", "int"), var("Last", "int"), var("LastV", "float"), var("First", "name")],
+                     functions=[fn("Init", [param("caption", "text"), param("lo", "int"), param("hi", "int"), param("start", "int"), param("fmax", "int"), param("first", "name")], graph=g), compute_fn(c),
+                                fn("Tick", override=True, graph=tk), fn("OnKeyDown", override=True, graph=keys(False)), fn("OnKeyUp", override=True, graph=keys(True)),
+                                fn("OnMouseButtonDown", override=True, graph=md)],
+                     widget_tree=tree)
+
+
 def w_context_menu():
     tree = roundbox("Frame", COL_CHIP_FRAME, 1, children=[roundbox("Bg", "(R=0.05,G=0.05,B=0.06,A=0.98)", 3, children=[w(U_VBOX, "Rows")])])
     c = G(); c.get("g", "Rows"); c.call("cl", U_PANELW, "ClearChildren", inp={"self": "@g.Rows"}); c.chain("entry", "cl")
@@ -1374,13 +1452,13 @@ def w_hex_bar():
     tk.chain("entry", "plc", "bl", "cm", "bf"); tk.chain("bl:else", "bg", "sed", "bf"); tk.chain("bg:else", "bf")
     tk.chain("bf:else", "bn", "st", ttail[0]); tk.chain("bf", ttail[0]); tk.chain("bn:else", ttail[0]); tk.chain(*ttail)
     # keys while the field has focus: all handled here (the game must not see typing); Enter -> Commit, Esc -> back to the
-    # palette's colour; both return the focus to the palette, so Esc there closes it as before
+    # palette's colour; both return the focus to the panel, whose Esc closes the palette (Focus Color Keys)
     ku = G(); ku.get("ge", "Edit"); ku.call("hf", E_WIDGET, "HasKeyboardFocus", inp={"self": "@ge.Edit"}); ku.branch("b", "@hf.ReturnValue")
     ku.call("key", K_IN, "GetKey", inp={"Input": "@entry.InKeyEvent"})
     ku.call("ent", K_IN, "EqualEqual_KeyKey", inp={"A": "@key.ReturnValue", "B": "Enter"}); ku.branch("ben", "@ent.ReturnValue")
     ku.call("esc", K_IN, "EqualEqual_KeyKey", inp={"A": "@key.ReturnValue", "B": "Escape"}); ku.branch("bes", "@esc.ReturnValue")
     ku.n("cm", "call_self", function="Commit"); ku.set("sne", "Editing", inp={"Editing": "false"})
-    ku.get("gm", "Manager"); ku.call("fp", MGR, "Focus Palette", inp={"self": "@gm.Manager"})
+    ku.get("gm", "Manager"); ku.call("fp", MGR, "Focus Color Keys", inp={"self": "@gm.Manager"})
     ku.call("h", K_WBL, "Handled"); ku.link("h.ReturnValue", "return.ReturnValue")
     ku.n("r2", "return_new"); ku.call("u", K_WBL, "Unhandled"); ku.link("u.ReturnValue", "r2.ReturnValue")
     ku.chain("entry", "b", "ben", "cm", "fp", "return"); ku.chain("ben:else", "bes", "sne", "fp"); ku.chain("bes:else", "return"); ku.chain("b:else", "r2")
@@ -1985,7 +2063,7 @@ PANEL_TEXTS = [("search", "Search"), ("chipsearch", "ChipSearch"), ("onlyowned",
                ("worn", "BagWornHeader"), ("inbag", "BagListHeader"), ("bagempty", "BagEmpty"), ("breast", "LblBreast"), ("waist", "LblWaist"),
                ("scbreast", "LblScBreast"), ("scwaist", "LblScWaist"), ("scglutes", "LblScGlutes"), ("scthighs", "LblScThighs"), ("sccalves", "LblScCalves"), ("scarms", "LblScArms"), ("schands", "LblScHands"), ("scfeet", "LblScFeet"), ("scheight", "LblScHeight"),
                ("scroll", "LblScroll"), ("scale", "LblScale"), ("quickalpha", "LblQuickAlpha"), ("outfitscale", "LblOutfitScale"), ("lookscale", "LblLookScale"), ("ragscale", "LblRagScale"), ("invscale", "LblInvScale"), ("outfitcols", "LblOutfitCols"), ("outfitrows", "LblOutfitRows"), ("fov", "LblFov"), ("dist", "LblDist"), ("height", "LblHeight"), ("grouplen", "LblGroupLen"), ("chiph", "LblChipH"), ("unlimited", "LblUnlimited"), ("layout", "LblLayout"),
-               ("language", "LblLanguage"), ("placeholder", "PlaceholderText"), ("pan", "LblPan"), ("camright", "LblCamRight"), ("nude", "LblNude"), ("merge", "LblMerge"), ("mergemods", "LblMergeMods"), ("chipsearchopt", "LblChipSearch"), ("tipnoprefix", "LblTipNoPrefix"), ("tipnoids", "LblTipNoIds"), ("kodexall", "LblKodexAll"), ("moveon", "LblMoveOn"), ("walkspeed", "LblWalkSpeed"), ("runspeed", "LblRunSpeed"), ("walkstyle", "LblWalkStyle"), ("runstyle", "LblRunStyle"), ("conflicts", "LblConflicts"), ("conflictshint", "LblConflictsHint"), ("unowned", "LblUnowned"), ("scalehint", "LblScaleHint"),
+               ("language", "LblLanguage"), ("placeholder", "PlaceholderText"), ("pan", "LblPan"), ("camright", "LblCamRight"), ("nude", "LblNude"), ("merge", "LblMerge"), ("mergemods", "LblMergeMods"), ("chipsearchopt", "LblChipSearch"), ("tipnoprefix", "LblTipNoPrefix"), ("tipnoids", "LblTipNoIds"), ("kodexall", "LblKodexAll"), ("moveon", "LblMoveOn"), ("walkspeed", "LblWalkSpeed"), ("runspeed", "LblRunSpeed"), ("walkstyle", "LblWalkStyle"), ("runstyle", "LblRunStyle"), ("idlestyle", "LblIdleStyle"), ("conflicts", "LblConflicts"), ("conflictshint", "LblConflictsHint"), ("unowned", "LblUnowned"), ("scalehint", "LblScaleHint"),
                ("theme", "LblTheme"), ("bgalpha", "LblBgAlpha"), ("tilealpha", "LblTileAlpha"), ("key", "LblKey"), ("onlymods", "LblOnlyMods"), ("casesens", "LblCaseSens"), ("managesearch", "ManageSearch"), ("looksearch", "LookSearch"), ("lookchipsearch", "LookChipSearch"), ("hdrname", "HdrName"), ("hdrdisplay", "HdrDisplay"), ("hdrorigin", "HdrOrigin"), ("hdrcontent", "HdrContent"), ("posesearch", "PoseSearch"), ("invsearch", "InvSearch"), ("posefavorites", "PoseFavHeader"), ("poseall", "PoseAllHeader"), ("weaponsearch", "WeaponSearch"), ("weaponfavorites", "WeaponFavHeader"), ("weaponall", "WeaponAllHeader"), ("weaponmodels", "WeaponModelHeader"), ("weaponsounds", "WeaponSoundHeader"), ("tabshint", "LblTabsHint"), ("quickkey", "LblQuickKey"), ("quickinwheel", "LblQuickInWheel"), ("quickavailable", "LblQuickAvailable"), ("tabstyle", "LblTabStyle"), ("tabiconpos", "LblTabIconPos"), ("themesave", "LblThemeSave"), ("themename", "ThemeNameEdit"), ("themepresets", "LblThemePresets"), ("themepresetshint", "ThemePresetsHint"), ("managechipsearch", "ManageChipSearch"), ("quickcontrol", "LblQuickControl"), ("quickkeywidth", "QuickKeyWidth"), ("invbag", "InvBagTitle"), ("folbag", "FolBagTitle"), ("folbox", "FolBoxTitle"), ("invbox", "InvBoxTitle"), ("invcat", "InvCatTitle"), ("invcatalog", "LblInvCatalog"), ("invautoequip", "LblInvAutoEquip"), ("weaponattach", "WeaponAttachHeader")]   # parameter of Set Strings -> widget name (order = gen_manager_ui.PANEL_STRINGS)
 PANEL_TEXTS += [("sc" + k.lower(), "LblSc" + k) for k in bg.SLIDER_ORDER[9:]] + [("scgrp" + h[len("Lbl_ScGrp"):].lower(), "LblScGrp" + h[len("Lbl_ScGrp"):]) for h in bg.GROUP_HEADS.values()]   # 2026-10-09 body-physics rows + group headings
 PANEL_TEXTS += [("ragwheel", "LblRagWheel"), ("slowmo", "LblSlowMo")]   # 2026-10-11 sliders
@@ -1997,7 +2075,7 @@ SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "LookSubTabsScroll", "ManageSubTa
 # panel-owned texts coloured by Apply Theme: widget -> derived colour
 PANEL_TEXT_COLORS = {"ColHead": ["FolBagTitle", "FolBoxTitle", "InvBagTitle", "InvBoxTitle", "InvCatTitle", "KodexTitle", "LblQuickControl", "LblQuickInWheel", "LblQuickAvailable", "BagWornHeader", "BagListHeader", "FavHeader", "LookFavHeader", "PoseFavHeader", "WeaponFavHeader", "LblTheme", "ContentTitle", "LblConflicts"],
                      "ColTextDim": ["FolHint", "FolBagNote", "InvBagNote", "InvWeightText", "RagHint", "RagPresetsHint", "ModHint", "FaceHint", "LblTabsHint", "ThemePresetsHint", "LblQuickKeyHint", "AllHeader", "LookAllHeader", "PoseAllHeader", "WeaponAllHeader", "WeaponModelHeader", "ListHint", "BagEmpty", "PlaceholderText", "HdrName", "HdrDisplay", "HdrOrigin", "LblConflictsHint", "LblScaleHint"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS] + ["Val" + k for k, _ in SCALE_ROWS],
-                     "ColText": ["KodexBody", "LblRagKinds", "LblRagSave", "LblRagPresets", "LblQuickKey", "LblOwned", "LblFav", "LblVanilla", "LblOnlyWorn", "LblLookFav", "LblLookWorn", "LblOnlyMods", "LblCaseSens", "LblUnlimited", "LblPan", "LblCamRight", "LblNude", "LblMerge", "LblMergeMods", "LblChipSearch", "LblTipNoPrefix", "LblTipNoIds", "LblKodexAll", "LblMoveOn", "LblWalkStyle", "LblRunStyle", "LblUnowned", "LblTabStyle", "LblTabIconPos", "LblThemeSave", "LblThemePresets", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS] + ["Lbl" + k for k, _ in SCALE_ROWS] + ["LblScGrp" + h[len("Lbl_ScGrp"):] for h in bg.GROUP_HEADS.values()]}
+                     "ColText": ["KodexBody", "LblRagKinds", "LblRagSave", "LblRagPresets", "LblQuickKey", "LblOwned", "LblFav", "LblVanilla", "LblOnlyWorn", "LblLookFav", "LblLookWorn", "LblOnlyMods", "LblCaseSens", "LblUnlimited", "LblPan", "LblCamRight", "LblNude", "LblMerge", "LblMergeMods", "LblChipSearch", "LblTipNoPrefix", "LblTipNoIds", "LblKodexAll", "LblMoveOn", "LblWalkStyle", "LblRunStyle", "LblIdleStyle", "LblUnowned", "LblTabStyle", "LblTabIconPos", "LblThemeSave", "LblThemePresets", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS] + ["Lbl" + k for k, _ in SCALE_ROWS] + ["LblScGrp" + h[len("Lbl_ScGrp"):] for h in bg.GROUP_HEADS.values()]}
 
 
 # Options page: which category block (OptCat_<key>) every row of the former single options list belongs to
@@ -2006,7 +2084,7 @@ OPT_CAT_ROWS = {"General": ["RowLanguage", "RowLayout", "RowNude", "RowUnowned",
                 "Groups": ["RowMerge", "RowMergeMods", "RowGroupLen", "RowChipH", "RowChipSearch"],
                 "Camera": ["RowFov", "RowDist", "RowHeight", "RowPan"],
                 "Controls": ["RowKey", "RowScroll", "RowCamRight", "RowRagWheel"],
-                "Move": ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "RowSlowMoOn", "RowSlowMo", "MoveLinks"],   # reset below everything it resets
+                "Move": ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "RowIdleStyle", "RowSlowMoOn", "RowSlowMo", "MoveLinks"],   # reset below everything it resets
                 "Quick": ["LblQuickControl", "RowQuickKey", "RowQuickAlpha", "LblQuickInWheel", "QuickInWheel", "LblQuickAvailable", "QuickAvailable"],
                 "Theme": ["LblTheme", "ThemeGrid", "RowBgAlpha", "RowTileAlpha", "ThemeLinks", "RowThemeSave", "RowThemePresets"],
                 "Conflicts": ["LblConflicts", "LblConflictsHint", "ConflictLinks", "ConflictRows"],
@@ -2291,7 +2369,7 @@ def w_panel():
                 w(U_HBOX, "MoveLinks", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(10)}),
                 *[w(U_HBOX, "Row%sStyle" % k, props={} if len(styles) > 1 else {"Visibility": "Collapsed"}, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(14), sz(6))}, children=[
                     sizebox("Lbl%sStyleBox" % k, OPT_LBL_W, 24, [text("Lbl%sStyle" % k, cap, 13, slot={"VerticalAlignment": "VAlign_Center"})], slot={"VerticalAlignment": "VAlign_Top", "Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)}),
-                    w(U_WRAP, "%sStyleChips" % k, props=OPT_CHIP_WRAP, slot=OPT_CHIP_SLOT)]) for k, cap, styles in (("Walk", "Walk style", gen_move.WALK_STYLES), ("Run", "Run style", gen_move.RUN_STYLES))],   # a row only with a choice
+                    w(U_WRAP, "%sStyleChips" % k, props=OPT_CHIP_WRAP, slot=OPT_CHIP_SLOT)]) for k, cap, styles in (("Walk", "Walk style", gen_move.WALK_STYLES), ("Run", "Run style", gen_move.RUN_STYLES), ("Idle", "Standing", gen_move.IDLE_STYLES))],   # a row only with a choice
                 w(U_HBOX, "RowNude", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptNude", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblNude", "Underwear may be taken off", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
@@ -2587,7 +2665,13 @@ def w_panel():
     kd = G(); kd.call("key", K_IN, "GetKey", inp={"Input": "@entry.InKeyEvent"}); kd.branch("bs", is_shift(kd, "s", "@key.ReturnValue"))
     kd.call("u", K_WBL, "Unhandled"); kd.link("u.ReturnValue", "return.ReturnValue")
     kd.n("r2", "return_new"); kd.call("h", K_WBL, "Handled"); kd.link("h.ReturnValue", "r2.ReturnValue")
-    kd.chain("entry", "bs", "return"); kd.chain("bs:else", "r2")
+    if os.environ.get("ALTUI_FOCUSLOG") == "1":   # which key events reach the panel at all (Esc and the pause menu)
+        kd.call("kn", K_IN, "Key_GetDisplayName", inp={"Key": "@key.ReturnValue"}); kd.call("ks", K_TXT, "Conv_TextToString", inp={"InText": "@kn.ReturnValue"})
+        kd.call("kc", K_STR, "Concat_StrStr", inp={"A": "down ", "B": "@ks.ReturnValue"}); kd.get("gmf", "Manager"); kd.call("flk", MGR, "Focus Log Key", inp={"self": "@gmf.Manager", "what": "@kc.ReturnValue"})
+        kd.chain("entry", "flk", "bs", "return")
+    else:
+        kd.chain("entry", "bs", "return")
+    kd.chain("bs:else", "r2")
     # OnPreviewKeyDown (tunnel, before the text field): a Key field of the Mods tab waiting (Manager.Capturing Key) takes the key -
     # Escape cancels instead - and the key's key-up is swallowed (SwallowUp), so Esc or the panel key do not close the panel.
     # Otherwise: swallow Escape (the text field must not react)
@@ -2610,7 +2694,7 @@ def w_panel():
     pvm.get("gm1", "Manager"); pvm.call("cn", MGR, "Cancel Key Capture", inp={"self": "@gm1.Manager"})
     pvm.call("u", K_WBL, "Unhandled"); pvm.link("u.ReturnValue", "return.ReturnValue")
     pvm.chain("entry", "bc", "cn", "return"); pvm.chain("bc:else", "return")
-    # OnKeyUp: search -> Manager.On Search Changed(text); Esc or the panel key (without focus in a search box) -> Close Panel; Handled except Shift (see OnKeyDown)
+    # OnKeyUp: search -> Manager.On Search Changed(text); Esc or the panel key (without focus in a search box) -> Panel Key Close (Esc with the palette open: the palette, else the panel); Handled except Shift (see OnKeyDown)
     ku = G()
     ku.get("gs", "Search"); ku.call("t", E_EDIT, "GetText", inp={"self": "@gs.Search"})
     ku.get("gm", "Manager"); ku.call("sc", MGR, "On Search Changed", inp={"self": "@gm.Manager", "text": "@t.ReturnValue"})
@@ -2652,13 +2736,18 @@ def w_panel():
     ku.call("nf", K_MATH, "Not_PreBool", inp={"A": "@hfe.ReturnValue"})
     ku.call("kx", K_MATH, "BooleanAND", inp={"A": "@kk.ReturnValue", "B": "@nf.ReturnValue"})
     ku.call("or", K_MATH, "BooleanOR", inp={"A": "@esc.ReturnValue", "B": "@kx.ReturnValue"}); ku.branch("b", "@or.ReturnValue")
-    ku.get("gm2", "Manager"); ku.call("cl", MGR, "Close Panel", inp={"self": "@gm2.Manager"})
+    ku.get("gm2", "Manager"); ku.call("cl", MGR, "Panel Key Close", inp={"self": "@gm2.Manager", "esc": "@esc.ReturnValue"})   # Esc with the palette open: only the palette
     ku.call("h", K_WBL, "Handled"); ku.link("h.ReturnValue", "return.ReturnValue")
     ku.branch("bs", is_shift(ku, "s", "@key.ReturnValue"))
     ku.n("r2", "return_new"); ku.call("u", K_WBL, "Unhandled"); ku.link("u.ReturnValue", "r2.ReturnValue")
     ku.get("gsu", "Manager"); ku.get("gsu2", "SwallowUp", cls=MGR); ku.link("gsu.Manager", "gsu2.self"); ku.branch("bsu", "@gsu2.SwallowUp")   # the key-up of a key a Key field took
     ku.get("gsu3", "Manager"); ku.n("csu", "set", var="SwallowUp", cls=MGR, inp={"self": "@gsu3.Manager", "SwallowUp": "false"})
-    ku.chain("entry", "bsu", "csu", "return"); ku.chain("bsu:else", "sc")
+    if os.environ.get("ALTUI_FOCUSLOG") == "1":
+        ku.call("fkc", K_STR, "Concat_StrStr", inp={"A": "up ", "B": "@kds.ReturnValue"}); ku.get("gmf", "Manager"); ku.call("flk", MGR, "Focus Log Key", inp={"self": "@gmf.Manager", "what": "@fkc.ReturnValue"})
+        ku.chain("entry", "flk", "bsu", "csu", "return")
+    else:
+        ku.chain("entry", "bsu", "csu", "return")
+    ku.chain("bsu:else", "sc")
     ku.chain("sc", "scm", "scl", "scp", "scw", "scc", "sclc", "scmc", "sciv", "b", "cl", "return"); ku.chain("b:else", "bs", "r2"); ku.chain("bs:else", "return")
     # SetVisibility expects ESlateVisibility: via two branch paths (Visible / Collapsed)
     fv2 = G(); fv2.branch("b", "@entry.visible")
@@ -2707,9 +2796,10 @@ def w_panel():
     # OnMouseButtonUp: drag running -> End Jodi Drag + release the capture, Handled; else Unhandled
     mu = G(); mu.get("gm", "Manager"); mu.get("gjd", "JodiDrag", cls=MGR); mu.link("gm.Manager", "gjd.self"); mu.branch("b", "@gjd.JodiDrag")
     mu.get("gm2", "Manager"); mu.call("ed", MGR, "End Jodi Drag", inp={"self": "@gm2.Manager"})
+    mu.get("gm3", "Manager"); mu.call("fp", MGR, "Focus Color Keys", inp={"self": "@gm3.Manager"})   # a drag beside an open palette: Esc closes it (through the panel)
     mu.call("h", K_WBL, "Handled"); mu.call("rel", K_WBL, "ReleaseMouseCapture", inp={"Reply": "@h.ReturnValue"}); mu.link("rel.ReturnValue", "return.ReturnValue")
     mu.n("r2", "return_new"); mu.call("u", K_WBL, "Unhandled"); mu.link("u.ReturnValue", "r2.ReturnValue")
-    mu.chain("entry", "b", "ed", "return"); mu.chain("b:else", "r2")
+    mu.chain("entry", "b", "ed", "fp", "return"); mu.chain("b:else", "r2")
     # Set Page(page): exactly one page visible (Clothes = HB, Outfits = OutfitScroll, Bag = BagScroll)
     sp = G(); pages = [("HB", "Clothes"), ("OutfitScroll", "Outfits"), ("LooksScroll", "Looks"), ("BagScroll", "Bag"), ("InventoryVB", "Inventory"), ("FollowersVB", "Followers"), ("HairScroll", "Hair"), ("PoseHB", "Poses"), ("WeaponHB", "Weapons"), ("ModsHB", "Mods"), ("FaceHB", "Face"), ("LookHB", "Look"), ("BodyBox", "Body"), ("OptionsHB", "Options"), ("ContentBox", "Content"), ("ManageHB", "Manage"), ("RagScroll", "Ragdolls"), ("KodexHB", "Kodex")]
     sp.set("sk", "TmpKnown", inp={"TmpKnown": "false"})
@@ -2852,6 +2942,15 @@ def w_panel():
         scm.get("g%d" % i, wn); scm.call("c%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@g%d.%s" % (i, wn), "InVisibility": "Collapsed"}); on.append("c%d" % i)
     scm.get("gbg", "Bg"); scm.call("vbg", E_WIDGET, "SetVisibility", inp={"self": "@gbg.Bg", "InVisibility": "Visible"})
     scm.chain("entry", *on); scm.chain("b:else", "vbg")
+    # Set Palette Lock(on): the game's Show Palette makes the whole panel HitTestInvisible + disabled, which also takes the Jodi catcher
+    # away (a click on her went to the viewport = camera). on: panel back to Visible + enabled, only Bg and the round buttons disabled
+    # (dimmed, no clicks); off (Close Color, every way the palette closes): Bg and the buttons enabled again
+    spl = G(); spl.call("nt", K_MATH, "Not_PreBool", inp={"A": "@entry.on"}); tail = ["entry"]
+    for i, wn in enumerate(("Bg", "BtnPlus", "BtnMinus", "BtnCam", "BtnPhoto", "BtnRag")):
+        spl.get("g%d" % i, wn); spl.call("e%d" % i, E_WIDGET, "SetIsEnabled", inp={"self": "@g%d.%s" % (i, wn), "bInIsEnabled": "@nt.ReturnValue"}); tail.append("e%d" % i)
+    spl.branch("b", "@entry.on"); spl.self_("me"); spl.call("sv", E_WIDGET, "SetVisibility", inp={"self": "@me.self", "InVisibility": "Visible"})
+    spl.self_("me2"); spl.call("en", E_WIDGET, "SetIsEnabled", inp={"self": "@me2.self", "bInIsEnabled": "true"})
+    spl.chain(*tail, "b", "sv", "en")
     sov = G(); tail = ["entry"]
     for k, _ in OPTION_ROWS:
         sov.get("g" + k, "Sld" + k); sov.call("s" + k, E_SLIDER, "SetValue", inp={"self": "@g%s.Sld%s" % (k, k), "InValue": "@entry." + k.lower()}); tail.append("s" + k)
@@ -3102,7 +3201,7 @@ def w_panel():
              fn("Get Look Only Fav", outputs=[param("yes", "bool")], graph=glf, pure=True), fn("Set Look Only Fav", [param("yes", "bool")], graph=slf),
              fn("Get Look Only Worn", outputs=[param("yes", "bool")], graph=glw, pure=True), fn("Set Look Only Worn", [param("yes", "bool")], graph=slw),
              fn("Get Option Values", outputs=[param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool")], graph=gov),
-             fn("Set Option Checks", [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool")], graph=su), fn("Set Left Free", [param("fraction", "float")], graph=la), fn("Set Cam Mode", [param("on", "bool")], graph=scm),
+             fn("Set Option Checks", [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool")], graph=su), fn("Set Left Free", [param("fraction", "float")], graph=la), fn("Set Cam Mode", [param("on", "bool")], graph=scm), fn("Set Palette Lock", [param("on", "bool")], graph=spl),
              clear("Clear Layout Chips", "LayoutChips"), add("Add Layout Chip", "LayoutChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Unowned Chips", "UnownedChips"), add("Add Unowned Chip", "UnownedChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Conflict Rows", "ConflictRows"), add("Add Conflict Row", "ConflictRows", U_VBOX, "AddChildToVerticalBox"),
@@ -3110,6 +3209,7 @@ def w_panel():
              clear("Clear Move Links", "MoveLinks"), add("Add Move Link", "MoveLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear Walk Style Chips", "WalkStyleChips"), add("Add Walk Style Chip", "WalkStyleChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Run Style Chips", "RunStyleChips"), add("Add Run Style Chip", "RunStyleChips", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear Idle Style Chips", "IdleStyleChips"), add("Add Idle Style Chip", "IdleStyleChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Body Chips", "BodyChips"), add("Add Body Chip", "BodyChips", U_WRAP, "AddChildToWrapBox"), clear("Clear Body Links", "BodyScLinks"), add("Add Body Link", "BodyScLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear Lang Chips", "LangChips"), add("Add Lang Chip", "LangChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Key Chips", "KeyChips"), add("Add Key Chip", "KeyChips", U_WRAP, "AddChildToWrapBox"),
@@ -3355,5 +3455,5 @@ def w_quick_wheel():
 
 assets = [w_quick_row(), w_quick_sector(), w_quick_wheel(), w_tooltip(), w_group_header(), w_value_row(), w_content_section(), w_slot_tab(), w_clothes_button(), w_sub_tab(), w_top_tab(), w_list_head(), w_vrow(), w_outfit_button(), w_look_button(scale_fn="Look Scale"), w_look_button(W_FACEBTN, "On Face Clicked", "On Face Context", "Set Face Name", "Btn_SaveFace", (104, 164), (88, 88)),
           w_look_button(W_KODEXTILE, "Kodex Tile Clicked", "Kodex Tile Clicked", "Kodex Noop Rename", "Btn_SaveLook", (136, 236), (120, 180)),
-          w_look_button(W_RAGTILE, "Rag Kind Clicked", "Rag Kind Clicked", "Kodex Noop Rename", "Btn_SaveLook", (104, 196), (88, 132), scale_fn="Rag Scale", links=True), w_text_button(), w_link_row(), w_rag_poses(), w_name_row(), w_conflict_row(), w_fol_row(), w_kodex_lock_row(), w_hair_swatch(), w_mod_field(), w_face_row(), w_round_button(), w_menu_row(), w_menu_slider(), w_context_menu(), w_color_swatch(), w_hex_bar(), w_version_warning(), w_panel()]
+          w_look_button(W_RAGTILE, "Rag Kind Clicked", "Rag Kind Clicked", "Kodex Noop Rename", "Btn_SaveLook", (104, 196), (88, 132), scale_fn="Rag Scale", links=True), w_text_button(), w_link_row(), w_rag_poses(), w_name_row(), w_conflict_row(), w_fol_row(), w_kodex_lock_row(), w_hair_swatch(), w_mod_field(), w_face_row(), w_round_button(), w_menu_row(), w_menu_slider(), w_menu_amount(), w_context_menu(), w_color_swatch(), w_hex_bar(), w_version_warning(), w_panel()]
 write(os.path.join(os.path.dirname(__file__), "..", "40_widgets.json"), assets)

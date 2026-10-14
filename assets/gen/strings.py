@@ -32,6 +32,7 @@ STRINGS = {
     "Chip_All": ("All", "Alle", "全部", "Все", "Todo", "Wszystko"),
     "Chip_More": ("...", "...", "...", "...", "...", "..."),   # collapses / expands the group chips (long mod lists)
     "Chip_Standard": ("Standard", "Standard", "默认", "Стандарт", "Estándar", "Standard"),
+    "Chip_PosePrefix": ("Pose: ", "Pose: ", "姿势：", "Поза: ", "Pose: ", "Poza: "),   # Options > Move: the idle pose's chip
     "Group_Basis": ("No group", "Ohne Gruppe", "无分组", "Без группы", "Sin grupo", "Bez grupy"),
     "Group_Tops": ("Tops", "Oberteile", "上装", "Верх", "Superiores", "Góra"),
     "Group_Bottoms": ("Bottoms", "Unterteile", "下装", "Низ", "Inferiores", "Dół"),
@@ -203,6 +204,8 @@ STRINGS = {
     "Menu_PoseSetMove": ("Mark as in motion", "Als In Bewegung markieren", "标记为动作", "Отметить как в движении", "Marcar en movimiento", "Oznacz jako w ruchu"),
     "Menu_PoseSetStill": ("Remove \u201cin motion\u201d", "\u201eIn Bewegung\u201c entfernen", "取消动作标记", "Убрать «в движении»", "Quitar «en movimiento»", "Usuń \u201ew ruchu\u201d"),
     "Menu_PoseReset": ("Reset measurement", "Messung zurücksetzen", "重置测量", "Сбросить измерение", "Restablecer medición", "Zresetuj pomiar"),
+    "Menu_PoseIdleSet": ("Use as idle", "Als Idle verwenden", "用作待机姿势", "Использовать в покое", "Usar en reposo", "Użyj jako bezczynność"),
+    "Menu_PoseIdleClear": ("No longer as idle", "Nicht mehr als Idle", "不再用作待机", "Больше не в покое", "Ya no en reposo", "Już nie jako bezczynność"),
     "Lbl_PoseChapters": ("Chapters", "Kapitel", "章节", "Разделы", "Capítulos", "Rozdziały"),
     "Lbl_PoseUnsorted": ("Not measured", "Nicht vermessen", "未测量", "Не измерено", "Sin medir", "Niezmierzone"),
     "Pose_Default": ("No pose", "Keine Pose", "无姿势", "Без позы", "Sin pose", "Bez pozy"),
@@ -454,6 +457,15 @@ STRINGS = {
     "Menu_Inv_Check": ("Inspect", "Untersuchen", "查看", "Осмотреть", "Examinar", "Obejrzyj"),
     "Menu_Inv_Drop1": ("Discard one", "Eins wegwerfen", "丢弃一个", "Выбросить один", "Tirar uno", "Wyrzuć jeden"),
     "Menu_Inv_DropAll": ("Discard all", "Alle wegwerfen", "全部丢弃", "Выбросить все", "Tirar todo", "Wyrzuć wszystko"),
+    "Drop_Warn_Title": ("Many objects at once", "Viele Objekte auf einmal", "一次产生大量物体", "Много объектов сразу", "Muchos objetos a la vez", "Wiele obiektów naraz"),
+    "Drop_Warn_Text": ("“Discard all” puts %o objects on the ground (%n pieces). That many physics objects at once can crash the game.",
+                       "„Alle wegwerfen“ legt %o Objekte auf den Boden (%n Stück). So viele Physik-Objekte auf einmal können das Spiel abstürzen lassen.",
+                       "“全部丢弃”会在地上放置 %o 个物体（%n 件）。一次产生这么多物理物体可能导致游戏崩溃。",
+                       "«Выбросить все» положит на землю %o объектов (%n шт.). Столько физических объектов сразу может привести к вылету игры.",
+                       "«Tirar todo» deja %o objetos en el suelo (%n unidades). Tantos objetos con física a la vez pueden hacer que el juego se cierre.",
+                       "„Wyrzuć wszystko” położy na ziemi %o obiektów (%n szt.). Tyle obiektów z fizyką naraz może spowodować awarię gry."),
+    "Drop_Warn_Destroy": ("Destroy instead", "Stattdessen vernichten", "改为销毁", "Вместо этого уничтожить", "Destruir en su lugar", "Zamiast tego zniszcz"),
+    "Drop_Warn_Drop": ("Drop anyway", "Trotzdem ablegen", "仍然丢弃", "Всё равно выбросить", "Tirar de todos modos", "Wyrzuć mimo to"),
     "Menu_Inv_Shortcut1": ("Quick slot 1", "Schnellwahl 1", "快捷栏 1", "Быстрый слот 1", "Acceso rápido 1", "Szybki wybór 1"),
     "Menu_Inv_Shortcut2": ("Quick slot 2", "Schnellwahl 2", "快捷栏 2", "Быстрый слот 2", "Acceso rápido 2", "Szybki wybór 2"),
     "Menu_Inv_Unload": ("Unload ammo", "Munition entnehmen", "卸下弹药", "Разрядить", "Descargar munición", "Rozładuj"),
@@ -514,6 +526,15 @@ STRINGS = {
     "Menu_ModContent": ("View mod content", "Mod-Inhalt anzeigen", "查看模组内容", "Содержимое мода", "Ver contenido del mod", "Pokaż zawartość moda"),
     "Menu_Rename": ("Rename…", "Umbenennen…", "重命名…", "Переименовать…", "Renombrar…", "Zmień nazwę…"),                       # tile: inline display name
     "Menu_Damage": ("Damage", "Schaden", "破损", "Повреждение", "Daño", "Uszkodzenie"),   # slider row in the clothes menu (the game's damage map, 0..100 %)
+    # a chosen amount of a stack (slider + number row, then "<action> n"; %s = n)
+    "Menu_Amount": ("Amount", "Anzahl", "数量", "Количество", "Cantidad", "Ilość"),
+    "Menu_Inv_StoreN": ("Put %s in the box", "%s in die Box", "将 %s 个放入物品箱", "Положить %s в ящик", "Guardar %s en la caja", "Włóż %s do skrzyni"),
+    "Menu_Inv_TakeN": ("Take %s", "%s nehmen", "取出 %s 个", "Взять %s", "Coger %s", "Weź %s"),
+    "Menu_Inv_CatBagN": ("%s into the backpack", "%s in den Rucksack", "将 %s 个放入背包", "%s в рюкзак", "%s a la mochila", "%s do plecaka"),
+    "Menu_Inv_CatBoxN": ("%s into the box", "%s in die Box", "将 %s 个放入物品箱", "%s в ящик", "%s a la caja", "%s do skrzyni"),
+    "Fol_GiveN": ("Give %s", "%s geben", "给出 %s 个", "Дать %s", "Dar %s", "Daj %s"),
+    "Fol_TakeN": ("%s back into the backpack", "%s zurück in den Rucksack", "拿回 %s 个到背包", "%s обратно в рюкзак", "%s de vuelta a la mochila", "%s z powrotem do plecaka"),
+    "Fol_TakeBoxN": ("%s into the box", "%s in die Box", "将 %s 个放入箱子", "%s в ящик", "%s a la caja", "%s do skrzyni"),
     # game fingerprint differs (Version Gate): popup before AltUI calls anything of the game
     "Ver_Title": ("AltUI: unknown game version", "AltUI: unbekannte Spielversion", "AltUI：未知的游戏版本", "AltUI: неизвестная версия игры", "AltUI: versión del juego desconocida", "AltUI: nieznana wersja gry"),
     "Ver_Text": ("This game version - or a mod that replaces the game's tables - differs from the one AltUI was made for. If you load a save game, data could be damaged. You should uninstall AltUI first, or update it if an update is available. If you go on anyway and problems occur, that is your own risk.",
@@ -634,6 +655,13 @@ STRINGS.update({   # Face tab (assets/gen/face.py): groups, one caption per entr
     "Btn_SpeedReset": ("Reset to default", "Auf Standard zurücksetzen", "恢复默认", "Сбросить по умолчанию", "Restablecer valores predeterminados", "Przywróć domyślne"),
     "Lbl_WalkStyle": ("Walk style", "Gehstil", "行走方式", "Стиль ходьбы", "Estilo al andar", "Styl chodu"),
     "Lbl_RunStyle": ("Run style", "Rennstil", "奔跑方式", "Стиль бега", "Estilo al correr", "Styl biegu"),
+    "Lbl_IdleStyle": ("Standing", "Stehen", "站立", "Стойка", "De pie", "Stanie"),
+    "Idle_Afk1": ("Looking around", "Umsehen", "环顾四周", "Оглядывается", "Mirando alrededor", "Rozglądanie się"),
+    "Idle_Afk2": ("Checking nails", "Nägel ansehen", "看指甲", "Смотрит на ногти", "Mirando las uñas", "Oglądanie paznokci"),
+    "Idle_Afk3": ("Checking leg", "Bein ansehen", "看腿", "Смотрит на ногу", "Mirando la pierna", "Oglądanie nogi"),
+    "Idle_Careful": ("Careful", "Vorsichtig", "谨慎", "Осторожно", "Cautelosa", "Ostrożnie"),
+    "Idle_Hurt": ("Injured", "Verletzt", "受伤", "Раненая", "Herida", "Ranna"),
+    "Idle_Mirror": ("Posing", "Posieren", "摆姿势", "Позирует", "Posando", "Pozowanie"),
     "Style_Normal": ("Normal", "Normal", "正常", "Обычный", "Normal", "Normalny"),
     "Style_Copy": ("Copy (test)", "Kopie (Test)", "副本（测试）", "Копия (тест)", "Copia (prueba)", "Kopia (test)"),   # ALTUI_ANIMTEST round trip only
     "Quick_SpeedToggle": ("Own speed on / off", "Eigenes Tempo an / aus", "自定义速度 开 / 关", "Своя скорость вкл. / выкл.", "Velocidad propia sí / no", "Własna prędkość wł. / wył."),

@@ -1,5 +1,38 @@
 # Changelog
 
+## 2.1.0 – 2026-10-15
+
+Replace `AltUI.pak`. New: `idlepak.pyz`, a converter for idle mods. `AltUI_Hook_P.pak`, `bodypak.pyz`,
+`weaponpak.pyz` and `altui_names.pyz` are the same as in 2.0.0.
+
+Idle animations to choose, a chosen amount when moving items, and the body shape survives cutscenes.
+
+* **Idle animations.** *Options › Movement* has a new row **Standing**: besides the game's usual idle, Jodi can stand
+  with one of six other animations of the game – looking around, checking nails, checking leg, careful, injured,
+  posing.
+  * **Idle mods** appear in the same row. `idlepak.pyz` turns a mod that replaces Jodi's idle into an `IdleAltUI_…`
+    pak: it no longer replaces anything, the game's idle stays, and the mod becomes one more choice:
+    `python3 idlepak.pyz <mod>.pak [--name Name] [--title "Shown name"]`. AltUI must be installed: the converter
+    builds the new pak partly from `AltUI.pak` and looks for it in the usual Steam folders; if it is somewhere else,
+    give the path with `--altui <path to AltUI.pak>`. Put the new pak into `Mods/` like `AltUI.pak`.
+  * **A pose as idle.** Right click a pose tile: "Use as idle". The pose starts after 1.5 s of standing still and ends
+    when Jodi walks, draws a weapon or crouches; "No longer as idle" switches it off. The row *Standing* shows it as
+    "Pose: <name>".
+* **A chosen amount.** The context menu of a stack has a row with a slider and a number field, and one entry per target
+  with that number: into the box, take, into the backpack (Inventory tab, also in the "All items" catalogue, there in
+  pieces), give and take back (Followers tab). Enter in the field runs the first entry. Guns and single items have no
+  such row.
+* **A warning before very many objects on the ground.** "Discard all" puts one object on the ground per pack of an item.
+  From 100 objects on a window asks first: cancel, destroy instead (nothing falls), or drop anyway – that many objects
+  with physics at once can crash the game.
+
+Fixes:
+
+* **Cutscenes no longer reset the body shape.** After a cutscene (and after the shower) Jodi had the body's default
+  shape again, without AltUI's slider values; AltUI now puts them back as soon as the game rebuilds the body's animation.
+* **Jodi can be turned while the colour palette is open.** Dragging beside the palette turned the camera instead.
+* **Esc with the colour palette open** closes only the palette; it opened the game's pause menu behind it before.
+
 ## 2.0.0 – 2026-10-13
 
 Replace `AltUI.pak`, `bodypak.pyz` and `weaponpak.pyz`. `AltUI_Hook_P.pak` and `altui_names.pyz` are the same as in

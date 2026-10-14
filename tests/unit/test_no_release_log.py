@@ -1,5 +1,5 @@
 """A release build writes no AltUI_Log.sav: in the generated assets no graph calls "Log Line" - only the debug switches of
-assets/gen/gen_manager_ui.py (ALTUI_WEAPONLOG, ALTUI_POSELOG, ALTUI_TABLOG, ALTUI_PERFLOG) wire it in. Perf Mark (the PERFLOG
+assets/gen/gen_manager_ui.py (ALTUI_WEAPONLOG, ALTUI_POSELOG, ALTUI_TABLOG, ALTUI_PERFLOG, ALTUI_BODYLOG, ...) wire it in. Perf Mark (the PERFLOG
 helper) is declared in every build and calls it, so nothing may call Perf Mark either. Built with a switch on, this fails on purpose."""
 import unittest, os, json
 H = os.path.dirname(os.path.abspath(__file__)); ASSETS = os.path.join(H, "..", "..", "assets")

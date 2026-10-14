@@ -26,7 +26,7 @@ def main():
     expect("running 150 %: game is right", rf(700.0, 1.5), 0)
     expect("standing: game is right", rf(0.0, 1.5), 0)
     # walk / run style -> anim class (None = Normal; Normal / Normal = Jodi_Anim itself)
-    def sc(w, r): mv.call_method("Test Style Class", args=(w, r)); c = mv.get_editor_property("TmpClass"); return c.get_name() if c else None
+    def sc(w, r, i="None"): mv.call_method("Test Style Class", args=(w, r, i)); c = mv.get_editor_property("TmpClass"); return c.get_name() if c else None
     expect("normal / normal = Jodi_Anim", sc("None", "None"), "Jodi_Anim_C")
     expect("normal spelled out", sc("Normal", "Normal"), "Jodi_Anim_C")
     expect("unknown style = Jodi_Anim", sc("Moonwalk", "None"), "Jodi_Anim_C")
@@ -38,6 +38,17 @@ def main():
     expect("start loop normal", sl("Normal", "Normal", False), None)
     expect("start loop unknown", sl("hurt", "hurt", True), None)   # also a style saved before it was removed (Hurt, 2026-10-06)
     expect("removed style = Jodi_Anim", sc("Hurt", "Hurt"), "Jodi_Anim_C")
+    # idle styles: the game's standing loops in every build
+    idles = [k for k in ("Afk1", "Afk2", "Afk3", "Careful", "Hurt", "Mirror") if unreal.EditorAssetLibrary.does_asset_exist("/Game/Mod/AltUI/ABP_AltUIStyle_Normal_Normal_" + k)]
+    expect("game idles built", len(idles), 6)
+    expect("idle only", sc("None", "None", "Careful"), "ABP_AltUIStyle_Normal_Normal_Careful_C")
+    expect("idle ignoring case", sc("None", "None", "careful"), "ABP_AltUIStyle_Normal_Normal_Careful_C")
+    expect("removed idle = Jodi_Anim", sc("None", "None", "Yawn"), "Jodi_Anim_C")
+    def wc(w, r, i): mv.call_method("Test Want Class", args=(w, r, i)); c = mv.get_editor_property("TmpClass"); return c.get_name() if c else None
+    expect("want class game idle", wc("None", "None", "Afk2"), "ABP_AltUIStyle_Normal_Normal_Afk2_C")
+    expect("want class normal", wc("None", "None", "None"), "Jodi_Anim_C")
+    expect("want class missing idle mod = Jodi_Anim", wc("None", "None", "IdleAltUI_NotInstalled"), "Jodi_Anim_C")
+    mv.call_method("Test Want Class", args=("None", "None", "None"))
 
 
 run(main)

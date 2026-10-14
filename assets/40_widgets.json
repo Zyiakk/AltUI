@@ -46248,6 +46248,1243 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Mod/AltUI/W_MenuAmount",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "Manager",
+     "type": "object:/Game/Mod/AltUI/BP_AltUIManager"
+    },
+    {
+     "name": "Lo",
+     "type": "int"
+    },
+    {
+     "name": "Hi",
+     "type": "int"
+    },
+    {
+     "name": "FMax",
+     "type": "int"
+    },
+    {
+     "name": "Last",
+     "type": "int"
+    },
+    {
+     "name": "LastV",
+     "type": "float"
+    },
+    {
+     "name": "First",
+     "type": "name"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Init",
+     "inputs": [
+      {
+       "name": "caption",
+       "type": "text"
+      },
+      {
+       "name": "lo",
+       "type": "int"
+      },
+      {
+       "name": "hi",
+       "type": "int"
+      },
+      {
+       "name": "start",
+       "type": "int"
+      },
+      {
+       "name": "fmax",
+       "type": "int"
+      },
+      {
+       "name": "first",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "slo",
+        "kind": "set",
+        "var": "Lo",
+        "in": {
+         "Lo": "@entry.lo"
+        }
+       },
+       {
+        "id": "shi",
+        "kind": "set",
+        "var": "Hi",
+        "in": {
+         "Hi": "@entry.hi"
+        }
+       },
+       {
+        "id": "sfm",
+        "kind": "set",
+        "var": "FMax",
+        "in": {
+         "FMax": "@entry.fmax"
+        }
+       },
+       {
+        "id": "sfi",
+        "kind": "set",
+        "var": "First",
+        "in": {
+         "First": "@entry.first"
+        }
+       },
+       {
+        "id": "sla",
+        "kind": "set",
+        "var": "Last",
+        "in": {
+         "Last": "@entry.start"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "stl",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl.Label",
+         "InText": "@entry.caption"
+        }
+       },
+       {
+        "id": "v0lo",
+        "kind": "get",
+        "var": "Lo"
+       },
+       {
+        "id": "v0hi",
+        "kind": "get",
+        "var": "Hi"
+       },
+       {
+        "id": "v0d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@entry.start",
+         "B": "@v0lo.Lo"
+        }
+       },
+       {
+        "id": "v0r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@v0hi.Hi",
+         "B": "@v0lo.Lo"
+        }
+       },
+       {
+        "id": "v0rm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Max",
+        "in": {
+         "A": "@v0r.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "v0df",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@v0d.ReturnValue"
+        }
+       },
+       {
+        "id": "v0rf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@v0rm.ReturnValue"
+        }
+       },
+       {
+        "id": "v0q",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@v0df.ReturnValue",
+         "B": "@v0rf.ReturnValue"
+        }
+       },
+       {
+        "id": "v0c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@v0q.ReturnValue",
+         "Min": "0",
+         "Max": "1"
+        }
+       },
+       {
+        "id": "slv",
+        "kind": "set",
+        "var": "LastV",
+        "in": {
+         "LastV": "@v0c.ReturnValue"
+        }
+       },
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "Sld"
+       },
+       {
+        "id": "ssv",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gs.Sld",
+         "InValue": "@v0c.ReturnValue"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "t0s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@entry.start"
+        }
+       },
+       {
+        "id": "t0t",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@t0s.ReturnValue"
+        }
+       },
+       {
+        "id": "set",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@ge.Edit",
+         "InText": "@t0t.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "mas",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Menu Amount Set",
+        "in": {
+         "self": "@gm.Manager",
+         "n": "@entry.start"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call_self",
+        "function": "Compute Colors"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "slo",
+        "shi",
+        "sfm",
+        "sfi",
+        "sla",
+        "stl",
+        "slv",
+        "ssv",
+        "set",
+        "mas",
+        "cc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Compute Colors",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ct_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ct",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tl_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@ct.ColText"
+        }
+       },
+       {
+        "id": "tl_w",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "tl",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tl_w.Label",
+         "InColorAndOpacity": "@tl_sc.SlateColor"
+        }
+       },
+       {
+        "id": "gsl",
+        "kind": "get",
+        "var": "Sld"
+       },
+       {
+        "id": "csl_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "csl",
+        "kind": "get",
+        "var": "ColSlider",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "sbc",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gsl.Sld",
+         "InValue": "@csl.ColSlider"
+        }
+       }
+      ],
+      "links": [
+       [
+        "ct_m.Manager",
+        "ct.self"
+       ],
+       [
+        "csl_m.Manager",
+        "csl.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "tl",
+        "sbc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Tick",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "hf",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@ge.Edit"
+        }
+       },
+       {
+        "id": "bf",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hf.ReturnValue"
+        }
+       },
+       {
+        "id": "ge2",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "gt",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@ge2.Edit"
+        }
+       },
+       {
+        "id": "ts",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@gt.ReturnValue"
+        }
+       },
+       {
+        "id": "ti",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToInt",
+        "in": {
+         "InString": "@ts.ReturnValue"
+        }
+       },
+       {
+        "id": "glo",
+        "kind": "get",
+        "var": "Lo"
+       },
+       {
+        "id": "gfm",
+        "kind": "get",
+        "var": "FMax"
+       },
+       {
+        "id": "tc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Clamp",
+        "in": {
+         "Value": "@ti.ReturnValue",
+         "Min": "@glo.Lo",
+         "Max": "@gfm.FMax"
+        }
+       },
+       {
+        "id": "gla",
+        "kind": "get",
+        "var": "Last"
+       },
+       {
+        "id": "tne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@tc.ReturnValue",
+         "B": "@gla.Last"
+        }
+       },
+       {
+        "id": "btn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@tne.ReturnValue"
+        }
+       },
+       {
+        "id": "tsl",
+        "kind": "set",
+        "var": "Last",
+        "in": {
+         "Last": "@tc.ReturnValue"
+        }
+       },
+       {
+        "id": "tvlo",
+        "kind": "get",
+        "var": "Lo"
+       },
+       {
+        "id": "tvhi",
+        "kind": "get",
+        "var": "Hi"
+       },
+       {
+        "id": "tvd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@tc.ReturnValue",
+         "B": "@tvlo.Lo"
+        }
+       },
+       {
+        "id": "tvr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@tvhi.Hi",
+         "B": "@tvlo.Lo"
+        }
+       },
+       {
+        "id": "tvrm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Max",
+        "in": {
+         "A": "@tvr.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "tvdf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@tvd.ReturnValue"
+        }
+       },
+       {
+        "id": "tvrf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@tvrm.ReturnValue"
+        }
+       },
+       {
+        "id": "tvq",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@tvdf.ReturnValue",
+         "B": "@tvrf.ReturnValue"
+        }
+       },
+       {
+        "id": "tvc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@tvq.ReturnValue",
+         "Min": "0",
+         "Max": "1"
+        }
+       },
+       {
+        "id": "tlv",
+        "kind": "set",
+        "var": "LastV",
+        "in": {
+         "LastV": "@tvc.ReturnValue"
+        }
+       },
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "Sld"
+       },
+       {
+        "id": "tss",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gs.Sld",
+         "InValue": "@tvc.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "tms",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Menu Amount Set",
+        "in": {
+         "self": "@gm.Manager",
+         "n": "@tc.ReturnValue"
+        }
+       },
+       {
+        "id": "gs2",
+        "kind": "get",
+        "var": "Sld"
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gs2.Sld"
+        }
+       },
+       {
+        "id": "glv",
+        "kind": "get",
+        "var": "LastV"
+       },
+       {
+        "id": "sne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_FloatFloat",
+        "in": {
+         "A": "@sv.ReturnValue",
+         "B": "@glv.LastV"
+        }
+       },
+       {
+        "id": "bsn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@sne.ReturnValue"
+        }
+       },
+       {
+        "id": "glo2",
+        "kind": "get",
+        "var": "Lo"
+       },
+       {
+        "id": "ghi2",
+        "kind": "get",
+        "var": "Hi"
+       },
+       {
+        "id": "sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@ghi2.Hi",
+         "B": "@glo2.Lo"
+        }
+       },
+       {
+        "id": "srf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@sr.ReturnValue"
+        }
+       },
+       {
+        "id": "sm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@sv.ReturnValue",
+         "B": "@srf.ReturnValue"
+        }
+       },
+       {
+        "id": "srd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@sm.ReturnValue"
+        }
+       },
+       {
+        "id": "sn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@srd.ReturnValue",
+         "B": "@glo2.Lo"
+        }
+       },
+       {
+        "id": "ssl",
+        "kind": "set",
+        "var": "Last",
+        "in": {
+         "Last": "@sn.ReturnValue"
+        }
+       },
+       {
+        "id": "ssv",
+        "kind": "set",
+        "var": "LastV",
+        "in": {
+         "LastV": "@sv.ReturnValue"
+        }
+       },
+       {
+        "id": "gm2",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "sms",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Menu Amount Set",
+        "in": {
+         "self": "@gm2.Manager",
+         "n": "@sn.ReturnValue"
+        }
+       },
+       {
+        "id": "ge3",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "cur",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@ge3.Edit"
+        }
+       },
+       {
+        "id": "cs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@cur.ReturnValue"
+        }
+       },
+       {
+        "id": "gla2",
+        "kind": "get",
+        "var": "Last"
+       },
+       {
+        "id": "ls",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@gla2.Last"
+        }
+       },
+       {
+        "id": "fne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "NotEqual_StrStr",
+        "in": {
+         "A": "@cs.ReturnValue",
+         "B": "@ls.ReturnValue"
+        }
+       },
+       {
+        "id": "bfn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fne.ReturnValue"
+        }
+       },
+       {
+        "id": "lt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@ls.ReturnValue"
+        }
+       },
+       {
+        "id": "ge4",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "fst",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@ge4.Edit",
+         "InText": "@lt.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bf",
+        "btn",
+        "tsl",
+        "tlv",
+        "tss",
+        "tms"
+       ],
+       [
+        "bf:else",
+        "bsn",
+        "ssl",
+        "ssv",
+        "sms",
+        "bfn"
+       ],
+       [
+        "bsn:else",
+        "bfn"
+       ],
+       [
+        "bfn",
+        "fst"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "OnKeyDown",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "key",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "GetKey",
+        "in": {
+         "Input": "@entry.InKeyEvent"
+        }
+       },
+       {
+        "id": "esc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@key.ReturnValue",
+         "B": "Escape"
+        }
+       },
+       {
+        "id": "ent",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@key.ReturnValue",
+         "B": "Enter"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "hf",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@ge.Edit"
+        }
+       },
+       {
+        "id": "o1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@esc.ReturnValue",
+         "B": "@ent.ReturnValue"
+        }
+       },
+       {
+        "id": "o2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o1.ReturnValue",
+         "B": "@hf.ReturnValue"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@o2.ReturnValue"
+        }
+       },
+       {
+        "id": "h",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Handled"
+       },
+       {
+        "id": "r2",
+        "kind": "return_new"
+       },
+       {
+        "id": "u",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Unhandled"
+       }
+      ],
+      "links": [
+       [
+        "h.ReturnValue",
+        "return.ReturnValue"
+       ],
+       [
+        "u.ReturnValue",
+        "r2.ReturnValue"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "return"
+       ],
+       [
+        "b:else",
+        "r2"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "OnKeyUp",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "key",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "GetKey",
+        "in": {
+         "Input": "@entry.InKeyEvent"
+        }
+       },
+       {
+        "id": "esc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@key.ReturnValue",
+         "B": "Escape"
+        }
+       },
+       {
+        "id": "ent",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@key.ReturnValue",
+         "B": "Enter"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "Edit"
+       },
+       {
+        "id": "hf",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@ge.Edit"
+        }
+       },
+       {
+        "id": "o1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@esc.ReturnValue",
+         "B": "@ent.ReturnValue"
+        }
+       },
+       {
+        "id": "o2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o1.ReturnValue",
+         "B": "@hf.ReturnValue"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@o2.ReturnValue"
+        }
+       },
+       {
+        "id": "h",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Handled"
+       },
+       {
+        "id": "r2",
+        "kind": "return_new"
+       },
+       {
+        "id": "u",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Unhandled"
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ent.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gf",
+        "kind": "get",
+        "var": "First"
+       },
+       {
+        "id": "ma",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "On Menu Action",
+        "in": {
+         "self": "@gm.Manager",
+         "name": "@gf.First"
+        }
+       },
+       {
+        "id": "bx",
+        "kind": "branch",
+        "in": {
+         "Condition": "@esc.ReturnValue"
+        }
+       },
+       {
+        "id": "gm2",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cm",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Close Menu",
+        "in": {
+         "self": "@gm2.Manager"
+        }
+       }
+      ],
+      "links": [
+       [
+        "h.ReturnValue",
+        "return.ReturnValue"
+       ],
+       [
+        "u.ReturnValue",
+        "r2.ReturnValue"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "be",
+        "ma",
+        "return"
+       ],
+       [
+        "be:else",
+        "bx",
+        "cm",
+        "return"
+       ],
+       [
+        "bx:else",
+        "return"
+       ],
+       [
+        "b:else",
+        "r2"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "OnMouseButtonDown",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "h",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Handled"
+       }
+      ],
+      "links": [
+       [
+        "h.ReturnValue",
+        "return.ReturnValue"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    }
+   ],
+   "widget_tree": {
+    "class": "/Script/UMG.Border",
+    "name": "Fill",
+    "props": {
+     "BrushColor": "(R=0,G=0,B=0,A=0)",
+     "Padding": "(Left=23,Top=11,Right=23,Bottom=11)"
+    },
+    "children": [
+     {
+      "class": "/Script/UMG.HorizontalBox",
+      "name": "HB",
+      "children": [
+       {
+        "class": "/Script/UMG.TextBlock",
+        "name": "Label",
+        "props": {
+         "Text": "Amount",
+         "Font": "(Size=23)",
+         "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center",
+         "Padding": "(Left=0,Top=0,Right=19,Bottom=0)"
+        }
+       },
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "SldBox",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 247,
+         "bOverride_HeightOverride": true,
+         "HeightOverride": 46
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.Slider",
+          "name": "Sld",
+          "props": {
+           "Value": 0.0,
+           "StepSize": 0.001,
+           "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+           "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+           "WidgetStyle": "(BarThickness=5.0)"
+          }
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "EditBox",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 122
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center",
+         "Padding": "(Left=15,Top=0,Right=0,Bottom=0)"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.EditableTextBox",
+          "name": "Edit",
+          "props": {
+           "SelectAllTextWhenFocused": true,
+           "ClearKeyboardFocusOnCommit": false,
+           "Justification": "Right",
+           "WidgetStyle": "(Font=(Size=21),Padding=(Left=11,Top=6,Right=11,Bottom=6),BackgroundColor=(SpecifiedColor=(R=0.1,G=0.1,B=0.12,A=1)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Mod/AltUI/W_ContextMenu",
    "mode": "create",
    "parent": "/Script/UMG.UserWidget",
@@ -47952,7 +49189,7 @@
         "id": "fp",
         "kind": "call",
         "class": "/Game/Mod/AltUI/BP_AltUIManager",
-        "function": "Focus Palette",
+        "function": "Focus Color Keys",
         "in": {
          "self": "@gm.Manager"
         }
@@ -51897,6 +53134,29 @@
         }
        },
        {
+        "id": "t_LblIdleStyle_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblIdleStyle_w",
+        "kind": "get",
+        "var": "LblIdleStyle"
+       },
+       {
+        "id": "t_LblIdleStyle",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblIdleStyle_w.LblIdleStyle",
+         "InColorAndOpacity": "@t_LblIdleStyle_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_LblUnowned_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -54970,6 +56230,7 @@
         "t_LblMoveOn",
         "t_LblWalkStyle",
         "t_LblRunStyle",
+        "t_LblIdleStyle",
         "t_LblUnowned",
         "t_LblTabStyle",
         "t_LblTabIconPos",
@@ -67383,6 +68644,168 @@
      }
     },
     {
+     "name": "Set Palette Lock",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "nt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@entry.on"
+        }
+       },
+       {
+        "id": "g0",
+        "kind": "get",
+        "var": "Bg"
+       },
+       {
+        "id": "e0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@g0.Bg",
+         "bInIsEnabled": "@nt.ReturnValue"
+        }
+       },
+       {
+        "id": "g1",
+        "kind": "get",
+        "var": "BtnPlus"
+       },
+       {
+        "id": "e1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@g1.BtnPlus",
+         "bInIsEnabled": "@nt.ReturnValue"
+        }
+       },
+       {
+        "id": "g2",
+        "kind": "get",
+        "var": "BtnMinus"
+       },
+       {
+        "id": "e2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@g2.BtnMinus",
+         "bInIsEnabled": "@nt.ReturnValue"
+        }
+       },
+       {
+        "id": "g3",
+        "kind": "get",
+        "var": "BtnCam"
+       },
+       {
+        "id": "e3",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@g3.BtnCam",
+         "bInIsEnabled": "@nt.ReturnValue"
+        }
+       },
+       {
+        "id": "g4",
+        "kind": "get",
+        "var": "BtnPhoto"
+       },
+       {
+        "id": "e4",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@g4.BtnPhoto",
+         "bInIsEnabled": "@nt.ReturnValue"
+        }
+       },
+       {
+        "id": "g5",
+        "kind": "get",
+        "var": "BtnRag"
+       },
+       {
+        "id": "e5",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@g5.BtnRag",
+         "bInIsEnabled": "@nt.ReturnValue"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.on"
+        }
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@me.self",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "me2",
+        "kind": "self"
+       },
+       {
+        "id": "en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@me2.self",
+         "bInIsEnabled": "true"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "e0",
+        "e1",
+        "e2",
+        "e3",
+        "e4",
+        "e5",
+        "b",
+        "sv",
+        "en"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Clear Layout Chips",
      "graph": {
       "nodes": [
@@ -67810,6 +69233,69 @@
         "function": "AddChildToWrapBox",
         "in": {
          "self": "@g.RunStyleChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Idle Style Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "IdleStyleChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.IdleStyleChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Idle Style Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "IdleStyleChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.IdleStyleChips",
          "Content": "@entry.widget"
         }
        }
@@ -68312,6 +69798,10 @@
       },
       {
        "name": "runstyle",
+       "type": "text"
+      },
+      {
+       "name": "idlestyle",
        "type": "text"
       },
       {
@@ -69435,6 +70925,21 @@
         }
        },
        {
+        "id": "gidlestyle",
+        "kind": "get",
+        "var": "LblIdleStyle"
+       },
+       {
+        "id": "sidlestyle",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gidlestyle.LblIdleStyle",
+         "InText": "@entry.idlestyle"
+        }
+       },
+       {
         "id": "gconflicts",
         "kind": "get",
         "var": "LblConflicts"
@@ -70368,6 +71873,7 @@
         "srunspeed",
         "swalkstyle",
         "srunstyle",
+        "sidlestyle",
         "sconflicts",
         "sconflictshint",
         "sunowned",
@@ -75271,6 +76777,20 @@
         }
        },
        {
+        "id": "gm3",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "fp",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Focus Color Keys",
+        "in": {
+         "self": "@gm3.Manager"
+        }
+       },
+       {
         "id": "h",
         "kind": "call",
         "class": "/Script/UMG.WidgetBlueprintLibrary",
@@ -75315,6 +76835,7 @@
         "entry",
         "b",
         "ed",
+        "fp",
         "return"
        ],
        [
@@ -78088,9 +79609,10 @@
         "id": "cl",
         "kind": "call",
         "class": "/Game/Mod/AltUI/BP_AltUIManager",
-        "function": "Close Panel",
+        "function": "Panel Key Close",
         "in": {
-         "self": "@gm2.Manager"
+         "self": "@gm2.Manager",
+         "esc": "@esc.ReturnValue"
         }
        },
        {
@@ -84275,6 +85797,54 @@
                    {
                     "class": "/Script/UMG.WrapBox",
                     "name": "RunStyleChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowIdleStyle",
+                  "slot": {
+                   "Padding": "(Left=0,Top=27,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblIdleStyleBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblIdleStyle",
+                      "props": {
+                       "Text": "Standing",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "IdleStyleChips",
                     "props": {
                      "InnerSlotPadding": "(X=15,Y=11)"
                     },

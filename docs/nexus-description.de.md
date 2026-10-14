@@ -54,7 +54,7 @@ Sonst wird nichts angefasst – Kleidung, Outfits, Makeup und Frisur laufen übe
 * **Outfits** – die Outfit-Vorlagen des Spiels, mit Namen (Rechtsklick → umbenennen).
 * **Looks** – ein kompletter Look (Kleidung mit Farben, Frisur und Haarfarbe, Makeup, Augen, Haut, Körper-Regler, Body-Mod, Gesicht), gespeichert mit einem Ganzkörperfoto aus dem Spiel, frontal oder so, wie man sie gerade sieht. Anwenden, aktualisieren, umbenennen, löschen. Ein Look lässt sich als Follower, als NPC oder als Ragdoll erzeugen.
 * **Rucksack** – was Jodi trägt und dabeihat: anziehen, ausziehen, reparieren, zurück in die Garderobe, aufräumen.
-* **Inventar** – Jodis Gegenstände und die Hyper Item-Box untereinander: ein Klick verschiebt einen Gegenstand, Rechtsklick benutzt, untersucht, wirft weg oder entlädt; alles läuft über die Funktionen des Spiels. Wahlweise ein Katalog „Alle Items“.
+* **Inventar** – Jodis Gegenstände und die Hyper Item-Box untereinander: ein Klick verschiebt einen Gegenstand, Rechtsklick benutzt, untersucht, wirft weg oder entlädt; alles läuft über die Funktionen des Spiels. Wahlweise ein Katalog „Alle Items“. Ein Regler wählt eine beliebige Anzahl aus einem Stapel; bevor sehr viele Objekte auf dem Boden landen würden, fragt eine Warnung nach.
 * **Frisur** – alle Frisuren, Haarfarbe, 14 natürliche Haarfarben, Werkseinstellung.
 * **Aussehen** – Haut, jeder Makeup-Typ, Augen, Aussehen-Vorlagen mit Symbolen (speichern, aktualisieren, umbenennen, löschen).
 * **Körperform** – Regler für Brust / Taille, ein Umschalter für installierte Body-Mods und – bei konvertierten Bodies – Bone-Regler: Skalierung, Busen, Taille extra, Po/Hüfte, Oberschenkel, Waden, Arme, Hände, Füße, je Body gespeichert. Für Brust und Po: Wackeln, Winkel und Hüftbreite.
@@ -67,7 +67,7 @@ Sonst wird nichts angefasst – Kleidung, Outfits, Makeup und Frisur laufen übe
 * **Ragdolls** – Kopien von Jodi, Zombies und Menschen als Figuren mit Physik: aufstellen, Gelenk für Gelenk posieren, einfrieren oder fallen lassen; Posen je Figurart und ganze Szenen je Level werden gespeichert. Ein Ragdoll-Modus bewegt sie ohne Panel.
 * **Follower** – Looks werden zu Followern, die mit Jodi gehen und kämpfen, oder zu NPCs, die an ihrem Platz bleiben: Befehle, Gegenstände und Waffen zum Übergeben, Kleidung, die Schaden nimmt wie bei den NPCs des Spiels. In einer eigenen Speicherdatei, nie im Spielstand.
 * **Kodex** – das AltUI-Handbuch in allen sieben Sprachen, die Enzyklopädie des Spiels und die Code-Schlösser des aktuellen Levels; jeder Code bleibt verdeckt, bis du ihn anklickst.
-* **Bewegung** – Jodis eigenes Geh- und Renntempo (50–200 %), unter Optionen. Zeitlupe mit eigenem Tempo.
+* **Bewegung** – Jodis eigenes Geh- und Renntempo (50–200 %), unter Optionen. Zeitlupe mit eigenem Tempo. Wie Jodi steht: sechs weitere Idle-Animationen des Spiels, Idle-Mods oder eine Pose als Idle.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips zeigen, aus welchem Mod ein Teil stammt.
 
 Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch, Französisch (automatisch erkannt, in den Optionen umschaltbar).
@@ -103,6 +103,18 @@ python weaponpak.pyz SomeWeaponReplacer.pak --name SomeGun --title "Some gun"
 *--name* wird Teil des Dateinamens (Buchstaben, Ziffern und _), *--title* ist der Text auf dem Chip, und *--weapon* braucht es nur, wenn der Ordnername der Mod nicht verrät, für welche Waffe sie ist. Ein Pak kann einen Skin, ein Modell oder beides mitbringen. Das erzeugte *WeaponAltUI_SomeGun.pak* nach *TheKillingAntidote\Mods\* kopieren und den ursprünglichen Replacer entfernen – sonst überschreibt er die Waffe weiter, egal was im Panel gewählt ist.
 
 Schritt-für-Schritt-Anleitung mit je einem Beispiel für Windows und Linux (englisch): [WEAPON_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/WEAPON_MODS.md)
+
+## Idle-Mods
+
+Idle-Mods ersetzen Jodis Steh-Animation, deshalb kann nur einer aktiv sein. **idlepak.pyz** (im Release; Python 3.8+, keine Pakete) macht aus einem solchen Replacer ein eigenes Mod-Pak: das Idle des Spiels bleibt, und der Mod wird eine weitere Wahl unter Optionen › Bewegung › Stehen. AltUI muss installiert sein – der Konverter baut das neue Pak zum Teil aus AltUI.pak.
+
+```
+python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
+```
+
+Das entstandene IdleAltUI_SomeIdle.pak nach TheKillingAntidote\Mods\ kopieren und den ursprünglichen Replacer entfernen.
+
+idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Details: [README](https://github.com/Zyiakk/AltUI#idle-mods)
 
 ## Einstellungen anderer Mods
 

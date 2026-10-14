@@ -100,6 +100,8 @@ Los objetos de Jodi y la hipercaja de almacenamiento, una lista bajo la otra.
 
 - Las fichas filtran por los grupos del juego (armas, munición, accesorios de armas, herramientas…). El peso muestra lo que lleva Jodi, lo que puede llevar y cuánto se ha sobrecargado.
 - Un clic pone un objeto en la caja o saca uno. Clic derecho: la mitad o todos, usar, examinar, tirar, acceso rápido 1 o 2, descargar munición, «Accesorios…» (abre el arma en la pestaña Armas).
+- El menú contextual de una pila termina con «Cantidad»: un control deslizante y un campo numérico, y debajo una entrada por destino con ese número («Guardar 5 en la caja», «Coger 5»). Enter en el campo ejecuta la primera entrada. En el catálogo el número cuenta unidades y el campo admite más de lo que alcanza el control. Las armas de fuego y los objetos sueltos no tienen cantidad.
+- «Tirar todo» deja un objeto en el suelo por paquete. A partir de 100 objetos una ventana pregunta primero: «Cancelar», «Destruir en su lugar» (los objetos desaparecen, no cae nada) o «Tirar de todos modos»: tantos objetos con física a la vez pueden hacer que el juego se cierre. Esc cancela.
 - Todo pasa por las funciones del propio juego, así que sus reglas se mantienen, sobrecarga incluida.
 - «...» sobre una lista la pliega, ↑↓ le da toda la altura (otra vez: vuelve).
 - En los mapas donde el juego nunca guarda la mochila (el campo de tiro, por ejemplo) la pestaña lo indica: guarda en la caja lo que quieras conservar.
@@ -123,6 +125,7 @@ Cada animación de acción que conocen el juego y tus mods de poses: la lista de
 - Un clic en una pose la reproduce; otro clic o «Detener pose» la detiene.
 - Las poses están ordenadas por postura (de pie, sentada, tumbada) y por capítulo; las fichas filtran por mod y la búsqueda encuentra títulos.
 - Clic derecho: favorito, ocultar, marcar como de pie / sentada / tumbada / en movimiento, renombrar, añadir al menú rápido.
+- Clic derecho «Usar en reposo»: la pose empieza tras 1,5 s quieta y termina cuando Jodi anda, saca un arma o se agacha; «Ya no en reposo» lo desactiva.
 - «Medir todas» reproduce una vez cada pose que aún no tiene postura y la ordena.
 - Un altavoz en la esquina de una casilla marca una pose con sonido.
 
@@ -182,7 +185,7 @@ A la izquierda, las categorías.
 - Grupos: unir grupos o mods con el mismo nombre, longitud de los nombres de grupo, altura de la zona de fichas, búsqueda de fichas.
 - Cámara: campo de visión, distancia, altura, la cámara sigue la ranura elegida.
 - Controles: tecla del panel, velocidad de desplazamiento, altura de la cámara con el botón derecho, cuánto levanta la rueda del ratón un ragdoll por paso.
-- Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta.
+- Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta. «De pie» elige la animación en reposo de Jodi: las del juego (mirando alrededor, mirando las uñas, mirando la pierna, cautelosa, herida, posando) y las de los mods de reposo instalados (IdleAltUI_…).
 - Menú rápido: su tecla, su opacidad, lo que hay en la rueda.
 - Colores: cada color del panel, opacidades, esquemas de color guardados con un nombre.
 - Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas.
@@ -234,6 +237,7 @@ Looks convertidos en personas del juego: un seguidor acompaña a Jodi, lucha y o
 - En la pestaña Looks, clic derecho en un look: «Crear como seguidor» o «Crear como PNJ». La figura aparece delante de Jodi con ese look.
 - La pestaña «Seguidores» muestra todas las figuras con su estado (sigue, espera, PNJ, inactivo, caído) y chips: «Sígueme», «Espera aquí», «Traer aquí», → PNJ / → Seguidor, «Activo», «Invulnerable» y «...» (renombrar, cambiar look, revivir, eliminar).
 - Un clic en una fila selecciona la figura. Arriba están la mochila (izquierda) y la caja (derecha): un clic da un objeto a la figura seleccionada, un arma con su pintura y accesorios. Un clic en una casilla de la figura la devuelve a la mochila; clic derecho: todo, o a la caja. «...» sobre una lista la pliega.
+- El menú contextual de una pila – de Jodi o de la figura – tiene la fila de cantidad como en la pestaña Inventario: «Dar 5», «Coger 5», a la caja.
 - La ropa son prendas reales de la figura, como con los PNJ del juego: se daña, puede romperse y aparece en el inventario de PNJ del propio juego, donde también se puede intercambiar. Bajo una figura, sus prendas son casillas (las dañadas, marcadas): un clic se quita una y la deja en la mochila de Jodi; clic derecho: reparar con un kit de costura de la mochila de Jodi, o reparar todo. En la columna de la mochila, «Ropa» muestra las prendas de Jodi: un clic da una a la figura seleccionada, que se la pone (el daño y los colores van con ella).
 - «Activo» desactivado saca a la figura del mundo con todo lo que lleva; al activarla vuelve delante de Jodi.
 - Una figura que no es invulnerable puede caer. Sigue en la lista y «Revivir» la devuelve con sus cosas. Las figuras nunca se convierten en zombis.
@@ -263,4 +267,5 @@ Mantén pulsado 4 (otra tecla en Opciones › Menú rápido) y se abre una rueda
 
 - Los mods de ropa no necesitan nada especial: AltUI lee las tablas del juego y coloca cada prenda en su ranura.
 - Los mods que reemplazan el cuerpo o un arma pueden convertirse con bodypak.pyz y weaponpak.pyz para instalar varios a la vez; también pueden hacerse para AltUI directamente en el Unreal Editor.
+- Los mods de reposo (un pak que sustituye la animación de reposo de Jodi) se pueden convertir con idlepak.pyz: python3 idlepak.pyz <mod>.pak. El nuevo IdleAltUI_….pak va en Mods/ y aparece en Opciones › Movimiento › «De pie»; el reposo propio del juego se mantiene. AltUI debe estar instalado: el conversor construye el nuevo pak en parte a partir de AltUI.pak y lo busca en las carpetas habituales de Steam; si está en otro sitio, indica la ruta con --altui <ruta a AltUI.pak>.
 - Los mods pueden mostrar sus ajustes en la pestaña Mods mediante dos tablas de datos y una interfaz; MOD_UI.md en el repositorio del código fuente explica cómo.

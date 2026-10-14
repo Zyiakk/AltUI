@@ -42,7 +42,7 @@ Der Hook ersetzt *TKA_PlayerCameraManager* und startet von dort das Panel. Jeder
 * **Kleidung** – jedes Teil des Spiels und deiner Mods, eine Liste je Slot, mit Suche, Filtern, Favoriten und Ausblenden. Schadensregler im Kontextmenü; eine Farbe je Material-Slot, auch für Schmuck, gespeichert je Spielstand.
 * **Outfits · Looks** – die Vorlagen des Spiels mit Namen, und komplette Looks (Kleidung samt Farben, Frisur, Makeup, Augen, Haut, Körper, Gesicht) mit Foto aus dem Spiel. Ein Look lässt sich als Follower, als NPC oder als Ragdoll erzeugen.
 * **Rucksack · Frisuren · Aussehen** – was Jodi trägt und dabeihat; Frisuren und Haarfarben; Haut, Makeup und Augen, jeweils einfärbbar.
-* **Inventar** – Jodis Gegenstände und die Hyper Item-Box untereinander: ein Klick verschiebt einen Gegenstand, Rechtsklick benutzt, untersucht, wirft weg oder entlädt; alles läuft über die Funktionen des Spiels. Wahlweise ein Katalog „Alle Items“.
+* **Inventar** – Jodis Gegenstände und die Hyper Item-Box untereinander: ein Klick verschiebt einen Gegenstand, Rechtsklick benutzt, untersucht, wirft weg oder entlädt; alles läuft über die Funktionen des Spiels. Wahlweise ein Katalog „Alle Items“. Ein Regler wählt eine beliebige Anzahl aus einem Stapel; bevor sehr viele Objekte auf dem Boden landen würden, fragt eine Warnung nach.
 * **Körperform** – Brust- und Taillenregler, Umschalter für konvertierte Body-Mods, Knochenregler je Körper. Für Brust und Po: Wackeln, Winkel und Hüftbreite.
 * **Gesicht** – Jodis Ausdruck, Blick und Mund als Regler; das Gesicht hält auch in Posen und beim Tanzen; gespeicherte Gesichter mit Foto, ihre Werte unter „Inhalt anzeigen“.
 * **Waffen** – je Waffe Modell, Skin und Schussgeräusch, Nahkampfwaffen eingeschlossen, nebeneinander aus allen Waffen-Mods, mit gerendertem Bild auf jeder Kachel; ein Klick auf einen Sound spielt ihn ab. Aufsätze je Slot (Visier, Lauf, Griff, Magazin) aus dem Rucksack oder der Item-Box.
@@ -53,7 +53,7 @@ Der Hook ersetzt *TKA_PlayerCameraManager* und startet von dort das Panel. Jeder
 * **Ragdolls** – Kopien von Jodi, Zombies und Menschen als Figuren mit Physik: aufstellen, Gelenk für Gelenk posieren, einfrieren oder fallen lassen; Posen je Figurart und ganze Szenen je Level werden gespeichert. Ein Ragdoll-Modus bewegt sie ohne Panel.
 * **Follower** – Looks werden zu Followern, die mit Jodi gehen und kämpfen, oder zu NPCs, die an ihrem Platz bleiben: Befehle, Gegenstände und Waffen zum Übergeben, Kleidung, die Schaden nimmt wie bei den NPCs des Spiels. In einer eigenen Speicherdatei, nie im Spielstand.
 * **Kodex** – das AltUI-Handbuch in allen sieben Sprachen, die Enzyklopädie des Spiels und die Code-Schlösser des aktuellen Levels; jeder Code bleibt verdeckt, bis du ihn anklickst.
-* **Bewegung** – Jodis eigenes Geh- und Renntempo (50–200 %), unter Optionen. Zeitlupe mit eigenem Tempo.
+* **Bewegung** – Jodis eigenes Geh- und Renntempo (50–200 %), unter Optionen. Zeitlupe mit eigenem Tempo. Wie Jodi steht: sechs weitere Idle-Animationen des Spiels, Idle-Mods oder eine Pose als Idle.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips mit dem Mod, aus dem ein Teil stammt.
 
 Sprachen: Englisch, Deutsch, Chinesisch, Russisch, Spanisch, Polnisch, Französisch (automatisch erkannt, in den Optionen umstellbar).
@@ -72,6 +72,18 @@ Body-Replacer-Paks überschreiben alle dieselbe Spieldatei, deshalb kann nur ein
 Konverter (Python 3.8+, keine Pakete): https://github.com/Zyiakk/AltUI/releases/latest/download/bodypak.pyz
 
 Schritt-für-Schritt-Anleitung mit je einem Beispiel für Windows und Linux (englisch): [BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md)
+
+## Idle-Mods
+
+Idle-Mods ersetzen Jodis Steh-Animation, deshalb kann nur einer aktiv sein. **idlepak.pyz** (im Release; Python 3.8+, keine Pakete) macht aus einem solchen Replacer ein eigenes Mod-Pak: das Idle des Spiels bleibt, und der Mod wird eine weitere Wahl unter Optionen › Bewegung › Stehen. AltUI muss installiert sein – der Konverter baut das neue Pak zum Teil aus AltUI.pak.
+
+```
+python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
+```
+
+Das entstandene IdleAltUI_SomeIdle.pak nach TheKillingAntidote\Mods\ kopieren und den ursprünglichen Replacer entfernen.
+
+idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Details: [README](https://github.com/Zyiakk/AltUI#idle-mods)
 
 ## Mod-Updates und die zweite Datei
 

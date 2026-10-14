@@ -2,7 +2,7 @@
 The generators build the blueprint branches from these tables; the unit test checks them without the editor."""
 INV_GROUPS = ["Weapon", "Ammo", "Equipment", "Tool"]   # ItemTable.HyperBoxGroup, chip order; "None" = all
 ACTIONS = ["Store1", "StoreHalf", "StoreAll", "Take1", "TakeHalf", "TakeAll", "Use", "Check", "Drop1", "DropAll", "Shortcut1", "Shortcut2", "Unload",
-           "CatBag1", "CatBag5", "CatBox1", "CatBox5", "Attach"]   # Attach: to the weapons tab, the weapon's accessories   # Cat*: from the all-items catalog, 1 or 5 packs (ItemTable.NumberOfPick)
+           "CatBag1", "CatBag5", "CatBox1", "CatBox5", "Attach", "StoreN", "TakeN", "CatBagN", "CatBoxN"]   # *N: the amount row's number (Manager.MenuAmount)   # Attach: to the weapons tab, the weapon's accessories   # Cat*: from the all-items catalog, 1 or 5 packs (ItemTable.NumberOfPick)
 CAT_GROUP = "Collect"   # catalog only: rows without a box group that are no keys / cards (ItemClass 2) and have an actor class
 KINDS = ["gun", "weapon", "ammo", "usable", "other"]
 
@@ -39,3 +39,45 @@ MENUS[("cat", "collect")] = ["CatBag1", "CatBag5", "Check"]
 
 def menu(box, kind):
     return list(MENUS[(box, kind)])
+
+
+# A chosen amount (docs/specs/2026-10-14-stack-amount-design.md): a slider + number row, then one row per target "<action> n".
+# Not for guns (one actor each), a stack of one, or a catalogue item that does not stack (the game gives one anyway).
+AMOUNT_ROWS = {"bag": ["StoreN"], "box": ["TakeN"], "cat": ["CatBagN", "CatBoxN"]}
+FOL_AMOUNT_ROWS = {"jodi": ["GiveN"], "fol": ["TakeN", "TakeBoxN"]}   # Followers tab: Jodi's backpack / box tile, a figure's tile
+AMOUNT_CAT_PACKS = 10      # catalogue slider: 1 .. 10 packs (ItemTable.NumberOfPick), counted in pieces
+AMOUNT_FIELD_MAX = 99999   # catalogue field: more than the slider reaches; the game's own limits apply
+
+
+def amount_rows(box, kind):
+    if kind == "gun": return []
+    if box == "cat" and kind == CAT_GROUP.lower(): return ["CatBagN"]   # collectibles have no box group
+    return list(AMOUNT_ROWS[box])
+
+
+def has_amount(box, kind, count, consumable):
+    if kind == "gun": return False
+    if box == "cat": return bool(consumable)
+    return count > 1
+
+
+def amount_range(count, pick, catalog):
+    """(slider low, slider high, start, field high). Stack: 1 .. count, start half rounded up. Catalogue: in pieces, the slider
+    up to AMOUNT_CAT_PACKS packs, the field up to AMOUNT_FIELD_MAX, start one pack."""
+    if catalog:
+        pk = max(pick, 1); return 1, AMOUNT_CAT_PACKS * pk, pk, AMOUNT_FIELD_MAX
+    return 1, count, (count + 1) // 2, count
+
+
+# "Discard all" (docs/specs/2026-10-15-drop-warning-design.md): Character_Player_Base.Drop Item throws min(count, NumberOfPick)
+# pieces as one physics pickup actor per call. From DROP_WARN_ACTORS actors on, a window asks first (50000 rounds crashed the game).
+DROP_WARN_ACTORS = 100
+
+
+def drop_actors(count, pick):
+    """Pickup actors "Discard all" creates: pieces / max(pack, 1), rounded up."""
+    pk = max(pick, 1); return (count + pk - 1) // pk
+
+
+def drop_warns(count, pick):
+    return drop_actors(count, pick) >= DROP_WARN_ACTORS

@@ -4,9 +4,9 @@ The game takes her speed from the curve MoveData_Speed of the running animation 
 CharacterMovement.MaxWalkSpeed every tick (Update Move Input Vector). This actor ticks after Jodi and before her
 CharacterMovement (tick prerequisites both ways) and scales that value; the mesh's GlobalAnimRateScale follows while she
 moves on the ground without a montage, so the feet keep their grip. Off, crouching or in the air: factor 1."""
-import os, sys; sys.path[:0] = [os.path.dirname(__file__), os.path.join(os.path.dirname(__file__), "..", "anim")]
+import os, sys; sys.path[:0] = [os.path.dirname(__file__), os.path.join(os.path.dirname(__file__), "..", "anim"), os.path.join(os.path.dirname(__file__), "..", "..", "scripts")]
 from bpdsl import *
-import anims
+import anims, idle_mods
 
 MOVE = M + "/BP_AltUIMove"
 E_CMC = "/Script/Engine.CharacterMovementComponent"; E_ACTC = "/Script/Engine.ActorComponent"; E_ANIMI = "/Script/Engine.AnimInstance"
@@ -23,14 +23,22 @@ E_INSET = "/Script/Engine.InputSettings"; S_ACTMAP = "/Script/Engine.InputAction
 # the L/R sync markers. The game's injured loops (Female_WalkHurt_F, Female_Run_Hurt) lack Rotation Speed - tried 2026-10-06, Jodi could
 # not change direction; they come back with copied curves from the animation pipeline (sub-project 3).
 J = "/Game/Project/Character/Jodi"; JODI_ANIM = J + "/Jodi_Anim"; SKELETON = J + "/Body/Female_Skeleton"
-STYLE_NODES = {"walk": "AnimGraphNode_SequencePlayer_1", "run": "AnimGraphNode_SequencePlayer_4"}   # Female_Walk / Female_Run in Jodi_Anim
+STYLE_NODES = {"walk": "AnimGraphNode_SequencePlayer_1", "run": "AnimGraphNode_SequencePlayer_4", "idle": "AnimGraphNode_SequencePlayer_27"}   # Female_Walk / Female_Run / Female_Idle in Jodi_Anim
 WALK_STYLES = [("Normal", None), ("Copy", M + "/Anims/Female_WalkCopy")]   # (key, loop; assets/anim/anims.py); Copy = round trip test of the animation pipeline
 RUN_STYLES = [("Normal", None)]
 # only styles whose loop this build has (anims.enabled: Copy only with ALTUI_ANIMTEST=1); a saved style
 # missing here plays Normal (Style Class / Style Loop: unknown = Normal), and the save keeps it until another one is picked
 WALK_STYLES = [(k, p) for k, p in WALK_STYLES if not p or anims.enabled(p.rsplit("/", 1)[1])]
 RUN_STYLES = [(k, p) for k, p in RUN_STYLES if not p or anims.enabled(p.rsplit("/", 1)[1])]
-STYLE_ABPS = {"%s_%s" % (w, r): M + "/ABP_AltUIStyle_%s_%s" % (w, r) for w, _ in WALK_STYLES for r, _ in RUN_STYLES if (w, r) != ("Normal", "Normal")}
+# idle styles (docs/specs/2026-10-13-idle-styles-design.md): the game's standing loops, checked as loops in docs/notes/2026-10-13-idle-styles.md
+# (Female_Idle_Disgust / _Tic are additive - out). Only the loop player _27 is swapped - SequenceEvaluator_31 (Female_Idle at time 0) stays.
+IDLE_STYLES = [("Normal", None), ("Afk1", J + "/Animations/Appearance/Female_Idle_Afk1"), ("Afk2", J + "/Animations/Appearance/Female_Idle_Afk2"),
+               ("Afk3", J + "/Animations/Appearance/Female_Idle_Afk3"), ("Careful", J + "/Animations/Female_IdleCare"), ("Hurt", J + "/Animations/Female_Idle_Hurt"),
+               ("Mirror", J + "/Animations/Female_Mirrow_Idle")]
+STYLE_ABPS = {"%s_%s_%s" % (w, r, i): M + "/ABP_AltUIStyle_%s_%s_%s" % (w, r, i) for w, _ in WALK_STYLES for r, _ in RUN_STYLES for i, _ in IDLE_STYLES
+              if (w, r, i) != ("Normal", "Normal", "Normal")}
+# idle mods (idlepak): one template per walk / run combination, its idle player on a placeholder the converter points at the mod's animation
+TEMPLATE_ABPS = {"%s_%s" % (w, r): idle_mods.TEMPLATE_DIR + "/" + idle_mods.template_name(w, r) for w, _ in WALK_STYLES for r, _ in RUN_STYLES}
 
 
 def f_target_factor():
@@ -90,28 +98,71 @@ def f_check_run_key():
     return fn("Check Run Key", graph=g)
 
 
-def f_style_class():
-    """Anim class for a walk / run style (None = Normal): the child ABP of the combination, Jodi_Anim for Normal / Normal."""
-    g = G()
-    if not STYLE_ABPS:   # no styles yet: always Jodi_Anim
-        g.call("s0", K_MATH, "SelectClass", inp={"A": JODI_ANIM, "B": JODI_ANIM, "bSelectA": "true"}); g.link("s0.ReturnValue", "return.cls")
-        return fn("Style Class", [param("walk", "name"), param("run", "name")], [param("cls", "class:/Script/CoreUObject.Object")], graph=g, pure=True)
-    # each side to a known style key, anything else (None, a removed style still in the settings) = Normal on that side only
-    for k, styles in (("walk", WALK_STYLES), ("run", RUN_STYLES)):
-        prev = None
-        if len(styles) > 1: g.call(k + "s", K_STR, "Conv_NameToString", inp={"InName": "@entry." + k})
-        for i, (key, _) in enumerate(styles[1:]):
-            g.call("%se%d" % (k, i), K_STR, "EqualEqual_StriStri", inp={"A": "@%ss.ReturnValue" % k, "B": key})
-            g.call("%sk%d" % (k, i), K_MATH, "SelectString", inp={"A": key, "B": prev or "Normal", "bPickA": "@%se%d.ReturnValue" % (k, i)}); prev = "@%sk%d.ReturnValue" % (k, i)
-        if prev is None: g.call(k + "k", K_STR, "Concat_StrStr", inp={"A": "Normal", "B": ""}); prev = "@%sk.ReturnValue" % k
-        g.call(k + "kk", K_STR, "Concat_StrStr", inp={"A": prev, "B": ""})   # one name for the key below
-    g.call("k1", K_STR, "Concat_StrStr", inp={"A": "@walkkk.ReturnValue", "B": "_"}); g.call("key", K_STR, "Concat_StrStr", inp={"A": "@k1.ReturnValue", "B": "@runkk.ReturnValue"})
+def norm_key(g, k, styles, inp):
+    """Graph: the style name <inp> mapped onto a known key of <styles> (ignoring case), anything else 'Normal'. Returns the pin of the key string."""
     prev = None
-    for i, (key, path) in enumerate(sorted(STYLE_ABPS.items())):
-        g.call("e%d" % i, K_STR, "EqualEqual_StriStri", inp={"A": "@key.ReturnValue", "B": key})   # ignoring case: an FName keeps the spelling of its first use ("Hurt" came back as "hurt" in the game)
-        g.call("s%d" % i, K_MATH, "SelectClass", inp={"A": path, "B": prev or JODI_ANIM, "bSelectA": "@e%d.ReturnValue" % i}); prev = "@s%d.ReturnValue" % i
+    if len(styles) > 1: g.call(k + "s", K_STR, "Conv_NameToString", inp={"InName": inp})
+    for i, (key, _) in enumerate(styles[1:]):
+        g.call("%se%d" % (k, i), K_STR, "EqualEqual_StriStri", inp={"A": "@%ss.ReturnValue" % k, "B": key})   # an FName keeps the spelling of its first use ("Hurt" came back as "hurt")
+        g.call("%sk%d" % (k, i), K_MATH, "SelectString", inp={"A": key, "B": prev or "Normal", "bPickA": "@%se%d.ReturnValue" % (k, i)}); prev = "@%sk%d.ReturnValue" % (k, i)
+    if prev is None: g.call(k + "k", K_STR, "Concat_StrStr", inp={"A": "Normal", "B": ""}); prev = "@%sk.ReturnValue" % k
+    return prev
+
+
+def f_style_key():
+    """'<walk>_<run>' of known style keys, each side for itself (None, a removed style still in the settings = Normal on that side only)."""
+    g = G(); w = norm_key(g, "walk", WALK_STYLES, "@entry.walk"); r = norm_key(g, "run", RUN_STYLES, "@entry.run")
+    g.call("k1", K_STR, "Concat_StrStr", inp={"A": w, "B": "_"}); g.call("key", K_STR, "Concat_StrStr", inp={"A": "@k1.ReturnValue", "B": r})
+    g.link("key.ReturnValue", "return.key")
+    return fn("Style Key", [param("walk", "name"), param("run", "name")], [param("key", "string")], graph=g, pure=True)
+
+
+def f_style_class():
+    """Anim class for a walk / run / idle style of the game (None = Normal): the child ABP of the combination, Jodi_Anim for all Normal.
+    An idle mod (IdleAltUI_...) counts as Normal here - Want Class loads its class."""
+    g = G()
+    g.n("sk", "call_self", function="Style Key", inp={"walk": "@entry.walk", "run": "@entry.run"}); i = norm_key(g, "idle", IDLE_STYLES, "@entry.idle")
+    g.call("k1", K_STR, "Concat_StrStr", inp={"A": "@sk.key", "B": "_"}); g.call("key", K_STR, "Concat_StrStr", inp={"A": "@k1.ReturnValue", "B": i})
+    prev = None
+    for n, (key, path) in enumerate(sorted(STYLE_ABPS.items())):
+        g.call("e%d" % n, K_STR, "EqualEqual_StriStri", inp={"A": "@key.ReturnValue", "B": key})
+        g.call("s%d" % n, K_MATH, "SelectClass", inp={"A": path, "B": prev or JODI_ANIM, "bSelectA": "@e%d.ReturnValue" % n}); prev = "@s%d.ReturnValue" % n
+    if prev is None: g.call("s0", K_MATH, "SelectClass", inp={"A": JODI_ANIM, "B": JODI_ANIM, "bSelectA": "true"}); prev = "@s0.ReturnValue"
     g.link(prev[1:], "return.cls")
-    return fn("Style Class", [param("walk", "name"), param("run", "name")], [param("cls", "class:/Script/CoreUObject.Object")], graph=g, pure=True)
+    return fn("Style Class", [param("walk", "name"), param("run", "name"), param("idle", "name")], [param("cls", "class:/Script/CoreUObject.Object")], graph=g, pure=True)
+
+
+def f_want_class():
+    """The anim class for the current WalkStyle / RunStyle / IdleStyle - computed when the style is set, not every tick (it may load a class).
+    Idle mod (IdleAltUI_<Name>): its ABP_AltUIIdleTpl_<walk>_<run>, else its ..._Normal_Normal (a pak converted before a newer walk style: the
+    idle wins, walk / run play normal), else the game styles with idle Normal (mod not installed - the setting stays, like bodies)."""
+    g = G(); g.get("gw", "WalkStyle"); g.get("gr", "RunStyle"); g.get("gi", "IdleStyle")
+    g.call("is", K_STR, "Conv_NameToString", inp={"InName": "@gi.IdleStyle"})
+    g.call("ism", K_STR, "StartsWith", inp={"SourceString": "@is.ReturnValue", "InPrefix": idle_mods.MOD_PREFIX, "SearchCase": "IgnoreCase"}); g.branch("bm", "@ism.ReturnValue")
+    g.n("sk", "call_self", function="Style Key", inp={"walk": "@gw.WalkStyle", "run": "@gr.RunStyle"})
+
+    def load(q, key_pin):
+        # "/Game/Mod/<mod>/ABP_AltUIIdleTpl_<key>.ABP_AltUIIdleTpl_<key>_C"
+        g.call(q + "a", K_STR, "Concat_StrStr", inp={"A": "/Game/Mod/", "B": "@is.ReturnValue"})
+        g.call(q + "b", K_STR, "Concat_StrStr", inp={"A": "@%sa.ReturnValue" % q, "B": "/" + idle_mods.TEMPLATE_PREFIX})
+        g.call(q + "c", K_STR, "Concat_StrStr", inp={"A": "@%sb.ReturnValue" % q, "B": key_pin})
+        g.call(q + "d", K_STR, "Concat_StrStr", inp={"A": "@%sc.ReturnValue" % q, "B": "." + idle_mods.TEMPLATE_PREFIX})
+        g.call(q + "e", K_STR, "Concat_StrStr", inp={"A": "@%sd.ReturnValue" % q, "B": key_pin})
+        g.call(q + "f", K_STR, "Concat_StrStr", inp={"A": "@%se.ReturnValue" % q, "B": "_C"})
+        g.call(q + "p", K_SYS, "MakeSoftClassPath", inp={"PathString": "@%sf.ReturnValue" % q})
+        g.call(q + "r", K_SYS, "Conv_SoftClassPathToSoftClassRef", inp={"SoftClassPath": "@%sp.ReturnValue" % q})
+        g.call(q + "l", K_SYS, "LoadClassAsset_Blocking", inp={"AssetClass": "@%sr.ReturnValue" % q})
+        g.call(q + "v", K_SYS, "IsValidClass", inp={"Class": "@%sl.ReturnValue" % q})
+        return "@%sl.ReturnValue" % q, "@%sv.ReturnValue" % q
+    c1, v1 = load("m1", "@sk.key"); c2, v2 = load("m2", "Normal_Normal")
+    g.n("sc", "call_self", function="Style Class", inp={"walk": "@gw.WalkStyle", "run": "@gr.RunStyle", "idle": "@gi.IdleStyle"})
+    g.call("pick2", K_MATH, "SelectClass", inp={"A": c2, "B": "@sc.cls", "bSelectA": v2})
+    g.call("pick1", K_MATH, "SelectClass", inp={"A": c1, "B": "@pick2.ReturnValue", "bSelectA": v1})
+    g.call("mod", K_MATH, "SelectClass", inp={"A": "@pick1.ReturnValue", "B": "@sc.cls", "bSelectA": "@ism.ReturnValue"})
+    g.link("mod.ReturnValue", "return.cls")
+    # the loads are exec nodes: only on the mod branch; the SelectClass nodes are pure and read their outputs
+    g.chain("entry", "bm", "m1l", "m2l", "return"); g.chain("bm:else", "return")
+    return fn("Want Class", outputs=[param("cls", "class:/Script/CoreUObject.Object")], graph=g)
 
 
 def f_style_loop():
@@ -155,8 +206,11 @@ def f_apply_start_loop():
 
 
 def f_set_style():
-    g = G(); g.set("sw", "WalkStyle", inp={"WalkStyle": "@entry.walk"}); g.set("sr", "RunStyle", inp={"RunStyle": "@entry.run"}); g.chain("entry", "sw", "sr")
-    return fn("Set Style", [param("walk", "name"), param("run", "name")], graph=g)
+    g = G(); g.set("sw", "WalkStyle", inp={"WalkStyle": "@entry.walk"}); g.set("sr", "RunStyle", inp={"RunStyle": "@entry.run"})
+    g.set("si", "IdleStyle", inp={"IdleStyle": "@entry.idle"})
+    g.n("wc", "call_self", function="Want Class"); g.set("swc", "WantClass", inp={"WantClass": "@wc.cls"})
+    g.chain("entry", "sw", "sr", "si", "wc", "swc")
+    return fn("Set Style", [param("walk", "name"), param("run", "name"), param("idle", "name")], graph=g)
 
 
 def f_apply_style():
@@ -168,12 +222,14 @@ def f_apply_style():
     g.call("oc", K_GS, "GetObjectClass", inp={"Object": "@ai.ReturnValue"})
     g.call("jc", K_MATH, "SelectClass", inp={"A": JODI_ANIM, "B": JODI_ANIM, "bSelectA": "true"})
     g.call("ours", K_MATH, "ClassIsChildOf", inp={"TestClass": "@oc.ReturnValue", "ParentClass": "@jc.ReturnValue"})
-    g.get("gws", "WalkStyle"); g.get("grs", "RunStyle"); g.n("sc", "call_self", function="Style Class", inp={"walk": "@gws.WalkStyle", "run": "@grs.RunStyle"})
-    g.call("ne", K_MATH, "NotEqual_ClassClass", inp={"A": "@oc.ReturnValue", "B": "@sc.cls"})
+    # the class Set Style worked out (Want Class; unset = Jodi_Anim) - no class lookup or load per tick
+    g.get("gwc", "WantClass"); g.call("vwc", K_SYS, "IsValidClass", inp={"Class": "@gwc.WantClass"})
+    g.call("want", K_MATH, "SelectClass", inp={"A": "@gwc.WantClass", "B": "@jc.ReturnValue", "bSelectA": "@vwc.ReturnValue"})
+    g.call("ne", K_MATH, "NotEqual_ClassClass", inp={"A": "@oc.ReturnValue", "B": "@want.ReturnValue"})
     g.call("mp", E_ANIMI, "IsAnyMontagePlaying", inp={"self": "@ai.ReturnValue"}); g.call("nmp", K_MATH, "Not_PreBool", inp={"A": "@mp.ReturnValue"})
     g.call("a1", K_MATH, "BooleanAND", inp={"A": "@vai.ReturnValue", "B": "@ours.ReturnValue"}); g.call("a2", K_MATH, "BooleanAND", inp={"A": "@a1.ReturnValue", "B": "@ne.ReturnValue"})
     g.call("a3", K_MATH, "BooleanAND", inp={"A": "@a2.ReturnValue", "B": "@nmp.ReturnValue"}); g.branch("bgo", "@a3.ReturnValue")
-    g.call("sac", E_SKELMESHCOMP, "SetAnimClass", inp={"self": "@gm.Mesh", "NewClass": "@sc.cls"})
+    g.call("sac", E_SKELMESHCOMP, "SetAnimClass", inp={"self": "@gm.Mesh", "NewClass": "@want.ReturnValue"})
     g.call("ai2", E_SKELMESHCOMP, "GetAnimInstance", inp={"self": "@gm.Mesh"})
     g.set("sab", "Anim Blueprint", cls=P_CB, inp={"self": "@gb.Bound", "Anim Blueprint": "@ai2.ReturnValue"})
     g.chain("entry", "bgo", "sac", "sab")
@@ -259,8 +315,11 @@ def event_graph():
     g.custom("trt", "Test Rate Target", [param("factor", "float"), param("speed", "float"), param("montage", "bool")])
     g.n("trt_c", "call_self", function="Rate Target", inp={k: "@trt." + k for k in ("factor", "speed", "montage")})
     g.set("trt_s", "TmpFloat", inp={"TmpFloat": "@trt_c.rate"}); g.chain("trt", "trt_s")
-    g.custom("tsc", "Test Style Class", [param("walk", "name"), param("run", "name")])
-    g.n("tsc_c", "call_self", function="Style Class", inp={"walk": "@tsc.walk", "run": "@tsc.run"}); g.set("tsc_s", "TmpClass", inp={"TmpClass": "@tsc_c.cls"}); g.chain("tsc", "tsc_s")
+    g.custom("tsc", "Test Style Class", [param("walk", "name"), param("run", "name"), param("idle", "name")])
+    g.n("tsc_c", "call_self", function="Style Class", inp={"walk": "@tsc.walk", "run": "@tsc.run", "idle": "@tsc.idle"}); g.set("tsc_s", "TmpClass", inp={"TmpClass": "@tsc_c.cls"}); g.chain("tsc", "tsc_s")
+    g.custom("twc", "Test Want Class", [param("walk", "name"), param("run", "name"), param("idle", "name")])
+    g.n("twc_c", "call_self", function="Set Style", inp={"walk": "@twc.walk", "run": "@twc.run", "idle": "@twc.idle"})
+    g.get("twc_g", "WantClass"); g.set("twc_s", "TmpClass", inp={"TmpClass": "@twc_g.WantClass"}); g.chain("twc", "twc_c", "twc_s")
     g.custom("tslp", "Test Style Loop", [param("walk", "name"), param("run", "name"), param("running", "bool")])
     g.n("tslp_c", "call_self", function="Style Loop", inp={"walk": "@tslp.walk", "run": "@tslp.run", "running": "@tslp.running"}); g.set("tslp_s", "TmpObj", inp={"TmpObj": "@tslp_c.loop"}); g.chain("tslp", "tslp_s")
     g.custom("trf", "Test Run Fix", [param("speed", "float"), param("factor", "float")])
@@ -269,16 +328,25 @@ def event_graph():
 
 
 def style_assets():
-    """Stand-in sequences, the Jodi_Anim stub and one child ABP per style combination (Normal / Normal is Jodi_Anim itself)."""
-    seqs = [J + "/Animations/Female_Walk", J + "/Animations/Female_Run"] + [a for _, a in WALK_STYLES + RUN_STYLES if a and a.startswith(J)]   # stand-ins for game animations only
-    out = [animsequence_stub(a, SKELETON) for a in seqs]
-    out.append(animstub(JODI_ANIM, SKELETON, [(STYLE_NODES["walk"], seqs[0]), (STYLE_NODES["run"], seqs[1])]))
+    """Stand-in sequences, the Jodi_Anim stub, one child ABP per style combination (Normal / Normal / Normal is Jodi_Anim itself) and one
+    idle template per walk / run combination for idlepak."""
+    seqs = [J + "/Animations/Female_Walk", J + "/Animations/Female_Run", J + "/Animations/Female_Idle"] + \
+           [a for _, a in WALK_STYLES + RUN_STYLES + IDLE_STYLES if a and a.startswith(J)]   # stand-ins for game animations only
+    out = [animsequence_stub(a, SKELETON) for a in seqs] + [animsequence_stub(idle_mods.TEMPLATE_ANIM, SKELETON)]   # placeholder: our own empty animation, packed
+    out.append(animstub(JODI_ANIM, SKELETON, [(STYLE_NODES["walk"], seqs[0]), (STYLE_NODES["run"], seqs[1]), (STYLE_NODES["idle"], seqs[2])]))
     # Move Start / Move Change write the game's start and walk <-> run animations (2 - 2.6 s) into this variable; BP_AltUIMove puts the
     # style's loop there so a style shows from the first step
-    out.append(blueprint(JODI_ANIM, mode="augment", variables=[var("Anim Move Start", "object:/Script/Engine.AnimSequence")]))
-    walk, run = dict(WALK_STYLES), dict(RUN_STYLES)
+    out.append(blueprint(JODI_ANIM, mode="augment", variables=[var("Anim Move Start", "object:/Script/Engine.AnimSequence"),
+                                                              var("In Hand Weapon", "object:" + P_WEAPON), var("Player Upper Body State", "name")]))   # the last two: read by ALTUI_ANIMLOG
+    walk, run, idle = dict(WALK_STYLES), dict(RUN_STYLES), dict(IDLE_STYLES)
     for key, path in STYLE_ABPS.items():
-        w, r = key.split("_"); ov = {}
+        w, r, i = key.split("_"); ov = {}
+        if walk[w]: ov[STYLE_NODES["walk"]] = walk[w]
+        if run[r]: ov[STYLE_NODES["run"]] = run[r]
+        if idle[i]: ov[STYLE_NODES["idle"]] = idle[i]
+        out.append(animchild(path, JODI_ANIM, SKELETON, ov))
+    for key, path in TEMPLATE_ABPS.items():
+        w, r = key.split("_"); ov = {STYLE_NODES["idle"]: idle_mods.TEMPLATE_ANIM}
         if walk[w]: ov[STYLE_NODES["walk"]] = walk[w]
         if run[r]: ov[STYLE_NODES["run"]] = run[r]
         out.append(animchild(path, JODI_ANIM, SKELETON, ov))
@@ -288,8 +356,8 @@ def style_assets():
 def build():
     return style_assets() + [blueprint(MOVE, E_ACTOR,
                       variables=[var("On", "bool"), var("Walk", "float"), var("Run", "float"), var("Bound", "object:" + P_CPB), var("Factor", "float", default="1.0"),
-                                 var("Rate", "float", default="1.0"), var("LastSet", "float", default="-1.0"), var("LastBase", "float"), var("Idle", "bool"), var("TmpFloat", "float"), var("TmpInt", "int"), var("RunAction", "int"), var("WalkStyle", "name"), var("RunStyle", "name"), var("TmpClass", "class:/Script/CoreUObject.Object"), var("TmpObj", "object:/Script/CoreUObject.Object")],
-                      functions=[f_target_factor(), f_rate_target(), f_run_fix(), f_check_run_key(), f_style_class(), f_style_loop(), f_apply_start_loop(), f_set_style(), f_apply_style(), f_bind(), f_set_speeds(), f_apply()], event_graph=event_graph())]
+                                 var("Rate", "float", default="1.0"), var("LastSet", "float", default="-1.0"), var("LastBase", "float"), var("Idle", "bool"), var("TmpFloat", "float"), var("TmpInt", "int"), var("RunAction", "int"), var("WalkStyle", "name"), var("RunStyle", "name"), var("IdleStyle", "name"), var("WantClass", "class:/Script/CoreUObject.Object"), var("TmpClass", "class:/Script/CoreUObject.Object"), var("TmpObj", "object:/Script/CoreUObject.Object")],
+                      functions=[f_target_factor(), f_rate_target(), f_run_fix(), f_check_run_key(), f_style_key(), f_style_class(), f_want_class(), f_style_loop(), f_apply_start_loop(), f_set_style(), f_apply_style(), f_bind(), f_set_speeds(), f_apply()], event_graph=event_graph())]
 
 
 if __name__ == "__main__":

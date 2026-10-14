@@ -44,7 +44,7 @@ The hook replaces *TKA_PlayerCameraManager* and starts the panel from there. Any
 * **Clothes** – every item of the game and of your mods, one list per slot, with search, filters, favourites and hiding. Damage slider in the context menu; a colour per material slot, jewellery included, kept per save game.
 * **Outfits · Looks** – the game's presets with names, and complete looks (clothes with colours, hair, makeup, eyes, skin, body, face) saved with an in-game photo. A look can be spawned as a follower, an NPC or a ragdoll.
 * **Backpack · Coiffure · Appearance** – what Jodi wears and carries; hairstyles and hair colours; skin, makeup and eyes, each tintable.
-* **Inventory** – Jodi's items and the Hyper Storage Box one under the other: a click moves an item, right click uses, inspects, discards or unloads it; everything goes through the game's own functions. Optional: an “All items” catalogue.
+* **Inventory** – Jodi's items and the Hyper Storage Box one under the other: a click moves an item, right click uses, inspects, discards or unloads it; everything goes through the game's own functions. Optional: an “All items” catalogue. A slider picks any amount of a stack; before very many objects would land on the ground, a warning asks first.
 * **Body Shape** – breast / waist sliders, a switcher for converted body mods, bone-scale sliders per body. For breast and glutes: jiggle, angle and hip width.
 * **Face** – Jodi's expression, gaze and mouth as sliders; the face holds in poses and while dancing; saved faces with a photo, their values under “View content”.
 * **Weapons** – model, skin and shot sound per weapon, melee weapons included, side by side from every weapon mod, with a rendered picture on each tile; a click on a sound plays it. Accessories per slot (sights, barrel, grip, magazine) from the backpack or the storage box.
@@ -55,7 +55,7 @@ The hook replaces *TKA_PlayerCameraManager* and starts the panel from there. Any
 * **Ragdolls** – copies of Jodi, zombies and people as figures with physics: place them, pose them joint by joint, freeze them or let them fall; poses per kind of figure and whole scenes per level are saved. A ragdolls mode moves them without the panel.
 * **Followers** – looks become followers that walk and fight with Jodi, or NPCs that stay where they are: orders, items and guns to hand over, clothes that take damage like those of the game's own NPCs. Kept in a save file of their own, never in the game's save.
 * **Codex** – the AltUI manual in all seven languages, the game's encyclopedia and the code locks of the current level, each code hidden until you click it.
-* **Movement** – Jodi's own walk and run speed (50–200 %), under Options. Slow motion with its own speed.
+* **Movement** – Jodi's own walk and run speed (50–200 %), under Options. Slow motion with its own speed. How Jodi stands: six more idle animations of the game, idle mods, or a pose as idle.
 * Undo / redo (5 steps), tooltips showing which mod an item comes from.
 
 Languages: English, German, Chinese, Russian, Spanish, Polish, French (auto-detected, switchable in Options).
@@ -72,6 +72,18 @@ Languages: English, German, Chinese, Russian, Spanish, Polish, French (auto-dete
 Body replacer paks all overwrite the same game file, so only one can be active. A small converter turns a replacer into a regular mod pak that keeps the mesh under its own path; any number of converted bodies can be installed side by side and appear as chips in the Body Shape tab.
 
 Guide (Windows, Linux): [BODY_MODS.md](https://github.com/Zyiakk/AltUI/blob/main/BODY_MODS.md) · bodypak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/bodypak.pyz
+
+## Idle mods
+
+Idle mods replace Jodi's standing animation, so only one can be active. **idlepak.pyz** (in the release; Python 3.8+, no packages) turns such a replacer into its own mod pak: the game's idle stays, and the mod becomes one more choice under Options › Movement › Standing. AltUI must be installed – the converter builds the new pak partly from AltUI.pak.
+
+```
+python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
+```
+
+Copy the resulting IdleAltUI_SomeIdle.pak to TheKillingAntidote\Mods\ and remove the original replacer.
+
+idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Details: [README](https://github.com/Zyiakk/AltUI#idle-mods)
 
 ## Mod updates and the second file
 
