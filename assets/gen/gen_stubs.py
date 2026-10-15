@@ -221,7 +221,8 @@ assets = [
     # Jodi's parent in the game (the kit has no such asset): what AltUI puts on the body, face and colours through "Wearer" -
     # the main menu's figure (Jodi_Intro) is a Jodi_Base, not a Jodi. Members as the game declares them on Jodi_Base.
     blueprint(P_JODI_BASE, P_CPB, variables=[var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D")],
-              functions=[fn("Get Makeup Data", outputs=[param("Makeup Data", "object:" + P_MAKEUP_SAVE)]), fn("Update Makeup Texture"), fn("Load Player Makeup")]),
+              functions=[fn("Get Makeup Data", outputs=[param("Makeup Data", "object:" + P_MAKEUP_SAVE)]), fn("Update Makeup Texture"), fn("Load Player Makeup"),
+                         fn("Update Makeup Texture Ex", [param("tex", "object:/Script/Engine.TextureRenderTarget2D"), param("makeup data", "name", "map", value_type="struct:" + P_MDATA_S, ref=True)])]),   # followers: a figure's own make-up target
     # followers (docs/specs/2026-10-09-followers-design.md): NPC_Female and its parents, only what AltUI overrides or calls
     # Weapons (name -> weapon actor): on Character_Player_Base as in the game (the old kit had it on Jodi); Jodi and the followers inherit it
     # Check Appearence: the follower overrides it (it would put the game's default clothes on a figure without clothes components)
@@ -237,7 +238,8 @@ assets = [
                          fn("check clothes covering")]),   # the underwear rule (Bra01 / Briefs01 unless Is Nude Allowed); the follower's Check Appearence calls it
     # on Spawn in Runtime: the game's start of a figure spawned while playing (-> On Begun Play: anim class, order, health)
     blueprint(P_CNPC, P_CPB, variables=[var("Distance to Master", "float")], functions=[fn("Need to Save", outputs=[param("yes", "bool")], pure=True), fn("Mutate"), fn("on Spawn in Runtime")]),
-    blueprint(P_NPCF, P_CNPC, variables=[var("save order", "name"), var("Order Location", "struct:/Script/CoreUObject.Vector")],   # On Begun Play gives the controller these
+    blueprint(P_NPCF, P_CNPC, variables=[var("save order", "name"), var("Order Location", "struct:/Script/CoreUObject.Vector"),
+                                         var("Npc Name", "name")],   # Get Character Name -> VoiceTable row (Female_1..4): no name, no voice   # On Begun Play gives the controller these
               functions=[fn("delay to mutant"), fn("Apply Npc Appearance"), fn("Init Npc Appearance")]),   # the follower applies its look in Apply, rolls nothing in Init
     blueprint(P_NPCCTRL, "/Script/AIModule.AIController", variables=[var("master", "object:" + P_JODI), var("Order Location", "struct:/Script/CoreUObject.Vector"),   # Fol Spawn: order + place straight to the controller
                                                                                    var("Current Order", "name"), var("walking state", "int"), var("is busy", "bool")],   # Current Order: Fol Sync (the game's NPC menu); the last two: ALTUI_FOLLOG
@@ -259,10 +261,12 @@ assets = [
     blueprint(P_INVNPC, E_USERWIDGET),   # followers: Fol Watch compares the figures' clothes only while it is shown
     blueprint(P_HUD, E_USERWIDGET, variables=[var("InventoryPanel", "object:" + P_INV), var("InventoryNpc", "object:" + P_INVNPC)],
               functions=[fn("Show Item Detail with Name", [param("item name", "name"), param("button", "object:" + E_WIDGET), param("gun", "object:" + P_WEAPON)])]),
-    blueprint(P_GS2, mode="augment", variables=[var("UserInterface", "object:" + P_HUD), var("Default Underwear", "name", "array")],
+    blueprint(P_GS2, mode="augment", variables=[var("UserInterface", "object:" + P_HUD), var("Default Underwear", "name", "array"),
+                                                 var("photo mode camera", "object:/Script/Engine.Actor")],   # Camera_Free_C: held at real speed while AltUI stops time
               functions=[fn("Set Nude Allowed", [param("allow", "bool")]),   # real function in TKA_GameState_Base (Allow Naked); in game only reachable via a disabled cheat
                          # photo mode (Camera_Free + PhotoModeUI): entered from the game's pause menu; Is In Photo Mode = IsValid(photo mode camera)
                          fn("Enter Photo Mode"), fn("Try Exit Photo Mode"), fn("Is In Photo Mode", outputs=[param("yes", "bool")]),
+                         fn("Show UI", [param("show", "bool")]), fn("Is UI Visible", outputs=[param("yes", "bool")]),   # the HUD (UserInterface), as the photo mode hides it
                          fn("Get Note Save", outputs=[param("note save", "object:" + P_NOTE_SAVE)]),
                          fn("Get Hyper Box Data", outputs=[param("data", "object:" + P_HBDATA)])]),   # inventory tab: the global storage box
     blueprint(P_PC, mode="augment", variables=[var("Input Move Values", "struct:/Script/CoreUObject.Vector")],   # raw move input (idle pose: ends on it - a pose blocks the movement itself)

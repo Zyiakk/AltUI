@@ -12,7 +12,7 @@ QUICK_STRINGS = ["OptCat_Quick", "Lbl_QuickKey", "Lbl_QuickInWheel", "Lbl_QuickA
 
 class QuickData(unittest.TestCase):
     def test_constants(self):
-        self.assertEqual(ui.QUICK_MAX, 32); self.assertEqual(ui.QUICK_FIXED, ["freecam", "photo", "panel", "posestop", "ragdoll", "ragdolltoggle", "ragdollclear", "ragdollmode", "ragdollaim", "speedtoggle", "folfollow", "folwait", "folallfollow", "folallwait", "slowmo", "freeze", "hidejodi"])
+        self.assertEqual(ui.QUICK_MAX, 32); self.assertEqual(ui.QUICK_FIXED, ["freecam", "photo", "panel", "posestop", "ragdoll", "ragdolltoggle", "ragdollclear", "ragdollmode", "ragdollaim", "speedtoggle", "folfollow", "folwait", "folallfollow", "folallwait", "slowmo", "freeze", "hidejodi", "hideui"])
 
     def test_strings(self):
         for k in QUICK_STRINGS: self.assertEqual(len(STRINGS[k]), len(LANGS), k)
@@ -45,14 +45,14 @@ class QuickData(unittest.TestCase):
 
     def test_key_opens_wheel_only_when_free(self):
         eg = next(x for x in json.load(open(os.path.join(H, "..", "..", "assets", "50_manager_ui.json")))["assets"] if x["path"].endswith("/BP_AltUIManager"))["event_graph"]
-        self.assertIn(["kAny:Pressed", "bq", "oqw"], eg["exec"])
+        self.assertIn(["kAny:Pressed", "kbr", "bq", "oqw"], eg["exec"])   # own keys (Bind Run) first
         bq = next(n for n in eg["nodes"] if n["id"] == "bq"); self.assertIn("@qb.", json.dumps(bq))
         qb = next(n for n in eg["nodes"] if n["id"] == "qb"); self.assertEqual(qb["in"], {"A": "@qa.ReturnValue", "B": "@ie.yes"})
 
 
     def test_options_block(self):
         import gen_widgets
-        self.assertEqual(gen_widgets.OPT_CAT_ROWS["Quick"], ["LblQuickControl", "RowQuickKey", "RowQuickAlpha", "LblQuickInWheel", "QuickInWheel", "LblQuickAvailable", "QuickAvailable"])
+        self.assertEqual(gen_widgets.OPT_CAT_ROWS["Quick"], ["LblQuickControl", "RowQuickKey", "RowQuickAlpha", "LblQuickInWheel", "QuickInWheel", "LblKeyBinds", "KeyBindHint", "KeyBinds", "LblQuickAvailable", "QuickAvailable"])
         g = graph("50_manager_ui.json", "Rebuild Options"); c = calls(g, "Rebuild Quick Options"); self.assertEqual(len(c), 1)
         eqs = {n["id"] for n in g["nodes"] if n.get("function") == "EqualEqual_NameName" and "Quick" in n.get("in", {}).values()}
         br = [n["id"] for n in g["nodes"] if n.get("kind") == "branch" and any(("@%s." % e) in json.dumps(n) for e in eqs)]
@@ -61,7 +61,7 @@ class QuickData(unittest.TestCase):
     def test_menu_actions(self):
         g = graph("50_manager_ui.json", "On Menu Action"); self.assertIn(calls(g, "Quick Action")[0], after(g, "bq"))
         prefixes = {n["in"]["InPrefix"] for n in g["nodes"] if n.get("function") == "StartsWith"}
-        self.assertTrue({"QKey", "QUp:", "QDown:", "QDel:"} <= prefixes)
+        self.assertTrue({"QKey", "QUp:", "QDown:", "QDel:", "BKey:", "BDel:"} <= prefixes)
         qa = graph("50_manager_ui.json", "Quick Action"); self.assertTrue(calls(qa, "Quick Move") and calls(qa, "Quick Remove"))
 
     def test_key_capture(self):
@@ -119,13 +119,13 @@ class QuickIcons(unittest.TestCase):
 
 class QuickOptionsLook(unittest.TestCase):
     def test_rows_striped_headings_restart(self):
-        """Zebra stripes like the slot conflicts: every row gets tinted from QStripe, every heading resets it, the wheel list starts at 0."""
+        """Zebra stripes like the slot conflicts: every row gets tinted from QStripe, every heading resets it, the wheel list and the own keys start at 0."""
         g = graph("50_manager_ui.json", "Rebuild Quick Options")
         inits = [n for n in g["nodes"] if n.get("function") == "Init" and "mode" in n.get("in", {})]
         self.assertTrue(inits and all("tinted" in n["in"] for n in inits))
         resets = [n for n in g["nodes"] if n.get("kind") == "set" and n.get("var") == "QStripe" and n["in"].get("QStripe") == "0"]
         heads = [n for n in inits if n["in"]["mode"] == "2"]
-        self.assertEqual(len(resets), len(heads) + 1)
+        self.assertEqual(len(resets), len(heads) + 2)
 
     def test_key_link_fills_the_widest_text(self):
         import gen_widgets
@@ -141,6 +141,58 @@ class QuickOptionsLook(unittest.TestCase):
             for c in t.get("children") or []: walk(c)
         walk(gen_widgets.w_text_button()["widget_tree"])
         self.assertEqual(lbl[0]["props"].get("Justification"), "Center"); self.assertIn("Fill", lbl[0]["slot"]["Size"])
+
+
+
+class MenuClosesOnOtherTile(unittest.TestCase):
+    def test_preview_click_closes_menu(self):
+        """2026-10-16: a click on another tile closes an open context menu - the panel's preview (tunnel) handler, before the tile."""
+        a = next(x for x in json.load(open(os.path.join(H, "..", "..", "assets", "40_widgets.json")))["assets"] if x["path"].endswith("/W_AltUI"))
+        g = next(f for f in a["functions"] if f["name"] == "OnPreviewMouseButtonDown")["graph"]
+        self.assertIn(["entry", "cm", "bc", "cn", "return"], g["exec"])
+        self.assertEqual(next(n for n in g["nodes"] if n["id"] == "cm")["function"], "Close Menu")
+        self.assertEqual(next(n for n in g["nodes"] if n["id"] == "u")["function"], "Unhandled")   # the tile still gets the click
+
+
+class OwnKeysCam(unittest.TestCase):
+    def test_free_cam_hands_keys_on(self):
+        """2026-10-16 ui-test-102 #7: the free cam's BP_CamInput consumes every key - its Pressed goes to Bind Run."""
+        a = next(x for x in json.load(open(os.path.join(H, "..", "..", "assets", "50_manager_ui.json")))["assets"] if x["path"].endswith("/BP_CamInput"))
+        eg = a["event_graph"]; self.assertIn(["k:Pressed", "bp0"], eg["exec"])
+        self.assertEqual(next(n for n in eg["nodes"] if n["id"] == "bp0")["function"], "Bind Run")
+
+    def test_stop_time_holds_the_photo_camera(self):
+        """2026-10-16 ui-test-102 #9: the photo mode opens paused - the manager ticks when paused and then runs only Time Tick, which
+        keeps the photo mode camera (Camera_Free, ticks when paused) at real speed."""
+        g = graph("50_manager_ui.json", "Time Tick"); cpm = next(n for n in g["nodes"] if n["id"] == "cpm")
+        self.assertEqual((cpm["var"], cpm["in"]["CustomTimeDilation"]), ("CustomTimeDilation", "@comp.ReturnValue"))
+        eg = next(x for x in json.load(open(os.path.join(H, "..", "..", "assets", "50_manager_ui.json")))["assets"] if x["path"].endswith("/BP_AltUIManager"))["event_graph"]
+        self.assertIn(["tick", "tbpz", "tpzt"], eg["exec"]); self.assertEqual(next(n for n in eg["nodes"] if n["id"] == "tpzt")["function"], "Time Tick")
+        self.assertIn("tkwp", next(c for c in eg["exec"] if c[0] == "bvg"))
+
+
+class OwnKeys(unittest.TestCase):
+    """2026-10-15: own keys - key -> any quick menu item, saved; bound by a right click on an available item."""
+    def test_saved(self):
+        src = open(os.path.join(H, "..", "..", "assets", "gen", "gen_manager.py")).read()
+        self.assertIn('("KeyBindKeys", "KeyBindKeys", "copy", None), ("KeyBindItems", "KeyBindItems", "copy", None)', src)
+
+    def test_run_only_when_free(self):
+        g = graph("50_manager_ui.json", "Bind Run")
+        self.assertEqual(calls(g, "Run Quick Item"), ["run"]); self.assertIn(["entry", "b", "sr", "run"], g["exec"])
+        ins = {n["id"]: n["in"] for n in g["nodes"] if "in" in n}
+        self.assertEqual(ins["o1"], {"A": "@pnl.ReturnValue", "B": "@gqo.QuickOpen"}); self.assertEqual(ins["pnl"], {"A": "@gpo.PanelOpen", "B": "@cm0.ReturnValue"})   # camera modes: collapsed panel counts as closed
+        self.assertEqual(ins["o2"]["B"], "@gso.SceneOn"); self.assertEqual(ins["o3"]["B"], "@ck.yes")
+
+    def test_taken_keys_refused(self):
+        g = graph("50_manager_ui.json", "Bind Key Captured"); ins = {n["id"]: n.get("in", {}) for n in g["nodes"]}
+        self.assertEqual(ins["o2"], {"A": "@o1.ReturnValue", "B": "@e3.ReturnValue"})   # panel key / quick key / another item's key
+        self.assertIn(["entry", "bt", "sht", "sb"], g["exec"])
+
+    def test_right_click_binds(self):
+        w = next(x for x in json.load(open(os.path.join(H, "..", "..", "assets", "40_widgets.json")))["assets"] if x["path"].endswith("/W_QuickRow"))
+        md = next(f for f in w["functions"] if f["name"] == "OnMouseButtonDown")["graph"]
+        self.assertIn(["entry", "b", "br", "kb", "return"], md["exec"]); self.assertIn(["br:else", "t", "return"], md["exec"])
 
 
 if __name__ == "__main__": unittest.main()

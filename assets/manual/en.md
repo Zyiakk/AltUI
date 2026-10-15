@@ -115,7 +115,8 @@ All hairstyles from the game and from mods.
 
 - Click a hairstyle to wear it.
 - "Hair colour..." opens the game's palette; "Natural hair colours" shows 14 ready-made colours.
-- Right click: reset hair colour, rename, view mod content.
+- Right click: add to / remove from favourites, reset hair colour, rename, view mod content.
+- Favourites stand at the top, above all hairstyles.
 - Right click on a hairstyle from a mod: "Rename mod…".
 
 ## Poses {#poses}
@@ -166,6 +167,7 @@ Skin, every make-up type, eyes and the game's appearance presets.
 Jodi's facial expression.
 
 - Sliders for the game's expressions (relaxed, focused, smile, pain, fright, tired, suffering), gaze and mouth shapes.
+- "Eyes closed" (under Gaze) closes the eyes, from open to fully shut; the game's own blinking goes on as before. Only on converted bodies, like the body sliders.
 - A ticked entry keeps its value, also in poses; an unticked one is left to the game's animation. "Fix all" and "All to the game" switch every entry at once.
 - Expressions are blended (together at most 100 %) or added up.
 - The "+" tile saves the current face with a photo. Right click: apply, view content, rename, update, move, delete.
@@ -186,7 +188,7 @@ The categories are on the left.
 - Camera: field of view, distance, height, camera follows the chosen slot.
 - Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.
 - Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. "Slow motion on" switches slow motion, "Slow motion speed" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry "Slow motion on / off" does the same as the switch. "Reset to default" sets walk, run and slow motion speed back. "Standing" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).
-- Quick menu: its key, its opacity, what is in the wheel.
+- Quick menu: its key, its opacity, what is in the wheel, own keys.
 - Colours: every panel colour, opacities, colour schemes saved under a name.
 - Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn.
 - Tabs: text, icons or both in the tab bar; switch tabs off.
@@ -243,6 +245,7 @@ Looks as people in the game: a follower walks with Jodi, fights and takes orders
 - A figure that is not invulnerable can fall. It stays in the list and "Revive" brings it back with what it carried. Figures never turn into zombies.
 - "Remove" asks first; the figure's items and guns go into the storage box, its clothes into Jodi's backpack.
 - "Change look" switches to the Looks tab: click the look the figure should wear.
+- Every figure wears the make-up of its look and has one of the game's NPC voices. A figure made with AltUI before 2.2.0 shows Jodi's make-up until "Change look…" gives it its own.
 
 AltUI keeps the figures in a save of its own (AltUI_Followers.sav), the game's save never contains them. Following followers come along to every level and after loading; waiting followers and NPCs stay in their level at their place.
 
@@ -259,7 +262,9 @@ Quick menu: "Follower: follow me / wait here" orders the follower in view, "All 
 Hold 4 (another key under Options › Quick menu) and a wheel opens around the mouse. Let go on an item to run it; let go in the middle to do nothing.
 
 - Items: outfits, looks, faces, appearance presets, poses, tabs, settings of other mods and actions: free camera, photo mode, ragdolls mode, a copy of Jodi as a ragdoll, switch every ragdoll between active and frozen, activate / freeze the one in view, remove all ragdolls, own speed on / off.
-- More actions: "Slow motion on / off", "Stop time / go on" (everything stands still; the panel and the cameras keep working), "Hide / show Jodi" (with clothes, hair and weapon; she is back in the next level) and the orders for followers (see "Followers").
+- More actions: "Slow motion on / off", "Stop time / go on" (everything stands still; the panel and the cameras keep working; also the camera of the game's photo mode), "Hide / show Jodi" (with clothes, hair and weapon; she is back in the next level) and the orders for followers (see "Followers").
+- "Hide / show the game's UI" switches the game's HUD off and on, as its photo mode does.
+- Own keys: under Options › Quick menu, right click an item under "Available" and press a key – the item then runs on that key, with the panel closed, also in the free camera and in the game's photo mode. Click the key of a row for another one, ✕ removes it. The panel key, the quick menu key and a key already given are refused; a key the game uses itself triggers both.
 - Add them under Options › Quick menu, or with a right click on a tile, a tab or a mod's entry ("Add to quick menu").
 - The order in the wheel is the order in the list under Options › Quick menu.
 

@@ -115,7 +115,8 @@ Toutes les coiffures du jeu et des mods.
 
 - Un clic sur une coiffure la met.
 - « Couleur des cheveux... » ouvre la palette du jeu ; « Couleurs naturelles » propose 14 couleurs prêtes.
-- Clic droit : réinitialiser la couleur des cheveux, renommer, voir le contenu du mod.
+- Clic droit : ajouter aux / retirer des favoris, réinitialiser la couleur des cheveux, renommer, voir le contenu du mod.
+- Les favoris sont en haut, au-dessus de toutes les coiffures.
 - Clic droit sur une coiffure issue d'un mod : « Renommer le mod… ».
 
 ## Poses {#poses}
@@ -166,6 +167,7 @@ Peau, chaque type de maquillage, yeux et préréglages d'apparence du jeu.
 L'expression du visage de Jodi.
 
 - Curseurs pour les expressions du jeu (détendue, concentrée, sourire, douleur, frayeur, fatiguée, souffrance), le regard et les formes de la bouche.
+- « Yeux fermés » (sous Regard) ferme les yeux, d'ouverts à complètement fermés ; le clignement des yeux du jeu continue comme d'habitude. Seulement avec les corps convertis, comme les curseurs du corps.
 - Une entrée cochée garde sa valeur, même pendant les poses ; une entrée non cochée est laissée à l'animation du jeu. « Tout fixer » et « Tout au jeu » basculent toutes les entrées à la fois.
 - Les expressions sont mélangées (ensemble au plus 100 %) ou additionnées.
 - La tuile « + » enregistre le visage actuel avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer.
@@ -186,7 +188,7 @@ Cet onglet n'apparaît que si un tel mod est installé.
 - Caméra : champ de vision, distance, hauteur, la caméra suit l'emplacement choisi.
 - Commandes : touche du panneau, vitesse de défilement, hauteur de la caméra avec le bouton droit, de combien la molette soulève un ragdoll par cran.
 - Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti. « Debout » choisit l'animation au repos de Jodi : celles du jeu (regarde autour, regarde ses ongles, regarde sa jambe, prudente, blessée, pose) et celles des mods de repos installés (IdleAltUI_…).
-- Menu rapide : sa touche, son opacité, ce qui figure dans la roue.
+- Menu rapide : sa touche, son opacité, ce qui figure dans la roue, les touches personnelles.
 - Couleurs : chaque couleur du panneau, opacités, schémas de couleurs enregistrés sous un nom.
 - Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux.
 - Onglets : texte, icônes ou les deux dans la barre d'onglets ; désactiver des onglets.
@@ -243,6 +245,7 @@ Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et o
 - Une figure qui n'est pas invulnérable peut tomber. Elle reste dans la liste et « Ranimer » la ramène avec ses affaires. Les figures ne deviennent jamais des zombies.
 - « Retirer » demande confirmation ; les objets et les armes de la figure vont dans la caisse, ses vêtements dans le sac à dos de Jodi.
 - « Changer de look » passe à l'onglet Looks : cliquez sur le look que la figure doit porter.
+- Chaque figure porte le maquillage de son look et a une des voix de PNJ du jeu. Une figure créée avec AltUI avant la 2.2.0 montre le maquillage de Jodi jusqu'à ce que « Changer de look… » lui donne le sien.
 
 AltUI garde les figures dans une sauvegarde à part (AltUI_Followers.sav) ; la sauvegarde du jeu ne les contient jamais. Les compagnons qui suivent viennent dans chaque niveau et après un chargement ; ceux qui attendent et les PNJ restent dans leur niveau, à leur place.
 
@@ -259,7 +262,9 @@ Menu rapide : « Compagnon : suis-moi / attends ici » s'adresse au compagnon en
 Maintenez 4 (autre touche dans Paramètres › Menu rapide) et une roue s'ouvre autour de la souris. Relâchez sur une entrée pour l'exécuter ; relâchez au centre pour ne rien faire.
 
 - Entrées : tenues, looks, visages, préréglages d'apparence, poses, onglets, réglages d'autres mods et actions : caméra libre, mode photo, mode ragdoll, une copie de Jodi en ragdoll, basculer tous les ragdolls entre actif et figé, activer / figer celui visé, retirer tous les ragdolls, vitesse personnalisée oui / non.
-- Autres actions : « Ralenti oui / non », « Arrêter le temps / reprendre » (tout s'immobilise ; le panneau et les caméras continuent de fonctionner), « Masquer / afficher Jodi » (avec vêtements, cheveux et arme ; au niveau suivant elle est de retour) et les ordres aux compagnons (voir « Compagnons »).
+- Autres actions : « Ralenti oui / non », « Arrêter le temps / reprendre » (tout s'immobilise ; le panneau et les caméras continuent de fonctionner ; aussi la caméra du mode photo du jeu), « Masquer / afficher Jodi » (avec vêtements, cheveux et arme ; au niveau suivant elle est de retour) et les ordres aux compagnons (voir « Compagnons »).
+- « Masquer / afficher l'interface du jeu » éteint et rallume le HUD du jeu, comme son mode photo.
+- Touches personnelles : dans Paramètres › Menu rapide, clic droit sur un élément sous « Disponibles » puis appuyez sur une touche – l'élément s'exécute alors avec cette touche, panneau fermé, aussi en caméra libre et dans le mode photo du jeu. Un clic sur la touche d'une ligne en choisit une autre, ✕ la supprime. La touche du panneau, celle du menu rapide et une touche déjà prise sont refusées ; une touche que le jeu utilise lui-même déclenche les deux.
 - On les ajoute dans Paramètres › Menu rapide, ou par clic droit sur une tuile, un onglet ou l'entrée d'un mod (« Ajouter au menu rapide »).
 - L'ordre dans la roue est l'ordre de la liste dans Paramètres › Menu rapide.
 

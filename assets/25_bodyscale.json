@@ -1,6 +1,12 @@
 {
  "assets": [
   {
+   "type": "animsequence_stub",
+   "path": "/Game/Project/Character/Jodi/Animations/Female_EyeClosed",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "additive": true
+  },
+  {
    "type": "animblueprint",
    "path": "/Game/Mod/AltUI/ABP_BodyScale",
    "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
@@ -89,6 +95,11 @@
      "name": "GlutesAngle",
      "type": "struct:/Script/CoreUObject.Rotator",
      "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "EyesClosed",
+     "type": "float",
+     "default": "0.0"
     }
    ],
    "nodes": [
@@ -241,6 +252,13 @@
      "bone": "Hip_R",
      "kind": "rotate",
      "var": "GlutesAngle"
+    }
+   ],
+   "additive": [
+    {
+     "asset": "/Game/Project/Character/Jodi/Animations/Female_EyeClosed",
+     "alpha": "EyesClosed",
+     "time": 1.0
     }
    ]
   }

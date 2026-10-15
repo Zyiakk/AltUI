@@ -115,7 +115,8 @@ Todos los peinados del juego y de los mods.
 
 - Un clic en un peinado lo pone.
 - «Color de pelo...» abre la paleta del juego; «Colores de pelo naturales» ofrece 14 colores listos.
-- Clic derecho: restablecer color de pelo, renombrar, ver contenido del mod.
+- Clic derecho: añadir a / quitar de favoritos, restablecer color de pelo, renombrar, ver contenido del mod.
+- Los favoritos están arriba, encima de todos los peinados.
 - Clic derecho en un peinado de un mod: «Renombrar mod…».
 
 ## Poses {#poses}
@@ -166,6 +167,7 @@ Piel, cada tipo de maquillaje, ojos y los presets de apariencia del juego.
 La expresión facial de Jodi.
 
 - Controles para las expresiones del juego (relajada, concentrada, sonrisa, dolor, susto, cansada, sufrimiento), la mirada y las formas de la boca.
+- «Ojos cerrados» (en Mirada) cierra los ojos, de abiertos a del todo cerrados; el parpadeo propio del juego sigue como siempre. Solo con cuerpos convertidos, como los controles del cuerpo.
 - Una entrada marcada conserva su valor, también en las poses; una sin marcar la decide la animación del juego. «Fijar todo» y «Todo al juego» cambian todas a la vez.
 - Las expresiones se mezclan (juntas como máximo 100 %) o se suman.
 - La casilla «+» guarda el rostro actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar.
@@ -186,7 +188,7 @@ A la izquierda, las categorías.
 - Cámara: campo de visión, distancia, altura, la cámara sigue la ranura elegida.
 - Controles: tecla del panel, velocidad de desplazamiento, altura de la cámara con el botón derecho, cuánto levanta la rueda del ratón un ragdoll por paso.
 - Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta. «De pie» elige la animación en reposo de Jodi: las del juego (mirando alrededor, mirando las uñas, mirando la pierna, cautelosa, herida, posando) y las de los mods de reposo instalados (IdleAltUI_…).
-- Menú rápido: su tecla, su opacidad, lo que hay en la rueda.
+- Menú rápido: su tecla, su opacidad, lo que hay en la rueda, las teclas propias.
 - Colores: cada color del panel, opacidades, esquemas de color guardados con un nombre.
 - Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas.
 - Pestañas: texto, iconos o ambos en la barra de pestañas; desactivar pestañas.
@@ -243,6 +245,7 @@ Looks convertidos en personas del juego: un seguidor acompaña a Jodi, lucha y o
 - Una figura que no es invulnerable puede caer. Sigue en la lista y «Revivir» la devuelve con sus cosas. Las figuras nunca se convierten en zombis.
 - «Eliminar» pide confirmación; los objetos y armas de la figura van a la caja y su ropa a la mochila de Jodi.
 - «Cambiar look» pasa a la pestaña Looks: haz clic en el look que debe llevar la figura.
+- Cada figura lleva el maquillaje de su look y tiene una de las voces de PNJ del juego. Una figura creada con AltUI antes de la 2.2.0 muestra el maquillaje de Jodi hasta que «Cambiar look…» le da el suyo.
 
 AltUI guarda las figuras en una partida propia (AltUI_Followers.sav); la partida del juego nunca las contiene. Los seguidores que siguen vienen a cada nivel y tras cargar; los que esperan y los PNJ se quedan en su nivel, en su sitio.
 
@@ -259,7 +262,9 @@ Menú rápido: «Seguidor: sígueme / espera aquí» se dirige al seguidor que t
 Mantén pulsado 4 (otra tecla en Opciones › Menú rápido) y se abre una rueda alrededor del ratón. Suelta sobre una entrada para ejecutarla; suelta en el centro para no hacer nada.
 
 - Entradas: conjuntos, looks, rostros, presets de apariencia, poses, pestañas, ajustes de otros mods y acciones: cámara libre, modo foto, modo ragdoll, una copia de Jodi como ragdoll, cambiar todos los ragdolls entre activos y congelados, activar / congelar el del centro, quitar todos los ragdolls, velocidad propia sí / no.
-- Más acciones: «Cámara lenta sí / no», «Detener el tiempo / seguir» (todo se queda quieto; el panel y las cámaras siguen funcionando), «Ocultar / mostrar a Jodi» (con ropa, pelo y arma; en el siguiente nivel vuelve a estar) y las órdenes a los seguidores (ver «Seguidores»).
+- Más acciones: «Cámara lenta sí / no», «Detener el tiempo / seguir» (todo se queda quieto; el panel y las cámaras siguen funcionando; también la cámara del modo foto del juego), «Ocultar / mostrar a Jodi» (con ropa, pelo y arma; en el siguiente nivel vuelve a estar) y las órdenes a los seguidores (ver «Seguidores»).
+- «Ocultar / mostrar la interfaz del juego» apaga y enciende el HUD del juego, como hace su modo foto.
+- Teclas propias: en Opciones › Menú rápido, clic derecho en un elemento de «Disponible» y pulsa una tecla: el elemento se ejecuta con esa tecla, con el panel cerrado, también en la cámara libre y en el modo foto del juego. Un clic en la tecla de una fila asigna otra, ✕ la quita. La tecla del panel, la del menú rápido y una tecla ya asignada se rechazan; una tecla que el juego ya usa activa ambas cosas.
 - Se añaden en Opciones › Menú rápido, o con clic derecho en una casilla, una pestaña o la entrada de un mod («Añadir al menú rápido»).
 - El orden en la rueda es el orden de la lista en Opciones › Menú rápido.
 

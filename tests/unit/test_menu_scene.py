@@ -55,7 +55,7 @@ class MenuScene(unittest.TestCase):
     def test_tick_keeps_any_key_collapsed(self):
         n = self.nodes("Scene Tick")
         self.assertEqual(n["gak"]["var"], "TextBlock_AnyKey"); self.assertEqual(n["hd"]["in"]["InVisibility"], "Collapsed")
-        self.assertTrue(any(c[:3] == ["tick", "ttik", "tstk"] for c in self.eg["exec"]))
+        self.assertTrue(any(c[:3] == ["tbpz:else", "ttik", "tstk"] for c in self.eg["exec"]))   # since 2026-10-16 after the paused check
 
     def test_menu_actions_reach_scene_action(self):
         g = self.fns["On Menu Action"]["graph"]

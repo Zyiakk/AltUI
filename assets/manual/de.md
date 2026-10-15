@@ -115,7 +115,8 @@ Alle Frisuren aus dem Spiel und aus Mods.
 
 - Klick auf eine Frisur setzt sie auf.
 - „Haarfarbe...“ öffnet die Palette des Spiels; „Natürliche Haarfarben“ zeigt 14 fertige Farben.
-- Rechtsklick: Haarfarbe zurücksetzen, umbenennen, Mod-Inhalt anzeigen.
+- Rechtsklick: Favorit hinzufügen / entfernen, Haarfarbe zurücksetzen, umbenennen, Mod-Inhalt anzeigen.
+- Favoriten stehen oben, über allen Frisuren.
 - Rechtsklick auf eine Frisur aus einer Mod: „Mod umbenennen…“.
 
 ## Posen {#poses}
@@ -166,6 +167,7 @@ Haut, jede Make-up-Art, Augen und die Aussehen-Presets des Spiels.
 Jodis Gesichtsausdruck.
 
 - Regler für die Ausdrücke des Spiels (entspannt, konzentriert, Lächeln, Schmerz, Schreck, müde, leidend), Blick und Mundformen.
+- „Augen geschlossen“ (unter Blick) schließt die Augen, von offen bis ganz zu; das Blinzeln des Spiels läuft wie gewohnt weiter. Nur mit konvertierten Bodies, wie die Körper-Regler.
 - Ein angehaktes Feld behält seinen Wert, auch in Posen; ein nicht angehaktes bestimmt die Animation des Spiels. „Alle festlegen“ und „Alle ans Spiel“ schalten alle auf einmal.
 - Ausdrücke werden überblendet (zusammen höchstens 100 %) oder addiert.
 - Die „+“-Kachel speichert das aktuelle Gesicht mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen.
@@ -186,7 +188,7 @@ Links die Kategorien.
 - Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot.
 - Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.
 - Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).
-- Schnellmenü: Taste, Deckkraft, was im Rad steht.
+- Schnellmenü: Taste, Deckkraft, was im Rad steht, eigene Tasten.
 - Farben: jede Farbe des Panels, Deckkraft, Farbschemata unter einem Namen gespeichert.
 - Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können.
 - Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten.
@@ -243,6 +245,7 @@ Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befeh
 - Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.
 - „Entfernen“ fragt nach; Items und Schusswaffen der Figur kommen in die Box, ihre Kleidung in Jodis Rucksack.
 - „Look ändern“ wechselt in den Looks-Reiter: den Look anklicken, den die Figur tragen soll.
+- Jede Figur trägt das Make-up ihres Looks und hat eine der NPC-Stimmen des Spiels. Eine Figur, die mit AltUI vor 2.2.0 entstanden ist, zeigt Jodis Make-up, bis „Look ändern…“ ihr ein eigenes gibt.
 
 AltUI speichert die Figuren in einem eigenen Spielstand (AltUI_Followers.sav), der Spielstand des Spiels enthält sie nie. Folgende Follower kommen in jedes Level mit und sind nach dem Laden da; wartende Follower und NPCs bleiben in ihrem Level an ihrem Platz.
 
@@ -259,7 +262,9 @@ Schnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im B
 4 gedrückt halten (andere Taste unter Optionen › Schnellmenü), und um die Maus öffnet sich ein Rad. Über einem Eintrag loslassen führt ihn aus; in der Mitte loslassen tut nichts.
 
 - Einträge: Outfits, Looks, Gesichter, Aussehen-Presets, Posen, Reiter, Einstellungen anderer Mods und Aktionen: freie Kamera, Fotomodus, Ragdoll-Modus, Kopie von Jodi als Ragdoll, alle Ragdolls zwischen aktiv und eingefroren umschalten, anvisierte aktivieren / einfrieren, alle Ragdolls entfernen, eigenes Tempo an / aus.
-- Weitere Aktionen: „Zeitlupe an / aus“, „Zeit anhalten / weiter“ (alles steht still; Panel und Kameras arbeiten weiter), „Jodi aus- / einblenden“ (mit Kleidung, Haaren und Waffe; im nächsten Level ist sie wieder da) und die Befehle an Follower (siehe „Follower“).
+- Weitere Aktionen: „Zeitlupe an / aus“, „Zeit anhalten / weiter“ (alles steht still; Panel und Kameras arbeiten weiter; auch die Kamera des Fotomodus), „Jodi aus- / einblenden“ (mit Kleidung, Haaren und Waffe; im nächsten Level ist sie wieder da) und die Befehle an Follower (siehe „Follower“).
+- „Spiel-UI aus- / einblenden“ schaltet das HUD des Spiels aus und ein, wie es sein Fotomodus tut.
+- Eigene Tasten: unter Optionen › Schnellmenü Rechtsklick auf einen Eintrag unter „Verfügbar“ und eine Taste drücken – der Eintrag läuft dann auf dieser Taste, bei geschlossenem Panel, auch in der freien Kamera und im Fotomodus des Spiels. Klick auf die Taste einer Zeile legt eine andere fest, ✕ entfernt sie. Panel-Taste, Schnellmenü-Taste und schon vergebene Tasten werden abgelehnt; eine Taste, die das Spiel selbst nutzt, löst beides aus.
 - Hinzufügen unter Optionen › Schnellmenü oder per Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods („Ins Schnellmenü“).
 - Die Reihenfolge im Rad ist die Reihenfolge der Liste unter Optionen › Schnellmenü.
 

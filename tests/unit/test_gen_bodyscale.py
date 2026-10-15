@@ -7,17 +7,26 @@ import bodyscale_groups as bg
 class GenBodyScale(unittest.TestCase):
     def setUp(self):
         import gen_bodyscale   # writes assets/25_bodyscale.json on import
-        self.a = json.load(open(os.path.join(W, "assets", "25_bodyscale.json")))["assets"][0]
+        assets = json.load(open(os.path.join(W, "assets", "25_bodyscale.json")))["assets"]
+        self.a = next(a for a in assets if a["type"] == "animblueprint"); self.stubs = [a for a in assets if a["type"] == "animsequence_stub"]
 
     def test_asset(self):
         self.assertEqual(self.a["type"], "animblueprint"); self.assertEqual(self.a["path"], bg.ABP_PATH)
         self.assertEqual(self.a["skeleton"], "/Game/Project/Character/Jodi/Body/Female_Skeleton")
-        self.assertEqual([v["name"] for v in self.a["variables"]], [v for v, _, _ in bg.GROUPS] + [v for v, _ in bg.SHIFTS] + [v for v, _ in bg.ROTATIONS])
+        self.assertEqual([v["name"] for v in self.a["variables"]], [v for v, _, _ in bg.GROUPS] + [v for v, _ in bg.SHIFTS] + [v for v, _ in bg.ROTATIONS] + ["EyesClosed"])
         for v in self.a["variables"]:
+            if v["name"] == "EyesClosed":
+                self.assertEqual((v["type"], v["default"]), ("float", "0.0")); continue
             if v["name"] in dict(bg.ROTATIONS):
                 self.assertEqual(v["type"], "struct:/Script/CoreUObject.Rotator"); self.assertEqual(v["default"], "(P=0,Y=0,R=0)"); continue
             self.assertEqual(v["type"], "struct:/Script/CoreUObject.Vector")
             self.assertEqual(v["default"], "(X=0,Y=0,Z=0)" if v["name"] in dict(bg.SHIFTS) else "(X=1,Y=1,Z=1)")
+
+    def test_eyes_closed(self):
+        """Face tab "Eyes closed": the game's additive blink animation on top of the pose, alpha = EyesClosed; its kit stand-in is additive."""
+        eye = "/Game/Project/Character/Jodi/Animations/Female_EyeClosed"
+        self.assertEqual(self.a["additive"], [{"asset": eye, "alpha": "EyesClosed", "time": 1.0}])   # held on the closed frame, never played
+        self.assertEqual(self.stubs, [{"type": "animsequence_stub", "path": eye, "skeleton": self.a["skeleton"], "additive": True}])
 
     def test_nodes(self):
         # translation nodes first, then the scale nodes (23), then the rotation nodes (4)

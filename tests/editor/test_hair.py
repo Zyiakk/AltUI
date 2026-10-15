@@ -21,4 +21,12 @@ def main():
     mgr.set_editor_property("HairSwatchesOpen", True); mgr.call_method("Test Save Settings"); mgr.set_editor_property("HairSwatchesOpen", False)
     mgr.call_method("Test Load Settings"); expect("swatches open persisted", mgr.get_editor_property("HairSwatchesOpen"), True)
     mgr.set_editor_property("HairSwatchesOpen", False); mgr.call_method("Test Save Settings")
+    # favourites: key hair:<row> in Favorites, apart from a clothes row of the same name
+    favs = list(mgr.get_editor_property("Favorites"))
+    def is_fav(row): mgr.call_method("Test Is Hair Favorite", args=(row,)); return mgr.get_editor_property("TmpBool")
+    mgr.set_editor_property("Favorites", ["hair:Hair_01", "Hair_02"])
+    expect("hair:<row> is a favourite", is_fav("Hair_01"), True)
+    expect("bare clothes name is no hair favourite", is_fav("Hair_02"), False)
+    expect("other row", is_fav("Hair_03"), False)
+    mgr.set_editor_property("Favorites", favs)
 run(main)

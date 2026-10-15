@@ -19,10 +19,18 @@
       "key": "AnyKey"
      },
      {
+      "id": "gmb",
+      "kind": "get",
+      "var": "Manager"
+     },
+     {
       "id": "bp0",
-      "kind": "branch",
+      "kind": "call",
+      "class": "/Game/Mod/AltUI/BP_AltUIManager",
+      "function": "Bind Run",
       "in": {
-       "Condition": "false"
+       "self": "@gmb.Manager",
+       "key": "@k.Key"
       }
      },
      {
@@ -413,6 +421,32 @@
     },
     {
      "name": "FolSelClothes",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "FolMkRows",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "FolMkColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "FolMkData",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Project/Tables/MakeupDataStruct"
+    },
+    {
+     "name": "FolMkTex",
+     "type": "object:/Script/Engine.TextureRenderTarget2D"
+    },
+    {
+     "name": "FolMkList",
      "type": "name",
      "container": "array"
     },
@@ -1656,6 +1690,21 @@
         }
        },
        {
+        "id": "gmc2",
+        "kind": "get",
+        "var": "MakeupColors"
+       },
+       {
+        "id": "fc",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gmc2.MakeupColors",
+         "Key": "@fe2.Array Element"
+        }
+       },
+       {
         "id": "row",
         "kind": "get_row",
         "table": "/Game/Project/Tables/MakeupTable",
@@ -1670,21 +1719,6 @@
         "struct": "/Game/Project/Tables/MakeupStruct",
         "in": {
          "MakeupStruct": "@row.OutRow"
-        }
-       },
-       {
-        "id": "gmc2",
-        "kind": "get",
-        "var": "MakeupColors"
-       },
-       {
-        "id": "fc",
-        "kind": "call",
-        "class": "/Script/Engine.BlueprintMapLibrary",
-        "function": "Map_Find",
-        "in": {
-         "TargetMap": "@gmc2.MakeupColors",
-         "Key": "@fe2.Array Element"
         }
        },
        {
@@ -1886,6 +1920,14 @@
       ],
       "exec": [
        [
+        "row",
+        "frc"
+       ],
+       [
+        "frc",
+        "draw"
+       ],
+       [
         "entry",
         "btv",
         "bany",
@@ -1916,12 +1958,7 @@
         "bkn2",
         "sel",
         "bsel",
-        "row",
-        "frc"
-       ],
-       [
-        "frc",
-        "draw"
+        "row"
        ],
        [
         "fe2:Completed",
@@ -3892,6 +3929,11 @@
          "Value": "@m18f.Value",
          "bRemoveZeroWeight": "false"
         }
+       },
+       {
+        "id": "aec",
+        "kind": "call_self",
+        "function": "Apply Eyes Closed"
        }
       ],
       "links": [
@@ -4148,6 +4190,126 @@
        [
         "m17b:else",
         "m18b"
+       ],
+       [
+        "m18set",
+        "aec"
+       ],
+       [
+        "m18b:else",
+        "aec"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Eyes Closed",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gw.Wearer"
+        }
+       },
+       {
+        "id": "bv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "gmc",
+        "kind": "get",
+        "var": "Mesh",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "ppi",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "GetPostProcessInstance",
+        "in": {
+         "self": "@gmc.Mesh"
+        }
+       },
+       {
+        "id": "ck",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/ABP_BodyScale",
+        "pure": false,
+        "in": {
+         "Object": "@ppi.ReturnValue"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "gfv",
+        "kind": "get",
+        "var": "FaceValues"
+       },
+       {
+        "id": "fk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "AltUI_EyesClosed"
+        }
+       },
+       {
+        "id": "f",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gfv.FaceValues",
+         "Key": "@fk.ReturnValue"
+        }
+       },
+       {
+        "id": "v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@f.Value",
+         "B": "0.0",
+         "bPickA": "@f.ReturnValue"
+        }
+       },
+       {
+        "id": "set",
+        "kind": "set",
+        "var": "EyesClosed",
+        "class": "/Game/Mod/AltUI/ABP_BodyScale",
+        "in": {
+         "self": "@ck.AsABP Body Scale",
+         "EyesClosed": "@v.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gw.Wearer",
+        "gmc.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bv",
+        "ck",
+        "set"
        ]
       ]
      }
@@ -5527,7 +5689,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.key",
-         "B": "MouthAH"
+         "B": "EyesClosed"
         }
        },
        {
@@ -5548,7 +5710,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_AH CDG KN"
+         "Value": "AltUI_EyesClosed"
         }
        },
        {
@@ -5597,7 +5759,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_AH CDG KN"
+         "Value": "AltUI_EyesClosed"
         }
        },
        {
@@ -5622,7 +5784,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_AH CDG KN"
+         "Value": "AltUI_EyesClosed"
         }
        },
        {
@@ -5642,7 +5804,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.key",
-         "B": "MouthEE"
+         "B": "MouthAH"
         }
        },
        {
@@ -5663,7 +5825,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_EE"
+         "Value": "Mouth_AH CDG KN"
         }
        },
        {
@@ -5712,7 +5874,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_EE"
+         "Value": "Mouth_AH CDG KN"
         }
        },
        {
@@ -5737,7 +5899,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_EE"
+         "Value": "Mouth_AH CDG KN"
         }
        },
        {
@@ -5757,7 +5919,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.key",
-         "B": "MouthUU"
+         "B": "MouthEE"
         }
        },
        {
@@ -5778,7 +5940,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_UU OO"
+         "Value": "Mouth_EE"
         }
        },
        {
@@ -5827,7 +5989,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_UU OO"
+         "Value": "Mouth_EE"
         }
        },
        {
@@ -5852,7 +6014,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_UU OO"
+         "Value": "Mouth_EE"
         }
        },
        {
@@ -5872,7 +6034,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.key",
-         "B": "MouthFV"
+         "B": "MouthUU"
         }
        },
        {
@@ -5893,7 +6055,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_FV"
+         "Value": "Mouth_UU OO"
         }
        },
        {
@@ -5942,7 +6104,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_FV"
+         "Value": "Mouth_UU OO"
         }
        },
        {
@@ -5967,7 +6129,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_FV"
+         "Value": "Mouth_UU OO"
         }
        },
        {
@@ -5987,7 +6149,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.key",
-         "B": "MouthTH"
+         "B": "MouthFV"
         }
        },
        {
@@ -6008,7 +6170,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_TH L"
+         "Value": "Mouth_FV"
         }
        },
        {
@@ -6057,7 +6219,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_TH L"
+         "Value": "Mouth_FV"
         }
        },
        {
@@ -6082,7 +6244,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_TH L"
+         "Value": "Mouth_FV"
         }
        },
        {
@@ -6102,7 +6264,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.key",
-         "B": "MouthBPM"
+         "B": "MouthTH"
         }
        },
        {
@@ -6123,7 +6285,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_BPM"
+         "Value": "Mouth_TH L"
         }
        },
        {
@@ -6172,7 +6334,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_BPM"
+         "Value": "Mouth_TH L"
         }
        },
        {
@@ -6197,7 +6359,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_BPM"
+         "Value": "Mouth_TH L"
         }
        },
        {
@@ -6217,7 +6379,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.key",
-         "B": "MouthSH"
+         "B": "MouthBPM"
         }
        },
        {
@@ -6238,7 +6400,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Zh Ch SH RI"
+         "Value": "Mouth_BPM"
         }
        },
        {
@@ -6287,7 +6449,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Zh Ch SH RI"
+         "Value": "Mouth_BPM"
         }
        },
        {
@@ -6312,7 +6474,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Zh Ch SH RI"
+         "Value": "Mouth_BPM"
         }
        },
        {
@@ -6332,7 +6494,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.key",
-         "B": "MouthClose"
+         "B": "MouthSH"
         }
        },
        {
@@ -6353,7 +6515,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Close"
+         "Value": "Mouth_Zh Ch SH RI"
         }
        },
        {
@@ -6402,7 +6564,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Close"
+         "Value": "Mouth_Zh Ch SH RI"
         }
        },
        {
@@ -6427,7 +6589,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Close"
+         "Value": "Mouth_Zh Ch SH RI"
         }
        },
        {
@@ -6438,6 +6600,121 @@
         "in": {
          "TargetMap": "@e17gr0.FaceValues",
          "Key": "@e17kr0.ReturnValue"
+        }
+       },
+       {
+        "id": "e18eq",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.key",
+         "B": "MouthClose"
+        }
+       },
+       {
+        "id": "e18b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e18eq.ReturnValue"
+        }
+       },
+       {
+        "id": "e18gw",
+        "kind": "get",
+        "var": "FaceValues"
+       },
+       {
+        "id": "e18kw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Mouth_Close"
+        }
+       },
+       {
+        "id": "e18was",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Contains",
+        "in": {
+         "TargetMap": "@e18gw.FaceValues",
+         "Key": "@e18kw.ReturnValue"
+        }
+       },
+       {
+        "id": "e18flip",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_BoolBool",
+        "in": {
+         "A": "@e18was.ReturnValue",
+         "B": "@entry.fixed"
+        }
+       },
+       {
+        "id": "e18sf",
+        "kind": "set",
+        "var": "TmpBool",
+        "in": {
+         "TmpBool": "@e18flip.ReturnValue"
+        }
+       },
+       {
+        "id": "e18bf",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.fixed"
+        }
+       },
+       {
+        "id": "e18ga0",
+        "kind": "get",
+        "var": "FaceValues"
+       },
+       {
+        "id": "e18ka0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Mouth_Close"
+        }
+       },
+       {
+        "id": "e18add0",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@e18ga0.FaceValues",
+         "Key": "@e18ka0.ReturnValue",
+         "Value": "@entry.value"
+        }
+       },
+       {
+        "id": "e18gr0",
+        "kind": "get",
+        "var": "FaceValues"
+       },
+       {
+        "id": "e18kr0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Mouth_Close"
+        }
+       },
+       {
+        "id": "e18rem0",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Remove",
+        "in": {
+         "TargetMap": "@e18gr0.FaceValues",
+         "Key": "@e18kr0.ReturnValue"
         }
        },
        {
@@ -6763,6 +7040,22 @@
        [
         "e17bf:else",
         "e17rem0",
+        "af"
+       ],
+       [
+        "e17b:else",
+        "e18b"
+       ],
+       [
+        "e18b",
+        "e18sf",
+        "e18bf",
+        "e18add0",
+        "af"
+       ],
+       [
+        "e18bf:else",
+        "e18rem0",
         "af"
        ],
        [
@@ -7569,7 +7862,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_AH CDG KN"
+         "Value": "AltUI_EyesClosed"
         }
        },
        {
@@ -7600,7 +7893,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_AH CDG KN"
+         "Value": "AltUI_EyesClosed"
         }
        },
        {
@@ -7634,7 +7927,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_EE"
+         "Value": "Mouth_AH CDG KN"
         }
        },
        {
@@ -7665,7 +7958,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_EE"
+         "Value": "Mouth_AH CDG KN"
         }
        },
        {
@@ -7699,7 +7992,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_UU OO"
+         "Value": "Mouth_EE"
         }
        },
        {
@@ -7730,7 +8023,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_UU OO"
+         "Value": "Mouth_EE"
         }
        },
        {
@@ -7764,7 +8057,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_FV"
+         "Value": "Mouth_UU OO"
         }
        },
        {
@@ -7795,7 +8088,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_FV"
+         "Value": "Mouth_UU OO"
         }
        },
        {
@@ -7829,7 +8122,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_TH L"
+         "Value": "Mouth_FV"
         }
        },
        {
@@ -7860,7 +8153,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_TH L"
+         "Value": "Mouth_FV"
         }
        },
        {
@@ -7894,7 +8187,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_BPM"
+         "Value": "Mouth_TH L"
         }
        },
        {
@@ -7925,7 +8218,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_BPM"
+         "Value": "Mouth_TH L"
         }
        },
        {
@@ -7959,7 +8252,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Zh Ch SH RI"
+         "Value": "Mouth_BPM"
         }
        },
        {
@@ -7990,7 +8283,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Zh Ch SH RI"
+         "Value": "Mouth_BPM"
         }
        },
        {
@@ -8024,7 +8317,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Close"
+         "Value": "Mouth_Zh Ch SH RI"
         }
        },
        {
@@ -8055,7 +8348,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "MakeLiteralName",
         "in": {
-         "Value": "Mouth_Close"
+         "Value": "Mouth_Zh Ch SH RI"
         }
        },
        {
@@ -8076,6 +8369,71 @@
          "TargetMap": "@ga19.FaceValues",
          "Key": "@ka19.ReturnValue",
          "Value": "@va19.ReturnValue"
+        }
+       },
+       {
+        "id": "gc20",
+        "kind": "get",
+        "var": "FaceValues"
+       },
+       {
+        "id": "kc20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Mouth_Close"
+        }
+       },
+       {
+        "id": "c20",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Contains",
+        "in": {
+         "TargetMap": "@gc20.FaceValues",
+         "Key": "@kc20.ReturnValue"
+        }
+       },
+       {
+        "id": "b20",
+        "kind": "branch",
+        "in": {
+         "Condition": "@c20.ReturnValue"
+        }
+       },
+       {
+        "id": "ga20",
+        "kind": "get",
+        "var": "FaceValues"
+       },
+       {
+        "id": "ka20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Mouth_Close"
+        }
+       },
+       {
+        "id": "va20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralFloat",
+        "in": {
+         "Value": "0.0"
+        }
+       },
+       {
+        "id": "a20",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@ga20.FaceValues",
+         "Key": "@ka20.ReturnValue",
+         "Value": "@va20.ReturnValue"
         }
        },
        {
@@ -8334,10 +8692,22 @@
        ],
        [
         "b19",
-        "af"
+        "b20"
        ],
        [
         "a19",
+        "b20"
+       ],
+       [
+        "b20:else",
+        "a20"
+       ],
+       [
+        "b20",
+        "af"
+       ],
+       [
+        "a20",
         "af"
        ],
        [
@@ -9101,6 +9471,51 @@
         }
        },
        {
+        "id": "g1e2gv",
+        "kind": "get",
+        "var": "FaceValues"
+       },
+       {
+        "id": "g1e2k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "AltUI_EyesClosed"
+        }
+       },
+       {
+        "id": "g1e2c",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Contains",
+        "in": {
+         "TargetMap": "@g1e2gv.FaceValues",
+         "Key": "@g1e2k.ReturnValue"
+        }
+       },
+       {
+        "id": "g1e2i",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "1",
+         "B": "0",
+         "bPickA": "@g1e2c.ReturnValue"
+        }
+       },
+       {
+        "id": "g1e2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@g1e1s.ReturnValue",
+         "B": "@g1e2i.ReturnValue"
+        }
+       },
+       {
         "id": "g1w_pc",
         "kind": "get",
         "var": "PC"
@@ -9170,7 +9585,7 @@
          "self": "@g1w.AsW_SlotTab",
          "slot": "FaceEyes",
          "caption": "@g1t.text",
-         "count": "@g1e1s.ReturnValue",
+         "count": "@g1e2s.ReturnValue",
          "worn icon": "None",
          "selected": "@g1sel.ReturnValue",
          "has items": "true",
@@ -11723,6 +12138,129 @@
         }
        },
        {
+        "id": "g1e2w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "g1e2w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_FaceRow",
+         "OwningPlayer": "@g1e2w_pc.PC"
+        }
+       },
+       {
+        "id": "g1e2w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "pure": true,
+        "in": {
+         "Object": "@g1e2w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "g1e2sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "g1e2sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "in": {
+         "self": "@g1e2w.AsW_FaceRow",
+         "Manager": "@g1e2sm_me.self"
+        }
+       },
+       {
+        "id": "g1e2t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Face_EyesClosed"
+        }
+       },
+       {
+        "id": "g1e2in",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Init",
+        "in": {
+         "self": "@g1e2w.AsW_FaceRow",
+         "key": "EyesClosed",
+         "caption": "@g1e2t.text",
+         "bipolar": "false"
+        }
+       },
+       {
+        "id": "g1e2gv",
+        "kind": "get",
+        "var": "FaceValues"
+       },
+       {
+        "id": "g1e2kp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "AltUI_EyesClosed"
+        }
+       },
+       {
+        "id": "g1e2fp",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@g1e2gv.FaceValues",
+         "Key": "@g1e2kp.ReturnValue"
+        }
+       },
+       {
+        "id": "g1e2ss",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Set State",
+        "in": {
+         "self": "@g1e2w.AsW_FaceRow",
+         "fixed": "@g1e2fp.ReturnValue",
+         "value": "@g1e2fp.Value"
+        }
+       },
+       {
+        "id": "g1e2gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "g1e2ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Face Row",
+        "in": {
+         "self": "@g1e2gp.Panel",
+         "widget": "@g1e2w.AsW_FaceRow"
+        }
+       },
+       {
+        "id": "g1e2ga",
+        "kind": "get",
+        "var": "FaceRows"
+       },
+       {
+        "id": "g1e2aa",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@g1e2ga.FaceRows",
+         "NewItem": "@g1e2w.AsW_FaceRow"
+        }
+       },
+       {
         "id": "rg2",
         "kind": "get",
         "var": "FaceGroup"
@@ -12849,7 +13387,13 @@
         "g1e1in",
         "g1e1ss",
         "g1e1ad",
-        "g1e1aa"
+        "g1e1aa",
+        "g1e2w_cr",
+        "g1e2sm",
+        "g1e2in",
+        "g1e2ss",
+        "g1e2ad",
+        "g1e2aa"
        ],
        [
         "r1:else",
@@ -24053,9 +24597,62 @@
          "self": "@gpc2.PC",
          "CustomTimeDilation": "@comp.ReturnValue"
         }
+       },
+       {
+        "id": "gst",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetGameState"
+       },
+       {
+        "id": "cgst",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/GameMode/TKA_GameState",
+        "pure": false,
+        "in": {
+         "Object": "@gst.ReturnValue"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "gpmc",
+        "kind": "get",
+        "var": "photo mode camera",
+        "class": "/Game/Project/Classes/GameMode/TKA_GameState"
+       },
+       {
+        "id": "pmv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gpmc.photo mode camera"
+        }
+       },
+       {
+        "id": "bpm",
+        "kind": "branch",
+        "in": {
+         "Condition": "@pmv.ReturnValue"
+        }
+       },
+       {
+        "id": "cpm",
+        "kind": "set",
+        "var": "CustomTimeDilation",
+        "class": "/Script/Engine.Actor",
+        "in": {
+         "self": "@gpmc.photo mode camera",
+         "CustomTimeDilation": "@comp.ReturnValue"
+        }
        }
       ],
-      "links": [],
+      "links": [
+       [
+        "cgst.AsTKA Game State",
+        "gpmc.self"
+       ]
+      ],
       "exec": [
        [
         "entry",
@@ -24089,7 +24686,17 @@
        [
         "cs",
         "bpc",
-        "cp"
+        "cp",
+        "cgst"
+       ],
+       [
+        "bpc:else",
+        "cgst"
+       ],
+       [
+        "cgst",
+        "bpm",
+        "cpm"
        ]
       ]
      }
@@ -33083,12 +33690,54 @@
         }
        },
        {
-        "id": "qo",
+        "id": "qpbk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "StartsWith",
+        "in": {
+         "SourceString": "@cfs.ReturnValue",
+         "InPrefix": "BKey:",
+         "SearchCase": "CaseSensitive"
+        }
+       },
+       {
+        "id": "qpbd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "StartsWith",
+        "in": {
+         "SourceString": "@cfs.ReturnValue",
+         "InPrefix": "BDel:",
+         "SearchCase": "CaseSensitive"
+        }
+       },
+       {
+        "id": "qo3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@qpbk.ReturnValue",
+         "B": "@qpbd.ReturnValue"
+        }
+       },
+       {
+        "id": "qo0",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@qo1.ReturnValue",
+         "B": "@qo3.ReturnValue"
+        }
+       },
+       {
+        "id": "qo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@qo0.ReturnValue",
          "B": "@qo2.ReturnValue"
         }
        },
@@ -33977,7 +34626,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "HairColor"
+         "B": "HairFav"
         }
        },
        {
@@ -33988,9 +34637,17 @@
         }
        },
        {
+        "id": "gc18",
+        "kind": "get",
+        "var": "ContextItem"
+       },
+       {
         "id": "fa18",
         "kind": "call_self",
-        "function": "Open Hair Color"
+        "function": "Toggle Hair Favorite",
+        "in": {
+         "name": "@gc18.ContextItem"
+        }
        },
        {
         "id": "ia19",
@@ -33999,7 +34656,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PutInBag"
+         "B": "HairColor"
         }
        },
        {
@@ -34010,17 +34667,9 @@
         }
        },
        {
-        "id": "gc19",
-        "kind": "get",
-        "var": "ContextItem"
-       },
-       {
         "id": "fa19",
         "kind": "call_self",
-        "function": "Put In Bag",
-        "in": {
-         "name": "@gc19.ContextItem"
-        }
+        "function": "Open Hair Color"
        },
        {
         "id": "ia20",
@@ -34029,7 +34678,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "BagWear"
+         "B": "PutInBag"
         }
        },
        {
@@ -34047,7 +34696,7 @@
        {
         "id": "fa20",
         "kind": "call_self",
-        "function": "Bag Toggle Wear",
+        "function": "Put In Bag",
         "in": {
          "name": "@gc20.ContextItem"
         }
@@ -34059,7 +34708,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "BagRepair"
+         "B": "BagWear"
         }
        },
        {
@@ -34077,7 +34726,7 @@
        {
         "id": "fa21",
         "kind": "call_self",
-        "function": "Bag Repair",
+        "function": "Bag Toggle Wear",
         "in": {
          "name": "@gc21.ContextItem"
         }
@@ -34089,7 +34738,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "BagRemove"
+         "B": "BagRepair"
         }
        },
        {
@@ -34107,7 +34756,7 @@
        {
         "id": "fa22",
         "kind": "call_self",
-        "function": "Bag Remove",
+        "function": "Bag Repair",
         "in": {
          "name": "@gc22.ContextItem"
         }
@@ -34119,7 +34768,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "BagToWardrobe"
+         "B": "BagRemove"
         }
        },
        {
@@ -34137,7 +34786,7 @@
        {
         "id": "fa23",
         "kind": "call_self",
-        "function": "Bag To Wardrobe",
+        "function": "Bag Remove",
         "in": {
          "name": "@gc23.ContextItem"
         }
@@ -34149,7 +34798,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "BagCleanup"
+         "B": "BagToWardrobe"
         }
        },
        {
@@ -34160,9 +34809,17 @@
         }
        },
        {
+        "id": "gc24",
+        "kind": "get",
+        "var": "ContextItem"
+       },
+       {
         "id": "fa24",
         "kind": "call_self",
-        "function": "Bag Cleanup"
+        "function": "Bag To Wardrobe",
+        "in": {
+         "name": "@gc24.ContextItem"
+        }
        },
        {
         "id": "ia25",
@@ -34171,7 +34828,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "BagAllWorn"
+         "B": "BagCleanup"
         }
        },
        {
@@ -34184,7 +34841,7 @@
        {
         "id": "fa25",
         "kind": "call_self",
-        "function": "Bag All Worn"
+        "function": "Bag Cleanup"
        },
        {
         "id": "ia26",
@@ -34193,7 +34850,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "OutfitWear"
+         "B": "BagAllWorn"
         }
        },
        {
@@ -34204,17 +34861,9 @@
         }
        },
        {
-        "id": "gc26",
-        "kind": "get",
-        "var": "ContextOutfit"
-       },
-       {
         "id": "fa26",
         "kind": "call_self",
-        "function": "On Outfit Clicked",
-        "in": {
-         "index": "@gc26.ContextOutfit"
-        }
+        "function": "Bag All Worn"
        },
        {
         "id": "ia27",
@@ -34223,7 +34872,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "OutfitRename"
+         "B": "OutfitWear"
         }
        },
        {
@@ -34241,7 +34890,7 @@
        {
         "id": "fa27",
         "kind": "call_self",
-        "function": "Start Outfit Rename",
+        "function": "On Outfit Clicked",
         "in": {
          "index": "@gc27.ContextOutfit"
         }
@@ -34253,7 +34902,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "OutfitDelete"
+         "B": "OutfitRename"
         }
        },
        {
@@ -34271,7 +34920,7 @@
        {
         "id": "fa28",
         "kind": "call_self",
-        "function": "Delete Outfit",
+        "function": "Start Outfit Rename",
         "in": {
          "index": "@gc28.ContextOutfit"
         }
@@ -34283,7 +34932,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "OutfitLeft"
+         "B": "OutfitDelete"
         }
        },
        {
@@ -34301,7 +34950,7 @@
        {
         "id": "fa29",
         "kind": "call_self",
-        "function": "Outfit Move Left",
+        "function": "Delete Outfit",
         "in": {
          "index": "@gc29.ContextOutfit"
         }
@@ -34313,7 +34962,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "OutfitRight"
+         "B": "OutfitLeft"
         }
        },
        {
@@ -34331,7 +34980,7 @@
        {
         "id": "fa30",
         "kind": "call_self",
-        "function": "Outfit Move Right",
+        "function": "Outfit Move Left",
         "in": {
          "index": "@gc30.ContextOutfit"
         }
@@ -34343,7 +34992,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "OutfitFirst"
+         "B": "OutfitRight"
         }
        },
        {
@@ -34361,7 +35010,7 @@
        {
         "id": "fa31",
         "kind": "call_self",
-        "function": "Outfit Move First",
+        "function": "Outfit Move Right",
         "in": {
          "index": "@gc31.ContextOutfit"
         }
@@ -34373,7 +35022,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "OutfitLast"
+         "B": "OutfitFirst"
         }
        },
        {
@@ -34391,7 +35040,7 @@
        {
         "id": "fa32",
         "kind": "call_self",
-        "function": "Outfit Move Last",
+        "function": "Outfit Move First",
         "in": {
          "index": "@gc32.ContextOutfit"
         }
@@ -34403,7 +35052,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookLeft"
+         "B": "OutfitLast"
         }
        },
        {
@@ -34416,14 +35065,14 @@
        {
         "id": "gc33",
         "kind": "get",
-        "var": "ContextLook"
+        "var": "ContextOutfit"
        },
        {
         "id": "fa33",
         "kind": "call_self",
-        "function": "Look Move Left",
+        "function": "Outfit Move Last",
         "in": {
-         "index": "@gc33.ContextLook"
+         "index": "@gc33.ContextOutfit"
         }
        },
        {
@@ -34433,7 +35082,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookRight"
+         "B": "LookLeft"
         }
        },
        {
@@ -34451,7 +35100,7 @@
        {
         "id": "fa34",
         "kind": "call_self",
-        "function": "Look Move Right",
+        "function": "Look Move Left",
         "in": {
          "index": "@gc34.ContextLook"
         }
@@ -34463,7 +35112,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookFirst"
+         "B": "LookRight"
         }
        },
        {
@@ -34481,7 +35130,7 @@
        {
         "id": "fa35",
         "kind": "call_self",
-        "function": "Look Move First",
+        "function": "Look Move Right",
         "in": {
          "index": "@gc35.ContextLook"
         }
@@ -34493,7 +35142,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookLast"
+         "B": "LookFirst"
         }
        },
        {
@@ -34511,7 +35160,7 @@
        {
         "id": "fa36",
         "kind": "call_self",
-        "function": "Look Move Last",
+        "function": "Look Move First",
         "in": {
          "index": "@gc36.ContextLook"
         }
@@ -34523,7 +35172,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PresetLeft"
+         "B": "LookLast"
         }
        },
        {
@@ -34536,14 +35185,14 @@
        {
         "id": "gc37",
         "kind": "get",
-        "var": "ContextPreset"
+        "var": "ContextLook"
        },
        {
         "id": "fa37",
         "kind": "call_self",
-        "function": "Preset Move Left",
+        "function": "Look Move Last",
         "in": {
-         "index": "@gc37.ContextPreset"
+         "index": "@gc37.ContextLook"
         }
        },
        {
@@ -34553,7 +35202,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PresetRight"
+         "B": "PresetLeft"
         }
        },
        {
@@ -34571,7 +35220,7 @@
        {
         "id": "fa38",
         "kind": "call_self",
-        "function": "Preset Move Right",
+        "function": "Preset Move Left",
         "in": {
          "index": "@gc38.ContextPreset"
         }
@@ -34583,7 +35232,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PresetFirst"
+         "B": "PresetRight"
         }
        },
        {
@@ -34601,7 +35250,7 @@
        {
         "id": "fa39",
         "kind": "call_self",
-        "function": "Preset Move First",
+        "function": "Preset Move Right",
         "in": {
          "index": "@gc39.ContextPreset"
         }
@@ -34613,7 +35262,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PresetLast"
+         "B": "PresetFirst"
         }
        },
        {
@@ -34631,7 +35280,7 @@
        {
         "id": "fa40",
         "kind": "call_self",
-        "function": "Preset Move Last",
+        "function": "Preset Move First",
         "in": {
          "index": "@gc40.ContextPreset"
         }
@@ -34643,7 +35292,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceLeft"
+         "B": "PresetLast"
         }
        },
        {
@@ -34656,14 +35305,14 @@
        {
         "id": "gc41",
         "kind": "get",
-        "var": "ContextFace"
+        "var": "ContextPreset"
        },
        {
         "id": "fa41",
         "kind": "call_self",
-        "function": "Face Move Left",
+        "function": "Preset Move Last",
         "in": {
-         "index": "@gc41.ContextFace"
+         "index": "@gc41.ContextPreset"
         }
        },
        {
@@ -34673,7 +35322,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceRight"
+         "B": "FaceLeft"
         }
        },
        {
@@ -34691,7 +35340,7 @@
        {
         "id": "fa42",
         "kind": "call_self",
-        "function": "Face Move Right",
+        "function": "Face Move Left",
         "in": {
          "index": "@gc42.ContextFace"
         }
@@ -34703,7 +35352,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceFirst"
+         "B": "FaceRight"
         }
        },
        {
@@ -34721,7 +35370,7 @@
        {
         "id": "fa43",
         "kind": "call_self",
-        "function": "Face Move First",
+        "function": "Face Move Right",
         "in": {
          "index": "@gc43.ContextFace"
         }
@@ -34733,7 +35382,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceLast"
+         "B": "FaceFirst"
         }
        },
        {
@@ -34751,7 +35400,7 @@
        {
         "id": "fa44",
         "kind": "call_self",
-        "function": "Face Move Last",
+        "function": "Face Move First",
         "in": {
          "index": "@gc44.ContextFace"
         }
@@ -34763,7 +35412,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookRename"
+         "B": "FaceLast"
         }
        },
        {
@@ -34776,14 +35425,14 @@
        {
         "id": "gc45",
         "kind": "get",
-        "var": "ContextLook"
+        "var": "ContextFace"
        },
        {
         "id": "fa45",
         "kind": "call_self",
-        "function": "Start Look Rename",
+        "function": "Face Move Last",
         "in": {
-         "index": "@gc45.ContextLook"
+         "index": "@gc45.ContextFace"
         }
        },
        {
@@ -34793,7 +35442,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookUpdate"
+         "B": "LookRename"
         }
        },
        {
@@ -34811,7 +35460,7 @@
        {
         "id": "fa46",
         "kind": "call_self",
-        "function": "Update Look Front",
+        "function": "Start Look Rename",
         "in": {
          "index": "@gc46.ContextLook"
         }
@@ -34823,7 +35472,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookUpdateView"
+         "B": "LookUpdate"
         }
        },
        {
@@ -34841,7 +35490,7 @@
        {
         "id": "fa47",
         "kind": "call_self",
-        "function": "Update Look View",
+        "function": "Update Look Front",
         "in": {
          "index": "@gc47.ContextLook"
         }
@@ -34853,7 +35502,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookDelete"
+         "B": "LookUpdateView"
         }
        },
        {
@@ -34871,7 +35520,7 @@
        {
         "id": "fa48",
         "kind": "call_self",
-        "function": "Delete Look",
+        "function": "Update Look View",
         "in": {
          "index": "@gc48.ContextLook"
         }
@@ -34883,7 +35532,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PresetApply"
+         "B": "LookDelete"
         }
        },
        {
@@ -34896,14 +35545,14 @@
        {
         "id": "gc49",
         "kind": "get",
-        "var": "ContextPreset"
+        "var": "ContextLook"
        },
        {
         "id": "fa49",
         "kind": "call_self",
-        "function": "Preset Clicked",
+        "function": "Delete Look",
         "in": {
-         "index": "@gc49.ContextPreset"
+         "index": "@gc49.ContextLook"
         }
        },
        {
@@ -34913,7 +35562,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PresetUpdate"
+         "B": "PresetApply"
         }
        },
        {
@@ -34931,7 +35580,7 @@
        {
         "id": "fa50",
         "kind": "call_self",
-        "function": "Update Preset Front",
+        "function": "Preset Clicked",
         "in": {
          "index": "@gc50.ContextPreset"
         }
@@ -34943,7 +35592,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PresetUpdateView"
+         "B": "PresetUpdate"
         }
        },
        {
@@ -34961,7 +35610,7 @@
        {
         "id": "fa51",
         "kind": "call_self",
-        "function": "Update Preset View",
+        "function": "Update Preset Front",
         "in": {
          "index": "@gc51.ContextPreset"
         }
@@ -34973,7 +35622,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PresetDelete"
+         "B": "PresetUpdateView"
         }
        },
        {
@@ -34991,7 +35640,7 @@
        {
         "id": "fa52",
         "kind": "call_self",
-        "function": "Preset Delete",
+        "function": "Update Preset View",
         "in": {
          "index": "@gc52.ContextPreset"
         }
@@ -35003,7 +35652,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "OutfitView"
+         "B": "PresetDelete"
         }
        },
        {
@@ -35016,14 +35665,14 @@
        {
         "id": "gc53",
         "kind": "get",
-        "var": "ContextOutfit"
+        "var": "ContextPreset"
        },
        {
         "id": "fa53",
         "kind": "call_self",
-        "function": "Open Outfit Content",
+        "function": "Preset Delete",
         "in": {
-         "index": "@gc53.ContextOutfit"
+         "index": "@gc53.ContextPreset"
         }
        },
        {
@@ -35033,7 +35682,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "QuickCtx"
+         "B": "OutfitView"
         }
        },
        {
@@ -35044,9 +35693,17 @@
         }
        },
        {
+        "id": "gc54",
+        "kind": "get",
+        "var": "ContextOutfit"
+       },
+       {
         "id": "fa54",
         "kind": "call_self",
-        "function": "Quick Context Toggle"
+        "function": "Open Outfit Content",
+        "in": {
+         "index": "@gc54.ContextOutfit"
+        }
        },
        {
         "id": "ia55",
@@ -35055,7 +35712,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookView"
+         "B": "QuickCtx"
         }
        },
        {
@@ -35066,17 +35723,9 @@
         }
        },
        {
-        "id": "gc55",
-        "kind": "get",
-        "var": "ContextLook"
-       },
-       {
         "id": "fa55",
         "kind": "call_self",
-        "function": "Open Look Content",
-        "in": {
-         "index": "@gc55.ContextLook"
-        }
+        "function": "Quick Context Toggle"
        },
        {
         "id": "ia56",
@@ -35085,7 +35734,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PresetView"
+         "B": "LookView"
         }
        },
        {
@@ -35098,14 +35747,14 @@
        {
         "id": "gc56",
         "kind": "get",
-        "var": "ContextPreset"
+        "var": "ContextLook"
        },
        {
         "id": "fa56",
         "kind": "call_self",
-        "function": "Open Preset Content",
+        "function": "Open Look Content",
         "in": {
-         "index": "@gc56.ContextPreset"
+         "index": "@gc56.ContextLook"
         }
        },
        {
@@ -35115,7 +35764,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ContentBack"
+         "B": "PresetView"
         }
        },
        {
@@ -35126,9 +35775,17 @@
         }
        },
        {
+        "id": "gc57",
+        "kind": "get",
+        "var": "ContextPreset"
+       },
+       {
         "id": "fa57",
         "kind": "call_self",
-        "function": "Close Content"
+        "function": "Open Preset Content",
+        "in": {
+         "index": "@gc57.ContextPreset"
+        }
        },
        {
         "id": "ia58",
@@ -35137,7 +35794,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ThemeSave"
+         "B": "ContentBack"
         }
        },
        {
@@ -35150,7 +35807,7 @@
        {
         "id": "fa58",
         "kind": "call_self",
-        "function": "Theme Save"
+        "function": "Close Content"
        },
        {
         "id": "ia59",
@@ -35159,7 +35816,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ClearManageChipSearch"
+         "B": "ThemeSave"
         }
        },
        {
@@ -35172,7 +35829,7 @@
        {
         "id": "fa59",
         "kind": "call_self",
-        "function": "Clear Manage Chip Search Text"
+        "function": "Theme Save"
        },
        {
         "id": "ia60",
@@ -35181,7 +35838,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ThemePApply"
+         "B": "ClearManageChipSearch"
         }
        },
        {
@@ -35192,17 +35849,9 @@
         }
        },
        {
-        "id": "gc60",
-        "kind": "get",
-        "var": "ContextItem"
-       },
-       {
         "id": "fa60",
         "kind": "call_self",
-        "function": "Context Chip Apply",
-        "in": {
-         "name": "@gc60.ContextItem"
-        }
+        "function": "Clear Manage Chip Search Text"
        },
        {
         "id": "ia61",
@@ -35211,7 +35860,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ThemePDelete"
+         "B": "ThemePApply"
         }
        },
        {
@@ -35229,7 +35878,7 @@
        {
         "id": "fa61",
         "kind": "call_self",
-        "function": "Context Chip Delete",
+        "function": "Context Chip Apply",
         "in": {
          "name": "@gc61.ContextItem"
         }
@@ -35241,7 +35890,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "GoTo"
+         "B": "ThemePDelete"
         }
        },
        {
@@ -35259,7 +35908,7 @@
        {
         "id": "fa62",
         "kind": "call_self",
-        "function": "Go To Item",
+        "function": "Context Chip Delete",
         "in": {
          "name": "@gc62.ContextItem"
         }
@@ -35271,7 +35920,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ContentUse"
+         "B": "GoTo"
         }
        },
        {
@@ -35289,7 +35938,7 @@
        {
         "id": "fa63",
         "kind": "call_self",
-        "function": "Content Use",
+        "function": "Go To Item",
         "in": {
          "name": "@gc63.ContextItem"
         }
@@ -35301,7 +35950,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "OnlyGroup"
+         "B": "ContentUse"
         }
        },
        {
@@ -35319,7 +35968,7 @@
        {
         "id": "fa64",
         "kind": "call_self",
-        "function": "Show Only Group",
+        "function": "Content Use",
         "in": {
          "name": "@gc64.ContextItem"
         }
@@ -35331,7 +35980,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModContent"
+         "B": "OnlyGroup"
         }
        },
        {
@@ -35349,7 +35998,7 @@
        {
         "id": "fa65",
         "kind": "call_self",
-        "function": "Open Mod Content Of Item",
+        "function": "Show Only Group",
         "in": {
          "name": "@gc65.ContextItem"
         }
@@ -35361,7 +36010,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "Rename"
+         "B": "ModContent"
         }
        },
        {
@@ -35379,7 +36028,7 @@
        {
         "id": "fa66",
         "kind": "call_self",
-        "function": "Start Item Rename",
+        "function": "Open Mod Content Of Item",
         "in": {
          "name": "@gc66.ContextItem"
         }
@@ -35391,7 +36040,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookFav"
+         "B": "Rename"
         }
        },
        {
@@ -35409,7 +36058,7 @@
        {
         "id": "fa67",
         "kind": "call_self",
-        "function": "Toggle Look Favorite",
+        "function": "Start Item Rename",
         "in": {
          "name": "@gc67.ContextItem"
         }
@@ -35421,7 +36070,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookHide"
+         "B": "LookFav"
         }
        },
        {
@@ -35439,7 +36088,7 @@
        {
         "id": "fa68",
         "kind": "call_self",
-        "function": "Toggle Look Hidden",
+        "function": "Toggle Look Favorite",
         "in": {
          "name": "@gc68.ContextItem"
         }
@@ -35451,7 +36100,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookOnlyMod"
+         "B": "LookHide"
         }
        },
        {
@@ -35469,7 +36118,7 @@
        {
         "id": "fa69",
         "kind": "call_self",
-        "function": "Look Only Mod",
+        "function": "Toggle Look Hidden",
         "in": {
          "name": "@gc69.ContextItem"
         }
@@ -35481,7 +36130,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseFav"
+         "B": "LookOnlyMod"
         }
        },
        {
@@ -35499,7 +36148,7 @@
        {
         "id": "fa70",
         "kind": "call_self",
-        "function": "Toggle Pose Favorite",
+        "function": "Look Only Mod",
         "in": {
          "name": "@gc70.ContextItem"
         }
@@ -35511,7 +36160,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseHide"
+         "B": "PoseFav"
         }
        },
        {
@@ -35529,7 +36178,7 @@
        {
         "id": "fa71",
         "kind": "call_self",
-        "function": "Toggle Pose Hidden",
+        "function": "Toggle Pose Favorite",
         "in": {
          "name": "@gc71.ContextItem"
         }
@@ -35541,7 +36190,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseOnlyMod"
+         "B": "PoseHide"
         }
        },
        {
@@ -35559,7 +36208,7 @@
        {
         "id": "fa72",
         "kind": "call_self",
-        "function": "Pose Only Mod",
+        "function": "Toggle Pose Hidden",
         "in": {
          "name": "@gc72.ContextItem"
         }
@@ -35571,7 +36220,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseReset"
+         "B": "PoseOnlyMod"
         }
        },
        {
@@ -35589,7 +36238,7 @@
        {
         "id": "fa73",
         "kind": "call_self",
-        "function": "Reset Pose Measurement",
+        "function": "Pose Only Mod",
         "in": {
          "name": "@gc73.ContextItem"
         }
@@ -35601,7 +36250,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseIdle"
+         "B": "PoseReset"
         }
        },
        {
@@ -35619,7 +36268,7 @@
        {
         "id": "fa74",
         "kind": "call_self",
-        "function": "Toggle Idle Pose",
+        "function": "Reset Pose Measurement",
         "in": {
          "name": "@gc74.ContextItem"
         }
@@ -35631,7 +36280,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseSetStand"
+         "B": "PoseIdle"
         }
        },
        {
@@ -35649,7 +36298,7 @@
        {
         "id": "fa75",
         "kind": "call_self",
-        "function": "Pose Set Stand",
+        "function": "Toggle Idle Pose",
         "in": {
          "name": "@gc75.ContextItem"
         }
@@ -35661,7 +36310,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseSetSit"
+         "B": "PoseSetStand"
         }
        },
        {
@@ -35679,7 +36328,7 @@
        {
         "id": "fa76",
         "kind": "call_self",
-        "function": "Pose Set Sit",
+        "function": "Pose Set Stand",
         "in": {
          "name": "@gc76.ContextItem"
         }
@@ -35691,7 +36340,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseSetLie"
+         "B": "PoseSetSit"
         }
        },
        {
@@ -35709,7 +36358,7 @@
        {
         "id": "fa77",
         "kind": "call_self",
-        "function": "Pose Set Lie",
+        "function": "Pose Set Sit",
         "in": {
          "name": "@gc77.ContextItem"
         }
@@ -35721,7 +36370,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseSetMove"
+         "B": "PoseSetLie"
         }
        },
        {
@@ -35739,7 +36388,7 @@
        {
         "id": "fa78",
         "kind": "call_self",
-        "function": "Toggle Pose Moving",
+        "function": "Pose Set Lie",
         "in": {
          "name": "@gc78.ContextItem"
         }
@@ -35751,7 +36400,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SkinFav"
+         "B": "PoseSetMove"
         }
        },
        {
@@ -35769,7 +36418,7 @@
        {
         "id": "fa79",
         "kind": "call_self",
-        "function": "Toggle Skin Favorite",
+        "function": "Toggle Pose Moving",
         "in": {
          "name": "@gc79.ContextItem"
         }
@@ -35781,7 +36430,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SkinHide"
+         "B": "SkinFav"
         }
        },
        {
@@ -35799,7 +36448,7 @@
        {
         "id": "fa80",
         "kind": "call_self",
-        "function": "Toggle Skin Hidden",
+        "function": "Toggle Skin Favorite",
         "in": {
          "name": "@gc80.ContextItem"
         }
@@ -35811,7 +36460,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SkinOnlyMod"
+         "B": "SkinHide"
         }
        },
        {
@@ -35829,7 +36478,7 @@
        {
         "id": "fa81",
         "kind": "call_self",
-        "function": "Skin Only Mod",
+        "function": "Toggle Skin Hidden",
         "in": {
          "name": "@gc81.ContextItem"
         }
@@ -35841,7 +36490,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelFav"
+         "B": "SkinOnlyMod"
         }
        },
        {
@@ -35859,7 +36508,7 @@
        {
         "id": "fa82",
         "kind": "call_self",
-        "function": "Toggle Model Favorite",
+        "function": "Skin Only Mod",
         "in": {
          "name": "@gc82.ContextItem"
         }
@@ -35871,7 +36520,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelHide"
+         "B": "ModelFav"
         }
        },
        {
@@ -35889,7 +36538,7 @@
        {
         "id": "fa83",
         "kind": "call_self",
-        "function": "Toggle Model Hidden",
+        "function": "Toggle Model Favorite",
         "in": {
          "name": "@gc83.ContextItem"
         }
@@ -35901,7 +36550,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelOnlyMod"
+         "B": "ModelHide"
         }
        },
        {
@@ -35919,7 +36568,7 @@
        {
         "id": "fa84",
         "kind": "call_self",
-        "function": "Model Only Mod",
+        "function": "Toggle Model Hidden",
         "in": {
          "name": "@gc84.ContextItem"
         }
@@ -35931,7 +36580,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SoundFav"
+         "B": "ModelOnlyMod"
         }
        },
        {
@@ -35949,7 +36598,7 @@
        {
         "id": "fa85",
         "kind": "call_self",
-        "function": "Toggle Sound Favorite",
+        "function": "Model Only Mod",
         "in": {
          "name": "@gc85.ContextItem"
         }
@@ -35961,7 +36610,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SoundHide"
+         "B": "SoundFav"
         }
        },
        {
@@ -35979,7 +36628,7 @@
        {
         "id": "fa86",
         "kind": "call_self",
-        "function": "Toggle Sound Hidden",
+        "function": "Toggle Sound Favorite",
         "in": {
          "name": "@gc86.ContextItem"
         }
@@ -35991,7 +36640,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SoundOnlyMod"
+         "B": "SoundHide"
         }
        },
        {
@@ -36009,7 +36658,7 @@
        {
         "id": "fa87",
         "kind": "call_self",
-        "function": "Sound Only Mod",
+        "function": "Toggle Sound Hidden",
         "in": {
          "name": "@gc87.ContextItem"
         }
@@ -36021,7 +36670,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelOwnIcon"
+         "B": "SoundOnlyMod"
         }
        },
        {
@@ -36039,7 +36688,7 @@
        {
         "id": "fa88",
         "kind": "call_self",
-        "function": "Toggle Model Own Icon",
+        "function": "Sound Only Mod",
         "in": {
          "name": "@gc88.ContextItem"
         }
@@ -36051,7 +36700,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelForceSkin"
+         "B": "ModelOwnIcon"
         }
        },
        {
@@ -36069,7 +36718,7 @@
        {
         "id": "fa89",
         "kind": "call_self",
-        "function": "Toggle Model Force Skin",
+        "function": "Toggle Model Own Icon",
         "in": {
          "name": "@gc89.ContextItem"
         }
@@ -36081,7 +36730,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelSkipMag"
+         "B": "ModelForceSkin"
         }
        },
        {
@@ -36099,7 +36748,7 @@
        {
         "id": "fa90",
         "kind": "call_self",
-        "function": "Toggle Model Skip Mag",
+        "function": "Toggle Model Force Skin",
         "in": {
          "name": "@gc90.ContextItem"
         }
@@ -36111,7 +36760,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelSkipOptics"
+         "B": "ModelSkipMag"
         }
        },
        {
@@ -36129,7 +36778,7 @@
        {
         "id": "fa91",
         "kind": "call_self",
-        "function": "Toggle Model Skip Optics",
+        "function": "Toggle Model Skip Mag",
         "in": {
          "name": "@gc91.ContextItem"
         }
@@ -36141,7 +36790,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelSkipBarrel"
+         "B": "ModelSkipOptics"
         }
        },
        {
@@ -36159,7 +36808,7 @@
        {
         "id": "fa92",
         "kind": "call_self",
-        "function": "Toggle Model Skip Barrel",
+        "function": "Toggle Model Skip Optics",
         "in": {
          "name": "@gc92.ContextItem"
         }
@@ -36171,7 +36820,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelSkipGrip"
+         "B": "ModelSkipBarrel"
         }
        },
        {
@@ -36189,7 +36838,7 @@
        {
         "id": "fa93",
         "kind": "call_self",
-        "function": "Toggle Model Skip Grip",
+        "function": "Toggle Model Skip Barrel",
         "in": {
          "name": "@gc93.ContextItem"
         }
@@ -36201,7 +36850,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseStop"
+         "B": "ModelSkipGrip"
         }
        },
        {
@@ -36212,9 +36861,17 @@
         }
        },
        {
+        "id": "gc94",
+        "kind": "get",
+        "var": "ContextItem"
+       },
+       {
         "id": "fa94",
         "kind": "call_self",
-        "function": "Stop Pose"
+        "function": "Toggle Model Skip Grip",
+        "in": {
+         "name": "@gc94.ContextItem"
+        }
        },
        {
         "id": "ia95",
@@ -36223,7 +36880,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseScan"
+         "B": "PoseStop"
         }
        },
        {
@@ -36236,7 +36893,7 @@
        {
         "id": "fa95",
         "kind": "call_self",
-        "function": "Start Pose Scan"
+        "function": "Stop Pose"
        },
        {
         "id": "ia96",
@@ -36245,7 +36902,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PoseScanStop"
+         "B": "PoseScan"
         }
        },
        {
@@ -36258,7 +36915,7 @@
        {
         "id": "fa96",
         "kind": "call_self",
-        "function": "Stop Pose Scan"
+        "function": "Start Pose Scan"
        },
        {
         "id": "ia97",
@@ -36267,7 +36924,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "WeaponIconsRedo"
+         "B": "PoseScanStop"
         }
        },
        {
@@ -36280,7 +36937,7 @@
        {
         "id": "fa97",
         "kind": "call_self",
-        "function": "Redo Weapon Icons"
+        "function": "Stop Pose Scan"
        },
        {
         "id": "ia98",
@@ -36289,7 +36946,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "WeaponIconsMode"
+         "B": "WeaponIconsRedo"
         }
        },
        {
@@ -36302,7 +36959,7 @@
        {
         "id": "fa98",
         "kind": "call_self",
-        "function": "Toggle Rendered Icons"
+        "function": "Redo Weapon Icons"
        },
        {
         "id": "ia99",
@@ -36311,7 +36968,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "VerContinue"
+         "B": "WeaponIconsMode"
         }
        },
        {
@@ -36324,7 +36981,7 @@
        {
         "id": "fa99",
         "kind": "call_self",
-        "function": "Version Continue"
+        "function": "Toggle Rendered Icons"
        },
        {
         "id": "ia100",
@@ -36333,7 +36990,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "VerOff"
+         "B": "VerContinue"
         }
        },
        {
@@ -36346,7 +37003,7 @@
        {
         "id": "fa100",
         "kind": "call_self",
-        "function": "Version Off"
+        "function": "Version Continue"
        },
        {
         "id": "ia101",
@@ -36355,7 +37012,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "DropWarnCancel"
+         "B": "VerOff"
         }
        },
        {
@@ -36368,7 +37025,7 @@
        {
         "id": "fa101",
         "kind": "call_self",
-        "function": "Drop Warn Cancel"
+        "function": "Version Off"
        },
        {
         "id": "ia102",
@@ -36377,7 +37034,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "DropWarnDestroy"
+         "B": "DropWarnCancel"
         }
        },
        {
@@ -36390,7 +37047,7 @@
        {
         "id": "fa102",
         "kind": "call_self",
-        "function": "Drop Warn Destroy"
+        "function": "Drop Warn Cancel"
        },
        {
         "id": "ia103",
@@ -36399,7 +37056,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "DropWarnDrop"
+         "B": "DropWarnDestroy"
         }
        },
        {
@@ -36412,7 +37069,7 @@
        {
         "id": "fa103",
         "kind": "call_self",
-        "function": "Drop Warn Drop"
+        "function": "Drop Warn Destroy"
        },
        {
         "id": "ia104",
@@ -36421,7 +37078,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "RenameMod"
+         "B": "DropWarnDrop"
         }
        },
        {
@@ -36432,17 +37089,9 @@
         }
        },
        {
-        "id": "gc104",
-        "kind": "get",
-        "var": "ContextItem"
-       },
-       {
         "id": "fa104",
         "kind": "call_self",
-        "function": "Rename Mod Of Item",
-        "in": {
-         "name": "@gc104.ContextItem"
-        }
+        "function": "Drop Warn Drop"
        },
        {
         "id": "ia105",
@@ -36451,7 +37100,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SkinRenameMod"
+         "B": "RenameMod"
         }
        },
        {
@@ -36469,7 +37118,7 @@
        {
         "id": "fa105",
         "kind": "call_self",
-        "function": "Rename Skin Mod",
+        "function": "Rename Mod Of Item",
         "in": {
          "name": "@gc105.ContextItem"
         }
@@ -36481,7 +37130,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModelRenameMod"
+         "B": "SkinRenameMod"
         }
        },
        {
@@ -36499,7 +37148,7 @@
        {
         "id": "fa106",
         "kind": "call_self",
-        "function": "Rename Model Mod",
+        "function": "Rename Skin Mod",
         "in": {
          "name": "@gc106.ContextItem"
         }
@@ -36511,7 +37160,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SoundRenameMod"
+         "B": "ModelRenameMod"
         }
        },
        {
@@ -36529,7 +37178,7 @@
        {
         "id": "fa107",
         "kind": "call_self",
-        "function": "Rename Sound Mod",
+        "function": "Rename Model Mod",
         "in": {
          "name": "@gc107.ContextItem"
         }
@@ -36541,7 +37190,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "RenameGroup"
+         "B": "SoundRenameMod"
         }
        },
        {
@@ -36559,7 +37208,7 @@
        {
         "id": "fa108",
         "kind": "call_self",
-        "function": "Rename Group Of Item",
+        "function": "Rename Sound Mod",
         "in": {
          "name": "@gc108.ContextItem"
         }
@@ -36571,7 +37220,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "HairNatural"
+         "B": "RenameGroup"
         }
        },
        {
@@ -36582,9 +37231,17 @@
         }
        },
        {
+        "id": "gc109",
+        "kind": "get",
+        "var": "ContextItem"
+       },
+       {
         "id": "fa109",
         "kind": "call_self",
-        "function": "Toggle Hair Swatches"
+        "function": "Rename Group Of Item",
+        "in": {
+         "name": "@gc109.ContextItem"
+        }
        },
        {
         "id": "ia110",
@@ -36593,7 +37250,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceAllFixed"
+         "B": "HairNatural"
         }
        },
        {
@@ -36606,7 +37263,7 @@
        {
         "id": "fa110",
         "kind": "call_self",
-        "function": "Face All Fixed"
+        "function": "Toggle Hair Swatches"
        },
        {
         "id": "ia111",
@@ -36615,7 +37272,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceAllGame"
+         "B": "FaceAllFixed"
         }
        },
        {
@@ -36628,7 +37285,7 @@
        {
         "id": "fa111",
         "kind": "call_self",
-        "function": "Face All Game"
+        "function": "Face All Fixed"
        },
        {
         "id": "ia112",
@@ -36637,7 +37294,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceAddToggle"
+         "B": "FaceAllGame"
         }
        },
        {
@@ -36650,7 +37307,7 @@
        {
         "id": "fa112",
         "kind": "call_self",
-        "function": "Toggle Face Add"
+        "function": "Face All Game"
        },
        {
         "id": "ia113",
@@ -36659,7 +37316,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceApply"
+         "B": "FaceAddToggle"
         }
        },
        {
@@ -36670,17 +37327,9 @@
         }
        },
        {
-        "id": "gc113",
-        "kind": "get",
-        "var": "ContextFace"
-       },
-       {
         "id": "fa113",
         "kind": "call_self",
-        "function": "Apply Saved Face",
-        "in": {
-         "index": "@gc113.ContextFace"
-        }
+        "function": "Toggle Face Add"
        },
        {
         "id": "ia114",
@@ -36689,7 +37338,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceRename"
+         "B": "FaceApply"
         }
        },
        {
@@ -36707,7 +37356,7 @@
        {
         "id": "fa114",
         "kind": "call_self",
-        "function": "Start Face Rename",
+        "function": "Apply Saved Face",
         "in": {
          "index": "@gc114.ContextFace"
         }
@@ -36719,7 +37368,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceUpdate"
+         "B": "FaceRename"
         }
        },
        {
@@ -36737,7 +37386,7 @@
        {
         "id": "fa115",
         "kind": "call_self",
-        "function": "Update Face Front",
+        "function": "Start Face Rename",
         "in": {
          "index": "@gc115.ContextFace"
         }
@@ -36749,7 +37398,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceUpdateView"
+         "B": "FaceUpdate"
         }
        },
        {
@@ -36767,7 +37416,7 @@
        {
         "id": "fa116",
         "kind": "call_self",
-        "function": "Update Face View",
+        "function": "Update Face Front",
         "in": {
          "index": "@gc116.ContextFace"
         }
@@ -36779,7 +37428,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceDelete"
+         "B": "FaceUpdateView"
         }
        },
        {
@@ -36797,7 +37446,7 @@
        {
         "id": "fa117",
         "kind": "call_self",
-        "function": "Delete Face",
+        "function": "Update Face View",
         "in": {
          "index": "@gc117.ContextFace"
         }
@@ -36809,7 +37458,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceView"
+         "B": "FaceDelete"
         }
        },
        {
@@ -36827,7 +37476,7 @@
        {
         "id": "fa118",
         "kind": "call_self",
-        "function": "Open Face Content",
+        "function": "Delete Face",
         "in": {
          "index": "@gc118.ContextFace"
         }
@@ -36839,7 +37488,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FreeCam"
+         "B": "FaceView"
         }
        },
        {
@@ -36850,9 +37499,17 @@
         }
        },
        {
+        "id": "gc119",
+        "kind": "get",
+        "var": "ContextFace"
+       },
+       {
         "id": "fa119",
         "kind": "call_self",
-        "function": "Start Free Cam"
+        "function": "Open Face Content",
+        "in": {
+         "index": "@gc119.ContextFace"
+        }
        },
        {
         "id": "ia120",
@@ -36861,7 +37518,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PhotoMode"
+         "B": "FreeCam"
         }
        },
        {
@@ -36874,7 +37531,7 @@
        {
         "id": "fa120",
         "kind": "call_self",
-        "function": "Start Photo Mode"
+        "function": "Start Free Cam"
        },
        {
         "id": "ia121",
@@ -36883,7 +37540,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModeRagdoll"
+         "B": "PhotoMode"
         }
        },
        {
@@ -36896,7 +37553,7 @@
        {
         "id": "fa121",
         "kind": "call_self",
-        "function": "Start Ragdoll Mode"
+        "function": "Start Photo Mode"
        },
        {
         "id": "ia122",
@@ -36905,7 +37562,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SpeedReset"
+         "B": "ModeRagdoll"
         }
        },
        {
@@ -36918,7 +37575,7 @@
        {
         "id": "fa122",
         "kind": "call_self",
-        "function": "Reset Move Speeds"
+        "function": "Start Ragdoll Mode"
        },
        {
         "id": "ia123",
@@ -36927,7 +37584,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "Undo"
+         "B": "SpeedReset"
         }
        },
        {
@@ -36940,7 +37597,7 @@
        {
         "id": "fa123",
         "kind": "call_self",
-        "function": "Undo"
+        "function": "Reset Move Speeds"
        },
        {
         "id": "ia124",
@@ -36949,7 +37606,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "Redo"
+         "B": "Undo"
         }
        },
        {
@@ -36962,7 +37619,7 @@
        {
         "id": "fa124",
         "kind": "call_self",
-        "function": "Redo"
+        "function": "Undo"
        },
        {
         "id": "ia125",
@@ -36971,7 +37628,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "KodexBack"
+         "B": "Redo"
         }
        },
        {
@@ -36984,7 +37641,7 @@
        {
         "id": "fa125",
         "kind": "call_self",
-        "function": "Kodex Back"
+        "function": "Redo"
        },
        {
         "id": "ia126",
@@ -36993,7 +37650,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "KodexRefresh"
+         "B": "KodexBack"
         }
        },
        {
@@ -37006,7 +37663,7 @@
        {
         "id": "fa126",
         "kind": "call_self",
-        "function": "Rebuild Kodex"
+        "function": "Kodex Back"
        },
        {
         "id": "ia127",
@@ -37015,7 +37672,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookRagdoll"
+         "B": "KodexRefresh"
         }
        },
        {
@@ -37026,17 +37683,9 @@
         }
        },
        {
-        "id": "gc127",
-        "kind": "get",
-        "var": "ContextLook"
-       },
-       {
         "id": "fa127",
         "kind": "call_self",
-        "function": "Spawn Look Ragdoll",
-        "in": {
-         "index": "@gc127.ContextLook"
-        }
+        "function": "Rebuild Kodex"
        },
        {
         "id": "ia128",
@@ -37045,7 +37694,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookFollower"
+         "B": "LookRagdoll"
         }
        },
        {
@@ -37063,7 +37712,7 @@
        {
         "id": "fa128",
         "kind": "call_self",
-        "function": "Spawn Look As Follower",
+        "function": "Spawn Look Ragdoll",
         "in": {
          "index": "@gc128.ContextLook"
         }
@@ -37075,7 +37724,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookNpc"
+         "B": "LookFollower"
         }
        },
        {
@@ -37093,9 +37742,39 @@
        {
         "id": "fa129",
         "kind": "call_self",
-        "function": "Spawn Look As Npc",
+        "function": "Spawn Look As Follower",
         "in": {
          "index": "@gc129.ContextLook"
+        }
+       },
+       {
+        "id": "ia130",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "LookNpc"
+        }
+       },
+       {
+        "id": "ba130",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ia130.ReturnValue"
+        }
+       },
+       {
+        "id": "gc130",
+        "kind": "get",
+        "var": "ContextLook"
+       },
+       {
+        "id": "fa130",
+        "kind": "call_self",
+        "function": "Spawn Look As Npc",
+        "in": {
+         "index": "@gc130.ContextLook"
         }
        }
       ],
@@ -37847,6 +38526,11 @@
         "ba128:else",
         "ba129",
         "fa129"
+       ],
+       [
+        "ba129:else",
+        "ba130",
+        "fa130"
        ]
       ]
      }
@@ -66899,6 +67583,222 @@
      }
     },
     {
+     "name": "Hair Key",
+     "inputs": [
+      {
+       "name": "row",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "key",
+       "type": "name"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "n2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@entry.row"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "hair:",
+         "B": "@n2s.ReturnValue"
+        }
+       },
+       {
+        "id": "s2n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@cc.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "s2n.ReturnValue",
+        "return.key"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Is Hair Favorite",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "k",
+        "kind": "call_self",
+        "function": "Hair Key",
+        "in": {
+         "row": "@entry.name"
+        }
+       },
+       {
+        "id": "f",
+        "kind": "call_self",
+        "function": "Is Favorite",
+        "in": {
+         "name": "@k.key"
+        }
+       }
+      ],
+      "links": [
+       [
+        "f.yes",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Toggle Hair Favorite",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "k",
+        "kind": "call_self",
+        "function": "Hair Key",
+        "in": {
+         "row": "@entry.name"
+        }
+       },
+       {
+        "id": "sk",
+        "kind": "set",
+        "var": "TmpName2",
+        "in": {
+         "TmpName2": "@k.key"
+        }
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "TmpName2"
+       },
+       {
+        "id": "isf",
+        "kind": "call_self",
+        "function": "Is Favorite",
+        "in": {
+         "name": "@gk.TmpName2"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isf.yes"
+        }
+       },
+       {
+        "id": "gf",
+        "kind": "get",
+        "var": "Favorites"
+       },
+       {
+        "id": "gk1",
+        "kind": "get",
+        "var": "TmpName2"
+       },
+       {
+        "id": "rm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_RemoveItem",
+        "in": {
+         "TargetArray": "@gf.Favorites",
+         "Item": "@gk1.TmpName2"
+        }
+       },
+       {
+        "id": "gf2",
+        "kind": "get",
+        "var": "Favorites"
+       },
+       {
+        "id": "gk2",
+        "kind": "get",
+        "var": "TmpName2"
+       },
+       {
+        "id": "add",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gf2.Favorites",
+         "NewItem": "@gk2.TmpName2"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call_self",
+        "function": "Save Settings"
+       },
+       {
+        "id": "rl",
+        "kind": "call_self",
+        "function": "Rebuild Hair"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sk",
+        "b",
+        "rm",
+        "sv"
+       ],
+       [
+        "b:else",
+        "add",
+        "sv"
+       ],
+       [
+        "sv",
+        "rl"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Rebuild Hair",
      "graph": {
       "nodes": [
@@ -66914,6 +67814,20 @@
         "function": "Clear Hair",
         "in": {
          "self": "@gp.Panel"
+        }
+       },
+       {
+        "id": "gpf",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "clf",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Hair Fav",
+        "in": {
+         "self": "@gpf.Panel"
         }
        },
        {
@@ -67119,6 +68033,314 @@
         }
        },
        {
+        "id": "nf",
+        "kind": "set",
+        "var": "TmpIdx",
+        "in": {
+         "TmpIdx": "0"
+        }
+       },
+       {
+        "id": "gnf",
+        "kind": "get",
+        "var": "TmpNames2"
+       },
+       {
+        "id": "ff",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gnf.TmpNames2"
+        }
+       },
+       {
+        "id": "ffv",
+        "kind": "call_self",
+        "function": "Is Hair Favorite",
+        "in": {
+         "name": "@ff.Array Element"
+        }
+       },
+       {
+        "id": "bf",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ffv.yes"
+        }
+       },
+       {
+        "id": "frow",
+        "kind": "get_row",
+        "table": "/Game/Project/Hairstyle/HairstyleTable",
+        "in": {
+         "RowName": "@ff.Array Element"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "fbr",
+        "kind": "break",
+        "struct": "/Game/Project/Hairstyle/HairstyleStruct",
+        "in": {
+         "HairstyleStruct": "@frow.OutRow"
+        }
+       },
+       {
+        "id": "fown_g_gi",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetGameInstance"
+       },
+       {
+        "id": "fown_g",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/TKA_GameInstance",
+        "pure": true,
+        "in": {
+         "Object": "@fown_g_gi.ReturnValue"
+        }
+       },
+       {
+        "id": "fown_hs",
+        "kind": "get",
+        "var": "Hairstyles Save",
+        "class": "/Game/Project/Classes/TKA_GameInstance"
+       },
+       {
+        "id": "fown_set",
+        "kind": "get",
+        "var": "Hairstyles",
+        "class": "/Game/Project/Classes/Save/Hairstyle_Save"
+       },
+       {
+        "id": "fown_c",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintSetLibrary",
+        "function": "Set_Contains",
+        "in": {
+         "TargetSet": "@fown_set.Hairstyles",
+         "ItemToFind": "@ff.Array Element"
+        }
+       },
+       {
+        "id": "fown_m",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@fbr.MirrorID",
+         "B": "-1"
+        }
+       },
+       {
+        "id": "fown_o",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@fown_c.ReturnValue",
+         "B": "@fown_m.ReturnValue"
+        }
+       },
+       {
+        "id": "fown_um",
+        "kind": "get",
+        "var": "UnownedMode"
+       },
+       {
+        "id": "fown_ge",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@fown_um.UnownedMode",
+         "B": "2"
+        }
+       },
+       {
+        "id": "fown",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@fown_o.ReturnValue",
+         "B": "@fown_ge.ReturnValue"
+        }
+       },
+       {
+        "id": "fmi_n",
+        "kind": "call_self",
+        "function": "Display Name",
+        "in": {
+         "kind": "hair",
+         "row": "@ff.Array Element"
+        }
+       },
+       {
+        "id": "fmi",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_ClothesItem",
+        "in": {
+         "Name": "@ff.Array Element",
+         "DisplayName": "@fmi_n.s",
+         "Icon": "@fbr.icon"
+        }
+       },
+       {
+        "id": "fgcn",
+        "kind": "get",
+        "var": "TmpName2"
+       },
+       {
+        "id": "fsel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@ff.Array Element",
+         "B": "@fgcn.TmpName2"
+        }
+       },
+       {
+        "id": "fthtp",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tab_Hair"
+        }
+       },
+       {
+        "id": "fth_tp",
+        "kind": "call_self",
+        "function": "Item Tip",
+        "in": {
+         "item": "@fmi.S_ClothesItem",
+         "kind": "hair",
+         "category": "@fthtp.text"
+        }
+       },
+       {
+        "id": "fth_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "fth_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ClothesButton",
+         "OwningPlayer": "@fth_pc.PC"
+        }
+       },
+       {
+        "id": "fth",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "pure": true,
+        "in": {
+         "Object": "@fth_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "fth_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "fth_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "in": {
+         "self": "@fth.AsW_ClothesButton",
+         "Manager": "@fth_sm_me.self"
+        }
+       },
+       {
+        "id": "fth_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ClothesButton",
+        "function": "Init",
+        "in": {
+         "self": "@fth.AsW_ClothesButton",
+         "item": "@fmi.S_ClothesItem",
+         "worn": "@fsel.ReturnValue",
+         "owned": "@fown.ReturnValue",
+         "fav": "true",
+         "damaged": "false",
+         "tip": "@fth_tp.tip",
+         "dim": "false"
+        }
+       },
+       {
+        "id": "fth_gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "fth_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Hair Fav",
+        "in": {
+         "self": "@fth_gp.Panel",
+         "widget": "@fth.AsW_ClothesButton"
+        }
+       },
+       {
+        "id": "gi",
+        "kind": "get",
+        "var": "TmpIdx"
+       },
+       {
+        "id": "inc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@gi.TmpIdx",
+         "B": "1"
+        }
+       },
+       {
+        "id": "si",
+        "kind": "set",
+        "var": "TmpIdx",
+        "in": {
+         "TmpIdx": "@inc.ReturnValue"
+        }
+       },
+       {
+        "id": "gi2",
+        "kind": "get",
+        "var": "TmpIdx"
+       },
+       {
+        "id": "gt0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@gi2.TmpIdx",
+         "B": "0"
+        }
+       },
+       {
+        "id": "gp5",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "sfv",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Hair Fav Visible",
+        "in": {
+         "self": "@gp5.Panel",
+         "visible": "@gt0.ReturnValue"
+        }
+       },
+       {
         "id": "gn",
         "kind": "get",
         "var": "TmpNames2"
@@ -67128,6 +68350,14 @@
         "kind": "foreach",
         "in": {
          "Array": "@gn.TmpNames2"
+        }
+       },
+       {
+        "id": "efv",
+        "kind": "call_self",
+        "function": "Is Hair Favorite",
+        "in": {
+         "name": "@fe.Array Element"
         }
        },
        {
@@ -67329,7 +68559,7 @@
          "item": "@mi.S_ClothesItem",
          "worn": "@sel.ReturnValue",
          "owned": "@own.ReturnValue",
-         "fav": "false",
+         "fav": "@efv.yes",
          "damaged": "false",
          "tip": "@th_tp.tip",
          "dim": "false"
@@ -67383,6 +68613,14 @@
       ],
       "links": [
        [
+        "fown_g.AsTKA Game Instance",
+        "fown_hs.self"
+       ],
+       [
+        "fown_hs.Hairstyles Save",
+        "fown_set.self"
+       ],
+       [
         "own_g.AsTKA Game Instance",
         "own_hs.self"
        ],
@@ -67395,6 +68633,7 @@
        [
         "entry",
         "cl",
+        "clf",
         "cll",
         "clk_cr",
         "sml",
@@ -67408,6 +68647,23 @@
         "rn",
         "sn",
         "scn",
+        "nf",
+        "ff"
+       ],
+       [
+        "ff",
+        "bf",
+        "frow",
+        "fth_tp",
+        "fth_cr",
+        "fth_sm",
+        "fth_i",
+        "fth_a",
+        "si"
+       ],
+       [
+        "ff:Completed",
+        "sfv",
         "fe"
        ],
        [
@@ -73889,6 +75145,23 @@
         }
        },
        {
+        "id": "qe_hideui",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.kind",
+         "B": "hideui"
+        }
+       },
+       {
+        "id": "qb_hideui",
+        "kind": "branch",
+        "in": {
+         "Condition": "@qe_hideui.ReturnValue"
+        }
+       },
+       {
         "id": "qe_tab",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -74979,6 +76252,10 @@
        ],
        [
         "qb_hidejodi:else",
+        "qb_hideui"
+       ],
+       [
+        "qb_hideui:else",
         "qb_tab"
        ],
        [
@@ -75099,6 +76376,10 @@
        ],
        [
         "qb_hidejodi",
+        "ok"
+       ],
+       [
+        "qb_hideui",
         "ok"
        ],
        [
@@ -75661,6 +76942,23 @@
         "kind": "branch",
         "in": {
          "Condition": "@qe_hidejodi.ReturnValue"
+        }
+       },
+       {
+        "id": "qe_hideui",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.kind",
+         "B": "hideui"
+        }
+       },
+       {
+        "id": "qb_hideui",
+        "kind": "branch",
+        "in": {
+         "Condition": "@qe_hideui.ReturnValue"
         }
        },
        {
@@ -76258,6 +77556,31 @@
         }
        },
        {
+        "id": "tf_hideui",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Quick_HideUI"
+        }
+       },
+       {
+        "id": "tf_hideui_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@tf_hideui.text"
+        }
+       },
+       {
+        "id": "sf_hideui",
+        "kind": "set",
+        "var": "QStr",
+        "in": {
+         "QStr": "@tf_hideui_2s.ReturnValue"
+        }
+       },
+       {
         "id": "pn",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -76731,6 +78054,10 @@
        ],
        [
         "qb_hidejodi:else",
+        "qb_hideui"
+       ],
+       [
+        "qb_hideui:else",
         "qb_tab"
        ],
        [
@@ -76864,6 +78191,11 @@
        [
         "qb_hidejodi",
         "sf_hidejodi",
+        "return"
+       ],
+       [
+        "qb_hideui",
+        "sf_hideui",
         "return"
        ],
        [
@@ -77270,6 +78602,23 @@
         }
        },
        {
+        "id": "qe_hideui",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.kind",
+         "B": "hideui"
+        }
+       },
+       {
+        "id": "qb_hideui",
+        "kind": "branch",
+        "in": {
+         "Condition": "@qe_hideui.ReturnValue"
+        }
+       },
+       {
         "id": "qe_tab",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -77539,6 +78888,14 @@
         "var": "QTex",
         "in": {
          "QTex": "/Game/Mod/AltUI/T_TabLook"
+        }
+       },
+       {
+        "id": "si_hideui",
+        "kind": "set",
+        "var": "QTex",
+        "in": {
+         "QTex": "/Game/Mod/AltUI/T_Photo"
         }
        },
        {
@@ -78299,6 +79656,10 @@
        ],
        [
         "qb_hidejodi:else",
+        "qb_hideui"
+       ],
+       [
+        "qb_hideui:else",
         "qb_tab"
        ],
        [
@@ -78416,6 +79777,11 @@
        [
         "qb_hidejodi",
         "si_hidejodi",
+        "return"
+       ],
+       [
+        "qb_hideui",
+        "si_hideui",
         "return"
        ],
        [
@@ -79306,6 +80672,23 @@
         }
        },
        {
+        "id": "qe_hideui",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.kind",
+         "B": "hideui"
+        }
+       },
+       {
+        "id": "qb_hideui",
+        "kind": "branch",
+        "in": {
+         "Condition": "@qe_hideui.ReturnValue"
+        }
+       },
+       {
         "id": "qe_tab",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -79594,6 +80977,11 @@
         "function": "Toggle Hide Jodi"
        },
        {
+        "id": "tgu",
+        "kind": "call_self",
+        "function": "Toggle Game UI"
+       },
+       {
         "id": "fq_folfollow",
         "kind": "call_self",
         "function": "Fol Quick",
@@ -79874,6 +81262,10 @@
        ],
        [
         "qb_hidejodi:else",
+        "qb_hideui"
+       ],
+       [
+        "qb_hideui:else",
         "qb_tab"
        ],
        [
@@ -79969,6 +81361,10 @@
        [
         "qb_hidejodi",
         "thj"
+       ],
+       [
+        "qb_hideui",
+        "tgu"
        ],
        [
         "qb_folfollow",
@@ -82054,6 +83450,600 @@
         }
        },
        {
+        "id": "gp4",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "ckb",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Key Binds",
+        "in": {
+         "self": "@gp4.Panel"
+        }
+       },
+       {
+        "id": "gbc",
+        "kind": "get",
+        "var": "BindCapture"
+       },
+       {
+        "id": "bce",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "IsEmpty",
+        "in": {
+         "InString": "@gbc.BindCapture"
+        }
+       },
+       {
+        "id": "bbc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bce.ReturnValue"
+        }
+       },
+       {
+        "id": "bcc",
+        "kind": "call_self",
+        "function": "Quick Item Caption",
+        "in": {
+         "item": "@gbc.BindCapture"
+        }
+       },
+       {
+        "id": "bcs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@bcc.caption"
+        }
+       },
+       {
+        "id": "tbp",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_BindPress"
+        }
+       },
+       {
+        "id": "tbp_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@tbp.text"
+        }
+       },
+       {
+        "id": "bpr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Replace",
+        "in": {
+         "SourceString": "@tbp_2s.ReturnValue",
+         "From": "%s",
+         "To": "@bcs.ReturnValue",
+         "SearchCase": "CaseSensitive"
+        }
+       },
+       {
+        "id": "bpt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@bpr.ReturnValue"
+        }
+       },
+       {
+        "id": "gp5",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "shp",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Key Bind Hint",
+        "in": {
+         "self": "@gp5.Panel",
+         "text": "@bpt.ReturnValue"
+        }
+       },
+       {
+        "id": "gbh",
+        "kind": "get",
+        "var": "BindHint"
+       },
+       {
+        "id": "bhe",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@gbh.BindHint"
+        }
+       },
+       {
+        "id": "bbh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bhe.ReturnValue"
+        }
+       },
+       {
+        "id": "gp6",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "tbh",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_BindHelp"
+        }
+       },
+       {
+        "id": "shh",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Key Bind Hint",
+        "in": {
+         "self": "@gp6.Panel",
+         "text": "@tbh.text"
+        }
+       },
+       {
+        "id": "gp7",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "gbh2",
+        "kind": "get",
+        "var": "BindHint"
+       },
+       {
+        "id": "sht",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Key Bind Hint",
+        "in": {
+         "self": "@gp7.Panel",
+         "text": "@gbh2.BindHint"
+        }
+       },
+       {
+        "id": "gki",
+        "kind": "get",
+        "var": "KeyBindItems"
+       },
+       {
+        "id": "skl",
+        "kind": "set",
+        "var": "KbLoop",
+        "in": {
+         "KbLoop": "@gki.KeyBindItems"
+        }
+       },
+       {
+        "id": "gkl",
+        "kind": "get",
+        "var": "KbLoop"
+       },
+       {
+        "id": "fk",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gkl.KbLoop"
+        }
+       },
+       {
+        "id": "rs1",
+        "kind": "set",
+        "var": "QStripe",
+        "in": {
+         "QStripe": "0"
+        }
+       },
+       {
+        "id": "gkk",
+        "kind": "get",
+        "var": "KeyBindKeys"
+       },
+       {
+        "id": "kg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gkk.KeyBindKeys",
+         "Index": "@fk.Array Index"
+        }
+       },
+       {
+        "id": "kgs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@kg.Item"
+        }
+       },
+       {
+        "id": "gbc2",
+        "kind": "get",
+        "var": "BindCapture"
+       },
+       {
+        "id": "kw8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@gbc2.BindCapture",
+         "B": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "tkp2",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_KeyPress"
+        }
+       },
+       {
+        "id": "tkp2_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@tkp2.text"
+        }
+       },
+       {
+        "id": "kcp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@tkp2_2s.ReturnValue",
+         "B": "@kgs.ReturnValue",
+         "bPickA": "@kw8.ReturnValue"
+        }
+       },
+       {
+        "id": "rkw_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "rkw_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_QuickRow",
+         "OwningPlayer": "@rkw_pc.PC"
+        }
+       },
+       {
+        "id": "rkw",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_QuickRow",
+        "pure": true,
+        "in": {
+         "Object": "@rkw_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "rksm_me",
+        "kind": "self"
+       },
+       {
+        "id": "rksm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_QuickRow",
+        "in": {
+         "self": "@rkw.AsW_QuickRow",
+         "Manager": "@rksm_me.self"
+        }
+       },
+       {
+        "id": "rkf",
+        "kind": "call_self",
+        "function": "Quick Find",
+        "in": {
+         "item": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "rkc",
+        "kind": "call_self",
+        "function": "Quick Item Caption",
+        "in": {
+         "item": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "rki",
+        "kind": "call_self",
+        "function": "Quick Item Icon",
+        "in": {
+         "item": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "rkgq",
+        "kind": "get",
+        "var": "QuickItems"
+       },
+       {
+        "id": "rkin",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@rkgq.QuickItems",
+         "ItemToFind": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "rkgsc",
+        "kind": "get",
+        "var": "QStripe"
+       },
+       {
+        "id": "rksrm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Percent_IntInt",
+        "in": {
+         "A": "@rkgsc.QStripe",
+         "B": "2"
+        }
+       },
+       {
+        "id": "rksev",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@rksrm.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "rksin",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@rkgsc.QStripe",
+         "B": "1"
+        }
+       },
+       {
+        "id": "rksst",
+        "kind": "set",
+        "var": "QStripe",
+        "in": {
+         "QStripe": "@rksin.ReturnValue"
+        }
+       },
+       {
+        "id": "rkinit",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_QuickRow",
+        "function": "Init",
+        "in": {
+         "self": "@rkw.AsW_QuickRow",
+         "item": "@fk.Array Element",
+         "caption": "@rkc.caption",
+         "icon": "@rki.tex",
+         "mode": "0",
+         "checked": "@rkin.ReturnValue",
+         "valid": "@rkf.ok",
+         "tinted": "@rksev.ReturnValue"
+        }
+       },
+       {
+        "id": "rkgp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "rkad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Key Bind",
+        "in": {
+         "self": "@rkgp.Panel",
+         "widget": "@rkw.AsW_QuickRow"
+        }
+       },
+       {
+        "id": "rkl0w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "rkl0w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_TextButton",
+         "OwningPlayer": "@rkl0w_pc.PC"
+        }
+       },
+       {
+        "id": "rkl0w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "pure": true,
+        "in": {
+         "Object": "@rkl0w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "rkl0sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "rkl0sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "in": {
+         "self": "@rkl0w.AsW_TextButton",
+         "Manager": "@rkl0sm_me.self"
+        }
+       },
+       {
+        "id": "rkl0s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "BKey:",
+         "B": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "rkl0n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@rkl0s.ReturnValue"
+        }
+       },
+       {
+        "id": "rkl0t",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@kcp.ReturnValue"
+        }
+       },
+       {
+        "id": "rkl0in",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "function": "Init",
+        "in": {
+         "self": "@rkl0w.AsW_TextButton",
+         "action": "@rkl0n.ReturnValue",
+         "caption": "@rkl0t.ReturnValue"
+        }
+       },
+       {
+        "id": "rkl0ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_QuickRow",
+        "function": "Add Link",
+        "in": {
+         "self": "@rkw.AsW_QuickRow",
+         "widget": "@rkl0w.AsW_TextButton"
+        }
+       },
+       {
+        "id": "rkl1w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "rkl1w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_TextButton",
+         "OwningPlayer": "@rkl1w_pc.PC"
+        }
+       },
+       {
+        "id": "rkl1w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "pure": true,
+        "in": {
+         "Object": "@rkl1w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "rkl1sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "rkl1sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "in": {
+         "self": "@rkl1w.AsW_TextButton",
+         "Manager": "@rkl1sm_me.self"
+        }
+       },
+       {
+        "id": "rkl1s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "BDel:",
+         "B": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "rkl1n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@rkl1s.ReturnValue"
+        }
+       },
+       {
+        "id": "rkl1t",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "✕"
+        }
+       },
+       {
+        "id": "rkl1in",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "function": "Init",
+        "in": {
+         "self": "@rkl1w.AsW_TextButton",
+         "action": "@rkl1n.ReturnValue",
+         "caption": "@rkl1t.ReturnValue"
+        }
+       },
+       {
+        "id": "rkl1ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_QuickRow",
+        "function": "Add Link",
+        "in": {
+         "self": "@rkw.AsW_QuickRow",
+         "widget": "@rkl1w.AsW_TextButton"
+        }
+       },
+       {
         "id": "rqa",
         "kind": "call_self",
         "function": "Rebuild Quick Available"
@@ -82102,6 +84092,49 @@
        ],
        [
         "fw:Completed",
+        "ckb",
+        "bbc",
+        "bbh",
+        "shh",
+        "skl"
+       ],
+       [
+        "bbh:else",
+        "sht",
+        "skl"
+       ],
+       [
+        "bbc:else",
+        "bcc",
+        "shp",
+        "skl"
+       ],
+       [
+        "skl",
+        "rs1",
+        "fk"
+       ],
+       [
+        "fk",
+        "rkw_cr",
+        "rksm",
+        "rkf",
+        "rkc",
+        "rki",
+        "rkinit",
+        "rksst",
+        "rkl0w_cr",
+        "rkl0sm",
+        "rkl0in",
+        "rkl0ad",
+        "rkl1w_cr",
+        "rkl1sm",
+        "rkl1in",
+        "rkl1ad",
+        "rkad"
+       ],
+       [
+        "fk:Completed",
         "rqa"
        ]
       ]
@@ -82572,6 +84605,808 @@
        [
         "b:else",
         "ad"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Bind Begin",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "sb",
+        "kind": "set",
+        "var": "BindCapture",
+        "in": {
+         "BindCapture": "@entry.item"
+        }
+       },
+       {
+        "id": "sq",
+        "kind": "set",
+        "var": "QuickCapture",
+        "in": {
+         "QuickCapture": "false"
+        }
+       },
+       {
+        "id": "et",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": ""
+        }
+       },
+       {
+        "id": "sh",
+        "kind": "set",
+        "var": "BindHint",
+        "in": {
+         "BindHint": "@et.ReturnValue"
+        }
+       },
+       {
+        "id": "rb",
+        "kind": "call_self",
+        "function": "Rebuild Quick Options"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sb",
+        "sq",
+        "sh",
+        "rb"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Bind Key Captured",
+     "inputs": [
+      {
+       "name": "pressed",
+       "type": "struct:/Script/InputCore.Key"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "kdn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "Key_GetDisplayName",
+        "in": {
+         "Key": "@entry.pressed"
+        }
+       },
+       {
+        "id": "kds",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@kdn.ReturnValue"
+        }
+       },
+       {
+        "id": "kn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@kds.ReturnValue"
+        }
+       },
+       {
+        "id": "gtk",
+        "kind": "get",
+        "var": "ToggleKey"
+       },
+       {
+        "id": "tks",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@gtk.ToggleKey"
+        }
+       },
+       {
+        "id": "e1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@kds.ReturnValue",
+         "B": "@tks.ReturnValue"
+        }
+       },
+       {
+        "id": "gqk",
+        "kind": "get",
+        "var": "QuickKey"
+       },
+       {
+        "id": "qks",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@gqk.QuickKey"
+        }
+       },
+       {
+        "id": "e2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@kds.ReturnValue",
+         "B": "@qks.ReturnValue"
+        }
+       },
+       {
+        "id": "gkk",
+        "kind": "get",
+        "var": "KeyBindKeys"
+       },
+       {
+        "id": "fkx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Find",
+        "in": {
+         "TargetArray": "@gkk.KeyBindKeys",
+         "ItemToFind": "@kn.ReturnValue"
+        }
+       },
+       {
+        "id": "gki",
+        "kind": "get",
+        "var": "KeyBindItems"
+       },
+       {
+        "id": "oit",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gki.KeyBindItems",
+         "Index": "@fkx.ReturnValue"
+        }
+       },
+       {
+        "id": "gbc",
+        "kind": "get",
+        "var": "BindCapture"
+       },
+       {
+        "id": "same",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@oit.Item",
+         "B": "@gbc.BindCapture"
+        }
+       },
+       {
+        "id": "fge",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@fkx.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "nsm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@same.ReturnValue"
+        }
+       },
+       {
+        "id": "e3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@fge.ReturnValue",
+         "B": "@nsm.ReturnValue"
+        }
+       },
+       {
+        "id": "o1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@e1.ReturnValue",
+         "B": "@e2.ReturnValue"
+        }
+       },
+       {
+        "id": "o2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o1.ReturnValue",
+         "B": "@e3.ReturnValue"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "branch",
+        "in": {
+         "Condition": "@o2.ReturnValue"
+        }
+       },
+       {
+        "id": "tbt",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_BindTaken"
+        }
+       },
+       {
+        "id": "sht",
+        "kind": "set",
+        "var": "BindHint",
+        "in": {
+         "BindHint": "@tbt.text"
+        }
+       },
+       {
+        "id": "gbc2",
+        "kind": "get",
+        "var": "BindCapture"
+       },
+       {
+        "id": "gki2",
+        "kind": "get",
+        "var": "KeyBindItems"
+       },
+       {
+        "id": "fit",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Find",
+        "in": {
+         "TargetArray": "@gki2.KeyBindItems",
+         "ItemToFind": "@gbc2.BindCapture"
+        }
+       },
+       {
+        "id": "hit",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@fit.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bhit",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hit.ReturnValue"
+        }
+       },
+       {
+        "id": "gkk2",
+        "kind": "get",
+        "var": "KeyBindKeys"
+       },
+       {
+        "id": "rk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Remove",
+        "in": {
+         "TargetArray": "@gkk2.KeyBindKeys",
+         "IndexToRemove": "@fit.ReturnValue"
+        }
+       },
+       {
+        "id": "gki3",
+        "kind": "get",
+        "var": "KeyBindItems"
+       },
+       {
+        "id": "ri",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Remove",
+        "in": {
+         "TargetArray": "@gki3.KeyBindItems",
+         "IndexToRemove": "@fit.ReturnValue"
+        }
+       },
+       {
+        "id": "gkk3",
+        "kind": "get",
+        "var": "KeyBindKeys"
+       },
+       {
+        "id": "ak",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gkk3.KeyBindKeys",
+         "NewItem": "@kn.ReturnValue"
+        }
+       },
+       {
+        "id": "gki4",
+        "kind": "get",
+        "var": "KeyBindItems"
+       },
+       {
+        "id": "gbc3",
+        "kind": "get",
+        "var": "BindCapture"
+       },
+       {
+        "id": "ai",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gki4.KeyBindItems",
+         "NewItem": "@gbc3.BindCapture"
+        }
+       },
+       {
+        "id": "et",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": ""
+        }
+       },
+       {
+        "id": "she",
+        "kind": "set",
+        "var": "BindHint",
+        "in": {
+         "BindHint": "@et.ReturnValue"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call_self",
+        "function": "Save Settings"
+       },
+       {
+        "id": "sb",
+        "kind": "set",
+        "var": "BindCapture",
+        "in": {
+         "BindCapture": ""
+        }
+       },
+       {
+        "id": "rb",
+        "kind": "call_self",
+        "function": "Rebuild Quick Options"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bt",
+        "sht",
+        "sb"
+       ],
+       [
+        "bt:else",
+        "bhit",
+        "rk",
+        "ri",
+        "ak"
+       ],
+       [
+        "bhit:else",
+        "ak"
+       ],
+       [
+        "ak",
+        "ai",
+        "she",
+        "sv",
+        "sb",
+        "rb"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Bind Remove",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gki",
+        "kind": "get",
+        "var": "KeyBindItems"
+       },
+       {
+        "id": "fit",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Find",
+        "in": {
+         "TargetArray": "@gki.KeyBindItems",
+         "ItemToFind": "@entry.item"
+        }
+       },
+       {
+        "id": "hit",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@fit.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bhit",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hit.ReturnValue"
+        }
+       },
+       {
+        "id": "gkk",
+        "kind": "get",
+        "var": "KeyBindKeys"
+       },
+       {
+        "id": "rk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Remove",
+        "in": {
+         "TargetArray": "@gkk.KeyBindKeys",
+         "IndexToRemove": "@fit.ReturnValue"
+        }
+       },
+       {
+        "id": "gki2",
+        "kind": "get",
+        "var": "KeyBindItems"
+       },
+       {
+        "id": "ri",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Remove",
+        "in": {
+         "TargetArray": "@gki2.KeyBindItems",
+         "IndexToRemove": "@fit.ReturnValue"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call_self",
+        "function": "Save Settings"
+       },
+       {
+        "id": "rb",
+        "kind": "call_self",
+        "function": "Rebuild Quick Options"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bhit",
+        "rk",
+        "ri",
+        "sv",
+        "rb"
+       ],
+       [
+        "bhit:else",
+        "rb"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Bind Run",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "struct:/Script/InputCore.Key"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "kdn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "Key_GetDisplayName",
+        "in": {
+         "Key": "@entry.key"
+        }
+       },
+       {
+        "id": "kds",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@kdn.ReturnValue"
+        }
+       },
+       {
+        "id": "kn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@kds.ReturnValue"
+        }
+       },
+       {
+        "id": "gkk",
+        "kind": "get",
+        "var": "KeyBindKeys"
+       },
+       {
+        "id": "fkx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Find",
+        "in": {
+         "TargetArray": "@gkk.KeyBindKeys",
+         "ItemToFind": "@kn.ReturnValue"
+        }
+       },
+       {
+        "id": "has",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@fkx.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "gpo",
+        "kind": "get",
+        "var": "PanelOpen"
+       },
+       {
+        "id": "gqo",
+        "kind": "get",
+        "var": "QuickOpen"
+       },
+       {
+        "id": "gso",
+        "kind": "get",
+        "var": "SceneOn"
+       },
+       {
+        "id": "ck",
+        "kind": "call_self",
+        "function": "Capturing Key"
+       },
+       {
+        "id": "gcm",
+        "kind": "get",
+        "var": "CamMode"
+       },
+       {
+        "id": "cm0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@gcm.CamMode",
+         "B": "0"
+        }
+       },
+       {
+        "id": "pnl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gpo.PanelOpen",
+         "B": "@cm0.ReturnValue"
+        }
+       },
+       {
+        "id": "o1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@pnl.ReturnValue",
+         "B": "@gqo.QuickOpen"
+        }
+       },
+       {
+        "id": "o2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o1.ReturnValue",
+         "B": "@gso.SceneOn"
+        }
+       },
+       {
+        "id": "o3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o2.ReturnValue",
+         "B": "@ck.yes"
+        }
+       },
+       {
+        "id": "free",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@o3.ReturnValue"
+        }
+       },
+       {
+        "id": "go",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@has.ReturnValue",
+         "B": "@free.ReturnValue"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@go.ReturnValue"
+        }
+       },
+       {
+        "id": "gki",
+        "kind": "get",
+        "var": "KeyBindItems"
+       },
+       {
+        "id": "it",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gki.KeyBindItems",
+         "Index": "@fkx.ReturnValue"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "set",
+        "var": "QRun",
+        "in": {
+         "QRun": "@it.Item"
+        }
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "QRun"
+       },
+       {
+        "id": "run",
+        "kind": "call_self",
+        "function": "Run Quick Item",
+        "in": {
+         "item": "@gr.QRun"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "sr",
+        "run"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Toggle Game UI",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetGameState"
+       },
+       {
+        "id": "cgs",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/GameMode/TKA_GameState",
+        "pure": false,
+        "in": {
+         "Object": "@gs.ReturnValue"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "vis",
+        "kind": "call",
+        "class": "/Game/Project/Classes/GameMode/TKA_GameState",
+        "function": "Is UI Visible",
+        "in": {
+         "self": "@cgs.AsTKA Game State"
+        }
+       },
+       {
+        "id": "nv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@vis.yes"
+        }
+       },
+       {
+        "id": "sh",
+        "kind": "call",
+        "class": "/Game/Project/Classes/GameMode/TKA_GameState",
+        "function": "Show UI",
+        "in": {
+         "self": "@cgs.AsTKA Game State",
+         "show": "@nv.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "cgs",
+        "vis",
+        "sh"
        ]
       ]
      }
@@ -95409,6 +98244,137 @@
         }
        },
        {
+        "id": "fx17lit",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralString",
+        "in": {
+         "Value": "hideui"
+        }
+       },
+       {
+        "id": "fx17gi",
+        "kind": "get",
+        "var": "QaItems"
+       },
+       {
+        "id": "fx17ai",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@fx17gi.QaItems",
+         "NewItem": "@fx17lit.ReturnValue"
+        }
+       },
+       {
+        "id": "fx17gs",
+        "kind": "get",
+        "var": "QStripe"
+       },
+       {
+        "id": "fx17row",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_IntInt",
+        "in": {
+         "A": "@fx17gs.QStripe",
+         "B": "3"
+        }
+       },
+       {
+        "id": "fx17rm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Percent_IntInt",
+        "in": {
+         "A": "@fx17row.ReturnValue",
+         "B": "2"
+        }
+       },
+       {
+        "id": "fx17ev",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@fx17rm.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "fx17gt",
+        "kind": "get",
+        "var": "QaTint"
+       },
+       {
+        "id": "fx17at",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@fx17gt.QaTint",
+         "NewItem": "@fx17ev.ReturnValue"
+        }
+       },
+       {
+        "id": "fx17si",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@fx17gs.QStripe",
+         "B": "1"
+        }
+       },
+       {
+        "id": "fx17ss",
+        "kind": "set",
+        "var": "QStripe",
+        "in": {
+         "QStripe": "@fx17si.ReturnValue"
+        }
+       },
+       {
+        "id": "fx17gk",
+        "kind": "get",
+        "var": "QaKind"
+       },
+       {
+        "id": "fx17lki",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralInt",
+        "in": {
+         "Value": "2"
+        }
+       },
+       {
+        "id": "fx17ak",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@fx17gk.QaKind",
+         "NewItem": "@fx17lki.ReturnValue"
+        }
+       },
+       {
+        "id": "fx17gr",
+        "kind": "get",
+        "var": "QaRef"
+       },
+       {
+        "id": "fx17ar",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@fx17gr.QaRef",
+         "NewItem": "@fx17ai.ReturnValue"
+        }
+       },
+       {
         "id": "hogh",
         "kind": "get",
         "var": "QaHeads"
@@ -100635,6 +103601,14 @@
        ],
        [
         "fx16ar",
+        "fx17ai",
+        "fx17at",
+        "fx17ss",
+        "fx17ak",
+        "fx17ar"
+       ],
+       [
+        "fx17ar",
         "hoah",
         "hoak",
         "hoar",
@@ -101518,6 +104492,56 @@
         "id": "rb",
         "kind": "call_self",
         "function": "Rebuild Quick Options"
+       },
+       {
+        "id": "ibk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@sp.LeftS",
+         "B": "BKey"
+        }
+       },
+       {
+        "id": "bbk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ibk.ReturnValue"
+        }
+       },
+       {
+        "id": "bkb",
+        "kind": "call_self",
+        "function": "Bind Begin",
+        "in": {
+         "item": "@sp.RightS"
+        }
+       },
+       {
+        "id": "ibd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@sp.LeftS",
+         "B": "BDel"
+        }
+       },
+       {
+        "id": "bbd",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ibd.ReturnValue"
+        }
+       },
+       {
+        "id": "bkr",
+        "kind": "call_self",
+        "function": "Bind Remove",
+        "in": {
+         "item": "@sp.RightS"
+        }
        }
       ],
       "links": [],
@@ -101531,6 +104555,16 @@
        ],
        [
         "bk:else",
+        "bbk",
+        "bkb"
+       ],
+       [
+        "bbk:else",
+        "bbd",
+        "bkr"
+       ],
+       [
+        "bbd:else",
         "bu",
         "mu",
         "rb"
@@ -118087,6 +121121,11 @@
         "function": "Apply Body Physics"
        },
        {
+        "id": "abp_eyes",
+        "kind": "call_self",
+        "function": "Apply Eyes Closed"
+       },
+       {
         "id": "abp_phys0",
         "kind": "call_self",
         "function": "Apply Body Physics"
@@ -118144,7 +121183,8 @@
         "set_FeetShift",
         "set_BreastAngle",
         "set_GlutesAngle",
-        "abp_phys"
+        "abp_phys",
+        "abp_eyes"
        ],
        [
         "ck:CastFailed",
@@ -124468,6 +127508,30 @@
         }
        },
        {
+        "id": "t_hairfavorites",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_Favorites"
+        }
+       },
+       {
+        "id": "t_hairall",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_All"
+        }
+       },
+       {
+        "id": "t_keybinds",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_KeyBinds"
+        }
+       },
+       {
         "id": "ss",
         "kind": "call",
         "class": "/Game/Mod/AltUI/W_AltUI",
@@ -124591,7 +127655,10 @@
          "scgrpglutes": "@t_scgrpglutes.text",
          "ragwheel": "@t_ragwheel.text",
          "slowmo": "@t_slowmo.text",
-         "slowmoon": "@t_slowmoon.text"
+         "slowmoon": "@t_slowmoon.text",
+         "hairfavorites": "@t_hairfavorites.text",
+         "hairall": "@t_hairall.text",
+         "keybinds": "@t_keybinds.text"
         }
        }
       ],
@@ -125333,6 +128400,68 @@
         }
        },
        {
+        "id": "isf",
+        "kind": "call_self",
+        "function": "Is Hair Favorite",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "fr",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Menu_FavRemove"
+        }
+       },
+       {
+        "id": "fr_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@fr.text"
+        }
+       },
+       {
+        "id": "fa",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Menu_FavAdd"
+        }
+       },
+       {
+        "id": "fa_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@fa.text"
+        }
+       },
+       {
+        "id": "fs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@fr_2s.ReturnValue",
+         "B": "@fa_2s.ReturnValue",
+         "bPickA": "@isf.yes"
+        }
+       },
+       {
+        "id": "ft",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@fs.ReturnValue"
+        }
+       },
+       {
         "id": "gm",
         "kind": "get",
         "var": "Menu"
@@ -125414,14 +128543,6 @@
         }
        },
        {
-        "id": "t0",
-        "kind": "call_self",
-        "function": "T",
-        "in": {
-         "key": "Menu_Rename"
-        }
-       },
-       {
         "id": "mr0_pc",
         "kind": "get",
         "var": "PC"
@@ -125466,8 +128587,8 @@
         "function": "Init",
         "in": {
          "self": "@mr0.AsW_MenuRow",
-         "action": "Rename",
-         "caption": "@t0.text"
+         "action": "HairFav",
+         "caption": "@ft.ReturnValue"
         }
        },
        {
@@ -125490,7 +128611,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_HairReset"
+         "key": "Menu_Rename"
         }
        },
        {
@@ -125538,7 +128659,7 @@
         "function": "Init",
         "in": {
          "self": "@mr1.AsW_MenuRow",
-         "action": "HairResetColor",
+         "action": "Rename",
          "caption": "@t1.text"
         }
        },
@@ -125562,7 +128683,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_RenameMod"
+         "key": "Menu_HairReset"
         }
        },
        {
@@ -125610,7 +128731,7 @@
         "function": "Init",
         "in": {
          "self": "@mr2.AsW_MenuRow",
-         "action": "RenameMod",
+         "action": "HairResetColor",
          "caption": "@t2.text"
         }
        },
@@ -125630,26 +128751,11 @@
         }
        },
        {
-        "id": "cq2",
-        "kind": "call_self",
-        "function": "Hair Mod",
-        "in": {
-         "row": "@entry.name"
-        }
-       },
-       {
-        "id": "cb2",
-        "kind": "branch",
-        "in": {
-         "Condition": "@cq2.found"
-        }
-       },
-       {
         "id": "t3",
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_ModContent"
+         "key": "Menu_RenameMod"
         }
        },
        {
@@ -125697,7 +128803,7 @@
         "function": "Init",
         "in": {
          "self": "@mr3.AsW_MenuRow",
-         "action": "ModContent",
+         "action": "RenameMod",
          "caption": "@t3.text"
         }
        },
@@ -125736,7 +128842,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Menu_Cancel"
+         "key": "Menu_ModContent"
         }
        },
        {
@@ -125784,7 +128890,7 @@
         "function": "Init",
         "in": {
          "self": "@mr4.AsW_MenuRow",
-         "action": "Cancel",
+         "action": "ModContent",
          "caption": "@t4.text"
         }
        },
@@ -125801,6 +128907,93 @@
         "in": {
          "self": "@mg4.Menu",
          "widget": "@mr4.AsW_MenuRow"
+        }
+       },
+       {
+        "id": "cq4",
+        "kind": "call_self",
+        "function": "Hair Mod",
+        "in": {
+         "row": "@entry.name"
+        }
+       },
+       {
+        "id": "cb4",
+        "kind": "branch",
+        "in": {
+         "Condition": "@cq4.found"
+        }
+       },
+       {
+        "id": "t5",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Menu_Cancel"
+        }
+       },
+       {
+        "id": "mr5_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr5_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_MenuRow",
+         "OwningPlayer": "@mr5_pc.PC"
+        }
+       },
+       {
+        "id": "mr5",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr5_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "ms5_me",
+        "kind": "self"
+       },
+       {
+        "id": "ms5",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "in": {
+         "self": "@mr5.AsW_MenuRow",
+         "Manager": "@ms5_me.self"
+        }
+       },
+       {
+        "id": "mi5",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_MenuRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr5.AsW_MenuRow",
+         "action": "Cancel",
+         "caption": "@t5.text"
+        }
+       },
+       {
+        "id": "mg5",
+        "kind": "get",
+        "var": "Menu"
+       },
+       {
+        "id": "ma5",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContextMenu",
+        "function": "Add Row",
+        "in": {
+         "self": "@mg5.Menu",
+         "widget": "@mr5.AsW_MenuRow"
         }
        },
        {
@@ -125858,13 +129051,12 @@
         "ms1",
         "mi1",
         "ma1",
-        "cb2",
+        "mr2_cr"
+       ],
+       [
         "mr2_cr",
         "ms2",
         "mi2",
-        "ma2"
-       ],
-       [
         "ma2",
         "cb3",
         "mr3_cr",
@@ -125873,16 +129065,24 @@
         "ma3"
        ],
        [
-        "cb2:else",
-        "cb3"
-       ],
-       [
         "ma3",
-        "mr4_cr"
+        "cb4",
+        "mr4_cr",
+        "ms4",
+        "mi4",
+        "ma4"
        ],
        [
         "cb3:else",
-        "mr4_cr"
+        "cb4"
+       ],
+       [
+        "ma4",
+        "mr5_cr"
+       ],
+       [
+        "cb4:else",
+        "mr5_cr"
        ],
        [
         "entry",
@@ -125899,10 +129099,10 @@
         "clr"
        ],
        [
-        "mr4_cr",
-        "ms4",
-        "mi4",
-        "ma4",
+        "mr5_cr",
+        "ms5",
+        "mi5",
+        "ma5",
         "atv",
         "mp",
         "spv"
@@ -165552,6 +168752,35 @@
         }
        },
        {
+        "id": "gbc",
+        "kind": "get",
+        "var": "BindCapture"
+       },
+       {
+        "id": "bce",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "IsEmpty",
+        "in": {
+         "InString": "@gbc.BindCapture"
+        }
+       },
+       {
+        "id": "bbc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bce.ReturnValue"
+        }
+       },
+       {
+        "id": "bkc",
+        "kind": "call_self",
+        "function": "Bind Key Captured",
+        "in": {
+         "pressed": "@entry.pressed"
+        }
+       },
+       {
         "id": "go",
         "kind": "get",
         "var": "KeyCapture"
@@ -165619,8 +168848,13 @@
       "exec": [
        [
         "entry",
+        "bbc",
         "bqc",
         "qkc"
+       ],
+       [
+        "bbc:else",
+        "bkc"
        ],
        [
         "bqc:else",
@@ -165698,15 +168932,55 @@
         "id": "rqo",
         "kind": "call_self",
         "function": "Rebuild Quick Options"
+       },
+       {
+        "id": "gbc",
+        "kind": "get",
+        "var": "BindCapture"
+       },
+       {
+        "id": "bce",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "IsEmpty",
+        "in": {
+         "InString": "@gbc.BindCapture"
+        }
+       },
+       {
+        "id": "bbc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bce.ReturnValue"
+        }
+       },
+       {
+        "id": "sbc",
+        "kind": "set",
+        "var": "BindCapture",
+        "in": {
+         "BindCapture": ""
+        }
+       },
+       {
+        "id": "rqo2",
+        "kind": "call_self",
+        "function": "Rebuild Quick Options"
        }
       ],
       "links": [],
       "exec": [
        [
         "entry",
+        "bbc",
         "bqc",
         "sqc",
         "rqo"
+       ],
+       [
+        "bbc:else",
+        "sbc",
+        "rqo2"
        ],
        [
         "bqc:else",
@@ -165830,11 +169104,64 @@
          "A": "@a2.ReturnValue",
          "B": "@q2.ReturnValue"
         }
+       },
+       {
+        "id": "gbc",
+        "kind": "get",
+        "var": "BindCapture"
+       },
+       {
+        "id": "bce",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "IsEmpty",
+        "in": {
+         "InString": "@gbc.BindCapture"
+        }
+       },
+       {
+        "id": "bcn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@bce.ReturnValue"
+        }
+       },
+       {
+        "id": "b1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@bcn.ReturnValue",
+         "B": "@gpo.PanelOpen"
+        }
+       },
+       {
+        "id": "b2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@b1.ReturnValue",
+         "B": "@iso.ReturnValue"
+        }
+       },
+       {
+        "id": "a4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@a3.ReturnValue",
+         "B": "@b2.ReturnValue"
+        }
        }
       ],
       "links": [
        [
-        "a3.ReturnValue",
+        "a4.ReturnValue",
         "return.yes"
        ]
       ],
@@ -186819,6 +190146,20 @@
         }
        },
        {
+        "id": "gcbd",
+        "kind": "get",
+        "var": "Body",
+        "class": "/Game/Mod/AltUI/BP_AltUIRagdoll"
+       },
+       {
+        "id": "omk",
+        "kind": "call_self",
+        "function": "Own Makeup Copy",
+        "in": {
+         "mesh": "@gcbd.Body"
+        }
+       },
+       {
         "id": "gpl4",
         "kind": "get",
         "var": "Player"
@@ -187015,6 +190356,10 @@
         "gmc.self"
        ],
        [
+        "sp.ReturnValue",
+        "gcbd.self"
+       ],
+       [
         "gpl4.Player",
         "gmc4.self"
        ]
@@ -187025,6 +190370,7 @@
         "bpv",
         "sp",
         "cf",
+        "omk",
         "snp",
         "gr",
         "ad",
@@ -229621,6 +232967,1008 @@
      }
     },
     {
+     "name": "Fol Take Makeup",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gmr0",
+        "kind": "get",
+        "var": "FolMkRows"
+       },
+       {
+        "id": "cmr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gmr0.FolMkRows"
+        }
+       },
+       {
+        "id": "wp",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "gmd",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jodi/Jodi_Base",
+        "function": "Get Makeup Data",
+        "in": {
+         "self": "@wp.Wearer"
+        }
+       },
+       {
+        "id": "gmdm",
+        "kind": "get",
+        "var": "Makeup Data",
+        "class": "/Game/Project/Classes/Save/Makeup_Save"
+       },
+       {
+        "id": "mdk",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Keys",
+        "in": {
+         "TargetMap": "@gmdm.Makeup Data"
+        }
+       },
+       {
+        "id": "fmk",
+        "kind": "foreach",
+        "in": {
+         "Array": "@mdk.Keys"
+        }
+       },
+       {
+        "id": "mdf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gmdm.Makeup Data",
+         "Key": "@fmk.Array Element"
+        }
+       },
+       {
+        "id": "mdb",
+        "kind": "break",
+        "struct": "/Game/Project/Tables/MakeupDataStruct",
+        "in": {
+         "MakeupDataStruct": "@mdf.Value"
+        }
+       },
+       {
+        "id": "gmr1",
+        "kind": "get",
+        "var": "FolMkRows"
+       },
+       {
+        "id": "amr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Append",
+        "in": {
+         "TargetArray": "@gmr1.FolMkRows",
+         "SourceArray": "@mdb.List"
+        }
+       },
+       {
+        "id": "gmkc",
+        "kind": "get",
+        "var": "MakeupColors"
+       },
+       {
+        "id": "smc",
+        "kind": "set",
+        "var": "FolMkColors",
+        "in": {
+         "FolMkColors": "@gmkc.MakeupColors"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gmd.Makeup Data",
+        "gmdm.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "cmr",
+        "gmd",
+        "mdk",
+        "fmk"
+       ],
+       [
+        "fmk",
+        "amr"
+       ],
+       [
+        "fmk:Completed",
+        "smc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Fol Makeup Tex",
+     "inputs": [
+      {
+       "name": "rows",
+       "type": "name",
+       "container": "array"
+      },
+      {
+       "name": "colors",
+       "type": "name",
+       "container": "map",
+       "value_type": "struct:/Script/CoreUObject.LinearColor"
+      },
+      {
+       "name": "kept",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "tex",
+       "type": "object:/Script/Engine.TextureRenderTarget2D"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "s0",
+        "kind": "set",
+        "var": "FolMkTex",
+        "in": {
+         "FolMkTex": "None"
+        }
+       },
+       {
+        "id": "bk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.kept"
+        }
+       },
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "gjt",
+        "kind": "get",
+        "var": "Makeup Tex",
+        "class": "/Game/Project/Character/Jodi/Jodi_Base"
+       },
+       {
+        "id": "vj",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gjt.Makeup Tex"
+        }
+       },
+       {
+        "id": "bvj",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vj.ReturnValue"
+        }
+       },
+       {
+        "id": "gsx",
+        "kind": "get",
+        "var": "SizeX",
+        "class": "/Script/Engine.TextureRenderTarget2D"
+       },
+       {
+        "id": "gsy",
+        "kind": "get",
+        "var": "SizeY",
+        "class": "/Script/Engine.TextureRenderTarget2D"
+       },
+       {
+        "id": "crt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetRenderingLibrary",
+        "function": "CreateRenderTarget2D",
+        "in": {
+         "Width": "@gsx.SizeX",
+         "Height": "@gsy.SizeY",
+         "Format": "RTF_RGBA8",
+         "ClearColor": "(R=0,G=0,B=0,A=1)",
+         "bAutoGenerateMipMaps": "false"
+        }
+       },
+       {
+        "id": "s1",
+        "kind": "set",
+        "var": "FolMkTex",
+        "in": {
+         "FolMkTex": "@crt.ReturnValue"
+        }
+       },
+       {
+        "id": "gd0",
+        "kind": "get",
+        "var": "FolMkData"
+       },
+       {
+        "id": "cd",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Clear",
+        "in": {
+         "TargetMap": "@gd0.FolMkData"
+        }
+       },
+       {
+        "id": "fr",
+        "kind": "foreach",
+        "in": {
+         "Array": "@entry.rows"
+        }
+       },
+       {
+        "id": "lto",
+        "kind": "call_self",
+        "function": "Look Type Of",
+        "in": {
+         "name": "@fr.Array Element"
+        }
+       },
+       {
+        "id": "kn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lto.type",
+         "B": "None"
+        }
+       },
+       {
+        "id": "bkn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@kn.ReturnValue"
+        }
+       },
+       {
+        "id": "gd1",
+        "kind": "get",
+        "var": "FolMkData"
+       },
+       {
+        "id": "mf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gd1.FolMkData",
+         "Key": "@lto.type"
+        }
+       },
+       {
+        "id": "bl",
+        "kind": "break",
+        "struct": "/Game/Project/Tables/MakeupDataStruct",
+        "in": {
+         "MakeupDataStruct": "@mf.Value"
+        }
+       },
+       {
+        "id": "sml",
+        "kind": "set",
+        "var": "FolMkList",
+        "in": {
+         "FolMkList": "@bl.List"
+        }
+       },
+       {
+        "id": "gml",
+        "kind": "get",
+        "var": "FolMkList"
+       },
+       {
+        "id": "al",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gml.FolMkList",
+         "NewItem": "@fr.Array Element"
+        }
+       },
+       {
+        "id": "gml2",
+        "kind": "get",
+        "var": "FolMkList"
+       },
+       {
+        "id": "mks",
+        "kind": "make",
+        "struct": "/Game/Project/Tables/MakeupDataStruct",
+        "in": {
+         "List": "@gml2.FolMkList"
+        }
+       },
+       {
+        "id": "gd2",
+        "kind": "get",
+        "var": "FolMkData"
+       },
+       {
+        "id": "put",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@gd2.FolMkData",
+         "Key": "@lto.type",
+         "Value": "@mks.MakeupDataStruct"
+        }
+       },
+       {
+        "id": "gpl2",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "gt1",
+        "kind": "get",
+        "var": "FolMkTex"
+       },
+       {
+        "id": "gd3",
+        "kind": "get",
+        "var": "FolMkData"
+       },
+       {
+        "id": "umt",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jodi/Jodi_Base",
+        "function": "Update Makeup Texture Ex",
+        "in": {
+         "self": "@gpl2.Wearer",
+         "tex": "@gt1.FolMkTex",
+         "makeup data": "@gd3.FolMkData"
+        }
+       },
+       {
+        "id": "gt2",
+        "kind": "get",
+        "var": "FolMkTex"
+       },
+       {
+        "id": "beg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetRenderingLibrary",
+        "function": "BeginDrawCanvasToRenderTarget",
+        "in": {
+         "TextureRenderTarget": "@gt2.FolMkTex"
+        }
+       },
+       {
+        "id": "ck",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Keys",
+        "in": {
+         "TargetMap": "@entry.colors"
+        }
+       },
+       {
+        "id": "fc",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ck.Keys"
+        }
+       },
+       {
+        "id": "cf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@entry.colors",
+         "Key": "@fc.Array Element"
+        }
+       },
+       {
+        "id": "cw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@entry.rows",
+         "ItemToFind": "@fc.Array Element"
+        }
+       },
+       {
+        "id": "bcf",
+        "kind": "branch",
+        "in": {
+         "Condition": "@cw.ReturnValue"
+        }
+       },
+       {
+        "id": "drow",
+        "kind": "get_row",
+        "table": "/Game/Project/Tables/MakeupTable",
+        "in": {
+         "RowName": "@fc.Array Element"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "dbr",
+        "kind": "break",
+        "struct": "/Game/Project/Tables/MakeupStruct",
+        "in": {
+         "MakeupStruct": "@drow.OutRow"
+        }
+       },
+       {
+        "id": "dfrc",
+        "kind": "foreach",
+        "in": {
+         "Array": "@dbr.ScreenRect"
+        }
+       },
+       {
+        "id": "dbs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector4",
+        "in": {
+         "InVec": "@dfrc.Array Element"
+        }
+       },
+       {
+        "id": "duvok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_IsValidIndex",
+        "in": {
+         "TargetArray": "@dbr.UVRect",
+         "IndexToTest": "@dfrc.Array Index"
+        }
+       },
+       {
+        "id": "duvg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@dbr.UVRect",
+         "Index": "@dfrc.Array Index"
+        }
+       },
+       {
+        "id": "dbu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector4",
+        "in": {
+         "InVec": "@duvg.Item"
+        }
+       },
+       {
+        "id": "dux",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@dbu.X",
+         "B": "0.0",
+         "bPickA": "@duvok.ReturnValue"
+        }
+       },
+       {
+        "id": "duy",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@dbu.Y",
+         "B": "0.0",
+         "bPickA": "@duvok.ReturnValue"
+        }
+       },
+       {
+        "id": "duz",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@dbu.Z",
+         "B": "1.0",
+         "bPickA": "@duvok.ReturnValue"
+        }
+       },
+       {
+        "id": "duw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@dbu.W",
+         "B": "1.0",
+         "bPickA": "@duvok.ReturnValue"
+        }
+       },
+       {
+        "id": "duvp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "@dux.ReturnValue",
+         "Y": "@duy.ReturnValue"
+        }
+       },
+       {
+        "id": "duvs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "@duz.ReturnValue",
+         "Y": "@duw.ReturnValue"
+        }
+       },
+       {
+        "id": "dpv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "@dbs.X",
+         "Y": "@dbs.Y"
+        }
+       },
+       {
+        "id": "dsv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "@dbs.Z",
+         "Y": "@dbs.W"
+        }
+       },
+       {
+        "id": "dpos",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_Vector2DFloat",
+        "in": {
+         "A": "@dpv.ReturnValue",
+         "B": "0.5"
+        }
+       },
+       {
+        "id": "dsiz",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_Vector2DFloat",
+        "in": {
+         "A": "@dsv.ReturnValue",
+         "B": "0.5"
+        }
+       },
+       {
+        "id": "dzero",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "0.0",
+         "Y": "0.0"
+        }
+       },
+       {
+        "id": "ddraw",
+        "kind": "call",
+        "class": "/Script/Engine.Canvas",
+        "function": "K2_DrawTexture",
+        "in": {
+         "self": "@beg.Canvas",
+         "RenderTexture": "@dbr.Texture_d",
+         "ScreenPosition": "@dpos.ReturnValue",
+         "ScreenSize": "@dsiz.ReturnValue",
+         "CoordinatePosition": "@duvp.ReturnValue",
+         "CoordinateSize": "@duvs.ReturnValue",
+         "RenderColor": "@cf.Value",
+         "BlendMode": "BLEND_Translucent",
+         "Rotation": "0.0",
+         "PivotPoint": "@dzero.ReturnValue"
+        }
+       },
+       {
+        "id": "end",
+        "kind": "call",
+        "class": "/Script/Engine.KismetRenderingLibrary",
+        "function": "EndDrawCanvasToRenderTarget",
+        "in": {
+         "Context": "@beg.Context"
+        }
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "FolMkTex"
+       }
+      ],
+      "links": [
+       [
+        "gpl.Wearer",
+        "gjt.self"
+       ],
+       [
+        "gjt.Makeup Tex",
+        "gsx.self"
+       ],
+       [
+        "gjt.Makeup Tex",
+        "gsy.self"
+       ],
+       [
+        "gr.FolMkTex",
+        "return.tex"
+       ]
+      ],
+      "exec": [
+       [
+        "drow",
+        "dfrc"
+       ],
+       [
+        "dfrc",
+        "ddraw"
+       ],
+       [
+        "entry",
+        "s0",
+        "bk",
+        "bvj",
+        "crt",
+        "s1",
+        "cd",
+        "fr"
+       ],
+       [
+        "fr",
+        "lto",
+        "bkn",
+        "sml",
+        "al",
+        "put"
+       ],
+       [
+        "bcf",
+        "drow"
+       ],
+       [
+        "fr:Completed",
+        "umt",
+        "beg",
+        "ck",
+        "fc"
+       ],
+       [
+        "fc",
+        "bcf"
+       ],
+       [
+        "fc:Completed",
+        "end",
+        "return"
+       ],
+       [
+        "bk:else",
+        "return"
+       ],
+       [
+        "bvj:else",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Own Makeup Copy",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.MeshComponent"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "gjt",
+        "kind": "get",
+        "var": "Makeup Tex",
+        "class": "/Game/Project/Character/Jodi/Jodi_Base"
+       },
+       {
+        "id": "vj",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gjt.Makeup Tex"
+        }
+       },
+       {
+        "id": "bvj",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vj.ReturnValue"
+        }
+       },
+       {
+        "id": "gsx",
+        "kind": "get",
+        "var": "SizeX",
+        "class": "/Script/Engine.TextureRenderTarget2D"
+       },
+       {
+        "id": "gsy",
+        "kind": "get",
+        "var": "SizeY",
+        "class": "/Script/Engine.TextureRenderTarget2D"
+       },
+       {
+        "id": "crt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetRenderingLibrary",
+        "function": "CreateRenderTarget2D",
+        "in": {
+         "Width": "@gsx.SizeX",
+         "Height": "@gsy.SizeY",
+         "Format": "RTF_RGBA8",
+         "ClearColor": "(R=0,G=0,B=0,A=1)",
+         "bAutoGenerateMipMaps": "false"
+        }
+       },
+       {
+        "id": "s1",
+        "kind": "set",
+        "var": "FolMkTex",
+        "in": {
+         "FolMkTex": "@crt.ReturnValue"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "FolMkTex"
+       },
+       {
+        "id": "beg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetRenderingLibrary",
+        "function": "BeginDrawCanvasToRenderTarget",
+        "in": {
+         "TextureRenderTarget": "@gt.FolMkTex"
+        }
+       },
+       {
+        "id": "zero",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "0.0",
+         "Y": "0.0"
+        }
+       },
+       {
+        "id": "one",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "1.0",
+         "Y": "1.0"
+        }
+       },
+       {
+        "id": "draw",
+        "kind": "call",
+        "class": "/Script/Engine.Canvas",
+        "function": "K2_DrawTexture",
+        "in": {
+         "self": "@beg.Canvas",
+         "RenderTexture": "@gjt.Makeup Tex",
+         "ScreenPosition": "@zero.ReturnValue",
+         "ScreenSize": "@beg.Size",
+         "CoordinatePosition": "@zero.ReturnValue",
+         "CoordinateSize": "@one.ReturnValue",
+         "RenderColor": "(R=1,G=1,B=1,A=1)",
+         "BlendMode": "BLEND_Opaque",
+         "Rotation": "0.0",
+         "PivotPoint": "@zero.ReturnValue"
+        }
+       },
+       {
+        "id": "end",
+        "kind": "call",
+        "class": "/Script/Engine.KismetRenderingLibrary",
+        "function": "EndDrawCanvasToRenderTarget",
+        "in": {
+         "Context": "@beg.Context"
+        }
+       },
+       {
+        "id": "gt2",
+        "kind": "get",
+        "var": "FolMkTex"
+       },
+       {
+        "id": "set",
+        "kind": "call_self",
+        "function": "Set Makeup Tex On",
+        "in": {
+         "mesh": "@entry.mesh",
+         "tex": "@gt2.FolMkTex"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gw.Wearer",
+        "gjt.self"
+       ],
+       [
+        "gjt.Makeup Tex",
+        "gsx.self"
+       ],
+       [
+        "gjt.Makeup Tex",
+        "gsy.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bvj",
+        "crt",
+        "s1",
+        "beg",
+        "draw",
+        "end",
+        "set"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Makeup Tex On",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.MeshComponent"
+      },
+      {
+       "name": "tex",
+       "type": "object:/Script/Engine.Texture"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ms",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterials",
+        "in": {
+         "self": "@entry.mesh"
+        }
+       },
+       {
+        "id": "fm",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ms.ReturnValue"
+        }
+       },
+       {
+        "id": "cm",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "vm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@cm.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "gtp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetTextureParameterValue",
+        "in": {
+         "self": "@cm.AsMaterial Instance Dynamic",
+         "ParameterName": "MakeupTex"
+        }
+       },
+       {
+        "id": "vp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gtp.ReturnValue"
+        }
+       },
+       {
+        "id": "ok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@vm.ReturnValue",
+         "B": "@vp.ReturnValue"
+        }
+       },
+       {
+        "id": "bok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ok.ReturnValue"
+        }
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetTextureParameterValue",
+        "in": {
+         "self": "@cm.AsMaterial Instance Dynamic",
+         "ParameterName": "MakeupTex",
+         "Value": "@entry.tex"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "fm"
+       ],
+       [
+        "fm",
+        "gtp",
+        "bok",
+        "st"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Spawn Look As Follower",
      "inputs": [
       {
@@ -230396,6 +234744,11 @@
         }
        },
        {
+        "id": "tmk",
+        "kind": "call_self",
+        "function": "Fol Take Makeup"
+       },
+       {
         "id": "un",
         "kind": "call_self",
         "function": "Undo"
@@ -230451,6 +234804,16 @@
         "id": "gfhc",
         "kind": "get",
         "var": "FolHairColor"
+       },
+       {
+        "id": "gfmr",
+        "kind": "get",
+        "var": "FolMkRows"
+       },
+       {
+        "id": "gfmc",
+        "kind": "get",
+        "var": "FolMkColors"
        },
        {
         "id": "grl",
@@ -230544,7 +234907,11 @@
          "Damage": "@gfd0.FolDamage0",
          "SlotColors": "@gfsc.FolSlotColors",
          "Hair": "@gfhr.FolHair",
-         "HairColor": "@gfhc.FolHairColor"
+         "HairColor": "@gfhc.FolHairColor",
+         "MakeupRows": "@gfmr.FolMkRows",
+         "MakeupColors": "@gfmc.FolMkColors",
+         "MakeupKept": "true",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -230678,6 +235045,26 @@
         "in": {
          "index": "@grl.FolRelook",
          "keep": "@gfcl4.FolClothes"
+        }
+       },
+       {
+        "id": "rmt",
+        "kind": "call_self",
+        "function": "Fol Makeup Tex",
+        "in": {
+         "rows": "@gfmr.FolMkRows",
+         "colors": "@gfmc.FolMkColors",
+         "kept": "true"
+        }
+       },
+       {
+        "id": "rsmt",
+        "kind": "set",
+        "var": "LookMakeupTex",
+        "class": "/Game/Mod/AltUI/BP_AltUIFollower",
+        "in": {
+         "self": "@ra.Value",
+         "LookMakeupTex": "@rmt.tex"
         }
        },
        {
@@ -230915,6 +235302,44 @@
         "var": "FolMorphV"
        },
        {
+        "id": "nvori",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "RandomIntegerInRange",
+        "in": {
+         "Min": "1",
+         "Max": "4"
+        }
+       },
+       {
+        "id": "nvois",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@nvori.ReturnValue"
+        }
+       },
+       {
+        "id": "nvocc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "Female_",
+         "B": "@nvois.ReturnValue"
+        }
+       },
+       {
+        "id": "nvo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@nvocc.ReturnValue"
+        }
+       },
+       {
         "id": "nr",
         "kind": "make",
         "struct": "/Game/Mod/AltUI/S_Follower",
@@ -230933,12 +235358,16 @@
          "Where": "@fr.tf",
          "Scales": "@gfs2.FolScales",
          "BodyDef": "@gfd2.FolBodyDef",
+         "Voice": "@nvo.ReturnValue",
          "Clothes": "@gfcl.FolClothes",
          "Worn": "@gfwn.FolWorn",
          "Colors": "@gfco.FolColors",
          "SlotColors": "@gfsc.FolSlotColors",
          "Hair": "@gfhr.FolHair",
-         "HairColor": "@gfhc.FolHairColor"
+         "HairColor": "@gfhc.FolHairColor",
+         "MakeupRows": "@gfmr.FolMkRows",
+         "MakeupColors": "@gfmc.FolMkColors",
+         "MakeupKept": "true"
         }
        },
        {
@@ -231113,6 +235542,7 @@
         "bsf",
         "sfs",
         "sfb",
+        "tmk",
         "un",
         "brl",
         "bra0",
@@ -231140,6 +235570,8 @@
        [
         "prset",
         "bra",
+        "rmt",
+        "rsmt",
         "rsl",
         "frw"
        ],
@@ -231221,6 +235653,124 @@
         "in": {
          "S_Follower": "@rg.Item"
         }
+       },
+       {
+        "id": "nvo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@rb.Voice",
+         "B": "None"
+        }
+       },
+       {
+        "id": "bnv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@nvo.ReturnValue"
+        }
+       },
+       {
+        "id": "rvori",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "RandomIntegerInRange",
+        "in": {
+         "Min": "1",
+         "Max": "4"
+        }
+       },
+       {
+        "id": "rvois",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@rvori.ReturnValue"
+        }
+       },
+       {
+        "id": "rvocc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "Female_",
+         "B": "@rvois.ReturnValue"
+        }
+       },
+       {
+        "id": "rvo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@rvocc.ReturnValue"
+        }
+       },
+       {
+        "id": "pvm",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_Follower",
+        "in": {
+         "Id": "@rb.Id",
+         "Name": "@rb.Name",
+         "Mode": "@rb.Mode",
+         "Order": "@rb.Order",
+         "Active": "@rb.Active",
+         "Invulnerable": "@rb.Invulnerable",
+         "Fallen": "@rb.Fallen",
+         "Parts": "@rb.Parts",
+         "MorphNames": "@rb.MorphNames",
+         "MorphValues": "@rb.MorphValues",
+         "Items": "@rb.Items",
+         "Guns": "@rb.Guns",
+         "Level": "@rb.Level",
+         "Where": "@rb.Where",
+         "Heel": "@rb.Heel",
+         "Scales": "@rb.Scales",
+         "BodyDef": "@rb.BodyDef",
+         "Clothes": "@rb.Clothes",
+         "Worn": "@rb.Worn",
+         "Colors": "@rb.Colors",
+         "Damage": "@rb.Damage",
+         "SlotColors": "@rb.SlotColors",
+         "Hair": "@rb.Hair",
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rvo.ReturnValue"
+        }
+       },
+       {
+        "id": "pvls",
+        "kind": "get",
+        "var": "FolSave"
+       },
+       {
+        "id": "pvl",
+        "kind": "get",
+        "var": "Followers",
+        "class": "/Game/Mod/AltUI/SG_Followers"
+       },
+       {
+        "id": "pvset",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Set",
+        "in": {
+         "TargetArray": "@pvl.Followers",
+         "Index": "@entry.index",
+         "Item": "@pvm.S_Follower",
+         "bSizeToFit": "false"
+        }
+       },
+       {
+        "id": "svv",
+        "kind": "call_self",
+        "function": "Save Fol Save"
        },
        {
         "id": "lvl",
@@ -231394,6 +235944,21 @@
         }
        },
        {
+        "id": "a2v",
+        "kind": "get",
+        "var": "FolActor"
+       },
+       {
+        "id": "snn",
+        "kind": "set",
+        "var": "Npc Name",
+        "class": "/Game/Project/Character/Npc/NPC_Female",
+        "in": {
+         "self": "@a2v.FolActor",
+         "Npc Name": "@rb.Voice"
+        }
+       },
+       {
         "id": "a2",
         "kind": "get",
         "var": "FolActor"
@@ -231430,6 +235995,31 @@
         "in": {
          "self": "@a3.FolActor",
          "Order Location": "@loc.Location"
+        }
+       },
+       {
+        "id": "fmt",
+        "kind": "call_self",
+        "function": "Fol Makeup Tex",
+        "in": {
+         "rows": "@rb.MakeupRows",
+         "colors": "@rb.MakeupColors",
+         "kept": "@rb.MakeupKept"
+        }
+       },
+       {
+        "id": "a4m",
+        "kind": "get",
+        "var": "FolActor"
+       },
+       {
+        "id": "smt",
+        "kind": "set",
+        "var": "LookMakeupTex",
+        "class": "/Game/Mod/AltUI/BP_AltUIFollower",
+        "in": {
+         "self": "@a4m.FolActor",
+         "LookMakeupTex": "@fmt.tex"
         }
        },
        {
@@ -231787,19 +236377,36 @@
        [
         "rls.FolSave",
         "rl.self"
+       ],
+       [
+        "pvls.FolSave",
+        "pvl.self"
        ]
       ],
       "exec": [
        [
         "entry",
+        "bnv",
+        "pvset",
+        "svv",
+        "lvl"
+       ],
+       [
+        "bnv:else",
+        "lvl"
+       ],
+       [
         "lvl",
         "fr",
         "sp",
         "sa",
         "bv",
         "sid",
+        "snn",
         "sso",
         "sol",
+        "fmt",
+        "smt",
         "sl",
         "dmg",
         "bfm",
@@ -231983,7 +236590,11 @@
          "Damage": "@rb.Damage",
          "SlotColors": "@rb.SlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -232247,7 +236858,11 @@
          "Damage": "@rb.Damage",
          "SlotColors": "@rb.SlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -232599,7 +237214,11 @@
          "Damage": "@gcd.Save Clothes Damaged",
          "SlotColors": "@gsc3.FolSlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -234037,7 +238656,11 @@
          "Damage": "@rb.Damage",
          "SlotColors": "@rb.SlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -234256,7 +238879,11 @@
          "Damage": "@rb.Damage",
          "SlotColors": "@rb.SlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -234481,7 +239108,11 @@
          "Damage": "@rb.Damage",
          "SlotColors": "@rb.SlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -234578,7 +239209,11 @@
          "Damage": "@r2b.Damage",
          "SlotColors": "@r2b.SlotColors",
          "Hair": "@r2b.Hair",
-         "HairColor": "@r2b.HairColor"
+         "HairColor": "@r2b.HairColor",
+         "MakeupRows": "@r2b.MakeupRows",
+         "MakeupColors": "@r2b.MakeupColors",
+         "MakeupKept": "@r2b.MakeupKept",
+         "Voice": "@r2b.Voice"
         }
        },
        {
@@ -234735,7 +239370,11 @@
          "Damage": "@rb.Damage",
          "SlotColors": "@rb.SlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -234932,7 +239571,11 @@
          "Damage": "@rb.Damage",
          "SlotColors": "@rb.SlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -235554,7 +240197,11 @@
          "Damage": "@rb.Damage",
          "SlotColors": "@rb.SlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -241073,7 +245720,11 @@
          "Damage": "@r2b.Damage",
          "SlotColors": "@r2b.SlotColors",
          "Hair": "@r2b.Hair",
-         "HairColor": "@r2b.HairColor"
+         "HairColor": "@r2b.HairColor",
+         "MakeupRows": "@r2b.MakeupRows",
+         "MakeupColors": "@r2b.MakeupColors",
+         "MakeupKept": "@r2b.MakeupKept",
+         "Voice": "@r2b.Voice"
         }
        },
        {
@@ -243520,7 +248171,11 @@
          "Damage": "@rb.Damage",
          "SlotColors": "@gsc4.FolSlotColors",
          "Hair": "@rb.Hair",
-         "HairColor": "@rb.HairColor"
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice"
         }
        },
        {
@@ -274544,6 +279199,152 @@
         }
        },
        {
+        "id": "fe1_2kp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "AltUI_EyesClosed"
+        }
+       },
+       {
+        "id": "fe1_2fp",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@bv.Face",
+         "Key": "@fe1_2kp.ReturnValue"
+        }
+       },
+       {
+        "id": "fe1_2pt_m",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@fe1_2fp.Value",
+         "B": "100.0"
+        }
+       },
+       {
+        "id": "fe1_2pt_r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@fe1_2pt_m.ReturnValue"
+        }
+       },
+       {
+        "id": "fe1_2pt_s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@fe1_2pt_r.ReturnValue"
+        }
+       },
+       {
+        "id": "fe1_2pt_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@fe1_2pt_s.ReturnValue",
+         "B": " %"
+        }
+       },
+       {
+        "id": "fe1_2pt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@fe1_2pt_c.ReturnValue"
+        }
+       },
+       {
+        "id": "fe1_2b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fe1_2fp.ReturnValue"
+        }
+       },
+       {
+        "id": "fe1_2t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Face_EyesClosed"
+        }
+       },
+       {
+        "id": "fe1_2r_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "fe1_2r_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_ValueRow",
+         "OwningPlayer": "@fe1_2r_pc.PC"
+        }
+       },
+       {
+        "id": "fe1_2r",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ValueRow",
+        "pure": true,
+        "in": {
+         "Object": "@fe1_2r_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "fe1_2r_sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "fe1_2r_sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_ValueRow",
+        "in": {
+         "self": "@fe1_2r.AsW_ValueRow",
+         "Manager": "@fe1_2r_sm_me.self"
+        }
+       },
+       {
+        "id": "fe1_2r_i",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ValueRow",
+        "function": "Init",
+        "in": {
+         "self": "@fe1_2r.AsW_ValueRow",
+         "label": "@fe1_2t.text",
+         "value": "@fe1_2pt.ReturnValue",
+         "header": "false"
+        }
+       },
+       {
+        "id": "fe1_2r_gs",
+        "kind": "get",
+        "var": "TmpSection"
+       },
+       {
+        "id": "fe1_2r_a",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ContentSection",
+        "function": "Add Row",
+        "in": {
+         "self": "@fe1_2r_gs.TmpSection",
+         "row": "@fe1_2r.AsW_ValueRow"
+        }
+       },
+       {
         "id": "fa1_0",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
@@ -274554,10 +279355,20 @@
         }
        },
        {
+        "id": "fa1_1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@fa1_0.ReturnValue",
+         "B": "@fe1_2fp.ReturnValue"
+        }
+       },
+       {
         "id": "fg1",
         "kind": "branch",
         "in": {
-         "Condition": "@fa1_0.ReturnValue"
+         "Condition": "@fa1_1.ReturnValue"
         }
        },
        {
@@ -276554,10 +281365,25 @@
        ],
        [
         "fe1_1r_a",
-        "fg2"
+        "fe1_2b"
        ],
        [
         "fe1_1b:else",
+        "fe1_2b"
+       ],
+       [
+        "fe1_2b",
+        "fe1_2r_cr",
+        "fe1_2r_sm",
+        "fe1_2r_i",
+        "fe1_2r_a"
+       ],
+       [
+        "fe1_2r_a",
+        "fg2"
+       ],
+       [
+        "fe1_2b:else",
         "fg2"
        ],
        [
@@ -279059,6 +283885,20 @@
       }
      },
      {
+      "id": "tpme",
+      "kind": "self"
+     },
+     {
+      "id": "tkwp",
+      "kind": "call",
+      "class": "/Script/Engine.Actor",
+      "function": "SetTickableWhenPaused",
+      "in": {
+       "self": "@tpme.self",
+       "bTickableWhenPaused": "true"
+      }
+     },
+     {
       "id": "gp",
       "kind": "call",
       "class": "/Script/Engine.Controller",
@@ -279471,10 +284311,36 @@
       "function": "Open Quick Wheel"
      },
      {
+      "id": "kbr",
+      "kind": "call_self",
+      "function": "Bind Run",
+      "in": {
+       "key": "@kAny.Key"
+      }
+     },
+     {
       "id": "tick",
       "kind": "event",
       "class": "/Script/Engine.Actor",
       "name": "ReceiveTick"
+     },
+     {
+      "id": "tpz",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "IsGamePaused"
+     },
+     {
+      "id": "tbpz",
+      "kind": "branch",
+      "in": {
+       "Condition": "@tpz.ReturnValue"
+      }
+     },
+     {
+      "id": "tpzt",
+      "kind": "call_self",
+      "function": "Time Tick"
      },
      {
       "id": "tct",
@@ -282738,6 +287604,33 @@
       "id": "tths_c",
       "kind": "call_self",
       "function": "Toggle Hair Swatches"
+     },
+     {
+      "id": "tihf",
+      "kind": "custom_event",
+      "name": "Test Is Hair Favorite",
+      "inputs": [
+       {
+        "name": "name",
+        "type": "name"
+       }
+      ]
+     },
+     {
+      "id": "tihf_c",
+      "kind": "call_self",
+      "function": "Is Hair Favorite",
+      "in": {
+       "name": "@tihf.name"
+      }
+     },
+     {
+      "id": "tihf_b",
+      "kind": "set",
+      "var": "TmpBool",
+      "in": {
+       "TmpBool": "@tihf_c.yes"
+      }
      },
      {
       "id": "tswc",
@@ -287876,6 +292769,7 @@
       "cpc",
       "spc",
       "ei",
+      "tkwp",
       "cj",
       "spl",
       "cjb",
@@ -287913,11 +292807,17 @@
      ],
      [
       "kAny:Pressed",
+      "kbr",
       "bq",
       "oqw"
      ],
      [
       "tick",
+      "tbpz",
+      "tpzt"
+     ],
+     [
+      "tbpz:else",
       "ttik",
       "tstk",
       "tct",
@@ -288447,6 +293347,10 @@
      [
       "tths",
       "tths_c"
+     ],
+     [
+      "tihf",
+      "tihf_b"
      ],
      [
       "tswc",

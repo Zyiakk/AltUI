@@ -80,9 +80,23 @@ def f_apply_look():
     g.n("ams", "call_self", function="Apply Mats", inp={"mesh": ns, "mats": "@bp.Mats"})
     g.get("gls", "LookComps"); g.call("as", K_ARR, "Array_Add", inp={"TargetArray": "@gls.LookComps", "NewItem": ns})
     g.chain("entry", "fo"); g.chain("fo", "dc"); g.chain("fo:Completed", "clc", "fh"); g.chain("fh", "bnm", "hide")
-    g.chain("fh:Completed", "bhas", "l0", "c0", "ssk", "show", "am0", "sab", "cbm", "sbm", "fmn"); g.chain("cbm:CastFailed", "nbm", "sbm2", "fmn"); g.chain("fmn", "smv")
+    g.n("amt", "call_self", function="Apply Makeup Tex")   # after the body's materials: they came with Jodi's make-up target
+    g.chain("fh:Completed", "bhas", "l0", "c0", "ssk", "show", "am0", "sab", "cbm", "sbm", "amt", "fmn"); g.chain("cbm:CastFailed", "nbm", "sbm2", "amt"); g.chain("fmn", "smv")
     g.chain("fmn:Completed", "bhh", "chx", "fhc"); g.chain("fhc", "hcc"); g.chain("fhc:Completed", "fp"); g.chain("bhh:else", "fp"); g.chain("fp", "bgt", "lp", "bsk", "nk", "katt", "ksk", "kmp", "amk", "ak"); g.chain("bsk:else", "ns", "ssm", "srt", "att", "ams", "as")
     return fn("Apply Look", graph=g)
+
+
+def f_apply_makeup_tex():
+    """LookMakeupTex (the figure's own make-up, drawn by the manager) into every material of the body that samples MakeupTex -
+    the copied skin points at the game's one Skin_RenderTarget, which always holds Jodi's make-up. Without it nothing changes."""
+    g = G(); g.get("gt", "LookMakeupTex"); g.call("vt", K_SYS, "IsValid", inp={"Object": "@gt.LookMakeupTex"}); g.branch("bt", "@vt.ReturnValue")
+    g.get("gm", "Mesh"); g.call("ms", E_MESHC, "GetMaterials", inp={"self": "@gm.Mesh"}); g.foreach("fm", "@ms.ReturnValue")
+    g.cast("cm", E_MIDC, "@fm.Array Element"); g.call("vm", K_SYS, "IsValid", inp={"Object": "@cm.AsMaterial Instance Dynamic"})
+    g.call("gtp", E_MIDC, "K2_GetTextureParameterValue", inp={"self": "@cm.AsMaterial Instance Dynamic", "ParameterName": "MakeupTex"})
+    g.call("vp", K_SYS, "IsValid", inp={"Object": "@gtp.ReturnValue"}); g.call("ok", K_MATH, "BooleanAND", inp={"A": "@vm.ReturnValue", "B": "@vp.ReturnValue"}); g.branch("bok", "@ok.ReturnValue")
+    g.get("gt2", "LookMakeupTex"); g.call("st", E_MIDC, "SetTextureParameterValue", inp={"self": "@cm.AsMaterial Instance Dynamic", "ParameterName": "MakeupTex", "Value": "@gt2.LookMakeupTex"})
+    g.chain("entry", "bt", "fm"); g.chain("fm", "gtp", "bok", "st")   # the getter is impure (BlueprintCallable)
+    return fn("Apply Makeup Tex", graph=g)
 
 
 def f_init_npc_appearance():
@@ -129,13 +143,14 @@ def f_set_look():
 
 
 VARS = [var("FollowerId", "name"), var("LookParts", "struct:" + S_RAGPART, "array"), var("LookMorphN", "name", "array"), var("LookMorphV", "float", "array"),
-        var("LookComps", "object:" + E_SCENEC, "array"), var("TmpMid", "object:" + E_MIDC), var("LookHair", "name"), var("LookHairColor", S_LINCOLOR)]
+        var("LookComps", "object:" + E_SCENEC, "array"), var("TmpMid", "object:" + E_MIDC), var("LookHair", "name"), var("LookHairColor", S_LINCOLOR),
+        var("LookMakeupTex", "object:/Script/Engine.TextureRenderTarget2D")]
 
 
 def build():
     return [blueprint(FOLLOWER, P_NPCF, variables=VARS,
                       functions=[f_need_to_save(), fn("Mutate", graph=G(), override=True), fn("delay to mutant", graph=G(), override=True),
-                                 f_load_path(), f_apply_mats(), f_apply_look(), f_init_npc_appearance(), f_check_appearence(), f_apply_npc_appearance(), f_set_look()])]
+                                 f_load_path(), f_apply_mats(), f_apply_makeup_tex(), f_apply_look(), f_init_npc_appearance(), f_check_appearence(), f_apply_npc_appearance(), f_set_look()])]
 
 
 if __name__ == "__main__":

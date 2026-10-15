@@ -23,6 +23,7 @@ ENTRIES = [
     ("Suffering2", "FaceExpr", None, "Face_Sufferring02"),
     ("LookSide", "FaceEyes", "Face_Eye2Left", "Face_Eye2Right"),
     ("LookUpDown", "FaceEyes", "Face_Eye2Up", "Face_Eye2Down"),
+    ("EyesClosed", "FaceEyes", None, "AltUI_EyesClosed"),   # no morph: the game's blink animation, see ANIM_KEYS
     ("MouthAH", "FaceMouth", None, "Mouth_AH CDG KN"),
     ("MouthEE", "FaceMouth", None, "Mouth_EE"),
     ("MouthUU", "FaceMouth", None, "Mouth_UU OO"),
@@ -49,4 +50,7 @@ def morphs_of(entry):
 
 
 KEYS = [m for e in ENTRIES for m in morphs_of(e)]          # every key FaceValues can hold
-MORPHS = [m for m in KEYS if m not in VIRTUAL]              # the real morph targets
+# keys that are no morph target but a variable of AltUI's post-process animation (ABP_BodyScale): the eyelids are bones, closed by the
+# game's additive blink animation Female_EyeClosed with this weight - so only on bodies that run ABP_BodyScale (converted bodies)
+ANIM_KEYS = {"AltUI_EyesClosed": "EyesClosed"}
+MORPHS = [m for m in KEYS if m not in VIRTUAL and m not in ANIM_KEYS]   # the real morph targets

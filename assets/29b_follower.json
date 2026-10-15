@@ -41,6 +41,10 @@
     {
      "name": "LookHairColor",
      "type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "LookMakeupTex",
+     "type": "object:/Script/Engine.TextureRenderTarget2D"
     }
    ],
    "functions": [
@@ -386,6 +390,139 @@
        [
         "ft",
         "tl",
+        "st"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Makeup Tex",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "LookMakeupTex"
+       },
+       {
+        "id": "vt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gt.LookMakeupTex"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vt.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "ms",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterials",
+        "in": {
+         "self": "@gm.Mesh"
+        }
+       },
+       {
+        "id": "fm",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ms.ReturnValue"
+        }
+       },
+       {
+        "id": "cm",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "vm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@cm.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "gtp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetTextureParameterValue",
+        "in": {
+         "self": "@cm.AsMaterial Instance Dynamic",
+         "ParameterName": "MakeupTex"
+        }
+       },
+       {
+        "id": "vp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gtp.ReturnValue"
+        }
+       },
+       {
+        "id": "ok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@vm.ReturnValue",
+         "B": "@vp.ReturnValue"
+        }
+       },
+       {
+        "id": "bok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ok.ReturnValue"
+        }
+       },
+       {
+        "id": "gt2",
+        "kind": "get",
+        "var": "LookMakeupTex"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetTextureParameterValue",
+        "in": {
+         "self": "@cm.AsMaterial Instance Dynamic",
+         "ParameterName": "MakeupTex",
+         "Value": "@gt2.LookMakeupTex"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bt",
+        "fm"
+       ],
+       [
+        "fm",
+        "gtp",
+        "bok",
         "st"
        ]
       ]
@@ -1143,6 +1280,11 @@
          "TargetArray": "@gls.LookComps",
          "NewItem": "@cns.AsStatic Mesh Component"
         }
+       },
+       {
+        "id": "amt",
+        "kind": "call_self",
+        "function": "Apply Makeup Tex"
        }
       ],
       "links": [
@@ -1181,13 +1323,14 @@
         "sab",
         "cbm",
         "sbm",
+        "amt",
         "fmn"
        ],
        [
         "cbm:CastFailed",
         "nbm",
         "sbm2",
-        "fmn"
+        "amt"
        ],
        [
         "fmn",

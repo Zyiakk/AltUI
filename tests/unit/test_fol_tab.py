@@ -68,8 +68,18 @@ class RuntimeStart(unittest.TestCase):
         self.assertTrue(any(n.get("function") == "on Spawn in Runtime" for n in g["nodes"]))
         # also when the controller cast fails (no master set), and before the bag is filled
         self.assertIn(["ct:CastFailed", "osr"], g["exec"])
-        main = next(c for c in g["exec"] if c[0] == "entry")
+        main = next(c for c in g["exec"] if "osr" in c and "cgn" in c)   # since 2026-10-15 after the voice check (entry -> bnv -> lvl)
         self.assertLess(main.index("osr"), main.index("cgn"))
+
+    def test_figure_has_a_voice(self):
+        """2026-10-15: followers / NPCs were silent - Play Voice With Name looks the VoiceTable row up by Npc Name, which the game rolls
+        in Init Npc Appearance (ours is empty). The record keeps a voice, the figure gets it as Npc Name before the game's start."""
+        g = mgr_graph("Fol Spawn"); main = next(c for c in g["exec"] if "osr" in c and "cgn" in c)
+        snn = next(n for n in g["nodes"] if n["id"] == "snn"); self.assertEqual(snn.get("var"), "Npc Name")
+        self.assertLess(main.index("snn"), main.index("osr"))
+        self.assertIn(["entry", "bnv", "pvset", "svv", "lvl"], g["exec"])   # an old record gets one, saved
+        nr = next(n for n in mgr_graph("Finish Look Follower")["nodes"] if n["id"] == "nr")["in"]; self.assertIn("Voice", nr)
+        cc = next(n for n in mgr_graph("Finish Look Follower")["nodes"] if n["id"] == "nvocc")["in"]; self.assertEqual(cc["A"], "Female_")
 
     def test_the_figure_keeps_its_look(self):
         names = {f["name"]: f for f in asset("/Game/Mod/AltUI/BP_AltUIFollower")["functions"]}
@@ -160,6 +170,57 @@ class RealClothes(unittest.TestCase):
         g = json.dumps(fn_graph(self.FOL, "Apply Look"))
         for s in ("Body Material", "Change Hairstyle Ex"):
             self.assertIn(s, g)
+
+
+
+class OwnMakeup(unittest.TestCase):
+    """2026-10-15: a figure showed Jodi's current make-up - her skin samples the game's one Skin_RenderTarget and the copied skin
+    kept pointing at it. The figure takes the look's make-up as data and draws a target of its own."""
+    FOL = "/Game/Mod/AltUI/BP_AltUIFollower"
+
+    def test_makeup_taken_before_undo(self):
+        g = mgr_graph("Finish Look Follower"); main = next(c for c in g["exec"] if c[0] == "fwc:Completed")
+        self.assertLess(main.index("tmk"), main.index("un"), "make-up read while Jodi still wears the look")
+        nr = next(n for n in g["nodes"] if n["id"] == "nr")["in"]
+        for k in ("MakeupRows", "MakeupColors", "MakeupKept"): self.assertIn(k, nr)
+        self.assertEqual(nr["MakeupKept"], "true")
+
+    def test_spawn_and_relook_set_own_target_before_set_look(self):
+        for fn, before in (("Fol Spawn", "sl"), ("Finish Look Follower", "rsl")):
+            g = mgr_graph(fn); chain = next(c for c in g["exec"] if before in c and ("smt" in c or "rsmt" in c))
+            setter = "smt" if "smt" in chain else "rsmt"
+            self.assertLess(chain.index(setter), chain.index(before), fn)
+
+    def test_record_has_makeup_fields(self):
+        self.assertTrue({"MakeupRows", "MakeupColors", "MakeupKept"} <= set(fol_fields()))
+
+    def test_apply_look_puts_own_target_after_body_materials(self):
+        g = fn_graph(self.FOL, "Apply Look"); main = next(c for c in g["exec"] if c[0] == "fh:Completed")
+        self.assertLess(main.index("am0"), main.index("amt")); self.assertLess(main.index("amt"), main.index("fmn"))
+        st = next(n for n in fn_graph(self.FOL, "Apply Makeup Tex")["nodes"] if n["id"] == "st")
+        self.assertEqual(st["in"]["ParameterName"], "MakeupTex")
+
+
+    def test_ragdoll_copy_gets_own_makeup(self):
+        """The same for copies of Jodi in the Ragdolls tab: her target 1:1 into one of its own, right after Copy From."""
+        g = mgr_graph("Spawn Ragdoll Copy"); main = next(c for c in g["exec"] if c[0] == "entry")
+        self.assertEqual(main.index("omk"), main.index("cf") + 1)
+        d = next(n for n in mgr_graph("Own Makeup Copy")["nodes"] if n["id"] == "draw")
+        self.assertEqual(d["in"]["BlendMode"], "BLEND_Opaque")
+
+    def test_makeup_lists_through_a_variable(self):
+        """Array_Add on a break pin added to a temporary copy - every list the game got was empty, it drew nothing (2026-10-15).
+        Every row goes to the game (only its draw lowers the target's alpha, where the skin shows make-up), the tint on top."""
+        g = mgr_graph("Fol Makeup Tex"); al = next(n for n in g["nodes"] if n["id"] == "al")
+        self.assertEqual(al["in"]["TargetArray"], "@gml.FolMkList")
+        self.assertEqual(next(n for n in g["nodes"] if n["id"] == "mks")["in"]["List"], "@gml2.FolMkList")
+        main = next(c for c in g["exec"] if c[0] == "fr"); self.assertEqual(main, ["fr", "lto", "bkn", "sml", "al", "put"])
+        # the tint in the colour map's key order, as Jodi's (Apply Makeup Colors), worn rows only
+        fc = next(n for n in g["nodes"] if n["id"] == "fc"); self.assertEqual(fc["in"]["Array"] if "Array" in fc.get("in", {}) else fc.get("array"), "@ck.Keys")
+
+def fol_fields():
+    st = next(a for a in assets() if a.get("path") == fol.S_FOL or a.get("name") == fol.S_FOL)
+    return [f["name"] for f in st.get("fields", st.get("members", []))]
 
 
 if __name__ == "__main__":

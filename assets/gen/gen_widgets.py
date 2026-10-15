@@ -174,7 +174,7 @@ def sizebox(name, wd, ht, children, slot=None):
 # above and below adds it too - the content sits at the same distance from all four edges. The height follows the content;
 # a wrap box row stretches its tiles to the tallest one (tile lists add with VAlign_Fill).
 TILE_PAD = 4; TILE_SIDE = 3
-TILE_LISTS = {"OutfitList", "LooksList", "BagWorn", "BagList", "HairList", "LookList", "LookFavList", "FaceTiles", "PoseList", "PoseFavList",
+TILE_LISTS = {"OutfitList", "LooksList", "BagWorn", "BagList", "HairList", "HairFavList", "LookList", "LookFavList", "FaceTiles", "PoseList", "PoseFavList",
               "WeaponModelList", "WeaponList", "WeaponFavList"}
 TILE_FILL_PAD = "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % (sz(TILE_PAD), sz(TILE_PAD + TILE_SIDE), sz(TILE_PAD), sz(TILE_PAD + TILE_SIDE))
 
@@ -2068,13 +2068,15 @@ PANEL_TEXTS = [("search", "Search"), ("chipsearch", "ChipSearch"), ("onlyowned",
 PANEL_TEXTS += [("sc" + k.lower(), "LblSc" + k) for k in bg.SLIDER_ORDER[9:]] + [("scgrp" + h[len("Lbl_ScGrp"):].lower(), "LblScGrp" + h[len("Lbl_ScGrp"):]) for h in bg.GROUP_HEADS.values()]   # 2026-10-09 body-physics rows + group headings
 PANEL_TEXTS += [("ragwheel", "LblRagWheel"), ("slowmo", "LblSlowMo")]   # 2026-10-11 sliders
 PANEL_TEXTS += [("slowmoon", "LblSlowMoOn")]   # 2026-10-12 slow motion on / off next to its slider
+PANEL_TEXTS += [("hairfavorites", "HairFavHeader"), ("hairall", "HairAllHeader")]   # 2026-10-15 favourites block of the Coiffure tab
+PANEL_TEXTS += [("keybinds", "LblKeyBinds")]   # 2026-10-15 own keys (Options › Quick menu)
 THEME_COLS = 5   # theme grid: fixed columns (entries fill column-wise), the wrap box wraps whole columns on narrow panels
 THEME_REFRESH = [("TopTabs", W_TOP), ("TabChips", W_SUB), ("QuickKeyLinks", W_TXT), ("LayoutChips", W_SUB), ("UnownedChips", W_SUB), ("ThemePresetChips", W_SUB), ("ManageChips", W_SUB), ("ManageChipSearchLinks", W_TXT), ("ThemeSaveLinks", W_TXT), ("TabStyleChips", W_SUB), ("TabIconPosChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("ThemeLinks", W_TXT), ("BodyScLinks", W_TXT), ("StatusLinks", W_TXT), ("StatusRight", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
 SUBTABS_MAX_H, SUBTABS_MAX_H_MAX = 112, 500   # default ~3.5 chip rows (80 showed 2.5); option range (unscaled units, x SC at runtime)
 SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll", "KodexCatScroll", "KodexScroll", "RagScroll", "InvBagScroll", "InvBoxScroll", "InvCatScroll", "FolBagScroll", "FolBoxScroll", "FolScroll"]
 # panel-owned texts coloured by Apply Theme: widget -> derived colour
-PANEL_TEXT_COLORS = {"ColHead": ["FolBagTitle", "FolBoxTitle", "InvBagTitle", "InvBoxTitle", "InvCatTitle", "KodexTitle", "LblQuickControl", "LblQuickInWheel", "LblQuickAvailable", "BagWornHeader", "BagListHeader", "FavHeader", "LookFavHeader", "PoseFavHeader", "WeaponFavHeader", "LblTheme", "ContentTitle", "LblConflicts"],
-                     "ColTextDim": ["FolHint", "FolBagNote", "InvBagNote", "InvWeightText", "RagHint", "RagPresetsHint", "ModHint", "FaceHint", "LblTabsHint", "ThemePresetsHint", "LblQuickKeyHint", "AllHeader", "LookAllHeader", "PoseAllHeader", "WeaponAllHeader", "WeaponModelHeader", "ListHint", "BagEmpty", "PlaceholderText", "HdrName", "HdrDisplay", "HdrOrigin", "LblConflictsHint", "LblScaleHint"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS] + ["Val" + k for k, _ in SCALE_ROWS],
+PANEL_TEXT_COLORS = {"ColHead": ["FolBagTitle", "FolBoxTitle", "InvBagTitle", "InvBoxTitle", "InvCatTitle", "KodexTitle", "LblQuickControl", "LblQuickInWheel", "LblKeyBinds", "LblQuickAvailable", "BagWornHeader", "BagListHeader", "FavHeader", "LookFavHeader", "HairFavHeader", "PoseFavHeader", "WeaponFavHeader", "LblTheme", "ContentTitle", "LblConflicts"],
+                     "ColTextDim": ["FolHint", "FolBagNote", "InvBagNote", "InvWeightText", "RagHint", "RagPresetsHint", "ModHint", "FaceHint", "LblTabsHint", "ThemePresetsHint", "LblQuickKeyHint", "KeyBindHint", "AllHeader", "LookAllHeader", "HairAllHeader", "PoseAllHeader", "WeaponAllHeader", "WeaponModelHeader", "ListHint", "BagEmpty", "PlaceholderText", "HdrName", "HdrDisplay", "HdrOrigin", "LblConflictsHint", "LblScaleHint"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS] + ["Val" + k for k, _ in SCALE_ROWS],
                      "ColText": ["KodexBody", "LblRagKinds", "LblRagSave", "LblRagPresets", "LblQuickKey", "LblOwned", "LblFav", "LblVanilla", "LblOnlyWorn", "LblLookFav", "LblLookWorn", "LblOnlyMods", "LblCaseSens", "LblUnlimited", "LblPan", "LblCamRight", "LblNude", "LblMerge", "LblMergeMods", "LblChipSearch", "LblTipNoPrefix", "LblTipNoIds", "LblKodexAll", "LblMoveOn", "LblWalkStyle", "LblRunStyle", "LblIdleStyle", "LblUnowned", "LblTabStyle", "LblTabIconPos", "LblThemeSave", "LblThemePresets", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS] + ["Lbl" + k for k, _ in SCALE_ROWS] + ["LblScGrp" + h[len("Lbl_ScGrp"):] for h in bg.GROUP_HEADS.values()]}
 
 
@@ -2085,7 +2087,7 @@ OPT_CAT_ROWS = {"General": ["RowLanguage", "RowLayout", "RowNude", "RowUnowned",
                 "Camera": ["RowFov", "RowDist", "RowHeight", "RowPan"],
                 "Controls": ["RowKey", "RowScroll", "RowCamRight", "RowRagWheel"],
                 "Move": ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "RowIdleStyle", "RowSlowMoOn", "RowSlowMo", "MoveLinks"],   # reset below everything it resets
-                "Quick": ["LblQuickControl", "RowQuickKey", "RowQuickAlpha", "LblQuickInWheel", "QuickInWheel", "LblQuickAvailable", "QuickAvailable"],
+                "Quick": ["LblQuickControl", "RowQuickKey", "RowQuickAlpha", "LblQuickInWheel", "QuickInWheel", "LblKeyBinds", "KeyBindHint", "KeyBinds", "LblQuickAvailable", "QuickAvailable"],
                 "Theme": ["LblTheme", "ThemeGrid", "RowBgAlpha", "RowTileAlpha", "ThemeLinks", "RowThemeSave", "RowThemePresets"],
                 "Conflicts": ["LblConflicts", "LblConflictsHint", "ConflictLinks", "ConflictRows"],
                 "Tabs": ["RowTabStyle", "RowTabIconPos", "LblTabsHint", "TabChips"]}
@@ -2190,6 +2192,9 @@ def w_panel():
             w(U_SCROLL, "HairScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "HairVB", children=[
                 w(U_HBOX, "HairLinks", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(8)}),
                 w(U_WRAP, "HairSwatches", props={"Visibility": "Collapsed", "InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(8)}),
+                text("HairFavHeader", "Favourites", 13, "(SpecifiedColor=(R=0.95,G=0.8,B=0.3,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
+                w(U_WRAP, "HairFavList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=23)"}),
+                text("HairAllHeader", "All", 13, "(SpecifiedColor=(R=0.7,G=0.7,B=0.7,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
                 w(U_WRAP, "HairList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)})])]),
             # Poses: mod chips + search + link row ("stop") + tiles (favourites block, all) - the right half of the appearance page without the favourites checkbox
             # Poses: categories on the left (measured height class / motion), chips + search + tiles on the right
@@ -2452,6 +2457,10 @@ def w_panel():
                     text("LblQuickKeyHint", "", 11, GREY, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(12)})]),
                 text("LblQuickInWheel", "In the wheel", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(14), sz(4))}),
                 w(U_VBOX, "QuickInWheel"),
+                # own keys: key -> any item of the quick menu (right click on an available item binds it), rows with key link and ✕
+                text("LblKeyBinds", "Own keys", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(18), sz(4))}),
+                text("KeyBindHint", "", 11, GREY, wrap=True, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(6)}),
+                w(U_VBOX, "KeyBinds"),
                 text("LblQuickAvailable", "Available", 14, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(18), sz(4))}),
                 w(U_VBOX, "QuickAvailable", children=[   # virtual list "Qa" (vlist.py), three to a row
                     w(U_SIZE, "QaTop", props={"bOverride_HeightOverride": True, "HeightOverride": 0}),
@@ -2689,11 +2698,15 @@ def w_panel():
     # OnPreviewMouseButtonDown: a click anywhere while a Key field waits cancels it and goes on as the click it is (on the
     # same field it starts the wait again). Mouse buttons are no keys for a Key field. (pvm: pm is the panel's own
     # OnMouseButtonDown further down - the same name once made both events run that one.)
+    # It also closes an open context menu first: a tile handles its own click, so the panel's OnMouseButtonDown (closes the
+    # menu) never saw a click on another tile and the menu stayed open (2026-10-16). The menu is a viewport widget of its
+    # own, not in the panel: clicks on its rows do not pass here. A right click on a tile opens its menu after this.
     pvm = G()
+    pvm.get("gmm", "Manager"); pvm.call("cm", MGR, "Close Menu", inp={"self": "@gmm.Manager"})
     pvm.get("gmc", "Manager"); pvm.call("cap", MGR, "Capturing Key", inp={"self": "@gmc.Manager"}); pvm.branch("bc", "@cap.yes")
     pvm.get("gm1", "Manager"); pvm.call("cn", MGR, "Cancel Key Capture", inp={"self": "@gm1.Manager"})
     pvm.call("u", K_WBL, "Unhandled"); pvm.link("u.ReturnValue", "return.ReturnValue")
-    pvm.chain("entry", "bc", "cn", "return"); pvm.chain("bc:else", "return")
+    pvm.chain("entry", "cm", "bc", "cn", "return"); pvm.chain("bc:else", "return")
     # OnKeyUp: search -> Manager.On Search Changed(text); Esc or the panel key (without focus in a search box) -> Panel Key Close (Esc with the palette open: the palette, else the panel); Handled except Shift (see OnKeyDown)
     ku = G()
     ku.get("gs", "Search"); ku.call("t", E_EDIT, "GetText", inp={"self": "@gs.Search"})
@@ -2817,6 +2830,7 @@ def w_panel():
     sp.get("gp1", "PlaceholderScroll"); sp.call("pv", E_WIDGET, "SetVisibility", inp={"self": "@gp1.PlaceholderScroll", "InVisibility": "Visible"})
     sp.chain("entry", "sk", "b0"); sp.chain("bk", "pc"); sp.chain("bk:else", "pv")
     qkh = G(); qkh.get("g", "LblQuickKeyHint"); qkh.call("s", E_TEXT, "SetText", inp={"self": "@g.LblQuickKeyHint", "InText": "@entry.text"}); qkh.chain("entry", "s")
+    kbh = G(); kbh.get("g", "KeyBindHint"); kbh.call("s", E_TEXT, "SetText", inp={"self": "@g.KeyBindHint", "InText": "@entry.text"}); kbh.chain("entry", "s")
     # Set Option Cat(cat): exactly one category block of the Options page visible, scrolled to the top
     soc = G(); tail = ["entry"]
     for i, cat in enumerate(OPT_CATS):
@@ -3090,11 +3104,13 @@ def w_panel():
         si.call("e%d" % i, K_MATH, "EqualEqual_NameName", inp={"A": "@entry.page", "B": page}); si.branch("b%d" % i, "@e%d.ReturnValue" % i)
         si.get("g%d" % i, box); si.call("s%d" % i, U_SCROLL, "ScrollWidgetIntoView", inp={"self": "@g%d.%s" % (i, box), "WidgetToFind": "@entry.widget", "AnimateScroll": "false", "ScrollDestination": "Center"})
         si.chain(prev, "b%d" % i, "s%d" % i); prev = "b%d:else" % i
-    pfv = G(); pfv.branch("b", "@entry.visible")
-    for i, wn in enumerate(["PoseFavHeader", "PoseFavList", "PoseAllHeader"]):
-        pfv.get("g%d" % i, wn); pfv.call("v%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@g%d.%s" % (i, wn), "InVisibility": "Visible"})
-        pfv.get("h%d" % i, wn); pfv.call("c%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@h%d.%s" % (i, wn), "InVisibility": "Collapsed"})
-    pfv.chain("entry", "b", "v0", "v1", "v2"); pfv.chain("b:else", "c0", "c1", "c2")
+    def fav_visible(names):
+        g = G(); g.branch("b", "@entry.visible")
+        for i, wn in enumerate(names):
+            g.get("g%d" % i, wn); g.call("v%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@g%d.%s" % (i, wn), "InVisibility": "Visible"})
+            g.get("h%d" % i, wn); g.call("c%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@h%d.%s" % (i, wn), "InVisibility": "Collapsed"})
+        g.chain("entry", "b", "v0", "v1", "v2"); g.chain("b:else", "c0", "c1", "c2"); return g
+    pfv = fav_visible(["PoseFavHeader", "PoseFavList", "PoseAllHeader"]); hfv = fav_visible(["HairFavHeader", "HairFavList", "HairAllHeader"])
     pcv = G(); pcv.branch("b", "@entry.visible")
     pcv.get("g0", "PoseSubTabsBox"); pcv.call("v0", E_WIDGET, "SetVisibility", inp={"self": "@g0.PoseSubTabsBox", "InVisibility": "Visible"})
     pcv.get("h0", "PoseSubTabsBox"); pcv.call("c0", E_WIDGET, "SetVisibility", inp={"self": "@h0.PoseSubTabsBox", "InVisibility": "Collapsed"})
@@ -3142,6 +3158,7 @@ def w_panel():
              clear("Clear Search Links", "SearchLinks"), add("Add Search Link", "SearchLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear Hair Links", "HairLinks"), add("Add Hair Link", "HairLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear Hair", "HairList"), add("Add Hair", "HairList", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear Hair Fav", "HairFavList"), add("Add Hair Fav", "HairFavList", U_WRAP, "AddChildToWrapBox"), fn("Set Hair Fav Visible", [param("visible", "bool")], graph=hfv),
              clear("Clear Look Cats", "LookCats"), add("Add Look Cat", "LookCats", U_VBOX, "AddChildToVerticalBox"),
              clear("Clear Rag Kinds", "RagKinds"), add("Add Rag Kind", "RagKinds", U_WRAP, "AddChildToWrapBox"), set_hint_fn("Set Rag Kinds Title", "LblRagKinds"), clear("Clear Rag Top", "RagTop"), add("Add Rag Top", "RagTop", U_HBOX, "AddChildToHorizontalBox"), clear("Clear Rag Rows", "RagRows"), add("Add Rag Row", "RagRows", U_VBOX, "AddChildToVerticalBox"),
              fn("Set Rag Hint", [param("text", "text")], graph=rh), fn("Set Rag Texts", [param("save", "text"), param("presets", "text"), param("hint", "text")], graph=rt),
@@ -3172,6 +3189,7 @@ def w_panel():
              clear("Clear Tab Icon Pos Chips", "TabIconPosChips"), add("Add Tab Icon Pos Chip", "TabIconPosChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Quick Key Links", "QuickKeyLinks"), qkl, fn("Set Quick Key Hint", [param("text", "text")], graph=qkh),
              clear("Clear Quick In Wheel", "QuickInWheel"), add("Add Quick In Wheel", "QuickInWheel", U_VBOX, "AddChildToVerticalBox"),
+             clear("Clear Key Binds", "KeyBinds"), add("Add Key Bind", "KeyBinds", U_VBOX, "AddChildToVerticalBox"), fn("Set Key Bind Hint", [param("text", "text")], graph=kbh),
              *vlist_panel_fns("Qa", "OptionsScroll", "QuickAvailable", "QaTop", "QaWrap", "QaBottom"),
              clear("Clear Look", "LookList"), add("Add Look", "LookList", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Look Fav", "LookFavList"), add("Add Look Fav", "LookFavList", U_WRAP, "AddChildToWrapBox"), fn("Set Look Fav Visible", [param("visible", "bool")], graph=lfv), fn("Set Manage Content Space", [param("keep", "bool")], graph=mcs),
@@ -3303,11 +3321,13 @@ def w_quick_row():
     c = G(); tail = ["entry"]; c.get("gmo", "Mode"); c.call("isg", K_MATH, "EqualEqual_IntInt", inp={"A": "@gmo.Mode", "B": "2"})
     c.call("col", K_MATH, "SelectColor", inp={"A": mcol(c, "ch", "ColHead"), "B": mcol(c, "ct", "ColText"), "bPickA": "@isg.ReturnValue"})
     text_color(c, "tl", "Label", "@col.ReturnValue", tail); c.chain(*tail)
-    # a click on an available row toggles it (right click too); rows of the wheel list and headings ignore clicks
+    # a left click on an available row toggles it, a right click waits for a key for it (own keys); rows of the wheel list and headings ignore clicks
     md = G(); md.get("gmo", "Mode"); md.call("is1", K_MATH, "EqualEqual_IntInt", inp={"A": "@gmo.Mode", "B": "1"}); md.branch("b", "@is1.ReturnValue")
+    md.call("btn", K_IN, "PointerEvent_GetEffectingButton", inp={"Input": "@entry.MouseEvent"}); md.call("isr", K_IN, "EqualEqual_KeyKey", inp={"A": "@btn.ReturnValue", "B": "RightMouseButton"}); md.branch("br", "@isr.ReturnValue")
     md.get("gm", "Manager"); md.get("gi", "Item"); md.call("t", MGR, "Quick Toggle", inp={"self": "@gm.Manager", "item": "@gi.Item"})
+    md.get("gm2", "Manager"); md.get("gi2", "Item"); md.call("kb", MGR, "Bind Begin", inp={"self": "@gm2.Manager", "item": "@gi2.Item"})
     md.call("h", K_WBL, "Handled"); md.link("h.ReturnValue", "return.ReturnValue"); md.n("r2", "return_new"); md.call("u", K_WBL, "Unhandled"); md.link("u.ReturnValue", "r2.ReturnValue")
-    md.chain("entry", "b", "t", "return"); md.chain("b:else", "r2")
+    md.chain("entry", "b", "br", "kb", "return"); md.chain("br:else", "t", "return"); md.chain("b:else", "r2")
     return blueprint(W_QROW, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Item", "string"), var("Mode", "int")],
                      functions=[fn("Set Tile Size", [param("width", "float"), param("height", "float")], graph=tile_size_graph()), init, fn("Add Link", [param("widget", "object:" + E_WIDGET)], graph=a), compute_fn(c), fn("OnMouseButtonDown", override=True, graph=md)],
                      widget_tree=tree, defaults=HAND)

@@ -75,6 +75,8 @@
 #include "AnimGraphNode_PoseSnapshot.h"
 #include "AnimGraphNode_SequencePlayer.h"
 #include "AnimGraphNode_TwoWayBlend.h"
+#include "AnimGraphNode_ApplyAdditive.h"
+#include "AnimGraphNode_SequenceEvaluator.h"
 #include "Animation/AnimSequence.h"
 #include "AnimationBlueprintLibrary.h"
 #include "Factories/FbxAnimSequenceImportData.h"
@@ -434,9 +436,31 @@ static bool MakeAnimBlueprint(const TSharedPtr<FJsonObject>& A, FString& Err) {
   } else {
     FGraphNodeCreator<UAnimGraphNode_LinkedInputPose> CIn(*G); UAnimGraphNode_LinkedInputPose* LI = CIn.CreateNode(); LI->NodePosX = X; CIn.Finalize(); In = LI;
   }
+  // "additive": [{asset, alpha, time}] - in local space before the bone nodes, each an Apply Additive of a sequence evaluator held
+  // at `time` (the game's additive animation, by path; e.g. eyes closed: Female_EyeClosed at 1.0 = its last, closed frame, as
+  // Jodi_Anim does - a player looped it: blinking) with its Alpha pin bound to a float variable
+  UEdGraphNode* LocalPrev = In;
+  if (const auto* Adds = JArr(A, TEXT("additive"))) for (const auto& AV : *Adds) {
+    const TSharedPtr<FJsonObject> D = AV->AsObject(); X += 300;
+    UAnimSequenceBase* Seq = Cast<UAnimSequenceBase>(BPGenTypes::LoadObj(JStr(D, TEXT("asset"))));
+    if (!Seq) { Err = TEXT("animblueprint: additive asset not found ") + JStr(D, TEXT("asset")); return false; }
+    FGraphNodeCreator<UAnimGraphNode_SequenceEvaluator> CP(*G); UAnimGraphNode_SequenceEvaluator* SP = CP.CreateNode(); SP->NodePosX = X; SP->NodePosY = 250;
+    SP->Node.Sequence = Seq; SP->Node.ExplicitTime = D->HasField(TEXT("time")) ? (float)D->GetNumberField(TEXT("time")) : 0.f;
+    SP->Node.bShouldLoop = false; SP->Node.bTeleportToExplicitTime = true; CP.Finalize();
+    FGraphNodeCreator<UAnimGraphNode_ApplyAdditive> CA(*G); UAnimGraphNode_ApplyAdditive* AA = CA.CreateNode(); AA->NodePosX = X + 150; CA.Finalize();
+    UEdGraphPin* BasePin = AA->FindPin(TEXT("Base")); UEdGraphPin* AddPin = AA->FindPin(TEXT("Additive")); UEdGraphPin* AlphaPin = AA->FindPin(TEXT("Alpha"));
+    if (!BasePin || !AddPin || !AlphaPin) { Err = TEXT("animblueprint: Apply Additive has no Base / Additive / Alpha pin"); return false; }
+    if (!Schema->TryCreateConnection(PosePin(LocalPrev, EGPD_Output), BasePin)) { Err = TEXT("animblueprint: link ->Apply Additive Base failed"); return false; }
+    if (!Schema->TryCreateConnection(PosePin(SP, EGPD_Output), AddPin)) { Err = TEXT("animblueprint: link sequence->Apply Additive failed"); return false; }
+    FGraphNodeCreator<UK2Node_VariableGet> CG(*G); UK2Node_VariableGet* GetV = CG.CreateNode(); GetV->NodePosX = X; GetV->NodePosY = 400;
+    GetV->VariableReference.SetSelfMember(FName(*JStr(D, TEXT("alpha")))); CG.Finalize();
+    UEdGraphPin* Out = nullptr; for (UEdGraphPin* P : GetV->Pins) if (P->Direction == EGPD_Output) Out = P;
+    if (!Out || !Schema->TryCreateConnection(Out, AlphaPin)) { Err = TEXT("animblueprint: variable->Alpha link failed: ") + JStr(D, TEXT("alpha")); return false; }
+    LocalPrev = AA; X += 150;
+  }
   X += 300;
   FGraphNodeCreator<UAnimGraphNode_LocalToComponentSpace> CL2C(*G); UAnimGraphNode_LocalToComponentSpace* L2C = CL2C.CreateNode(); L2C->NodePosX = X; CL2C.Finalize();
-  if (!Schema->TryCreateConnection(PosePin(In, EGPD_Output), PosePin(L2C, EGPD_Input))) { Err = TEXT("animblueprint: link InputPose->LocalToComponent failed"); return false; }
+  if (!Schema->TryCreateConnection(PosePin(LocalPrev, EGPD_Output), PosePin(L2C, EGPD_Input))) { Err = TEXT("animblueprint: link InputPose->LocalToComponent failed"); return false; }
   UEdGraphNode* Prev = L2C;
   if (const auto* Nodes = JArr(A, TEXT("nodes"))) for (const auto& NV : *Nodes) {
     const TSharedPtr<FJsonObject> N = NV->AsObject(); X += 300;
@@ -729,6 +753,9 @@ static bool MakeAnimSequenceStub(const TSharedPtr<FJsonObject>& A, FString& Err)
   UAnimSequence* S = NewObject<UAnimSequence>(Pkg, *Name, RF_Public | RF_Standalone);
   if (!S) { Err = TEXT("animsequence_stub: cannot create ") + Path; return false; }
   S->SetSkeleton(Skel);
+  if (A->HasTypedField<EJson::Boolean>(TEXT("additive")) && A->GetBoolField(TEXT("additive"))) {   // stand-in for an additive game animation (Apply Additive)
+    S->AdditiveAnimType = AAT_LocalSpaceBase; S->RefPoseType = ABPT_RefPose;
+  }
   FAssetRegistryModule::AssetCreated(S); Pkg->MarkPackageDirty();
   UE_LOG(LogBPGen, Display, TEXT("BPGEN animsequence stub %s"), *Path);
   return BPGenAssets::SaveAsset(S);

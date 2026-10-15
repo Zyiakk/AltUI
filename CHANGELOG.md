@@ -1,5 +1,38 @@
 # Changelog
 
+## 2.2.0 – 2026-10-16
+
+Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the
+same as in 2.1.0; converted bodies do not need to be converted again.
+
+Keys of your own for anything in the quick menu, closed eyes, favourite hairstyles, and followers with their own make-up
+and voice.
+
+* **Own keys.** *Options › Quick menu* has a new block **Own keys**: right click any item under "Available" and press a
+  key – slow motion, stop time, free camera, photo mode, a look, a pose, a tab, anything the quick menu offers, as many
+  as you like. Click the key of a row to give it another one, ✕ removes it. The keys work with the panel closed, also in
+  the free camera and in the game's photo mode. The panel key, the quick menu key and a key another item already has are
+  refused. AltUI cannot keep a key from the game: a key the game uses itself triggers both.
+* **Hide / show the game's UI.** A new quick menu item that switches the game's HUD off and on, as the photo mode does –
+  on a key of its own also inside AltUI's free camera.
+* **Eyes closed.** The Face tab has a new slider "Eyes closed" under *Gaze*: from open to fully closed. The game's own
+  blinking goes on as before. It works on converted bodies, like the body sliders – not on the standard body without a
+  body mod.
+* **Favourite hairstyles.** Right click a hairstyle: "Add to favourites". Favourites show at the top of the Coiffure
+  tab, above all others.
+
+Fixes:
+
+* **Followers and NPCs wear the make-up of their look.** They showed whatever make-up Jodi wore at the moment – the
+  game keeps all make-up in one shared texture. Each figure now draws its own, AltUI's make-up colours included. A
+  figure made with an earlier version keeps showing Jodi's make-up until "Change look…" gives it its own.
+* **Ragdoll copies of Jodi keep the make-up they were made with** instead of changing along with Jodi.
+* **Followers and NPCs have a voice.** They were silent – no pain, no calls. Each figure now gets one of the game's NPC
+  voices and keeps it.
+* **Stop time in the game's photo mode.** With time stopped by AltUI the photo mode's camera could not move. It now
+  moves while Jodi and the world stand still, whether time was stopped before or during the photo mode.
+* **A context menu closes when another tile is clicked.** It stayed open until a click on an empty spot.
+
 ## 2.1.0 – 2026-10-15
 
 Replace `AltUI.pak`. New: `idlepak.pyz`, a converter for idle mods. `AltUI_Hook_P.pak`, `bodypak.pyz`,

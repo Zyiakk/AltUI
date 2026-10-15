@@ -7,6 +7,7 @@ follows (at Jodi) or one whose level this is (at its place)."""
 import os, sys; sys.path.insert(0, os.path.dirname(__file__))
 from bpdsl import *
 
+VOICES = ["Female_1", "Female_2", "Female_3", "Female_4"]   # the game's NPC voices (NPC_Female.Init Npc Appearance rolls one)
 S_FOL = M + "/S_Follower"; SG_FOL = M + "/SG_Followers"; FOL_SLOT = "AltUI_Followers"
 W_FOLROW = M + "/W_FolRow"   # one figure in the Followers tab (gen_widgets.py)
 S_RAGPART = M + "/S_RagPart"
@@ -111,5 +112,10 @@ def structs():
                            param("Clothes", "name", "array"), param("Worn", "name", "array"),   # real clothes: its bag's pieces, what it wears
                            param("Colors", "name", "map", value_type=S_LINCOLOR), param("Damage", "name", "map", value_type="float"),   # its Clothes Colors / Save Clothes Damaged
                            param("SlotColors", "name", "map", value_type=S_LINCOLOR),   # AltUI's slot colours of its pieces (<piece>#<slot>)
-                           param("Hair", "name"), param("HairColor", S_LINCOLOR)]),   # its hairstyle (HairstyleTable row) and colour; all empty = an old record
+                           param("Hair", "name"), param("HairColor", S_LINCOLOR),   # its hairstyle (HairstyleTable row) and colour; all empty = an old record
+                           # its make-up (worn MakeupTable rows, AltUI's make-up colours): drawn into a target of its own - Jodi's skin
+                           # samples one global render target (Skin_RenderTarget), so a copied skin showed HER make-up. Kept false = an old record
+                           param("MakeupRows", "name", "array"), param("MakeupColors", "name", "map", value_type=S_LINCOLOR), param("MakeupKept", "bool"),
+                           # its voice: VoiceTable row (Character_Base.Play Voice With Name looks it up by Npc Name); None = an old record, gets one on its next spawn
+                           param("Voice", "name")]),
             blueprint(SG_FOL, "/Script/Engine.SaveGame", variables=[var("Followers", "struct:" + S_FOL, "array"), var("Counter", "int")])]

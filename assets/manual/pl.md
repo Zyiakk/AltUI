@@ -115,7 +115,8 @@ Wszystkie fryzury z gry i z modów.
 
 - Kliknięcie fryzury ją zakłada.
 - „Kolor włosów...” otwiera paletę gry; „Naturalne kolory włosów” daje 14 gotowych kolorów.
-- Prawy przycisk: przywróć kolor włosów, zmień nazwę, pokaż zawartość moda.
+- Prawy przycisk: dodaj do / usuń z ulubionych, przywróć kolor włosów, zmień nazwę, pokaż zawartość moda.
+- Ulubione są na górze, nad wszystkimi fryzurami.
 - Prawy przycisk na fryzurze z moda: „Zmień nazwę moda…”.
 
 ## Pozy {#poses}
@@ -166,6 +167,7 @@ Skóra, każdy rodzaj makijażu, oczy i presety wyglądu z gry.
 Mimika Jodi.
 
 - Suwaki dla min z gry (zrelaksowana, skupiona, uśmiech, ból, przestrach, zmęczona, cierpienie), spojrzenia i kształtów ust.
+- „Zamknięte oczy” (w Spojrzenie) zamyka oczy, od otwartych do całkiem zamkniętych; mruganie gry działa dalej jak zwykle. Tylko na przekonwertowanych ciałach, jak suwaki ciała.
 - Zaznaczony wpis zachowuje swoją wartość, także w pozach; niezaznaczony ustala animacja gry. „Ustal wszystkie” i „Wszystko grze” przełączają wszystkie naraz.
 - Miny są mieszane (razem najwyżej 100 %) albo sumowane.
 - Kafelek „+” zapisuje aktualną twarz ze zdjęciem. Prawy przycisk: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń.
@@ -186,7 +188,7 @@ Po lewej kategorie.
 - Kamera: pole widzenia, odległość, wysokość, kamera podąża za wybranym slotem.
 - Sterowanie: klawisz panelu, prędkość przewijania, wysokość kamery prawym przyciskiem myszy, jak wysoko kółko myszy podnosi ragdolla na jeden ząbek.
 - Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %); kucanie i skakanie pozostają bez zmian. „Zwolnienie wł.” włącza zwolnienie, „Tempo zwolnienia” (od 5 do 90 %, domyślnie 25 %) ustala, jak wolno płynie czas; pozycja szybkiego menu „Zwolnienie wł / wył” działa tak samo jak przełącznik. „Przywróć domyślne” przywraca prędkość chodu, biegu i zwolnienia. „Stanie” wybiera animację bezczynności Jodi: animacje gry (rozglądanie się, oglądanie paznokci, oglądanie nogi, ostrożnie, ranna, pozowanie) i zainstalowanych modów bezczynności (IdleAltUI_…).
-- Szybkie menu: klawisz, przezroczystość, co jest w kole.
+- Szybkie menu: klawisz, przezroczystość, co jest w kole, własne klawisze.
 - Kolory: każdy kolor panelu, przezroczystość, schematy kolorów zapisane pod nazwą.
 - Konflikty slotów: rozdzielenie par slotów gry (na przykład biustonosz i koszula), aby można było nosić oba elementy.
 - Karty: tekst, ikony lub oba na pasku kart; wyłączanie kart.
@@ -243,6 +245,7 @@ Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkaz
 - Postać, która nie jest nieśmiertelna, może polec. Zostaje na liście, a „Ożyw” przywraca ją z jej rzeczami. Postacie nigdy nie zmieniają się w zombie.
 - „Usuń” pyta o potwierdzenie; przedmioty i broń postaci trafiają do skrzyni, a ubrania do plecaka Jodi.
 - „Zmień stylizację” przechodzi do zakładki Stylizacje: kliknij stylizację, którą postać ma nosić.
+- Każda postać nosi makijaż swojej stylizacji i ma jeden z głosów NPC z gry. Postać utworzona w AltUI przed 2.2.0 pokazuje makijaż Jodi, dopóki „Zmień stylizację…” nie da jej własnego.
 
 AltUI przechowuje postacie we własnym zapisie (AltUI_Followers.sav); zapis gry nigdy ich nie zawiera. Podążający towarzysze przechodzą z Jodi do każdego poziomu i są po wczytaniu; czekający i NPC zostają w swoim poziomie na swoim miejscu.
 
@@ -259,7 +262,9 @@ Szybkie menu: „Towarzysz: za mną / czekaj tutaj” dotyczy towarzysza w polu 
 Przytrzymaj 4 (inny klawisz w Opcje › Szybkie menu), a wokół myszy otworzy się koło. Puść nad wpisem, aby go wykonać; puść na środku, aby nic nie robić.
 
 - Wpisy: stroje, stylizacje, twarze, presety wyglądu, pozy, karty, ustawienia innych modów i akcje: swobodna kamera, tryb fotograficzny, tryb ragdolli, kopia Jodi jako ragdoll, przełączanie wszystkich ragdolli między aktywnymi a zamrożonymi, aktywuj / zamroź tę na środku, usuń wszystkie ragdolle, własna prędkość wł. / wył.
-- Dalsze akcje: „Zwolnienie wł / wył”, „Zatrzymaj czas / dalej” (wszystko staje; panel i kamery działają dalej), „Ukryj / pokaż Jodi” (z ubraniem, włosami i bronią; w następnym poziomie znów jest widoczna) oraz rozkazy dla towarzyszy (zobacz „Towarzysze”).
+- Dalsze akcje: „Zwolnienie wł / wył”, „Zatrzymaj czas / dalej” (wszystko staje; panel i kamery działają dalej; także kamera trybu fotograficznego gry), „Ukryj / pokaż Jodi” (z ubraniem, włosami i bronią; w następnym poziomie znów jest widoczna) oraz rozkazy dla towarzyszy (zobacz „Towarzysze”).
+- „Ukryj / pokaż interfejs gry” wyłącza i włącza HUD gry, tak jak jej tryb fotograficzny.
+- Własne klawisze: w Opcje › Szybkie menu kliknij prawym przyciskiem pozycję w „Dostępne” i naciśnij klawisz – pozycja działa wtedy pod tym klawiszem, przy zamkniętym panelu, także w swobodnej kamerze i w trybie fotograficznym gry. Kliknięcie klawisza w wierszu przypisuje inny, ✕ go usuwa. Klawisz panelu, klawisz szybkiego menu i klawisz już przypisany są odrzucane; klawisz używany przez grę uruchamia oba działania.
 - Dodaje się je w Opcje › Szybkie menu albo prawym przyciskiem na kafelku, karcie lub wpisie moda („Dodaj do szybkiego menu”).
 - Kolejność w kole to kolejność listy w Opcje › Szybkie menu.
 

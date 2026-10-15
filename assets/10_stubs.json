@@ -2224,6 +2224,22 @@
     },
     {
      "name": "Load Player Makeup"
+    },
+    {
+     "name": "Update Makeup Texture Ex",
+     "inputs": [
+      {
+       "name": "tex",
+       "type": "object:/Script/Engine.TextureRenderTarget2D"
+      },
+      {
+       "name": "makeup data",
+       "type": "name",
+       "container": "map",
+       "value_type": "struct:/Game/Project/Tables/MakeupDataStruct",
+       "ref": true
+      }
+     ]
     }
    ]
   },
@@ -2354,6 +2370,10 @@
     {
      "name": "Order Location",
      "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "Npc Name",
+     "type": "name"
     }
    ],
    "functions": [
@@ -2658,6 +2678,10 @@
      "name": "Default Underwear",
      "type": "name",
      "container": "array"
+    },
+    {
+     "name": "photo mode camera",
+     "type": "object:/Script/Engine.Actor"
     }
    ],
    "functions": [
@@ -2678,6 +2702,24 @@
     },
     {
      "name": "Is In Photo Mode",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Show UI",
+     "inputs": [
+      {
+       "name": "show",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Is UI Visible",
      "outputs": [
       {
        "name": "yes",

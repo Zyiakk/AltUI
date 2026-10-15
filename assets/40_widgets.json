@@ -628,6 +628,32 @@
         }
        },
        {
+        "id": "btn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "PointerEvent_GetEffectingButton",
+        "in": {
+         "Input": "@entry.MouseEvent"
+        }
+       },
+       {
+        "id": "isr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@btn.ReturnValue",
+         "B": "RightMouseButton"
+        }
+       },
+       {
+        "id": "br",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isr.ReturnValue"
+        }
+       },
+       {
         "id": "gm",
         "kind": "get",
         "var": "Manager"
@@ -645,6 +671,26 @@
         "in": {
          "self": "@gm.Manager",
          "item": "@gi.Item"
+        }
+       },
+       {
+        "id": "gm2",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gi2",
+        "kind": "get",
+        "var": "Item"
+       },
+       {
+        "id": "kb",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Bind Begin",
+        "in": {
+         "self": "@gm2.Manager",
+         "item": "@gi2.Item"
         }
        },
        {
@@ -678,6 +724,12 @@
        [
         "entry",
         "b",
+        "br",
+        "kb",
+        "return"
+       ],
+       [
+        "br:else",
         "t",
         "return"
        ],
@@ -50881,6 +50933,29 @@
         }
        },
        {
+        "id": "t_LblKeyBinds_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColHead.ColHead"
+        }
+       },
+       {
+        "id": "t_LblKeyBinds_w",
+        "kind": "get",
+        "var": "LblKeyBinds"
+       },
+       {
+        "id": "t_LblKeyBinds",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblKeyBinds_w.LblKeyBinds",
+         "InColorAndOpacity": "@t_LblKeyBinds_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_LblQuickAvailable_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -50993,6 +51068,29 @@
         "in": {
          "self": "@t_LookFavHeader_w.LookFavHeader",
          "InColorAndOpacity": "@t_LookFavHeader_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_HairFavHeader_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColHead.ColHead"
+        }
+       },
+       {
+        "id": "t_HairFavHeader_w",
+        "kind": "get",
+        "var": "HairFavHeader"
+       },
+       {
+        "id": "t_HairFavHeader",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_HairFavHeader_w.HairFavHeader",
+         "InColorAndOpacity": "@t_HairFavHeader_sc.SlateColor"
         }
        },
        {
@@ -51375,6 +51473,29 @@
         }
        },
        {
+        "id": "t_KeyBindHint_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_KeyBindHint_w",
+        "kind": "get",
+        "var": "KeyBindHint"
+       },
+       {
+        "id": "t_KeyBindHint",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_KeyBindHint_w.KeyBindHint",
+         "InColorAndOpacity": "@t_KeyBindHint_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_AllHeader_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -51418,6 +51539,29 @@
         "in": {
          "self": "@t_LookAllHeader_w.LookAllHeader",
          "InColorAndOpacity": "@t_LookAllHeader_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_HairAllHeader_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_HairAllHeader_w",
+        "kind": "get",
+        "var": "HairAllHeader"
+       },
+       {
+        "id": "t_HairAllHeader",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_HairAllHeader_w.HairAllHeader",
+         "InColorAndOpacity": "@t_HairAllHeader_sc.SlateColor"
         }
        },
        {
@@ -56133,11 +56277,13 @@
         "t_KodexTitle",
         "t_LblQuickControl",
         "t_LblQuickInWheel",
+        "t_LblKeyBinds",
         "t_LblQuickAvailable",
         "t_BagWornHeader",
         "t_BagListHeader",
         "t_FavHeader",
         "t_LookFavHeader",
+        "t_HairFavHeader",
         "t_PoseFavHeader",
         "t_WeaponFavHeader",
         "t_LblTheme",
@@ -56154,8 +56300,10 @@
         "t_LblTabsHint",
         "t_ThemePresetsHint",
         "t_LblQuickKeyHint",
+        "t_KeyBindHint",
         "t_AllHeader",
         "t_LookAllHeader",
+        "t_HairAllHeader",
         "t_PoseAllHeader",
         "t_WeaponAllHeader",
         "t_WeaponModelHeader",
@@ -59707,6 +59855,209 @@
        [
         "a",
         "va"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Hair Fav",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "HairFavList"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.HairFavList"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Hair Fav",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "HairFavList"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.HairFavList",
+         "Content": "@entry.widget"
+        }
+       },
+       {
+        "id": "va",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBoxSlot",
+        "function": "SetVerticalAlignment",
+        "in": {
+         "self": "@a.ReturnValue",
+         "InVerticalAlignment": "VAlign_Fill"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ],
+       [
+        "a",
+        "va"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Hair Fav Visible",
+     "inputs": [
+      {
+       "name": "visible",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.visible"
+        }
+       },
+       {
+        "id": "g0",
+        "kind": "get",
+        "var": "HairFavHeader"
+       },
+       {
+        "id": "v0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g0.HairFavHeader",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "h0",
+        "kind": "get",
+        "var": "HairFavHeader"
+       },
+       {
+        "id": "c0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@h0.HairFavHeader",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "g1",
+        "kind": "get",
+        "var": "HairFavList"
+       },
+       {
+        "id": "v1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g1.HairFavList",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "h1",
+        "kind": "get",
+        "var": "HairFavList"
+       },
+       {
+        "id": "c1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@h1.HairFavList",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "g2",
+        "kind": "get",
+        "var": "HairAllHeader"
+       },
+       {
+        "id": "v2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g2.HairAllHeader",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "h2",
+        "kind": "get",
+        "var": "HairAllHeader"
+       },
+       {
+        "id": "c2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@h2.HairAllHeader",
+         "InVisibility": "Collapsed"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "v0",
+        "v1",
+        "v2"
+       ],
+       [
+        "b:else",
+        "c0",
+        "c1",
+        "c2"
        ]
       ]
      }
@@ -63838,6 +64189,104 @@
        [
         "entry",
         "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Key Binds",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "KeyBinds"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.KeyBinds"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Key Bind",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "KeyBinds"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.VerticalBox",
+        "function": "AddChildToVerticalBox",
+        "in": {
+         "self": "@g.KeyBinds",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Key Bind Hint",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "KeyBindHint"
+       },
+       {
+        "id": "s",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@g.KeyBindHint",
+         "InText": "@entry.text"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s"
        ]
       ]
      }
@@ -70035,6 +70484,18 @@
       {
        "name": "slowmoon",
        "type": "text"
+      },
+      {
+       "name": "hairfavorites",
+       "type": "text"
+      },
+      {
+       "name": "hairall",
+       "type": "text"
+      },
+      {
+       "name": "keybinds",
+       "type": "text"
       }
      ],
      "graph": {
@@ -71808,6 +72269,51 @@
          "self": "@gslowmoon.LblSlowMoOn",
          "InText": "@entry.slowmoon"
         }
+       },
+       {
+        "id": "ghairfavorites",
+        "kind": "get",
+        "var": "HairFavHeader"
+       },
+       {
+        "id": "shairfavorites",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ghairfavorites.HairFavHeader",
+         "InText": "@entry.hairfavorites"
+        }
+       },
+       {
+        "id": "ghairall",
+        "kind": "get",
+        "var": "HairAllHeader"
+       },
+       {
+        "id": "shairall",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ghairall.HairAllHeader",
+         "InText": "@entry.hairall"
+        }
+       },
+       {
+        "id": "gkeybinds",
+        "kind": "get",
+        "var": "LblKeyBinds"
+       },
+       {
+        "id": "skeybinds",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gkeybinds.LblKeyBinds",
+         "InText": "@entry.keybinds"
+        }
        }
       ],
       "links": [],
@@ -71931,7 +72437,10 @@
         "sscgrpglutes",
         "sragwheel",
         "sslowmo",
-        "sslowmoon"
+        "sslowmoon",
+        "shairfavorites",
+        "shairall",
+        "skeybinds"
        ]
       ]
      }
@@ -79929,6 +80438,20 @@
      "graph": {
       "nodes": [
        {
+        "id": "gmm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cm",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Close Menu",
+        "in": {
+         "self": "@gmm.Manager"
+        }
+       },
+       {
         "id": "gmc",
         "kind": "get",
         "var": "Manager"
@@ -79979,6 +80502,7 @@
       "exec": [
        [
         "entry",
+        "cm",
         "bc",
         "cn",
         "return"
@@ -80263,6 +80787,40 @@
               },
               "slot": {
                "Padding": "(Left=0,Top=0,Right=0,Bottom=15)"
+              }
+             },
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "HairFavHeader",
+              "props": {
+               "Text": "Favourites",
+               "Font": "(Size=25)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=0.95,G=0.8,B=0.3,A=1))"
+              },
+              "slot": {
+               "Padding": "(Left=0,Top=0,Right=0,Bottom=8)"
+              }
+             },
+             {
+              "class": "/Script/UMG.WrapBox",
+              "name": "HairFavList",
+              "props": {
+               "InnerSlotPadding": "(X=12,Y=12)"
+              },
+              "slot": {
+               "Padding": "(Left=0,Top=0,Right=0,Bottom=23)"
+              }
+             },
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "HairAllHeader",
+              "props": {
+               "Text": "All",
+               "Font": "(Size=25)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=0.7,G=0.7,B=0.7,A=1))"
+              },
+              "slot": {
+               "Padding": "(Left=0,Top=0,Right=0,Bottom=8)"
               }
              },
              {
@@ -86191,6 +86749,35 @@
                  {
                   "class": "/Script/UMG.VerticalBox",
                   "name": "QuickInWheel"
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "LblKeyBinds",
+                  "props": {
+                   "Text": "Own keys",
+                   "Font": "(Size=27)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))"
+                  },
+                  "slot": {
+                   "Padding": "(Left=0,Top=34,Right=0,Bottom=8)"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "KeyBindHint",
+                  "props": {
+                   "Text": "",
+                   "Font": "(Size=21)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+                   "AutoWrapText": true
+                  },
+                  "slot": {
+                   "Padding": "(Left=0,Top=0,Right=0,Bottom=11)"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.VerticalBox",
+                  "name": "KeyBinds"
                  },
                  {
                   "class": "/Script/UMG.TextBlock",

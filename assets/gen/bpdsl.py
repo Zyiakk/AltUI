@@ -231,10 +231,13 @@ def struct(path, members):
 def enum(path, values): return {"type": "enum", "path": path, "values": list(values)}
 
 
-def animblueprint(path, skeleton, variables, nodes, snapshot_var=None):
+def animblueprint(path, skeleton, variables, nodes, snapshot_var=None, additive=()):
     """AnimBlueprint: variables + a chain of ModifyBone nodes (component space), see BPGenAssets MakeAnimBlueprint. Without snapshot_var a
-    post-process ABP (Input Pose first); with it a standalone ABP whose pose comes from that PoseSnapshot variable (Pose Snapshot node)."""
+    post-process ABP (Input Pose first); with it a standalone ABP whose pose comes from that PoseSnapshot variable (Pose Snapshot node).
+    additive = [(animation path, float variable, time)]: Apply Additive nodes before the bone nodes, the animation held at `time`
+    (sequence evaluator), alpha = the variable."""
     d = {"type": "animblueprint", "path": path, "skeleton": skeleton, "variables": list(variables), "nodes": list(nodes)}
+    if additive: d["additive"] = [{"asset": a, "alpha": v, "time": t} for a, v, t in additive]
     if snapshot_var: d.update(source="snapshot", snapshot_var=snapshot_var)
     return d
 
@@ -244,9 +247,10 @@ def skeleton_stub(path):
     return {"type": "skeleton", "path": path}
 
 
-def animsequence_stub(path, skeleton):
-    """A stand-in for a game animation the kit lacks (BPGenAssets MakeAnimSequenceStub): empty, only created when nothing is there, never packed."""
-    return {"type": "animsequence_stub", "path": path, "skeleton": skeleton}
+def animsequence_stub(path, skeleton, additive=False):
+    """A stand-in for a game animation the kit lacks (BPGenAssets MakeAnimSequenceStub): empty, only created when nothing is there, never packed.
+    additive: marked as a local-space additive (for an Apply Additive node)."""
+    return {"type": "animsequence_stub", "path": path, "skeleton": skeleton, **({"additive": True} if additive else {})}
 
 
 def animstub(path, skeleton, players):

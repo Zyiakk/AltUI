@@ -121,6 +121,7 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 
 * All hairstyles and the hair colour.
 * 14 natural hair colours as presets; factory reset.
+* Favourite hairstyles at the top (right click, "Add to favourites").
 
 ### Poses
 
@@ -170,6 +171,7 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   gaze and mouth shapes.
 * A ticked entry keeps its value, also during poses; an unticked one is left to the game's animation.
 * Expressions blended (at most 100 % together) or added up; "Close mouth".
+* "Eyes closed": from open to fully shut, on converted bodies (like the body sliders).
 * Saved faces with a photo; "View content" lists their values.
 * Your own order: right click moves a saved face left, right, to the start or to the end.
 
@@ -194,7 +196,8 @@ In categories, chosen in a list on the left:
 * **Movement:** Jodi's own walk and run speed (50–200 %; crouching and jumping stay as they are), slow motion and its
   speed, and how she stands: the game's usual idle, six other idle animations of the game, or an idle mod converted with
   `idlepak.pyz` – see [Idle mods](#idle-mods).
-* **Quick menu:** its key, its opacity and the items in the wheel.
+* **Quick menu:** its key, its opacity, the items in the wheel, and **own keys**: right click any available item and press
+  a key – it then runs on that key with the panel closed, also in the free camera and the game's photo mode.
 * **Colours:** colour scheme and opacity; schemes saved under a name.
 * **Slot conflicts:** free the game's slot pairs, such as bra and shirt.
 * **Tabs:** switch tabs off; the tab bar shows text, icons or both, icon left or right of the text.
@@ -236,6 +239,7 @@ In categories, chosen in a list on the left:
   menu has the amount row as in the Inventory tab.
 * A figure's clothes are real pieces, as with the game's own NPCs: they take damage, tear off and show up in the game's
   NPC inventory. In the tab they are tiles to take off, give or repair.
+* Each figure wears the make-up of its look and has one of the game's NPC voices.
 * Figures are kept in `AltUI_Followers.sav`, never in the game's save.
 
 ### Codex
@@ -268,8 +272,9 @@ In categories, chosen in a list on the left:
   * **ragdolls mode** – the panel goes away and the camera is free (W A S D / Q E, Shift + wheel sets the speed, drag on
     nothing turns it); figures under the mouse are moved and posed as beside the panel; Esc or B goes back.
 * **Quick menu:** hold **4** (changeable) for a wheel of the items you picked – in Options, or with a right click on a
-  tile, a tab or a mod's entry – and let go on one to run it. It also offers slow motion, stop time, hide Jodi, orders
-  for followers and the buttons and toggles of mods in the Mods tab.
+  tile, a tab or a mod's entry – and let go on one to run it. It also offers slow motion, stop time (also in the game's
+  photo mode, whose camera keeps moving), hide Jodi, hide the game's UI, orders for followers and the buttons and toggles
+  of mods in the Mods tab. Any of these can also get a key of its own (Options › Quick menu, "Own keys").
 * **Main menu:** **B** opens a small menu – the menu scenes, the loading scene, the next camera, and hiding the game's
   menu.
 

@@ -1026,6 +1026,29 @@
      "name": "HairColor",
      "type": "struct:/Script/CoreUObject.LinearColor",
      "internal_name": "HairColor_48_63211E58861DC9536162E52F3AC285CA"
+    },
+    {
+     "name": "MakeupRows",
+     "type": "name",
+     "container": "array",
+     "internal_name": "MakeupRows_50_EDDB495E44B7CB7D0980CF84DCBD69DD"
+    },
+    {
+     "name": "MakeupColors",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Script/CoreUObject.LinearColor",
+     "internal_name": "MakeupColors_52_F604490D54E8F3125B1CC657E3E8705D"
+    },
+    {
+     "name": "MakeupKept",
+     "type": "bool",
+     "internal_name": "MakeupKept_54_A840F87EC5F258D6DF9C98ACFBFC1986"
+    },
+    {
+     "name": "Voice",
+     "type": "name",
+     "internal_name": "Voice_56_2651F36FFE9095DB8A08C98C4E75DADE"
     }
    ]
   },
@@ -5790,6 +5813,15 @@
      "pl": "Góra ↔ dół",
      "fr": "Haut ↔ bas"
     },
+    "Face_EyesClosed": {
+     "en": "Eyes closed",
+     "de": "Augen geschlossen",
+     "zh": "闭眼",
+     "ru": "Глаза закрыты",
+     "es": "Ojos cerrados",
+     "pl": "Zamknięte oczy",
+     "fr": "Yeux fermés"
+    },
     "Face_MouthAH": {
      "en": "A (open)",
      "de": "A (offen)",
@@ -6041,6 +6073,42 @@
      "es": "Esa es la tecla del panel.",
      "pl": "To klawisz panelu.",
      "fr": "C'est la touche du panneau."
+    },
+    "Lbl_KeyBinds": {
+     "en": "Own keys",
+     "de": "Eigene Tasten",
+     "zh": "自定义按键",
+     "ru": "Свои клавиши",
+     "es": "Teclas propias",
+     "pl": "Własne klawisze",
+     "fr": "Touches personnelles"
+    },
+    "Lbl_BindHelp": {
+     "en": "Right-click an item under “Available” to give it a key of its own. The keys work with the panel closed, also in the free camera and the photo mode. A key the game uses itself triggers both.",
+     "de": "Rechtsklick auf einen Eintrag unter „Verfügbar“ gibt ihm eine eigene Taste. Die Tasten wirken bei geschlossenem Panel, auch in der freien Kamera und im Fotomodus. Eine Taste, die das Spiel selbst nutzt, löst beides aus.",
+     "zh": "右键点击“可用”下的条目，为其设置专属按键。按键在面板关闭时生效，在自由镜头和拍照模式中同样有效。游戏自身使用的按键会同时触发两者。",
+     "ru": "Щелчок правой кнопкой по пункту в разделе «Доступно» назначает ему свою клавишу. Клавиши работают при закрытой панели, также в свободной камере и фоторежиме. Клавиша, которую использует сама игра, сработает в обоих местах.",
+     "es": "Clic derecho en un elemento de «Disponible» para darle una tecla propia. Las teclas funcionan con el panel cerrado, también en la cámara libre y el modo foto. Una tecla que el juego ya usa activa ambas cosas.",
+     "pl": "Kliknij prawym przyciskiem pozycję w „Dostępne”, aby nadać jej własny klawisz. Klawisze działają przy zamkniętym panelu, także w wolnej kamerze i trybie zdjęć. Klawisz używany przez grę uruchomi oba działania.",
+     "fr": "Clic droit sur un élément sous « Disponible » pour lui donner sa propre touche. Les touches fonctionnent panneau fermé, aussi en caméra libre et en mode photo. Une touche que le jeu utilise déclenche les deux."
+    },
+    "Lbl_BindPress": {
+     "en": "Press a key for “%s” … (Esc: cancel)",
+     "de": "Taste für „%s“ drücken … (Esc: abbrechen)",
+     "zh": "请为“%s”按一个键 …（Esc：取消）",
+     "ru": "Нажмите клавишу для «%s» … (Esc: отмена)",
+     "es": "Pulsa una tecla para «%s» … (Esc: cancelar)",
+     "pl": "Naciśnij klawisz dla „%s” … (Esc: anuluj)",
+     "fr": "Appuyez sur une touche pour « %s » … (Échap : annuler)"
+    },
+    "Lbl_BindTaken": {
+     "en": "That key is already taken (panel key, quick menu key or another own key).",
+     "de": "Diese Taste ist schon belegt (Panel-Taste, Schnellmenü-Taste oder eine andere eigene Taste).",
+     "zh": "该按键已被占用（面板键、快捷菜单键或其他自定义按键）。",
+     "ru": "Эта клавиша уже занята (клавиша панели, быстрого меню или другая своя клавиша).",
+     "es": "Esa tecla ya está ocupada (tecla del panel, del menú rápido u otra tecla propia).",
+     "pl": "Ten klawisz jest już zajęty (klawisz panelu, menu szybkiego lub inny własny klawisz).",
+     "fr": "Cette touche est déjà prise (touche du panneau, du menu rapide ou une autre touche personnelle)."
     },
     "QuickGrp_Camera": {
      "en": "Camera and panel",
@@ -6419,6 +6487,15 @@
      "es": "Ocultar / mostrar a Jodi",
      "pl": "Ukryj / pokaż Jodi",
      "fr": "Masquer / afficher Jodi"
+    },
+    "Quick_HideUI": {
+     "en": "Hide / show the game's UI",
+     "de": "Spiel-UI aus- / einblenden",
+     "zh": "隐藏 / 显示游戏界面",
+     "ru": "Скрыть / показать интерфейс игры",
+     "es": "Ocultar / mostrar la interfaz del juego",
+     "pl": "Ukryj / pokaż interfejs gry",
+     "fr": "Masquer / afficher l'interface du jeu"
     },
     "Lbl_RunSpeed": {
      "en": "Run speed",
@@ -7096,13 +7173,13 @@
      "fr": "Coiffure"
     },
     "Man_hair_B": {
-     "en": "All hairstyles from the game and from mods.\n\n• Click a hairstyle to wear it.\n• \"Hair colour...\" opens the game's palette; \"Natural hair colours\" shows 14 ready-made colours.\n• Right click: reset hair colour, rename, view mod content.\n• Right click on a hairstyle from a mod: \"Rename mod…\".",
-     "de": "Alle Frisuren aus dem Spiel und aus Mods.\n\n• Klick auf eine Frisur setzt sie auf.\n• „Haarfarbe...“ öffnet die Palette des Spiels; „Natürliche Haarfarben“ zeigt 14 fertige Farben.\n• Rechtsklick: Haarfarbe zurücksetzen, umbenennen, Mod-Inhalt anzeigen.\n• Rechtsklick auf eine Frisur aus einer Mod: „Mod umbenennen…“.",
-     "zh": "游戏和模组中的所有发型。\n\n• 点击发型即可换上。\n• “发色...”打开游戏调色板；“自然发色”提供 14 种现成颜色。\n• 右键：重置发色、重命名、查看模组内容。\n• 右键来自模组的发型：“重命名模组…”。",
-     "ru": "Все прически из игры и из модов.\n\n• Щелчок по прическе применяет ее.\n• «Цвет волос...» открывает палитру игры; «Естественные цвета волос» дает 14 готовых цветов.\n• Правый щелчок: сбросить цвет волос, переименовать, содержимое мода.\n• Правый щелчок по прическе из мода: «Переименовать мод…».",
-     "es": "Todos los peinados del juego y de los mods.\n\n• Un clic en un peinado lo pone.\n• «Color de pelo...» abre la paleta del juego; «Colores de pelo naturales» ofrece 14 colores listos.\n• Clic derecho: restablecer color de pelo, renombrar, ver contenido del mod.\n• Clic derecho en un peinado de un mod: «Renombrar mod…».",
-     "pl": "Wszystkie fryzury z gry i z modów.\n\n• Kliknięcie fryzury ją zakłada.\n• „Kolor włosów...” otwiera paletę gry; „Naturalne kolory włosów” daje 14 gotowych kolorów.\n• Prawy przycisk: przywróć kolor włosów, zmień nazwę, pokaż zawartość moda.\n• Prawy przycisk na fryzurze z moda: „Zmień nazwę moda…”.",
-     "fr": "Toutes les coiffures du jeu et des mods.\n\n• Un clic sur une coiffure la met.\n• « Couleur des cheveux... » ouvre la palette du jeu ; « Couleurs naturelles » propose 14 couleurs prêtes.\n• Clic droit : réinitialiser la couleur des cheveux, renommer, voir le contenu du mod.\n• Clic droit sur une coiffure issue d'un mod : « Renommer le mod… »."
+     "en": "All hairstyles from the game and from mods.\n\n• Click a hairstyle to wear it.\n• \"Hair colour...\" opens the game's palette; \"Natural hair colours\" shows 14 ready-made colours.\n• Right click: add to / remove from favourites, reset hair colour, rename, view mod content.\n• Favourites stand at the top, above all hairstyles.\n• Right click on a hairstyle from a mod: \"Rename mod…\".",
+     "de": "Alle Frisuren aus dem Spiel und aus Mods.\n\n• Klick auf eine Frisur setzt sie auf.\n• „Haarfarbe...“ öffnet die Palette des Spiels; „Natürliche Haarfarben“ zeigt 14 fertige Farben.\n• Rechtsklick: Favorit hinzufügen / entfernen, Haarfarbe zurücksetzen, umbenennen, Mod-Inhalt anzeigen.\n• Favoriten stehen oben, über allen Frisuren.\n• Rechtsklick auf eine Frisur aus einer Mod: „Mod umbenennen…“.",
+     "zh": "游戏和模组中的所有发型。\n\n• 点击发型即可换上。\n• “发色...”打开游戏调色板；“自然发色”提供 14 种现成颜色。\n• 右键：加入收藏 / 取消收藏、重置发色、重命名、查看模组内容。\n• 收藏的发型排在最上方，位于所有发型之上。\n• 右键来自模组的发型：“重命名模组…”。",
+     "ru": "Все прически из игры и из модов.\n\n• Щелчок по прическе применяет ее.\n• «Цвет волос...» открывает палитру игры; «Естественные цвета волос» дает 14 готовых цветов.\n• Правый щелчок: в избранное / убрать из избранного, сбросить цвет волос, переименовать, содержимое мода.\n• Избранные стоят наверху, над всеми прическами.\n• Правый щелчок по прическе из мода: «Переименовать мод…».",
+     "es": "Todos los peinados del juego y de los mods.\n\n• Un clic en un peinado lo pone.\n• «Color de pelo...» abre la paleta del juego; «Colores de pelo naturales» ofrece 14 colores listos.\n• Clic derecho: añadir a / quitar de favoritos, restablecer color de pelo, renombrar, ver contenido del mod.\n• Los favoritos están arriba, encima de todos los peinados.\n• Clic derecho en un peinado de un mod: «Renombrar mod…».",
+     "pl": "Wszystkie fryzury z gry i z modów.\n\n• Kliknięcie fryzury ją zakłada.\n• „Kolor włosów...” otwiera paletę gry; „Naturalne kolory włosów” daje 14 gotowych kolorów.\n• Prawy przycisk: dodaj do / usuń z ulubionych, przywróć kolor włosów, zmień nazwę, pokaż zawartość moda.\n• Ulubione są na górze, nad wszystkimi fryzurami.\n• Prawy przycisk na fryzurze z moda: „Zmień nazwę moda…”.",
+     "fr": "Toutes les coiffures du jeu et des mods.\n\n• Un clic sur une coiffure la met.\n• « Couleur des cheveux... » ouvre la palette du jeu ; « Couleurs naturelles » propose 14 couleurs prêtes.\n• Clic droit : ajouter aux / retirer des favoris, réinitialiser la couleur des cheveux, renommer, voir le contenu du mod.\n• Les favoris sont en haut, au-dessus de toutes les coiffures.\n• Clic droit sur une coiffure issue d'un mod : « Renommer le mod… »."
     },
     "Man_poses_T": {
      "en": "Poses",
@@ -7186,13 +7263,13 @@
      "fr": "Visage"
     },
     "Man_face_B": {
-     "en": "Jodi's facial expression.\n\n• Sliders for the game's expressions (relaxed, focused, smile, pain, fright, tired, suffering), gaze and mouth shapes.\n• A ticked entry keeps its value, also in poses; an unticked one is left to the game's animation. \"Fix all\" and \"All to the game\" switch every entry at once.\n• Expressions are blended (together at most 100 %) or added up.\n• The \"+\" tile saves the current face with a photo. Right click: apply, view content, rename, update, move, delete.",
-     "de": "Jodis Gesichtsausdruck.\n\n• Regler für die Ausdrücke des Spiels (entspannt, konzentriert, Lächeln, Schmerz, Schreck, müde, leidend), Blick und Mundformen.\n• Ein angehaktes Feld behält seinen Wert, auch in Posen; ein nicht angehaktes bestimmt die Animation des Spiels. „Alle festlegen“ und „Alle ans Spiel“ schalten alle auf einmal.\n• Ausdrücke werden überblendet (zusammen höchstens 100 %) oder addiert.\n• Die „+“-Kachel speichert das aktuelle Gesicht mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen.",
-     "zh": "朱蒂的面部表情。\n\n• 游戏表情（放松、专注、微笑、痛苦、惊吓、疲惫、受苦）、视线和嘴型的滑块。\n• 勾选的条目会保持其数值，在姿势中也一样；未勾选的由游戏动画决定。“全部固定”和“全部交给游戏”一次切换所有条目。\n• 表情可以混合（合计最多 100 %）或叠加。\n• “+”图块会保存当前面部并拍照。右键：应用、查看内容、重命名、更新、移动、删除。",
-     "ru": "Выражение лица Джоди.\n\n• Ползунки для выражений игры (расслабленное, сосредоточенное, улыбка, боль, испуг, усталость, страдание), взгляда и формы рта.\n• Отмеченная запись сохраняет свое значение, в том числе в позах; неотмеченную определяет анимация игры. «Закрепить все» и «Всё игре» переключают все сразу.\n• Выражения смешиваются (вместе не больше 100 %) или складываются.\n• Плитка «+» сохраняет текущее лицо с фото. Правый щелчок: применить, показать содержимое, переименовать, обновить, переместить, удалить.",
-     "es": "La expresión facial de Jodi.\n\n• Controles para las expresiones del juego (relajada, concentrada, sonrisa, dolor, susto, cansada, sufrimiento), la mirada y las formas de la boca.\n• Una entrada marcada conserva su valor, también en las poses; una sin marcar la decide la animación del juego. «Fijar todo» y «Todo al juego» cambian todas a la vez.\n• Las expresiones se mezclan (juntas como máximo 100 %) o se suman.\n• La casilla «+» guarda el rostro actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar.",
-     "pl": "Mimika Jodi.\n\n• Suwaki dla min z gry (zrelaksowana, skupiona, uśmiech, ból, przestrach, zmęczona, cierpienie), spojrzenia i kształtów ust.\n• Zaznaczony wpis zachowuje swoją wartość, także w pozach; niezaznaczony ustala animacja gry. „Ustal wszystkie” i „Wszystko grze” przełączają wszystkie naraz.\n• Miny są mieszane (razem najwyżej 100 %) albo sumowane.\n• Kafelek „+” zapisuje aktualną twarz ze zdjęciem. Prawy przycisk: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń.",
-     "fr": "L'expression du visage de Jodi.\n\n• Curseurs pour les expressions du jeu (détendue, concentrée, sourire, douleur, frayeur, fatiguée, souffrance), le regard et les formes de la bouche.\n• Une entrée cochée garde sa valeur, même pendant les poses ; une entrée non cochée est laissée à l'animation du jeu. « Tout fixer » et « Tout au jeu » basculent toutes les entrées à la fois.\n• Les expressions sont mélangées (ensemble au plus 100 %) ou additionnées.\n• La tuile « + » enregistre le visage actuel avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer."
+     "en": "Jodi's facial expression.\n\n• Sliders for the game's expressions (relaxed, focused, smile, pain, fright, tired, suffering), gaze and mouth shapes.\n• \"Eyes closed\" (under Gaze) closes the eyes, from open to fully shut; the game's own blinking goes on as before. Only on converted bodies, like the body sliders.\n• A ticked entry keeps its value, also in poses; an unticked one is left to the game's animation. \"Fix all\" and \"All to the game\" switch every entry at once.\n• Expressions are blended (together at most 100 %) or added up.\n• The \"+\" tile saves the current face with a photo. Right click: apply, view content, rename, update, move, delete.",
+     "de": "Jodis Gesichtsausdruck.\n\n• Regler für die Ausdrücke des Spiels (entspannt, konzentriert, Lächeln, Schmerz, Schreck, müde, leidend), Blick und Mundformen.\n• „Augen geschlossen“ (unter Blick) schließt die Augen, von offen bis ganz zu; das Blinzeln des Spiels läuft wie gewohnt weiter. Nur mit konvertierten Bodies, wie die Körper-Regler.\n• Ein angehaktes Feld behält seinen Wert, auch in Posen; ein nicht angehaktes bestimmt die Animation des Spiels. „Alle festlegen“ und „Alle ans Spiel“ schalten alle auf einmal.\n• Ausdrücke werden überblendet (zusammen höchstens 100 %) oder addiert.\n• Die „+“-Kachel speichert das aktuelle Gesicht mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen.",
+     "zh": "朱蒂的面部表情。\n\n• 游戏表情（放松、专注、微笑、痛苦、惊吓、疲惫、受苦）、视线和嘴型的滑块。\n• “闭眼”（在“视线”下）让眼睛从睁开到完全闭上；游戏自身的眨眼照常进行。仅适用于已转换的身体，与身体滑块相同。\n• 勾选的条目会保持其数值，在姿势中也一样；未勾选的由游戏动画决定。“全部固定”和“全部交给游戏”一次切换所有条目。\n• 表情可以混合（合计最多 100 %）或叠加。\n• “+”图块会保存当前面部并拍照。右键：应用、查看内容、重命名、更新、移动、删除。",
+     "ru": "Выражение лица Джоди.\n\n• Ползунки для выражений игры (расслабленное, сосредоточенное, улыбка, боль, испуг, усталость, страдание), взгляда и формы рта.\n• «Глаза закрыты» (во «Взгляде») закрывает глаза — от открытых до полностью закрытых; моргание игры продолжается как обычно. Только на конвертированных телах, как ползунки тела.\n• Отмеченная запись сохраняет свое значение, в том числе в позах; неотмеченную определяет анимация игры. «Закрепить все» и «Всё игре» переключают все сразу.\n• Выражения смешиваются (вместе не больше 100 %) или складываются.\n• Плитка «+» сохраняет текущее лицо с фото. Правый щелчок: применить, показать содержимое, переименовать, обновить, переместить, удалить.",
+     "es": "La expresión facial de Jodi.\n\n• Controles para las expresiones del juego (relajada, concentrada, sonrisa, dolor, susto, cansada, sufrimiento), la mirada y las formas de la boca.\n• «Ojos cerrados» (en Mirada) cierra los ojos, de abiertos a del todo cerrados; el parpadeo propio del juego sigue como siempre. Solo con cuerpos convertidos, como los controles del cuerpo.\n• Una entrada marcada conserva su valor, también en las poses; una sin marcar la decide la animación del juego. «Fijar todo» y «Todo al juego» cambian todas a la vez.\n• Las expresiones se mezclan (juntas como máximo 100 %) o se suman.\n• La casilla «+» guarda el rostro actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar.",
+     "pl": "Mimika Jodi.\n\n• Suwaki dla min z gry (zrelaksowana, skupiona, uśmiech, ból, przestrach, zmęczona, cierpienie), spojrzenia i kształtów ust.\n• „Zamknięte oczy” (w Spojrzenie) zamyka oczy, od otwartych do całkiem zamkniętych; mruganie gry działa dalej jak zwykle. Tylko na przekonwertowanych ciałach, jak suwaki ciała.\n• Zaznaczony wpis zachowuje swoją wartość, także w pozach; niezaznaczony ustala animacja gry. „Ustal wszystkie” i „Wszystko grze” przełączają wszystkie naraz.\n• Miny są mieszane (razem najwyżej 100 %) albo sumowane.\n• Kafelek „+” zapisuje aktualną twarz ze zdjęciem. Prawy przycisk: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń.",
+     "fr": "L'expression du visage de Jodi.\n\n• Curseurs pour les expressions du jeu (détendue, concentrée, sourire, douleur, frayeur, fatiguée, souffrance), le regard et les formes de la bouche.\n• « Yeux fermés » (sous Regard) ferme les yeux, d'ouverts à complètement fermés ; le clignement des yeux du jeu continue comme d'habitude. Seulement avec les corps convertis, comme les curseurs du corps.\n• Une entrée cochée garde sa valeur, même pendant les poses ; une entrée non cochée est laissée à l'animation du jeu. « Tout fixer » et « Tout au jeu » basculent toutes les entrées à la fois.\n• Les expressions sont mélangées (ensemble au plus 100 %) ou additionnées.\n• La tuile « + » enregistre le visage actuel avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer."
     },
     "Man_mods_T": {
      "en": "Mods",
@@ -7222,13 +7299,13 @@
      "fr": "Paramètres"
     },
     "Man_options_B": {
-     "en": "The categories are on the left.\n\n• General: language, how much of the screen stays free for Jodi, underwear may be taken off, how items you do not own are shown, the Codex switch for the encyclopedia, the \"All items\" catalogue and \"Auto-equip weapons\" for the Inventory tab.\n• Tiles: tile size, own sizes for outfit, look and ragdoll tiles, pieces per outfit tile, no limit on long lists, tooltip details, the tile size of the Inventory tab.\n• Groups: merge groups or mods with the same name, length of group names, height of the chip area, chip search.\n• Camera: field of view, distance, height, camera follows the chosen slot.\n• Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.\n• Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. \"Slow motion on\" switches slow motion, \"Slow motion speed\" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry \"Slow motion on / off\" does the same as the switch. \"Reset to default\" sets walk, run and slow motion speed back. \"Standing\" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).\n• Quick menu: its key, its opacity, what is in the wheel.\n• Colours: every panel colour, opacities, colour schemes saved under a name.\n• Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn.\n• Tabs: text, icons or both in the tab bar; switch tabs off.",
-     "de": "Links die Kategorien.\n\n• Allgemein: Sprache, wie viel vom Bildschirm für Jodi frei bleibt, Unterwäsche darf ausgezogen werden, wie Teile ohne Besitz erscheinen, der Kodex-Schalter für die Enzyklopädie, der Katalog „Alle Items“ und „Waffen automatisch ausrüsten“ für den Reiter Inventar.\n• Kacheln: Kachelgröße, eigene Größen für Outfit-, Look- und Ragdoll-Kacheln, Teile pro Outfit-Kachel, keine Grenze bei langen Listen, Tooltip-Angaben, die Kachelgröße des Reiters Inventar.\n• Gruppen: Gruppen oder Mods gleichen Namens zusammenfassen, Länge der Gruppennamen, Höhe des Chip-Bereichs, Chip-Suche.\n• Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot.\n• Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.\n• Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).\n• Schnellmenü: Taste, Deckkraft, was im Rad steht.\n• Farben: jede Farbe des Panels, Deckkraft, Farbschemata unter einem Namen gespeichert.\n• Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können.\n• Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten.",
-     "zh": "左边是分类。\n\n• 常规：语言、屏幕留给朱蒂的空间、允许脱下内衣、未拥有物品的显示方式、百科的资料库开关、物品栏标签页的“全部物品”目录和“自动装备武器”。\n• 图块：图块大小、搭配、造型和布娃娃图块的单独大小、每个搭配图块的物品数、长列表不设上限、提示框内容、物品栏标签页的图块大小。\n• 分组：合并同名的分组或模组、分组名称长度、标签区域高度、标签搜索。\n• 相机：视野、距离、高度、相机跟随所选部位。\n• 操作：面板按键、滚动速度、用右键调整相机高度、鼠标滚轮每格抬起布娃娃的高度。\n• 移动：朱蒂自定义的行走和奔跑速度（50 % 到 200 %）；蹲下和跳跃不受影响。“开启慢动作”开关慢动作，“慢动作速度”（5 % 到 90 %，默认 25 %）决定慢动作有多慢；快捷菜单项“慢动作 开 / 关”与该开关作用相同。“恢复默认”会重置行走、奔跑和慢动作速度。 “站立”选择朱蒂的待机动画：游戏自带的站立动画（环顾四周、看指甲、看腿、谨慎、受伤、摆姿势）以及已安装的待机模组（IdleAltUI_…）。\n• 快捷菜单：按键、不透明度、轮盘中的内容。\n• 颜色：面板的每种颜色、不透明度、以名称保存的配色方案。\n• 部位冲突：解除游戏的部位配对（例如胸罩和衬衫），以便两者都能穿上。\n• 标签页：标签栏显示文字、图标或两者；关闭标签页。",
-     "ru": "Слева категории.\n\n• Общие: язык, сколько экрана остается для Джоди, можно ли снимать белье, как показываются вещи, которых нет, переключатель Кодекса для энциклопедии, каталог «Все предметы» и «Автоматически экипировать оружие» для вкладки «Инвентарь».\n• Плитки: размер плиток, отдельные размеры для плиток комплектов, образов и рэгдоллов, вещей на плитке комплекта, без ограничения для длинных списков, данные подсказок, размер плиток вкладки «Инвентарь».\n• Группы: объединять группы или моды с одинаковым именем, длина имен групп, высота области фишек, поиск по фишкам.\n• Камера: угол обзора, расстояние, высота, камера следует за выбранным слотом.\n• Управление: клавиша панели, скорость прокрутки, высота камеры правой кнопкой мыши, насколько колесо мыши поднимает рэгдолл за один щелчок.\n• Движение: своя скорость ходьбы и бега Джоди (от 50 до 200 %); приседание и прыжки не меняются. «Замедление вкл.» включает замедление, «Скорость замедления» (от 5 до 90 %, по умолчанию 25 %) задает, насколько медленно идет время; пункт быстрого меню «Замедление вкл / выкл» делает то же, что и переключатель. «Сбросить по умолчанию» возвращает скорость ходьбы, бега и замедления. «Стойка» выбирает анимацию покоя Джоди: стойки игры (оглядывается, смотрит на ногти, смотрит на ногу, осторожно, раненая, позирует) и установленных модов покоя (IdleAltUI_…).\n• Быстрое меню: клавиша, непрозрачность, что стоит в колесе.\n• Цвета: каждый цвет панели, непрозрачность, цветовые схемы, сохраненные под именем.\n• Конфликты слотов: разделить пары слотов игры (например, бюстгальтер и рубашку), чтобы можно было носить обе вещи.\n• Вкладки: текст, значки или и то и другое в строке вкладок; отключение вкладок.",
-     "es": "A la izquierda, las categorías.\n\n• General: idioma, cuánto de la pantalla queda libre para Jodi, permitir quitar la ropa interior, cómo se muestran las prendas que no posees, el interruptor del Códice para la enciclopedia, el catálogo «Todos los objetos» y «Equipar armas automáticamente» para la pestaña Inventario.\n• Casillas: tamaño de las casillas, tamaños propios para casillas de conjuntos, looks y ragdolls, prendas por casilla de conjunto, sin límite en listas largas, datos de las descripciones emergentes, el tamaño de las casillas de la pestaña Inventario.\n• Grupos: unir grupos o mods con el mismo nombre, longitud de los nombres de grupo, altura de la zona de fichas, búsqueda de fichas.\n• Cámara: campo de visión, distancia, altura, la cámara sigue la ranura elegida.\n• Controles: tecla del panel, velocidad de desplazamiento, altura de la cámara con el botón derecho, cuánto levanta la rueda del ratón un ragdoll por paso.\n• Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta. «De pie» elige la animación en reposo de Jodi: las del juego (mirando alrededor, mirando las uñas, mirando la pierna, cautelosa, herida, posando) y las de los mods de reposo instalados (IdleAltUI_…).\n• Menú rápido: su tecla, su opacidad, lo que hay en la rueda.\n• Colores: cada color del panel, opacidades, esquemas de color guardados con un nombre.\n• Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas.\n• Pestañas: texto, iconos o ambos en la barra de pestañas; desactivar pestañas.",
-     "pl": "Po lewej kategorie.\n\n• Ogólne: język, ile ekranu zostaje wolne dla Jodi, czy można zdjąć bieliznę, jak wyglądają elementy, których nie masz, przełącznik Kodeksu dla encyklopedii, katalog „Wszystkie przedmioty” i „Automatycznie wyposażaj broń” dla karty Ekwipunek.\n• Kafelki: rozmiar kafelków, osobne rozmiary dla kafelków strojów, stylizacji i ragdolli, elementy na kafelku stroju, bez limitu dla długich list, dane w podpowiedziach, rozmiar kafelków karty Ekwipunek.\n• Grupy: łączenie grup lub modów o tej samej nazwie, długość nazw grup, wysokość obszaru chipów, wyszukiwanie chipów.\n• Kamera: pole widzenia, odległość, wysokość, kamera podąża za wybranym slotem.\n• Sterowanie: klawisz panelu, prędkość przewijania, wysokość kamery prawym przyciskiem myszy, jak wysoko kółko myszy podnosi ragdolla na jeden ząbek.\n• Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %); kucanie i skakanie pozostają bez zmian. „Zwolnienie wł.” włącza zwolnienie, „Tempo zwolnienia” (od 5 do 90 %, domyślnie 25 %) ustala, jak wolno płynie czas; pozycja szybkiego menu „Zwolnienie wł / wył” działa tak samo jak przełącznik. „Przywróć domyślne” przywraca prędkość chodu, biegu i zwolnienia. „Stanie” wybiera animację bezczynności Jodi: animacje gry (rozglądanie się, oglądanie paznokci, oglądanie nogi, ostrożnie, ranna, pozowanie) i zainstalowanych modów bezczynności (IdleAltUI_…).\n• Szybkie menu: klawisz, przezroczystość, co jest w kole.\n• Kolory: każdy kolor panelu, przezroczystość, schematy kolorów zapisane pod nazwą.\n• Konflikty slotów: rozdzielenie par slotów gry (na przykład biustonosz i koszula), aby można było nosić oba elementy.\n• Karty: tekst, ikony lub oba na pasku kart; wyłączanie kart.",
-     "fr": "À gauche, les catégories.\n\n• Général : langue, part de l'écran laissée libre pour Jodi, autoriser à retirer les sous-vêtements, affichage des objets non possédés, l'interrupteur du Codex pour l'encyclopédie, le catalogue « Tous les objets » et « Équiper automatiquement les armes » pour l'onglet Inventaire.\n• Tuiles : taille des tuiles, tailles propres pour les tuiles de tenues, de looks et de ragdolls, objets par tuile de tenue, pas de limite pour les longues listes, détails des info-bulles, la taille des tuiles de l'onglet Inventaire.\n• Groupes : fusionner les groupes ou les mods de même nom, longueur des noms de groupe, hauteur de la zone des puces, recherche dans les puces.\n• Caméra : champ de vision, distance, hauteur, la caméra suit l'emplacement choisi.\n• Commandes : touche du panneau, vitesse de défilement, hauteur de la caméra avec le bouton droit, de combien la molette soulève un ragdoll par cran.\n• Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti. « Debout » choisit l'animation au repos de Jodi : celles du jeu (regarde autour, regarde ses ongles, regarde sa jambe, prudente, blessée, pose) et celles des mods de repos installés (IdleAltUI_…).\n• Menu rapide : sa touche, son opacité, ce qui figure dans la roue.\n• Couleurs : chaque couleur du panneau, opacités, schémas de couleurs enregistrés sous un nom.\n• Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux.\n• Onglets : texte, icônes ou les deux dans la barre d'onglets ; désactiver des onglets."
+     "en": "The categories are on the left.\n\n• General: language, how much of the screen stays free for Jodi, underwear may be taken off, how items you do not own are shown, the Codex switch for the encyclopedia, the \"All items\" catalogue and \"Auto-equip weapons\" for the Inventory tab.\n• Tiles: tile size, own sizes for outfit, look and ragdoll tiles, pieces per outfit tile, no limit on long lists, tooltip details, the tile size of the Inventory tab.\n• Groups: merge groups or mods with the same name, length of group names, height of the chip area, chip search.\n• Camera: field of view, distance, height, camera follows the chosen slot.\n• Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.\n• Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. \"Slow motion on\" switches slow motion, \"Slow motion speed\" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry \"Slow motion on / off\" does the same as the switch. \"Reset to default\" sets walk, run and slow motion speed back. \"Standing\" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).\n• Quick menu: its key, its opacity, what is in the wheel, own keys.\n• Colours: every panel colour, opacities, colour schemes saved under a name.\n• Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn.\n• Tabs: text, icons or both in the tab bar; switch tabs off.",
+     "de": "Links die Kategorien.\n\n• Allgemein: Sprache, wie viel vom Bildschirm für Jodi frei bleibt, Unterwäsche darf ausgezogen werden, wie Teile ohne Besitz erscheinen, der Kodex-Schalter für die Enzyklopädie, der Katalog „Alle Items“ und „Waffen automatisch ausrüsten“ für den Reiter Inventar.\n• Kacheln: Kachelgröße, eigene Größen für Outfit-, Look- und Ragdoll-Kacheln, Teile pro Outfit-Kachel, keine Grenze bei langen Listen, Tooltip-Angaben, die Kachelgröße des Reiters Inventar.\n• Gruppen: Gruppen oder Mods gleichen Namens zusammenfassen, Länge der Gruppennamen, Höhe des Chip-Bereichs, Chip-Suche.\n• Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot.\n• Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.\n• Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).\n• Schnellmenü: Taste, Deckkraft, was im Rad steht, eigene Tasten.\n• Farben: jede Farbe des Panels, Deckkraft, Farbschemata unter einem Namen gespeichert.\n• Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können.\n• Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten.",
+     "zh": "左边是分类。\n\n• 常规：语言、屏幕留给朱蒂的空间、允许脱下内衣、未拥有物品的显示方式、百科的资料库开关、物品栏标签页的“全部物品”目录和“自动装备武器”。\n• 图块：图块大小、搭配、造型和布娃娃图块的单独大小、每个搭配图块的物品数、长列表不设上限、提示框内容、物品栏标签页的图块大小。\n• 分组：合并同名的分组或模组、分组名称长度、标签区域高度、标签搜索。\n• 相机：视野、距离、高度、相机跟随所选部位。\n• 操作：面板按键、滚动速度、用右键调整相机高度、鼠标滚轮每格抬起布娃娃的高度。\n• 移动：朱蒂自定义的行走和奔跑速度（50 % 到 200 %）；蹲下和跳跃不受影响。“开启慢动作”开关慢动作，“慢动作速度”（5 % 到 90 %，默认 25 %）决定慢动作有多慢；快捷菜单项“慢动作 开 / 关”与该开关作用相同。“恢复默认”会重置行走、奔跑和慢动作速度。 “站立”选择朱蒂的待机动画：游戏自带的站立动画（环顾四周、看指甲、看腿、谨慎、受伤、摆姿势）以及已安装的待机模组（IdleAltUI_…）。\n• 快捷菜单：按键、不透明度、轮盘中的内容、自定义按键。\n• 颜色：面板的每种颜色、不透明度、以名称保存的配色方案。\n• 部位冲突：解除游戏的部位配对（例如胸罩和衬衫），以便两者都能穿上。\n• 标签页：标签栏显示文字、图标或两者；关闭标签页。",
+     "ru": "Слева категории.\n\n• Общие: язык, сколько экрана остается для Джоди, можно ли снимать белье, как показываются вещи, которых нет, переключатель Кодекса для энциклопедии, каталог «Все предметы» и «Автоматически экипировать оружие» для вкладки «Инвентарь».\n• Плитки: размер плиток, отдельные размеры для плиток комплектов, образов и рэгдоллов, вещей на плитке комплекта, без ограничения для длинных списков, данные подсказок, размер плиток вкладки «Инвентарь».\n• Группы: объединять группы или моды с одинаковым именем, длина имен групп, высота области фишек, поиск по фишкам.\n• Камера: угол обзора, расстояние, высота, камера следует за выбранным слотом.\n• Управление: клавиша панели, скорость прокрутки, высота камеры правой кнопкой мыши, насколько колесо мыши поднимает рэгдолл за один щелчок.\n• Движение: своя скорость ходьбы и бега Джоди (от 50 до 200 %); приседание и прыжки не меняются. «Замедление вкл.» включает замедление, «Скорость замедления» (от 5 до 90 %, по умолчанию 25 %) задает, насколько медленно идет время; пункт быстрого меню «Замедление вкл / выкл» делает то же, что и переключатель. «Сбросить по умолчанию» возвращает скорость ходьбы, бега и замедления. «Стойка» выбирает анимацию покоя Джоди: стойки игры (оглядывается, смотрит на ногти, смотрит на ногу, осторожно, раненая, позирует) и установленных модов покоя (IdleAltUI_…).\n• Быстрое меню: клавиша, непрозрачность, что стоит в колесе, свои клавиши.\n• Цвета: каждый цвет панели, непрозрачность, цветовые схемы, сохраненные под именем.\n• Конфликты слотов: разделить пары слотов игры (например, бюстгальтер и рубашку), чтобы можно было носить обе вещи.\n• Вкладки: текст, значки или и то и другое в строке вкладок; отключение вкладок.",
+     "es": "A la izquierda, las categorías.\n\n• General: idioma, cuánto de la pantalla queda libre para Jodi, permitir quitar la ropa interior, cómo se muestran las prendas que no posees, el interruptor del Códice para la enciclopedia, el catálogo «Todos los objetos» y «Equipar armas automáticamente» para la pestaña Inventario.\n• Casillas: tamaño de las casillas, tamaños propios para casillas de conjuntos, looks y ragdolls, prendas por casilla de conjunto, sin límite en listas largas, datos de las descripciones emergentes, el tamaño de las casillas de la pestaña Inventario.\n• Grupos: unir grupos o mods con el mismo nombre, longitud de los nombres de grupo, altura de la zona de fichas, búsqueda de fichas.\n• Cámara: campo de visión, distancia, altura, la cámara sigue la ranura elegida.\n• Controles: tecla del panel, velocidad de desplazamiento, altura de la cámara con el botón derecho, cuánto levanta la rueda del ratón un ragdoll por paso.\n• Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta. «De pie» elige la animación en reposo de Jodi: las del juego (mirando alrededor, mirando las uñas, mirando la pierna, cautelosa, herida, posando) y las de los mods de reposo instalados (IdleAltUI_…).\n• Menú rápido: su tecla, su opacidad, lo que hay en la rueda, las teclas propias.\n• Colores: cada color del panel, opacidades, esquemas de color guardados con un nombre.\n• Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas.\n• Pestañas: texto, iconos o ambos en la barra de pestañas; desactivar pestañas.",
+     "pl": "Po lewej kategorie.\n\n• Ogólne: język, ile ekranu zostaje wolne dla Jodi, czy można zdjąć bieliznę, jak wyglądają elementy, których nie masz, przełącznik Kodeksu dla encyklopedii, katalog „Wszystkie przedmioty” i „Automatycznie wyposażaj broń” dla karty Ekwipunek.\n• Kafelki: rozmiar kafelków, osobne rozmiary dla kafelków strojów, stylizacji i ragdolli, elementy na kafelku stroju, bez limitu dla długich list, dane w podpowiedziach, rozmiar kafelków karty Ekwipunek.\n• Grupy: łączenie grup lub modów o tej samej nazwie, długość nazw grup, wysokość obszaru chipów, wyszukiwanie chipów.\n• Kamera: pole widzenia, odległość, wysokość, kamera podąża za wybranym slotem.\n• Sterowanie: klawisz panelu, prędkość przewijania, wysokość kamery prawym przyciskiem myszy, jak wysoko kółko myszy podnosi ragdolla na jeden ząbek.\n• Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %); kucanie i skakanie pozostają bez zmian. „Zwolnienie wł.” włącza zwolnienie, „Tempo zwolnienia” (od 5 do 90 %, domyślnie 25 %) ustala, jak wolno płynie czas; pozycja szybkiego menu „Zwolnienie wł / wył” działa tak samo jak przełącznik. „Przywróć domyślne” przywraca prędkość chodu, biegu i zwolnienia. „Stanie” wybiera animację bezczynności Jodi: animacje gry (rozglądanie się, oglądanie paznokci, oglądanie nogi, ostrożnie, ranna, pozowanie) i zainstalowanych modów bezczynności (IdleAltUI_…).\n• Szybkie menu: klawisz, przezroczystość, co jest w kole, własne klawisze.\n• Kolory: każdy kolor panelu, przezroczystość, schematy kolorów zapisane pod nazwą.\n• Konflikty slotów: rozdzielenie par slotów gry (na przykład biustonosz i koszula), aby można było nosić oba elementy.\n• Karty: tekst, ikony lub oba na pasku kart; wyłączanie kart.",
+     "fr": "À gauche, les catégories.\n\n• Général : langue, part de l'écran laissée libre pour Jodi, autoriser à retirer les sous-vêtements, affichage des objets non possédés, l'interrupteur du Codex pour l'encyclopédie, le catalogue « Tous les objets » et « Équiper automatiquement les armes » pour l'onglet Inventaire.\n• Tuiles : taille des tuiles, tailles propres pour les tuiles de tenues, de looks et de ragdolls, objets par tuile de tenue, pas de limite pour les longues listes, détails des info-bulles, la taille des tuiles de l'onglet Inventaire.\n• Groupes : fusionner les groupes ou les mods de même nom, longueur des noms de groupe, hauteur de la zone des puces, recherche dans les puces.\n• Caméra : champ de vision, distance, hauteur, la caméra suit l'emplacement choisi.\n• Commandes : touche du panneau, vitesse de défilement, hauteur de la caméra avec le bouton droit, de combien la molette soulève un ragdoll par cran.\n• Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti. « Debout » choisit l'animation au repos de Jodi : celles du jeu (regarde autour, regarde ses ongles, regarde sa jambe, prudente, blessée, pose) et celles des mods de repos installés (IdleAltUI_…).\n• Menu rapide : sa touche, son opacité, ce qui figure dans la roue, les touches personnelles.\n• Couleurs : chaque couleur du panneau, opacités, schémas de couleurs enregistrés sous un nom.\n• Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux.\n• Onglets : texte, icônes ou les deux dans la barre d'onglets ; désactiver des onglets."
     },
     "Man_manage_T": {
      "en": "Manage",
@@ -7294,13 +7371,13 @@
      "fr": "Compagnons"
     },
     "Man_followers_B": {
-     "en": "Looks as people in the game: a follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.\n\n• In the Looks tab, right click a look: \"Spawn as follower\" or \"Spawn as NPC\". The figure appears in front of Jodi wearing that look.\n• The tab \"Followers\" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: \"Follow me\", \"Wait here\", \"Bring here\", → NPC / → Follower, \"Active\", \"Invulnerable\" and \"...\" (rename, change look, revive, remove).\n• Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. \"...\" above a list folds it.\n• The context menu of a stack – Jodi's or the figure's – has the amount row as in the Inventory tab: \"Give 5\", \"Take 5\", into the box.\n• Clothes are real pieces of the figure, as with the game's NPCs: they take damage, can tear off and show up in the game's own NPC inventory, where you can swap them too. Under a figure, its pieces are tiles (a badge marks damaged ones): a click takes one off into Jodi's backpack; right click: repair with a sewing kit from Jodi's backpack, or repair all. In the backpack column, \"Clothes\" lists Jodi's pieces: a click gives one to the selected figure, which puts it on (her damage and colours go along).\n• \"Active\" off takes a figure out of the world, with everything it carries; on again, it comes back in front of Jodi.\n• A figure that is not invulnerable can fall. It stays in the list and \"Revive\" brings it back with what it carried. Figures never turn into zombies.\n• \"Remove\" asks first; the figure's items and guns go into the storage box, its clothes into Jodi's backpack.\n• \"Change look\" switches to the Looks tab: click the look the figure should wear.\n\nAltUI keeps the figures in a save of its own (AltUI_Followers.sav), the game's save never contains them. Following followers come along to every level and after loading; waiting followers and NPCs stay in their level at their place.\n\nQuick menu: \"Follower: follow me / wait here\" orders the follower in view, \"All followers: follow / wait\" all of them.",
-     "de": "Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befehle an; ein NPC bleibt, wo er ist, und verteidigt sich.\n\n• Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.\n• Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, „Unverwundbar“ und „...“ (umbenennen, Look ändern, wiederbeleben, entfernen).\n• Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.\n• Das Kontextmenü eines Stapels – bei Jodi oder der Figur – hat die Anzahl-Zeile wie im Reiter Inventar: „5 geben“, „5 nehmen“, in die Box.\n• Die Kleidung besteht aus echten Stücken der Figur wie bei den NPCs des Spiels: Sie bekommt Schaden, kann abreißen und steht im Inventar-Dialog des Spiels, wo man sie auch tauschen kann. Unter einer Figur stehen ihre Stücke als Kacheln (beschädigte mit Markierung): Ein Klick zieht eines aus und legt es in Jodis Rucksack; Rechtsklick: mit einem Nähset aus Jodis Rucksack reparieren oder alle reparieren. In der Rucksack-Spalte listet „Kleidung“ Jodis Stücke: Ein Klick gibt eines an die ausgewählte Figur, die es anzieht (Schaden und Farben gehen mit).\n• „Aktiv“ aus nimmt eine Figur mit allem, was sie trägt, aus der Welt; wieder an, kommt sie vor Jodi zurück.\n• Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.\n• „Entfernen“ fragt nach; Items und Schusswaffen der Figur kommen in die Box, ihre Kleidung in Jodis Rucksack.\n• „Look ändern“ wechselt in den Looks-Reiter: den Look anklicken, den die Figur tragen soll.\n\nAltUI speichert die Figuren in einem eigenen Spielstand (AltUI_Followers.sav), der Spielstand des Spiels enthält sie nie. Folgende Follower kommen in jedes Level mit und sind nach dem Laden da; wartende Follower und NPCs bleiben in ihrem Level an ihrem Platz.\n\nSchnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im Blick, „Alle Follower: folgen / warten“ für alle.",
-     "zh": "把造型变成游戏中的人物：跟随者与朱蒂同行、战斗并听从命令；NPC 留在原地并自卫。\n\n• 在造型页右键点击一个造型：“生成为跟随者”或“生成为NPC”。人物会以该造型出现在朱蒂面前。\n• “跟随者”页列出所有人物及其状态（跟随中、等待中、NPC、未激活、已倒下），以及按钮：“跟着我”、“在这里等”、“召回”、→ NPC / → 跟随者、“激活”、“无敌”和“...”（重命名、更换造型、复活、移除）。\n• 点击一行即可选中该人物。上方是背包（左）和箱子（右）：点击会把一件物品交给选中的人物，枪械连同涂装和配件一起。点击人物自己的图块会把物品还回背包；右键：全部，或放入箱子。列表上方的“...”可以折叠它。\n• 堆叠物品的右键菜单（朱蒂的或该人物的）与“物品栏”标签页一样有数量行：“给出 5 个”“取出 5 个”、放入物品箱。\n• 服装是人物的真实衣物，与游戏中的NPC一样：会受损、可能被撕掉，并显示在游戏自带的NPC物品栏中，也可以在那里交换。人物下方以图块显示其衣物（受损的有标记）：点击会脱下一件并放入朱蒂的背包；右键：用朱蒂背包里的针线包修补，或全部修补。背包一栏中的“服装”列出朱蒂的衣物：点击会把一件交给选中的人物，人物会穿上它（损坏程度和颜色一并带走）。\n• 关闭“激活”会把人物连同其所带物品一起移出世界；再次打开时它会回到朱蒂面前。\n• 没有无敌的人物可能倒下。它仍留在列表中，“复活”会带着它的物品把它带回来。人物永远不会变成僵尸。\n• “移除”会先确认；人物的物品和枪械会放入箱子，衣物放入朱蒂的背包。\n• “更换造型”会切换到造型页：点击人物要穿的造型。\n\nAltUI 把人物保存在自己的存档中（AltUI_Followers.sav），游戏存档里永远不会有它们。正在跟随的跟随者会随朱蒂进入每个关卡，读档后也在；等待中的跟随者和NPC留在各自关卡的原处。\n\n快捷菜单：“跟随者：跟着我 / 在这里等”作用于视野中的跟随者，“所有跟随者：跟随 / 等待”作用于全部。",
-     "ru": "Образы как персонажи игры: спутник идёт с Джоди, сражается и слушается приказов; NPC остаётся на месте и защищается.\n\n• Во вкладке «Образы» правый щелчок по образу: «Создать как спутника» или «Создать как NPC». Персонаж появляется перед Джоди в этом образе.\n• Вкладка «Спутники» показывает всех персонажей с их состоянием (следует, ждёт, NPC, неактивен, погиб) и кнопками: «За мной», «Жди здесь», «Позвать», → NPC / → Спутник, «Активен», «Неуязвим» и «...» (переименовать, сменить образ, воскресить, удалить).\n• Щелчок по строке выбирает персонажа. Наверху рюкзак (слева) и ящик (справа): щелчок передаёт предмет выбранному персонажу, оружие – вместе с покраской и обвесом. Щелчок по плитке персонажа возвращает предмет в рюкзак; правый щелчок: всё или в ящик. «...» над списком сворачивает его.\n• В контекстном меню стопки — у Джоди или у фигуры — есть строка количества, как во вкладке «Инвентарь»: «Дать 5», «Взять 5», в ящик.\n• Одежда — настоящие вещи персонажа, как у NPC игры: она получает повреждения, может порваться и видна в инвентаре NPC самой игры, где её тоже можно обменивать. Под персонажем его вещи показаны плитками (повреждённые отмечены): щелчок снимает вещь и кладёт её в рюкзак Джоди; правый щелчок: починить швейным набором из рюкзака Джоди или починить всё. В колонке рюкзака раздел «Одежда» показывает вещи Джоди: щелчок отдаёт вещь выбранному персонажу, и он её надевает (повреждения и цвета переходят вместе с ней).\n• «Активен» выключено убирает персонажа из мира со всем, что он несёт; при включении он возвращается перед Джоди.\n• Персонаж без неуязвимости может погибнуть. Он остаётся в списке, «Воскресить» возвращает его с вещами. Персонажи никогда не превращаются в зомби.\n• «Удалить» спрашивает подтверждение; предметы и оружие персонажа уходят в ящик, одежда — в рюкзак Джоди.\n• «Сменить образ» переходит во вкладку «Образы»: щёлкните образ, который должен носить персонаж.\n\nAltUI хранит персонажей в собственном сохранении (AltUI_Followers.sav), сохранение игры их никогда не содержит. Следующие спутники переходят с Джоди на каждый уровень и появляются после загрузки; ждущие спутники и NPC остаются на своём уровне, на своём месте.\n\nБыстрое меню: «Спутник: за мной / жди здесь» – для спутника в поле зрения, «Все спутники: за мной / ждать» – для всех.",
-     "es": "Looks convertidos en personas del juego: un seguidor acompaña a Jodi, lucha y obedece órdenes; un PNJ se queda donde está y se defiende.\n\n• En la pestaña Looks, clic derecho en un look: «Crear como seguidor» o «Crear como PNJ». La figura aparece delante de Jodi con ese look.\n• La pestaña «Seguidores» muestra todas las figuras con su estado (sigue, espera, PNJ, inactivo, caído) y chips: «Sígueme», «Espera aquí», «Traer aquí», → PNJ / → Seguidor, «Activo», «Invulnerable» y «...» (renombrar, cambiar look, revivir, eliminar).\n• Un clic en una fila selecciona la figura. Arriba están la mochila (izquierda) y la caja (derecha): un clic da un objeto a la figura seleccionada, un arma con su pintura y accesorios. Un clic en una casilla de la figura la devuelve a la mochila; clic derecho: todo, o a la caja. «...» sobre una lista la pliega.\n• El menú contextual de una pila – de Jodi o de la figura – tiene la fila de cantidad como en la pestaña Inventario: «Dar 5», «Coger 5», a la caja.\n• La ropa son prendas reales de la figura, como con los PNJ del juego: se daña, puede romperse y aparece en el inventario de PNJ del propio juego, donde también se puede intercambiar. Bajo una figura, sus prendas son casillas (las dañadas, marcadas): un clic se quita una y la deja en la mochila de Jodi; clic derecho: reparar con un kit de costura de la mochila de Jodi, o reparar todo. En la columna de la mochila, «Ropa» muestra las prendas de Jodi: un clic da una a la figura seleccionada, que se la pone (el daño y los colores van con ella).\n• «Activo» desactivado saca a la figura del mundo con todo lo que lleva; al activarla vuelve delante de Jodi.\n• Una figura que no es invulnerable puede caer. Sigue en la lista y «Revivir» la devuelve con sus cosas. Las figuras nunca se convierten en zombis.\n• «Eliminar» pide confirmación; los objetos y armas de la figura van a la caja y su ropa a la mochila de Jodi.\n• «Cambiar look» pasa a la pestaña Looks: haz clic en el look que debe llevar la figura.\n\nAltUI guarda las figuras en una partida propia (AltUI_Followers.sav); la partida del juego nunca las contiene. Los seguidores que siguen vienen a cada nivel y tras cargar; los que esperan y los PNJ se quedan en su nivel, en su sitio.\n\nMenú rápido: «Seguidor: sígueme / espera aquí» se dirige al seguidor que tienes a la vista, «Todos los seguidores: seguir / esperar» a todos.",
-     "pl": "Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkazów; NPC zostaje na miejscu i się broni.\n\n• W zakładce Stylizacje prawy klik na stylizację: „Utwórz jako towarzysza” albo „Utwórz jako NPC”. Postać pojawia się przed Jodi w tej stylizacji.\n• Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, „Nieśmiertelny” i „...” (zmień nazwę, zmień stylizację, ożyw, usuń).\n• Kliknięcie wiersza wybiera postać. Na górze są plecak (po lewej) i skrzynia (po prawej): kliknięcie daje przedmiot wybranej postaci, broń razem z malowaniem i akcesoriami. Kliknięcie kafelka postaci oddaje go do plecaka; prawy klik: wszystko albo do skrzyni. „...” nad listą zwija ją.\n• Menu kontekstowe stosu – Jodi lub postaci – ma wiersz ilości jak w karcie Ekwipunek: „Daj 5”, „Weź 5”, do skrzyni.\n• Ubrania to prawdziwe rzeczy postaci, jak u NPC w grze: niszczą się, mogą zostać zerwane i widać je w ekwipunku NPC samej gry, gdzie można je też wymieniać. Pod postacią jej rzeczy są kafelkami (uszkodzone mają znacznik): kliknięcie zdejmuje rzecz i wkłada ją do plecaka Jodi; prawy klik: napraw zestawem do szycia z plecaka Jodi albo napraw wszystko. W kolumnie plecaka „Ubrania” pokazuje rzeczy Jodi: kliknięcie daje jedną wybranej postaci, która ją zakłada (uszkodzenia i kolory idą razem z nią).\n• Wyłączenie „Aktywny” zabiera postać ze świata razem z tym, co niesie; po włączeniu wraca przed Jodi.\n• Postać, która nie jest nieśmiertelna, może polec. Zostaje na liście, a „Ożyw” przywraca ją z jej rzeczami. Postacie nigdy nie zmieniają się w zombie.\n• „Usuń” pyta o potwierdzenie; przedmioty i broń postaci trafiają do skrzyni, a ubrania do plecaka Jodi.\n• „Zmień stylizację” przechodzi do zakładki Stylizacje: kliknij stylizację, którą postać ma nosić.\n\nAltUI przechowuje postacie we własnym zapisie (AltUI_Followers.sav); zapis gry nigdy ich nie zawiera. Podążający towarzysze przechodzą z Jodi do każdego poziomu i są po wczytaniu; czekający i NPC zostają w swoim poziomie na swoim miejscu.\n\nSzybkie menu: „Towarzysz: za mną / czekaj tutaj” dotyczy towarzysza w polu widzenia, „Wszyscy towarzysze: za mną / czekać” – wszystkich.",
-     "fr": "Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et obéit aux ordres ; un PNJ reste où il est et se défend.\n\n• Dans l'onglet Looks, clic droit sur un look : « Créer en compagnon » ou « Créer en PNJ ». La figure apparaît devant Jodi avec ce look.\n• L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », « Invulnérable » et « ... » (renommer, changer de look, ranimer, retirer).\n• Un clic sur une ligne sélectionne la figure. En haut se trouvent le sac à dos (à gauche) et la caisse (à droite) : un clic donne un objet à la figure sélectionnée, une arme avec sa peinture et ses accessoires. Un clic sur une tuile de la figure le rend au sac à dos ; clic droit : tout, ou dans la caisse. « ... » au-dessus d'une liste la replie.\n• Le menu contextuel d'une pile – de Jodi ou de la figure – a la ligne de quantité comme dans l'onglet Inventaire : « En donner 5 », « En prendre 5 », dans le coffre.\n• Les vêtements sont de vraies pièces de la figure, comme pour les PNJ du jeu : ils s'abîment, peuvent se déchirer et apparaissent dans l'inventaire PNJ du jeu, où l'on peut aussi les échanger. Sous une figure, ses pièces sont des tuiles (celles abîmées sont marquées) : un clic en enlève une et la met dans le sac à dos de Jodi ; clic droit : réparer avec un kit de couture du sac à dos de Jodi, ou tout réparer. Dans la colonne du sac à dos, « Vêtements » liste les pièces de Jodi : un clic en donne une à la figure sélectionnée, qui l'enfile (dégâts et couleurs suivent).\n• « Actif » désactivé retire la figure du monde avec tout ce qu'elle porte ; réactivée, elle revient devant Jodi.\n• Une figure qui n'est pas invulnérable peut tomber. Elle reste dans la liste et « Ranimer » la ramène avec ses affaires. Les figures ne deviennent jamais des zombies.\n• « Retirer » demande confirmation ; les objets et les armes de la figure vont dans la caisse, ses vêtements dans le sac à dos de Jodi.\n• « Changer de look » passe à l'onglet Looks : cliquez sur le look que la figure doit porter.\n\nAltUI garde les figures dans une sauvegarde à part (AltUI_Followers.sav) ; la sauvegarde du jeu ne les contient jamais. Les compagnons qui suivent viennent dans chaque niveau et après un chargement ; ceux qui attendent et les PNJ restent dans leur niveau, à leur place.\n\nMenu rapide : « Compagnon : suis-moi / attends ici » s'adresse au compagnon en vue, « Tous les compagnons : suivre / attendre » à tous."
+     "en": "Looks as people in the game: a follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.\n\n• In the Looks tab, right click a look: \"Spawn as follower\" or \"Spawn as NPC\". The figure appears in front of Jodi wearing that look.\n• The tab \"Followers\" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: \"Follow me\", \"Wait here\", \"Bring here\", → NPC / → Follower, \"Active\", \"Invulnerable\" and \"...\" (rename, change look, revive, remove).\n• Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. \"...\" above a list folds it.\n• The context menu of a stack – Jodi's or the figure's – has the amount row as in the Inventory tab: \"Give 5\", \"Take 5\", into the box.\n• Clothes are real pieces of the figure, as with the game's NPCs: they take damage, can tear off and show up in the game's own NPC inventory, where you can swap them too. Under a figure, its pieces are tiles (a badge marks damaged ones): a click takes one off into Jodi's backpack; right click: repair with a sewing kit from Jodi's backpack, or repair all. In the backpack column, \"Clothes\" lists Jodi's pieces: a click gives one to the selected figure, which puts it on (her damage and colours go along).\n• \"Active\" off takes a figure out of the world, with everything it carries; on again, it comes back in front of Jodi.\n• A figure that is not invulnerable can fall. It stays in the list and \"Revive\" brings it back with what it carried. Figures never turn into zombies.\n• \"Remove\" asks first; the figure's items and guns go into the storage box, its clothes into Jodi's backpack.\n• \"Change look\" switches to the Looks tab: click the look the figure should wear.\n• Every figure wears the make-up of its look and has one of the game's NPC voices. A figure made with AltUI before 2.2.0 shows Jodi's make-up until \"Change look…\" gives it its own.\n\nAltUI keeps the figures in a save of its own (AltUI_Followers.sav), the game's save never contains them. Following followers come along to every level and after loading; waiting followers and NPCs stay in their level at their place.\n\nQuick menu: \"Follower: follow me / wait here\" orders the follower in view, \"All followers: follow / wait\" all of them.",
+     "de": "Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befehle an; ein NPC bleibt, wo er ist, und verteidigt sich.\n\n• Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.\n• Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, „Unverwundbar“ und „...“ (umbenennen, Look ändern, wiederbeleben, entfernen).\n• Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.\n• Das Kontextmenü eines Stapels – bei Jodi oder der Figur – hat die Anzahl-Zeile wie im Reiter Inventar: „5 geben“, „5 nehmen“, in die Box.\n• Die Kleidung besteht aus echten Stücken der Figur wie bei den NPCs des Spiels: Sie bekommt Schaden, kann abreißen und steht im Inventar-Dialog des Spiels, wo man sie auch tauschen kann. Unter einer Figur stehen ihre Stücke als Kacheln (beschädigte mit Markierung): Ein Klick zieht eines aus und legt es in Jodis Rucksack; Rechtsklick: mit einem Nähset aus Jodis Rucksack reparieren oder alle reparieren. In der Rucksack-Spalte listet „Kleidung“ Jodis Stücke: Ein Klick gibt eines an die ausgewählte Figur, die es anzieht (Schaden und Farben gehen mit).\n• „Aktiv“ aus nimmt eine Figur mit allem, was sie trägt, aus der Welt; wieder an, kommt sie vor Jodi zurück.\n• Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.\n• „Entfernen“ fragt nach; Items und Schusswaffen der Figur kommen in die Box, ihre Kleidung in Jodis Rucksack.\n• „Look ändern“ wechselt in den Looks-Reiter: den Look anklicken, den die Figur tragen soll.\n• Jede Figur trägt das Make-up ihres Looks und hat eine der NPC-Stimmen des Spiels. Eine Figur, die mit AltUI vor 2.2.0 entstanden ist, zeigt Jodis Make-up, bis „Look ändern…“ ihr ein eigenes gibt.\n\nAltUI speichert die Figuren in einem eigenen Spielstand (AltUI_Followers.sav), der Spielstand des Spiels enthält sie nie. Folgende Follower kommen in jedes Level mit und sind nach dem Laden da; wartende Follower und NPCs bleiben in ihrem Level an ihrem Platz.\n\nSchnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im Blick, „Alle Follower: folgen / warten“ für alle.",
+     "zh": "把造型变成游戏中的人物：跟随者与朱蒂同行、战斗并听从命令；NPC 留在原地并自卫。\n\n• 在造型页右键点击一个造型：“生成为跟随者”或“生成为NPC”。人物会以该造型出现在朱蒂面前。\n• “跟随者”页列出所有人物及其状态（跟随中、等待中、NPC、未激活、已倒下），以及按钮：“跟着我”、“在这里等”、“召回”、→ NPC / → 跟随者、“激活”、“无敌”和“...”（重命名、更换造型、复活、移除）。\n• 点击一行即可选中该人物。上方是背包（左）和箱子（右）：点击会把一件物品交给选中的人物，枪械连同涂装和配件一起。点击人物自己的图块会把物品还回背包；右键：全部，或放入箱子。列表上方的“...”可以折叠它。\n• 堆叠物品的右键菜单（朱蒂的或该人物的）与“物品栏”标签页一样有数量行：“给出 5 个”“取出 5 个”、放入物品箱。\n• 服装是人物的真实衣物，与游戏中的NPC一样：会受损、可能被撕掉，并显示在游戏自带的NPC物品栏中，也可以在那里交换。人物下方以图块显示其衣物（受损的有标记）：点击会脱下一件并放入朱蒂的背包；右键：用朱蒂背包里的针线包修补，或全部修补。背包一栏中的“服装”列出朱蒂的衣物：点击会把一件交给选中的人物，人物会穿上它（损坏程度和颜色一并带走）。\n• 关闭“激活”会把人物连同其所带物品一起移出世界；再次打开时它会回到朱蒂面前。\n• 没有无敌的人物可能倒下。它仍留在列表中，“复活”会带着它的物品把它带回来。人物永远不会变成僵尸。\n• “移除”会先确认；人物的物品和枪械会放入箱子，衣物放入朱蒂的背包。\n• “更换造型”会切换到造型页：点击人物要穿的造型。\n• 每个人物都带着其造型的妆容，并拥有游戏中的一种 NPC 声音。用 2.2.0 之前的 AltUI 创建的人物会显示朱蒂的妆容，直到“更换造型…”给它自己的妆容。\n\nAltUI 把人物保存在自己的存档中（AltUI_Followers.sav），游戏存档里永远不会有它们。正在跟随的跟随者会随朱蒂进入每个关卡，读档后也在；等待中的跟随者和NPC留在各自关卡的原处。\n\n快捷菜单：“跟随者：跟着我 / 在这里等”作用于视野中的跟随者，“所有跟随者：跟随 / 等待”作用于全部。",
+     "ru": "Образы как персонажи игры: спутник идёт с Джоди, сражается и слушается приказов; NPC остаётся на месте и защищается.\n\n• Во вкладке «Образы» правый щелчок по образу: «Создать как спутника» или «Создать как NPC». Персонаж появляется перед Джоди в этом образе.\n• Вкладка «Спутники» показывает всех персонажей с их состоянием (следует, ждёт, NPC, неактивен, погиб) и кнопками: «За мной», «Жди здесь», «Позвать», → NPC / → Спутник, «Активен», «Неуязвим» и «...» (переименовать, сменить образ, воскресить, удалить).\n• Щелчок по строке выбирает персонажа. Наверху рюкзак (слева) и ящик (справа): щелчок передаёт предмет выбранному персонажу, оружие – вместе с покраской и обвесом. Щелчок по плитке персонажа возвращает предмет в рюкзак; правый щелчок: всё или в ящик. «...» над списком сворачивает его.\n• В контекстном меню стопки — у Джоди или у фигуры — есть строка количества, как во вкладке «Инвентарь»: «Дать 5», «Взять 5», в ящик.\n• Одежда — настоящие вещи персонажа, как у NPC игры: она получает повреждения, может порваться и видна в инвентаре NPC самой игры, где её тоже можно обменивать. Под персонажем его вещи показаны плитками (повреждённые отмечены): щелчок снимает вещь и кладёт её в рюкзак Джоди; правый щелчок: починить швейным набором из рюкзака Джоди или починить всё. В колонке рюкзака раздел «Одежда» показывает вещи Джоди: щелчок отдаёт вещь выбранному персонажу, и он её надевает (повреждения и цвета переходят вместе с ней).\n• «Активен» выключено убирает персонажа из мира со всем, что он несёт; при включении он возвращается перед Джоди.\n• Персонаж без неуязвимости может погибнуть. Он остаётся в списке, «Воскресить» возвращает его с вещами. Персонажи никогда не превращаются в зомби.\n• «Удалить» спрашивает подтверждение; предметы и оружие персонажа уходят в ящик, одежда — в рюкзак Джоди.\n• «Сменить образ» переходит во вкладку «Образы»: щёлкните образ, который должен носить персонаж.\n• Каждый персонаж носит макияж своего образа и говорит одним из голосов NPC игры. Персонаж, созданный в AltUI до 2.2.0, показывает макияж Джоди, пока «Сменить образ…» не даст ему собственный.\n\nAltUI хранит персонажей в собственном сохранении (AltUI_Followers.sav), сохранение игры их никогда не содержит. Следующие спутники переходят с Джоди на каждый уровень и появляются после загрузки; ждущие спутники и NPC остаются на своём уровне, на своём месте.\n\nБыстрое меню: «Спутник: за мной / жди здесь» – для спутника в поле зрения, «Все спутники: за мной / ждать» – для всех.",
+     "es": "Looks convertidos en personas del juego: un seguidor acompaña a Jodi, lucha y obedece órdenes; un PNJ se queda donde está y se defiende.\n\n• En la pestaña Looks, clic derecho en un look: «Crear como seguidor» o «Crear como PNJ». La figura aparece delante de Jodi con ese look.\n• La pestaña «Seguidores» muestra todas las figuras con su estado (sigue, espera, PNJ, inactivo, caído) y chips: «Sígueme», «Espera aquí», «Traer aquí», → PNJ / → Seguidor, «Activo», «Invulnerable» y «...» (renombrar, cambiar look, revivir, eliminar).\n• Un clic en una fila selecciona la figura. Arriba están la mochila (izquierda) y la caja (derecha): un clic da un objeto a la figura seleccionada, un arma con su pintura y accesorios. Un clic en una casilla de la figura la devuelve a la mochila; clic derecho: todo, o a la caja. «...» sobre una lista la pliega.\n• El menú contextual de una pila – de Jodi o de la figura – tiene la fila de cantidad como en la pestaña Inventario: «Dar 5», «Coger 5», a la caja.\n• La ropa son prendas reales de la figura, como con los PNJ del juego: se daña, puede romperse y aparece en el inventario de PNJ del propio juego, donde también se puede intercambiar. Bajo una figura, sus prendas son casillas (las dañadas, marcadas): un clic se quita una y la deja en la mochila de Jodi; clic derecho: reparar con un kit de costura de la mochila de Jodi, o reparar todo. En la columna de la mochila, «Ropa» muestra las prendas de Jodi: un clic da una a la figura seleccionada, que se la pone (el daño y los colores van con ella).\n• «Activo» desactivado saca a la figura del mundo con todo lo que lleva; al activarla vuelve delante de Jodi.\n• Una figura que no es invulnerable puede caer. Sigue en la lista y «Revivir» la devuelve con sus cosas. Las figuras nunca se convierten en zombis.\n• «Eliminar» pide confirmación; los objetos y armas de la figura van a la caja y su ropa a la mochila de Jodi.\n• «Cambiar look» pasa a la pestaña Looks: haz clic en el look que debe llevar la figura.\n• Cada figura lleva el maquillaje de su look y tiene una de las voces de PNJ del juego. Una figura creada con AltUI antes de la 2.2.0 muestra el maquillaje de Jodi hasta que «Cambiar look…» le da el suyo.\n\nAltUI guarda las figuras en una partida propia (AltUI_Followers.sav); la partida del juego nunca las contiene. Los seguidores que siguen vienen a cada nivel y tras cargar; los que esperan y los PNJ se quedan en su nivel, en su sitio.\n\nMenú rápido: «Seguidor: sígueme / espera aquí» se dirige al seguidor que tienes a la vista, «Todos los seguidores: seguir / esperar» a todos.",
+     "pl": "Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkazów; NPC zostaje na miejscu i się broni.\n\n• W zakładce Stylizacje prawy klik na stylizację: „Utwórz jako towarzysza” albo „Utwórz jako NPC”. Postać pojawia się przed Jodi w tej stylizacji.\n• Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, „Nieśmiertelny” i „...” (zmień nazwę, zmień stylizację, ożyw, usuń).\n• Kliknięcie wiersza wybiera postać. Na górze są plecak (po lewej) i skrzynia (po prawej): kliknięcie daje przedmiot wybranej postaci, broń razem z malowaniem i akcesoriami. Kliknięcie kafelka postaci oddaje go do plecaka; prawy klik: wszystko albo do skrzyni. „...” nad listą zwija ją.\n• Menu kontekstowe stosu – Jodi lub postaci – ma wiersz ilości jak w karcie Ekwipunek: „Daj 5”, „Weź 5”, do skrzyni.\n• Ubrania to prawdziwe rzeczy postaci, jak u NPC w grze: niszczą się, mogą zostać zerwane i widać je w ekwipunku NPC samej gry, gdzie można je też wymieniać. Pod postacią jej rzeczy są kafelkami (uszkodzone mają znacznik): kliknięcie zdejmuje rzecz i wkłada ją do plecaka Jodi; prawy klik: napraw zestawem do szycia z plecaka Jodi albo napraw wszystko. W kolumnie plecaka „Ubrania” pokazuje rzeczy Jodi: kliknięcie daje jedną wybranej postaci, która ją zakłada (uszkodzenia i kolory idą razem z nią).\n• Wyłączenie „Aktywny” zabiera postać ze świata razem z tym, co niesie; po włączeniu wraca przed Jodi.\n• Postać, która nie jest nieśmiertelna, może polec. Zostaje na liście, a „Ożyw” przywraca ją z jej rzeczami. Postacie nigdy nie zmieniają się w zombie.\n• „Usuń” pyta o potwierdzenie; przedmioty i broń postaci trafiają do skrzyni, a ubrania do plecaka Jodi.\n• „Zmień stylizację” przechodzi do zakładki Stylizacje: kliknij stylizację, którą postać ma nosić.\n• Każda postać nosi makijaż swojej stylizacji i ma jeden z głosów NPC z gry. Postać utworzona w AltUI przed 2.2.0 pokazuje makijaż Jodi, dopóki „Zmień stylizację…” nie da jej własnego.\n\nAltUI przechowuje postacie we własnym zapisie (AltUI_Followers.sav); zapis gry nigdy ich nie zawiera. Podążający towarzysze przechodzą z Jodi do każdego poziomu i są po wczytaniu; czekający i NPC zostają w swoim poziomie na swoim miejscu.\n\nSzybkie menu: „Towarzysz: za mną / czekaj tutaj” dotyczy towarzysza w polu widzenia, „Wszyscy towarzysze: za mną / czekać” – wszystkich.",
+     "fr": "Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et obéit aux ordres ; un PNJ reste où il est et se défend.\n\n• Dans l'onglet Looks, clic droit sur un look : « Créer en compagnon » ou « Créer en PNJ ». La figure apparaît devant Jodi avec ce look.\n• L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », « Invulnérable » et « ... » (renommer, changer de look, ranimer, retirer).\n• Un clic sur une ligne sélectionne la figure. En haut se trouvent le sac à dos (à gauche) et la caisse (à droite) : un clic donne un objet à la figure sélectionnée, une arme avec sa peinture et ses accessoires. Un clic sur une tuile de la figure le rend au sac à dos ; clic droit : tout, ou dans la caisse. « ... » au-dessus d'une liste la replie.\n• Le menu contextuel d'une pile – de Jodi ou de la figure – a la ligne de quantité comme dans l'onglet Inventaire : « En donner 5 », « En prendre 5 », dans le coffre.\n• Les vêtements sont de vraies pièces de la figure, comme pour les PNJ du jeu : ils s'abîment, peuvent se déchirer et apparaissent dans l'inventaire PNJ du jeu, où l'on peut aussi les échanger. Sous une figure, ses pièces sont des tuiles (celles abîmées sont marquées) : un clic en enlève une et la met dans le sac à dos de Jodi ; clic droit : réparer avec un kit de couture du sac à dos de Jodi, ou tout réparer. Dans la colonne du sac à dos, « Vêtements » liste les pièces de Jodi : un clic en donne une à la figure sélectionnée, qui l'enfile (dégâts et couleurs suivent).\n• « Actif » désactivé retire la figure du monde avec tout ce qu'elle porte ; réactivée, elle revient devant Jodi.\n• Une figure qui n'est pas invulnérable peut tomber. Elle reste dans la liste et « Ranimer » la ramène avec ses affaires. Les figures ne deviennent jamais des zombies.\n• « Retirer » demande confirmation ; les objets et les armes de la figure vont dans la caisse, ses vêtements dans le sac à dos de Jodi.\n• « Changer de look » passe à l'onglet Looks : cliquez sur le look que la figure doit porter.\n• Chaque figure porte le maquillage de son look et a une des voix de PNJ du jeu. Une figure créée avec AltUI avant la 2.2.0 montre le maquillage de Jodi jusqu'à ce que « Changer de look… » lui donne le sien.\n\nAltUI garde les figures dans une sauvegarde à part (AltUI_Followers.sav) ; la sauvegarde du jeu ne les contient jamais. Les compagnons qui suivent viennent dans chaque niveau et après un chargement ; ceux qui attendent et les PNJ restent dans leur niveau, à leur place.\n\nMenu rapide : « Compagnon : suis-moi / attends ici » s'adresse au compagnon en vue, « Tous les compagnons : suivre / attendre » à tous."
     },
     "Man_kodex_T": {
      "en": "Codex",
@@ -7330,13 +7407,13 @@
      "fr": "Menu rapide"
     },
     "Man_quick_B": {
-     "en": "Hold 4 (another key under Options › Quick menu) and a wheel opens around the mouse. Let go on an item to run it; let go in the middle to do nothing.\n\n• Items: outfits, looks, faces, appearance presets, poses, tabs, settings of other mods and actions: free camera, photo mode, ragdolls mode, a copy of Jodi as a ragdoll, switch every ragdoll between active and frozen, activate / freeze the one in view, remove all ragdolls, own speed on / off.\n• More actions: \"Slow motion on / off\", \"Stop time / go on\" (everything stands still; the panel and the cameras keep working), \"Hide / show Jodi\" (with clothes, hair and weapon; she is back in the next level) and the orders for followers (see \"Followers\").\n• Add them under Options › Quick menu, or with a right click on a tile, a tab or a mod's entry (\"Add to quick menu\").\n• The order in the wheel is the order in the list under Options › Quick menu.",
-     "de": "4 gedrückt halten (andere Taste unter Optionen › Schnellmenü), und um die Maus öffnet sich ein Rad. Über einem Eintrag loslassen führt ihn aus; in der Mitte loslassen tut nichts.\n\n• Einträge: Outfits, Looks, Gesichter, Aussehen-Presets, Posen, Reiter, Einstellungen anderer Mods und Aktionen: freie Kamera, Fotomodus, Ragdoll-Modus, Kopie von Jodi als Ragdoll, alle Ragdolls zwischen aktiv und eingefroren umschalten, anvisierte aktivieren / einfrieren, alle Ragdolls entfernen, eigenes Tempo an / aus.\n• Weitere Aktionen: „Zeitlupe an / aus“, „Zeit anhalten / weiter“ (alles steht still; Panel und Kameras arbeiten weiter), „Jodi aus- / einblenden“ (mit Kleidung, Haaren und Waffe; im nächsten Level ist sie wieder da) und die Befehle an Follower (siehe „Follower“).\n• Hinzufügen unter Optionen › Schnellmenü oder per Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods („Ins Schnellmenü“).\n• Die Reihenfolge im Rad ist die Reihenfolge der Liste unter Optionen › Schnellmenü.",
-     "zh": "按住 4（可在 选项 › 快捷菜单 中更换按键），鼠标周围会出现一个轮盘。在某个条目上松开即执行它；在中间松开则什么也不做。\n\n• 条目：搭配、造型、面部、外观预设、姿势、标签页、其他模组的设置，以及这些操作：自由相机、拍照模式、布娃娃模式、朱蒂的布娃娃副本、所有布娃娃在激活和冻结之间切换、激活 / 冻结视野中的人物、移除所有布娃娃、自定义速度开 / 关。\n• 更多操作：“慢动作 开 / 关”、“时间暂停 / 继续”（一切静止；面板和相机照常工作）、“隐藏 / 显示朱蒂”（连同服装、头发和武器；下一个关卡她会重新出现）以及对跟随者的命令（见“跟随者”）。\n• 在 选项 › 快捷菜单 中添加，或右键图块、标签页或模组条目（“加入快捷菜单”）。\n• 轮盘中的顺序就是 选项 › 快捷菜单 中列表的顺序。",
-     "ru": "Удерживайте 4 (другая клавиша – в Настройки › Быстрое меню), и вокруг мыши откроется колесо. Отпустите над записью, чтобы выполнить ее; отпустите в центре – ничего не произойдет.\n\n• Записи: комплекты, образы, лица, пресеты внешности, позы, вкладки, настройки других модов и действия: свободная камера, фоторежим, режим рэгдоллов, копия Джоди как рэгдолл, переключение всех рэгдоллов между активными и замороженными, активировать / заморозить фигуру в центре, удалить все рэгдоллы, своя скорость вкл. / выкл.\n• Другие действия: «Замедление вкл / выкл», «Остановить время / продолжить» (все замирает; панель и камеры продолжают работать), «Скрыть / показать Джоди» (вместе с одеждой, волосами и оружием; на следующем уровне она снова видна) и приказы спутникам (см. «Спутники»).\n• Добавляются в Настройки › Быстрое меню или правым щелчком по плитке, вкладке или записи мода («В быстрое меню»).\n• Порядок в колесе – это порядок списка в Настройки › Быстрое меню.",
-     "es": "Mantén pulsado 4 (otra tecla en Opciones › Menú rápido) y se abre una rueda alrededor del ratón. Suelta sobre una entrada para ejecutarla; suelta en el centro para no hacer nada.\n\n• Entradas: conjuntos, looks, rostros, presets de apariencia, poses, pestañas, ajustes de otros mods y acciones: cámara libre, modo foto, modo ragdoll, una copia de Jodi como ragdoll, cambiar todos los ragdolls entre activos y congelados, activar / congelar el del centro, quitar todos los ragdolls, velocidad propia sí / no.\n• Más acciones: «Cámara lenta sí / no», «Detener el tiempo / seguir» (todo se queda quieto; el panel y las cámaras siguen funcionando), «Ocultar / mostrar a Jodi» (con ropa, pelo y arma; en el siguiente nivel vuelve a estar) y las órdenes a los seguidores (ver «Seguidores»).\n• Se añaden en Opciones › Menú rápido, o con clic derecho en una casilla, una pestaña o la entrada de un mod («Añadir al menú rápido»).\n• El orden en la rueda es el orden de la lista en Opciones › Menú rápido.",
-     "pl": "Przytrzymaj 4 (inny klawisz w Opcje › Szybkie menu), a wokół myszy otworzy się koło. Puść nad wpisem, aby go wykonać; puść na środku, aby nic nie robić.\n\n• Wpisy: stroje, stylizacje, twarze, presety wyglądu, pozy, karty, ustawienia innych modów i akcje: swobodna kamera, tryb fotograficzny, tryb ragdolli, kopia Jodi jako ragdoll, przełączanie wszystkich ragdolli między aktywnymi a zamrożonymi, aktywuj / zamroź tę na środku, usuń wszystkie ragdolle, własna prędkość wł. / wył.\n• Dalsze akcje: „Zwolnienie wł / wył”, „Zatrzymaj czas / dalej” (wszystko staje; panel i kamery działają dalej), „Ukryj / pokaż Jodi” (z ubraniem, włosami i bronią; w następnym poziomie znów jest widoczna) oraz rozkazy dla towarzyszy (zobacz „Towarzysze”).\n• Dodaje się je w Opcje › Szybkie menu albo prawym przyciskiem na kafelku, karcie lub wpisie moda („Dodaj do szybkiego menu”).\n• Kolejność w kole to kolejność listy w Opcje › Szybkie menu.",
-     "fr": "Maintenez 4 (autre touche dans Paramètres › Menu rapide) et une roue s'ouvre autour de la souris. Relâchez sur une entrée pour l'exécuter ; relâchez au centre pour ne rien faire.\n\n• Entrées : tenues, looks, visages, préréglages d'apparence, poses, onglets, réglages d'autres mods et actions : caméra libre, mode photo, mode ragdoll, une copie de Jodi en ragdoll, basculer tous les ragdolls entre actif et figé, activer / figer celui visé, retirer tous les ragdolls, vitesse personnalisée oui / non.\n• Autres actions : « Ralenti oui / non », « Arrêter le temps / reprendre » (tout s'immobilise ; le panneau et les caméras continuent de fonctionner), « Masquer / afficher Jodi » (avec vêtements, cheveux et arme ; au niveau suivant elle est de retour) et les ordres aux compagnons (voir « Compagnons »).\n• On les ajoute dans Paramètres › Menu rapide, ou par clic droit sur une tuile, un onglet ou l'entrée d'un mod (« Ajouter au menu rapide »).\n• L'ordre dans la roue est l'ordre de la liste dans Paramètres › Menu rapide."
+     "en": "Hold 4 (another key under Options › Quick menu) and a wheel opens around the mouse. Let go on an item to run it; let go in the middle to do nothing.\n\n• Items: outfits, looks, faces, appearance presets, poses, tabs, settings of other mods and actions: free camera, photo mode, ragdolls mode, a copy of Jodi as a ragdoll, switch every ragdoll between active and frozen, activate / freeze the one in view, remove all ragdolls, own speed on / off.\n• More actions: \"Slow motion on / off\", \"Stop time / go on\" (everything stands still; the panel and the cameras keep working; also the camera of the game's photo mode), \"Hide / show Jodi\" (with clothes, hair and weapon; she is back in the next level) and the orders for followers (see \"Followers\").\n• \"Hide / show the game's UI\" switches the game's HUD off and on, as its photo mode does.\n• Own keys: under Options › Quick menu, right click an item under \"Available\" and press a key – the item then runs on that key, with the panel closed, also in the free camera and in the game's photo mode. Click the key of a row for another one, ✕ removes it. The panel key, the quick menu key and a key already given are refused; a key the game uses itself triggers both.\n• Add them under Options › Quick menu, or with a right click on a tile, a tab or a mod's entry (\"Add to quick menu\").\n• The order in the wheel is the order in the list under Options › Quick menu.",
+     "de": "4 gedrückt halten (andere Taste unter Optionen › Schnellmenü), und um die Maus öffnet sich ein Rad. Über einem Eintrag loslassen führt ihn aus; in der Mitte loslassen tut nichts.\n\n• Einträge: Outfits, Looks, Gesichter, Aussehen-Presets, Posen, Reiter, Einstellungen anderer Mods und Aktionen: freie Kamera, Fotomodus, Ragdoll-Modus, Kopie von Jodi als Ragdoll, alle Ragdolls zwischen aktiv und eingefroren umschalten, anvisierte aktivieren / einfrieren, alle Ragdolls entfernen, eigenes Tempo an / aus.\n• Weitere Aktionen: „Zeitlupe an / aus“, „Zeit anhalten / weiter“ (alles steht still; Panel und Kameras arbeiten weiter; auch die Kamera des Fotomodus), „Jodi aus- / einblenden“ (mit Kleidung, Haaren und Waffe; im nächsten Level ist sie wieder da) und die Befehle an Follower (siehe „Follower“).\n• „Spiel-UI aus- / einblenden“ schaltet das HUD des Spiels aus und ein, wie es sein Fotomodus tut.\n• Eigene Tasten: unter Optionen › Schnellmenü Rechtsklick auf einen Eintrag unter „Verfügbar“ und eine Taste drücken – der Eintrag läuft dann auf dieser Taste, bei geschlossenem Panel, auch in der freien Kamera und im Fotomodus des Spiels. Klick auf die Taste einer Zeile legt eine andere fest, ✕ entfernt sie. Panel-Taste, Schnellmenü-Taste und schon vergebene Tasten werden abgelehnt; eine Taste, die das Spiel selbst nutzt, löst beides aus.\n• Hinzufügen unter Optionen › Schnellmenü oder per Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods („Ins Schnellmenü“).\n• Die Reihenfolge im Rad ist die Reihenfolge der Liste unter Optionen › Schnellmenü.",
+     "zh": "按住 4（可在 选项 › 快捷菜单 中更换按键），鼠标周围会出现一个轮盘。在某个条目上松开即执行它；在中间松开则什么也不做。\n\n• 条目：搭配、造型、面部、外观预设、姿势、标签页、其他模组的设置，以及这些操作：自由相机、拍照模式、布娃娃模式、朱蒂的布娃娃副本、所有布娃娃在激活和冻结之间切换、激活 / 冻结视野中的人物、移除所有布娃娃、自定义速度开 / 关。\n• 更多操作：“慢动作 开 / 关”、“时间暂停 / 继续”（一切静止；面板和相机照常工作；游戏拍照模式的相机也一样）、“隐藏 / 显示朱蒂”（连同服装、头发和武器；下一个关卡她会重新出现）以及对跟随者的命令（见“跟随者”）。\n• “隐藏 / 显示游戏界面”关闭和打开游戏的 HUD，与游戏的拍照模式相同。\n• 自定义按键：在 选项 › 快捷菜单 中，右键点击“可用”下的条目并按下一个键——该条目就由这个键执行，在面板关闭时生效，在自由相机和游戏的拍照模式中同样有效。点击某一行的按键可改为另一个键，✕ 删除。面板键、快捷菜单键和已被占用的键会被拒绝；游戏自身使用的按键会同时触发两者。\n• 在 选项 › 快捷菜单 中添加，或右键图块、标签页或模组条目（“加入快捷菜单”）。\n• 轮盘中的顺序就是 选项 › 快捷菜单 中列表的顺序。",
+     "ru": "Удерживайте 4 (другая клавиша – в Настройки › Быстрое меню), и вокруг мыши откроется колесо. Отпустите над записью, чтобы выполнить ее; отпустите в центре – ничего не произойдет.\n\n• Записи: комплекты, образы, лица, пресеты внешности, позы, вкладки, настройки других модов и действия: свободная камера, фоторежим, режим рэгдоллов, копия Джоди как рэгдолл, переключение всех рэгдоллов между активными и замороженными, активировать / заморозить фигуру в центре, удалить все рэгдоллы, своя скорость вкл. / выкл.\n• Другие действия: «Замедление вкл / выкл», «Остановить время / продолжить» (все замирает; панель и камеры продолжают работать; также камера фоторежима игры), «Скрыть / показать Джоди» (вместе с одеждой, волосами и оружием; на следующем уровне она снова видна) и приказы спутникам (см. «Спутники»).\n• «Скрыть / показать интерфейс игры» выключает и включает HUD игры, как это делает ее фоторежим.\n• Свои клавиши: в Настройки › Быстрое меню щелкните правой кнопкой по пункту в «Доступно» и нажмите клавишу — пункт будет выполняться этой клавишей при закрытой панели, также в свободной камере и в фоторежиме игры. Щелчок по клавише в строке назначает другую, ✕ удаляет ее. Клавиша панели, клавиша быстрого меню и уже занятая клавиша отклоняются; клавиша, которую использует сама игра, сработает в обоих местах.\n• Добавляются в Настройки › Быстрое меню или правым щелчком по плитке, вкладке или записи мода («В быстрое меню»).\n• Порядок в колесе – это порядок списка в Настройки › Быстрое меню.",
+     "es": "Mantén pulsado 4 (otra tecla en Opciones › Menú rápido) y se abre una rueda alrededor del ratón. Suelta sobre una entrada para ejecutarla; suelta en el centro para no hacer nada.\n\n• Entradas: conjuntos, looks, rostros, presets de apariencia, poses, pestañas, ajustes de otros mods y acciones: cámara libre, modo foto, modo ragdoll, una copia de Jodi como ragdoll, cambiar todos los ragdolls entre activos y congelados, activar / congelar el del centro, quitar todos los ragdolls, velocidad propia sí / no.\n• Más acciones: «Cámara lenta sí / no», «Detener el tiempo / seguir» (todo se queda quieto; el panel y las cámaras siguen funcionando; también la cámara del modo foto del juego), «Ocultar / mostrar a Jodi» (con ropa, pelo y arma; en el siguiente nivel vuelve a estar) y las órdenes a los seguidores (ver «Seguidores»).\n• «Ocultar / mostrar la interfaz del juego» apaga y enciende el HUD del juego, como hace su modo foto.\n• Teclas propias: en Opciones › Menú rápido, clic derecho en un elemento de «Disponible» y pulsa una tecla: el elemento se ejecuta con esa tecla, con el panel cerrado, también en la cámara libre y en el modo foto del juego. Un clic en la tecla de una fila asigna otra, ✕ la quita. La tecla del panel, la del menú rápido y una tecla ya asignada se rechazan; una tecla que el juego ya usa activa ambas cosas.\n• Se añaden en Opciones › Menú rápido, o con clic derecho en una casilla, una pestaña o la entrada de un mod («Añadir al menú rápido»).\n• El orden en la rueda es el orden de la lista en Opciones › Menú rápido.",
+     "pl": "Przytrzymaj 4 (inny klawisz w Opcje › Szybkie menu), a wokół myszy otworzy się koło. Puść nad wpisem, aby go wykonać; puść na środku, aby nic nie robić.\n\n• Wpisy: stroje, stylizacje, twarze, presety wyglądu, pozy, karty, ustawienia innych modów i akcje: swobodna kamera, tryb fotograficzny, tryb ragdolli, kopia Jodi jako ragdoll, przełączanie wszystkich ragdolli między aktywnymi a zamrożonymi, aktywuj / zamroź tę na środku, usuń wszystkie ragdolle, własna prędkość wł. / wył.\n• Dalsze akcje: „Zwolnienie wł / wył”, „Zatrzymaj czas / dalej” (wszystko staje; panel i kamery działają dalej; także kamera trybu fotograficznego gry), „Ukryj / pokaż Jodi” (z ubraniem, włosami i bronią; w następnym poziomie znów jest widoczna) oraz rozkazy dla towarzyszy (zobacz „Towarzysze”).\n• „Ukryj / pokaż interfejs gry” wyłącza i włącza HUD gry, tak jak jej tryb fotograficzny.\n• Własne klawisze: w Opcje › Szybkie menu kliknij prawym przyciskiem pozycję w „Dostępne” i naciśnij klawisz – pozycja działa wtedy pod tym klawiszem, przy zamkniętym panelu, także w swobodnej kamerze i w trybie fotograficznym gry. Kliknięcie klawisza w wierszu przypisuje inny, ✕ go usuwa. Klawisz panelu, klawisz szybkiego menu i klawisz już przypisany są odrzucane; klawisz używany przez grę uruchamia oba działania.\n• Dodaje się je w Opcje › Szybkie menu albo prawym przyciskiem na kafelku, karcie lub wpisie moda („Dodaj do szybkiego menu”).\n• Kolejność w kole to kolejność listy w Opcje › Szybkie menu.",
+     "fr": "Maintenez 4 (autre touche dans Paramètres › Menu rapide) et une roue s'ouvre autour de la souris. Relâchez sur une entrée pour l'exécuter ; relâchez au centre pour ne rien faire.\n\n• Entrées : tenues, looks, visages, préréglages d'apparence, poses, onglets, réglages d'autres mods et actions : caméra libre, mode photo, mode ragdoll, une copie de Jodi en ragdoll, basculer tous les ragdolls entre actif et figé, activer / figer celui visé, retirer tous les ragdolls, vitesse personnalisée oui / non.\n• Autres actions : « Ralenti oui / non », « Arrêter le temps / reprendre » (tout s'immobilise ; le panneau et les caméras continuent de fonctionner ; aussi la caméra du mode photo du jeu), « Masquer / afficher Jodi » (avec vêtements, cheveux et arme ; au niveau suivant elle est de retour) et les ordres aux compagnons (voir « Compagnons »).\n• « Masquer / afficher l'interface du jeu » éteint et rallume le HUD du jeu, comme son mode photo.\n• Touches personnelles : dans Paramètres › Menu rapide, clic droit sur un élément sous « Disponibles » puis appuyez sur une touche – l'élément s'exécute alors avec cette touche, panneau fermé, aussi en caméra libre et dans le mode photo du jeu. Un clic sur la touche d'une ligne en choisit une autre, ✕ la supprime. La touche du panneau, celle du menu rapide et une touche déjà prise sont refusées ; une touche que le jeu utilise lui-même déclenche les deux.\n• On les ajoute dans Paramètres › Menu rapide, ou par clic droit sur une tuile, un onglet ou l'entrée d'un mod (« Ajouter au menu rapide »).\n• L'ordre dans la roue est l'ordre de la liste dans Paramètres › Menu rapide."
     },
     "Man_modding_T": {
      "en": "For mod authors",
@@ -7788,6 +7865,16 @@
     },
     {
      "name": "QuickItems",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "KeyBindKeys",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "KeyBindItems",
      "type": "string",
      "container": "array"
     },
@@ -10415,6 +10502,29 @@
     },
     {
      "name": "QuickItems",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "KeyBindKeys",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "KeyBindItems",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "BindCapture",
+     "type": "string"
+    },
+    {
+     "name": "BindHint",
+     "type": "text"
+    },
+    {
+     "name": "KbLoop",
      "type": "string",
      "container": "array"
     },
@@ -23501,15 +23611,15 @@
        {
         "id": "lg81",
         "kind": "get",
-        "var": "TabStyle",
+        "var": "KeyBindKeys",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls81",
         "kind": "set",
-        "var": "TabStyle",
+        "var": "KeyBindKeys",
         "in": {
-         "TabStyle": "@lg81.TabStyle"
+         "KeyBindKeys": "@lg81.KeyBindKeys"
         }
        },
        {
@@ -23520,15 +23630,15 @@
        {
         "id": "lg82",
         "kind": "get",
-        "var": "TabIconRight",
+        "var": "KeyBindItems",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls82",
         "kind": "set",
-        "var": "TabIconRight",
+        "var": "KeyBindItems",
         "in": {
-         "TabIconRight": "@lg82.TabIconRight"
+         "KeyBindItems": "@lg82.KeyBindItems"
         }
        },
        {
@@ -23539,15 +23649,15 @@
        {
         "id": "lg83",
         "kind": "get",
-        "var": "ThemePresets",
+        "var": "TabStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls83",
         "kind": "set",
-        "var": "ThemePresets",
+        "var": "TabStyle",
         "in": {
-         "ThemePresets": "@lg83.ThemePresets"
+         "TabStyle": "@lg83.TabStyle"
         }
        },
        {
@@ -23558,15 +23668,15 @@
        {
         "id": "lg84",
         "kind": "get",
-        "var": "ManageChipsCollapsed",
+        "var": "TabIconRight",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls84",
         "kind": "set",
-        "var": "ManageChipsCollapsed",
+        "var": "TabIconRight",
         "in": {
-         "ManageChipsCollapsed": "@lg84.ManageChipsCollapsed"
+         "TabIconRight": "@lg84.TabIconRight"
         }
        },
        {
@@ -23577,15 +23687,15 @@
        {
         "id": "lg85",
         "kind": "get",
-        "var": "QuickAlpha",
+        "var": "ThemePresets",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls85",
         "kind": "set",
-        "var": "QuickAlpha",
+        "var": "ThemePresets",
         "in": {
-         "QuickAlpha": "@lg85.QuickAlpha"
+         "ThemePresets": "@lg85.ThemePresets"
         }
        },
        {
@@ -23596,15 +23706,15 @@
        {
         "id": "lg86",
         "kind": "get",
-        "var": "MoveOn",
+        "var": "ManageChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls86",
         "kind": "set",
-        "var": "MoveOn",
+        "var": "ManageChipsCollapsed",
         "in": {
-         "MoveOn": "@lg86.MoveOn"
+         "ManageChipsCollapsed": "@lg86.ManageChipsCollapsed"
         }
        },
        {
@@ -23615,15 +23725,15 @@
        {
         "id": "lg87",
         "kind": "get",
-        "var": "WalkSpeedPct",
+        "var": "QuickAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls87",
         "kind": "set",
-        "var": "WalkSpeedPct",
+        "var": "QuickAlpha",
         "in": {
-         "WalkSpeedPct": "@lg87.WalkSpeedPct"
+         "QuickAlpha": "@lg87.QuickAlpha"
         }
        },
        {
@@ -23634,15 +23744,15 @@
        {
         "id": "lg88",
         "kind": "get",
-        "var": "RunSpeedPct",
+        "var": "MoveOn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls88",
         "kind": "set",
-        "var": "RunSpeedPct",
+        "var": "MoveOn",
         "in": {
-         "RunSpeedPct": "@lg88.RunSpeedPct"
+         "MoveOn": "@lg88.MoveOn"
         }
        },
        {
@@ -23653,32 +23763,15 @@
        {
         "id": "lg89",
         "kind": "get",
-        "var": "WalkStyle",
+        "var": "WalkSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls89",
         "kind": "set",
-        "var": "WalkStyle",
+        "var": "WalkSpeedPct",
         "in": {
-         "WalkStyle": "@lg89.WalkStyle"
-        }
-       },
-       {
-        "id": "ln89",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg89.WalkStyle",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb89",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln89.ReturnValue"
+         "WalkSpeedPct": "@lg89.WalkSpeedPct"
         }
        },
        {
@@ -23689,32 +23782,15 @@
        {
         "id": "lg90",
         "kind": "get",
-        "var": "RunStyle",
+        "var": "RunSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls90",
         "kind": "set",
-        "var": "RunStyle",
+        "var": "RunSpeedPct",
         "in": {
-         "RunStyle": "@lg90.RunStyle"
-        }
-       },
-       {
-        "id": "ln90",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg90.RunStyle",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb90",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln90.ReturnValue"
+         "RunSpeedPct": "@lg90.RunSpeedPct"
         }
        },
        {
@@ -23725,15 +23801,15 @@
        {
         "id": "lg91",
         "kind": "get",
-        "var": "IdleStyle",
+        "var": "WalkStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls91",
         "kind": "set",
-        "var": "IdleStyle",
+        "var": "WalkStyle",
         "in": {
-         "IdleStyle": "@lg91.IdleStyle"
+         "WalkStyle": "@lg91.WalkStyle"
         }
        },
        {
@@ -23742,7 +23818,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg91.IdleStyle",
+         "A": "@lg91.WalkStyle",
          "B": "None"
         }
        },
@@ -23761,15 +23837,15 @@
        {
         "id": "lg92",
         "kind": "get",
-        "var": "IdlePose",
+        "var": "RunStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls92",
         "kind": "set",
-        "var": "IdlePose",
+        "var": "RunStyle",
         "in": {
-         "IdlePose": "@lg92.IdlePose"
+         "RunStyle": "@lg92.RunStyle"
         }
        },
        {
@@ -23778,7 +23854,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg92.IdlePose",
+         "A": "@lg92.RunStyle",
          "B": "None"
         }
        },
@@ -23797,15 +23873,32 @@
        {
         "id": "lg93",
         "kind": "get",
-        "var": "NoRenderedIcons",
+        "var": "IdleStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls93",
         "kind": "set",
-        "var": "NoRenderedIcons",
+        "var": "IdleStyle",
         "in": {
-         "NoRenderedIcons": "@lg93.NoRenderedIcons"
+         "IdleStyle": "@lg93.IdleStyle"
+        }
+       },
+       {
+        "id": "ln93",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg93.IdleStyle",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb93",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln93.ReturnValue"
         }
        },
        {
@@ -23816,15 +23909,32 @@
        {
         "id": "lg94",
         "kind": "get",
-        "var": "RagWheelCm",
+        "var": "IdlePose",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls94",
         "kind": "set",
-        "var": "RagWheelCm",
+        "var": "IdlePose",
         "in": {
-         "RagWheelCm": "@lg94.RagWheelCm"
+         "IdlePose": "@lg94.IdlePose"
+        }
+       },
+       {
+        "id": "ln94",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg94.IdlePose",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb94",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln94.ReturnValue"
         }
        },
        {
@@ -23835,15 +23945,15 @@
        {
         "id": "lg95",
         "kind": "get",
-        "var": "SlowMoPct",
+        "var": "NoRenderedIcons",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls95",
         "kind": "set",
-        "var": "SlowMoPct",
+        "var": "NoRenderedIcons",
         "in": {
-         "SlowMoPct": "@lg95.SlowMoPct"
+         "NoRenderedIcons": "@lg95.NoRenderedIcons"
         }
        },
        {
@@ -23854,15 +23964,15 @@
        {
         "id": "lg96",
         "kind": "get",
-        "var": "AcceptedFingerprint",
+        "var": "RagWheelCm",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls96",
         "kind": "set",
-        "var": "AcceptedFingerprint",
+        "var": "RagWheelCm",
         "in": {
-         "AcceptedFingerprint": "@lg96.AcceptedFingerprint"
+         "RagWheelCm": "@lg96.RagWheelCm"
         }
        },
        {
@@ -23873,15 +23983,15 @@
        {
         "id": "lg97",
         "kind": "get",
-        "var": "OutfitScale",
+        "var": "SlowMoPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls97",
         "kind": "set",
-        "var": "OutfitScale",
+        "var": "SlowMoPct",
         "in": {
-         "OutfitScale": "@lg97.OutfitScale"
+         "SlowMoPct": "@lg97.SlowMoPct"
         }
        },
        {
@@ -23892,15 +24002,15 @@
        {
         "id": "lg98",
         "kind": "get",
-        "var": "LookScale",
+        "var": "AcceptedFingerprint",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls98",
         "kind": "set",
-        "var": "LookScale",
+        "var": "AcceptedFingerprint",
         "in": {
-         "LookScale": "@lg98.LookScale"
+         "AcceptedFingerprint": "@lg98.AcceptedFingerprint"
         }
        },
        {
@@ -23911,15 +24021,15 @@
        {
         "id": "lg99",
         "kind": "get",
-        "var": "RagScale",
+        "var": "OutfitScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls99",
         "kind": "set",
-        "var": "RagScale",
+        "var": "OutfitScale",
         "in": {
-         "RagScale": "@lg99.RagScale"
+         "OutfitScale": "@lg99.OutfitScale"
         }
        },
        {
@@ -23930,15 +24040,15 @@
        {
         "id": "lg100",
         "kind": "get",
-        "var": "InvScale",
+        "var": "LookScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls100",
         "kind": "set",
-        "var": "InvScale",
+        "var": "LookScale",
         "in": {
-         "InvScale": "@lg100.InvScale"
+         "LookScale": "@lg100.LookScale"
         }
        },
        {
@@ -23949,15 +24059,15 @@
        {
         "id": "lg101",
         "kind": "get",
-        "var": "OutfitCols",
+        "var": "RagScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls101",
         "kind": "set",
-        "var": "OutfitCols",
+        "var": "RagScale",
         "in": {
-         "OutfitCols": "@lg101.OutfitCols"
+         "RagScale": "@lg101.RagScale"
         }
        },
        {
@@ -23968,15 +24078,53 @@
        {
         "id": "lg102",
         "kind": "get",
-        "var": "OutfitRows",
+        "var": "InvScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls102",
         "kind": "set",
+        "var": "InvScale",
+        "in": {
+         "InvScale": "@lg102.InvScale"
+        }
+       },
+       {
+        "id": "lg103_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg103",
+        "kind": "get",
+        "var": "OutfitCols",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls103",
+        "kind": "set",
+        "var": "OutfitCols",
+        "in": {
+         "OutfitCols": "@lg103.OutfitCols"
+        }
+       },
+       {
+        "id": "lg104_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg104",
+        "kind": "get",
+        "var": "OutfitRows",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls104",
+        "kind": "set",
         "var": "OutfitRows",
         "in": {
-         "OutfitRows": "@lg102.OutfitRows"
+         "OutfitRows": "@lg104.OutfitRows"
         }
        },
        {
@@ -23998,44 +24146,6 @@
         }
        },
        {
-        "id": "lg103_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg103",
-        "kind": "get",
-        "var": "ThemeBg",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls103",
-        "kind": "set",
-        "var": "ThemeBg",
-        "in": {
-         "ThemeBg": "@lg103.ThemeBg"
-        }
-       },
-       {
-        "id": "lg104_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg104",
-        "kind": "get",
-        "var": "ThemeAccent",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls104",
-        "kind": "set",
-        "var": "ThemeAccent",
-        "in": {
-         "ThemeAccent": "@lg104.ThemeAccent"
-        }
-       },
-       {
         "id": "lg105_s",
         "kind": "get",
         "var": "Settings"
@@ -24043,15 +24153,15 @@
        {
         "id": "lg105",
         "kind": "get",
-        "var": "ThemeFill",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls105",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeBg",
         "in": {
-         "ThemeFill": "@lg105.ThemeFill"
+         "ThemeBg": "@lg105.ThemeBg"
         }
        },
        {
@@ -24062,15 +24172,15 @@
        {
         "id": "lg106",
         "kind": "get",
-        "var": "ThemeFrame",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls106",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeAccent",
         "in": {
-         "ThemeFrame": "@lg106.ThemeFrame"
+         "ThemeAccent": "@lg106.ThemeAccent"
         }
        },
        {
@@ -24081,15 +24191,15 @@
        {
         "id": "lg107",
         "kind": "get",
-        "var": "ThemeWorn",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls107",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFill",
         "in": {
-         "ThemeWorn": "@lg107.ThemeWorn"
+         "ThemeFill": "@lg107.ThemeFill"
         }
        },
        {
@@ -24100,15 +24210,15 @@
        {
         "id": "lg108",
         "kind": "get",
-        "var": "ThemeRow",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls108",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeFrame",
         "in": {
-         "ThemeRow": "@lg108.ThemeRow"
+         "ThemeFrame": "@lg108.ThemeFrame"
         }
        },
        {
@@ -24119,15 +24229,15 @@
        {
         "id": "lg109",
         "kind": "get",
-        "var": "ThemeText",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls109",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeWorn",
         "in": {
-         "ThemeText": "@lg109.ThemeText"
+         "ThemeWorn": "@lg109.ThemeWorn"
         }
        },
        {
@@ -24138,15 +24248,15 @@
        {
         "id": "lg110",
         "kind": "get",
-        "var": "ThemeHead",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls110",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeRow",
         "in": {
-         "ThemeHead": "@lg110.ThemeHead"
+         "ThemeRow": "@lg110.ThemeRow"
         }
        },
        {
@@ -24157,15 +24267,15 @@
        {
         "id": "lg111",
         "kind": "get",
-        "var": "ThemeLink",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls111",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeText",
         "in": {
-         "ThemeLink": "@lg111.ThemeLink"
+         "ThemeText": "@lg111.ThemeText"
         }
        },
        {
@@ -24176,15 +24286,15 @@
        {
         "id": "lg112",
         "kind": "get",
-        "var": "ThemeLine",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls112",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeHead",
         "in": {
-         "ThemeLine": "@lg112.ThemeLine"
+         "ThemeHead": "@lg112.ThemeHead"
         }
        },
        {
@@ -24195,46 +24305,15 @@
        {
         "id": "lg113",
         "kind": "get",
-        "var": "BgAlpha",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz113",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg113.BgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv113",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz113.ReturnValue"
-        }
-       },
-       {
-        "id": "ld113",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg113.BgAlpha",
-         "B": "0.88",
-         "bPickA": "@lv113.ReturnValue"
-        }
        },
        {
         "id": "ls113",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeLink",
         "in": {
-         "BgAlpha": "@ld113.ReturnValue"
+         "ThemeLink": "@lg113.ThemeLink"
         }
        },
        {
@@ -24245,46 +24324,115 @@
        {
         "id": "lg114",
         "kind": "get",
-        "var": "TileAlpha",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
-        "id": "lz114",
+        "id": "ls114",
+        "kind": "set",
+        "var": "ThemeLine",
+        "in": {
+         "ThemeLine": "@lg114.ThemeLine"
+        }
+       },
+       {
+        "id": "lg115_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg115",
+        "kind": "get",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz115",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg114.TileAlpha",
+         "A": "@lg115.BgAlpha",
          "B": "0.0"
         }
        },
        {
-        "id": "lv114",
+        "id": "lv115",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@ver.ReturnValue",
-         "B": "@lz114.ReturnValue"
+         "B": "@lz115.ReturnValue"
         }
        },
        {
-        "id": "ld114",
+        "id": "ld115",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg114.TileAlpha",
-         "B": "1.0",
-         "bPickA": "@lv114.ReturnValue"
+         "A": "@lg115.BgAlpha",
+         "B": "0.88",
+         "bPickA": "@lv115.ReturnValue"
         }
        },
        {
-        "id": "ls114",
+        "id": "ls115",
+        "kind": "set",
+        "var": "BgAlpha",
+        "in": {
+         "BgAlpha": "@ld115.ReturnValue"
+        }
+       },
+       {
+        "id": "lg116_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg116",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz116",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg116.TileAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv116",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz116.ReturnValue"
+        }
+       },
+       {
+        "id": "ld116",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg116.TileAlpha",
+         "B": "1.0",
+         "bPickA": "@lv116.ReturnValue"
+        }
+       },
+       {
+        "id": "ls116",
         "kind": "set",
         "var": "TileAlpha",
         "in": {
-         "TileAlpha": "@ld114.ReturnValue"
+         "TileAlpha": "@ld116.ReturnValue"
         }
        },
        {
@@ -24756,16 +24904,16 @@
         "lg102.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg103_s.Settings",
         "lg103.self"
        ],
        [
         "lg104_s.Settings",
         "lg104.self"
+       ],
+       [
+        "gth_s.Settings",
+        "gth.self"
        ],
        [
         "lg105_s.Settings",
@@ -24806,6 +24954,14 @@
        [
         "lg114_s.Settings",
         "lg114.self"
+       ],
+       [
+        "lg115_s.Settings",
+        "lg115.self"
+       ],
+       [
+        "lg116_s.Settings",
+        "lg116.self"
        ],
        [
         "gls.Settings",
@@ -25498,30 +25654,20 @@
        ],
        [
         "ls88",
-        "lb89"
+        "ls89"
        ],
        [
-        "lb89",
         "ls89"
        ],
        [
         "ls89",
-        "lb90"
+        "ls90"
        ],
        [
-        "lb89:else",
-        "lb90"
-       ],
-       [
-        "lb90",
         "ls90"
        ],
        [
         "ls90",
-        "lb91"
-       ],
-       [
-        "lb90:else",
         "lb91"
        ],
        [
@@ -25542,24 +25688,34 @@
        ],
        [
         "ls92",
-        "ls93"
+        "lb93"
        ],
        [
         "lb92:else",
-        "ls93"
+        "lb93"
        ],
        [
+        "lb93",
         "ls93"
        ],
        [
         "ls93",
-        "ls94"
+        "lb94"
        ],
        [
+        "lb93:else",
+        "lb94"
+       ],
+       [
+        "lb94",
         "ls94"
        ],
        [
         "ls94",
+        "ls95"
+       ],
+       [
+        "lb94:else",
         "ls95"
        ],
        [
@@ -25615,6 +25771,20 @@
         "ls102"
        ],
        [
+        "ls102",
+        "ls103"
+       ],
+       [
+        "ls103"
+       ],
+       [
+        "ls103",
+        "ls104"
+       ],
+       [
+        "ls104"
+       ],
+       [
         "entry",
         "ex",
         "b",
@@ -25633,13 +25803,11 @@
         "cr"
        ],
        [
-        "ls102",
+        "ls104",
         "bth"
        ],
        [
         "bth",
-        "ls103",
-        "ls104",
         "ls105",
         "ls106",
         "ls107",
@@ -25650,6 +25818,8 @@
         "ls112",
         "ls113",
         "ls114",
+        "ls115",
+        "ls116",
         "ath"
        ],
        [
@@ -27347,16 +27517,16 @@
        {
         "id": "g81",
         "kind": "get",
-        "var": "TabStyle"
+        "var": "KeyBindKeys"
        },
        {
         "id": "w81",
         "kind": "set",
-        "var": "TabStyle",
+        "var": "KeyBindKeys",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs81.Settings",
-         "TabStyle": "@g81.TabStyle"
+         "KeyBindKeys": "@g81.KeyBindKeys"
         }
        },
        {
@@ -27367,16 +27537,16 @@
        {
         "id": "g82",
         "kind": "get",
-        "var": "TabIconRight"
+        "var": "KeyBindItems"
        },
        {
         "id": "w82",
         "kind": "set",
-        "var": "TabIconRight",
+        "var": "KeyBindItems",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs82.Settings",
-         "TabIconRight": "@g82.TabIconRight"
+         "KeyBindItems": "@g82.KeyBindItems"
         }
        },
        {
@@ -27387,16 +27557,16 @@
        {
         "id": "g83",
         "kind": "get",
-        "var": "ThemePresets"
+        "var": "TabStyle"
        },
        {
         "id": "w83",
         "kind": "set",
-        "var": "ThemePresets",
+        "var": "TabStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs83.Settings",
-         "ThemePresets": "@g83.ThemePresets"
+         "TabStyle": "@g83.TabStyle"
         }
        },
        {
@@ -27407,16 +27577,16 @@
        {
         "id": "g84",
         "kind": "get",
-        "var": "ManageChipsCollapsed"
+        "var": "TabIconRight"
        },
        {
         "id": "w84",
         "kind": "set",
-        "var": "ManageChipsCollapsed",
+        "var": "TabIconRight",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs84.Settings",
-         "ManageChipsCollapsed": "@g84.ManageChipsCollapsed"
+         "TabIconRight": "@g84.TabIconRight"
         }
        },
        {
@@ -27427,16 +27597,16 @@
        {
         "id": "g85",
         "kind": "get",
-        "var": "QuickAlpha"
+        "var": "ThemePresets"
        },
        {
         "id": "w85",
         "kind": "set",
-        "var": "QuickAlpha",
+        "var": "ThemePresets",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs85.Settings",
-         "QuickAlpha": "@g85.QuickAlpha"
+         "ThemePresets": "@g85.ThemePresets"
         }
        },
        {
@@ -27447,16 +27617,16 @@
        {
         "id": "g86",
         "kind": "get",
-        "var": "MoveOn"
+        "var": "ManageChipsCollapsed"
        },
        {
         "id": "w86",
         "kind": "set",
-        "var": "MoveOn",
+        "var": "ManageChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs86.Settings",
-         "MoveOn": "@g86.MoveOn"
+         "ManageChipsCollapsed": "@g86.ManageChipsCollapsed"
         }
        },
        {
@@ -27467,16 +27637,16 @@
        {
         "id": "g87",
         "kind": "get",
-        "var": "WalkSpeedPct"
+        "var": "QuickAlpha"
        },
        {
         "id": "w87",
         "kind": "set",
-        "var": "WalkSpeedPct",
+        "var": "QuickAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs87.Settings",
-         "WalkSpeedPct": "@g87.WalkSpeedPct"
+         "QuickAlpha": "@g87.QuickAlpha"
         }
        },
        {
@@ -27487,16 +27657,16 @@
        {
         "id": "g88",
         "kind": "get",
-        "var": "RunSpeedPct"
+        "var": "MoveOn"
        },
        {
         "id": "w88",
         "kind": "set",
-        "var": "RunSpeedPct",
+        "var": "MoveOn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs88.Settings",
-         "RunSpeedPct": "@g88.RunSpeedPct"
+         "MoveOn": "@g88.MoveOn"
         }
        },
        {
@@ -27507,16 +27677,16 @@
        {
         "id": "g89",
         "kind": "get",
-        "var": "WalkStyle"
+        "var": "WalkSpeedPct"
        },
        {
         "id": "w89",
         "kind": "set",
-        "var": "WalkStyle",
+        "var": "WalkSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs89.Settings",
-         "WalkStyle": "@g89.WalkStyle"
+         "WalkSpeedPct": "@g89.WalkSpeedPct"
         }
        },
        {
@@ -27527,16 +27697,16 @@
        {
         "id": "g90",
         "kind": "get",
-        "var": "RunStyle"
+        "var": "RunSpeedPct"
        },
        {
         "id": "w90",
         "kind": "set",
-        "var": "RunStyle",
+        "var": "RunSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs90.Settings",
-         "RunStyle": "@g90.RunStyle"
+         "RunSpeedPct": "@g90.RunSpeedPct"
         }
        },
        {
@@ -27547,16 +27717,16 @@
        {
         "id": "g91",
         "kind": "get",
-        "var": "IdleStyle"
+        "var": "WalkStyle"
        },
        {
         "id": "w91",
         "kind": "set",
-        "var": "IdleStyle",
+        "var": "WalkStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs91.Settings",
-         "IdleStyle": "@g91.IdleStyle"
+         "WalkStyle": "@g91.WalkStyle"
         }
        },
        {
@@ -27567,16 +27737,16 @@
        {
         "id": "g92",
         "kind": "get",
-        "var": "IdlePose"
+        "var": "RunStyle"
        },
        {
         "id": "w92",
         "kind": "set",
-        "var": "IdlePose",
+        "var": "RunStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs92.Settings",
-         "IdlePose": "@g92.IdlePose"
+         "RunStyle": "@g92.RunStyle"
         }
        },
        {
@@ -27587,16 +27757,16 @@
        {
         "id": "g93",
         "kind": "get",
-        "var": "NoRenderedIcons"
+        "var": "IdleStyle"
        },
        {
         "id": "w93",
         "kind": "set",
-        "var": "NoRenderedIcons",
+        "var": "IdleStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs93.Settings",
-         "NoRenderedIcons": "@g93.NoRenderedIcons"
+         "IdleStyle": "@g93.IdleStyle"
         }
        },
        {
@@ -27607,16 +27777,16 @@
        {
         "id": "g94",
         "kind": "get",
-        "var": "RagWheelCm"
+        "var": "IdlePose"
        },
        {
         "id": "w94",
         "kind": "set",
-        "var": "RagWheelCm",
+        "var": "IdlePose",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs94.Settings",
-         "RagWheelCm": "@g94.RagWheelCm"
+         "IdlePose": "@g94.IdlePose"
         }
        },
        {
@@ -27627,16 +27797,16 @@
        {
         "id": "g95",
         "kind": "get",
-        "var": "SlowMoPct"
+        "var": "NoRenderedIcons"
        },
        {
         "id": "w95",
         "kind": "set",
-        "var": "SlowMoPct",
+        "var": "NoRenderedIcons",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs95.Settings",
-         "SlowMoPct": "@g95.SlowMoPct"
+         "NoRenderedIcons": "@g95.NoRenderedIcons"
         }
        },
        {
@@ -27647,16 +27817,16 @@
        {
         "id": "g96",
         "kind": "get",
-        "var": "AcceptedFingerprint"
+        "var": "RagWheelCm"
        },
        {
         "id": "w96",
         "kind": "set",
-        "var": "AcceptedFingerprint",
+        "var": "RagWheelCm",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs96.Settings",
-         "AcceptedFingerprint": "@g96.AcceptedFingerprint"
+         "RagWheelCm": "@g96.RagWheelCm"
         }
        },
        {
@@ -27667,16 +27837,16 @@
        {
         "id": "g97",
         "kind": "get",
-        "var": "OutfitScale"
+        "var": "SlowMoPct"
        },
        {
         "id": "w97",
         "kind": "set",
-        "var": "OutfitScale",
+        "var": "SlowMoPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs97.Settings",
-         "OutfitScale": "@g97.OutfitScale"
+         "SlowMoPct": "@g97.SlowMoPct"
         }
        },
        {
@@ -27687,16 +27857,16 @@
        {
         "id": "g98",
         "kind": "get",
-        "var": "LookScale"
+        "var": "AcceptedFingerprint"
        },
        {
         "id": "w98",
         "kind": "set",
-        "var": "LookScale",
+        "var": "AcceptedFingerprint",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs98.Settings",
-         "LookScale": "@g98.LookScale"
+         "AcceptedFingerprint": "@g98.AcceptedFingerprint"
         }
        },
        {
@@ -27707,16 +27877,16 @@
        {
         "id": "g99",
         "kind": "get",
-        "var": "RagScale"
+        "var": "OutfitScale"
        },
        {
         "id": "w99",
         "kind": "set",
-        "var": "RagScale",
+        "var": "OutfitScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs99.Settings",
-         "RagScale": "@g99.RagScale"
+         "OutfitScale": "@g99.OutfitScale"
         }
        },
        {
@@ -27727,16 +27897,16 @@
        {
         "id": "g100",
         "kind": "get",
-        "var": "InvScale"
+        "var": "LookScale"
        },
        {
         "id": "w100",
         "kind": "set",
-        "var": "InvScale",
+        "var": "LookScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs100.Settings",
-         "InvScale": "@g100.InvScale"
+         "LookScale": "@g100.LookScale"
         }
        },
        {
@@ -27747,16 +27917,16 @@
        {
         "id": "g101",
         "kind": "get",
-        "var": "OutfitCols"
+        "var": "RagScale"
        },
        {
         "id": "w101",
         "kind": "set",
-        "var": "OutfitCols",
+        "var": "RagScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs101.Settings",
-         "OutfitCols": "@g101.OutfitCols"
+         "RagScale": "@g101.RagScale"
         }
        },
        {
@@ -27767,16 +27937,16 @@
        {
         "id": "g102",
         "kind": "get",
-        "var": "OutfitRows"
+        "var": "InvScale"
        },
        {
         "id": "w102",
         "kind": "set",
-        "var": "OutfitRows",
+        "var": "InvScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs102.Settings",
-         "OutfitRows": "@g102.OutfitRows"
+         "InvScale": "@g102.InvScale"
         }
        },
        {
@@ -27787,16 +27957,16 @@
        {
         "id": "g103",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "OutfitCols"
        },
        {
         "id": "w103",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "OutfitCols",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs103.Settings",
-         "ThemeBg": "@g103.ThemeBg"
+         "OutfitCols": "@g103.OutfitCols"
         }
        },
        {
@@ -27807,16 +27977,16 @@
        {
         "id": "g104",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "OutfitRows"
        },
        {
         "id": "w104",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "OutfitRows",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs104.Settings",
-         "ThemeAccent": "@g104.ThemeAccent"
+         "OutfitRows": "@g104.OutfitRows"
         }
        },
        {
@@ -27827,16 +27997,16 @@
        {
         "id": "g105",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "ThemeBg"
        },
        {
         "id": "w105",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs105.Settings",
-         "ThemeFill": "@g105.ThemeFill"
+         "ThemeBg": "@g105.ThemeBg"
         }
        },
        {
@@ -27847,16 +28017,16 @@
        {
         "id": "g106",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "ThemeAccent"
        },
        {
         "id": "w106",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs106.Settings",
-         "ThemeFrame": "@g106.ThemeFrame"
+         "ThemeAccent": "@g106.ThemeAccent"
         }
        },
        {
@@ -27867,16 +28037,16 @@
        {
         "id": "g107",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "ThemeFill"
        },
        {
         "id": "w107",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs107.Settings",
-         "ThemeWorn": "@g107.ThemeWorn"
+         "ThemeFill": "@g107.ThemeFill"
         }
        },
        {
@@ -27887,16 +28057,16 @@
        {
         "id": "g108",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "ThemeFrame"
        },
        {
         "id": "w108",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs108.Settings",
-         "ThemeRow": "@g108.ThemeRow"
+         "ThemeFrame": "@g108.ThemeFrame"
         }
        },
        {
@@ -27907,16 +28077,16 @@
        {
         "id": "g109",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "ThemeWorn"
        },
        {
         "id": "w109",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs109.Settings",
-         "ThemeText": "@g109.ThemeText"
+         "ThemeWorn": "@g109.ThemeWorn"
         }
        },
        {
@@ -27927,16 +28097,16 @@
        {
         "id": "g110",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "ThemeRow"
        },
        {
         "id": "w110",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs110.Settings",
-         "ThemeHead": "@g110.ThemeHead"
+         "ThemeRow": "@g110.ThemeRow"
         }
        },
        {
@@ -27947,16 +28117,16 @@
        {
         "id": "g111",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "ThemeText"
        },
        {
         "id": "w111",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs111.Settings",
-         "ThemeLink": "@g111.ThemeLink"
+         "ThemeText": "@g111.ThemeText"
         }
        },
        {
@@ -27967,16 +28137,16 @@
        {
         "id": "g112",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "ThemeHead"
        },
        {
         "id": "w112",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs112.Settings",
-         "ThemeLine": "@g112.ThemeLine"
+         "ThemeHead": "@g112.ThemeHead"
         }
        },
        {
@@ -27987,16 +28157,16 @@
        {
         "id": "g113",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "ThemeLink"
        },
        {
         "id": "w113",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs113.Settings",
-         "BgAlpha": "@g113.BgAlpha"
+         "ThemeLink": "@g113.ThemeLink"
         }
        },
        {
@@ -28007,16 +28177,56 @@
        {
         "id": "g114",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "ThemeLine"
        },
        {
         "id": "w114",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs114.Settings",
-         "TileAlpha": "@g114.TileAlpha"
+         "ThemeLine": "@g114.ThemeLine"
+        }
+       },
+       {
+        "id": "gs115",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g115",
+        "kind": "get",
+        "var": "BgAlpha"
+       },
+       {
+        "id": "w115",
+        "kind": "set",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs115.Settings",
+         "BgAlpha": "@g115.BgAlpha"
+        }
+       },
+       {
+        "id": "gs116",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g116",
+        "kind": "get",
+        "var": "TileAlpha"
+       },
+       {
+        "id": "w116",
+        "kind": "set",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs116.Settings",
+         "TileAlpha": "@g116.TileAlpha"
         }
        },
        {
@@ -28221,6 +28431,8 @@
         "w112",
         "w113",
         "w114",
+        "w115",
+        "w116",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",
@@ -36605,6 +36817,24 @@
       {
        "name": "item",
        "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Bind Begin",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Bind Run",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "struct:/Script/InputCore.Key"
       }
      ]
     },
