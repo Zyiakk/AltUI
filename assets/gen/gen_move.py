@@ -237,20 +237,20 @@ def f_apply_style():
 
 
 def f_bind():
-    """Bind to a (new) Jodi: the old one loses the prerequisites and gets rate 1 back; order Jodi -> this -> her CharacterMovement."""
+    """Bind to a (new) Jodi: the old one loses the prerequisite and gets rate 1 back; this ticks after Jodi. Only that one edge: the
+    engine already ticks her CharacterMovement before her (UMovementComponent.bTickBeforeOwner), so the order is CMC -> Jodi -> this,
+    and our MaxWalkSpeed (written after her Update Max Speed) is what the next frame's move uses. A second edge CMC after this (1.9.0 -
+    2.2.0) closed a cycle CMC -> Jodi -> this -> CMC; the engine drops one edge of a cycle, which one depends on where it starts
+    queueing, so the movement ran sometimes before, sometimes after her camera update - the view stuttered (running with a pistol)."""
     g = G(); g.self_("me")
     g.get("gb", "Bound"); g.call("vb", K_SYS, "IsValid", inp={"Object": "@gb.Bound"}); g.branch("bb", "@vb.ReturnValue")
     g.call("ra", E_ACTOR, "RemoveTickPrerequisiteActor", inp={"self": "@me.self", "PrerequisiteActor": "@gb.Bound"})
-    g.get("gcm0", "CharacterMovement", cls=E_CHARACTER); g.link("gb.Bound", "gcm0.self")
-    g.call("rc", E_ACTC, "RemoveTickPrerequisiteActor", inp={"self": "@gcm0.CharacterMovement", "PrerequisiteActor": "@me.self"})
     g.get("gm0", "Mesh", cls=E_CHARACTER); g.link("gb.Bound", "gm0.self")
     g.set("r1", "GlobalAnimRateScale", cls=E_SKELMESHCOMP, inp={"self": "@gm0.Mesh", "GlobalAnimRateScale": "1.0"})
     g.set("sb", "Bound", inp={"Bound": "@entry.jodi"}); g.call("vn", K_SYS, "IsValid", inp={"Object": "@entry.jodi"}); g.branch("bn", "@vn.ReturnValue")
     g.call("aa", E_ACTOR, "AddTickPrerequisiteActor", inp={"self": "@me.self", "PrerequisiteActor": "@entry.jodi"})
-    g.get("gcm1", "CharacterMovement", cls=E_CHARACTER); g.link("entry.jodi", "gcm1.self")
-    g.call("ac", E_ACTC, "AddTickPrerequisiteActor", inp={"self": "@gcm1.CharacterMovement", "PrerequisiteActor": "@me.self"})
     g.set("sf", "Factor", inp={"Factor": "1.0"}); g.set("sr", "Rate", inp={"Rate": "1.0"}); g.set("sl", "LastSet", inp={"LastSet": "-1.0"}); g.set("si", "Idle", inp={"Idle": "false"})
-    g.chain("entry", "bb", "ra", "rc", "r1", "sb"); g.chain("bb:else", "sb"); g.chain("sb", "sf", "sr", "sl", "si", "bn", "aa", "ac")
+    g.chain("entry", "bb", "ra", "r1", "sb"); g.chain("bb:else", "sb"); g.chain("sb", "sf", "sr", "sl", "si", "bn", "aa")
     return fn("Bind", [param("jodi", "object:" + P_CPB)], graph=g)
 
 

@@ -83,6 +83,7 @@ Un look es todo a la vez: ropa con sus colores, peinado y color de pelo, maquill
 - Un clic en un look lo aplica.
 - Clic derecho: ver contenido, renombrar, actualizar (foto de frente o como se ve), mover, borrar, añadir al menú rápido o quitar de él.
 - Clic derecho también: «Crear como ragdoll», «Crear como seguidor», «Crear como PNJ» (ver «Ragdolls» y «Seguidores»).
+- Clic derecho «Copia limpia (sin partes que faltan)»: solo aparece si el look contiene prendas de un mod ya no instalado o filas de maquillaje / ojos que ninguna tabla tiene; crea un look nuevo justo detrás sin esas entradas, con la misma foto. El original queda como está; volver a guardar un look nunca las quita por sí solo.
 
 ## Mochila {#bag}
 
@@ -129,6 +130,8 @@ Cada animación de acción que conocen el juego y tus mods de poses: la lista de
 - Clic derecho «Usar en reposo»: la pose empieza tras 1,5 s quieta y termina cuando Jodi anda, saca un arma o se agacha; «Ya no en reposo» lo desactiva.
 - «Medir todas» reproduce una vez cada pose que aún no tiene postura y la ordena.
 - Un altavoz en la esquina de una casilla marca una pose con sonido.
+- «Medir todas» muestra el nombre de la pose que se está midiendo.
+- «Repetir poses: sí» en la barra de estado vuelve a iniciar una pose que termina sola, hasta que Jodi se mueve, la tecla de usar o «Detener pose» la terminan o se elige otra pose. Muchos mods de poses repiten sus poses de todos modos.
 
 ## Armas {#weapons}
 
@@ -182,16 +185,16 @@ Esta pestaña solo aparece cuando hay un mod así instalado.
 
 A la izquierda, las categorías.
 
-- General: idioma, cuánto de la pantalla queda libre para Jodi, permitir quitar la ropa interior, cómo se muestran las prendas que no posees, el interruptor del Códice para la enciclopedia, el catálogo «Todos los objetos» y «Equipar armas automáticamente» para la pestaña Inventario.
+- General: idioma, cuánto de la pantalla queda libre para Jodi, permitir quitar la ropa interior, cómo se muestran las prendas que no posees, el interruptor del Códice para la enciclopedia, el catálogo «Todos los objetos» y «Equipar armas automáticamente» para la pestaña Inventario. «Sin avisos» oculta todos los avisos de abajo, los de AltUI y los del propio juego.
 - Casillas: tamaño de las casillas, tamaños propios para casillas de conjuntos, looks y ragdolls, prendas por casilla de conjunto, sin límite en listas largas, datos de las descripciones emergentes, el tamaño de las casillas de la pestaña Inventario.
 - Grupos: unir grupos o mods con el mismo nombre, longitud de los nombres de grupo, altura de la zona de fichas, búsqueda de fichas.
-- Cámara: campo de visión, distancia, altura, la cámara sigue la ranura elegida.
+- Cámara: campo de visión, distancia, altura, la cámara sigue la ranura elegida. Dos interruptores para la cámara libre (también en el modo ragdolls): sin colisión – atraviesa paredes y a Jodi – y a cualquier distancia de Jodi.
 - Controles: tecla del panel, velocidad de desplazamiento, altura de la cámara con el botón derecho, cuánto levanta la rueda del ratón un ragdoll por paso.
 - Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta. «De pie» elige la animación en reposo de Jodi: las del juego (mirando alrededor, mirando las uñas, mirando la pierna, cautelosa, herida, posando) y las de los mods de reposo instalados (IdleAltUI_…).
 - Menú rápido: su tecla, su opacidad, lo que hay en la rueda, las teclas propias.
-- Colores: cada color del panel, opacidades, esquemas de color guardados con un nombre.
+- Tema: cada color del panel y su opacidad, una imagen de fondo (relleno, alineación, tono, sepia, invertir, opacidad propia) y una imagen para mosaicos y pestañas, esquemas de color guardados con un nombre; restablecer está en la barra de estado. Un tema guardado ahora conserva también las imágenes y sus ajustes. Imágenes propias: Background_1 … Background_30 y Button_1 … Button_30 (.png o .jpg) en la carpeta que indica la página.
 - Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas.
-- Pestañas: texto, iconos o ambos en la barra de pestañas; desactivar pestañas.
+- Pestañas: texto, iconos o ambos en la barra de pestañas; desactivar pestañas. «Intentar en una fila»: los textos se hacen más pequeños y luego más cortos, para que la barra quepa en una fila donde sea posible.
 
 ## Gestión {#manage}
 
@@ -208,6 +211,7 @@ Figuras con física para colocar y posar en el nivel: copias de Jodi, zombis y p
 
 - «+ Crear una copia de Jodi» pone una copia delante de ella, de pie y congelada en su pose actual, con todo lo que lleva puesto. Un look se convierte en figura con «Crear como ragdoll» en su menú contextual.
 - «Zombis y personas»: una casilla con imagen por tipo de zombi, además de la enfermera y una superviviente. Un clic la crea; los enlaces bajo una casilla crean sus variantes.
+- El mercenario también es un tipo de figura; conserva su fusil en las manos.
 - Cada figura tiene una fila: activa (física, cae y se puede lanzar) o congelada (mantiene su pose), «articulaciones ›», bloquear todas, liberar todas, quitar. «Quitar todos» quita todas las figuras.
 - «articulaciones ›» despliega las 17 articulaciones de la figura, cada una bloqueada, libre o móvil. Una articulación bloqueada queda rígida mientras la figura está activa.
 - Poses (en la fila desplegada): un nombre y «guardar pose» guardan cómo están colocadas las partes del cuerpo. Una pose se carga en cualquier figura del mismo tipo, en cualquier nivel: clic carga, clic derecho: cargar / borrar. La figura se congela y queda de pie sobre el suelo.
@@ -249,7 +253,7 @@ Looks convertidos en personas del juego: un seguidor acompaña a Jodi, lucha y o
 
 AltUI guarda las figuras en una partida propia (AltUI_Followers.sav); la partida del juego nunca las contiene. Los seguidores que siguen vienen a cada nivel y tras cargar; los que esperan y los PNJ se quedan en su nivel, en su sitio.
 
-Menú rápido: «Seguidor: sígueme / espera aquí» se dirige al seguidor que tienes a la vista, «Todos los seguidores: seguir / esperar» a todos.
+Menú rápido: «Seguidor: sígueme / espera aquí» se dirige al seguidor que tienes a la vista, «Todos los seguidores: seguir / esperar» a todos. «Todos los seguidores: venid aquí» trae a cada seguidor activo a los puestos delante de Jodi, también a uno que espera en otro nivel.
 
 ## Códice {#kodex}
 

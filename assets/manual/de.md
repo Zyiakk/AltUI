@@ -83,6 +83,7 @@ Ein Look ist alles auf einmal: Kleidung mit ihren Farben, Frisur und Haarfarbe, 
 - Klick auf einen Look wendet ihn an.
 - Rechtsklick: Inhalt anzeigen, Umbenennen, Aktualisieren (Foto frontal oder wie gesehen), Verschieben, Löschen, ins Schnellmenü oder heraus.
 - Rechtsklick außerdem: „Als Ragdoll spawnen“, „Als Follower spawnen“, „Als NPC spawnen“ (siehe „Ragdolls“ und „Follower“).
+- Rechtsklick „Bereinigte Kopie (ohne fehlende Teile)“ – nur, wenn der Look Teile einer nicht mehr installierten Mod oder Make-up-/Augen-Zeilen enthält, die keine Tabelle mehr kennt: ein neuer Look direkt dahinter ohne diese Einträge, mit demselben Foto. Das Original bleibt, wie es ist; Neuspeichern entfernt sie nie von selbst.
 
 ## Rucksack {#bag}
 
@@ -129,6 +130,8 @@ Jede Aktionsanimation, die das Spiel und deine Posen-Mods kennen – die Liste h
 - Rechtsklick „Als Idle verwenden“: Die Pose beginnt nach 1,5 s Stillstand und endet, wenn Jodi losgeht, eine Waffe zieht oder sich duckt; „Nicht mehr als Idle“ schaltet das ab.
 - „Alle einmessen“ spielt jede Pose ohne Einordnung einmal ab und ordnet sie ein.
 - Ein Lautsprecher in der Ecke einer Kachel zeigt eine Pose mit Ton.
+- „Alle einmessen“ zeigt den Namen der Pose, die gerade gemessen wird.
+- „Posen wiederholen: an“ in der Statusleiste startet eine Pose, die von selbst endet, wieder neu – bis Jodi sich bewegt, die Benutzen-Taste oder „Pose beenden“ sie beendet oder eine andere Pose gewählt wird. Viele Posen-Mods wiederholen ihre Posen ohnehin.
 
 ## Waffen {#weapons}
 
@@ -182,16 +185,16 @@ Der Reiter erscheint nur, wenn ein solcher Mod installiert ist.
 
 Links die Kategorien.
 
-- Allgemein: Sprache, wie viel vom Bildschirm für Jodi frei bleibt, Unterwäsche darf ausgezogen werden, wie Teile ohne Besitz erscheinen, der Kodex-Schalter für die Enzyklopädie, der Katalog „Alle Items“ und „Waffen automatisch ausrüsten“ für den Reiter Inventar.
+- Allgemein: Sprache, wie viel vom Bildschirm für Jodi frei bleibt, Unterwäsche darf ausgezogen werden, wie Teile ohne Besitz erscheinen, der Kodex-Schalter für die Enzyklopädie, der Katalog „Alle Items“ und „Waffen automatisch ausrüsten“ für den Reiter Inventar. „Keine Hinweise“ blendet alle Hinweise unten aus, die von AltUI und die des Spiels.
 - Kacheln: Kachelgröße, eigene Größen für Outfit-, Look- und Ragdoll-Kacheln, Teile pro Outfit-Kachel, keine Grenze bei langen Listen, Tooltip-Angaben, die Kachelgröße des Reiters Inventar.
 - Gruppen: Gruppen oder Mods gleichen Namens zusammenfassen, Länge der Gruppennamen, Höhe des Chip-Bereichs, Chip-Suche.
-- Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot.
+- Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot. Zwei Schalter für die freie Kamera (auch im Ragdolls-Modus): keine Kollision – sie fliegt durch Wände und Jodi – und beliebig weit von Jodi weg.
 - Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.
 - Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).
 - Schnellmenü: Taste, Deckkraft, was im Rad steht, eigene Tasten.
-- Farben: jede Farbe des Panels, Deckkraft, Farbschemata unter einem Namen gespeichert.
+- Theme: jede Farbe des Panels mit ihrer Deckkraft, ein Hintergrundbild (Füllung, Ausrichtung, Farbton, Sepia, Invertieren, eigene Deckkraft) und ein Bild für Kacheln und Reiter, Farbschemata unter einem Namen gespeichert; Zurücksetzen steht in der Statusleiste. Ein jetzt gespeichertes Theme behält auch die Bilder und ihre Einstellungen. Eigene Bilder: Background_1 … Background_30 und Button_1 … Button_30 (.png oder .jpg) in dem Ordner, den die Seite nennt.
 - Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können.
-- Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten.
+- Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten. „Möglichst in eine Zeile“: die Beschriftungen werden kleiner und dann kürzer, damit die Leiste wo möglich in eine Zeile passt.
 
 ## Verwaltung {#manage}
 
@@ -208,6 +211,7 @@ Figuren mit Physik zum Aufstellen und Posieren im Level: Kopien von Jodi, Zombie
 
 - „+ Kopie von Jodi spawnen“ stellt eine Kopie vor sie, stehend und eingefroren in ihrer aktuellen Pose, mit allem, was sie trägt. Ein Look wird mit „Als Ragdoll spawnen“ in seinem Kontextmenü zur Figur.
 - „Zombies und Menschen“: eine Bildkachel je Zombie-Art, dazu die Krankenschwester und eine Überlebende. Ein Klick spawnt sie; die Links unter einer Kachel spawnen ihre Varianten.
+- Auch der Söldner ist eine Figurenart; er behält sein Gewehr in den Händen.
 - Jede Figur hat eine Zeile: aktiv (Physik, sie fällt und lässt sich werfen) oder eingefroren (sie hält ihre Pose), „Gelenke ›“, alle sperren, alle lösen, entfernen. „Alle entfernen“ entfernt jede Figur.
 - „Gelenke ›“ klappt die 17 Gelenke der Figur auf, jedes gesperrt, frei oder beweglich. Ein gesperrtes Gelenk bleibt steif, solange die Figur aktiv ist.
 - Posen (in der aufgeklappten Zeile): ein Name und „Pose speichern“ halten fest, wie die Körperteile stehen. Eine Pose lässt sich auf jede Figur derselben Art laden, in jedem Level – Klick lädt, Rechtsklick: Laden / Löschen. Die Figur friert dabei ein und steht auf dem Boden.
@@ -249,7 +253,7 @@ Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befeh
 
 AltUI speichert die Figuren in einem eigenen Spielstand (AltUI_Followers.sav), der Spielstand des Spiels enthält sie nie. Folgende Follower kommen in jedes Level mit und sind nach dem Laden da; wartende Follower und NPCs bleiben in ihrem Level an ihrem Platz.
 
-Schnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im Blick, „Alle Follower: folgen / warten“ für alle.
+Schnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im Blick, „Alle Follower: folgen / warten“ für alle. „Alle Follower: zu mir“ holt jeden aktiven Follower auf die Plätze vor Jodi – auch einen, der in einem anderen Level wartet.
 
 ## Kodex {#kodex}
 

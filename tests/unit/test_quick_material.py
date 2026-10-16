@@ -25,3 +25,12 @@ class QuickMaterial(unittest.TestCase):
 
 
 if __name__ == "__main__": unittest.main()
+
+
+class ImageBoxMaterial(unittest.TestCase):
+    """Button image material (Options > Theme): cooked for Windows, and no engine material function (GetUserInterfaceUV is not in the
+    game's pak - verify_pak refused the first build)."""
+    def test_cooked_with_shaders_and_no_engine_function(self):
+        for ext in ("uasset", "uexp"): self.assertTrue(os.path.isfile(os.path.join(COOKED, "M_ImageBox." + ext)), ext)
+        self.assertIn(b"DXBC", open(os.path.join(COOKED, "M_ImageBox.uexp"), "rb").read())
+        self.assertNotIn(b"GetUserInterfaceUV", open(os.path.join(COOKED, "M_ImageBox.uasset"), "rb").read())

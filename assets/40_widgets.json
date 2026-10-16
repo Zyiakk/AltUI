@@ -4873,13 +4873,140 @@
          "self": "@gwFill.Fill",
          "InBrushColor": "@cFill.ReturnValue"
         }
+       },
+       {
+        "id": "img_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "img_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@img_m.Manager"
+        }
+       },
+       {
+        "id": "img_on",
+        "kind": "get",
+        "var": "ButtonOn",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@img_v.ReturnValue",
+         "B": "@img_on.ButtonOn"
+        }
+       },
+       {
+        "id": "img_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@img_a.ReturnValue"
+        }
+       },
+       {
+        "id": "img_br",
+        "kind": "get",
+        "var": "ButtonBrush",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_w",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrush",
+        "in": {
+         "self": "@img_w.Fill",
+         "InBrush": "@img_br.ButtonBrush"
+        }
+       },
+       {
+        "id": "img_l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LinearColorLerp",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@cFill.ReturnValue",
+         "Alpha": "0.4"
+        }
+       },
+       {
+        "id": "img_k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakColor",
+        "in": {
+         "InColor": "@img_l.ReturnValue"
+        }
+       },
+       {
+        "id": "img_ta",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@img_k.R",
+         "G": "@img_k.G",
+         "B": "@img_k.B",
+         "A": "@img_ta.TileAlpha"
+        }
+       },
+       {
+        "id": "img_w2",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sc",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@img_w2.Fill",
+         "InBrushColor": "@img_c.ReturnValue"
+        }
        }
       ],
-      "links": [],
+      "links": [
+       [
+        "img_m.Manager",
+        "img_on.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_br.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_ta.self"
+       ]
+      ],
       "exec": [
        [
         "entry",
-        "sFill"
+        "sFill",
+        "img_b",
+        "img_sb",
+        "img_sc"
        ]
       ]
      }
@@ -7336,14 +7463,141 @@
          "self": "@gwFill.Fill",
          "InBrushColor": "@cFill.ReturnValue"
         }
+       },
+       {
+        "id": "img_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "img_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@img_m.Manager"
+        }
+       },
+       {
+        "id": "img_on",
+        "kind": "get",
+        "var": "ButtonOn",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@img_v.ReturnValue",
+         "B": "@img_on.ButtonOn"
+        }
+       },
+       {
+        "id": "img_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@img_a.ReturnValue"
+        }
+       },
+       {
+        "id": "img_br",
+        "kind": "get",
+        "var": "ButtonBrush",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_w",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrush",
+        "in": {
+         "self": "@img_w.Fill",
+         "InBrush": "@img_br.ButtonBrush"
+        }
+       },
+       {
+        "id": "img_l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LinearColorLerp",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@cFill.ReturnValue",
+         "Alpha": "0.4"
+        }
+       },
+       {
+        "id": "img_k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakColor",
+        "in": {
+         "InColor": "@img_l.ReturnValue"
+        }
+       },
+       {
+        "id": "img_ta",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@img_k.R",
+         "G": "@img_k.G",
+         "B": "@img_k.B",
+         "A": "@img_ta.TileAlpha"
+        }
+       },
+       {
+        "id": "img_w2",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sc",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@img_w2.Fill",
+         "InBrushColor": "@img_c.ReturnValue"
+        }
        }
       ],
-      "links": [],
+      "links": [
+       [
+        "img_m.Manager",
+        "img_on.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_br.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_ta.self"
+       ]
+      ],
       "exec": [
        [
         "entry",
         "sFrame",
-        "sFill"
+        "sFill",
+        "img_b",
+        "img_sb",
+        "img_sc"
        ]
       ]
      }
@@ -8397,6 +8651,10 @@
      "type": "bool"
     },
     {
+     "name": "Caption",
+     "type": "string"
+    },
+    {
      "name": "BaseFill",
      "type": "struct:/Script/CoreUObject.LinearColor"
     },
@@ -8465,6 +8723,23 @@
         "in": {
          "self": "@gl.Label",
          "InText": "@entry.caption"
+        }
+       },
+       {
+        "id": "cts",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@entry.caption"
+        }
+       },
+       {
+        "id": "scp",
+        "kind": "set",
+        "var": "Caption",
+        "in": {
+         "Caption": "@cts.ReturnValue"
         }
        },
        {
@@ -8899,6 +9174,7 @@
         "sp",
         "ssl",
         "st",
+        "scp",
         "tIconLBox",
         "tIconRBox",
         "bIconL",
@@ -8992,6 +9268,201 @@
        [
         "cc",
         "ap"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Fit",
+     "inputs": [
+      {
+       "name": "size",
+       "type": "int"
+      },
+      {
+       "name": "maxc",
+       "type": "int"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "gf",
+        "kind": "get",
+        "var": "Font",
+        "class": "/Script/UMG.TextBlock"
+       },
+       {
+        "id": "bf",
+        "kind": "break",
+        "struct": "/Script/SlateCore.SlateFontInfo",
+        "in": {
+         "SlateFontInfo": "@gf.Font"
+        }
+       },
+       {
+        "id": "mf",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateFontInfo",
+        "in": {
+         "FontObject": "@bf.FontObject",
+         "FontMaterial": "@bf.FontMaterial",
+         "OutlineSettings": "@bf.OutlineSettings",
+         "TypefaceFontName": "@bf.TypefaceFontName",
+         "Size": "@entry.size",
+         "LetterSpacing": "@bf.LetterSpacing"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "sfn",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetFont",
+        "in": {
+         "self": "@gl2.Label",
+         "InFontInfo": "@mf.SlateFontInfo"
+        }
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Caption"
+       },
+       {
+        "id": "ln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Len",
+        "in": {
+         "S": "@gc.Caption"
+        }
+       },
+       {
+        "id": "pos",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@entry.maxc",
+         "B": "0"
+        }
+       },
+       {
+        "id": "lng",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@ln.ReturnValue",
+         "B": "@entry.maxc"
+        }
+       },
+       {
+        "id": "cut",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@pos.ReturnValue",
+         "B": "@lng.ReturnValue"
+        }
+       },
+       {
+        "id": "m1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@entry.maxc",
+         "B": "1"
+        }
+       },
+       {
+        "id": "lf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Left",
+        "in": {
+         "SourceString": "@gc.Caption",
+         "Count": "@m1.ReturnValue"
+        }
+       },
+       {
+        "id": "tr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "TrimTrailing",
+        "in": {
+         "SourceString": "@lf.ReturnValue"
+        }
+       },
+       {
+        "id": "el",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@tr.ReturnValue",
+         "B": "…"
+        }
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@el.ReturnValue",
+         "B": "@gc.Caption",
+         "bPickA": "@cut.ReturnValue"
+        }
+       },
+       {
+        "id": "tx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@sel.ReturnValue"
+        }
+       },
+       {
+        "id": "gl3",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "stx",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl3.Label",
+         "InText": "@tx.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gl.Label",
+        "gf.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "sfn",
+        "stx"
        ]
       ]
      }
@@ -9389,13 +9860,140 @@
          "self": "@gwFill.Fill",
          "InBrushColor": "@cFill.ReturnValue"
         }
+       },
+       {
+        "id": "img_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "img_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@img_m.Manager"
+        }
+       },
+       {
+        "id": "img_on",
+        "kind": "get",
+        "var": "ButtonOn",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@img_v.ReturnValue",
+         "B": "@img_on.ButtonOn"
+        }
+       },
+       {
+        "id": "img_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@img_a.ReturnValue"
+        }
+       },
+       {
+        "id": "img_br",
+        "kind": "get",
+        "var": "ButtonBrush",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_w",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrush",
+        "in": {
+         "self": "@img_w.Fill",
+         "InBrush": "@img_br.ButtonBrush"
+        }
+       },
+       {
+        "id": "img_l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LinearColorLerp",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@cFill.ReturnValue",
+         "Alpha": "0.4"
+        }
+       },
+       {
+        "id": "img_k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakColor",
+        "in": {
+         "InColor": "@img_l.ReturnValue"
+        }
+       },
+       {
+        "id": "img_ta",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@img_k.R",
+         "G": "@img_k.G",
+         "B": "@img_k.B",
+         "A": "@img_ta.TileAlpha"
+        }
+       },
+       {
+        "id": "img_w2",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sc",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@img_w2.Fill",
+         "InBrushColor": "@img_c.ReturnValue"
+        }
        }
       ],
-      "links": [],
+      "links": [
+       [
+        "img_m.Manager",
+        "img_on.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_br.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_ta.self"
+       ]
+      ],
       "exec": [
        [
         "entry",
-        "sFill"
+        "sFill",
+        "img_b",
+        "img_sb",
+        "img_sc"
        ]
       ]
      }
@@ -20720,14 +21318,141 @@
          "self": "@gwFill.Fill",
          "InBrushColor": "@cFill.ReturnValue"
         }
+       },
+       {
+        "id": "img_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "img_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@img_m.Manager"
+        }
+       },
+       {
+        "id": "img_on",
+        "kind": "get",
+        "var": "ButtonOn",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@img_v.ReturnValue",
+         "B": "@img_on.ButtonOn"
+        }
+       },
+       {
+        "id": "img_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@img_a.ReturnValue"
+        }
+       },
+       {
+        "id": "img_br",
+        "kind": "get",
+        "var": "ButtonBrush",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_w",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrush",
+        "in": {
+         "self": "@img_w.Fill",
+         "InBrush": "@img_br.ButtonBrush"
+        }
+       },
+       {
+        "id": "img_l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LinearColorLerp",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@cFill.ReturnValue",
+         "Alpha": "0.4"
+        }
+       },
+       {
+        "id": "img_k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakColor",
+        "in": {
+         "InColor": "@img_l.ReturnValue"
+        }
+       },
+       {
+        "id": "img_ta",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@img_k.R",
+         "G": "@img_k.G",
+         "B": "@img_k.B",
+         "A": "@img_ta.TileAlpha"
+        }
+       },
+       {
+        "id": "img_w2",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sc",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@img_w2.Fill",
+         "InBrushColor": "@img_c.ReturnValue"
+        }
        }
       ],
-      "links": [],
+      "links": [
+       [
+        "img_m.Manager",
+        "img_on.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_br.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_ta.self"
+       ]
+      ],
       "exec": [
        [
         "entry",
         "sFrame",
-        "sFill"
+        "sFill",
+        "img_b",
+        "img_sb",
+        "img_sc"
        ]
       ]
      }
@@ -24162,14 +24887,141 @@
          "self": "@gwFill.Fill",
          "InBrushColor": "@cFill.ReturnValue"
         }
+       },
+       {
+        "id": "img_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "img_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@img_m.Manager"
+        }
+       },
+       {
+        "id": "img_on",
+        "kind": "get",
+        "var": "ButtonOn",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@img_v.ReturnValue",
+         "B": "@img_on.ButtonOn"
+        }
+       },
+       {
+        "id": "img_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@img_a.ReturnValue"
+        }
+       },
+       {
+        "id": "img_br",
+        "kind": "get",
+        "var": "ButtonBrush",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_w",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrush",
+        "in": {
+         "self": "@img_w.Fill",
+         "InBrush": "@img_br.ButtonBrush"
+        }
+       },
+       {
+        "id": "img_l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LinearColorLerp",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@cFill.ReturnValue",
+         "Alpha": "0.4"
+        }
+       },
+       {
+        "id": "img_k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakColor",
+        "in": {
+         "InColor": "@img_l.ReturnValue"
+        }
+       },
+       {
+        "id": "img_ta",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@img_k.R",
+         "G": "@img_k.G",
+         "B": "@img_k.B",
+         "A": "@img_ta.TileAlpha"
+        }
+       },
+       {
+        "id": "img_w2",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sc",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@img_w2.Fill",
+         "InBrushColor": "@img_c.ReturnValue"
+        }
        }
       ],
-      "links": [],
+      "links": [
+       [
+        "img_m.Manager",
+        "img_on.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_br.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_ta.self"
+       ]
+      ],
       "exec": [
        [
         "entry",
         "sFrame",
-        "sFill"
+        "sFill",
+        "img_b",
+        "img_sb",
+        "img_sc"
        ]
       ]
      }
@@ -26467,14 +27319,141 @@
          "self": "@gwFill.Fill",
          "InBrushColor": "@cFill.ReturnValue"
         }
+       },
+       {
+        "id": "img_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "img_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@img_m.Manager"
+        }
+       },
+       {
+        "id": "img_on",
+        "kind": "get",
+        "var": "ButtonOn",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@img_v.ReturnValue",
+         "B": "@img_on.ButtonOn"
+        }
+       },
+       {
+        "id": "img_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@img_a.ReturnValue"
+        }
+       },
+       {
+        "id": "img_br",
+        "kind": "get",
+        "var": "ButtonBrush",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_w",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrush",
+        "in": {
+         "self": "@img_w.Fill",
+         "InBrush": "@img_br.ButtonBrush"
+        }
+       },
+       {
+        "id": "img_l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LinearColorLerp",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@cFill.ReturnValue",
+         "Alpha": "0.4"
+        }
+       },
+       {
+        "id": "img_k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakColor",
+        "in": {
+         "InColor": "@img_l.ReturnValue"
+        }
+       },
+       {
+        "id": "img_ta",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@img_k.R",
+         "G": "@img_k.G",
+         "B": "@img_k.B",
+         "A": "@img_ta.TileAlpha"
+        }
+       },
+       {
+        "id": "img_w2",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sc",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@img_w2.Fill",
+         "InBrushColor": "@img_c.ReturnValue"
+        }
        }
       ],
-      "links": [],
+      "links": [
+       [
+        "img_m.Manager",
+        "img_on.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_br.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_ta.self"
+       ]
+      ],
       "exec": [
        [
         "entry",
         "sFrame",
-        "sFill"
+        "sFill",
+        "img_b",
+        "img_sb",
+        "img_sc"
        ]
       ]
      }
@@ -28772,14 +29751,141 @@
          "self": "@gwFill.Fill",
          "InBrushColor": "@cFill.ReturnValue"
         }
+       },
+       {
+        "id": "img_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "img_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@img_m.Manager"
+        }
+       },
+       {
+        "id": "img_on",
+        "kind": "get",
+        "var": "ButtonOn",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@img_v.ReturnValue",
+         "B": "@img_on.ButtonOn"
+        }
+       },
+       {
+        "id": "img_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@img_a.ReturnValue"
+        }
+       },
+       {
+        "id": "img_br",
+        "kind": "get",
+        "var": "ButtonBrush",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_w",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrush",
+        "in": {
+         "self": "@img_w.Fill",
+         "InBrush": "@img_br.ButtonBrush"
+        }
+       },
+       {
+        "id": "img_l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LinearColorLerp",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@cFill.ReturnValue",
+         "Alpha": "0.4"
+        }
+       },
+       {
+        "id": "img_k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakColor",
+        "in": {
+         "InColor": "@img_l.ReturnValue"
+        }
+       },
+       {
+        "id": "img_ta",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@img_k.R",
+         "G": "@img_k.G",
+         "B": "@img_k.B",
+         "A": "@img_ta.TileAlpha"
+        }
+       },
+       {
+        "id": "img_w2",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sc",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@img_w2.Fill",
+         "InBrushColor": "@img_c.ReturnValue"
+        }
        }
       ],
-      "links": [],
+      "links": [
+       [
+        "img_m.Manager",
+        "img_on.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_br.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_ta.self"
+       ]
+      ],
       "exec": [
        [
         "entry",
         "sFrame",
-        "sFill"
+        "sFill",
+        "img_b",
+        "img_sb",
+        "img_sc"
        ]
       ]
      }
@@ -31075,14 +32181,141 @@
          "self": "@gwFill.Fill",
          "InBrushColor": "@cFill.ReturnValue"
         }
+       },
+       {
+        "id": "img_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "img_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@img_m.Manager"
+        }
+       },
+       {
+        "id": "img_on",
+        "kind": "get",
+        "var": "ButtonOn",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@img_v.ReturnValue",
+         "B": "@img_on.ButtonOn"
+        }
+       },
+       {
+        "id": "img_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@img_a.ReturnValue"
+        }
+       },
+       {
+        "id": "img_br",
+        "kind": "get",
+        "var": "ButtonBrush",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_w",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrush",
+        "in": {
+         "self": "@img_w.Fill",
+         "InBrush": "@img_br.ButtonBrush"
+        }
+       },
+       {
+        "id": "img_l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LinearColorLerp",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@cFill.ReturnValue",
+         "Alpha": "0.4"
+        }
+       },
+       {
+        "id": "img_k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakColor",
+        "in": {
+         "InColor": "@img_l.ReturnValue"
+        }
+       },
+       {
+        "id": "img_ta",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@img_k.R",
+         "G": "@img_k.G",
+         "B": "@img_k.B",
+         "A": "@img_ta.TileAlpha"
+        }
+       },
+       {
+        "id": "img_w2",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sc",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@img_w2.Fill",
+         "InBrushColor": "@img_c.ReturnValue"
+        }
        }
       ],
-      "links": [],
+      "links": [
+       [
+        "img_m.Manager",
+        "img_on.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_br.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_ta.self"
+       ]
+      ],
       "exec": [
        [
         "entry",
         "sFrame",
-        "sFill"
+        "sFill",
+        "img_b",
+        "img_sb",
+        "img_sc"
        ]
       ]
      }
@@ -49827,6 +51060,27 @@
     {
      "name": "CheckSize",
      "type": "float"
+    },
+    {
+     "name": "FitDone",
+     "type": "bool"
+    },
+    {
+     "name": "FitSum",
+     "type": "float"
+    },
+    {
+     "name": "FitKids",
+     "type": "object:/Script/UMG.Widget",
+     "container": "array"
+    },
+    {
+     "name": "BgImgOn",
+     "type": "bool"
+    },
+    {
+     "name": "TileBrush",
+     "type": "struct:/Script/SlateCore.SlateBrush"
     }
    ],
    "functions": [
@@ -50747,6 +52001,98 @@
         "kind": "get",
         "var": "ColHead",
         "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "t_HdrThemeColors_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColHead.ColHead"
+        }
+       },
+       {
+        "id": "t_HdrThemeColors_w",
+        "kind": "get",
+        "var": "HdrThemeColors"
+       },
+       {
+        "id": "t_HdrThemeColors",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_HdrThemeColors_w.HdrThemeColors",
+         "InColorAndOpacity": "@t_HdrThemeColors_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_HdrBgPic_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColHead.ColHead"
+        }
+       },
+       {
+        "id": "t_HdrBgPic_w",
+        "kind": "get",
+        "var": "HdrBgPic"
+       },
+       {
+        "id": "t_HdrBgPic",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_HdrBgPic_w.HdrBgPic",
+         "InColorAndOpacity": "@t_HdrBgPic_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_HdrBtnPic_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColHead.ColHead"
+        }
+       },
+       {
+        "id": "t_HdrBtnPic_w",
+        "kind": "get",
+        "var": "HdrBtnPic"
+       },
+       {
+        "id": "t_HdrBtnPic",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_HdrBtnPic_w.HdrBtnPic",
+         "InColorAndOpacity": "@t_HdrBtnPic_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_HdrThemeSchemes_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColHead.ColHead"
+        }
+       },
+       {
+        "id": "t_HdrThemeSchemes_w",
+        "kind": "get",
+        "var": "HdrThemeSchemes"
+       },
+       {
+        "id": "t_HdrThemeSchemes",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_HdrThemeSchemes_w.HdrThemeSchemes",
+         "InColorAndOpacity": "@t_HdrThemeSchemes_sc.SlateColor"
+        }
        },
        {
         "id": "t_FolBagTitle_sc",
@@ -52275,6 +53621,121 @@
         "in": {
          "self": "@t_ValSlowMo_w.ValSlowMo",
          "InColorAndOpacity": "@t_ValSlowMo_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_ValBgImgAlpha_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValBgImgAlpha_w",
+        "kind": "get",
+        "var": "ValBgImgAlpha"
+       },
+       {
+        "id": "t_ValBgImgAlpha",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValBgImgAlpha_w.ValBgImgAlpha",
+         "InColorAndOpacity": "@t_ValBgImgAlpha_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_ValBgHue_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValBgHue_w",
+        "kind": "get",
+        "var": "ValBgHue"
+       },
+       {
+        "id": "t_ValBgHue",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValBgHue_w.ValBgHue",
+         "InColorAndOpacity": "@t_ValBgHue_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_ValBgSepia_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValBgSepia_w",
+        "kind": "get",
+        "var": "ValBgSepia"
+       },
+       {
+        "id": "t_ValBgSepia",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValBgSepia_w.ValBgSepia",
+         "InColorAndOpacity": "@t_ValBgSepia_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_ValBtnHue_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValBtnHue_w",
+        "kind": "get",
+        "var": "ValBtnHue"
+       },
+       {
+        "id": "t_ValBtnHue",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValBtnHue_w.ValBtnHue",
+         "InColorAndOpacity": "@t_ValBtnHue_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_ValBtnSepia_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValBtnSepia_w",
+        "kind": "get",
+        "var": "ValBtnSepia"
+       },
+       {
+        "id": "t_ValBtnSepia",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValBtnSepia_w.ValBtnSepia",
+         "InColorAndOpacity": "@t_ValBtnSepia_sc.SlateColor"
         }
        },
        {
@@ -53945,6 +55406,121 @@
         }
        },
        {
+        "id": "t_LblBgImgAlpha_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblBgImgAlpha_w",
+        "kind": "get",
+        "var": "LblBgImgAlpha"
+       },
+       {
+        "id": "t_LblBgImgAlpha",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblBgImgAlpha_w.LblBgImgAlpha",
+         "InColorAndOpacity": "@t_LblBgImgAlpha_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblBgHue_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblBgHue_w",
+        "kind": "get",
+        "var": "LblBgHue"
+       },
+       {
+        "id": "t_LblBgHue",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblBgHue_w.LblBgHue",
+         "InColorAndOpacity": "@t_LblBgHue_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblBgSepia_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblBgSepia_w",
+        "kind": "get",
+        "var": "LblBgSepia"
+       },
+       {
+        "id": "t_LblBgSepia",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblBgSepia_w.LblBgSepia",
+         "InColorAndOpacity": "@t_LblBgSepia_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblBtnHue_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblBtnHue_w",
+        "kind": "get",
+        "var": "LblBtnHue"
+       },
+       {
+        "id": "t_LblBtnHue",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblBtnHue_w.LblBtnHue",
+         "InColorAndOpacity": "@t_LblBtnHue_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblBtnSepia_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblBtnSepia_w",
+        "kind": "get",
+        "var": "LblBtnSepia"
+       },
+       {
+        "id": "t_LblBtnSepia",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblBtnSepia_w.LblBtnSepia",
+         "InColorAndOpacity": "@t_LblBtnSepia_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_LblBreast_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -54689,6 +56265,81 @@
         "function": "SetSliderBarColor",
         "in": {
          "self": "@gs_SlowMo.SldSlowMo",
+         "InValue": "@c_slider.ColSlider"
+        }
+       },
+       {
+        "id": "gs_BgImgAlpha",
+        "kind": "get",
+        "var": "SldBgImgAlpha"
+       },
+       {
+        "id": "ss_BgImgAlpha",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gs_BgImgAlpha.SldBgImgAlpha",
+         "InValue": "@c_slider.ColSlider"
+        }
+       },
+       {
+        "id": "gs_BgHue",
+        "kind": "get",
+        "var": "SldBgHue"
+       },
+       {
+        "id": "ss_BgHue",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gs_BgHue.SldBgHue",
+         "InValue": "@c_slider.ColSlider"
+        }
+       },
+       {
+        "id": "gs_BgSepia",
+        "kind": "get",
+        "var": "SldBgSepia"
+       },
+       {
+        "id": "ss_BgSepia",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gs_BgSepia.SldBgSepia",
+         "InValue": "@c_slider.ColSlider"
+        }
+       },
+       {
+        "id": "gs_BtnHue",
+        "kind": "get",
+        "var": "SldBtnHue"
+       },
+       {
+        "id": "ss_BtnHue",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gs_BtnHue.SldBtnHue",
+         "InValue": "@c_slider.ColSlider"
+        }
+       },
+       {
+        "id": "gs_BtnSepia",
+        "kind": "get",
+        "var": "SldBtnSepia"
+       },
+       {
+        "id": "ss_BtnSepia",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gs_BtnSepia.SldBtnSepia",
          "InValue": "@c_slider.ColSlider"
         }
        },
@@ -55555,7 +57206,7 @@
        {
         "id": "rg11",
         "kind": "get",
-        "var": "LangChips"
+        "var": "TabRowChips"
        },
        {
         "id": "rc11",
@@ -55563,7 +57214,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg11.LangChips"
+         "self": "@rg11.TabRowChips"
         }
        },
        {
@@ -55610,7 +57261,7 @@
        {
         "id": "rg12",
         "kind": "get",
-        "var": "KeyChips"
+        "var": "BgImageChips"
        },
        {
         "id": "rc12",
@@ -55618,7 +57269,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg12.KeyChips"
+         "self": "@rg12.BgImageChips"
         }
        },
        {
@@ -55665,7 +57316,7 @@
        {
         "id": "rg13",
         "kind": "get",
-        "var": "ThemeLinks"
+        "var": "BgFitChips"
        },
        {
         "id": "rc13",
@@ -55673,7 +57324,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg13.ThemeLinks"
+         "self": "@rg13.BgFitChips"
         }
        },
        {
@@ -55686,7 +57337,7 @@
        {
         "id": "rx13",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf13.Array Element"
@@ -55698,7 +57349,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx13.AsW_TextButton"
+         "Object": "@rx13.AsW_SubTab"
         }
        },
        {
@@ -55711,16 +57362,16 @@
        {
         "id": "rr13",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx13.AsW_TextButton"
+         "self": "@rx13.AsW_SubTab"
         }
        },
        {
         "id": "rg14",
         "kind": "get",
-        "var": "BodyScLinks"
+        "var": "BgHAlignChips"
        },
        {
         "id": "rc14",
@@ -55728,7 +57379,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg14.BodyScLinks"
+         "self": "@rg14.BgHAlignChips"
         }
        },
        {
@@ -55741,7 +57392,7 @@
        {
         "id": "rx14",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf14.Array Element"
@@ -55753,7 +57404,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx14.AsW_TextButton"
+         "Object": "@rx14.AsW_SubTab"
         }
        },
        {
@@ -55766,16 +57417,16 @@
        {
         "id": "rr14",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx14.AsW_TextButton"
+         "self": "@rx14.AsW_SubTab"
         }
        },
        {
         "id": "rg15",
         "kind": "get",
-        "var": "StatusLinks"
+        "var": "BgVAlignChips"
        },
        {
         "id": "rc15",
@@ -55783,7 +57434,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg15.StatusLinks"
+         "self": "@rg15.BgVAlignChips"
         }
        },
        {
@@ -55796,7 +57447,7 @@
        {
         "id": "rx15",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf15.Array Element"
@@ -55808,7 +57459,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx15.AsW_TextButton"
+         "Object": "@rx15.AsW_SubTab"
         }
        },
        {
@@ -55821,16 +57472,16 @@
        {
         "id": "rr15",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx15.AsW_TextButton"
+         "self": "@rx15.AsW_SubTab"
         }
        },
        {
         "id": "rg16",
         "kind": "get",
-        "var": "StatusRight"
+        "var": "BtnImageChips"
        },
        {
         "id": "rc16",
@@ -55838,7 +57489,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg16.StatusRight"
+         "self": "@rg16.BtnImageChips"
         }
        },
        {
@@ -55851,7 +57502,7 @@
        {
         "id": "rx16",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf16.Array Element"
@@ -55863,7 +57514,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx16.AsW_TextButton"
+         "Object": "@rx16.AsW_SubTab"
         }
        },
        {
@@ -55876,16 +57527,16 @@
        {
         "id": "rr16",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx16.AsW_TextButton"
+         "self": "@rx16.AsW_SubTab"
         }
        },
        {
         "id": "rg17",
         "kind": "get",
-        "var": "ThemeCol0"
+        "var": "BgInvChips"
        },
        {
         "id": "rc17",
@@ -55893,7 +57544,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg17.ThemeCol0"
+         "self": "@rg17.BgInvChips"
         }
        },
        {
@@ -55906,7 +57557,7 @@
        {
         "id": "rx17",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf17.Array Element"
@@ -55918,7 +57569,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx17.AsW_ColorSwatch"
+         "Object": "@rx17.AsW_SubTab"
         }
        },
        {
@@ -55931,16 +57582,16 @@
        {
         "id": "rr17",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx17.AsW_ColorSwatch"
+         "self": "@rx17.AsW_SubTab"
         }
        },
        {
         "id": "rg18",
         "kind": "get",
-        "var": "ThemeCol1"
+        "var": "BtnInvChips"
        },
        {
         "id": "rc18",
@@ -55948,7 +57599,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg18.ThemeCol1"
+         "self": "@rg18.BtnInvChips"
         }
        },
        {
@@ -55961,7 +57612,7 @@
        {
         "id": "rx18",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf18.Array Element"
@@ -55973,7 +57624,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx18.AsW_ColorSwatch"
+         "Object": "@rx18.AsW_SubTab"
         }
        },
        {
@@ -55986,16 +57637,16 @@
        {
         "id": "rr18",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx18.AsW_ColorSwatch"
+         "self": "@rx18.AsW_SubTab"
         }
        },
        {
         "id": "rg19",
         "kind": "get",
-        "var": "ThemeCol2"
+        "var": "LangChips"
        },
        {
         "id": "rc19",
@@ -56003,7 +57654,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg19.ThemeCol2"
+         "self": "@rg19.LangChips"
         }
        },
        {
@@ -56016,7 +57667,7 @@
        {
         "id": "rx19",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf19.Array Element"
@@ -56028,7 +57679,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx19.AsW_ColorSwatch"
+         "Object": "@rx19.AsW_SubTab"
         }
        },
        {
@@ -56041,16 +57692,16 @@
        {
         "id": "rr19",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx19.AsW_ColorSwatch"
+         "self": "@rx19.AsW_SubTab"
         }
        },
        {
         "id": "rg20",
         "kind": "get",
-        "var": "ThemeCol3"
+        "var": "KeyChips"
        },
        {
         "id": "rc20",
@@ -56058,7 +57709,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg20.ThemeCol3"
+         "self": "@rg20.KeyChips"
         }
        },
        {
@@ -56071,7 +57722,7 @@
        {
         "id": "rx20",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf20.Array Element"
@@ -56083,7 +57734,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx20.AsW_ColorSwatch"
+         "Object": "@rx20.AsW_SubTab"
         }
        },
        {
@@ -56096,16 +57747,16 @@
        {
         "id": "rr20",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx20.AsW_ColorSwatch"
+         "self": "@rx20.AsW_SubTab"
         }
        },
        {
         "id": "rg21",
         "kind": "get",
-        "var": "ThemeCol4"
+        "var": "BodyScLinks"
        },
        {
         "id": "rc21",
@@ -56113,7 +57764,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg21.ThemeCol4"
+         "self": "@rg21.BodyScLinks"
         }
        },
        {
@@ -56126,7 +57777,7 @@
        {
         "id": "rx21",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_TextButton",
         "pure": true,
         "in": {
          "Object": "@rf21.Array Element"
@@ -56138,7 +57789,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx21.AsW_ColorSwatch"
+         "Object": "@rx21.AsW_TextButton"
         }
        },
        {
@@ -56151,10 +57802,395 @@
        {
         "id": "rr21",
         "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "function": "Refresh Theme",
+        "in": {
+         "self": "@rx21.AsW_TextButton"
+        }
+       },
+       {
+        "id": "rg22",
+        "kind": "get",
+        "var": "StatusLinks"
+       },
+       {
+        "id": "rc22",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "GetAllChildren",
+        "in": {
+         "self": "@rg22.StatusLinks"
+        }
+       },
+       {
+        "id": "rf22",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rc22.ReturnValue"
+        }
+       },
+       {
+        "id": "rx22",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "pure": true,
+        "in": {
+         "Object": "@rf22.Array Element"
+        }
+       },
+       {
+        "id": "rv22",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@rx22.AsW_TextButton"
+        }
+       },
+       {
+        "id": "rb22",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rv22.ReturnValue"
+        }
+       },
+       {
+        "id": "rr22",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "function": "Refresh Theme",
+        "in": {
+         "self": "@rx22.AsW_TextButton"
+        }
+       },
+       {
+        "id": "rg23",
+        "kind": "get",
+        "var": "StatusRight"
+       },
+       {
+        "id": "rc23",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "GetAllChildren",
+        "in": {
+         "self": "@rg23.StatusRight"
+        }
+       },
+       {
+        "id": "rf23",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rc23.ReturnValue"
+        }
+       },
+       {
+        "id": "rx23",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "pure": true,
+        "in": {
+         "Object": "@rf23.Array Element"
+        }
+       },
+       {
+        "id": "rv23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@rx23.AsW_TextButton"
+        }
+       },
+       {
+        "id": "rb23",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rv23.ReturnValue"
+        }
+       },
+       {
+        "id": "rr23",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "function": "Refresh Theme",
+        "in": {
+         "self": "@rx23.AsW_TextButton"
+        }
+       },
+       {
+        "id": "rg24",
+        "kind": "get",
+        "var": "ThemeCol0"
+       },
+       {
+        "id": "rc24",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "GetAllChildren",
+        "in": {
+         "self": "@rg24.ThemeCol0"
+        }
+       },
+       {
+        "id": "rf24",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rc24.ReturnValue"
+        }
+       },
+       {
+        "id": "rx24",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "pure": true,
+        "in": {
+         "Object": "@rf24.Array Element"
+        }
+       },
+       {
+        "id": "rv24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@rx24.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rb24",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rv24.ReturnValue"
+        }
+       },
+       {
+        "id": "rr24",
+        "kind": "call",
         "class": "/Game/Mod/AltUI/W_ColorSwatch",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx21.AsW_ColorSwatch"
+         "self": "@rx24.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rg25",
+        "kind": "get",
+        "var": "ThemeCol1"
+       },
+       {
+        "id": "rc25",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "GetAllChildren",
+        "in": {
+         "self": "@rg25.ThemeCol1"
+        }
+       },
+       {
+        "id": "rf25",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rc25.ReturnValue"
+        }
+       },
+       {
+        "id": "rx25",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "pure": true,
+        "in": {
+         "Object": "@rf25.Array Element"
+        }
+       },
+       {
+        "id": "rv25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@rx25.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rb25",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rv25.ReturnValue"
+        }
+       },
+       {
+        "id": "rr25",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "function": "Refresh Theme",
+        "in": {
+         "self": "@rx25.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rg26",
+        "kind": "get",
+        "var": "ThemeCol2"
+       },
+       {
+        "id": "rc26",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "GetAllChildren",
+        "in": {
+         "self": "@rg26.ThemeCol2"
+        }
+       },
+       {
+        "id": "rf26",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rc26.ReturnValue"
+        }
+       },
+       {
+        "id": "rx26",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "pure": true,
+        "in": {
+         "Object": "@rf26.Array Element"
+        }
+       },
+       {
+        "id": "rv26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@rx26.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rb26",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rv26.ReturnValue"
+        }
+       },
+       {
+        "id": "rr26",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "function": "Refresh Theme",
+        "in": {
+         "self": "@rx26.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rg27",
+        "kind": "get",
+        "var": "ThemeCol3"
+       },
+       {
+        "id": "rc27",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "GetAllChildren",
+        "in": {
+         "self": "@rg27.ThemeCol3"
+        }
+       },
+       {
+        "id": "rf27",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rc27.ReturnValue"
+        }
+       },
+       {
+        "id": "rx27",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "pure": true,
+        "in": {
+         "Object": "@rf27.Array Element"
+        }
+       },
+       {
+        "id": "rv27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@rx27.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rb27",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rv27.ReturnValue"
+        }
+       },
+       {
+        "id": "rr27",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "function": "Refresh Theme",
+        "in": {
+         "self": "@rx27.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rg28",
+        "kind": "get",
+        "var": "ThemeCol4"
+       },
+       {
+        "id": "rc28",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "GetAllChildren",
+        "in": {
+         "self": "@rg28.ThemeCol4"
+        }
+       },
+       {
+        "id": "rf28",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rc28.ReturnValue"
+        }
+       },
+       {
+        "id": "rx28",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "pure": true,
+        "in": {
+         "Object": "@rf28.Array Element"
+        }
+       },
+       {
+        "id": "rv28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@rx28.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rb28",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rv28.ReturnValue"
+        }
+       },
+       {
+        "id": "rr28",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "function": "Refresh Theme",
+        "in": {
+         "self": "@rx28.AsW_ColorSwatch"
         }
        }
       ],
@@ -56269,6 +58305,10 @@
         "si5",
         "sf6",
         "si6",
+        "t_HdrThemeColors",
+        "t_HdrBgPic",
+        "t_HdrBtnPic",
+        "t_HdrThemeSchemes",
         "t_FolBagTitle",
         "t_FolBoxTitle",
         "t_InvBagTitle",
@@ -56335,6 +58375,11 @@
         "t_ValRunSpeed",
         "t_ValRagWheel",
         "t_ValSlowMo",
+        "t_ValBgImgAlpha",
+        "t_ValBgHue",
+        "t_ValBgSepia",
+        "t_ValBtnHue",
+        "t_ValBtnSepia",
         "t_ValBreast",
         "t_ValWaist",
         "t_ValScHeight",
@@ -56407,6 +58452,11 @@
         "t_LblRunSpeed",
         "t_LblRagWheel",
         "t_LblSlowMo",
+        "t_LblBgImgAlpha",
+        "t_LblBgHue",
+        "t_LblBgSepia",
+        "t_LblBtnHue",
+        "t_LblBtnSepia",
         "t_LblBreast",
         "t_LblWaist",
         "t_LblScHeight",
@@ -56446,6 +58496,11 @@
         "ss_RunSpeed",
         "ss_RagWheel",
         "ss_SlowMo",
+        "ss_BgImgAlpha",
+        "ss_BgHue",
+        "ss_BgSepia",
+        "ss_BtnHue",
+        "ss_BtnSepia",
         "ss_Breast",
         "ss_Waist",
         "ss_ScHeight",
@@ -56661,6 +58716,69 @@
         "rf21",
         "rb21",
         "rr21"
+       ],
+       [
+        "rf21:Completed",
+        "rf22"
+       ],
+       [
+        "rf22",
+        "rb22",
+        "rr22"
+       ],
+       [
+        "rf22:Completed",
+        "rf23"
+       ],
+       [
+        "rf23",
+        "rb23",
+        "rr23"
+       ],
+       [
+        "rf23:Completed",
+        "rf24"
+       ],
+       [
+        "rf24",
+        "rb24",
+        "rr24"
+       ],
+       [
+        "rf24:Completed",
+        "rf25"
+       ],
+       [
+        "rf25",
+        "rb25",
+        "rr25"
+       ],
+       [
+        "rf25:Completed",
+        "rf26"
+       ],
+       [
+        "rf26",
+        "rb26",
+        "rr26"
+       ],
+       [
+        "rf26:Completed",
+        "rf27"
+       ],
+       [
+        "rf27",
+        "rb27",
+        "rr27"
+       ],
+       [
+        "rf27:Completed",
+        "rf28"
+       ],
+       [
+        "rf28",
+        "rb28",
+        "rr28"
        ]
       ]
      }
@@ -57009,69 +59127,6 @@
         "b4",
         "a4",
         "p4"
-       ]
-      ]
-     }
-    },
-    {
-     "name": "Clear Theme Links",
-     "graph": {
-      "nodes": [
-       {
-        "id": "g",
-        "kind": "get",
-        "var": "ThemeLinks"
-       },
-       {
-        "id": "c",
-        "kind": "call",
-        "class": "/Script/UMG.PanelWidget",
-        "function": "ClearChildren",
-        "in": {
-         "self": "@g.ThemeLinks"
-        }
-       }
-      ],
-      "links": [],
-      "exec": [
-       [
-        "entry",
-        "c"
-       ]
-      ]
-     }
-    },
-    {
-     "name": "Add Theme Link",
-     "inputs": [
-      {
-       "name": "widget",
-       "type": "object:/Script/UMG.Widget"
-      }
-     ],
-     "graph": {
-      "nodes": [
-       {
-        "id": "g",
-        "kind": "get",
-        "var": "ThemeLinks"
-       },
-       {
-        "id": "a",
-        "kind": "call",
-        "class": "/Script/UMG.HorizontalBox",
-        "function": "AddChildToHorizontalBox",
-        "in": {
-         "self": "@g.ThemeLinks",
-         "Content": "@entry.widget"
-        }
-       }
-      ],
-      "links": [],
-      "exec": [
-       [
-        "entry",
-        "a"
        ]
       ]
      }
@@ -64022,6 +66077,1695 @@
      }
     },
     {
+     "name": "Clear Tab Row Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "TabRowChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.TabRowChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Tab Row Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "TabRowChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.TabRowChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear BgImage Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgImageChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.BgImageChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add BgImage Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgImageChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.BgImageChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear BgFit Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgFitChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.BgFitChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add BgFit Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgFitChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.BgFitChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear BgHAlign Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgHAlignChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.BgHAlignChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add BgHAlign Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgHAlignChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.BgHAlignChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear BgVAlign Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgVAlignChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.BgVAlignChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add BgVAlign Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgVAlignChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.BgVAlignChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear BtnImage Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BtnImageChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.BtnImageChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add BtnImage Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BtnImageChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.BtnImageChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear BgInv Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgInvChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.BgInvChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add BgInv Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BgInvChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.BgInvChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear BtnInv Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BtnInvChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.BtnInvChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add BtnInv Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "BtnInvChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.BtnInvChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Image Hint",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "LblImgHint"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gh.LblImgHint",
+         "InText": "@entry.text"
+        }
+       },
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.text"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "LblImgHint"
+       },
+       {
+        "id": "hd",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh2.LblImgHint",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gh3",
+        "kind": "get",
+        "var": "LblImgHint"
+       },
+       {
+        "id": "sh",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh3.LblImgHint",
+         "InVisibility": "Visible"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "st",
+        "b",
+        "hd"
+       ],
+       [
+        "b:else",
+        "sh"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Bg Image",
+     "inputs": [
+      {
+       "name": "tex",
+       "type": "object:/Script/Engine.Texture2D"
+      },
+      {
+       "name": "mat",
+       "type": "object:/Script/Engine.MaterialInterface"
+      },
+      {
+       "name": "fit",
+       "type": "int"
+      },
+      {
+       "name": "h",
+       "type": "int"
+      },
+      {
+       "name": "v",
+       "type": "int"
+      },
+      {
+       "name": "alpha",
+       "type": "float"
+      },
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "so",
+        "kind": "set",
+        "var": "BgImgOn",
+        "in": {
+         "BgImgOn": "@entry.on"
+        }
+       },
+       {
+        "id": "bon",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.on"
+        }
+       },
+       {
+        "id": "goff",
+        "kind": "get",
+        "var": "BgImgLayer"
+       },
+       {
+        "id": "loff",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@goff.BgImgLayer",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gon",
+        "kind": "get",
+        "var": "BgImgLayer"
+       },
+       {
+        "id": "lon",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gon.BgImgLayer",
+         "InVisibility": "HitTestInvisible"
+        }
+       },
+       {
+        "id": "tint",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "1.0",
+         "G": "1.0",
+         "B": "1.0",
+         "A": "@entry.alpha"
+        }
+       },
+       {
+        "id": "ist",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.fit",
+         "B": "3"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ist.ReturnValue"
+        }
+       },
+       {
+        "id": "gs0",
+        "kind": "get",
+        "var": "BgScale"
+       },
+       {
+        "id": "hs0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gs0.BgScale",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gt0",
+        "kind": "get",
+        "var": "BgTile"
+       },
+       {
+        "id": "vt0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gt0.BgTile",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "sx",
+        "kind": "call",
+        "class": "/Script/Engine.Texture2D",
+        "function": "Blueprint_GetSizeX",
+        "in": {
+         "self": "@entry.tex"
+        }
+       },
+       {
+        "id": "sy",
+        "kind": "call",
+        "class": "/Script/Engine.Texture2D",
+        "function": "Blueprint_GetSizeY",
+        "in": {
+         "self": "@entry.tex"
+        }
+       },
+       {
+        "id": "fx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@sx.ReturnValue"
+        }
+       },
+       {
+        "id": "fy",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Conv_IntToFloat",
+        "in": {
+         "InInt": "@sy.ReturnValue"
+        }
+       },
+       {
+        "id": "isz",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "@fx.ReturnValue",
+         "Y": "@fy.ReturnValue"
+        }
+       },
+       {
+        "id": "mb",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateBrush",
+        "in": {
+         "ImageSize": "@isz.ReturnValue",
+         "DrawAs": "Image",
+         "Tiling": "Both"
+        }
+       },
+       {
+        "id": "stb",
+        "kind": "set",
+        "var": "TileBrush",
+        "in": {
+         "TileBrush": "@mb.SlateBrush"
+        }
+       },
+       {
+        "id": "gtb",
+        "kind": "get",
+        "var": "TileBrush"
+       },
+       {
+        "id": "srt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "SetBrushResourceToMaterial",
+        "in": {
+         "Brush": "@gtb.TileBrush",
+         "Material": "@entry.mat"
+        }
+       },
+       {
+        "id": "gtb2",
+        "kind": "get",
+        "var": "TileBrush"
+       },
+       {
+        "id": "gt1",
+        "kind": "get",
+        "var": "BgTile"
+       },
+       {
+        "id": "stl",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetBrush",
+        "in": {
+         "self": "@gt1.BgTile",
+         "InBrush": "@gtb2.TileBrush"
+        }
+       },
+       {
+        "id": "gt2",
+        "kind": "get",
+        "var": "BgTile"
+       },
+       {
+        "id": "ctl",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@gt2.BgTile",
+         "InColorAndOpacity": "@tint.ReturnValue"
+        }
+       },
+       {
+        "id": "gt3",
+        "kind": "get",
+        "var": "BgTile"
+       },
+       {
+        "id": "ht3",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gt3.BgTile",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gs1",
+        "kind": "get",
+        "var": "BgScale"
+       },
+       {
+        "id": "vs1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gs1.BgScale",
+         "InVisibility": "HitTestInvisible"
+        }
+       },
+       {
+        "id": "mb2",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateBrush",
+        "in": {
+         "ImageSize": "@isz.ReturnValue",
+         "DrawAs": "Image"
+        }
+       },
+       {
+        "id": "stbi",
+        "kind": "set",
+        "var": "TileBrush",
+        "in": {
+         "TileBrush": "@mb2.SlateBrush"
+        }
+       },
+       {
+        "id": "gtb3",
+        "kind": "get",
+        "var": "TileBrush"
+       },
+       {
+        "id": "srm2",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "SetBrushResourceToMaterial",
+        "in": {
+         "Brush": "@gtb3.TileBrush",
+         "Material": "@entry.mat"
+        }
+       },
+       {
+        "id": "gtb4",
+        "kind": "get",
+        "var": "TileBrush"
+       },
+       {
+        "id": "gi0",
+        "kind": "get",
+        "var": "BgImage"
+       },
+       {
+        "id": "sbt",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetBrush",
+        "in": {
+         "self": "@gi0.BgImage",
+         "InBrush": "@gtb4.TileBrush"
+        }
+       },
+       {
+        "id": "gi1",
+        "kind": "get",
+        "var": "BgImage"
+       },
+       {
+        "id": "cim",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@gi1.BgImage",
+         "InColorAndOpacity": "@tint.ReturnValue"
+        }
+       },
+       {
+        "id": "ste0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.fit",
+         "B": "0"
+        }
+       },
+       {
+        "id": "stb0",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ste0.ReturnValue"
+        }
+       },
+       {
+        "id": "stn0g",
+        "kind": "get",
+        "var": "BgScale"
+       },
+       {
+        "id": "stn0",
+        "kind": "call",
+        "class": "/Script/UMG.ScaleBox",
+        "function": "SetStretch",
+        "in": {
+         "self": "@stn0g.BgScale",
+         "InStretch": "ScaleToFill"
+        }
+       },
+       {
+        "id": "ste1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.fit",
+         "B": "1"
+        }
+       },
+       {
+        "id": "stb1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ste1.ReturnValue"
+        }
+       },
+       {
+        "id": "stn1g",
+        "kind": "get",
+        "var": "BgScale"
+       },
+       {
+        "id": "stn1",
+        "kind": "call",
+        "class": "/Script/UMG.ScaleBox",
+        "function": "SetStretch",
+        "in": {
+         "self": "@stn1g.BgScale",
+         "InStretch": "ScaleToFit"
+        }
+       },
+       {
+        "id": "ste2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.fit",
+         "B": "2"
+        }
+       },
+       {
+        "id": "stb2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ste2.ReturnValue"
+        }
+       },
+       {
+        "id": "stn2g",
+        "kind": "get",
+        "var": "BgScale"
+       },
+       {
+        "id": "stn2",
+        "kind": "call",
+        "class": "/Script/UMG.ScaleBox",
+        "function": "SetStretch",
+        "in": {
+         "self": "@stn2g.BgScale",
+         "InStretch": "Fill"
+        }
+       },
+       {
+        "id": "gi2",
+        "kind": "get",
+        "var": "BgImage"
+       },
+       {
+        "id": "slot",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetLayoutLibrary",
+        "function": "SlotAsScaleBoxSlot",
+        "in": {
+         "Widget": "@gi2.BgImage"
+        }
+       },
+       {
+        "id": "hae0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.h",
+         "B": "0"
+        }
+       },
+       {
+        "id": "hab0",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hae0.ReturnValue"
+        }
+       },
+       {
+        "id": "han0",
+        "kind": "call",
+        "class": "/Script/UMG.ScaleBoxSlot",
+        "function": "SetHorizontalAlignment",
+        "in": {
+         "self": "@slot.ReturnValue",
+         "InHorizontalAlignment": "HAlign_Left"
+        }
+       },
+       {
+        "id": "hae1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.h",
+         "B": "1"
+        }
+       },
+       {
+        "id": "hab1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hae1.ReturnValue"
+        }
+       },
+       {
+        "id": "han1",
+        "kind": "call",
+        "class": "/Script/UMG.ScaleBoxSlot",
+        "function": "SetHorizontalAlignment",
+        "in": {
+         "self": "@slot.ReturnValue",
+         "InHorizontalAlignment": "HAlign_Center"
+        }
+       },
+       {
+        "id": "hae2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.h",
+         "B": "2"
+        }
+       },
+       {
+        "id": "hab2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hae2.ReturnValue"
+        }
+       },
+       {
+        "id": "han2",
+        "kind": "call",
+        "class": "/Script/UMG.ScaleBoxSlot",
+        "function": "SetHorizontalAlignment",
+        "in": {
+         "self": "@slot.ReturnValue",
+         "InHorizontalAlignment": "HAlign_Right"
+        }
+       },
+       {
+        "id": "vae0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.v",
+         "B": "0"
+        }
+       },
+       {
+        "id": "vab0",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vae0.ReturnValue"
+        }
+       },
+       {
+        "id": "van0",
+        "kind": "call",
+        "class": "/Script/UMG.ScaleBoxSlot",
+        "function": "SetVerticalAlignment",
+        "in": {
+         "self": "@slot.ReturnValue",
+         "InVerticalAlignment": "VAlign_Top"
+        }
+       },
+       {
+        "id": "vae1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.v",
+         "B": "1"
+        }
+       },
+       {
+        "id": "vab1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vae1.ReturnValue"
+        }
+       },
+       {
+        "id": "van1",
+        "kind": "call",
+        "class": "/Script/UMG.ScaleBoxSlot",
+        "function": "SetVerticalAlignment",
+        "in": {
+         "self": "@slot.ReturnValue",
+         "InVerticalAlignment": "VAlign_Center"
+        }
+       },
+       {
+        "id": "vae2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@entry.v",
+         "B": "2"
+        }
+       },
+       {
+        "id": "vab2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vae2.ReturnValue"
+        }
+       },
+       {
+        "id": "van2",
+        "kind": "call",
+        "class": "/Script/UMG.ScaleBoxSlot",
+        "function": "SetVerticalAlignment",
+        "in": {
+         "self": "@slot.ReturnValue",
+         "InVerticalAlignment": "VAlign_Bottom"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "so",
+        "bon",
+        "lon",
+        "bt"
+       ],
+       [
+        "bon:else",
+        "loff"
+       ],
+       [
+        "bt",
+        "hs0",
+        "vt0",
+        "stb",
+        "srt",
+        "stl",
+        "ctl"
+       ],
+       [
+        "bt:else",
+        "ht3",
+        "vs1",
+        "stbi",
+        "srm2",
+        "sbt",
+        "cim"
+       ],
+       [
+        "cim",
+        "stb0"
+       ],
+       [
+        "stb0",
+        "stn0"
+       ],
+       [
+        "stb0:else",
+        "stb1"
+       ],
+       [
+        "stb1",
+        "stn1"
+       ],
+       [
+        "stb1:else",
+        "stb2"
+       ],
+       [
+        "stb2",
+        "stn2"
+       ],
+       [
+        "stn0",
+        "hab0"
+       ],
+       [
+        "stn1",
+        "hab0"
+       ],
+       [
+        "stn2",
+        "hab0"
+       ],
+       [
+        "stb2:else",
+        "hab0"
+       ],
+       [
+        "hab0",
+        "han0"
+       ],
+       [
+        "hab0:else",
+        "hab1"
+       ],
+       [
+        "hab1",
+        "han1"
+       ],
+       [
+        "hab1:else",
+        "hab2"
+       ],
+       [
+        "hab2",
+        "han2"
+       ],
+       [
+        "han0",
+        "vab0"
+       ],
+       [
+        "han1",
+        "vab0"
+       ],
+       [
+        "han2",
+        "vab0"
+       ],
+       [
+        "hab2:else",
+        "vab0"
+       ],
+       [
+        "vab0",
+        "van0"
+       ],
+       [
+        "vab0:else",
+        "vab1"
+       ],
+       [
+        "vab1",
+        "van1"
+       ],
+       [
+        "vab1:else",
+        "vab2"
+       ],
+       [
+        "vab2",
+        "van2"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Top Tabs Width",
+     "outputs": [
+      {
+       "name": "width",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "TopTabs"
+       },
+       {
+        "id": "geo",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "GetCachedGeometry",
+        "in": {
+         "self": "@g.TopTabs"
+        }
+       },
+       {
+        "id": "ls",
+        "kind": "call",
+        "class": "/Script/UMG.SlateBlueprintLibrary",
+        "function": "GetLocalSize",
+        "in": {
+         "Geometry": "@geo.ReturnValue"
+        }
+       },
+       {
+        "id": "bv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@ls.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "bv.X",
+        "return.width"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Fit Top Tabs",
+     "inputs": [
+      {
+       "name": "avail",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "s0",
+        "kind": "set",
+        "var": "FitDone",
+        "in": {
+         "FitDone": "false"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "TopTabs"
+       },
+       {
+        "id": "ch",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "GetAllChildren",
+        "in": {
+         "self": "@gt.TopTabs"
+        }
+       },
+       {
+        "id": "sk",
+        "kind": "set",
+        "var": "FitKids",
+        "in": {
+         "FitKids": "@ch.ReturnValue"
+        }
+       },
+       {
+        "id": "steps",
+        "kind": "make_array",
+        "count": 12,
+        "type": "int",
+        "in": {
+         "[0]": "2700",
+         "[1]": "2500",
+         "[2]": "2300",
+         "[3]": "2100",
+         "[4]": "1900",
+         "[5]": "1916",
+         "[6]": "1914",
+         "[7]": "1912",
+         "[8]": "1910",
+         "[9]": "1908",
+         "[10]": "1906",
+         "[11]": "1904"
+        }
+       },
+       {
+        "id": "fs",
+        "kind": "foreach",
+        "in": {
+         "Array": "@steps.Array"
+        }
+       },
+       {
+        "id": "gd",
+        "kind": "get",
+        "var": "FitDone"
+       },
+       {
+        "id": "nd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@gd.FitDone"
+        }
+       },
+       {
+        "id": "bnd",
+        "kind": "branch",
+        "in": {
+         "Condition": "@nd.ReturnValue"
+        }
+       },
+       {
+        "id": "size",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_IntInt",
+        "in": {
+         "A": "@fs.Array Element",
+         "B": "100"
+        }
+       },
+       {
+        "id": "maxc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Percent_IntInt",
+        "in": {
+         "A": "@fs.Array Element",
+         "B": "100"
+        }
+       },
+       {
+        "id": "gk1",
+        "kind": "get",
+        "var": "FitKids"
+       },
+       {
+        "id": "f1",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gk1.FitKids"
+        }
+       },
+       {
+        "id": "c1",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TopTab",
+        "pure": false,
+        "in": {
+         "Object": "@f1.Array Element"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "sf",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TopTab",
+        "function": "Set Fit",
+        "in": {
+         "self": "@c1.AsW_TopTab",
+         "size": "@size.ReturnValue",
+         "maxc": "@maxc.ReturnValue"
+        }
+       },
+       {
+        "id": "ss0",
+        "kind": "set",
+        "var": "FitSum",
+        "in": {
+         "FitSum": "0.0"
+        }
+       },
+       {
+        "id": "gk2",
+        "kind": "get",
+        "var": "FitKids"
+       },
+       {
+        "id": "f2",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gk2.FitKids"
+        }
+       },
+       {
+        "id": "pp",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "ForceLayoutPrepass",
+        "in": {
+         "self": "@f2.Array Element"
+        }
+       },
+       {
+        "id": "ds",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "GetDesiredSize",
+        "in": {
+         "self": "@f2.Array Element"
+        }
+       },
+       {
+        "id": "bd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@ds.ReturnValue"
+        }
+       },
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "FitSum"
+       },
+       {
+        "id": "a1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@gs.FitSum",
+         "B": "@bd.X"
+        }
+       },
+       {
+        "id": "a2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@a1.ReturnValue",
+         "B": "9.0"
+        }
+       },
+       {
+        "id": "ss1",
+        "kind": "set",
+        "var": "FitSum",
+        "in": {
+         "FitSum": "@a2.ReturnValue"
+        }
+       },
+       {
+        "id": "gs2",
+        "kind": "get",
+        "var": "FitSum"
+       },
+       {
+        "id": "fits",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LessEqual_FloatFloat",
+        "in": {
+         "A": "@gs2.FitSum",
+         "B": "@entry.avail"
+        }
+       },
+       {
+        "id": "bfit",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fits.ReturnValue"
+        }
+       },
+       {
+        "id": "sd",
+        "kind": "set",
+        "var": "FitDone",
+        "in": {
+         "FitDone": "true"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s0",
+        "sk",
+        "fs"
+       ],
+       [
+        "fs",
+        "bnd",
+        "f1"
+       ],
+       [
+        "f1",
+        "c1",
+        "sf"
+       ],
+       [
+        "f1:Completed",
+        "ss0",
+        "f2"
+       ],
+       [
+        "f2",
+        "pp",
+        "ss1"
+       ],
+       [
+        "f2:Completed",
+        "bfit",
+        "sd"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Clear Quick Key Links",
      "graph": {
       "nodes": [
@@ -67501,6 +71245,26 @@
        "type": "float"
       },
       {
+       "name": "bgimgalpha",
+       "type": "float"
+      },
+      {
+       "name": "bghue",
+       "type": "float"
+      },
+      {
+       "name": "bgsepia",
+       "type": "float"
+      },
+      {
+       "name": "btnhue",
+       "type": "float"
+      },
+      {
+       "name": "btnsepia",
+       "type": "float"
+      },
+      {
        "name": "unlimited",
        "type": "bool"
       },
@@ -67554,6 +71318,18 @@
       },
       {
        "name": "slowmoon",
+       "type": "bool"
+      },
+      {
+       "name": "freenocollide",
+       "type": "bool"
+      },
+      {
+       "name": "freenolimit",
+       "type": "bool"
+      },
+      {
+       "name": "nonotices",
        "type": "bool"
       }
      ],
@@ -67840,6 +71616,76 @@
         }
        },
        {
+        "id": "gBgImgAlpha",
+        "kind": "get",
+        "var": "SldBgImgAlpha"
+       },
+       {
+        "id": "vBgImgAlpha",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gBgImgAlpha.SldBgImgAlpha"
+        }
+       },
+       {
+        "id": "gBgHue",
+        "kind": "get",
+        "var": "SldBgHue"
+       },
+       {
+        "id": "vBgHue",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gBgHue.SldBgHue"
+        }
+       },
+       {
+        "id": "gBgSepia",
+        "kind": "get",
+        "var": "SldBgSepia"
+       },
+       {
+        "id": "vBgSepia",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gBgSepia.SldBgSepia"
+        }
+       },
+       {
+        "id": "gBtnHue",
+        "kind": "get",
+        "var": "SldBtnHue"
+       },
+       {
+        "id": "vBtnHue",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gBtnHue.SldBtnHue"
+        }
+       },
+       {
+        "id": "gBtnSepia",
+        "kind": "get",
+        "var": "SldBtnSepia"
+       },
+       {
+        "id": "vBtnSepia",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gBtnSepia.SldBtnSepia"
+        }
+       },
+       {
         "id": "gu",
         "kind": "get",
         "var": "OptUnlimited"
@@ -68034,6 +71880,48 @@
         "in": {
          "self": "@gsmo.OptSlowMoOn"
         }
+       },
+       {
+        "id": "gFreeNoCollide",
+        "kind": "get",
+        "var": "OptFreeNoCollide"
+       },
+       {
+        "id": "vFreeNoCollide",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gFreeNoCollide.OptFreeNoCollide"
+        }
+       },
+       {
+        "id": "gFreeNoLimit",
+        "kind": "get",
+        "var": "OptFreeNoLimit"
+       },
+       {
+        "id": "vFreeNoLimit",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gFreeNoLimit.OptFreeNoLimit"
+        }
+       },
+       {
+        "id": "gNoNotices",
+        "kind": "get",
+        "var": "OptNoNotices"
+       },
+       {
+        "id": "vNoNotices",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gNoNotices.OptNoNotices"
+        }
        }
       ],
       "links": [
@@ -68118,6 +72006,26 @@
         "return.slowmo"
        ],
        [
+        "vBgImgAlpha.ReturnValue",
+        "return.bgimgalpha"
+       ],
+       [
+        "vBgHue.ReturnValue",
+        "return.bghue"
+       ],
+       [
+        "vBgSepia.ReturnValue",
+        "return.bgsepia"
+       ],
+       [
+        "vBtnHue.ReturnValue",
+        "return.btnhue"
+       ],
+       [
+        "vBtnSepia.ReturnValue",
+        "return.btnsepia"
+       ],
+       [
         "vu.ReturnValue",
         "return.unlimited"
        ],
@@ -68172,6 +72080,18 @@
        [
         "vsmo.ReturnValue",
         "return.slowmoon"
+       ],
+       [
+        "vFreeNoCollide.ReturnValue",
+        "return.freenocollide"
+       ],
+       [
+        "vFreeNoLimit.ReturnValue",
+        "return.freenolimit"
+       ],
+       [
+        "vNoNotices.ReturnValue",
+        "return.nonotices"
        ]
       ],
       "exec": [
@@ -68239,6 +72159,18 @@
       },
       {
        "name": "slowmoon",
+       "type": "bool"
+      },
+      {
+       "name": "freenocollide",
+       "type": "bool"
+      },
+      {
+       "name": "freenolimit",
+       "type": "bool"
+      },
+      {
+       "name": "nonotices",
        "type": "bool"
       }
      ],
@@ -68453,6 +72385,51 @@
          "self": "@g14.OptSlowMoOn",
          "InIsChecked": "@entry.slowmoon"
         }
+       },
+       {
+        "id": "gFreeNoCollide",
+        "kind": "get",
+        "var": "OptFreeNoCollide"
+       },
+       {
+        "id": "sFreeNoCollide",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gFreeNoCollide.OptFreeNoCollide",
+         "InIsChecked": "@entry.freenocollide"
+        }
+       },
+       {
+        "id": "gFreeNoLimit",
+        "kind": "get",
+        "var": "OptFreeNoLimit"
+       },
+       {
+        "id": "sFreeNoLimit",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gFreeNoLimit.OptFreeNoLimit",
+         "InIsChecked": "@entry.freenolimit"
+        }
+       },
+       {
+        "id": "gNoNotices",
+        "kind": "get",
+        "var": "OptNoNotices"
+       },
+       {
+        "id": "sNoNotices",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gNoNotices.OptNoNotices",
+         "InIsChecked": "@entry.nonotices"
+        }
        }
       ],
       "links": [],
@@ -68472,7 +72449,10 @@
         "s11",
         "s12",
         "s13",
-        "s14"
+        "s14",
+        "sFreeNoCollide",
+        "sFreeNoLimit",
+        "sNoNotices"
        ]
       ]
      }
@@ -68527,6 +72507,30 @@
         "function": "SetAnchors",
         "in": {
          "self": "@sl.ReturnValue",
+         "InAnchors": "@an.Anchors"
+        }
+       },
+       {
+        "id": "gil",
+        "kind": "get",
+        "var": "BgImgLayer"
+       },
+       {
+        "id": "sli",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetLayoutLibrary",
+        "function": "SlotAsCanvasSlot",
+        "in": {
+         "Widget": "@gil.BgImgLayer"
+        }
+       },
+       {
+        "id": "sai",
+        "kind": "call",
+        "class": "/Script/UMG.CanvasPanelSlot",
+        "function": "SetAnchors",
+        "in": {
+         "self": "@sli.ReturnValue",
          "InAnchors": "@an.Anchors"
         }
        },
@@ -68905,6 +72909,7 @@
        [
         "entry",
         "sa",
+        "sai",
         "saBtnPlus",
         "saBtnMinus",
         "saBtnCam",
@@ -69070,6 +73075,48 @@
          "self": "@gbg.Bg",
          "InVisibility": "Visible"
         }
+       },
+       {
+        "id": "gil",
+        "kind": "get",
+        "var": "BgImgLayer"
+       },
+       {
+        "id": "cil",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gil.BgImgLayer",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gio",
+        "kind": "get",
+        "var": "BgImgOn"
+       },
+       {
+        "id": "bio",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gio.BgImgOn"
+        }
+       },
+       {
+        "id": "gil2",
+        "kind": "get",
+        "var": "BgImgLayer"
+       },
+       {
+        "id": "vil",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gil2.BgImgLayer",
+         "InVisibility": "HitTestInvisible"
+        }
        }
       ],
       "links": [],
@@ -69083,11 +73130,14 @@
         "c3",
         "c4",
         "c5",
-        "c6"
+        "c6",
+        "cil"
        ],
        [
         "b:else",
-        "vbg"
+        "vbg",
+        "bio",
+        "vil"
        ]
       ]
      }
@@ -70278,6 +74328,10 @@
        "type": "text"
       },
       {
+       "name": "bgimgalpha",
+       "type": "text"
+      },
+      {
        "name": "tilealpha",
        "type": "text"
       },
@@ -70382,6 +74436,54 @@
        "type": "text"
       },
       {
+       "name": "tabrow",
+       "type": "text"
+      },
+      {
+       "name": "bgimage",
+       "type": "text"
+      },
+      {
+       "name": "bgfit",
+       "type": "text"
+      },
+      {
+       "name": "bghalign",
+       "type": "text"
+      },
+      {
+       "name": "bgvalign",
+       "type": "text"
+      },
+      {
+       "name": "btnimage",
+       "type": "text"
+      },
+      {
+       "name": "bghue",
+       "type": "text"
+      },
+      {
+       "name": "bgsepia",
+       "type": "text"
+      },
+      {
+       "name": "bginv",
+       "type": "text"
+      },
+      {
+       "name": "btnhue",
+       "type": "text"
+      },
+      {
+       "name": "btnsepia",
+       "type": "text"
+      },
+      {
+       "name": "btninv",
+       "type": "text"
+      },
+      {
        "name": "themesave",
        "type": "text"
       },
@@ -70482,7 +74584,35 @@
        "type": "text"
       },
       {
+       "name": "hdrthemecolors",
+       "type": "text"
+      },
+      {
+       "name": "hdrbgpic",
+       "type": "text"
+      },
+      {
+       "name": "hdrbtnpic",
+       "type": "text"
+      },
+      {
+       "name": "hdrthemeschemes",
+       "type": "text"
+      },
+      {
        "name": "slowmoon",
+       "type": "text"
+      },
+      {
+       "name": "freenocollide",
+       "type": "text"
+      },
+      {
+       "name": "freenolimit",
+       "type": "text"
+      },
+      {
+       "name": "nonotices",
        "type": "text"
       },
       {
@@ -71491,6 +75621,21 @@
         }
        },
        {
+        "id": "gbgimgalpha",
+        "kind": "get",
+        "var": "LblBgImgAlpha"
+       },
+       {
+        "id": "sbgimgalpha",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbgimgalpha.LblBgImgAlpha",
+         "InText": "@entry.bgimgalpha"
+        }
+       },
+       {
         "id": "gtilealpha",
         "kind": "get",
         "var": "LblTileAlpha"
@@ -71881,6 +76026,186 @@
         }
        },
        {
+        "id": "gtabrow",
+        "kind": "get",
+        "var": "LblTabRow"
+       },
+       {
+        "id": "stabrow",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gtabrow.LblTabRow",
+         "InText": "@entry.tabrow"
+        }
+       },
+       {
+        "id": "gbgimage",
+        "kind": "get",
+        "var": "LblBgImage"
+       },
+       {
+        "id": "sbgimage",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbgimage.LblBgImage",
+         "InText": "@entry.bgimage"
+        }
+       },
+       {
+        "id": "gbgfit",
+        "kind": "get",
+        "var": "LblBgFit"
+       },
+       {
+        "id": "sbgfit",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbgfit.LblBgFit",
+         "InText": "@entry.bgfit"
+        }
+       },
+       {
+        "id": "gbghalign",
+        "kind": "get",
+        "var": "LblBgHAlign"
+       },
+       {
+        "id": "sbghalign",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbghalign.LblBgHAlign",
+         "InText": "@entry.bghalign"
+        }
+       },
+       {
+        "id": "gbgvalign",
+        "kind": "get",
+        "var": "LblBgVAlign"
+       },
+       {
+        "id": "sbgvalign",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbgvalign.LblBgVAlign",
+         "InText": "@entry.bgvalign"
+        }
+       },
+       {
+        "id": "gbtnimage",
+        "kind": "get",
+        "var": "LblBtnImage"
+       },
+       {
+        "id": "sbtnimage",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbtnimage.LblBtnImage",
+         "InText": "@entry.btnimage"
+        }
+       },
+       {
+        "id": "gbghue",
+        "kind": "get",
+        "var": "LblBgHue"
+       },
+       {
+        "id": "sbghue",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbghue.LblBgHue",
+         "InText": "@entry.bghue"
+        }
+       },
+       {
+        "id": "gbgsepia",
+        "kind": "get",
+        "var": "LblBgSepia"
+       },
+       {
+        "id": "sbgsepia",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbgsepia.LblBgSepia",
+         "InText": "@entry.bgsepia"
+        }
+       },
+       {
+        "id": "gbginv",
+        "kind": "get",
+        "var": "LblBgInv"
+       },
+       {
+        "id": "sbginv",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbginv.LblBgInv",
+         "InText": "@entry.bginv"
+        }
+       },
+       {
+        "id": "gbtnhue",
+        "kind": "get",
+        "var": "LblBtnHue"
+       },
+       {
+        "id": "sbtnhue",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbtnhue.LblBtnHue",
+         "InText": "@entry.btnhue"
+        }
+       },
+       {
+        "id": "gbtnsepia",
+        "kind": "get",
+        "var": "LblBtnSepia"
+       },
+       {
+        "id": "sbtnsepia",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbtnsepia.LblBtnSepia",
+         "InText": "@entry.btnsepia"
+        }
+       },
+       {
+        "id": "gbtninv",
+        "kind": "get",
+        "var": "LblBtnInv"
+       },
+       {
+        "id": "sbtninv",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gbtninv.LblBtnInv",
+         "InText": "@entry.btninv"
+        }
+       },
+       {
         "id": "gthemesave",
         "kind": "get",
         "var": "LblThemeSave"
@@ -72256,6 +76581,66 @@
         }
        },
        {
+        "id": "ghdrthemecolors",
+        "kind": "get",
+        "var": "HdrThemeColors"
+       },
+       {
+        "id": "shdrthemecolors",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ghdrthemecolors.HdrThemeColors",
+         "InText": "@entry.hdrthemecolors"
+        }
+       },
+       {
+        "id": "ghdrbgpic",
+        "kind": "get",
+        "var": "HdrBgPic"
+       },
+       {
+        "id": "shdrbgpic",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ghdrbgpic.HdrBgPic",
+         "InText": "@entry.hdrbgpic"
+        }
+       },
+       {
+        "id": "ghdrbtnpic",
+        "kind": "get",
+        "var": "HdrBtnPic"
+       },
+       {
+        "id": "shdrbtnpic",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ghdrbtnpic.HdrBtnPic",
+         "InText": "@entry.hdrbtnpic"
+        }
+       },
+       {
+        "id": "ghdrthemeschemes",
+        "kind": "get",
+        "var": "HdrThemeSchemes"
+       },
+       {
+        "id": "shdrthemeschemes",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ghdrthemeschemes.HdrThemeSchemes",
+         "InText": "@entry.hdrthemeschemes"
+        }
+       },
+       {
         "id": "gslowmoon",
         "kind": "get",
         "var": "LblSlowMoOn"
@@ -72268,6 +76653,51 @@
         "in": {
          "self": "@gslowmoon.LblSlowMoOn",
          "InText": "@entry.slowmoon"
+        }
+       },
+       {
+        "id": "gfreenocollide",
+        "kind": "get",
+        "var": "LblFreeNoCollide"
+       },
+       {
+        "id": "sfreenocollide",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gfreenocollide.LblFreeNoCollide",
+         "InText": "@entry.freenocollide"
+        }
+       },
+       {
+        "id": "gfreenolimit",
+        "kind": "get",
+        "var": "LblFreeNoLimit"
+       },
+       {
+        "id": "sfreenolimit",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gfreenolimit.LblFreeNoLimit",
+         "InText": "@entry.freenolimit"
+        }
+       },
+       {
+        "id": "gnonotices",
+        "kind": "get",
+        "var": "LblNoNotices"
+       },
+       {
+        "id": "snonotices",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gnonotices.LblNoNotices",
+         "InText": "@entry.nonotices"
         }
        },
        {
@@ -72386,6 +76816,7 @@
         "sscalehint",
         "stheme",
         "sbgalpha",
+        "sbgimgalpha",
         "stilealpha",
         "skey",
         "sonlymods",
@@ -72412,6 +76843,18 @@
         "squickavailable",
         "stabstyle",
         "stabiconpos",
+        "stabrow",
+        "sbgimage",
+        "sbgfit",
+        "sbghalign",
+        "sbgvalign",
+        "sbtnimage",
+        "sbghue",
+        "sbgsepia",
+        "sbginv",
+        "sbtnhue",
+        "sbtnsepia",
+        "sbtninv",
         "sthemesave",
         "sthemename",
         "sthemepresets",
@@ -72437,7 +76880,14 @@
         "sscgrpglutes",
         "sragwheel",
         "sslowmo",
+        "shdrthemecolors",
+        "shdrbgpic",
+        "shdrbtnpic",
+        "shdrthemeschemes",
         "sslowmoon",
+        "sfreenocollide",
+        "sfreenolimit",
+        "snonotices",
         "shairfavorites",
         "shairall",
         "skeybinds"
@@ -72938,6 +77388,26 @@
        "type": "float"
       },
       {
+       "name": "bgimgalpha",
+       "type": "float"
+      },
+      {
+       "name": "bghue",
+       "type": "float"
+      },
+      {
+       "name": "bgsepia",
+       "type": "float"
+      },
+      {
+       "name": "btnhue",
+       "type": "float"
+      },
+      {
+       "name": "btnsepia",
+       "type": "float"
+      },
+      {
        "name": "scroll text",
        "type": "text"
       },
@@ -73015,6 +77485,26 @@
       },
       {
        "name": "slowmo text",
+       "type": "text"
+      },
+      {
+       "name": "bgimgalpha text",
+       "type": "text"
+      },
+      {
+       "name": "bghue text",
+       "type": "text"
+      },
+      {
+       "name": "bgsepia text",
+       "type": "text"
+      },
+      {
+       "name": "btnhue text",
+       "type": "text"
+      },
+      {
+       "name": "btnsepia text",
        "type": "text"
       }
      ],
@@ -73619,6 +78109,156 @@
          "self": "@gvSlowMo.ValSlowMo",
          "InText": "@entry.slowmo text"
         }
+       },
+       {
+        "id": "gBgImgAlpha",
+        "kind": "get",
+        "var": "SldBgImgAlpha"
+       },
+       {
+        "id": "sBgImgAlpha",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gBgImgAlpha.SldBgImgAlpha",
+         "InValue": "@entry.bgimgalpha"
+        }
+       },
+       {
+        "id": "gvBgImgAlpha",
+        "kind": "get",
+        "var": "ValBgImgAlpha"
+       },
+       {
+        "id": "stBgImgAlpha",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gvBgImgAlpha.ValBgImgAlpha",
+         "InText": "@entry.bgimgalpha text"
+        }
+       },
+       {
+        "id": "gBgHue",
+        "kind": "get",
+        "var": "SldBgHue"
+       },
+       {
+        "id": "sBgHue",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gBgHue.SldBgHue",
+         "InValue": "@entry.bghue"
+        }
+       },
+       {
+        "id": "gvBgHue",
+        "kind": "get",
+        "var": "ValBgHue"
+       },
+       {
+        "id": "stBgHue",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gvBgHue.ValBgHue",
+         "InText": "@entry.bghue text"
+        }
+       },
+       {
+        "id": "gBgSepia",
+        "kind": "get",
+        "var": "SldBgSepia"
+       },
+       {
+        "id": "sBgSepia",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gBgSepia.SldBgSepia",
+         "InValue": "@entry.bgsepia"
+        }
+       },
+       {
+        "id": "gvBgSepia",
+        "kind": "get",
+        "var": "ValBgSepia"
+       },
+       {
+        "id": "stBgSepia",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gvBgSepia.ValBgSepia",
+         "InText": "@entry.bgsepia text"
+        }
+       },
+       {
+        "id": "gBtnHue",
+        "kind": "get",
+        "var": "SldBtnHue"
+       },
+       {
+        "id": "sBtnHue",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gBtnHue.SldBtnHue",
+         "InValue": "@entry.btnhue"
+        }
+       },
+       {
+        "id": "gvBtnHue",
+        "kind": "get",
+        "var": "ValBtnHue"
+       },
+       {
+        "id": "stBtnHue",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gvBtnHue.ValBtnHue",
+         "InText": "@entry.btnhue text"
+        }
+       },
+       {
+        "id": "gBtnSepia",
+        "kind": "get",
+        "var": "SldBtnSepia"
+       },
+       {
+        "id": "sBtnSepia",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gBtnSepia.SldBtnSepia",
+         "InValue": "@entry.btnsepia"
+        }
+       },
+       {
+        "id": "gvBtnSepia",
+        "kind": "get",
+        "var": "ValBtnSepia"
+       },
+       {
+        "id": "stBtnSepia",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gvBtnSepia.ValBtnSepia",
+         "InText": "@entry.btnsepia text"
+        }
        }
       ],
       "links": [],
@@ -73664,7 +78304,17 @@
         "sRagWheel",
         "stRagWheel",
         "sSlowMo",
-        "stSlowMo"
+        "stSlowMo",
+        "sBgImgAlpha",
+        "stBgImgAlpha",
+        "sBgHue",
+        "stBgHue",
+        "sBgSepia",
+        "stBgSepia",
+        "sBtnHue",
+        "stBtnHue",
+        "sBtnSepia",
+        "stBtnSepia"
        ]
       ]
      }
@@ -80587,6 +85237,47 @@
       }
      },
      {
+      "class": "/Script/UMG.Overlay",
+      "name": "BgImgLayer",
+      "props": {
+       "Clipping": "ClipToBounds",
+       "Visibility": "Collapsed"
+      },
+      "slot": {
+       "LayoutData": "(Anchors=(Minimum=(X=0,Y=0),Maximum=(X=1,Y=1)),Offsets=(Left=0,Top=0,Right=0,Bottom=0))"
+      },
+      "children": [
+       {
+        "class": "/Script/UMG.ScaleBox",
+        "name": "BgScale",
+        "props": {
+         "Stretch": "ScaleToFill"
+        },
+        "slot": {
+         "HorizontalAlignment": "HAlign_Fill",
+         "VerticalAlignment": "VAlign_Fill"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.Image",
+          "name": "BgImage"
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.Image",
+        "name": "BgTile",
+        "props": {
+         "Visibility": "Collapsed"
+        },
+        "slot": {
+         "HorizontalAlignment": "HAlign_Fill",
+         "VerticalAlignment": "VAlign_Fill"
+        }
+       }
+      ]
+     },
+     {
       "class": "/Script/UMG.Border",
       "name": "Bg",
       "props": {
@@ -84425,6 +89116,38 @@
                     }
                    }
                   ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowNoNotices",
+                  "slot": {
+                   "Padding": "(Left=0,Top=19,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.CheckBox",
+                    "name": "OptNoNotices",
+                    "props": {
+                     "WidgetStyle": "(UncheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                    }
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "LblNoNotices",
+                    "props": {
+                     "Text": "No notices",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    }
+                   }
+                  ]
                  }
                 ]
                },
@@ -85768,6 +90491,70 @@
                     }
                    }
                   ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowFreeNoCollide",
+                  "slot": {
+                   "Padding": "(Left=0,Top=27,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.CheckBox",
+                    "name": "OptFreeNoCollide",
+                    "props": {
+                     "WidgetStyle": "(UncheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                    }
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "LblFreeNoCollide",
+                    "props": {
+                     "Text": "Free camera: no collision",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowFreeNoLimit",
+                  "slot": {
+                   "Padding": "(Left=0,Top=0,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.CheckBox",
+                    "name": "OptFreeNoLimit",
+                    "props": {
+                     "WidgetStyle": "(UncheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOff.T_CheckOff',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1.25,G=1.25,B=1.25,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                    }
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "LblFreeNoLimit",
+                    "props": {
+                     "Text": "Free camera: any distance from Jodi",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    }
+                   }
+                  ]
                  }
                 ]
                },
@@ -86848,6 +91635,24 @@
                   }
                  },
                  {
+                  "class": "/Script/UMG.VerticalBox",
+                  "name": "SecThemeColors",
+                  "slot": {
+                   "Padding": "(Left=0,Top=0,Right=0,Bottom=19)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "HdrThemeColors",
+                    "props": {
+                     "Text": "ThemeColors",
+                     "Font": "(Size=28)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))"
+                    }
+                   }
+                  ]
+                 },
+                 {
                   "class": "/Script/UMG.WrapBox",
                   "name": "ThemeGrid",
                   "props": {
@@ -87062,11 +91867,941 @@
                   ]
                  },
                  {
-                  "class": "/Script/UMG.HorizontalBox",
-                  "name": "ThemeLinks",
+                  "class": "/Script/UMG.VerticalBox",
+                  "name": "SecImgNote",
                   "slot": {
-                   "Padding": "(Left=0,Top=30,Right=0,Bottom=0)"
+                   "Padding": "(Left=0,Top=53,Right=0,Bottom=19)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SecLineImgNoteBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 19,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 4
+                    },
+                    "slot": {
+                     "HorizontalAlignment": "HAlign_Fill",
+                     "Padding": "(Left=0,Top=0,Right=0,Bottom=23)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Border",
+                      "name": "SecLineImgNote",
+                      "props": {
+                       "BrushColor": "(R=1,G=1,B=1,A=0.14)"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "LblImgHint",
+                  "props": {
+                   "Text": "",
+                   "Font": "(Size=23)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+                   "LineHeightPercentage": 1.35,
+                   "AutoWrapText": true
+                  },
+                  "slot": {
+                   "Padding": "(Left=0,Top=0,Right=0,Bottom=8)"
                   }
+                 },
+                 {
+                  "class": "/Script/UMG.VerticalBox",
+                  "name": "SecBgPic",
+                  "slot": {
+                   "Padding": "(Left=0,Top=53,Right=0,Bottom=19)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "HdrBgPic",
+                    "props": {
+                     "Text": "BgPic",
+                     "Font": "(Size=28)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBgImage",
+                  "slot": {
+                   "Padding": "(Left=0,Top=4,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBgImageBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBgImage",
+                      "props": {
+                       "Text": "Background image",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "BgImageChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBgImgAlpha",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBgImgAlphaBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBgImgAlpha",
+                      "props": {
+                       "Text": "Pattern opacity",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldBgImgAlphaBox",
+                    "props": {
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldBgImgAlpha",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValBgImgAlphaBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValBgImgAlpha",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBgFit",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBgFitBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBgFit",
+                      "props": {
+                       "Text": "Image fill",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "BgFitChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBgHAlign",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBgHAlignBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBgHAlign",
+                      "props": {
+                       "Text": "Horizontal",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "BgHAlignChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBgVAlign",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBgVAlignBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBgVAlign",
+                      "props": {
+                       "Text": "Vertical",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "BgVAlignChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBgHue",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBgHueBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBgHue",
+                      "props": {
+                       "Text": "Hue",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldBgHueBox",
+                    "props": {
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldBgHue",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValBgHueBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValBgHue",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBgSepia",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBgSepiaBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBgSepia",
+                      "props": {
+                       "Text": "Sepia",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldBgSepiaBox",
+                    "props": {
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldBgSepia",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValBgSepiaBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValBgSepia",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBgInv",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBgInvBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBgInv",
+                      "props": {
+                       "Text": "Invert",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "BgInvChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.VerticalBox",
+                  "name": "SecBtnPic",
+                  "slot": {
+                   "Padding": "(Left=0,Top=53,Right=0,Bottom=19)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SecLineBtnPicBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 19,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 4
+                    },
+                    "slot": {
+                     "HorizontalAlignment": "HAlign_Fill",
+                     "Padding": "(Left=0,Top=0,Right=0,Bottom=23)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Border",
+                      "name": "SecLineBtnPic",
+                      "props": {
+                       "BrushColor": "(R=1,G=1,B=1,A=0.14)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "HdrBtnPic",
+                    "props": {
+                     "Text": "BtnPic",
+                     "Font": "(Size=28)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBtnImage",
+                  "slot": {
+                   "Padding": "(Left=0,Top=4,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBtnImageBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBtnImage",
+                      "props": {
+                       "Text": "Button image",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "BtnImageChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBtnHue",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBtnHueBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBtnHue",
+                      "props": {
+                       "Text": "Hue",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldBtnHueBox",
+                    "props": {
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldBtnHue",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValBtnHueBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValBtnHue",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBtnSepia",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBtnSepiaBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBtnSepia",
+                      "props": {
+                       "Text": "Sepia",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldBtnSepiaBox",
+                    "props": {
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldBtnSepia",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValBtnSepiaBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValBtnSepia",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBtnInv",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBtnInvBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBtnInv",
+                      "props": {
+                       "Text": "Invert",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "BtnInvChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.VerticalBox",
+                  "name": "SecThemeSchemes",
+                  "slot": {
+                   "Padding": "(Left=0,Top=53,Right=0,Bottom=19)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SecLineThemeSchemesBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 19,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 4
+                    },
+                    "slot": {
+                     "HorizontalAlignment": "HAlign_Fill",
+                     "Padding": "(Left=0,Top=0,Right=0,Bottom=23)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Border",
+                      "name": "SecLineThemeSchemes",
+                      "props": {
+                       "BrushColor": "(R=1,G=1,B=1,A=0.14)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "HdrThemeSchemes",
+                    "props": {
+                     "Text": "ThemeSchemes",
+                     "Font": "(Size=28)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))"
+                    }
+                   }
+                  ]
                  },
                  {
                   "class": "/Script/UMG.HorizontalBox",
@@ -87308,7 +93043,7 @@
                   "class": "/Script/UMG.HorizontalBox",
                   "name": "RowTabIconPos",
                   "slot": {
-                   "Padding": "(Left=0,Top=19,Right=0,Bottom=23)"
+                   "Padding": "(Left=0,Top=19,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
@@ -87342,6 +93077,54 @@
                    {
                     "class": "/Script/UMG.WrapBox",
                     "name": "TabIconPosChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowTabRow",
+                  "slot": {
+                   "Padding": "(Left=0,Top=19,Right=0,Bottom=23)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblTabRowBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblTabRow",
+                      "props": {
+                       "Text": "Tab rows",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "TabRowChips",
                     "props": {
                      "InnerSlotPadding": "(X=15,Y=11)"
                     },

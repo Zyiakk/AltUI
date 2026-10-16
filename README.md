@@ -97,6 +97,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Apply, update, rename and delete; "View content" lists what a look holds.
 * Your own order: right click moves a look left, right, to the start or to the end.
 * Spawn a look as a ragdoll, a follower or an NPC.
+* "Clean copy (without missing parts)": for a look that holds pieces of a mod no longer installed, a new look without
+  them, right after the original, with the same photo. The original and later saves keep such entries.
 
 ### Backpack
 
@@ -130,6 +132,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Chips per mod, search, favourites and hiding.
 * A click plays the pose; a second click or "Stop pose" stops it.
 * "Use as idle" in a pose's menu: the pose starts after 1.5 s of standing still and ends when Jodi moves.
+* "Repeat poses" in the status bar: a pose that ends by itself starts again – many pose mods repeat theirs anyway.
+* "Measure all" sorts every pose by stance and shows which one it is measuring.
 
 ### Weapons
 
@@ -187,20 +191,29 @@ In categories, chosen in a list on the left:
 
 * **General:** language, the share of the screen kept free for Jodi, "underwear may be taken off", pieces you do not own
   locked / greyed / like owned, all encyclopedia entries in the Codex, the "All items" catalogue and auto-equip for the
-  Inventory tab.
+  Inventory tab, and "No notices" – neither AltUI's notices nor the game's own.
 * **Tiles:** tile size, and an own size for outfit, look, ragdoll and inventory tiles; how many pieces an outfit tile
   shows; tooltip options.
 * **Groups:** merge groups / mods with the same name, length of group names, height of the chip area and chip search.
-* **Camera:** field of view, distance and height of the view beside the panel; the camera follows the slot.
+* **Camera:** field of view, distance and height of the view beside the panel; the camera follows the slot; a free camera
+  without collision (through walls and Jodi) and at any distance from her.
 * **Controls:** panel key, scroll speed and how far the mouse wheel lifts a ragdoll.
 * **Movement:** Jodi's own walk and run speed (50–200 %; crouching and jumping stay as they are), slow motion and its
   speed, and how she stands: the game's usual idle, six other idle animations of the game, or an idle mod converted with
   `idlepak.pyz` – see [Idle mods](#idle-mods).
 * **Quick menu:** its key, its opacity, the items in the wheel, and **own keys**: right click any available item and press
   a key – it then runs on that key with the panel closed, also in the free camera and the game's photo mode.
-* **Colours:** colour scheme and opacity; schemes saved under a name.
+* **Theme:** in sections –
+  * colours and their opacity;
+  * a background picture behind the panel: fill, fit, stretch or tile, aligned left / centre / right and top / middle /
+    bottom, with hue, sepia and invert and an opacity of its own – the background colour lies over it;
+  * a picture on the tiles, slot tabs and tabs, with rounded corners, its own hue, sepia and invert;
+  * AltUI's own pictures (off-white card stocks among them) or your own: `Background_1` … `Background_30` and
+    `Button_1` … `Button_30` (`.png` or `.jpg`) in `Saved/SaveGames/AltUI/Images`;
+  * themes saved under a name keep colours, opacities and pictures; "Reset colours" sits in the status bar.
 * **Slot conflicts:** free the game's slot pairs, such as bra and shirt.
-* **Tabs:** switch tabs off; the tab bar shows text, icons or both, icon left or right of the text.
+* **Tabs:** switch tabs off; the tab bar shows text, icons or both, icon left or right of the text; "try to fit in one
+  row" makes the captions smaller and shorter so the bar fits on one row where it can.
 
 ### Manage
 
@@ -217,7 +230,7 @@ In categories, chosen in a list on the left:
 * Figures with physics to place and pose in the level:
   * copies of Jodi, standing and frozen in her pose, with everything she wears – or a look via "Spawn as ragdoll";
   * every kind of zombie from the encyclopedia, with its variants;
-  * the nurse and a survivor.
+  * the nurse, a survivor and the mercenary, rifle in hand.
 * Each figure is active (falls, can be thrown) or frozen (keeps its pose).
 * 17 joints per figure, each locked, free or movable.
 * With the mouse beside the panel:
@@ -240,6 +253,8 @@ In categories, chosen in a list on the left:
 * A figure's clothes are real pieces, as with the game's own NPCs: they take damage, tear off and show up in the game's
   NPC inventory. In the tab they are tiles to take off, give or repair.
 * Each figure wears the make-up of its look and has one of the game's NPC voices.
+* Quick menu: "Follower: follow me / wait here" for the one in view, "All followers: follow / wait" and "All followers:
+  come to me" – every active follower to the places in front of Jodi, also one waiting in another level.
 * Figures are kept in `AltUI_Followers.sav`, never in the game's save.
 
 ### Codex
@@ -404,8 +419,8 @@ Everything in the paks is generated – no game assets are included.
 | **Options › General** – language, space for Jodi, ownership, Codex, “All items” catalogue, auto-equip ![Options › General](versions/2.0.0/screenshots/37-options-general.jpg) | **Options › Tiles** – tile sizes, also for outfits, looks, ragdolls and the inventory ![Options › Tiles](versions/2.0.0/screenshots/38-options-tiles.jpg) |
 | **Options › Groups** – merging, group names, chip area, chip search ![Options › Groups](versions/2.0.0/screenshots/39-options-groups.jpg) | **Options › Camera** – FOV, distance, height, “camera follows slot / face” ![Options › Camera](versions/2.0.0/screenshots/40-options-camera.jpg) |
 | **Options › Controls** – panel key, scroll speed, ragdoll lift per wheel notch ![Options › Controls](versions/2.0.0/screenshots/41-options-controls.jpg) | **Options › Movement** – own walk / run speed, slow motion ![Options › Movement](versions/2.0.0/screenshots/42-options-movement.jpg) |
-| **Options › Quick menu** – key, opacity, the items in the wheel; below, everything available ![Options › Quick menu](versions/2.0.0/screenshots/43-options-quick-menu.jpg) | **Options › Colours** – colours, opacities, saved schemes ![Options › Colours](versions/2.0.0/screenshots/44-options-colours.jpg) |
-| **Options › Colours** – the saved scheme “oceanic” ![Options › Colours](versions/2.0.0/screenshots/45-options-colours-scheme-oceanic.jpg) | **Options › Colours** – the saved scheme “Fire” ![Options › Colours](versions/2.0.0/screenshots/46-options-colours-scheme-fire.jpg) |
+| **Options › Quick menu** – key, opacity, the items in the wheel; below, everything available ![Options › Quick menu](versions/2.0.0/screenshots/43-options-quick-menu.jpg) | **Options › Theme** – colours, a background and a button picture with fill, alignment, hue, sepia and invert, saved themes ![Options › Theme](versions/2.3.0/screenshots/01-options-theme.jpg) |
+| **Options › Theme** – the saved colours “oceanic” ![Options › Theme](versions/2.0.0/screenshots/45-options-colours-scheme-oceanic.jpg) | **Options › Theme** – the saved colours “Fire” ![Options › Theme](versions/2.0.0/screenshots/46-options-colours-scheme-fire.jpg) |
 | **Options › Slot conflicts** – free the game's slot pairs ![Options › Slot conflicts](versions/2.0.0/screenshots/47-options-slot-conflicts.jpg) | **Options › Tabs** – tab bar with icons and text, tabs switched off ![Options › Tabs](versions/2.0.0/screenshots/48-options-tabs.jpg) |
 | **Options › Tabs** – icons only ![Options › Tabs](versions/2.0.0/screenshots/49-options-tabs-icons-only.jpg) | **Manage** – mods and their groups, with chips ![Manage](versions/2.0.0/screenshots/50-manage.jpg) |
 | **Ragdolls** – a copy of Jodi, frozen in her pose ![Ragdolls](versions/2.0.0/screenshots/51-ragdolls-copy-of-jodi.jpg) | **Ragdolls** – zombies and their joints ![Ragdolls](versions/2.0.0/screenshots/52-ragdolls-joints.jpg) |

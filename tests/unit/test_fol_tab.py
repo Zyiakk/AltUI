@@ -225,3 +225,20 @@ def fol_fields():
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BringAll(unittest.TestCase):
+    """Quick menu 'All followers: come to me' (2026-10-16): every active follower to Jodi, side by side."""
+    def test_offsets_side_by_side_in_rows(self):
+        got = [fol.bring_offset(k) for k in range(7)]
+        self.assertEqual(got, [(0, 0), (1, 0), (-1, 0), (2, 0), (-2, 0), (0, 1), (1, 1)])
+
+    def test_only_active_followers_not_fallen(self):
+        g = mgr_graph("Fol Bring All"); by = {n["id"]: n for n in g["nodes"]}
+        self.assertEqual(by["isf"]["in"]["B"], str(fol.MODE_FOLLOWER)); self.assertEqual(by["c1"]["in"]["B"], "@b.Active"); self.assertEqual(by["nfa"]["in"]["A"], "@b.Fallen")
+        self.assertIn(["fe", "bc", "fr", "ha", "sn"], g["exec"])
+        self.assertEqual(by["ha"]["function"], "Fol Here At")
+
+    def test_here_at_falls_back_to_the_front_place(self):
+        g = mgr_graph("Fol Here At"); self.assertIn(["btp:else", "fr", "tp2", "bst"], g["exec"])
+        self.assertEqual([n["function"] for n in mgr_graph("Fol Here")["nodes"] if n.get("function") == "Fol Here At"], ["Fol Here At"])

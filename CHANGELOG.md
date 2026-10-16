@@ -1,5 +1,52 @@
 # Changelog
 
+## 2.3.0 – 2026-10-16
+
+Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the
+same as in 2.2.0; converted bodies do not need to be converted again.
+
+Pictures for the panel and its buttons, themes that keep them, all followers at once, a clean copy of a look, a free
+camera without limits, and a switch for the notices.
+
+* **Options › Theme** – formerly *Options › Colours* – in sections: colours, background picture, button picture,
+  themes. "Reset colours" moved to the status bar, bottom right.
+  * **Background picture:** a picture behind the panel – fill, fit, stretch or tile, aligned left / centre / right and
+    top / middle / bottom, with hue, sepia and invert. The background colour lies over it: "Background opacity" sets
+    the colour, the new "Pattern opacity" the picture.
+  * **Button picture:** a picture on the tiles, slot tabs and tabs (not on chips and round buttons), with rounded
+    corners, its own hue, sepia and invert, at the tile opacity.
+  * AltUI brings its own pictures, among them off-white card stocks (bone, eggshell, laid paper, pale cloud, embossed
+    linen). Your own go into `Saved/SaveGames/AltUI/Images` as `Background_1.png` … `Background_30.png` and
+    `Button_1.png` … `Button_30.png` (or `.jpg`); the hint on the page shows the full folder.
+  * Saved colour schemes are now **themes**: a theme saved from now on keeps the pictures and their settings too;
+    schemes saved before still change only the colours.
+* **Quick menu: "All followers: come to me".** Every active follower comes to the places in front of Jodi, side by side
+  in rows of five – also one left waiting in another level. A waiting follower waits at its new place.
+* **Looks: "Clean copy (without missing parts)"** in a look's context menu, shown when the look holds pieces of a mod
+  that is no longer installed, or eye / make-up rows no table has any more. It makes a new look right after the original,
+  without those entries and with the same picture; the original stays as it is. Saving a look again keeps such entries,
+  as it always did – removing them is up to you.
+* **Free camera without collision and at any distance** – two new checkboxes under *Options › Camera*: fly through walls
+  and Jodi, and as far away from her as you like. Both also apply to the Ragdolls mode.
+* **No notices** – a checkbox under *Options › General*: none of the notices at the bottom any more, neither AltUI's nor
+  the game's own.
+* **Repeat poses** – *Repeat poses: on / off* in the Poses tab's status bar: a pose that ends by itself starts again,
+  until Jodi moves, the use key or "Stop pose" ends it, or another pose is chosen. Many pose mods repeat their poses
+  anyway; this is for the ones that play once or stop after a while.
+* **Poses › Measure all** shows the name of the pose being measured next to the progress.
+* **Options › Tabs › Tab rows: "try to fit in one row".** The captions get smaller first, then shorter ("…"), so the tab
+  bar fits on one row where it can; with every tab shown on a narrow panel it still wraps. The default wraps as before.
+* **Ragdolls: the Mercenary** as a new kind of figure, with his rifle in his hands.
+
+Fixes:
+
+* **Running with a gun no longer stutters.** Since 1.9.0 AltUI's walk and run speed changed the order in which the game
+  moves Jodi and updates the camera, also with "Own walk / run speed" off; the order could change from frame to frame,
+  which made Jodi stutter on screen, most visibly when running with a pistol.
+* **Followers and ragdolls made from a look get its hairstyle**, also when Jodi was not wearing the look before: the copy
+  waited only until her clothes were on, not until the whole look was (the hairstyle comes last). A follower now takes
+  the look's own hairstyle even when that one is locked for Jodi.
+
 ## 2.2.0 – 2026-10-16
 
 Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the

@@ -2053,22 +2053,6 @@
         }
        },
        {
-        "id": "gcm0",
-        "kind": "get",
-        "var": "CharacterMovement",
-        "class": "/Script/Engine.Character"
-       },
-       {
-        "id": "rc",
-        "kind": "call",
-        "class": "/Script/Engine.ActorComponent",
-        "function": "RemoveTickPrerequisiteActor",
-        "in": {
-         "self": "@gcm0.CharacterMovement",
-         "PrerequisiteActor": "@me.self"
-        }
-       },
-       {
         "id": "gm0",
         "kind": "get",
         "var": "Mesh",
@@ -2119,22 +2103,6 @@
         }
        },
        {
-        "id": "gcm1",
-        "kind": "get",
-        "var": "CharacterMovement",
-        "class": "/Script/Engine.Character"
-       },
-       {
-        "id": "ac",
-        "kind": "call",
-        "class": "/Script/Engine.ActorComponent",
-        "function": "AddTickPrerequisiteActor",
-        "in": {
-         "self": "@gcm1.CharacterMovement",
-         "PrerequisiteActor": "@me.self"
-        }
-       },
-       {
         "id": "sf",
         "kind": "set",
         "var": "Factor",
@@ -2170,15 +2138,7 @@
       "links": [
        [
         "gb.Bound",
-        "gcm0.self"
-       ],
-       [
-        "gb.Bound",
         "gm0.self"
-       ],
-       [
-        "entry.jodi",
-        "gcm1.self"
        ]
       ],
       "exec": [
@@ -2186,7 +2146,6 @@
         "entry",
         "bb",
         "ra",
-        "rc",
         "r1",
         "sb"
        ],
@@ -2201,8 +2160,7 @@
         "sl",
         "si",
         "bn",
-        "aa",
-        "ac"
+        "aa"
        ]
       ]
      }

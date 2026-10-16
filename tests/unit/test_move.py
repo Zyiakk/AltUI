@@ -25,6 +25,15 @@ class MoveAsset(unittest.TestCase):
             self.assertIn(v, js, v)
 
 
+    def test_no_tick_cycle(self):
+        """Only 'this after Jodi': the engine ticks her CharacterMovement before her already (bTickBeforeOwner); CMC after this
+        closed a cycle, the engine broke it at a changing edge and the movement ran before or after her camera update (pistol
+        run stutter, Nexus 2026-10-13)."""
+        g = next(f["graph"] for f in self.bp["functions"] if f["name"] == "Bind")
+        adds = [n for n in g["nodes"] if n.get("function") == "AddTickPrerequisiteActor"]
+        self.assertEqual(len(adds), 1); self.assertEqual(adds[0]["in"], {"self": "@me.self", "PrerequisiteActor": "@entry.jodi"})
+
+
 class MoveOptions(unittest.TestCase):
     def test_rows(self):
         import gen_widgets

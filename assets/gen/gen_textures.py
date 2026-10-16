@@ -373,5 +373,6 @@ def build(assets_dir):
 
 
 if __name__ == "__main__":
+    import theme_images
     A = os.path.join(os.path.dirname(__file__), "..")
-    write(os.path.join(A, "05_textures.json"), build(A))
+    write(os.path.join(A, "05_textures.json"), build(A) + theme_images.build(A))

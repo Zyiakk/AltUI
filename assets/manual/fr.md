@@ -83,6 +83,7 @@ Un look, c'est tout à la fois : vêtements avec leurs couleurs, coiffure et cou
 - Un clic sur un look l'applique.
 - Clic droit : voir le contenu, renommer, mettre à jour (photo de face ou telle que vue), déplacer, supprimer, ajouter au menu rapide ou l'en retirer.
 - Clic droit aussi : « Créer en ragdoll », « Créer en compagnon », « Créer en PNJ » (voir « Ragdolls » et « Compagnons »).
+- Clic droit « Copie nettoyée (sans les parties manquantes) » – affiché seulement si le look contient des pièces d'un mod qui n'est plus installé, ou des lignes de maquillage / d'yeux qu'aucune table ne connaît : un nouveau look juste après, sans ces entrées, avec la même photo. L'original reste tel quel ; réenregistrer un look ne les retire jamais de lui-même.
 
 ## Sac à dos {#bag}
 
@@ -129,6 +130,8 @@ Chaque animation d'action que connaissent le jeu et vos mods de poses – la lis
 - Clic droit « Utiliser au repos » : la pose commence après 1,5 s d'immobilité et s'arrête quand Jodi marche, sort une arme ou s'accroupit ; « Plus au repos » la désactive.
 - « Tout mesurer » joue une fois chaque pose qui n'a pas encore de posture et la classe.
 - Un haut-parleur dans le coin d'une tuile signale une pose avec son.
+- « Tout mesurer » affiche le nom de la pose en cours de mesure.
+- « Répéter les poses : oui » dans la barre d'état relance une pose qui se termine d'elle-même, jusqu'à ce que Jodi bouge, que la touche d'utilisation ou « Arrêter la pose » la termine ou qu'une autre pose soit choisie. Beaucoup de mods de poses répètent leurs poses de toute façon.
 
 ## Armes {#weapons}
 
@@ -182,16 +185,16 @@ Cet onglet n'apparaît que si un tel mod est installé.
 
 À gauche, les catégories.
 
-- Général : langue, part de l'écran laissée libre pour Jodi, autoriser à retirer les sous-vêtements, affichage des objets non possédés, l'interrupteur du Codex pour l'encyclopédie, le catalogue « Tous les objets » et « Équiper automatiquement les armes » pour l'onglet Inventaire.
+- Général : langue, part de l'écran laissée libre pour Jodi, autoriser à retirer les sous-vêtements, affichage des objets non possédés, l'interrupteur du Codex pour l'encyclopédie, le catalogue « Tous les objets » et « Équiper automatiquement les armes » pour l'onglet Inventaire. « Aucun avis » masque tous les avis en bas, ceux d'AltUI et ceux du jeu lui-même.
 - Tuiles : taille des tuiles, tailles propres pour les tuiles de tenues, de looks et de ragdolls, objets par tuile de tenue, pas de limite pour les longues listes, détails des info-bulles, la taille des tuiles de l'onglet Inventaire.
 - Groupes : fusionner les groupes ou les mods de même nom, longueur des noms de groupe, hauteur de la zone des puces, recherche dans les puces.
-- Caméra : champ de vision, distance, hauteur, la caméra suit l'emplacement choisi.
+- Caméra : champ de vision, distance, hauteur, la caméra suit l'emplacement choisi. Deux interrupteurs pour la caméra libre (aussi en mode ragdolls) : sans collision – elle traverse les murs et Jodi – et à n'importe quelle distance de Jodi.
 - Commandes : touche du panneau, vitesse de défilement, hauteur de la caméra avec le bouton droit, de combien la molette soulève un ragdoll par cran.
 - Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti. « Debout » choisit l'animation au repos de Jodi : celles du jeu (regarde autour, regarde ses ongles, regarde sa jambe, prudente, blessée, pose) et celles des mods de repos installés (IdleAltUI_…).
 - Menu rapide : sa touche, son opacité, ce qui figure dans la roue, les touches personnelles.
-- Couleurs : chaque couleur du panneau, opacités, schémas de couleurs enregistrés sous un nom.
+- Thème : chaque couleur du panneau et son opacité, une image de fond (remplissage, alignement, teinte, sépia, inversion, opacité propre) et une image pour les tuiles et les onglets, schémas de couleurs enregistrés sous un nom ; la réinitialisation est dans la barre d'état. Un thème enregistré désormais garde aussi les images et leurs réglages. Images personnelles : Background_1 … Background_30 et Button_1 … Button_30 (.png ou .jpg) dans le dossier indiqué sur la page.
 - Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux.
-- Onglets : texte, icônes ou les deux dans la barre d'onglets ; désactiver des onglets.
+- Onglets : texte, icônes ou les deux dans la barre d'onglets ; désactiver des onglets. « Tenter de tenir sur une ligne » : les libellés rétrécissent puis raccourcissent, pour que la barre tienne sur une ligne quand c'est possible.
 
 ## Gestion {#manage}
 
@@ -208,6 +211,7 @@ Des figures avec physique à placer et à poser dans le niveau : copies de Jodi,
 
 - « + Créer une copie de Jodi » place une copie devant elle, debout et figée dans sa pose actuelle, avec tout ce qu'elle porte. Un look devient une figure avec « Créer en ragdoll » dans son menu contextuel.
 - « Zombies et humains » : une tuile illustrée par type de zombie, plus l'infirmière et une survivante. Un clic la crée ; les liens sous une tuile créent ses variantes.
+- Le mercenaire est aussi un type de figure ; il garde son fusil en main.
 - Chaque figure a sa ligne : active (physique, elle tombe et peut être lancée) ou figée (elle garde sa pose), « articulations › », tout bloquer, tout libérer, retirer. « Tout retirer » retire toutes les figures.
 - « articulations › » déplie les 17 articulations de la figure, chacune bloquée, libre ou mobile. Une articulation bloquée reste rigide tant que la figure est active.
 - Poses (dans la ligne dépliée) : un nom et « enregistrer la pose » retiennent la position des parties du corps. Une pose se charge sur toute figure du même type, dans tous les niveaux – un clic charge, clic droit : charger / supprimer. La figure se fige et se tient sur le sol.
@@ -249,7 +253,7 @@ Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et o
 
 AltUI garde les figures dans une sauvegarde à part (AltUI_Followers.sav) ; la sauvegarde du jeu ne les contient jamais. Les compagnons qui suivent viennent dans chaque niveau et après un chargement ; ceux qui attendent et les PNJ restent dans leur niveau, à leur place.
 
-Menu rapide : « Compagnon : suis-moi / attends ici » s'adresse au compagnon en vue, « Tous les compagnons : suivre / attendre » à tous.
+Menu rapide : « Compagnon : suis-moi / attends ici » s'adresse au compagnon en vue, « Tous les compagnons : suivre / attendre » à tous. « Tous les compagnons : venez ici » amène chaque compagnon actif aux places devant Jodi – aussi celui qui attend dans un autre niveau.
 
 ## Codex {#kodex}
 

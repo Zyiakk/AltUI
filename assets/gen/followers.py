@@ -19,12 +19,22 @@ FOL_WATCH = 0.02          # seconds between two looks at the figures' clothes co
 FOL_START_DELAY = 1.5     # seconds after the manager's BeginPlay before the level's figures come (Jodi placed, level streamed)
 FOL_QUICK_RANGE = 1500.0  # quick menu: the looked-at follower at most this far (cm)
 FOL_QUICK_CONE = 0.8      # ... and within this cosine of the camera direction (about 37 degrees)
+FOL_BRING_ROW = 5         # quick menu "all come to me": figures per row in front of Jodi (middle, then right / left in turn)
+FOL_BRING_GAP = 80.0      # ... side by side this far apart (cm, two capsules and a little air)
+FOL_BRING_ROWGAP = 90.0   # ... the next row this much further away from her (cm)
 
 # real clothes (docs/specs/2026-10-12-follower-echte-kleidung-design.md): a figure's pieces are bag entries of its own, as with
 # every NPC of the game. Tiles of the Followers tab: a piece the figure has / a piece in Jodi's backpack.
 TILE_FOL_CLOTHES = "folc:"   # folc:<id>:<piece>
 TILE_BAG_CLOTHES = "bagc:"   # bagc:<piece>
 SEWING_KIT = "SewingKit"     # what repairing a piece costs (InventoryPanel.Repair Clothes)
+
+
+def bring_offset(k):
+    """Place of the k-th figure brought by "all come to me": (side, row) - side in FOL_BRING_GAP steps (0, +1, -1, +2, -2), row 0 at
+    FOL_DIST, every FOL_BRING_ROW figures one row further back. Fol Bring All computes the same in its graph."""
+    col, row = k % FOL_BRING_ROW, k // FOL_BRING_ROW; half = (col + 1) // 2
+    return (half if col % 2 else -half), row
 
 
 def is_old_record(clothes, worn, hair):

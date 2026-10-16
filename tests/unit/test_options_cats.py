@@ -66,7 +66,7 @@ class TopTabs(unittest.TestCase):
 
 OLD_OPTION_ROWS = ['RowScroll', 'RowScale', 'RowFov', 'RowDist', 'RowHeight', 'RowGroupLen', 'RowChipH', 'RowUnlimited', 'RowPan', 'RowCamRight', 'RowNude',
                    'RowMerge', 'RowMergeMods', 'RowChipSearch', 'RowTipNoPrefix', 'RowTipNoIds', 'RowUnowned', 'RowLayout', 'RowLanguage', 'RowKey', 'LblTheme',
-                   'ThemeGrid', 'RowBgAlpha', 'RowTileAlpha', 'ThemeLinks', 'LblConflicts', 'LblConflictsHint', 'ConflictLinks', 'ConflictRows']   # OptionsBox before the categories
+                   'ThemeGrid', 'RowBgAlpha', 'RowTileAlpha', 'LblConflicts', 'LblConflictsHint', 'ConflictLinks', 'ConflictRows']   # OptionsBox before the categories
 
 
 def panel_tree():
@@ -135,7 +135,7 @@ class Manager(unittest.TestCase):
     def test_tab_chips(self):
         g = graph("50_manager_ui.json", "Rebuild Tab Chips")
         groups = sorted(v for n in g["nodes"] if n.get("function") == "Init" for k, v in n["in"].items() if k == "group")
-        self.assertEqual(groups, sorted(["Tab:" + p for p in ui.TOP_TABS if p != "Options"] + ["TabStyle0", "TabStyle1", "TabStyle2", "TabIconPos0", "TabIconPos1"]))
+        self.assertEqual(groups, sorted(["Tab:" + p for p in ui.TOP_TABS if p != "Options"] + ["TabStyle0", "TabStyle1", "TabStyle2", "TabIconPos0", "TabIconPos1", "TabRow0", "TabRow1"]))
 
     def test_tab_style_chips_reach_select_tab_style(self):
         """TabStyle<n> / TabIconPos<n> are caught before the "Tab:" prefix and before the layout fallback."""

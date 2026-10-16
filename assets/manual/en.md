@@ -83,6 +83,7 @@ A look is everything at once: clothes with their colours, hairstyle and hair col
 - Click a look to apply it.
 - Right click: view content, rename, update (photo from the front or as seen), move, delete, add to or remove from the quick menu.
 - Right click also: "Spawn as ragdoll", "Spawn as follower", "Spawn as NPC" (see "Ragdolls" and "Followers").
+- Right click "Clean copy (without missing parts)" – only shown when the look holds pieces of a mod that is no longer installed, or make-up / eye rows no table has: a new look right after it without those entries, with the same photo. The original stays as it is; saving a look again never removes them by itself.
 
 ## Backpack {#bag}
 
@@ -129,6 +130,8 @@ Every action animation the game and your pose mods know – the list behind the 
 - Right click "Use as idle": the pose starts after 1.5 s of standing still and ends when Jodi walks, draws a weapon or crouches; "No longer as idle" switches it off.
 - "Measure all" plays every pose that has no stance yet once and sorts it.
 - A speaker in the corner of a tile marks a pose with a sound.
+- "Measure all" shows the name of the pose being measured.
+- "Repeat poses: on" in the status bar starts a pose that ends by itself again, until Jodi moves, the use key or "Stop pose" ends it, or another pose is chosen. Many pose mods repeat their poses anyway.
 
 ## Weapons {#weapons}
 
@@ -182,16 +185,16 @@ This tab only appears when such a mod is installed.
 
 The categories are on the left.
 
-- General: language, how much of the screen stays free for Jodi, underwear may be taken off, how items you do not own are shown, the Codex switch for the encyclopedia, the "All items" catalogue and "Auto-equip weapons" for the Inventory tab.
+- General: language, how much of the screen stays free for Jodi, underwear may be taken off, how items you do not own are shown, the Codex switch for the encyclopedia, the "All items" catalogue and "Auto-equip weapons" for the Inventory tab. "No notices" hides every notice at the bottom, AltUI's and the game's own.
 - Tiles: tile size, own sizes for outfit, look and ragdoll tiles, pieces per outfit tile, no limit on long lists, tooltip details, the tile size of the Inventory tab.
 - Groups: merge groups or mods with the same name, length of group names, height of the chip area, chip search.
-- Camera: field of view, distance, height, camera follows the chosen slot.
+- Camera: field of view, distance, height, camera follows the chosen slot. Two switches for the free camera (also in the ragdolls mode): no collision – it flies through walls and Jodi – and any distance from Jodi.
 - Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.
 - Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. "Slow motion on" switches slow motion, "Slow motion speed" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry "Slow motion on / off" does the same as the switch. "Reset to default" sets walk, run and slow motion speed back. "Standing" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).
 - Quick menu: its key, its opacity, what is in the wheel, own keys.
-- Colours: every panel colour, opacities, colour schemes saved under a name.
+- Theme: every panel colour and its opacity, a background picture (fill, alignment, hue, sepia, invert, its own opacity) and a picture for tiles and tabs, colour schemes saved under a name; reset is in the status bar. A theme saved now keeps the pictures and their settings too. Your own pictures: Background_1 … Background_30 and Button_1 … Button_30 (.png or .jpg) in the folder the page names.
 - Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn.
-- Tabs: text, icons or both in the tab bar; switch tabs off.
+- Tabs: text, icons or both in the tab bar; switch tabs off. "Try to fit in one row": the captions get smaller and then shorter, so the bar fits on one row where it can.
 
 ## Manage {#manage}
 
@@ -208,6 +211,7 @@ Figures with physics to place in the level and pose: copies of Jodi, zombies and
 
 - "+ Spawn a copy of Jodi" puts a copy in front of her, standing and frozen in her current pose, with everything she wears. A look becomes a figure with "Spawn as ragdoll" in its context menu.
 - "Zombies and people": one picture tile per kind of zombie, plus the nurse and a survivor. A click spawns it; the links under a tile spawn its variants.
+- The mercenary is a kind of figure too; he keeps his rifle in his hands.
 - Every figure has a row: active (physics, it falls and can be thrown) or frozen (it keeps its pose), "joints ›", lock all, free all, remove. "Remove all" removes every figure.
 - "joints ›" opens the 17 joints of the figure, each one locked, free or movable. A locked joint stays stiff while the figure is active.
 - Poses (in the opened row): a name and "save pose" keep how the body parts are placed. A pose loads onto every figure of the same kind, in every level – a click loads, right click: load / delete. The figure freezes and stands on the floor.
@@ -249,7 +253,7 @@ Looks as people in the game: a follower walks with Jodi, fights and takes orders
 
 AltUI keeps the figures in a save of its own (AltUI_Followers.sav), the game's save never contains them. Following followers come along to every level and after loading; waiting followers and NPCs stay in their level at their place.
 
-Quick menu: "Follower: follow me / wait here" orders the follower in view, "All followers: follow / wait" all of them.
+Quick menu: "Follower: follow me / wait here" orders the follower in view, "All followers: follow / wait" all of them. "All followers: come to me" brings every active follower to the places in front of Jodi – also one waiting in another level.
 
 ## Codex {#kodex}
 
