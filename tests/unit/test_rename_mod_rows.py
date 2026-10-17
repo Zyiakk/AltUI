@@ -46,7 +46,7 @@ class RenameModRows(unittest.TestCase):
         self.assertEqual(n["wsw0"]["in"]["InPrefix"], "WeaponAltUI_")
 
     def test_pose_tiles_mark_sound(self):
-        g = self.fns["Rebuild Poses"]["graph"]
+        g = self.fns["Rebuild Poses Body"]["graph"]   # KEEP_SCROLL wrapper: the logic is in the body
         self.assertTrue(any(n.get("function") == "Set Sound Mark" for n in g["nodes"]))
         self.assertTrue(any(n.get("function") == "Pose Has Sound" for n in g["nodes"]))
 

@@ -1,6 +1,6 @@
 """AltUI's own pictures for Options > Theme: panel backgrounds and button images, drawn here (no outside sources).
 Each entry: (key, text key of its chip, size, draw function). The textures are T_Bg<Key> / T_Btn<Key>; own files of the user
-come from Saved/SaveGames/AltUI/Images (Background_<n> / Button_<n>, .png or .jpg - Blueprints cannot list a folder, so the
+come from Saved/SaveGames/AltUI/Images (Background_<n> / Button_<n>, .png, .jpg or .jpeg - Blueprints cannot list a folder, so the
 names are fixed and probed)."""
 import os, sys; sys.path.insert(0, os.path.dirname(__file__))
 import numpy as np
@@ -9,7 +9,7 @@ from bpdsl import M
 
 USER_DIR = "SaveGames/AltUI/Images"   # under ProjectSavedDir
 USER_MAX = 30                           # Background_1 .. Background_30, Button_1 .. Button_30
-USER_EXT = [".png", ".jpg"]
+USER_EXT = [".png", ".jpg", ".jpeg"]
 # how the background fills the panel (ScaleBox stretch; tile = an Image brush with Tiling)
 FITS = ["Img_FitFill", "Img_FitFit", "Img_FitStretch", "Img_FitTile"]
 H_ALIGN = ["Img_AlignLeft", "Img_AlignCenter", "Img_AlignRight"]
@@ -151,13 +151,34 @@ BACKGROUNDS += [(k, t, 1024, f) for k, t, f in CARDS]
 BUTTONS += [(k, t, 256, f) for k, t, f in CARDS]
 
 
+# previews in the chips (option "Show previews"): pixel size of the picture = three times its size in layout units (THUMB_UNITS);
+# AltUI's own come as textures T_BgThumb<Key> / T_BtnThumb<Key>, the user's are rendered once into USER_DIR/Thumbs (Manager: Write User Thumb)
+THUMB_UNITS = {"bg": (80, 45), "btn": (45, 45)}
+THUMB_PX = {k: (3 * w, 3 * h) for k, (w, h) in THUMB_UNITS.items()}   # x SC 1.9 x DPI 1.33 at 1440p ~ 2.5 screen pixels per unit
+THUMB_DIR = "Thumbs/"
+THUMB_STEPS = 3   # user pictures: drawn at 2^3 x the preview size, then halved three times (each halving averages 2 x 2 pixels - no flicker from skipped pixels)
+
+
 def tex_path(kind, key): return M + ("/T_Bg" if kind == "bg" else "/T_Btn") + key
+
+
+def thumb_path(kind, key): return M + ("/T_BgThumb" if kind == "bg" else "/T_BtnThumb") + key
+
+
+def thumb(arr, kind):
+    """The preview: the middle of the picture cut to the chip's aspect, scaled down (Lanczos)."""
+    im = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8), "RGB"); tw, th = THUMB_PX[kind]
+    w, h = im.size; cw, ch = (w, round(w * th / tw)) if w * th <= h * tw else (round(h * tw / th), h)
+    im = im.crop(((w - cw) // 2, (h - ch) // 2, (w - cw) // 2 + cw, (h - ch) // 2 + ch))
+    return im.resize((tw, th), Image.LANCZOS)
 
 
 def build(assets_dir):
     out = []
     for kind, lst in (("bg", BACKGROUNDS), ("btn", BUTTONS)):
         for key, _, n, f in lst:
-            rel = "tex/%s_%s.png" % (kind, key.lower()); _save(f(n), os.path.join(assets_dir, rel))
+            arr = f(n); rel = "tex/%s_%s.png" % (kind, key.lower()); _save(arr, os.path.join(assets_dir, rel))
             out.append({"type": "texture", "path": tex_path(kind, key), "file": rel, "props": TEX_BIG})
+            rel = "tex/%s_%s_thumb.png" % (kind, key.lower()); thumb(arr, kind).save(os.path.join(assets_dir, rel))
+            out.append({"type": "texture", "path": thumb_path(kind, key), "file": rel, "props": TEX_BIG})
     return out

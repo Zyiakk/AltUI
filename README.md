@@ -88,6 +88,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 
 * The game's outfit presets, with names; right click renames.
 * Your own order: right click moves an outfit left, right, to the start or to the end.
+* An outfit saved in AltUI keeps the colour of every colour slot of its pieces; the game itself keeps one colour per
+  piece, so an outfit saved at the mirror has only that one.
 
 ### Looks
 
@@ -209,7 +211,8 @@ In categories, chosen in a list on the left:
     bottom, with hue, sepia and invert and an opacity of its own – the background colour lies over it;
   * a picture on the tiles, slot tabs and tabs, with rounded corners, its own hue, sepia and invert;
   * AltUI's own pictures (off-white card stocks among them) or your own: `Background_1` … `Background_30` and
-    `Button_1` … `Button_30` (`.png` or `.jpg`) in `Saved/SaveGames/AltUI/Images`;
+    `Button_1` … `Button_30` (`.png`, `.jpg` or `.jpeg`) in `Saved/SaveGames/AltUI/Images`; "Show previews" puts
+    the pictures themselves on their chips (right click on an own picture's preview: "Redo preview");
   * themes saved under a name keep colours, opacities and pictures; "Reset colours" sits in the status bar.
 * **Slot conflicts:** free the game's slot pairs, such as bra and shirt.
 * **Tabs:** switch tabs off; the tab bar shows text, icons or both, icon left or right of the text; "try to fit in one

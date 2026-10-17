@@ -14,6 +14,7 @@ def load(fname):
 
 
 def fn_graph(name, files=("30_manager.json", "50_manager_ui.json")):
+    if name + " Body" in {e.get("name") for f in files for a in load(f) for e in a.get("functions", [])}: name += " Body"   # KEEP_SCROLL wrapper: the logic is in the body
     for f in files:
         for a in load(f):
             for entry in a.get("functions", []):

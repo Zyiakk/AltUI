@@ -335,13 +335,16 @@ def reset_rename(g, tail, label):
     g.get("rr_gl", label); g.call("rr_sl", E_WIDGET, "SetVisibility", inp={"self": "@rr_gl.%s" % label, "InVisibility": "Visible"}); tail += ["rr_se", "rr_hv", "rr_sl"]
 
 
-def rename_tick(split=False):
-    """Tick of the renameable tiles: Editing and the text field lost the keyboard focus -> End Rename. split: then the split_tick part."""
-    tk = G(); tk.get("ged", "Editing"); tk.get("ge", "NameEdit"); tk.call("hf", E_WIDGET, "HasKeyboardFocus", inp={"self": "@ge.NameEdit"})
+def rename_tick(split=False, pre=None):
+    """Tick of the renameable tiles: Editing and the text field lost the keyboard focus -> End Rename. split: then the split_tick part.
+    pre: a function of the tile called first."""
+    tk = G(); start = "entry"
+    if pre: tk.n("pre", "call_self", function=pre); tk.chain("entry", "pre"); start = "pre"
+    tk.get("ged", "Editing"); tk.get("ge", "NameEdit"); tk.call("hf", E_WIDGET, "HasKeyboardFocus", inp={"self": "@ge.NameEdit"})
     tk.call("nf", K_MATH, "Not_PreBool", inp={"A": "@hf.ReturnValue"}); tk.call("and", K_MATH, "BooleanAND", inp={"A": "@ged.Editing", "B": "@nf.ReturnValue"}); tk.branch("b", "@and.ReturnValue")
     tk.n("er", "call_self", function="End Rename")
-    if split: split_tick(tk, "entry", "b"); tk.chain("b", "er")
-    else: tk.chain("entry", "b", "er")
+    if split: split_tick(tk, start, "b"); tk.chain("b", "er")
+    else: tk.chain(start, "b", "er")
     return tk
 
 
@@ -781,7 +784,9 @@ def w_clothes_button():
 # ---------------- W_SubTab ----------------
 def w_sub_tab():
     tree = roundbox("Frame", COL_CHIP_FRAME, 1, children=[
-        roundbox("Fill", COL_CHIP, 0, props={"Padding": "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % (sz(10), sz(4), sz(10), sz(4))}, children=[text("Label", "Alle", 12)])])
+        roundbox("Fill", COL_CHIP, 0, props={"Padding": "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % (sz(10), sz(4), sz(10), sz(4))}, children=[
+            w(U_SIZE, "MinBox", children=[w(U_HBOX, "Row", slot={"HorizontalAlignment": "HAlign_Center", "VerticalAlignment": "VAlign_Center"}, children=[
+                w(U_SIZE, "ThumbBox", props={"Visibility": "Collapsed"}, children=[w(E_IMAGE, "Thumb")]), text("Label", "Alle", 12, slot={"VerticalAlignment": "VAlign_Center"})])])])])
     hv, hf, eg = hover_parts(W_SUB, "Frame", "Fill")
     g = G(); tail = ["entry"]
     g.set("sg", "Group", inp={"Group": "@entry.group"}); tail.append("sg")
@@ -803,8 +808,39 @@ def w_sub_tab():
     tp.get("gmt", "Manager"); tp.n("stm", "set", var="Manager", cls=W_TOOLTIP, inp={"self": "@ctc.AsW_Tooltip", "Manager": "@gmt.Manager"})
     tp.call("tti", W_TOOLTIP, "Init", inp={"self": "@ctc.AsW_Tooltip", "text": "@entry.tip"}); tp.get("gfr", "Frame"); tp.call("stt", E_WIDGET, "SetToolTip", inp={"self": "@gfr.Frame", "Widget": "@ctc.AsW_Tooltip"})
     tp.chain("entry", "ctt", "stm", "tti", "stt")
-    return blueprint(W_SUB, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Group", "name"), var("Selected", "bool")] + hv,
-                     functions=[init, fn("Set Tip", [param("tip", "text")], graph=tp), compute_fn(c), refresh_fn(), mouse_down_override("Select SubTab", "SubTab Context", "Group")] + hf, event_graph=eg, widget_tree=tree, defaults=HAND)
+    # Set Thumb (Options > Theme, "Show previews"): the picture instead of the caption, through its own M_ImageBox instance (rounded
+    # corners, the filters of the picture); width / height in pixels of the layout (sz), radius in screen pixels
+    th = G(); th.call("cr", "/Script/Engine.KismetMaterialLibrary", "CreateDynamicMaterialInstance", inp={"Parent": M + "/Mat/M_ImageBox"}); th.set("sm", "ThumbMID", inp={"ThumbMID": "@cr.ReturnValue"})
+    tail = ["entry", "cr", "sm"]
+    th.get("gm0", "ThumbMID"); th.call("stx", "/Script/Engine.MaterialInstanceDynamic", "SetTextureParameterValue", inp={"self": "@gm0.ThumbMID", "ParameterName": "Tex", "Value": "@entry.tex"}); tail.append("stx")
+    th.get("gm1", "ThumbMID"); th.call("srd", "/Script/Engine.MaterialInstanceDynamic", "SetScalarParameterValue", inp={"self": "@gm1.ThumbMID", "ParameterName": "Radius", "Value": "@entry.radius"}); tail.append("srd")
+    th.n("flt", "call_self", function="Set Thumb Filters", inp={"hue": "@entry.hue", "sepia": "@entry.sepia", "invert": "@entry.invert"}); tail.append("flt")
+    th.get("gi", "Thumb"); th.get("gm2", "ThumbMID"); th.call("sbm", E_IMAGE, "SetBrushFromMaterial", inp={"self": "@gi.Thumb", "Material": "@gm2.ThumbMID"}); tail.append("sbm")
+    th.get("gb1", "ThumbBox"); th.call("sw", U_SIZE, "SetWidthOverride", inp={"self": "@gb1.ThumbBox", "InWidthOverride": "@entry.width"}); tail.append("sw")
+    th.get("gb2", "ThumbBox"); th.call("sh", U_SIZE, "SetHeightOverride", inp={"self": "@gb2.ThumbBox", "InHeightOverride": "@entry.height"}); tail.append("sh")
+    th.get("gb3", "ThumbBox"); th.call("sv", E_WIDGET, "SetVisibility", inp={"self": "@gb3.ThumbBox", "InVisibility": "Visible"}); tail.append("sv")
+    th.get("gl", "Label"); th.call("lc", E_WIDGET, "SetVisibility", inp={"self": "@gl.Label", "InVisibility": "Collapsed"}); tail.append("lc")
+    th.get("gf", "Fill"); th.call("pd", E_BORDER, "SetPadding", inp={"self": "@gf.Fill", "InPadding": "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % ((sz(THUMB_PAD),) * 4)}); tail.append("pd")
+    th.chain(*tail)
+    tf = G(); tf.get("gm", "ThumbMID"); tf.call("vm", K_SYS, "IsValid", inp={"Object": "@gm.ThumbMID"}); tf.branch("bm", "@vm.ReturnValue"); tail = ["entry", "bm"]
+    for par, pin in (("Hue", "hue"), ("Sepia", "sepia"), ("Invert", "invert")):
+        tf.get("g" + par, "ThumbMID"); tf.call("s" + par, "/Script/Engine.MaterialInstanceDynamic", "SetScalarParameterValue", inp={"self": "@g%s.ThumbMID" % par, "ParameterName": par, "Value": "@entry." + pin}); tail.append("s" + par)
+    tf.chain(*tail)
+    # Set Thumb Size: a chip without a picture in a row of previews ("none", a picture that cannot be read) - as large as the previews
+    # (MinBox around the row: at least width x height), the caption in the middle
+    tg = G(); tail = ["entry"]
+    tg.get("gb1", "MinBox"); tg.call("sw", U_SIZE, "SetMinDesiredWidth", inp={"self": "@gb1.MinBox", "InMinDesiredWidth": "@entry.width"}); tail.append("sw")
+    tg.get("gb2", "MinBox"); tg.call("sh", U_SIZE, "SetMinDesiredHeight", inp={"self": "@gb2.MinBox", "InMinDesiredHeight": "@entry.height"}); tail.append("sh")
+    tg.get("gf", "Fill"); tg.call("pd", E_BORDER, "SetPadding", inp={"self": "@gf.Fill", "InPadding": "(Left=%d,Top=%d,Right=%d,Bottom=%d)" % ((sz(THUMB_PAD),) * 4)}); tail.append("pd")
+    tg.chain(*tail)
+    thumb_fns = [fn("Set Thumb Size", [param("width", "float"), param("height", "float")], graph=tg), fn("Set Thumb", [param("tex", "object:/Script/Engine.Texture"), param("width", "float"), param("height", "float"), param("radius", "float"),
+                                  param("hue", "float"), param("sepia", "float"), param("invert", "float")], graph=th),
+                 fn("Set Thumb Filters", [param("hue", "float"), param("sepia", "float"), param("invert", "float")], graph=tf)]
+    return blueprint(W_SUB, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Group", "name"), var("Selected", "bool"), var("ThumbMID", "object:/Script/Engine.MaterialInstanceDynamic")] + hv,
+                     functions=[init, fn("Set Tip", [param("tip", "text")], graph=tp), compute_fn(c), refresh_fn(), mouse_down_override("Select SubTab", "SubTab Context", "Group")] + thumb_fns + hf, event_graph=eg, widget_tree=tree, defaults=HAND)
+
+
+THUMB_PAD = 3   # chip with a preview: the picture this far inside the chip's frame
 
 
 # ---------------- W_TopTab (tab bar at the top: text and / or icon (left or right of the text) + red underline) ----------------
@@ -1107,7 +1143,7 @@ def w_outfit_button():
 
 
 # ---------------- W_LookButton (portrait photo + name; index -1 = "+ save"; inline rename like W_OutfitButton) ----------------
-RAG_LABEL_H, RAG_LINKS_H = 30, 22   # Ragdolls tiles: caption 2 lines, variant link row - fixed, so every tile of a row is equally high
+RAG_LABEL_H, RAG_LINKS_H = 30, 44   # Ragdolls tiles: caption 2 lines, variant links 2 lines (Squirter: blue red yellow did not fit one) - fixed, so every tile of a row is equally high
 
 
 def w_look_button(path=W_LOOK, clicked="On Look Clicked", context="On Look Context", rename="Set Look Name", add_key="Btn_SaveLook", box=(104, 236), photo=(88, 176), scale_fn=None, links=False):
@@ -1125,7 +1161,8 @@ def w_look_button(path=W_LOOK, clicked="On Look Clicked", context="On Look Conte
                     *([w(U_SIZE, "LabelBox", props={"bOverride_HeightOverride": True, "HeightOverride": sz(RAG_LABEL_H)}, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)},
                          children=[text("Label", "Look", 11, WHITE, wrap=True, center=True, slot={"VerticalAlignment": "VAlign_Center"})]),
                        w(U_SIZE, "VarsBox", props={"bOverride_HeightOverride": True, "HeightOverride": sz(RAG_LINKS_H)},
-                         children=[w(U_HBOX, "Vars", slot={"HorizontalAlignment": "HAlign_Center", "VerticalAlignment": "VAlign_Center"})])] if links else
+                         children=[w(U_VBOX, "VarsV", slot={"HorizontalAlignment": "HAlign_Fill", "VerticalAlignment": "VAlign_Center"}, children=[
+                             w(U_HBOX, "Vars", slot={"HorizontalAlignment": "HAlign_Center"}), w(U_HBOX, "Vars2", slot={"HorizontalAlignment": "HAlign_Center"})])])] if links else
                       [text("Label", "Look", 11, WHITE, wrap=True, center=True, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)})]),
                     w(E_EDIT, "NameEdit", props={"Visibility": "Collapsed", "SelectAllTextWhenFocused": True, "ClearKeyboardFocusOnCommit": False,
                                                 "WidgetStyle": "(Font=(Size=%d),Padding=(Left=%d,Top=%d,Right=%d,Bottom=%d),BackgroundColor=(SpecifiedColor=(R=0.1,G=0.1,B=0.12,A=1)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))" % (sz(11), sz(4), sz(2), sz(4), sz(2))},
@@ -1184,19 +1221,44 @@ def w_look_button(path=W_LOOK, clicked="On Look Clicked", context="On Look Conte
     ku.call("h", K_WBL, "Handled"); ku.link("h.ReturnValue", "return.ReturnValue")
     ku.n("r2", "return_new"); ku.call("u", K_WBL, "Unhandled"); ku.link("u.ReturnValue", "r2.ReturnValue")
     ku.chain("entry", "be", "ben", "er_e", "sn", "return"); ku.chain("ben:else", "bes", "er", "return"); ku.chain("bes:else", "return"); ku.chain("be:else", "r2")
-    tk = rename_tick(split=True)
-    return blueprint(path, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Index", "int"), var("Editing", "bool"), var("SplitTile", "bool")] + hv,
+    tk = rename_tick(split=True, pre="Fit Vars" if links else None)
+    return blueprint(path, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("Index", "int"), var("Editing", "bool"), var("SplitTile", "bool")] + hv
+                     + ([var("VarsAll", "object:" + E_WIDGET, "array"), var("VarsMoved", "int"), var("VarsPending", "bool")] if links else []),
                      functions=[init, tile_colors(("Label", "ColText"), ("Plus", "ColText"), ("NoPhoto", "ColTextDim"), ("SplitFront", "ColText"), ("SplitView", "ColText")),
                                 mouse_down_override(clicked, context, "Index", pin="index", split=True),
                                 fn("Begin Rename", [param("current", "string")], graph=br), fn("End Rename", graph=er),
-                                fn("OnKeyUp", override=True, graph=ku), fn("Tick", override=True, graph=tk)] + hf + ([add_var_fn()] if links else []), event_graph=eg, widget_tree=tree, defaults=HAND)
+                                fn("OnKeyUp", override=True, graph=ku), fn("Tick", override=True, graph=tk)] + hf + (add_var_fn() if links else []), event_graph=eg, widget_tree=tree, defaults=HAND)
 
 
 def add_var_fn():
-    """Ragdolls tile: a variant link into the row under the caption (its own click handling keeps the tile's click away)."""
-    av = G(); av.get("gv", "Vars"); av.call("a", U_HBOX, "AddChildToHorizontalBox", inp={"self": "@gv.Vars", "Content": "@entry.widget"})
-    av.call("pd", "/Script/UMG.HorizontalBoxSlot", "SetPadding", inp={"self": "@a.ReturnValue", "InPadding": "(Left=%d,Top=0,Right=%d,Bottom=0)" % (sz(3), sz(3))}); av.chain("entry", "a", "pd")
-    return fn("Add Var", [param("widget", "object:" + E_WIDGET)], graph=av)
+    """Ragdolls tile: a variant link under the caption (its own click handling keeps the tile's click away). The links stand
+    centred in one line; Fit Vars (Tick) moves the last ones into a second centred line while the first is wider than the
+    tile (Squirter: blue red yellow; German, Polish: two already). 4.27's WrapBox wraps, but cannot centre its lines."""
+    av = G(); av.get("ga", "VarsAll"); av.call("aa", K_ARR, "Array_Add", inp={"TargetArray": "@ga.VarsAll", "NewItem": "@entry.widget"})
+    av.set("sp", "VarsPending", inp={"VarsPending": "true"}); av.n("rd", "call_self", function="Lay Out Vars"); av.chain("entry", "aa", "sp", "rd")
+    lo = G()
+    for i, box in enumerate(("Vars", "Vars2")): lo.get("gb%d" % i, box); lo.call("cl%d" % i, U_PANELW, "ClearChildren", inp={"self": "@gb%d.%s" % (i, box)})
+    lo.get("ga", "VarsAll"); lo.call("len", K_ARR, "Array_Length", inp={"TargetArray": "@ga.VarsAll"}); lo.get("gm", "VarsMoved")
+    lo.call("cut", K_MATH, "Subtract_IntInt", inp={"A": "@len.ReturnValue", "B": "@gm.VarsMoved"})
+    lo.get("ga2", "VarsAll"); lo.foreach("fe", "@ga2.VarsAll")
+    lo.call("one", K_MATH, "Less_IntInt", inp={"A": "@fe.Array Index", "B": "@cut.ReturnValue"}); lo.branch("b", "@one.ReturnValue")
+    pad = "(Left=%d,Top=0,Right=%d,Bottom=0)" % (sz(3), sz(3))
+    for i, box in enumerate(("Vars", "Vars2")):
+        lo.get("gv%d" % i, box); lo.call("a%d" % i, U_HBOX, "AddChildToHorizontalBox", inp={"self": "@gv%d.%s" % (i, box), "Content": "@fe.Array Element"})
+        lo.call("pd%d" % i, "/Script/UMG.HorizontalBoxSlot", "SetPadding", inp={"self": "@a%d.ReturnValue" % i, "InPadding": pad})
+    lo.chain("entry", "cl0", "cl1", "fe"); lo.chain("fe", "b", "a0", "pd0"); lo.chain("b:else", "a1", "pd1")
+    fv = G(); fv.get("gp", "VarsPending"); fv.branch("bp", "@gp.VarsPending")
+    fv.get("gbx", "VarsBox"); fv.call("geo", E_WIDGET, "GetCachedGeometry", inp={"self": "@gbx.VarsBox"}); fv.call("ls", K_SLATE, "GetLocalSize", inp={"Geometry": "@geo.ReturnValue"})
+    fv.call("bl", K_MATH, "BreakVector2D", inp={"InVec": "@ls.ReturnValue"}); fv.call("laid", K_MATH, "Greater_FloatFloat", inp={"A": "@bl.X", "B": "1.0"}); fv.branch("bl2", "@laid.ReturnValue")
+    fv.get("gv", "Vars"); fv.call("fl", E_WIDGET, "ForceLayoutPrepass", inp={"self": "@gv.Vars"}); fv.call("ds", E_WIDGET, "GetDesiredSize", inp={"self": "@gv.Vars"})
+    fv.call("bd", K_MATH, "BreakVector2D", inp={"InVec": "@ds.ReturnValue"}); fv.call("wide", K_MATH, "Greater_FloatFloat", inp={"A": "@bd.X", "B": "@bl.X"})
+    fv.get("ga", "VarsAll"); fv.call("len", K_ARR, "Array_Length", inp={"TargetArray": "@ga.VarsAll"}); fv.get("gm", "VarsMoved")
+    fv.call("left", K_MATH, "Subtract_IntInt", inp={"A": "@len.ReturnValue", "B": "@gm.VarsMoved"}); fv.call("more", K_MATH, "Greater_IntInt", inp={"A": "@left.ReturnValue", "B": "1"})
+    fv.call("go", K_MATH, "BooleanAND", inp={"A": "@wide.ReturnValue", "B": "@more.ReturnValue"}); fv.branch("bgo", "@go.ReturnValue")
+    fv.get("gm2", "VarsMoved"); fv.call("inc", K_MATH, "Add_IntInt", inp={"A": "@gm2.VarsMoved", "B": "1"}); fv.set("sm", "VarsMoved", inp={"VarsMoved": "@inc.ReturnValue"})
+    fv.n("rd", "call_self", function="Lay Out Vars"); fv.set("done", "VarsPending", inp={"VarsPending": "false"})
+    fv.chain("entry", "bp", "bl2", "fl", "bgo", "sm", "rd"); fv.chain("bgo:else", "done")
+    return [fn("Add Var", [param("widget", "object:" + E_WIDGET)], graph=av), fn("Lay Out Vars", graph=lo), fn("Fit Vars", graph=fv)]
 
 
 # ---------------- W_TextButton (text link: click -> Manager.On Menu Action(action)) ----------------
@@ -2095,7 +2157,7 @@ PANEL_TEXTS = [("search", "Search"), ("chipsearch", "ChipSearch"), ("onlyowned",
                ("scbreast", "LblScBreast"), ("scwaist", "LblScWaist"), ("scglutes", "LblScGlutes"), ("scthighs", "LblScThighs"), ("sccalves", "LblScCalves"), ("scarms", "LblScArms"), ("schands", "LblScHands"), ("scfeet", "LblScFeet"), ("scheight", "LblScHeight"),
                ("scroll", "LblScroll"), ("scale", "LblScale"), ("quickalpha", "LblQuickAlpha"), ("outfitscale", "LblOutfitScale"), ("lookscale", "LblLookScale"), ("ragscale", "LblRagScale"), ("invscale", "LblInvScale"), ("outfitcols", "LblOutfitCols"), ("outfitrows", "LblOutfitRows"), ("fov", "LblFov"), ("dist", "LblDist"), ("height", "LblHeight"), ("grouplen", "LblGroupLen"), ("chiph", "LblChipH"), ("unlimited", "LblUnlimited"), ("layout", "LblLayout"),
                ("language", "LblLanguage"), ("placeholder", "PlaceholderText"), ("pan", "LblPan"), ("camright", "LblCamRight"), ("nude", "LblNude"), ("merge", "LblMerge"), ("mergemods", "LblMergeMods"), ("chipsearchopt", "LblChipSearch"), ("tipnoprefix", "LblTipNoPrefix"), ("tipnoids", "LblTipNoIds"), ("kodexall", "LblKodexAll"), ("moveon", "LblMoveOn"), ("walkspeed", "LblWalkSpeed"), ("runspeed", "LblRunSpeed"), ("walkstyle", "LblWalkStyle"), ("runstyle", "LblRunStyle"), ("idlestyle", "LblIdleStyle"), ("conflicts", "LblConflicts"), ("conflictshint", "LblConflictsHint"), ("unowned", "LblUnowned"), ("scalehint", "LblScaleHint"),
-               ("theme", "LblTheme"), ("bgalpha", "LblBgAlpha"), ("bgimgalpha", "LblBgImgAlpha"), ("tilealpha", "LblTileAlpha"), ("key", "LblKey"), ("onlymods", "LblOnlyMods"), ("casesens", "LblCaseSens"), ("managesearch", "ManageSearch"), ("looksearch", "LookSearch"), ("lookchipsearch", "LookChipSearch"), ("hdrname", "HdrName"), ("hdrdisplay", "HdrDisplay"), ("hdrorigin", "HdrOrigin"), ("hdrcontent", "HdrContent"), ("posesearch", "PoseSearch"), ("invsearch", "InvSearch"), ("posefavorites", "PoseFavHeader"), ("poseall", "PoseAllHeader"), ("weaponsearch", "WeaponSearch"), ("weaponfavorites", "WeaponFavHeader"), ("weaponall", "WeaponAllHeader"), ("weaponmodels", "WeaponModelHeader"), ("weaponsounds", "WeaponSoundHeader"), ("tabshint", "LblTabsHint"), ("quickkey", "LblQuickKey"), ("quickinwheel", "LblQuickInWheel"), ("quickavailable", "LblQuickAvailable"), ("tabstyle", "LblTabStyle"), ("tabiconpos", "LblTabIconPos"), ("tabrow", "LblTabRow"), ("bgimage", "LblBgImage"), ("bgfit", "LblBgFit"), ("bghalign", "LblBgHAlign"), ("bgvalign", "LblBgVAlign"), ("btnimage", "LblBtnImage"), ("bghue", "LblBgHue"), ("bgsepia", "LblBgSepia"), ("bginv", "LblBgInv"), ("btnhue", "LblBtnHue"), ("btnsepia", "LblBtnSepia"), ("btninv", "LblBtnInv"), ("themesave", "LblThemeSave"), ("themename", "ThemeNameEdit"), ("themepresets", "LblThemePresets"), ("themepresetshint", "ThemePresetsHint"), ("managechipsearch", "ManageChipSearch"), ("quickcontrol", "LblQuickControl"), ("quickkeywidth", "QuickKeyWidth"), ("invbag", "InvBagTitle"), ("folbag", "FolBagTitle"), ("folbox", "FolBoxTitle"), ("invbox", "InvBoxTitle"), ("invcat", "InvCatTitle"), ("invcatalog", "LblInvCatalog"), ("invautoequip", "LblInvAutoEquip"), ("weaponattach", "WeaponAttachHeader")]   # parameter of Set Strings -> widget name (order = gen_manager_ui.PANEL_STRINGS)
+               ("theme", "LblTheme"), ("bgalpha", "LblBgAlpha"), ("bgimgalpha", "LblBgImgAlpha"), ("tilealpha", "LblTileAlpha"), ("key", "LblKey"), ("onlymods", "LblOnlyMods"), ("casesens", "LblCaseSens"), ("managesearch", "ManageSearch"), ("looksearch", "LookSearch"), ("lookchipsearch", "LookChipSearch"), ("hdrname", "HdrName"), ("hdrdisplay", "HdrDisplay"), ("hdrorigin", "HdrOrigin"), ("hdrcontent", "HdrContent"), ("posesearch", "PoseSearch"), ("invsearch", "InvSearch"), ("posefavorites", "PoseFavHeader"), ("poseall", "PoseAllHeader"), ("weaponsearch", "WeaponSearch"), ("weaponfavorites", "WeaponFavHeader"), ("weaponall", "WeaponAllHeader"), ("weaponmodels", "WeaponModelHeader"), ("weaponsounds", "WeaponSoundHeader"), ("tabshint", "LblTabsHint"), ("quickkey", "LblQuickKey"), ("quickinwheel", "LblQuickInWheel"), ("quickavailable", "LblQuickAvailable"), ("tabstyle", "LblTabStyle"), ("tabiconpos", "LblTabIconPos"), ("tabrow", "LblTabRow"), ("bgimage", "LblBgImage"), ("bgfit", "LblBgFit"), ("bghalign", "LblBgHAlign"), ("bgvalign", "LblBgVAlign"), ("btnimage", "LblBtnImage"), ("bghue", "LblBgHue"), ("bgsepia", "LblBgSepia"), ("bginv", "LblBgInv"), ("imgthumbs", "LblImgThumbs"), ("btnhue", "LblBtnHue"), ("btnsepia", "LblBtnSepia"), ("btninv", "LblBtnInv"), ("themesave", "LblThemeSave"), ("themename", "ThemeNameEdit"), ("themepresets", "LblThemePresets"), ("themepresetshint", "ThemePresetsHint"), ("managechipsearch", "ManageChipSearch"), ("quickcontrol", "LblQuickControl"), ("quickkeywidth", "QuickKeyWidth"), ("invbag", "InvBagTitle"), ("folbag", "FolBagTitle"), ("folbox", "FolBoxTitle"), ("invbox", "InvBoxTitle"), ("invcat", "InvCatTitle"), ("invcatalog", "LblInvCatalog"), ("invautoequip", "LblInvAutoEquip"), ("weaponattach", "WeaponAttachHeader")]   # parameter of Set Strings -> widget name (order = gen_manager_ui.PANEL_STRINGS)
 PANEL_TEXTS += [("sc" + k.lower(), "LblSc" + k) for k in bg.SLIDER_ORDER[9:]] + [("scgrp" + h[len("Lbl_ScGrp"):].lower(), "LblScGrp" + h[len("Lbl_ScGrp"):]) for h in bg.GROUP_HEADS.values()]   # 2026-10-09 body-physics rows + group headings
 PANEL_TEXTS += [("ragwheel", "LblRagWheel"), ("slowmo", "LblSlowMo")]   # 2026-10-11 sliders
 PANEL_TEXTS += [("hdr" + k.lower(), "Hdr" + k) for k in ("ThemeColors", "BgPic", "BtnPic", "ThemeSchemes")]   # 2026-10-16 Options > Theme sections
@@ -2105,9 +2167,9 @@ PANEL_TEXTS += [("nonotices", "LblNoNotices")]   # 2026-10-16 no notices at all 
 PANEL_TEXTS += [("hairfavorites", "HairFavHeader"), ("hairall", "HairAllHeader")]   # 2026-10-15 favourites block of the Coiffure tab
 PANEL_TEXTS += [("keybinds", "LblKeyBinds")]   # 2026-10-15 own keys (Options › Quick menu)
 THEME_COLS = 5   # theme grid: fixed columns (entries fill column-wise), the wrap box wraps whole columns on narrow panels
-THEME_REFRESH = [("TopTabs", W_TOP), ("TabChips", W_SUB), ("QuickKeyLinks", W_TXT), ("LayoutChips", W_SUB), ("UnownedChips", W_SUB), ("ThemePresetChips", W_SUB), ("ManageChips", W_SUB), ("ManageChipSearchLinks", W_TXT), ("ThemeSaveLinks", W_TXT), ("TabStyleChips", W_SUB), ("TabIconPosChips", W_SUB), ("TabRowChips", W_SUB), ("BgImageChips", W_SUB), ("BgFitChips", W_SUB), ("BgHAlignChips", W_SUB), ("BgVAlignChips", W_SUB), ("BtnImageChips", W_SUB), ("BgInvChips", W_SUB), ("BtnInvChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("BodyScLinks", W_TXT), ("StatusLinks", W_TXT), ("StatusRight", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
+THEME_REFRESH = [("TopTabs", W_TOP), ("TabChips", W_SUB), ("QuickKeyLinks", W_TXT), ("LayoutChips", W_SUB), ("UnownedChips", W_SUB), ("ThemePresetChips", W_SUB), ("ManageChips", W_SUB), ("ManageChipSearchLinks", W_TXT), ("ThemeSaveLinks", W_TXT), ("TabStyleChips", W_SUB), ("TabIconPosChips", W_SUB), ("TabRowChips", W_SUB), ("BgImageChips", W_SUB), ("BgFitChips", W_SUB), ("BgHAlignChips", W_SUB), ("BgVAlignChips", W_SUB), ("BtnImageChips", W_SUB), ("BgInvChips", W_SUB), ("ImgThumbsChips", W_SUB), ("BtnInvChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("BodyScLinks", W_TXT), ("StatusLinks", W_TXT), ("StatusRight", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
 SUBTABS_MAX_H, SUBTABS_MAX_H_MAX = 112, 500   # default ~3.5 chip rows (80 showed 2.5); option range (unscaled units, x SC at runtime)
-SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll", "KodexCatScroll", "KodexScroll", "RagScroll", "InvBagScroll", "InvBoxScroll", "InvCatScroll", "FolBagScroll", "FolBoxScroll", "FolScroll"]
+SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "BodyChipsScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll", "KodexCatScroll", "KodexScroll", "RagScroll", "InvBagScroll", "InvBoxScroll", "InvCatScroll", "FolBagScroll", "FolBoxScroll", "FolScroll"]
 # panel-owned texts coloured by Apply Theme: widget -> derived colour
 PANEL_TEXT_COLORS = {"ColHead": ["HdrThemeColors", "HdrBgPic", "HdrBtnPic", "HdrThemeSchemes", "FolBagTitle", "FolBoxTitle", "InvBagTitle", "InvBoxTitle", "InvCatTitle", "KodexTitle", "LblQuickControl", "LblQuickInWheel", "LblKeyBinds", "LblQuickAvailable", "BagWornHeader", "BagListHeader", "FavHeader", "LookFavHeader", "HairFavHeader", "PoseFavHeader", "WeaponFavHeader", "LblTheme", "ContentTitle", "LblConflicts"],
                      "ColTextDim": ["FolHint", "FolBagNote", "InvBagNote", "InvWeightText", "RagHint", "RagPresetsHint", "ModHint", "FaceHint", "LblTabsHint", "ThemePresetsHint", "LblQuickKeyHint", "KeyBindHint", "AllHeader", "LookAllHeader", "HairAllHeader", "PoseAllHeader", "WeaponAllHeader", "WeaponModelHeader", "ListHint", "BagEmpty", "PlaceholderText", "HdrName", "HdrDisplay", "HdrOrigin", "LblConflictsHint", "LblScaleHint"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS] + ["Val" + k for k, _ in SCALE_ROWS],
@@ -2123,7 +2185,7 @@ OPT_CAT_ROWS = {"General": ["RowLanguage", "RowLayout", "RowNude", "RowUnowned",
                 "Move": ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "RowIdleStyle", "RowSlowMoOn", "RowSlowMo", "MoveLinks"],   # reset below everything it resets
                 "Quick": ["LblQuickControl", "RowQuickKey", "RowQuickAlpha", "LblQuickInWheel", "QuickInWheel", "LblKeyBinds", "KeyBindHint", "KeyBinds", "LblQuickAvailable", "QuickAvailable"],
                 "Theme": ["LblTheme", "SecThemeColors", "ThemeGrid", "RowBgAlpha", "RowTileAlpha",
-                          "SecImgNote", "LblImgHint", "SecBgPic", "RowBgImage", "RowBgImgAlpha", "RowBgFit", "RowBgHAlign", "RowBgVAlign", "RowBgHue", "RowBgSepia", "RowBgInv",
+                          "SecImgNote", "LblImgHint", "RowImgThumbs", "SecBgPic", "RowBgImage", "RowBgImgAlpha", "RowBgFit", "RowBgHAlign", "RowBgVAlign", "RowBgHue", "RowBgSepia", "RowBgInv",
                           "SecBtnPic", "RowBtnImage", "RowBtnHue", "RowBtnSepia", "RowBtnInv",
                           "SecThemeSchemes", "RowThemeSave", "RowThemePresets"],
                 "Conflicts": ["LblConflicts", "LblConflictsHint", "ConflictLinks", "ConflictRows"],
@@ -2138,6 +2200,32 @@ def theme_section(key, line=True, heading=True):
                      slot={"HorizontalAlignment": "HAlign_Fill", "Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(12)})] if line else []) + \
            ([text("Hdr" + key, key, 15, "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))")] if heading else [])
     return w(U_VBOX, "Sec" + key, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(28), sz(10))}, children=kids)
+
+
+def scroll_keep_fns():
+    """Remember Scrolls / Restore Scrolls: the offsets of every page scroll box (SCROLL_PAGES) - a rebuild of a page clears its list and
+    fills it anew, the scroll box would end at the top (Manager: KEEP_SCROLL wrappers). Restore only after a Remember (as many values)."""
+    r = G(); r.get("gm", "ScrollMem"); r.call("cl", K_ARR, "Array_Clear", inp={"TargetArray": "@gm.ScrollMem"}); tail = ["entry", "cl"]
+    for i, wn in enumerate(SCROLL_PAGES):
+        r.get("g%d" % i, wn); r.call("o%d" % i, U_SCROLL, "GetScrollOffset", inp={"self": "@g%d.%s" % (i, wn)})
+        r.get("m%d" % i, "ScrollMem"); r.call("a%d" % i, K_ARR, "Array_Add", inp={"TargetArray": "@m%d.ScrollMem" % i, "NewItem": "@o%d.ReturnValue" % i}); tail.append("a%d" % i)
+    r.chain(*tail)
+    s = G(); s.get("gm", "ScrollMem"); s.call("ln", K_ARR, "Array_Length", inp={"TargetArray": "@gm.ScrollMem"})
+    s.call("ok", K_MATH, "EqualEqual_IntInt", inp={"A": "@ln.ReturnValue", "B": str(len(SCROLL_PAGES))}); s.branch("b", "@ok.ReturnValue"); tail = ["entry", "b"]
+    for i, wn in enumerate(SCROLL_PAGES):
+        s.get("m%d" % i, "ScrollMem"); s.call("v%d" % i, K_ARR, "Array_Get", inp={"TargetArray": "@m%d.ScrollMem" % i, "Index": str(i)})
+        s.get("g%d" % i, wn); s.call("s%d" % i, U_SCROLL, "SetScrollOffset", inp={"self": "@g%d.%s" % (i, wn), "NewScrollOffset": "@v%d.Item" % i}); tail.append("s%d" % i)
+    s.chain(*tail)
+    return [fn("Remember Scrolls", graph=r), fn("Restore Scrolls", graph=s)]
+
+
+def thumb_filters_fn(name, box):
+    """Hue / sepia / invert onto the previews of one picture row (the slider moves, the chips follow without being rebuilt)."""
+    g = G(); g.get("gb", box); g.call("ch", U_PANELW, "GetAllChildren", inp={"self": "@gb.%s" % box}); g.foreach("fe", "@ch.ReturnValue")
+    g.cast("cs", W_SUB, "@fe.Array Element"); g.call("vs", K_SYS, "IsValid", inp={"Object": "@cs.AsW_SubTab"}); g.branch("bv", "@vs.ReturnValue")
+    g.call("st", W_SUB, "Set Thumb Filters", inp={"self": "@cs.AsW_SubTab", "hue": "@entry.hue", "sepia": "@entry.sepia", "invert": "@entry.invert"})
+    g.chain("entry", "fe"); g.chain("fe", "bv", "st")
+    return fn(name, [param("hue", "float"), param("sepia", "float"), param("invert", "float")], graph=g)
 
 
 def options_page(rows):
@@ -2398,7 +2486,10 @@ def w_panel():
                     w(U_VBOX, "KodexLinks")])])]),
             # Body Shape: body chips (Standard + body mods) above the sliders
             w(U_VBOX, "BodyBox", props={"Visibility": "Collapsed"}, slot=FILL, children=[
-                w(U_WRAP, "BodyChips", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(14)})] +
+                # body chips: at most the chip area height (Options › Groups, like the clothes groups), then the box scrolls (many body mods)
+                w(U_SIZE, "BodyChipsBox", props={"bOverride_MaxDesiredHeight": True, "MaxDesiredHeight": sz(SUBTABS_MAX_H)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(14)}, children=[
+                    w(U_SCROLL, "BodyChipsScroll", props={"WheelScrollMultiplier": 2.0}, children=[
+                        w(U_WRAP, "BodyChips", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)})])])] +
               [body_row(k, cap, BODY_LBL_W, fill=True) for k, cap in BODY_ROWS] + [body_row(k, cap, BODY_LBL_W, fill=True) for k, cap in SCALE_ROWS[:1]] +   # "Height" scales the component: every body
               [text("LblScaleHint", "", 11, GREY, wrap=True, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(4))})] +   # greyed-out rows need ABP_BodyScale (converted bodies)
               [x for k, cap in SCALE_ROWS[1:] for x in (
@@ -2481,6 +2572,9 @@ def w_panel():
                   children=[w(U_VBOX, "ThemeCol%d" % i) for i in range(THEME_COLS)])] +
                 [body_row(k, cap, OPT_LBL_W, fill=True) for k, cap in OPTION_ROWS[OPTION_ROWS_MAIN:] if k not in IMG_ROWS] + [
                 # background / button images (Rebuild Image Chips): built in + the user's own files, how the background fills and aligns
+                w(U_HBOX, "RowImgThumbs", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(6), sz(6))}, children=[
+                    sizebox("LblImgThumbsBox", OPT_LBL_W, 24, [text("LblImgThumbs", "Show previews", 13, slot={"VerticalAlignment": "VAlign_Center"})], slot={"VerticalAlignment": "VAlign_Top", "Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)}),
+                    w(U_WRAP, "ImgThumbsChips", props=OPT_CHIP_WRAP, slot=OPT_CHIP_SLOT)]),
                 w(U_HBOX, "RowBgImage", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(2), sz(6))}, children=[
                     sizebox("LblBgImageBox", OPT_LBL_W, 24, [text("LblBgImage", "Background image", 13, slot={"VerticalAlignment": "VAlign_Center"})], slot={"VerticalAlignment": "VAlign_Top", "Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)}),
                     w(U_WRAP, "BgImageChips", props=OPT_CHIP_WRAP, slot=OPT_CHIP_SLOT)]),
@@ -2935,8 +3029,13 @@ def w_panel():
         soc.get("h%d" % i, wn); soc.call("c%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@h%d.%s" % (i, wn), "InVisibility": "Collapsed"})
         for t in tail: soc.chain(t, "b%d" % i)
         soc.chain("b%d" % i, "v%d" % i); soc.chain("b%d:else" % i, "c%d" % i); tail = ["v%d" % i, "c%d" % i]
+    # to the top only when the category changes (2026-10-17: rebuilding the page for a picture / theme chip jumped to the top); a jump
+    # to the top drops the remembered offsets, so the delayed Restore Scrolls of a rebuild does not undo it
+    soc.get("gsc", "ShownOptCat"); soc.call("chg", K_MATH, "NotEqual_NameName", inp={"A": "@gsc.ShownOptCat", "B": "@entry.cat"}); soc.branch("bchg", "@chg.ReturnValue")
+    soc.set("ssc", "ShownOptCat", inp={"ShownOptCat": "@entry.cat"}); soc.get("gsm", "ScrollMem"); soc.call("csm", K_ARR, "Array_Clear", inp={"TargetArray": "@gsm.ScrollMem"})
     soc.get("gos", "OptionsScroll"); soc.call("sts", U_SCROLL, "ScrollToStart", inp={"self": "@gos.OptionsScroll"})
-    for t in tail: soc.chain(t, "sts")
+    for t in tail: soc.chain(t, "bchg")
+    soc.chain("bchg", "ssc", "csm", "sts")
     # read / set the body sliders (values 0..1, displayed as percent)
     # vanilla breast / waist: slider 0..1 <-> value VANILLA_RANGE (the game's own UI covers 0..1 = 0..100 %)
     vlo, vhi = bg.VANILLA_RANGE
@@ -3079,7 +3178,8 @@ def w_panel():
     sth.get("gbl", "LookSubTabsBox"); sth.call("sl", U_SIZE, "SetMaxDesiredHeight", inp={"self": "@gbl.LookSubTabsBox", "InMaxDesiredHeight": "@m.ReturnValue"})
     sth.get("gbp", "PoseSubTabsBox"); sth.call("sp", U_SIZE, "SetMaxDesiredHeight", inp={"self": "@gbp.PoseSubTabsBox", "InMaxDesiredHeight": "@m.ReturnValue"})
     sth.get("gbw", "WeaponSubTabsBox"); sth.call("sw", U_SIZE, "SetMaxDesiredHeight", inp={"self": "@gbw.WeaponSubTabsBox", "InMaxDesiredHeight": "@m.ReturnValue"})
-    sth.get("gbm", "ManageSubTabsBox"); sth.call("sm", U_SIZE, "SetMaxDesiredHeight", inp={"self": "@gbm.ManageSubTabsBox", "InMaxDesiredHeight": "@m.ReturnValue"}); sth.chain("entry", "s", "sl", "sp", "sw", "sm")
+    sth.get("gbm", "ManageSubTabsBox"); sth.call("sm", U_SIZE, "SetMaxDesiredHeight", inp={"self": "@gbm.ManageSubTabsBox", "InMaxDesiredHeight": "@m.ReturnValue"})
+    sth.get("gbb", "BodyChipsBox"); sth.call("sb", U_SIZE, "SetMaxDesiredHeight", inp={"self": "@gbb.BodyChipsBox", "InMaxDesiredHeight": "@m.ReturnValue"}); sth.chain("entry", "s", "sl", "sp", "sw", "sm", "sb")
     # scroll multiplier for all scroll areas
     sm = G(); tail = ["entry"]
     for i, wn in enumerate(SCROLL_PAGES):
@@ -3200,7 +3300,8 @@ def w_panel():
     iw.get("gb2", "InvWeightBar"); iw.call("sf", U_PROGRESS, "SetFillColorAndOpacity", inp={"self": "@gb2.InvWeightBar", "InColor": "@col.ReturnValue"})
     iw.get("gt", "InvWeightText"); iw.call("st", E_TEXT, "SetText", inp={"self": "@gt.InvWeightText", "InText": "@entry.text"})
     iw.chain("entry", "sp", "sf", "st")
-    ks = G(); ks.get("g", "KodexScroll"); ks.call("s", U_SCROLL, "ScrollToStart", inp={"self": "@g.KodexScroll"}); ks.chain("entry", "s")
+    ks = G(); ks.get("g", "KodexScroll"); ks.call("s", U_SCROLL, "ScrollToStart", inp={"self": "@g.KodexScroll"})
+    ks.get("gsm", "ScrollMem"); ks.call("csm", K_ARR, "Array_Clear", inp={"TargetArray": "@gsm.ScrollMem"}); ks.chain("entry", "csm", "s")   # see Set Option Cat
     ct = G(); ct.get("g", "ContentTitle"); ct.call("s", E_TEXT, "SetText", inp={"self": "@g.ContentTitle", "InText": "@entry.text"}); ct.chain("entry", "s")
     si = G(); prev = "entry"
     for i, (page, box) in enumerate([("Clothes", "ListScroll"), ("Hair", "HairScroll"), ("Look", "LookScroll"), ("Manage", "ManageScroll")]):
@@ -3364,6 +3465,8 @@ def w_panel():
              clear("Clear BtnImage Chips", "BtnImageChips"), add("Add BtnImage Chip", "BtnImageChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear BgInv Chips", "BgInvChips"), add("Add BgInv Chip", "BgInvChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear BtnInv Chips", "BtnInvChips"), add("Add BtnInv Chip", "BtnInvChips", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear ImgThumbs Chips", "ImgThumbsChips"), add("Add ImgThumbs Chip", "ImgThumbsChips", U_WRAP, "AddChildToWrapBox"),
+             thumb_filters_fn("Bg Thumb Filters", "BgImageChips"), thumb_filters_fn("Btn Thumb Filters", "BtnImageChips"),
              set_hint_fn("Set Image Hint", "LblImgHint"), fn("Set Bg Image", [param("tex", "object:" + E_TEX2D), param("mat", "object:/Script/Engine.MaterialInterface"), param("fit", "int"), param("h", "int"), param("v", "int"), param("alpha", "float"), param("on", "bool")], graph=sbi),
              fn("Top Tabs Width", outputs=[param("width", "float")], graph=ttw, pure=True), fn("Fit Top Tabs", [param("avail", "float")], graph=ftt),
              clear("Clear Quick Key Links", "QuickKeyLinks"), qkl, fn("Set Quick Key Hint", [param("text", "text")], graph=qkh),
@@ -3414,7 +3517,7 @@ def w_panel():
              clear("Clear Status", "StatusLinks"), add("Add Status", "StatusLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear Status Right", "StatusRight"), add("Add Status Right", "StatusRight", U_HBOX, "AddChildToHorizontalBox"),
              fn("Set Option Values", [param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param(k.lower() + " text", "text") for k, _ in OPTION_ROWS], graph=sov),
-             fn("Set Scroll Mult", [param("mult", "float")], graph=sm),
+             fn("Set Scroll Mult", [param("mult", "float")], graph=sm), *scroll_keep_fns(),
              fn("Set SubTabs Height", [param("height", "float")], graph=sth),
              fn("Get Body Values", outputs=[param("breast", "float"), param("waist", "float")], graph=gb),
              fn("Set Body Values", [param("breast", "float"), param("waist", "float")], graph=sb),
@@ -3451,7 +3554,7 @@ def w_panel():
              fn("Set Filter Toggles", [param("owned", "bool"), param("fav", "bool"), param("vanilla", "bool"), param("worn", "bool")], graph=ft),
              fn("OnKeyDown", override=True, graph=kd), fn("OnKeyUp", override=True, graph=ku), fn("OnPreviewKeyDown", override=True, graph=pk),
              fn("OnPreviewMouseButtonDown", override=True, graph=pvm)]
-    return blueprint(W_PANEL, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("TmpKnown", "bool"), var("CheckSize", "float"), var("FitDone", "bool"), var("FitSum", "float"),
+    return blueprint(W_PANEL, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("ScrollMem", "float", "array"), var("ShownOptCat", "name"), var("TmpKnown", "bool"), var("CheckSize", "float"), var("FitDone", "bool"), var("FitSum", "float"),
                                                        var("FitKids", "object:" + E_WIDGET, "array"), var("BgImgOn", "bool"), var("TileBrush", "struct:/Script/SlateCore.SlateBrush")], functions=funcs, widget_tree=tree,
                      defaults={"bIsFocusable": "true"})
 

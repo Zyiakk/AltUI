@@ -74,6 +74,7 @@ Los conjuntos guardados del juego: los mismos que usan el armario y el espejo.
 - Clic derecho: vestir, ver contenido, añadir al menú rápido o quitar de él, renombrar, mover a la izquierda / a la derecha / al principio / al final, borrar.
 - Un conjunto sin nombre propio aparece como «Conjunto» con su posición en la lista.
 - El tamaño de las casillas y cuántas prendas muestra cada una se ajustan en Opciones › Casillas.
+- Un conjunto guardado aquí conserva cada canal de color de sus prendas, tal como AltUI los coloreó; el juego en sí guarda un solo color por prenda. Un conjunto guardado en el espejo tiene solo ese.
 
 ## Looks {#looks}
 
@@ -192,7 +193,7 @@ A la izquierda, las categorías.
 - Controles: tecla del panel, velocidad de desplazamiento, altura de la cámara con el botón derecho, cuánto levanta la rueda del ratón un ragdoll por paso.
 - Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta. «De pie» elige la animación en reposo de Jodi: las del juego (mirando alrededor, mirando las uñas, mirando la pierna, cautelosa, herida, posando) y las de los mods de reposo instalados (IdleAltUI_…).
 - Menú rápido: su tecla, su opacidad, lo que hay en la rueda, las teclas propias.
-- Tema: cada color del panel y su opacidad, una imagen de fondo (relleno, alineación, tono, sepia, invertir, opacidad propia) y una imagen para mosaicos y pestañas, esquemas de color guardados con un nombre; restablecer está en la barra de estado. Un tema guardado ahora conserva también las imágenes y sus ajustes. Imágenes propias: Background_1 … Background_30 y Button_1 … Button_30 (.png o .jpg) en la carpeta que indica la página.
+- Tema: cada color del panel y su opacidad, una imagen de fondo (relleno, alineación, tono, sepia, invertir, opacidad propia) y una imagen para mosaicos y pestañas, esquemas de color guardados con un nombre; restablecer está en la barra de estado. Un tema guardado ahora conserva también las imágenes y sus ajustes. Imágenes propias: Background_1 … Background_30 y Button_1 … Button_30 (.png, .jpg o .jpeg) en la carpeta que indica la página. «Mostrar vistas previas» muestra las propias imágenes en sus chips; clic derecho en la vista previa de una imagen propia: «Rehacer vista previa».
 - Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas.
 - Pestañas: texto, iconos o ambos en la barra de pestañas; desactivar pestañas. «Intentar en una fila»: los textos se hacen más pequeños y luego más cortos, para que la barra quepa en una fila donde sea posible.
 

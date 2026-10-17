@@ -74,6 +74,7 @@ Zapisane stroje gry – te same, których używają szafa i lustro.
 - Prawy przycisk: załóż, pokaż zawartość, dodaj do szybkiego menu lub usuń z niego, zmień nazwę, przesuń w lewo / w prawo / na początek / na koniec, usuń.
 - Strój bez własnej nazwy jest pokazywany jako „Strój” z jego miejscem na liście.
 - Rozmiar kafelków i liczbę elementów na kafelku ustawia się w Opcje › Kafelki.
+- Strój zapisany tutaj zachowuje każdy kanał koloru swoich elementów, tak jak pokolorował je AltUI; sama gra pamięta jeden kolor na element. Strój zapisany przy lustrze ma tylko ten jeden.
 
 ## Stylizacje {#looks}
 
@@ -192,7 +193,7 @@ Po lewej kategorie.
 - Sterowanie: klawisz panelu, prędkość przewijania, wysokość kamery prawym przyciskiem myszy, jak wysoko kółko myszy podnosi ragdolla na jeden ząbek.
 - Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %); kucanie i skakanie pozostają bez zmian. „Zwolnienie wł.” włącza zwolnienie, „Tempo zwolnienia” (od 5 do 90 %, domyślnie 25 %) ustala, jak wolno płynie czas; pozycja szybkiego menu „Zwolnienie wł / wył” działa tak samo jak przełącznik. „Przywróć domyślne” przywraca prędkość chodu, biegu i zwolnienia. „Stanie” wybiera animację bezczynności Jodi: animacje gry (rozglądanie się, oglądanie paznokci, oglądanie nogi, ostrożnie, ranna, pozowanie) i zainstalowanych modów bezczynności (IdleAltUI_…).
 - Szybkie menu: klawisz, przezroczystość, co jest w kole, własne klawisze.
-- Motyw: każdy kolor panelu i jego krycie, obraz tła (wypełnienie, wyrównanie, odcień, sepia, odwrócenie, własne krycie) i obraz dla kafelków i kart, schematy kolorów zapisane pod nazwą; reset jest na pasku stanu. Motyw zapisany teraz zachowuje także obrazy i ich ustawienia. Własne obrazy: Background_1 … Background_30 i Button_1 … Button_30 (.png lub .jpg) w folderze podanym na stronie.
+- Motyw: każdy kolor panelu i jego krycie, obraz tła (wypełnienie, wyrównanie, odcień, sepia, odwrócenie, własne krycie) i obraz dla kafelków i kart, schematy kolorów zapisane pod nazwą; reset jest na pasku stanu. Motyw zapisany teraz zachowuje także obrazy i ich ustawienia. Własne obrazy: Background_1 … Background_30 i Button_1 … Button_30 (.png, .jpg lub .jpeg) w folderze podanym na stronie. „Pokaż podglądy” pokazuje same obrazy na ich chipach; prawy klik na podglądzie własnego obrazu: „Utwórz podgląd ponownie”.
 - Konflikty slotów: rozdzielenie par slotów gry (na przykład biustonosz i koszula), aby można było nosić oba elementy.
 - Karty: tekst, ikony lub oba na pasku kart; wyłączanie kart. „Spróbuj w jednym wierszu”: podpisy najpierw się zmniejszają, potem skracają, aby pasek mieścił się w jednym wierszu, gdzie to możliwe.
 

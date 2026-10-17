@@ -23,7 +23,9 @@ ASSETS = os.path.join(H, "..", "..", "assets")
 
 
 def graph(file, fn_name):
-    for a in json.load(open(os.path.join(ASSETS, file)))["assets"]:
+    A = json.load(open(os.path.join(ASSETS, file)))["assets"]
+    if fn_name + " Body" in {f["name"] for a in A for f in a.get("functions", [])}: fn_name += " Body"   # KEEP_SCROLL wrapper: the logic is in the body
+    for a in A:
         for f in a.get("functions", []):
             if f["name"] == fn_name: return f["graph"]
     raise KeyError(fn_name)

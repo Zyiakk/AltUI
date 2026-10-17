@@ -418,8 +418,34 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BgThumbNight",
+   "file": "tex/bg_night_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BgCarbon",
    "file": "tex/bg_carbon.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BgThumbCarbon",
+   "file": "tex/bg_carbon_thumb.png",
    "props": {
     "CompressionSettings": "TC_Default",
     "LODGroup": "TEXTUREGROUP_UI",
@@ -444,8 +470,34 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BgThumbBokeh",
+   "file": "tex/bg_bokeh_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BgGrid",
    "file": "tex/bg_grid.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BgThumbGrid",
+   "file": "tex/bg_grid_thumb.png",
    "props": {
     "CompressionSettings": "TC_Default",
     "LODGroup": "TEXTUREGROUP_UI",
@@ -470,8 +522,34 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BgThumbBone",
+   "file": "tex/bg_bone_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BgEggshell",
    "file": "tex/bg_eggshell.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BgThumbEggshell",
+   "file": "tex/bg_eggshell_thumb.png",
    "props": {
     "CompressionSettings": "TC_Default",
     "LODGroup": "TEXTUREGROUP_UI",
@@ -496,8 +574,34 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BgThumbLaid",
+   "file": "tex/bg_laid_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BgNimbus",
    "file": "tex/bg_nimbus.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BgThumbNimbus",
+   "file": "tex/bg_nimbus_thumb.png",
    "props": {
     "CompressionSettings": "TC_Default",
     "LODGroup": "TEXTUREGROUP_UI",
@@ -522,8 +626,34 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BgThumbEmboss",
+   "file": "tex/bg_emboss_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BtnMetal",
    "file": "tex/btn_metal.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BtnThumbMetal",
+   "file": "tex/btn_metal_thumb.png",
    "props": {
     "CompressionSettings": "TC_Default",
     "LODGroup": "TEXTUREGROUP_UI",
@@ -548,8 +678,34 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BtnThumbCarbon",
+   "file": "tex/btn_carbon_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BtnGlass",
    "file": "tex/btn_glass.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BtnThumbGlass",
+   "file": "tex/btn_glass_thumb.png",
    "props": {
     "CompressionSettings": "TC_Default",
     "LODGroup": "TEXTUREGROUP_UI",
@@ -574,8 +730,34 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BtnThumbLinen",
+   "file": "tex/btn_linen_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BtnBone",
    "file": "tex/btn_bone.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BtnThumbBone",
+   "file": "tex/btn_bone_thumb.png",
    "props": {
     "CompressionSettings": "TC_Default",
     "LODGroup": "TEXTUREGROUP_UI",
@@ -600,8 +782,34 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BtnThumbEggshell",
+   "file": "tex/btn_eggshell_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BtnLaid",
    "file": "tex/btn_laid.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BtnThumbLaid",
+   "file": "tex/btn_laid_thumb.png",
    "props": {
     "CompressionSettings": "TC_Default",
     "LODGroup": "TEXTUREGROUP_UI",
@@ -626,8 +834,34 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BtnThumbNimbus",
+   "file": "tex/btn_nimbus_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BtnEmboss",
    "file": "tex/btn_emboss.png",
+   "props": {
+    "CompressionSettings": "TC_Default",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_BtnThumbEmboss",
+   "file": "tex/btn_emboss_thumb.png",
    "props": {
     "CompressionSettings": "TC_Default",
     "LODGroup": "TEXTUREGROUP_UI",

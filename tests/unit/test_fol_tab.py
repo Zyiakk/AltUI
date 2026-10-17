@@ -28,13 +28,16 @@ def fn_graph(owner, name):
 MGR = "/Game/Mod/AltUI/BP_AltUIManager"
 
 
-def mgr_graph(name):
-    g = None   # 50_manager_ui.json overrides 30_manager.json (files in order)
+def mgr_graph(name, wrapper=False):
+    """The manager function's graph; a function wrapped to keep the scroll position (gen_manager_ui.KEEP_SCROLL) gives its body
+    ("<name> Body") - the logic the tests mean - unless wrapper=True."""
+    g = body = None   # 50_manager_ui.json overrides 30_manager.json (files in order)
     for a in assets():
         if a.get("path") != MGR: continue
         for f in a.get("functions", []):
             if f.get("name") == name and f.get("graph"): g = f["graph"]
-    return g
+            if f.get("name") == name + " Body" and f.get("graph"): body = f["graph"]
+    return g if wrapper or body is None else body
 
 
 class FoldColumns(unittest.TestCase):

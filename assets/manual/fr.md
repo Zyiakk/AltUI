@@ -74,6 +74,7 @@ Les tenues enregistrées du jeu – les mêmes que celles de la garde-robe et du
 - Clic droit : porter, voir le contenu, ajouter au menu rapide ou l'en retirer, renommer, déplacer à gauche / à droite / au début / à la fin, supprimer.
 - Une tenue sans nom propre s'affiche comme « Tenue » suivie de sa place dans la liste.
 - La taille des tuiles et le nombre d'objets affichés par tuile se règlent dans Paramètres › Tuiles.
+- Une tenue enregistrée ici garde chaque canal de couleur de ses pièces, tel qu'AltUI les a colorées ; le jeu lui-même ne garde qu'une couleur par pièce. Une tenue enregistrée au miroir n'a que celle-là.
 
 ## Looks {#looks}
 
@@ -192,7 +193,7 @@ Cet onglet n'apparaît que si un tel mod est installé.
 - Commandes : touche du panneau, vitesse de défilement, hauteur de la caméra avec le bouton droit, de combien la molette soulève un ragdoll par cran.
 - Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti. « Debout » choisit l'animation au repos de Jodi : celles du jeu (regarde autour, regarde ses ongles, regarde sa jambe, prudente, blessée, pose) et celles des mods de repos installés (IdleAltUI_…).
 - Menu rapide : sa touche, son opacité, ce qui figure dans la roue, les touches personnelles.
-- Thème : chaque couleur du panneau et son opacité, une image de fond (remplissage, alignement, teinte, sépia, inversion, opacité propre) et une image pour les tuiles et les onglets, schémas de couleurs enregistrés sous un nom ; la réinitialisation est dans la barre d'état. Un thème enregistré désormais garde aussi les images et leurs réglages. Images personnelles : Background_1 … Background_30 et Button_1 … Button_30 (.png ou .jpg) dans le dossier indiqué sur la page.
+- Thème : chaque couleur du panneau et son opacité, une image de fond (remplissage, alignement, teinte, sépia, inversion, opacité propre) et une image pour les tuiles et les onglets, schémas de couleurs enregistrés sous un nom ; la réinitialisation est dans la barre d'état. Un thème enregistré désormais garde aussi les images et leurs réglages. Images personnelles : Background_1 … Background_30 et Button_1 … Button_30 (.png, .jpg ou .jpeg) dans le dossier indiqué sur la page. « Afficher les aperçus » montre les images elles-mêmes sur leurs puces ; clic droit sur l'aperçu d'une image personnelle : « Recréer l'aperçu ».
 - Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux.
 - Onglets : texte, icônes ou les deux dans la barre d'onglets ; désactiver des onglets. « Tenter de tenir sur une ligne » : les libellés rétrécissent puis raccourcissent, pour que la barre tienne sur une ligne quand c'est possible.
 

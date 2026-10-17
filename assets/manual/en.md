@@ -74,6 +74,7 @@ The game's saved outfits, the same ones the wardrobe and the mirror use.
 - Right click: wear, view content, add to or remove from the quick menu, rename, move left / right / to start / to end, delete.
 - An outfit without a name of its own is shown as "Outfit" with its place in the list.
 - The tile size and how many pieces a tile shows are set under Options › Tiles.
+- An outfit saved here keeps every colour slot of its pieces, as AltUI coloured them; the game itself keeps one colour per piece. An outfit saved at the mirror has only that one.
 
 ## Looks {#looks}
 
@@ -192,7 +193,7 @@ The categories are on the left.
 - Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.
 - Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. "Slow motion on" switches slow motion, "Slow motion speed" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry "Slow motion on / off" does the same as the switch. "Reset to default" sets walk, run and slow motion speed back. "Standing" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).
 - Quick menu: its key, its opacity, what is in the wheel, own keys.
-- Theme: every panel colour and its opacity, a background picture (fill, alignment, hue, sepia, invert, its own opacity) and a picture for tiles and tabs, colour schemes saved under a name; reset is in the status bar. A theme saved now keeps the pictures and their settings too. Your own pictures: Background_1 … Background_30 and Button_1 … Button_30 (.png or .jpg) in the folder the page names.
+- Theme: every panel colour and its opacity, a background picture (fill, alignment, hue, sepia, invert, its own opacity) and a picture for tiles and tabs, colour schemes saved under a name; reset is in the status bar. A theme saved now keeps the pictures and their settings too. Your own pictures: Background_1 … Background_30 and Button_1 … Button_30 (.png, .jpg or .jpeg) in the folder the page names. "Show previews" shows the pictures themselves on their chips; right click on the preview of an own picture: "Redo preview".
 - Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn.
 - Tabs: text, icons or both in the tab bar; switch tabs off. "Try to fit in one row": the captions get smaller and then shorter, so the bar fits on one row where it can.
 

@@ -15,6 +15,7 @@ MODE_FOLLOWER, MODE_NPC = 1, 2
 ORDER_FOLLOW, ORDER_STAY = "NpcFollow", "NpcStay"   # Npc_Controller orders (Change Order / Receive Order)
 FOL_DIST = 150.0          # spawn distance in front of Jodi (cm)
 FOL_SYNC = 10.0           # seconds between two syncs of the figures into the save (position, bag, weapons, fallen)
+FOL_NPC_GUARD = 0.25      # seconds between two looks at the NPCs' orders (the game's untargeted follow / attack reaches them too; Fol Npc Guard)
 FOL_WATCH = 0.02          # seconds between two looks at the figures' clothes counts (a piece from the game's swap dialog gets AltUI's colours at once)
 FOL_START_DELAY = 1.5     # seconds after the manager's BeginPlay before the level's figures come (Jodi placed, level streamed)
 FOL_QUICK_RANGE = 1500.0  # quick menu: the looked-at follower at most this far (cm)

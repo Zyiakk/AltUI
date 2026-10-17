@@ -3433,18 +3433,25 @@ def f_rebuild_theme_presets():
 
 
 def f_subtab_context():
-    """Right click on a chip: a saved colour scheme gets its menu (apply / delete); every other chip does what a click does."""
+    """Right click on a chip: a saved colour scheme gets its menu (apply / delete), one of the user's pictures with previews on gets
+    "redo preview"; every other chip does what a click does."""
     g = None
     def pre(gg):
         gg.call("ns", K_STR, "Conv_NameToString", inp={"InName": "@entry.name"}); gg.call("isp0", K_STR, "StartsWith", inp={"SourceString": "@ns.ReturnValue", "InPrefix": "ThemeP:", "SearchCase": "CaseSensitive"}); gg.call("isr0", K_STR, "StartsWith", inp={"SourceString": "@ns.ReturnValue", "InPrefix": "RagP", "SearchCase": "CaseSensitive"}); gg.call("isp", K_MATH, "BooleanOR", inp={"A": "@isp0.ReturnValue", "B": "@isr0.ReturnValue"})
-        gg.branch("bisp", "@isp.ReturnValue"); gg.set("sci", "ContextItem", inp={"ContextItem": "@entry.name"})
+        # a chip of one of the user's pictures with previews on: "redo preview"
+        gg.call("iub", K_STR, "StartsWith", inp={"SourceString": "@ns.ReturnValue", "InPrefix": "ImgBg:f:", "SearchCase": "CaseSensitive"})
+        gg.call("iun", K_STR, "StartsWith", inp={"SourceString": "@ns.ReturnValue", "InPrefix": "ImgBtn:f:", "SearchCase": "CaseSensitive"})
+        gg.call("iuo", K_MATH, "BooleanOR", inp={"A": "@iub.ReturnValue", "B": "@iun.ReturnValue"}); gg.get("gith", "ImgThumbs")
+        gg.call("isit", K_MATH, "BooleanAND", inp={"A": "@iuo.ReturnValue", "B": "@gith.ImgThumbs"}); gg.call("ismenu", K_MATH, "BooleanOR", inp={"A": "@isp.ReturnValue", "B": "@isit.ReturnValue"})
+        gg.branch("bisp", "@ismenu.ReturnValue"); gg.set("sci", "ContextItem", inp={"ContextItem": "@entry.name"})
         gg.n("sst", "call_self", function="Select SubTab", inp={"name": "@entry.name"}); gg.chain("bisp:else", "sst")
         # a shot-sound button of the weapons tab gets the weapon menu
         gg.call("issd", K_STR, "StartsWith", inp={"SourceString": "@ns.ReturnValue", "InPrefix": "sound:", "SearchCase": "CaseSensitive"})
         gg.call("nsd", K_MATH, "Not_PreBool", inp={"A": "@issd.ReturnValue"}); gg.branch("bnsd", "@nsd.ReturnValue")
         gg.n("owc", "call_self", function="On Weapon Context", inp={"name": "@entry.name"}); gg.chain("bnsd:else", "owc")
         return ["bnsd", "bisp", "sci"]
-    g = simple_menu("SubTab Context", [("ThemePApply", "Menu_Apply"), ("ThemePDelete", "Menu_Delete"), ("Cancel", "Menu_Cancel")], pre)
+    g = simple_menu("SubTab Context", [("ThemePApply", "Menu_Apply"), ("ThemePDelete", "Menu_Delete"), ("ImgThumbRedo", "Menu_ThumbRedo"), ("Cancel", "Menu_Cancel")], pre,
+                    cond={"ThemePApply": "@isp.ReturnValue", "ThemePDelete": "@isp.ReturnValue", "ImgThumbRedo": "@isit.ReturnValue"})
     return fn("SubTab Context", [param("name", "name")], graph=g)
 
 
@@ -4685,7 +4692,7 @@ MENU_ACTIONS = [
     ("LookRename", "Start Look Rename", "ContextLook"), ("LookUpdate", "Update Look Front", "ContextLook"), ("LookUpdateView", "Update Look View", "ContextLook"), ("LookDelete", "Delete Look", "ContextLook"),
     ("PresetApply", "Preset Clicked", "ContextPreset"), ("PresetUpdate", "Update Preset Front", "ContextPreset"), ("PresetUpdateView", "Update Preset View", "ContextPreset"), ("PresetDelete", "Preset Delete", "ContextPreset"),
     ("OutfitView", "Open Outfit Content", "ContextOutfit"), ("QuickCtx", "Quick Context Toggle", None), ("LookView", "Open Look Content", "ContextLook"), ("PresetView", "Open Preset Content", "ContextPreset"),
-    ("ContentBack", "Close Content", None), ("ThemeSave", "Theme Save", None), ("ClearManageChipSearch", "Clear Manage Chip Search Text", None), ("ThemePApply", "Context Chip Apply", "ContextItem"), ("ThemePDelete", "Context Chip Delete", "ContextItem"), ("GoTo", "Go To Item", "ContextItem"), ("ContentUse", "Content Use", "ContextItem"),
+    ("ContentBack", "Close Content", None), ("ThemeSave", "Theme Save", None), ("ClearManageChipSearch", "Clear Manage Chip Search Text", None), ("ThemePApply", "Context Chip Apply", "ContextItem"), ("ThemePDelete", "Context Chip Delete", "ContextItem"), ("ImgThumbRedo", "Redo User Thumb", "ContextItem"), ("GoTo", "Go To Item", "ContextItem"), ("ContentUse", "Content Use", "ContextItem"),
     ("OnlyGroup", "Show Only Group", "ContextItem"), ("ModContent", "Open Mod Content Of Item", "ContextItem"),
     ("Rename", "Start Item Rename", "ContextItem"), ("LookFav", "Toggle Look Favorite", "ContextItem"), ("LookHide", "Toggle Look Hidden", "ContextItem"), ("LookOnlyMod", "Look Only Mod", "ContextItem"), ("PoseFav", "Toggle Pose Favorite", "ContextItem"), ("PoseHide", "Toggle Pose Hidden", "ContextItem"), ("PoseOnlyMod", "Pose Only Mod", "ContextItem"), ("PoseReset", "Reset Pose Measurement", "ContextItem"), ("PoseIdle", "Toggle Idle Pose", "ContextItem"), ("PoseSetStand", "Pose Set Stand", "ContextItem"), ("PoseSetSit", "Pose Set Sit", "ContextItem"), ("PoseSetLie", "Pose Set Lie", "ContextItem"), ("PoseSetMove", "Toggle Pose Moving", "ContextItem"), ("SkinFav", "Toggle Skin Favorite", "ContextItem"), ("SkinHide", "Toggle Skin Hidden", "ContextItem"), ("SkinOnlyMod", "Skin Only Mod", "ContextItem"), ("ModelFav", "Toggle Model Favorite", "ContextItem"), ("ModelHide", "Toggle Model Hidden", "ContextItem"), ("ModelOnlyMod", "Model Only Mod", "ContextItem"), ("SoundFav", "Toggle Sound Favorite", "ContextItem"), ("SoundHide", "Toggle Sound Hidden", "ContextItem"), ("SoundOnlyMod", "Sound Only Mod", "ContextItem"), ("ModelOwnIcon", "Toggle Model Own Icon", "ContextItem"), ("ModelForceSkin", "Toggle Model Force Skin", "ContextItem"), ] + [("ModelSkip" + p, "Toggle Model Skip " + p, "ContextItem") for p, _, _, _, _, _ in WEAPON_PARTS] + [
  ("PoseStop", "Stop Pose", None), ("PoseLoop", "Toggle Pose Loop", None), ("PoseScan", "Start Pose Scan", None), ("PoseScanStop", "Stop Pose Scan", None), ("WeaponIconsRedo", "Redo Weapon Icons", None), ("WeaponIconsMode", "Toggle Rendered Icons", None), ("VerContinue", "Version Continue", None), ("VerOff", "Version Off", None), ("DropWarnCancel", "Drop Warn Cancel", None), ("DropWarnDestroy", "Drop Warn Destroy", None), ("DropWarnDrop", "Drop Warn Drop", None), ("RenameMod", "Rename Mod Of Item", "ContextItem"), ("SkinRenameMod", "Rename Skin Mod", "ContextItem"), ("ModelRenameMod", "Rename Model Mod", "ContextItem"), ("SoundRenameMod", "Rename Sound Mod", "ContextItem"), ("RenameGroup", "Rename Group Of Item", "ContextItem"),
@@ -5164,7 +5171,8 @@ def f_fol_sync():
     # its order: the game's own NPC menu (follow / wait) talks to the controller directly - follow / wait from there into the record
     ctl = fol_ctrl(g, "ct", act); g.get("co", "Current Order", cls=P_NPCCTRL); g.link("ct.AsNpc Controller", "co.self")
     g.call("cof", K_MATH, "EqualEqual_NameName", inp={"A": "@co.Current Order", "B": ORDER_FOLLOW}); g.call("cos", K_MATH, "EqualEqual_NameName", inp={"A": "@co.Current Order", "B": ORDER_STAY})
-    g.call("cok", K_MATH, "BooleanOR", inp={"A": "@cof.ReturnValue", "B": "@cos.ReturnValue"}); g.call("cs1", K_STR, "Conv_NameToString", inp={"InName": "@co.Current Order"})
+    g.call("cok0", K_MATH, "BooleanOR", inp={"A": "@cof.ReturnValue", "B": "@cos.ReturnValue"}); g.call("cs1", K_STR, "Conv_NameToString", inp={"InName": "@co.Current Order"})
+    g.call("cnpc", K_MATH, "NotEqual_IntInt", inp={"A": rec + "Mode", "B": str(MODE_NPC)}); g.call("cok", K_MATH, "BooleanAND", inp={"A": "@cok0.ReturnValue", "B": "@cnpc.ReturnValue"})   # an NPC waits (Fol Npc Guard)
     g.call("cs2", K_STR, "Conv_NameToString", inp={"InName": rec + "Order"}); g.call("csel", K_MATH, "SelectString", inp={"A": "@cs1.ReturnValue", "B": "@cs2.ReturnValue", "bPickA": "@cok.ReturnValue"})
     g.call("cord", K_STR, "Conv_StringToName", inp={"InString": "@csel.ReturnValue"})
     pa = fol_put(g, "pa", "@entry.index", rec, Items="@gbt.bag Tools", Guns="@gg2.FolGunsTmp", Where="@tf.ReturnValue", Level="@lvl.ReturnValue", Order="@cord.ReturnValue")
@@ -5255,6 +5263,24 @@ def f_fol_watch():
     return fn("Fol Watch", graph=g)
 
 
+def f_fol_npc_guard():
+    """Every FOL_NPC_GUARD seconds while figures are in the world: an NPC (Mode NPC) that was ordered to follow or attack goes back to
+    waiting at once. The game's untargeted order (Jodi.Send NPC Order: no NPC under the crosshair -> a sound "NpcOrder" of 10 m) reaches
+    every NPC controller whose master is Jodi - AltUI's NPCs too (Npc_Controller.On Hear Sound). Change Order sets only the order, the
+    order location stays: the figure walks back to its place."""
+    g = G(); g.get("gam", "FolActors"); g.call("ln", K_MAP, "Map_Length", inp={"TargetMap": "@gam.FolActors"}); g.call("any", K_MATH, "Greater_IntInt", inp={"A": "@ln.ReturnValue", "B": "0"})
+    g.branch("b", "@any.ReturnValue"); g.get("gam2", "FolActors"); g.call("ks", K_MAP, "Map_Keys", inp={"TargetMap": "@gam2.FolActors"}); g.foreach("fe", "@ks.Keys")
+    g.n("ix", "call_self", function="Fol Index", inp={"id": "@fe.Array Element"}); g.call("ix0", K_MATH, "GreaterEqual_IntInt", inp={"A": "@ix.index", "B": "0"}); g.branch("bix", "@ix0.ReturnValue")
+    rec = fol_get(g, "r", "@ix.index"); g.call("isn", K_MATH, "EqualEqual_IntInt", inp={"A": rec + "Mode", "B": str(MODE_NPC)}); g.branch("bn", "@isn.ReturnValue")
+    act, ok = fol_actor(g, "fa", "@fe.Array Element"); g.branch("bok", ok); ctl = fol_ctrl(g, "ct", act)
+    g.get("co", "Current Order", cls=P_NPCCTRL); g.link("ct.AsNpc Controller", "co.self")
+    g.call("cf", K_MATH, "EqualEqual_NameName", inp={"A": "@co.Current Order", "B": ORDER_FOLLOW}); g.call("ca", K_MATH, "EqualEqual_NameName", inp={"A": "@co.Current Order", "B": "NpcAttack"})
+    g.call("bad", K_MATH, "BooleanOR", inp={"A": "@cf.ReturnValue", "B": "@ca.ReturnValue"}); g.branch("bb", "@bad.ReturnValue")
+    g.call("st", P_NPCCTRL, "Change Order", inp={"self": ctl, "order": ORDER_STAY})
+    g.chain("entry", "b", "ks", "fe"); g.chain("fe", "ix", "bix", "bn", "bok", "ct", "bb", "st")
+    return fn("Fol Npc Guard", graph=g)
+
+
 def f_fol_sync_all():
     g = G(); g.n("ld", "call_self", function="Load Fol Save"); g.foreach("fe", fol_list(g, "l")); g.n("sy", "call_self", function="Fol Sync", inp={"index": "@fe.Array Index"})
     g.chain("entry", "ld", "fe"); g.chain("fe", "sy"); return fn("Fol Sync All", graph=g)
@@ -5290,7 +5316,8 @@ def f_fol_level_start():
     g.n("sp", "call_self", function="Fol Spawn", inp={"index": "@fe.Array Index"}); g.self_("me")
     g.call("tm", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Fol Tick", "Time": str(fol.FOL_SYNC), "bLooping": "true"})
     g.call("tw", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Fol Watch", "Time": str(fol.FOL_WATCH), "bLooping": "true"})
-    g.chain("entry", "ld", "mc", "lvl", "slv", "fe"); g.chain("fe", "bgo", "sp"); g.chain("fe:Completed", "tm", "tw")
+    g.call("tg", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Fol Npc Guard", "Time": str(fol.FOL_NPC_GUARD), "bLooping": "true"})
+    g.chain("entry", "ld", "mc", "lvl", "slv", "fe"); g.chain("fe", "bgo", "sp"); g.chain("fe:Completed", "tm", "tw", "tg")
     if FOLLOG:
         g.call("tmd", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Fol Debug", "Time": "1.0", "bLooping": "true"}); g.chain("tw", "tmd")
     return fn("Fol Level Start", graph=g)
@@ -5429,7 +5456,7 @@ def f_fol_relook():
 
 def fol_functions():
     return [f_load_fol_save(), f_save_fol_save(), f_fol_front(), f_fol_index(), f_fol_take_makeup(), f_fol_makeup_tex(), f_own_makeup_copy(), f_set_makeup_tex_on(), f_spawn_look_as(MODE_FOLLOWER, "Spawn Look As Follower"), f_spawn_look_as(MODE_NPC, "Spawn Look As Npc"),
-            f_spawn_look_follower(), f_finish_look_follower(), f_fol_spawn(), f_fol_sync(), f_fol_clothes_to_jodi(), f_fol_record_clothes_to_jodi(), f_fol_watch(), f_fol_sync_all(), f_fol_tick(), f_fol_despawn(), f_fol_level_start(),
+            f_spawn_look_follower(), f_finish_look_follower(), f_fol_spawn(), f_fol_sync(), f_fol_clothes_to_jodi(), f_fol_record_clothes_to_jodi(), f_fol_watch(), f_fol_npc_guard(), f_fol_sync_all(), f_fol_tick(), f_fol_despawn(), f_fol_level_start(),
             f_fol_order(), f_fol_set_mode(), f_fol_set_active(), f_fol_set_invulnerable(), f_fol_revive(), f_fol_remove(), f_fol_rename(), f_fol_relook(), f_fol_refresh_tab(), f_fol_bag_saved()] + ([f_fol_debug()] if FOLLOG else []) + fol_tab_functions()
 
 
@@ -6094,8 +6121,8 @@ def f_load_outfits():
     g.set("s2", "Outfits", inp={"Outfits": "@cc.AsOutfits Save"})
     # cast failed (foreign slot content) -> empty object
     g.get("gs", "Outfits"); g.call("iv", K_SYS, "IsValid", inp={"Object": "@gs.Outfits"}); g.branch("bv", "@iv.ReturnValue")
-    g.n("mig", "call_self", function="Migrate Outfit Keys")
-    g.chain("entry", "ex", "b", "ld", "s1", "bv", "mig"); g.chain("bv:else", "cr", "s2", "mig"); g.chain("b:else", "cr")
+    g.n("mig", "call_self", function="Migrate Outfit Keys"); g.n("mid", "call_self", function="Migrate Outfit Ids"); g.n("cid", "call_self", function="Clear Outfit Ids")
+    g.chain("entry", "cid", "ex", "b", "ld", "s1", "bv", "mig", "mid"); g.chain("bv:else", "cr", "s2", "mig"); g.chain("b:else", "cr")
     return fn("Load Outfits", graph=g)
 
 
@@ -7469,19 +7496,21 @@ def f_init_outfit_tile():
 
 
 def f_outfit_slot_key():
-    """Key of one remembered slot colour of an outfit in OutfitSlotColors: <Outfit Key>><piece>#<slot index>."""
+    """Key of one remembered slot colour of an outfit in Settings.OutfitColors: <Outfit Id>><piece>#<slot index>. A string:
+    as an FName (OutfitSlotColors, up to 2.3.0) a key over 1023 characters became ERROR_NAME_SIZE_EXCEEDED, one entry for
+    every slot of every long outfit (Discord 2026-10-17, docs/notes/2026-10-17-outfit-farben.md)."""
     g = G()
     g.n("sk", "call_self", function="Slot Color Key", inp={"name": "@entry.name", "slot": "@entry.slot"})
     g.call("k2s", K_STR, "Conv_NameToString", inp={"InName": "@sk.key"})
     g.call("c1", K_STR, "Concat_StrStr", inp={"A": "@entry.okey", "B": ">"}); g.call("c2", K_STR, "Concat_StrStr", inp={"A": "@c1.ReturnValue", "B": "@k2s.ReturnValue"})
-    g.call("s2n", K_STR, "Conv_StringToName", inp={"InString": "@c2.ReturnValue"}); g.link("s2n.ReturnValue", "return.key")
-    return fn("Outfit Slot Key", [param("okey", "string"), param("name", "name"), param("slot", "int")], [param("key", "name")], graph=g, pure=True)
+    g.link("c2.ReturnValue", "return.key")
+    return fn("Outfit Slot Key", [param("okey", "string"), param("name", "name"), param("slot", "int")], [param("key", "string")], graph=g, pure=True)
 
 
 def outfit_slots_loop(g, index_pin):
     """Nested loops over the pieces of outfit `index` and their colourable slots. Returns (head, body pins): head = exec id
     to start with, body = (slot key pin, outfit slot key pin, inner loop id) - the inner loop body is chained by the caller."""
-    g.n("ok", "call_self", function="Outfit Key", inp={"index": index_pin}); g.set("sok", "OutfitKeyTmp", inp={"OutfitKeyTmp": "@ok.key"})
+    g.n("ok", "call_self", function="Outfit Id", inp={"index": index_pin}); g.set("sok", "OutfitKeyTmp", inp={"OutfitKeyTmp": "@ok.key"})
     g.get("go", "Outfits"); g.get("goa", "outfits", cls=P_OUTFITS); g.link("go.Outfits", "goa.self")
     g.call("og", K_ARR, "Array_Get", inp={"TargetArray": "@goa.outfits", "Index": index_pin}); g.brk("obr", P_OUTFIT_S, "@og.Item")
     g.call("keys", K_MAP, "Map_Keys", inp={"TargetMap": "@obr." + OUTFIT_MEMBER}); g.set("skn", "OutfitPieces", inp={"OutfitPieces": "@keys.Keys"})
@@ -7495,13 +7524,13 @@ def outfit_slots_loop(g, index_pin):
 
 
 def f_remember_outfit_colors():
-    """When an outfit is saved: AltUI's slot colours of its pieces, as they are now, go into OutfitSlotColors under the
-    outfit's key; a slot without one clears what an earlier outfit with the same pieces left there."""
+    """When an outfit is saved: AltUI's slot colours of its pieces, as they are now, go into Settings.OutfitColors under the
+    outfit's id; a slot without one clears what an earlier outfit with the same id left there."""
     g = G()
     head, sk, osk, inner = outfit_slots_loop(g, "@entry.index")
     g.get("gsc", "SlotColors"); g.call("f", K_MAP, "Map_Find", inp={"TargetMap": "@gsc.SlotColors", "Key": sk}); g.branch("bf", "@f.ReturnValue")
-    g.get("gos", "OutfitSlotColors"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gos.OutfitSlotColors", "Key": osk, "Value": "@f.Value"})
-    g.get("gos2", "OutfitSlotColors"); g.call("rem", K_MAP, "Map_Remove", inp={"TargetMap": "@gos2.OutfitSlotColors", "Key": osk})
+    g.call("add", K_MAP, "Map_Add", inp={"TargetMap": sg_get(g, "gos", "OutfitColors"), "Key": osk, "Value": "@f.Value"})
+    g.call("rem", K_MAP, "Map_Remove", inp={"TargetMap": sg_get(g, "gos2", "OutfitColors"), "Key": osk})
     g.n("ss", "call_self", function="Save Settings")
     g.chain("entry", head); g.chain(inner, "bf", "add"); g.chain("bf:else", "rem"); g.chain("fp:Completed", "ss")
     return fn("Remember Outfit Colors", [param("index", "int")], graph=g)
@@ -7514,7 +7543,7 @@ def f_outfit_slot_colors():
     g = G()
     g.get("gsc", "SlotColors"); g.set("cp", "OutfitSC", inp={"OutfitSC": "@gsc.SlotColors"})
     head, sk, osk, inner = outfit_slots_loop(g, "@entry.index")
-    g.get("gos", "OutfitSlotColors"); g.call("f", K_MAP, "Map_Find", inp={"TargetMap": "@gos.OutfitSlotColors", "Key": osk}); g.branch("bf", "@f.ReturnValue")
+    g.call("f", K_MAP, "Map_Find", inp={"TargetMap": sg_get(g, "gos", "OutfitColors"), "Key": osk}); g.branch("bf", "@f.ReturnValue")
     g.get("goc", "OutfitSC"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@goc.OutfitSC", "Key": sk, "Value": "@f.Value"})
     g.get("goc2", "OutfitSC"); g.call("rem", K_MAP, "Map_Remove", inp={"TargetMap": "@goc2.OutfitSC", "Key": sk})
     g.chain("entry", "cp", head); g.chain(inner, "bf", "add"); g.chain("bf:else", "rem")
@@ -7560,7 +7589,7 @@ def f_on_outfit_context():
     g.get("gm2", "Menu"); g.call("clr", W_MENU, "Clear Rows", inp={"self": "@gm2.Menu"})
     tail = ["clr"]
     # "Add to / Remove from quick menu" (quick_ctx, as on every tile that is a quick menu item)
-    g.n("qok", "call_self", function="Outfit Key", inp={"index": "@entry.index"}); g.call("qoi", K_STR, "Concat_StrStr", inp={"A": "outfit:", "B": "@qok.key"})
+    g.n("qok", "call_self", function="Outfit Id", inp={"index": "@entry.index"}); g.call("qoi", K_STR, "Concat_StrStr", inp={"A": "outfit:", "B": "@qok.key"})
     qex, qcap = quick_ctx(g, "qc", "@qoi.ReturnValue"); tail += ["qok"] + qex
     cond = move_conds(g, "Outfit", outfits_arr); skips = []
     for i, (action, key) in enumerate([("OutfitWear", "Menu_Wear"), ("OutfitView", "Menu_ViewContent"), ("QuickCtx", None), ("OutfitRename", "Menu_Rename")]
@@ -8478,6 +8507,7 @@ def f_end_idle_pose():
 # ---------------- Background and button images (Options > Theme; theme_images.py) ----------------
 import theme_images as ti
 IMG_KINDS = (("Bg", "BgImage", "Background", ti.BACKGROUNDS, "bg"), ("Btn", "BtnImage", "Button", ti.BUTTONS, "btn"))   # chip prefix, setting, file stem, built-ins, kind
+IMG_BOOLS = ("BgInvert", "BtnInvert", "ImgThumbs")   # chip rows off / on
 
 
 def img_dir(g, p):
@@ -8497,7 +8527,11 @@ def f_image_tex():
     g.call("imp", K_REND, "ImportFileAsTexture2D", inp={"Filename": "@full.ReturnValue"}); g.call("iv", K_SYS, "IsValid", inp={"Object": "@imp.ReturnValue"}); g.branch("biv", "@iv.ReturnValue")
     g.get("gc2", "ImgCache"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gc2.ImgCache", "Key": "@entry.id", "Value": "@imp.ReturnValue"}); g.set("s3", "ImgTmp", inp={"ImgTmp": "@imp.ReturnValue"})
     g.chain("entry", "s0", "bb", "ld", "ct", "s1", "return"); g.chain("ct:CastFailed", "return"); g.chain("bb:else", "bf", "bc", "s2", "return"); g.chain("bf:else", "return")
-    g.chain("bc:else", "imp", "biv", "add", "s3", "return"); g.chain("biv:else", "return")
+    # with previews on, the picture's preview is drawn anew whenever the picture itself is loaded (a file replaced under the same name
+    # gets its new preview once it is chosen or the game starts with it)
+    g.get("gth", "ImgThumbs"); g.branch("bth", "@gth.ImgThumbs"); g.n("wut", "call_self", function="Write User Thumb", inp={"file": "@fp.ReturnValue", "src": "@imp.ReturnValue"})
+    g.get("grt", "ThumbRTs"); g.call("frt", K_ARR, "Array_Clear", inp={"TargetArray": "@grt.ThumbRTs"})
+    g.chain("bc:else", "imp", "biv", "add", "bth", "wut", "frt", "s3", "return"); g.chain("bth:else", "s3"); g.chain("biv:else", "return")
     g.get("gr", "ImgTmp"); g.link("gr.ImgTmp", "return.tex")
     return fn("Image Tex", [param("id", "string")], [param("tex", "object:" + E_TEX2D)], graph=g)
 
@@ -8541,7 +8575,8 @@ def f_apply_bg_image():
     g.get("gm4", "BgMID"); flt = set_filters(g, "fl", "@gm4.BgMID", "Bg")
     g.get("gf", "BgFit"); g.get("gh", "BgHAlign"); g.get("gv", "BgVAlign"); g.get("ga", "BgImgAlpha"); g.get("gp2", "Panel"); g.get("gm5", "BgMID")
     g.call("set", W_PANEL, "Set Bg Image", inp={"self": "@gp2.Panel", "tex": "@it.tex", "mat": "@gm5.BgMID", "fit": "@gf.BgFit", "h": "@gh.BgHAlign", "v": "@gv.BgVAlign", "alpha": "@ga.BgImgAlpha", "on": "@vt.ReturnValue"})
-    g.chain("entry", "bp", "it", "bt", "bm", "stp"); g.chain("bm:else", "cr", "sm", "stp"); g.chain("stp", "srd", *flt, "set"); g.chain("bt:else", "set")
+    fh, fs, fi = thumb_filters(g, "tf", "Bg"); g.get("gp3", "Panel"); g.call("ptf", W_PANEL, "Bg Thumb Filters", inp={"self": "@gp3.Panel", "hue": fh, "sepia": fs, "invert": fi})   # the previews follow
+    g.chain("entry", "bp", "ptf", "it", "bt", "bm", "stp"); g.chain("bm:else", "cr", "sm", "stp"); g.chain("stp", "srd", *flt, "set"); g.chain("bt:else", "set")
     return fn("Apply Bg Image", graph=g)
 
 
@@ -8560,60 +8595,212 @@ def f_apply_button_image():
     g.set("on", "ButtonOn", inp={"ButtonOn": "true"}); g.set("off", "ButtonOn", inp={"ButtonOn": "false"})
     g.branch("br", "@entry.rebuild"); g.get("gp", "Panel"); g.call("vp", K_SYS, "IsValid", inp={"Object": "@gp.Panel"}); g.branch("bp", "@vp.ReturnValue")
     g.n("rtt", "call_self", function="Rebuild TopTabs"); g.get("gpg", "Page"); g.n("spg", "call_self", function="Select Page", inp={"name": "@gpg.Page"})
-    g.chain("entry", "it", "bt", "bm", "stp"); g.chain("bm:else", "cr", "sm", "stp"); g.chain("stp", "ssp", *bflt, "sb", "srm", "on", "br"); g.chain("bt:else", "off", "br")
+    fh, fs, fi = thumb_filters(g, "tf", "Btn"); g.get("gp3", "Panel"); g.call("vp3", K_SYS, "IsValid", inp={"Object": "@gp3.Panel"}); g.branch("bp3", "@vp3.ReturnValue")
+    g.call("ptf", W_PANEL, "Btn Thumb Filters", inp={"self": "@gp3.Panel", "hue": fh, "sepia": fs, "invert": fi})   # the previews follow
+    g.chain("entry", "bp3", "ptf", "it"); g.chain("bp3:else", "it")
+    g.chain("it", "bt", "bm", "stp"); g.chain("bm:else", "cr", "sm", "stp"); g.chain("stp", "ssp", *bflt, "sb", "srm", "on", "br"); g.chain("bt:else", "off", "br")
     g.chain("br", "bp", "rtt", "spg")
     return fn("Apply Button Image", [param("rebuild", "bool")], graph=g)
 
 
+THUMB_KIND = {"Bg": 0, "Btn": 1}   # Chip Thumb / Write User Thumb: 0 background, 1 button
+THUMB_RT_N = ti.THUMB_STEPS + 1   # render targets per kind: 2^THUMB_STEPS x the preview size down to the preview size
+
+
+def f_thumb_rts():
+    """ThumbRTs empty -> the render targets of both kinds (index kind * THUMB_RT_N + step, step 0 = the preview size); Rebuild Image Chips
+    and Image Tex empty the array again when they are done, so they are freed."""
+    g = G(); g.get("ga", "ThumbRTs"); g.call("ln", K_ARR, "Array_Length", inp={"TargetArray": "@ga.ThumbRTs"}); g.call("z", K_MATH, "EqualEqual_IntInt", inp={"A": "@ln.ReturnValue", "B": "0"})
+    g.branch("b", "@z.ReturnValue"); tail = ["entry", "b"]
+    for kind in ("bg", "btn"):
+        tw, th = ti.THUMB_PX[kind]
+        for st in range(THUMB_RT_N):
+            p = "%s%d" % (kind, st)
+            g.call(p + "c", K_REND, "CreateRenderTarget2D", inp={"Width": str(tw << st), "Height": str(th << st), "Format": "RTF_RGBA8_SRGB", "ClearColor": "(R=0,G=0,B=0,A=1)", "bAutoGenerateMipMaps": "false"})
+            g.get(p + "g", "ThumbRTs"); g.call(p + "a", K_ARR, "Array_Add", inp={"TargetArray": "@%sg.ThumbRTs" % p, "NewItem": "@%sc.ReturnValue" % p}); tail += [p + "c", p + "a"]
+    g.chain(*tail)
+    return fn("Thumb RTs", graph=g)
+
+
+def draw_rt(g, p, rt_pin, tex_pin, uv_pos, uv_size):
+    """Canvas: tex_pin (part uv_pos / uv_size) over the whole render target rt_pin; returns the exec ids."""
+    g.call(p + "beg", K_REND, "BeginDrawCanvasToRenderTarget", inp={"TextureRenderTarget": rt_pin}); g.call(p + "z", K_MATH, "MakeVector2D", inp={"X": "0.0", "Y": "0.0"})
+    g.call(p + "dr", E_CANVAS, "K2_DrawTexture", inp={"self": "@%sbeg.Canvas" % p, "RenderTexture": tex_pin, "ScreenPosition": "@%sz.ReturnValue" % p, "ScreenSize": "@%sbeg.Size" % p,
+                                                      "CoordinatePosition": uv_pos, "CoordinateSize": uv_size, "RenderColor": "(R=1,G=1,B=1,A=1)",
+                                                      "BlendMode": "BLEND_Opaque", "Rotation": "0.0", "PivotPoint": "@%sz.ReturnValue" % p})
+    g.call(p + "end", K_REND, "EndDrawCanvasToRenderTarget", inp={"Context": "@%sbeg.Context" % p})
+    return [p + "beg", p + "dr", p + "end"]
+
+
+def thumb_file(g, p, file_pin):
+    """Name of the preview file of a picture in Thumbs/: Background_1.jpg -> Background_1_jpg.png (string pin)."""
+    g.call(p + "r", K_STR, "Replace", inp={"SourceString": file_pin, "From": ".", "To": "_", "SearchCase": "CaseSensitive"})
+    g.call(p, K_STR, "Concat_StrStr", inp={"A": "@%sr.ReturnValue" % p, "B": ".png"}); return "@%s.ReturnValue" % p
+
+
+def f_write_user_thumb():
+    """The preview of one of the user's pictures (src, already loaded): the middle cut to the chip's aspect, drawn at 2^THUMB_STEPS x the preview
+    size and halved down to it, saved as Thumbs/<file>.png and loaded back (a small texture of its own; the render targets are reused).
+    Cached as "f:<file>" in ThumbCache. kind from the name (Button_ -> button)."""
+    g = G(); g.n("rts", "call_self", function="Thumb RTs")
+    g.call("ib", K_STR, "StartsWith", inp={"SourceString": "@entry.file", "InPrefix": "Button_", "SearchCase": "IgnoreCase"}); g.call("kd", K_MATH, "SelectInt", inp={"A": "1", "B": "0", "bPickA": "@ib.ReturnValue"})
+    (bw, bh), (nw, nh) = ti.THUMB_PX["bg"], ti.THUMB_PX["btn"]
+    g.call("asp", K_MATH, "SelectFloat", inp={"A": str(nw / nh), "B": str(bw / bh), "bPickA": "@ib.ReturnValue"})
+    # the middle: uw = min(1, A * sy / sx), uh = min(1, sx / (A * sy))
+    g.call("sx", E_TEX2D, "Blueprint_GetSizeX", inp={"self": "@entry.src"}); g.call("sy", E_TEX2D, "Blueprint_GetSizeY", inp={"self": "@entry.src"})
+    g.call("fx", K_MATH, "Conv_IntToFloat", inp={"InInt": "@sx.ReturnValue"}); g.call("fy", K_MATH, "Conv_IntToFloat", inp={"InInt": "@sy.ReturnValue"})
+    g.call("ay", K_MATH, "Multiply_FloatFloat", inp={"A": "@asp.ReturnValue", "B": "@fy.ReturnValue"}); g.call("ay1", K_MATH, "FMax", inp={"A": "@ay.ReturnValue", "B": "1.0"}); g.call("fx1", K_MATH, "FMax", inp={"A": "@fx.ReturnValue", "B": "1.0"})
+    g.call("uw0", K_MATH, "Divide_FloatFloat", inp={"A": "@ay.ReturnValue", "B": "@fx1.ReturnValue"}); g.call("uw", K_MATH, "FMin", inp={"A": "@uw0.ReturnValue", "B": "1.0"})
+    g.call("uh0", K_MATH, "Divide_FloatFloat", inp={"A": "@fx.ReturnValue", "B": "@ay1.ReturnValue"}); g.call("uh", K_MATH, "FMin", inp={"A": "@uh0.ReturnValue", "B": "1.0"})
+    for a in ("w", "h"):
+        g.call("r" + a, K_MATH, "Subtract_FloatFloat", inp={"A": "1.0", "B": "@u%s.ReturnValue" % a}); g.call("o" + a, K_MATH, "Multiply_FloatFloat", inp={"A": "@r%s.ReturnValue" % a, "B": "0.5"})
+    g.call("uvp", K_MATH, "MakeVector2D", inp={"X": "@ow.ReturnValue", "Y": "@oh.ReturnValue"}); g.call("uvs", K_MATH, "MakeVector2D", inp={"X": "@uw.ReturnValue", "Y": "@uh.ReturnValue"})
+    g.call("one", K_MATH, "MakeVector2D", inp={"X": "1.0", "Y": "1.0"}); g.call("zero", K_MATH, "MakeVector2D", inp={"X": "0.0", "Y": "0.0"})
+    g.call("base", K_MATH, "Multiply_IntInt", inp={"A": "@kd.ReturnValue", "B": str(THUMB_RT_N)})
+    def rt(st):
+        g.call("ix%d" % st, K_MATH, "Add_IntInt", inp={"A": "@base.ReturnValue", "B": str(st)}); g.get("ga%d" % st, "ThumbRTs")
+        g.call("rt%d" % st, K_ARR, "Array_Get", inp={"TargetArray": "@ga%d.ThumbRTs" % st, "Index": "@ix%d.ReturnValue" % st}); return "@rt%d.Item" % st
+    tail = ["entry", "rts"]; top = ti.THUMB_STEPS
+    tail += draw_rt(g, "d%d" % top, rt(top), "@entry.src", "@uvp.ReturnValue", "@uvs.ReturnValue")
+    for st in range(top - 1, -1, -1):
+        tail += draw_rt(g, "d%d" % st, rt(st), "@rt%d.Item" % (st + 1), "@zero.ReturnValue", "@one.ReturnValue")
+    g.call("dir", K_STR, "Concat_StrStr", inp={"A": img_dir(g, "idir"), "B": ti.THUMB_DIR}); tf = thumb_file(g, "tf", "@entry.file")
+    g.call("ex", K_REND, "ExportRenderTarget", inp={"TextureRenderTarget": "@rt0.Item", "FilePath": "@dir.ReturnValue", "FileName": tf})
+    g.call("full", K_STR, "Concat_StrStr", inp={"A": "@dir.ReturnValue", "B": tf}); g.call("imp", K_REND, "ImportFileAsTexture2D", inp={"Filename": "@full.ReturnValue"})
+    g.call("iv", K_SYS, "IsValid", inp={"Object": "@imp.ReturnValue"}); g.branch("biv", "@iv.ReturnValue")
+    g.call("key", K_STR, "Concat_StrStr", inp={"A": "f:", "B": "@entry.file"}); g.get("gc", "ThumbCache"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gc.ThumbCache", "Key": "@key.ReturnValue", "Value": "@imp.ReturnValue"})
+    g.n("r1", "return_new"); g.link("imp.ReturnValue", "r1.tex")
+    tail += ["ex", "imp", "biv", "add", "r1"]; g.chain(*tail); g.chain("biv:else", "return")
+    return fn("Write User Thumb", [param("file", "string"), param("src", "object:" + E_TEX2D)], [param("tex", "object:/Script/Engine.Texture")], graph=g)
+
+
+def f_thumb_tex():
+    """Preview id -> texture: "b:<texture path>" one of AltUI's T_*Thumb textures, "f:<file>" the user's picture - its file in Thumbs/ if there
+    is one, otherwise rendered from the picture (Write User Thumb). Cached in ThumbCache; nothing to show: None."""
+    g = G(); g.set("s0", "ThumbTmp", inp={"ThumbTmp": "None"})
+    g.get("gc", "ThumbCache"); g.call("fc", K_MAP, "Map_Find", inp={"TargetMap": "@gc.ThumbCache", "Key": "@entry.id"}); g.branch("bc", "@fc.ReturnValue"); g.set("sc", "ThumbTmp", inp={"ThumbTmp": "@fc.Value"})
+    g.call("isb", K_STR, "StartsWith", inp={"SourceString": "@entry.id", "InPrefix": "b:", "SearchCase": "CaseSensitive"}); g.branch("bb", "@isb.ReturnValue")
+    g.n("it", "call_self", function="Image Tex", inp={"id": "@entry.id"}); g.call("vb", K_SYS, "IsValid", inp={"Object": "@it.tex"}); g.branch("bvb", "@vb.ReturnValue")
+    g.get("gc2", "ThumbCache"); g.call("ab", K_MAP, "Map_Add", inp={"TargetMap": "@gc2.ThumbCache", "Key": "@entry.id", "Value": "@it.tex"}); g.set("sb", "ThumbTmp", inp={"ThumbTmp": "@it.tex"})
+    g.call("isf", K_STR, "StartsWith", inp={"SourceString": "@entry.id", "InPrefix": "f:", "SearchCase": "CaseSensitive"}); g.branch("bf", "@isf.ReturnValue")
+    g.call("fl", K_STR, "RightChop", inp={"SourceString": "@entry.id", "Count": "2"})
+    g.call("tp0", K_STR, "Concat_StrStr", inp={"A": img_dir(g, "tdir"), "B": ti.THUMB_DIR}); g.call("tp", K_STR, "Concat_StrStr", inp={"A": "@tp0.ReturnValue", "B": thumb_file(g, "tfn", "@fl.ReturnValue")})
+    g.call("tx", K_PATHS, "FileExists", inp={"InPath": "@tp.ReturnValue"}); g.branch("btx", "@tx.ReturnValue")
+    g.call("ti", K_REND, "ImportFileAsTexture2D", inp={"Filename": "@tp.ReturnValue"}); g.call("vt", K_SYS, "IsValid", inp={"Object": "@ti.ReturnValue"}); g.branch("bvt", "@vt.ReturnValue")
+    g.get("gc3", "ThumbCache"); g.call("at", K_MAP, "Map_Add", inp={"TargetMap": "@gc3.ThumbCache", "Key": "@entry.id", "Value": "@ti.ReturnValue"}); g.set("st", "ThumbTmp", inp={"ThumbTmp": "@ti.ReturnValue"})
+    # no preview yet: the picture itself, once
+    g.call("fp", K_STR, "Concat_StrStr", inp={"A": img_dir(g, "fdir"), "B": "@fl.ReturnValue"}); g.call("fi", K_REND, "ImportFileAsTexture2D", inp={"Filename": "@fp.ReturnValue"})
+    g.call("vf", K_SYS, "IsValid", inp={"Object": "@fi.ReturnValue"}); g.branch("bvf", "@vf.ReturnValue")
+    g.n("wt", "call_self", function="Write User Thumb", inp={"file": "@fl.ReturnValue", "src": "@fi.ReturnValue"}); g.set("sw", "ThumbTmp", inp={"ThumbTmp": "@wt.tex"})
+    g.chain("entry", "s0", "bc", "sc", "return"); g.chain("bc:else", "bb", "it", "bvb", "ab", "sb", "return"); g.chain("bvb:else", "return")
+    g.chain("bb:else", "bf", "btx", "ti", "bvt", "at", "st", "return"); g.chain("bf:else", "return"); g.chain("bvt:else", "fi")
+    g.chain("btx:else", "fi", "bvf", "wt", "sw", "return"); g.chain("bvf:else", "return")
+    g.get("gr", "ThumbTmp"); g.link("gr.ThumbTmp", "return.tex")
+    return fn("Thumb Tex", [param("id", "string")], [param("tex", "object:/Script/Engine.Texture")], graph=g)
+
+
+def thumb_filters(g, p, pre):
+    """Hue, sepia, invert (as 0 / 1) of the <pre> picture (Bg / Btn) -> three float pins."""
+    g.get(p + "h", pre + "Hue"); g.get(p + "s", pre + "Sepia"); g.get(p + "i", pre + "Invert")
+    g.call(p + "if", K_MATH, "SelectFloat", inp={"A": "1.0", "B": "0.0", "bPickA": "@%si.%sInvert" % (p, pre)})
+    return "@%sh.%sHue" % (p, pre), "@%ss.%sSepia" % (p, pre), "@%sif.ReturnValue" % p
+
+
+def f_redo_user_thumb():
+    """Context menu of a user's picture chip ("ImgBg:f:<file>" / "ImgBtn:f:<file>"): the preview drawn anew from the file as it is now
+    (also the picture itself, if it is the chosen one: both caches dropped, background and button picture applied again)."""
+    g = G(); g.call("s", K_STR, "Conv_NameToString", inp={"InName": "@entry.name"})
+    g.call("sp", K_STR, "Split", inp={"SourceString": "@s.ReturnValue", "InStr": ":f:", "SearchCase": "CaseSensitive", "SearchDir": "FromStart"})
+    g.call("key", K_STR, "Concat_StrStr", inp={"A": "f:", "B": "@sp.RightS"})
+    g.get("gic", "ImgCache"); g.call("ric", K_MAP, "Map_Remove", inp={"TargetMap": "@gic.ImgCache", "Key": "@key.ReturnValue"})
+    g.get("gtc", "ThumbCache"); g.call("rtc", K_MAP, "Map_Remove", inp={"TargetMap": "@gtc.ThumbCache", "Key": "@key.ReturnValue"})
+    g.call("fp", K_STR, "Concat_StrStr", inp={"A": img_dir(g, "dir"), "B": "@sp.RightS"}); g.call("imp", K_REND, "ImportFileAsTexture2D", inp={"Filename": "@fp.ReturnValue"})
+    g.call("iv", K_SYS, "IsValid", inp={"Object": "@imp.ReturnValue"}); g.branch("biv", "@iv.ReturnValue")
+    g.n("wt", "call_self", function="Write User Thumb", inp={"file": "@sp.RightS", "src": "@imp.ReturnValue"})
+    g.get("grt", "ThumbRTs"); g.call("frt", K_ARR, "Array_Clear", inp={"TargetArray": "@grt.ThumbRTs"})
+    g.n("abg", "call_self", function="Apply Bg Image"); g.n("abt", "call_self", function="Apply Button Image", inp={"rebuild": "false"}); g.n("ric2", "call_self", function="Rebuild Image Chips")
+    g.chain("entry", "ric", "rtc", "imp", "biv", "wt", "frt", "abg", "abt", "ric2"); g.chain("biv:else", "abg")
+    return fn("Redo User Thumb", [param("name", "name")], graph=g)
+
+
+def f_chip_thumb():
+    """Options > Theme with "Show previews": the chip shows the picture (Thumb Tex) with the filters of its row and names it in the tooltip;
+    off, or nothing to show: the chip keeps its caption."""
+    g = G(); g.get("go", "ImgThumbs"); g.branch("bo", "@go.ImgThumbs"); g.n("tt", "call_self", function="Thumb Tex", inp={"id": "@entry.thumb"})
+    g.call("vt", K_SYS, "IsValid", inp={"Object": "@tt.tex"}); g.branch("bv", "@vt.ReturnValue"); g.call("ib", K_MATH, "EqualEqual_IntInt", inp={"A": "@entry.kind", "B": str(THUMB_KIND["Btn"])})
+    (bh, bs, bi), (nh, ns, ni) = thumb_filters(g, "fb", "Bg"), thumb_filters(g, "fn", "Btn")
+    sel = {}
+    for k, a, b in (("hue", nh, bh), ("sepia", ns, bs), ("invert", ni, bi)):
+        g.call("s" + k, K_MATH, "SelectFloat", inp={"A": a, "B": b, "bPickA": "@ib.ReturnValue"}); sel[k] = "@s%s.ReturnValue" % k
+    (bw, bhh), (nw, nhh) = ti.THUMB_UNITS["bg"], ti.THUMB_UNITS["btn"]
+    g.call("w", K_MATH, "SelectFloat", inp={"A": str(float(sz(nw))), "B": str(float(sz(bw))), "bPickA": "@ib.ReturnValue"})
+    g.call("h", K_MATH, "SelectFloat", inp={"A": str(float(sz(nhh))), "B": str(float(sz(bhh))), "bPickA": "@ib.ReturnValue"})
+    # corner radius in screen pixels: 4 units at the viewport's DPI scale (a little rounder than the chip frame's inner edge)
+    g.call("vs", "/Script/UMG.WidgetLayoutLibrary", "GetViewportScale"); g.call("rr", K_MATH, "Multiply_FloatFloat", inp={"A": "@vs.ReturnValue", "B": "4.0"})
+    g.call("st", W_SUB, "Set Thumb", inp={"self": "@entry.chip", "tex": "@tt.tex", "width": "@w.ReturnValue", "height": "@h.ReturnValue", "radius": "@rr.ReturnValue", **sel})
+    g.call("tip", W_SUB, "Set Tip", inp={"self": "@entry.chip", "tip": "@entry.caption"})
+    # no picture ("none": thumb "", or a file that cannot be read): the chip keeps its caption but stands as tall as the previews
+    g.call("ne", K_STR, "IsEmpty", inp={"InString": "@entry.thumb"}); g.branch("bne", "@ne.ReturnValue")
+    g.call("sth", W_SUB, "Set Thumb Size", inp={"self": "@entry.chip", "width": "@w.ReturnValue", "height": "@h.ReturnValue"})
+    g.chain("entry", "bo", "bne", "sth"); g.chain("bne:else", "tt", "bv", "st", "tip"); g.chain("bv:else", "sth")
+    return fn("Chip Thumb", [param("chip", "object:" + W_SUB), param("thumb", "string"), param("kind", "int"), param("caption", "text")], graph=g)
+
+
 def f_rebuild_image_chips():
     """Options > Theme: chips for the background image (none, AltUI's, the user's files), its fill and alignment, and the button image;
-    the hint names the folder and the file names."""
+    with "Show previews" the picture chips show the picture (Chip Thumb). The hint names the folder and the file names."""
     g = G(); tail = ["entry"]
     def chip(p, row, group_pin, caption_pin, selected_pin):
         cw = create_widget(g, p + "w", W_SUB); set_manager(g, p + "sm", W_SUB, cw)
         g.call(p + "ci", W_SUB, "Init", inp={"self": cw, "group": group_pin, "caption": caption_pin, "selected": selected_pin})
         g.get(p + "gp", "Panel"); g.call(p + "ad", W_PANEL, "Add %s Chip" % row, inp={"self": "@%sgp.Panel" % p, "widget": cw})
-        return [p + "w_cr", p + "sm", p + "ci", p + "ad"]
+        return [p + "w_cr", p + "sm", p + "ci", p + "ad"], cw
     for pre, var_, stem, builtins, kind in IMG_KINDS:
         row = pre + "Image"; g.get("gp" + pre, "Panel"); g.call("cl" + pre, W_PANEL, "Clear %s Chips" % row, inp={"self": "@gp%s.Panel" % pre}); tail.append("cl" + pre)
-        ids = [("", "Img_None")] + [("b:" + ti.tex_path(kind, key) + "." + ti.tex_path(kind, key).rsplit("/", 1)[1], tkey) for key, tkey, _, _ in builtins]
-        for i, (id_, tkey) in enumerate(ids):
+        ids = [("", "Img_None", None)] + [("b:" + ti.tex_path(kind, key) + "." + ti.tex_path(kind, key).rsplit("/", 1)[1], tkey, "b:" + ti.thumb_path(kind, key) + "." + ti.thumb_path(kind, key).rsplit("/", 1)[1])
+                                          for key, tkey, _, _ in builtins]
+        for i, (id_, tkey, thumb) in enumerate(ids):
             p = "%sc%d" % (pre, i); g.get(p + "gv", var_); g.call(p + "eq", K_STR, "EqualEqual_StriStri", inp={"A": "@%sgv.%s" % (p, var_), "B": id_})
-            tail += chip(p, row, g.lit_name(p + "n", "Img%s:%s" % (pre, id_)), tt(g, p + "t", tkey), "@%seq.ReturnValue" % p)
+            cap = tt(g, p + "t", tkey); ex, cw = chip(p, row, g.lit_name(p + "n", "Img%s:%s" % (pre, id_)), cap, "@%seq.ReturnValue" % p); tail += ex
+            g.n(p + "th", "call_self", function="Chip Thumb", inp={"chip": cw, "thumb": thumb or "", "kind": str(THUMB_KIND[pre]), "caption": cap}); tail.append(p + "th")   # "none": only the height
         # the user's files
         g.get("gf" + pre, "ImgFiles" + pre); g.foreach("ff" + pre, "@gf%s.ImgFiles%s" % (pre, pre)); g.chain(*tail, "ff" + pre)
         p = "%sf" % pre; g.call(p + "id", K_STR, "Concat_StrStr", inp={"A": "f:", "B": "@ff%s.Array Element" % pre})
         g.call(p + "gs", K_STR, "Concat_StrStr", inp={"A": "Img%s:" % pre, "B": "@%sid.ReturnValue" % p}); g.call(p + "gn", K_STR, "Conv_StringToName", inp={"InString": "@%sgs.ReturnValue" % p})
         g.get(p + "gv", var_); g.call(p + "eq", K_STR, "EqualEqual_StriStri", inp={"A": "@%sgv.%s" % (p, var_), "B": "@%sid.ReturnValue" % p})
         g.call(p + "ct", K_TXT, "Conv_StringToText", inp={"InString": "@ff%s.Array Element" % pre})
-        body = chip(p, row, "@%sgn.ReturnValue" % p, "@%sct.ReturnValue" % p, "@%seq.ReturnValue" % p); g.chain("ff" + pre, *body)
+        body, cw = chip(p, row, "@%sgn.ReturnValue" % p, "@%sct.ReturnValue" % p, "@%seq.ReturnValue" % p)
+        g.n(p + "th", "call_self", function="Chip Thumb", inp={"chip": cw, "thumb": "@%sid.ReturnValue" % p, "kind": str(THUMB_KIND[pre]), "caption": "@%sct.ReturnValue" % p})
+        g.chain("ff" + pre, *body, p + "th")
         tail = ["ff%s:Completed" % pre]
-    for row, pre, keys, var_ in (("BgFit", "ImgFit", ti.FITS, "BgFit"), ("BgHAlign", "ImgH", ti.H_ALIGN, "BgHAlign"), ("BgVAlign", "ImgV", ti.V_ALIGN, "BgVAlign"),
+    for row, pre, keys, var_ in (("ImgThumbs", "ImgThumbs", ["Img_Off", "Img_On"], "ImgThumbs"), ("BgFit", "ImgFit", ti.FITS, "BgFit"), ("BgHAlign", "ImgH", ti.H_ALIGN, "BgHAlign"), ("BgVAlign", "ImgV", ti.V_ALIGN, "BgVAlign"),
                                  ("BgInv", "ImgBgInv", ["Img_Off", "Img_On"], "BgInvert"), ("BtnInv", "ImgBtnInv", ["Img_Off", "Img_On"], "BtnInvert")):
         g.get("gp" + row, "Panel"); g.call("cl" + row, W_PANEL, "Clear %s Chips" % row, inp={"self": "@gp%s.Panel" % row}); tail.append("cl" + row)
         for i, key in enumerate(keys):
             p = "%s%d" % (row, i); g.get(p + "gv", var_)
-            if var_.endswith("Invert"): g.call(p + "eq", K_MATH, "EqualEqual_BoolBool", inp={"A": "@%sgv.%s" % (p, var_), "B": "true" if i else "false"})
+            if var_ in IMG_BOOLS: g.call(p + "eq", K_MATH, "EqualEqual_BoolBool", inp={"A": "@%sgv.%s" % (p, var_), "B": "true" if i else "false"})
             else: g.call(p + "eq", K_MATH, "EqualEqual_IntInt", inp={"A": "@%sgv.%s" % (p, var_), "B": str(i)})
-            tail += chip(p, row, g.lit_name(p + "n", "%s%d" % (pre, i)), tt(g, p + "t", key), "@%seq.ReturnValue" % p)
+            tail += chip(p, row, g.lit_name(p + "n", "%s%d" % (pre, i)), tt(g, p + "t", key), "@%seq.ReturnValue" % p)[0]
     g.call("hr", K_STR, "Replace", inp={"SourceString": ts(g, "ht", "Img_Hint"), "From": "%s", "To": img_dir(g, "hd"), "SearchCase": "CaseSensitive"})
     g.call("hm", K_STR, "Replace", inp={"SourceString": "@hr.ReturnValue", "From": "%n", "To": str(ti.USER_MAX), "SearchCase": "CaseSensitive"})
     g.call("htx", K_TXT, "Conv_StringToText", inp={"InString": "@hm.ReturnValue"}); g.get("gph", "Panel"); g.call("sh", W_PANEL, "Set Image Hint", inp={"self": "@gph.Panel", "text": "@htx.ReturnValue"})
-    tail.append("sh"); g.chain(*tail)
+    g.get("grt", "ThumbRTs"); g.call("frt", K_ARR, "Array_Clear", inp={"TargetArray": "@grt.ThumbRTs"})   # previews rendered: the render targets can go
+    tail += ["sh", "frt"]; g.chain(*tail)
     return fn("Rebuild Image Chips", graph=g)
 
 
 def f_select_image_chip():
     """Chips "ImgBg:<id>", "ImgBtn:<id>", "ImgFit<n>", "ImgH<n>", "ImgV<n>": the setting, saved, applied, the chips again."""
     g = G(); g.call("s", K_STR, "Conv_NameToString", inp={"InName": "@entry.name"}); prev = "entry"; ends = []
-    for pre, var_, cut, apply_ in (("ImgBg:", "BgImage", 6, "bg"), ("ImgBtn:", "BtnImage", 7, "btn"), ("ImgBgInv", "BgInvert", 8, "bg"), ("ImgBtnInv", "BtnInvert", 9, "btnf"),
+    for pre, var_, cut, apply_ in (("ImgThumbs", "ImgThumbs", 9, None), ("ImgBg:", "BgImage", 6, "bg"), ("ImgBtn:", "BtnImage", 7, "btn"), ("ImgBgInv", "BgInvert", 8, "bg"), ("ImgBtnInv", "BtnInvert", 9, "btnf"),
                                    ("ImgFit", "BgFit", 6, "bg"), ("ImgH", "BgHAlign", 4, "bg"), ("ImgV", "BgVAlign", 4, "bg")):
         q = var_; g.call(q + "is", K_STR, "StartsWith", inp={"SourceString": "@s.ReturnValue", "InPrefix": pre, "SearchCase": "CaseSensitive"}); g.branch(q + "b", "@%sis.ReturnValue" % q)
         g.call(q + "rc", K_STR, "RightChop", inp={"SourceString": "@s.ReturnValue", "Count": str(cut)})
         if var_ in ("BgImage", "BtnImage"): val = "@%src.ReturnValue" % q
-        elif var_.endswith("Invert"): g.call(q + "iv", K_STR, "EqualEqual_StrStr", inp={"A": "@%src.ReturnValue" % q, "B": "1"}); val = "@%siv.ReturnValue" % q
+        elif var_ in IMG_BOOLS: g.call(q + "iv", K_STR, "EqualEqual_StrStr", inp={"A": "@%src.ReturnValue" % q, "B": "1"}); val = "@%siv.ReturnValue" % q
         else: g.call(q + "iv", K_STR, "Conv_StringToInt", inp={"InString": "@%src.ReturnValue" % q}); val = "@%siv.ReturnValue" % q
         g.set(q + "set", var_, inp={var_: val})
+        if apply_ is None: g.chain(prev, q + "b", q + "set"); ends.append(q + "set"); prev = q + "b:else"; continue   # previews: only the chips change
         if apply_ == "bg": g.n(q + "ap", "call_self", function="Apply Bg Image")
         else: g.n(q + "ap", "call_self", function="Apply Button Image", inp={"rebuild": "true" if apply_ == "btn" else "false"})
         g.chain(prev, q + "b", q + "set", q + "ap"); ends.append(q + "ap"); prev = q + "b:else"
@@ -11347,14 +11534,211 @@ def f_save_appearance_data():
 
 
 def f_delete_outfit():
-    """Remove the outfit and its assigned name (Set Outfit Name By Key with "" drops the entry; the key must be read before the removal)."""
+    """Remove the outfit and what hangs on its id (Delete Outfit In Array), save, redraw."""
     g = G()
-    g.n("ok", "call_self", function="Outfit Key", inp={"index": "@entry.index"}); g.n("sn", "call_self", function="Set Outfit Name By Key", inp={"key": "@ok.key", "name": ""})
-    g.get("go", "Outfits"); g.get("goa", "outfits", cls=P_OUTFITS); g.link("go.Outfits", "goa.self")
-    g.call("rm", K_ARR, "Array_Remove", inp={"TargetArray": "@goa.outfits", "IndexToRemove": "@entry.index"})
+    g.n("d", "call_self", function="Delete Outfit In Array", inp={"index": "@entry.index"})
     g.n("sv", "call_self", function="Save Outfits"); g.n("ro", "call_self", function="Rebuild Outfits")
-    g.chain("entry", "ok", "sn", "rm", "sv", "ro")
+    g.chain("entry", "d", "sv", "ro")
     return fn("Delete Outfit", [param("index", "int")], graph=g)
+
+
+def f_delete_outfit_in_array():
+    """Outfit `index` goes, with its name, its remembered slot colours and its quick menu / own key items (before 2.4.0 these
+    stayed; with one id per outfit they would now land on the next outfit with the same pieces). The ids after it may
+    shift down (Rekey Outfit Ids)."""
+    g = G()
+    g.get("go", "Outfits"); g.call("ov", K_SYS, "IsValid", inp={"Object": "@go.Outfits"}); g.branch("bov", "@ov.ReturnValue")
+    g.call("vi", K_ARR, "Array_IsValidIndex", inp={"TargetArray": outfits_arr(g, "ga"), "IndexToTest": "@entry.index"}); g.branch("bvi", "@vi.ReturnValue")
+    g.n("oi", "call_self", function="Outfit Id", inp={"index": "@entry.index"}); g.set("so", "OidStr", inp={"OidStr": "@oi.key"})
+    g.get("gk", "OidStr"); g.n("sn", "call_self", function="Set Outfit Name By Key", inp={"key": "@gk.OidStr", "name": ""})
+    # its slot colours: keys "<id>>..."
+    g.call("ck", K_MAP, "Map_Keys", inp={"TargetMap": sg_get(g, "gc", "OutfitColors")}); g.set("sck", "OidKeys", inp={"OidKeys": "@ck.Keys"})
+    g.get("gk2", "OidStr"); g.call("pre", K_STR, "Concat_StrStr", inp={"A": "@gk2.OidStr", "B": ">"})
+    g.get("gks", "OidKeys"); g.foreach("fc", "@gks.OidKeys")
+    g.call("sw", K_STR, "StartsWith", inp={"SourceString": "@fc.Array Element", "InPrefix": "@pre.ReturnValue", "SearchCase": "CaseSensitive"}); g.branch("bsw", "@sw.ReturnValue")
+    g.call("crm", K_MAP, "Map_Remove", inp={"TargetMap": sg_get(g, "gc2", "OutfitColors"), "Key": "@fc.Array Element"})
+    # its quick menu item and own key
+    g.get("gk3", "OidStr"); g.call("it", K_STR, "Concat_StrStr", inp={"A": "outfit:", "B": "@gk3.OidStr"})
+    g.get("gq", "QuickItems"); g.call("qrm", K_ARR, "Array_RemoveItem", inp={"TargetArray": "@gq.QuickItems", "Item": "@it.ReturnValue"})
+    g.get("gki", "KeyBindItems"); g.call("fit", K_ARR, "Array_Find", inp={"TargetArray": "@gki.KeyBindItems", "ItemToFind": "@it.ReturnValue"})
+    g.call("hit", K_MATH, "GreaterEqual_IntInt", inp={"A": "@fit.ReturnValue", "B": "0"}); g.branch("bhit", "@hit.ReturnValue")
+    g.get("gkk", "KeyBindKeys"); g.call("rk", K_ARR, "Array_Remove", inp={"TargetArray": "@gkk.KeyBindKeys", "IndexToRemove": "@fit.ReturnValue"})
+    g.get("gki2", "KeyBindItems"); g.call("ri", K_ARR, "Array_Remove", inp={"TargetArray": "@gki2.KeyBindItems", "IndexToRemove": "@fit.ReturnValue"})
+    # the outfit, and the ids as they were, without it
+    g.get("gc0", "OutfitIdCache"); g.set("sb", "OidBefore", inp={"OidBefore": "@gc0.OutfitIdCache"})
+    g.get("gb", "OidBefore"); g.call("brm", K_ARR, "Array_Remove", inp={"TargetArray": "@gb.OidBefore", "IndexToRemove": "@entry.index"})
+    g.call("rm", K_ARR, "Array_Remove", inp={"TargetArray": outfits_arr(g, "ga2"), "IndexToRemove": "@entry.index"})
+    g.n("rk2", "call_self", function="Rekey Outfit Ids")
+    g.chain("entry", "bov", "bvi", "oi", "so", "sn", "ck", "sck", "fc"); g.chain("fc", "bsw", "crm")
+    g.chain("fc:Completed", "qrm", "bhit", "rk", "ri", "sb"); g.chain("bhit:else", "sb"); g.chain("sb", "brm", "rm", "rk2")
+    return fn("Delete Outfit In Array", [param("index", "int")], graph=g)
+
+
+def f_ensure_outfit_ids():
+    """OutfitIdCache: the id of every saved outfit by index. The id is the content key (Outfit Key), and for the n-th
+    further outfit with the same content key "<key>~<n>" - so outfits with the same pieces no longer share a name and
+    remembered slot colours (Discord 2026-10-17: saving the same pieces again wiped the colours of the first). Rebuilt when
+    its length is not the number of outfits; Clear Outfit Ids empties it when outfits change without a change in number."""
+    g = G()
+    g.get("go", "Outfits"); g.call("ov", K_SYS, "IsValid", inp={"Object": "@go.Outfits"}); g.branch("bov", "@ov.ReturnValue")
+    g.call("ln", K_ARR, "Array_Length", inp={"TargetArray": outfits_arr(g, "ga")})
+    g.get("gc", "OutfitIdCache"); g.call("cl", K_ARR, "Array_Length", inp={"TargetArray": "@gc.OutfitIdCache"})
+    g.call("eq", K_MATH, "EqualEqual_IntInt", inp={"A": "@ln.ReturnValue", "B": "@cl.ReturnValue"}); g.branch("beq", "@eq.ReturnValue")
+    g.get("gc0", "OutfitIdCache"); g.call("clr", K_ARR, "Array_Clear", inp={"TargetArray": "@gc0.OutfitIdCache"})
+    g.get("gn0", "OutfitIdCount"); g.call("nclr", K_MAP, "Map_Clear", inp={"TargetMap": "@gn0.OutfitIdCount"})
+    g.foreach("fo", outfits_arr(g, "ga2"))
+    g.n("ok", "call_self", function="Outfit Key", inp={"index": "@fo.Array Index"}); g.set("sk", "OidKey", inp={"OidKey": "@ok.key"})
+    g.get("gk", "OidKey"); g.get("gn1", "OutfitIdCount"); g.call("f", K_MAP, "Map_Find", inp={"TargetMap": "@gn1.OutfitIdCount", "Key": "@gk.OidKey"})
+    g.call("i2s", K_STR, "Conv_IntToString", inp={"InInt": "@f.Value"}); g.call("c1", K_STR, "Concat_StrStr", inp={"A": "@gk.OidKey", "B": "~"})
+    g.call("c2", K_STR, "Concat_StrStr", inp={"A": "@c1.ReturnValue", "B": "@i2s.ReturnValue"})
+    g.call("sel", K_MATH, "SelectString", inp={"A": "@c2.ReturnValue", "B": "@gk.OidKey", "bPickA": "@f.ReturnValue"})
+    g.get("gc1", "OutfitIdCache"); g.call("add", K_ARR, "Array_Add", inp={"TargetArray": "@gc1.OutfitIdCache", "NewItem": "@sel.ReturnValue"})
+    g.call("inc", K_MATH, "Add_IntInt", inp={"A": "@f.Value", "B": "1"})
+    g.get("gn2", "OutfitIdCount"); g.call("nadd", K_MAP, "Map_Add", inp={"TargetMap": "@gn2.OutfitIdCount", "Key": "@gk.OidKey", "Value": "@inc.ReturnValue"})
+    g.get("gc2", "OutfitIdCache"); g.call("clr2", K_ARR, "Array_Clear", inp={"TargetArray": "@gc2.OutfitIdCache"})
+    g.chain("entry", "bov", "beq"); g.chain("beq:else", "clr", "nclr", "fo"); g.chain("fo", "ok", "sk", "add", "nadd"); g.chain("bov:else", "clr2")
+    return fn("Ensure Outfit Ids", graph=g)
+
+
+def f_outfit_id():
+    """Id of outfit `index` (names, quick menu items, remembered slot colours), see Ensure Outfit Ids."""
+    g = G(); g.n("e", "call_self", function="Ensure Outfit Ids")
+    g.get("gc", "OutfitIdCache"); g.call("get", K_ARR, "Array_Get", inp={"TargetArray": "@gc.OutfitIdCache", "Index": "@entry.index"}); g.set("s", "OidOut", inp={"OidOut": "@get.Item"})
+    g.get("go", "OidOut"); g.link("go.OidOut", "return.key"); g.chain("entry", "e", "s", "return")
+    return fn("Outfit Id", [param("index", "int")], [param("key", "string")], graph=g)
+
+
+def f_clear_outfit_ids():
+    g = G(); g.get("gc", "OutfitIdCache"); g.call("clr", K_ARR, "Array_Clear", inp={"TargetArray": "@gc.OutfitIdCache"}); g.chain("entry", "clr")
+    return fn("Clear Outfit Ids", graph=g)
+
+
+def f_outfit_ids_before_move():
+    """OidBefore = the ids as they are, moved like Move Outfit In Array will move the outfit (same clamp, same checks), so
+    that Rekey Outfit Ids afterwards compares position by position."""
+    g = G(); g.n("e", "call_self", function="Ensure Outfit Ids")
+    g.get("gc", "OutfitIdCache"); g.set("sb", "OidBefore", inp={"OidBefore": "@gc.OutfitIdCache"})
+    g.get("gb", "OidBefore"); g.call("len", K_ARR, "Array_Length", inp={"TargetArray": "@gb.OidBefore"}); g.call("max", K_MATH, "Subtract_IntInt", inp={"A": "@len.ReturnValue", "B": "1"})
+    g.call("vi", K_ARR, "Array_IsValidIndex", inp={"TargetArray": "@gb.OidBefore", "IndexToTest": "@entry.index"})
+    g.call("to", K_MATH, "Clamp", inp={"Value": "@entry.to", "Min": "0", "Max": "@max.ReturnValue"}); g.set("sto", "OidTo", inp={"OidTo": "@to.ReturnValue"})
+    g.get("gto", "OidTo"); g.call("ne", K_MATH, "NotEqual_IntInt", inp={"A": "@entry.index", "B": "@gto.OidTo"})
+    g.call("ok", K_MATH, "BooleanAND", inp={"A": "@vi.ReturnValue", "B": "@ne.ReturnValue"}); g.branch("bok", "@ok.ReturnValue")
+    g.get("gb2", "OidBefore"); g.call("get", K_ARR, "Array_Get", inp={"TargetArray": "@gb2.OidBefore", "Index": "@entry.index"}); g.set("st", "OidStr", inp={"OidStr": "@get.Item"})
+    g.get("gb3", "OidBefore"); g.call("rm", K_ARR, "Array_Remove", inp={"TargetArray": "@gb3.OidBefore", "IndexToRemove": "@entry.index"})
+    g.get("gb4", "OidBefore"); g.get("gs", "OidStr"); g.get("gto2", "OidTo")
+    g.call("ins", K_ARR, "Array_Insert", inp={"TargetArray": "@gb4.OidBefore", "NewItem": "@gs.OidStr", "Index": "@gto2.OidTo"})
+    g.chain("entry", "e", "sb", "sto", "bok", "st", "rm", "ins")
+    return fn("Outfit Ids Before Move", [param("index", "int"), param("to", "int")], graph=g)
+
+
+def f_move_outfit_keep_ids():
+    g = G()
+    g.n("b", "call_self", function="Outfit Ids Before Move", inp={"index": "@entry.index", "to": "@entry.to"})
+    g.n("mv", "call_self", function="Move Outfit In Array", inp={"index": "@entry.index", "to": "@entry.to"})
+    g.n("rk", "call_self", function="Rekey Outfit Ids"); g.chain("entry", "b", "mv", "rk")
+    return fn("Move Outfit Keep Ids", [param("index", "int"), param("to", "int")], graph=g)
+
+
+def f_rekey_outfit_ids():
+    """After outfits moved or one was deleted: OidBefore holds the old ids at the new positions. Where an id changed (outfits
+    with the same pieces swapped places or moved up), name, remembered slot colours, quick menu items and own keys move
+    from the old id to the new one. Read all first, then remove, then add: old and new ids of different outfits overlap."""
+    g = G()
+    g.n("clr", "call_self", function="Clear Outfit Ids"); g.n("ens", "call_self", function="Ensure Outfit Ids")
+    for v, kind in (("OidMap", "map"), ("OidNames", "map"), ("OidCols", "map")):
+        g.get("g" + v, v); g.call("c" + v, K_MAP, "Map_Clear", inp={"TargetMap": "@g%s.%s" % (v, v)})
+    g.get("gb", "OidBefore"); g.foreach("fb", "@gb.OidBefore")
+    g.get("gc", "OutfitIdCache"); g.call("cur", K_ARR, "Array_Get", inp={"TargetArray": "@gc.OutfitIdCache", "Index": "@fb.Array Index"})
+    g.call("ne", K_STR, "NotEqual_StrStr", inp={"A": "@fb.Array Element", "B": "@cur.Item"}); g.branch("bne", "@ne.ReturnValue")
+    g.get("gm", "OidMap"); g.call("madd", K_MAP, "Map_Add", inp={"TargetMap": "@gm.OidMap", "Key": "@fb.Array Element", "Value": "@cur.Item"})
+    g.get("gm1", "OidMap"); g.call("ml", K_MAP, "Map_Length", inp={"TargetMap": "@gm1.OidMap"}); g.call("any", K_MATH, "Greater_IntInt", inp={"A": "@ml.ReturnValue", "B": "0"}); g.branch("bany", "@any.ReturnValue")
+    # names
+    g.get("gm2", "OidMap"); g.call("mk", K_MAP, "Map_Keys", inp={"TargetMap": "@gm2.OidMap"}); g.set("smk", "OidKeys", inp={"OidKeys": "@mk.Keys"})
+    g.get("gk", "OidKeys"); g.foreach("fn", "@gk.OidKeys")
+    g.call("nf", K_MAP, "Map_Find", inp={"TargetMap": sg_get(g, "gn", "OutfitNames"), "Key": "@fn.Array Element"}); g.branch("bnf", "@nf.ReturnValue")
+    g.get("gm3", "OidMap"); g.call("mv", K_MAP, "Map_Find", inp={"TargetMap": "@gm3.OidMap", "Key": "@fn.Array Element"})
+    g.get("gon", "OidNames"); g.call("nadd", K_MAP, "Map_Add", inp={"TargetMap": "@gon.OidNames", "Key": "@mv.Value", "Value": "@nf.Value"})
+    g.call("nrm", K_MAP, "Map_Remove", inp={"TargetMap": sg_get(g, "gn2", "OutfitNames"), "Key": "@fn.Array Element"})
+    g.get("gon2", "OidNames"); g.call("onk", K_MAP, "Map_Keys", inp={"TargetMap": "@gon2.OidNames"}); g.set("sonk", "OidKeys", inp={"OidKeys": "@onk.Keys"})
+    g.get("gk2", "OidKeys"); g.foreach("fn2", "@gk2.OidKeys")
+    g.get("gon3", "OidNames"); g.call("onv", K_MAP, "Map_Find", inp={"TargetMap": "@gon3.OidNames", "Key": "@fn2.Array Element"})
+    g.call("nadd2", K_MAP, "Map_Add", inp={"TargetMap": sg_get(g, "gn3", "OutfitNames"), "Key": "@fn2.Array Element", "Value": "@onv.Value"})
+    # remembered slot colours "<id>><piece>#<slot>"
+    g.call("ck", K_MAP, "Map_Keys", inp={"TargetMap": sg_get(g, "gcl", "OutfitColors")}); g.set("sck", "OidKeys", inp={"OidKeys": "@ck.Keys"})
+    g.get("gk3", "OidKeys"); g.foreach("fc", "@gk3.OidKeys")
+    g.call("sp", K_STR, "Split", inp={"SourceString": "@fc.Array Element", "InStr": ">", "SearchCase": "CaseSensitive", "SearchDir": "FromStart"}); g.branch("bsp", "@sp.ReturnValue")
+    g.get("gm4", "OidMap"); g.call("cf", K_MAP, "Map_Find", inp={"TargetMap": "@gm4.OidMap", "Key": "@sp.LeftS"}); g.branch("bcf", "@cf.ReturnValue")
+    g.call("cv", K_MAP, "Map_Find", inp={"TargetMap": sg_get(g, "gcl2", "OutfitColors"), "Key": "@fc.Array Element"})
+    g.call("k1", K_STR, "Concat_StrStr", inp={"A": "@cf.Value", "B": ">"}); g.call("k2", K_STR, "Concat_StrStr", inp={"A": "@k1.ReturnValue", "B": "@sp.RightS"})
+    g.get("goc", "OidCols"); g.call("cadd", K_MAP, "Map_Add", inp={"TargetMap": "@goc.OidCols", "Key": "@k2.ReturnValue", "Value": "@cv.Value"})
+    g.call("crm", K_MAP, "Map_Remove", inp={"TargetMap": sg_get(g, "gcl3", "OutfitColors"), "Key": "@fc.Array Element"})
+    g.get("goc2", "OidCols"); g.call("ock", K_MAP, "Map_Keys", inp={"TargetMap": "@goc2.OidCols"}); g.set("sock", "OidKeys", inp={"OidKeys": "@ock.Keys"})
+    g.get("gk4", "OidKeys"); g.foreach("fc2", "@gk4.OidKeys")
+    g.get("goc3", "OidCols"); g.call("ocv", K_MAP, "Map_Find", inp={"TargetMap": "@goc3.OidCols", "Key": "@fc2.Array Element"})
+    g.call("cadd2", K_MAP, "Map_Add", inp={"TargetMap": sg_get(g, "gcl4", "OutfitColors"), "Key": "@fc2.Array Element", "Value": "@ocv.Value"})
+    # quick menu items and own keys "outfit:<id>"
+    tail = []
+    for i, arr in enumerate(("QuickItems", "KeyBindItems")):
+        p = "q%d" % i
+        g.get(p + "g", arr); g.foreach(p + "f", "@%sg.%s" % (p, arr))
+        g.call(p + "st", K_STR, "StartsWith", inp={"SourceString": "@%sf.Array Element" % p, "InPrefix": "outfit:", "SearchCase": "CaseSensitive"}); g.branch(p + "b", "@%sst.ReturnValue" % p)
+        g.call(p + "id", K_STR, "GetSubstring", inp={"SourceString": "@%sf.Array Element" % p, "StartIndex": "7", "Length": "100000"})
+        g.get(p + "m", "OidMap"); g.call(p + "mf", K_MAP, "Map_Find", inp={"TargetMap": "@%sm.OidMap" % p, "Key": "@%sid.ReturnValue" % p}); g.branch(p + "bf", "@%smf.ReturnValue" % p)
+        g.call(p + "n", K_STR, "Concat_StrStr", inp={"A": "outfit:", "B": "@%smf.Value" % p})
+        g.get(p + "g2", arr); g.call(p + "set", K_ARR, "Array_Set", inp={"TargetArray": "@%sg2.%s" % (p, arr), "Index": "@%sf.Array Index" % p, "Item": "@%sn.ReturnValue" % p, "bSizeToFit": "false"})
+        g.chain(p + "f", p + "b", p + "bf", p + "set"); tail.append(p + "f")
+    g.get("gqi", "QOutfitIdx"); g.call("qclr", K_MAP, "Map_Clear", inp={"TargetMap": "@gqi.QOutfitIdx"}); g.n("ss", "call_self", function="Save Settings")
+    g.chain("entry", "clr", "ens", "cOidMap", "cOidNames", "cOidCols", "fb"); g.chain("fb", "bne", "madd"); g.chain("fb:Completed", "bany")
+    g.chain("bany", "mk", "smk", "fn"); g.chain("fn", "bnf", "nadd", "nrm"); g.chain("bnf:else", "nrm")
+    g.chain("fn:Completed", "onk", "sonk", "fn2"); g.chain("fn2", "nadd2")
+    g.chain("fn2:Completed", "ck", "sck", "fc"); g.chain("fc", "bsp", "bcf", "cadd", "crm")
+    g.chain("fc:Completed", "ock", "sock", "fc2"); g.chain("fc2", "cadd2")
+    g.chain("fc2:Completed", tail[0]); g.chain(tail[0] + ":Completed", tail[1]); g.chain(tail[1] + ":Completed", "qclr", "ss")
+    return fn("Rekey Outfit Ids", graph=g)
+
+
+def f_migrate_outfit_ids():
+    """Once (Settings.OutfitIdsDone), after Migrate Outfit Keys: the remembered slot colours move from OutfitSlotColors (FName
+    keys, content key) to Settings.OutfitColors (string keys, outfit id). What was shown stays: outfits with the same
+    pieces shared one set and one name, so every further one ("<key>~<n>") gets a copy of both. Entries on
+    ERROR_NAME_SIZE_EXCEEDED are dropped - they belonged to no outfit in particular. OutfitSlotColors stays in AltUI.sav,
+    unused. Quick menu items keep pointing at the first outfit (its id is the content key)."""
+    g = G()
+    g.get("gs", "Settings"); g.call("sv", K_SYS, "IsValid", inp={"Object": "@gs.Settings"}); g.get("go", "Outfits"); g.call("ov", K_SYS, "IsValid", inp={"Object": "@go.Outfits"})
+    g.call("both", K_MATH, "BooleanAND", inp={"A": "@sv.ReturnValue", "B": "@ov.ReturnValue"}); g.branch("bv", "@both.ReturnValue")
+    g.branch("bdone", sg_get(g, "gdone", "OutfitIdsDone"))
+    g.n("clr", "call_self", function="Clear Outfit Ids")
+    g.get("gm0", "OidMap"); g.call("mclr", K_MAP, "Map_Clear", inp={"TargetMap": "@gm0.OidMap"})
+    g.foreach("fo", outfits_arr(g, "ga"))
+    g.n("ok", "call_self", function="Outfit Key", inp={"index": "@fo.Array Index"}); g.set("sok", "OidKey", inp={"OidKey": "@ok.key"})
+    g.n("oi", "call_self", function="Outfit Id", inp={"index": "@fo.Array Index"}); g.set("soi", "OidStr", inp={"OidStr": "@oi.key"})
+    g.get("gk", "OidKey"); g.get("gi", "OidStr"); g.call("same", K_STR, "EqualEqual_StrStr", inp={"A": "@gk.OidKey", "B": "@gi.OidStr"}); g.branch("bsame", "@same.ReturnValue")
+    g.get("gm1", "OidMap"); g.call("mf", K_MAP, "Map_Find", inp={"TargetMap": "@gm1.OidMap", "Key": "@gk.OidKey"})
+    g.call("j1", K_STR, "Concat_StrStr", inp={"A": "@mf.Value", "B": ";"}); g.call("j2", K_STR, "Concat_StrStr", inp={"A": "@j1.ReturnValue", "B": "@gi.OidStr"})
+    g.call("jv", K_MATH, "SelectString", inp={"A": "@j2.ReturnValue", "B": "@gi.OidStr", "bPickA": "@mf.ReturnValue"})
+    g.get("gm2", "OidMap"); g.call("madd", K_MAP, "Map_Add", inp={"TargetMap": "@gm2.OidMap", "Key": "@gk.OidKey", "Value": "@jv.ReturnValue"})
+    g.call("nf", K_MAP, "Map_Find", inp={"TargetMap": sg_get(g, "gn", "OutfitNames"), "Key": "@gk.OidKey"}); g.branch("bnf", "@nf.ReturnValue")
+    g.call("nadd", K_MAP, "Map_Add", inp={"TargetMap": sg_get(g, "gn2", "OutfitNames"), "Key": "@gi.OidStr", "Value": "@nf.Value"})
+    g.chain("entry", "bv", "bdone"); g.chain("bdone:else", "clr", "mclr", "fo"); g.chain("fo", "ok", "sok", "oi", "soi", "bsame"); g.chain("bsame:else", "madd", "bnf", "nadd")
+    # slot colours
+    g.get("gsc", "OutfitSlotColors"); g.call("ckeys", K_MAP, "Map_Keys", inp={"TargetMap": "@gsc.OutfitSlotColors"}); g.set("sckeys", "OidNameKeys", inp={"OidNameKeys": "@ckeys.Keys"})
+    g.get("gnk", "OidNameKeys"); g.foreach("fc", "@gnk.OidNameKeys")
+    g.call("cs", K_STR, "Conv_NameToString", inp={"InName": "@fc.Array Element"}); g.set("scs", "OidKey", inp={"OidKey": "@cs.ReturnValue"})
+    g.get("gcs", "OidKey"); g.call("err", K_STR, "EqualEqual_StrStr", inp={"A": "@gcs.OidKey", "B": "ERROR_NAME_SIZE_EXCEEDED"}); g.branch("berr", "@err.ReturnValue")
+    g.get("gsc2", "OutfitSlotColors"); g.call("cv", K_MAP, "Map_Find", inp={"TargetMap": "@gsc2.OutfitSlotColors", "Key": "@fc.Array Element"}); g.set("scv", "OidColor", inp={"OidColor": "@cv.Value"})
+    g.get("gcv", "OidColor"); g.call("cadd", K_MAP, "Map_Add", inp={"TargetMap": sg_get(g, "goc", "OutfitColors"), "Key": "@gcs.OidKey", "Value": "@gcv.OidColor"})
+    g.call("csp", K_STR, "Split", inp={"SourceString": "@gcs.OidKey", "InStr": ">", "SearchCase": "CaseSensitive", "SearchDir": "FromStart"}); g.branch("bcsp", "@csp.ReturnValue")
+    g.get("gm3", "OidMap"); g.call("cf", K_MAP, "Map_Find", inp={"TargetMap": "@gm3.OidMap", "Key": "@csp.LeftS"}); g.branch("bcf", "@cf.ReturnValue")
+    g.call("crest", K_STR, "Concat_StrStr", inp={"A": ">", "B": "@csp.RightS"}); g.set("scr", "OidOut", inp={"OidOut": "@crest.ReturnValue"})
+    g.call("cpa", K_STR, "ParseIntoArray", inp={"SourceString": "@cf.Value", "Delimiter": ";", "CullEmptyStrings": "true"}); g.set("scn", "OidNews", inp={"OidNews": "@cpa.ReturnValue"})
+    g.get("gnn", "OidNews"); g.foreach("fcn", "@gnn.OidNews"); g.get("gcr", "OidOut")
+    g.call("ck", K_STR, "Concat_StrStr", inp={"A": "@fcn.Array Element", "B": "@gcr.OidOut"}); g.get("gcv2", "OidColor")
+    g.call("cadd2", K_MAP, "Map_Add", inp={"TargetMap": sg_get(g, "goc2", "OutfitColors"), "Key": "@ck.ReturnValue", "Value": "@gcv2.OidColor"})
+    g.chain("fo:Completed", "ckeys", "sckeys", "fc"); g.chain("fc", "scs", "berr"); g.chain("berr:else", "scv", "cadd", "bcsp", "bcf", "scr", "scn", "fcn"); g.chain("fcn", "cadd2")
+    g.get("gs9", "Settings"); g.n("sdone", "set", var="OutfitIdsDone", cls=SG, inp={"self": "@gs9.Settings", "OutfitIdsDone": "true"})
+    g.get("gqi", "QOutfitIdx"); g.call("qclr", K_MAP, "Map_Clear", inp={"TargetMap": "@gqi.QOutfitIdx"}); g.n("ss", "call_self", function="Save Settings")
+    g.chain("fc:Completed", "sdone", "qclr", "ss")
+    return fn("Migrate Outfit Ids", graph=g)
 
 
 def outfits_arr(g, id):
@@ -11375,8 +11759,9 @@ def _move_after(*funcs):
 
 
 # Moving saved entries from the context menu: kind -> (save object variable, array pin, temp variable of the element type, save + redraw).
-# Names, photos, quick menu items and colours hang on a content key (outfits) or an id (looks, faces, presets: IconNumber), not
-# on the position, so they move along; only the default captions ("Outfit 3", "Preset 3") count positions.
+# Names, photos, quick menu items and colours hang on an id (outfits: content key + number among equal ones, looks, faces,
+# presets: IconNumber), not on the position, so they move along; only the default captions ("Outfit 3", "Preset 3") count
+# positions. An outfit passing another with the same pieces changes both numbers: Move Outfit Keep Ids rekeys them.
 MOVE_KINDS = [("Outfit", "Outfits", lambda g, id: outfits_arr(g, id), "TmpOutfit", _move_after("Save Outfits", "Rebuild Outfits")),
               ("Look", "LooksSave", lambda g, id: looks_array(g, id), "TmpLook", _move_after("Save Looks", "Rebuild Looks")),
               ("Preset", "Presets", lambda g, id: presets_data(g, id), "TmpPreset", _move_after_preset),
@@ -11400,7 +11785,8 @@ def move_fns(kind, obj, arr, tmp, after):
     g.call("ins", K_ARR, "Array_Insert", inp={"TargetArray": arr(g, "ga3"), "NewItem": "@gt." + tmp, "Index": "@gto2.TmpI"})
     g.chain("entry", "bov", "sto", "bok", "st", "rm", "ins")
     out = [fn("Move %s In Array" % kind, [param("index", "int"), param("to", "int")], graph=g)]
-    g = G(); g.n("mv", "call_self", function="Move %s In Array" % kind, inp={"index": "@entry.index", "to": "@entry.to"})
+    inner = "Move Outfit Keep Ids" if kind == "Outfit" else "Move %s In Array" % kind   # outfit ids count outfits with the same pieces: rekeyed
+    g = G(); g.n("mv", "call_self", function=inner, inp={"index": "@entry.index", "to": "@entry.to"})
     g.chain("entry", "mv", *after(g)); out.append(fn("Move " + kind, [param("index", "int"), param("to", "int")], graph=g))
     for name, op, b in (("Left", "Subtract_IntInt", "1"), ("Right", "Add_IntInt", "1"), ("First", None, "0"), ("Last", None, "1000000000")):
         g = G()
@@ -11553,7 +11939,7 @@ def f_outfit_name_by_key():
 
 def f_outfit_name():
     g = G()
-    g.n("ok", "call_self", function="Outfit Key", inp={"index": "@entry.index"})
+    g.n("ok", "call_self", function="Outfit Id", inp={"index": "@entry.index"})
     g.n("nm", "call_self", function="Outfit Name By Key", inp={"key": "@ok.key"}); g.link("nm.name", "return.name")
     g.chain("entry", "ok", "nm", "return")
     return fn("Outfit Name", [param("index", "int")], [param("name", "string")], graph=g)
@@ -11576,7 +11962,7 @@ def f_set_outfit_name_by_key():
 
 def f_set_outfit_name():
     g = G()
-    g.n("ok", "call_self", function="Outfit Key", inp={"index": "@entry.index"})
+    g.n("ok", "call_self", function="Outfit Id", inp={"index": "@entry.index"})
     g.n("sn", "call_self", function="Set Outfit Name By Key", inp={"key": "@ok.key", "name": "@entry.name"})
     g.n("ro", "call_self", function="Rebuild Outfits")
     g.chain("entry", "ok", "sn", "ro")
@@ -13431,7 +13817,7 @@ def f_update_look():
 SNAP_FIELDS = ["Worn", "Makeup", "Skin", "Hair", "Colors", "HairColor", "Boobs", "Waist", "Hip", "Body", "Scales", "SlotColors", "EyeColors", "MakeupColors", "Face", "FaceAdd"]
 LOOK_CLEAN_VARS = [var("CsWorn", "name", "array"), var("CsGone", "name", "array"), var("CsColors", "name", "map", value_type=S_LINCOLOR), var("CsSlot", "name", "map", value_type=S_LINCOLOR),
                    var("CsMakeup", "name", "map", value_type="struct:" + P_MDATA_S), var("CsList", "name", "array"), var("CsN", "int"), var("CsSnap", "struct:" + S_SNAP),
-                   var("CsRT", "object:/Script/Engine.TextureRenderTarget2D"), var("CsHas", "bool"), var("FolLookIdx", "int", default="-1"), var("ScanTitle", "string"), var("LoopRow", "name"), var("LoopKeep", "name"), var("TopFitW", "float"), var("TopFitDirty", "bool"), var("ImgTmp", "object:" + E_TEX2D), var("ImgCache", "string", "map", value_type="object:" + E_TEX2D), var("ImgFilesBg", "string", "array"), var("ImgFilesBtn", "string", "array"), var("ButtonMID", "object:/Script/Engine.MaterialInstanceDynamic"), var("BgMID", "object:/Script/Engine.MaterialInstanceDynamic"), var("RagRelTmp", "struct:/Script/CoreUObject.Transform")]
+                   var("CsRT", "object:/Script/Engine.TextureRenderTarget2D"), var("CsHas", "bool"), var("FolLookIdx", "int", default="-1"), var("ScanTitle", "string"), var("LoopRow", "name"), var("LoopKeep", "name"), var("TopFitW", "float"), var("TopFitDirty", "bool"), var("ImgTmp", "object:" + E_TEX2D), var("ImgCache", "string", "map", value_type="object:" + E_TEX2D), var("ThumbCache", "string", "map", value_type="object:/Script/Engine.Texture"), var("ThumbTmp", "object:/Script/Engine.Texture"), var("ThumbRTs", "object:/Script/Engine.TextureRenderTarget2D", "array"), var("ImgFilesBg", "string", "array"), var("ImgFilesBtn", "string", "array"), var("ButtonMID", "object:/Script/Engine.MaterialInstanceDynamic"), var("BgMID", "object:/Script/Engine.MaterialInstanceDynamic"), var("RagRelTmp", "struct:/Script/CoreUObject.Transform")]
 
 
 def snap_with(g, p, bs, **over):
@@ -14174,7 +14560,7 @@ PANEL_STRINGS = [("search", "Lbl_Search"), ("chipsearch", "Lbl_Search"), ("onlyo
                  ("scbreast", "Lbl_ScBreast"), ("scwaist", "Lbl_ScWaist"), ("scglutes", "Lbl_ScGlutes"), ("scthighs", "Lbl_ScThighs"), ("sccalves", "Lbl_ScCalves"), ("scarms", "Lbl_ScArms"), ("schands", "Lbl_ScHands"), ("scfeet", "Lbl_ScFeet"), ("scheight", "Lbl_ScHeight"),
                  ("scroll", "Lbl_Scroll"), ("scale", "Lbl_Scale"), ("quickalpha", "Lbl_QuickAlpha"), ("outfitscale", "Lbl_OutfitScale"), ("lookscale", "Lbl_LookScale"), ("ragscale", "Lbl_RagScale"), ("invscale", "Lbl_InvScale"), ("outfitcols", "Lbl_OutfitCols"), ("outfitrows", "Lbl_OutfitRows"), ("fov", "Lbl_Fov"), ("dist", "Lbl_Dist"), ("height", "Lbl_Height"), ("grouplen", "Lbl_GroupLen"), ("chiph", "Lbl_ChipH"), ("unlimited", "Lbl_Unlimited"), ("layout", "Lbl_Layout"),
                  ("language", "Lbl_Language"), ("placeholder", "Lbl_Placeholder"), ("pan", "Lbl_Pan"), ("camright", "Lbl_CamRight"), ("nude", "Lbl_Nude"), ("merge", "Lbl_Merge"), ("mergemods", "Lbl_MergeMods"), ("chipsearchopt", "Lbl_ChipSearch"), ("tipnoprefix", "Lbl_TipNoPrefix"), ("tipnoids", "Lbl_TipNoIds"), ("kodexall", "Opt_KodexAll"), ("moveon", "Lbl_MoveOn"), ("walkspeed", "Lbl_WalkSpeed"), ("runspeed", "Lbl_RunSpeed"), ("walkstyle", "Lbl_WalkStyle"), ("runstyle", "Lbl_RunStyle"), ("idlestyle", "Lbl_IdleStyle"), ("conflicts", "Lbl_Conflicts"), ("conflictshint", "Lbl_ConflictsHint"), ("unowned", "Lbl_Unowned"), ("scalehint", "Lbl_ScaleHint"),
-                 ("theme", "Lbl_Theme"), ("bgalpha", "Lbl_BgAlpha"), ("bgimgalpha", "Lbl_BgImgAlpha"), ("tilealpha", "Lbl_TileAlpha"), ("key", "Lbl_ToggleKey"), ("onlymods", "Lbl_OnlyMods"), ("casesens", "Lbl_CaseSens"), ("managesearch", "Lbl_Search"), ("looksearch", "Lbl_Search"), ("lookchipsearch", "Lbl_Search"), ("hdrname", "Lbl_HdrName"), ("hdrdisplay", "Lbl_HdrDisplay"), ("hdrorigin", "Lbl_HdrIds"), ("hdrcontent", "Btn_ModContent"), ("posesearch", "Lbl_Search"), ("invsearch", "Lbl_Search"), ("posefavorites", "Lbl_Favorites"), ("poseall", "Lbl_All"), ("weaponsearch", "Lbl_Search"), ("weaponfavorites", "Lbl_Favorites"), ("weaponall", "Hdr_WeaponSkins"), ("weaponmodels", "Hdr_WeaponModels"), ("weaponsounds", "Hdr_WeaponSounds"), ("tabshint", "Lbl_TabsHint"), ("quickkey", "Lbl_QuickKey"), ("quickinwheel", "Lbl_QuickInWheel"), ("quickavailable", "Lbl_QuickAvailable"), ("tabstyle", "Lbl_TabStyle"), ("tabiconpos", "Lbl_TabIconPos"), ("tabrow", "Lbl_TabRow"), ("bgimage", "Lbl_BgImage"), ("bgfit", "Lbl_BgFit"), ("bghalign", "Lbl_BgHAlign"), ("bgvalign", "Lbl_BgVAlign"), ("btnimage", "Lbl_BtnImage"), ("bghue", "Lbl_Hue"), ("bgsepia", "Lbl_Sepia"), ("bginv", "Lbl_Invert"), ("btnhue", "Lbl_Hue"), ("btnsepia", "Lbl_Sepia"), ("btninv", "Lbl_Invert"), ("themesave", "Lbl_ThemeSave"), ("themename", "Hint_ThemeName"), ("themepresets", "Lbl_ThemePresets"), ("themepresetshint", "Lbl_ThemePresetsHint"), ("managechipsearch", "Lbl_Search"), ("quickcontrol", "Lbl_QuickControl"), ("quickkeywidth", "Lbl_KeyPress"), ("invbag", "Inv_BagTitle"), ("folbag", "Fol_BagTitle"), ("folbox", "Inv_BoxTitle"), ("invbox", "Inv_BoxTitle"), ("invcat", "Inv_CatTitle"), ("invcatalog", "Opt_InvCatalog"), ("invautoequip", "Opt_InvAutoEquip"), ("weaponattach", "Lbl_WeaponAttach")]
+                 ("theme", "Lbl_Theme"), ("bgalpha", "Lbl_BgAlpha"), ("bgimgalpha", "Lbl_BgImgAlpha"), ("tilealpha", "Lbl_TileAlpha"), ("key", "Lbl_ToggleKey"), ("onlymods", "Lbl_OnlyMods"), ("casesens", "Lbl_CaseSens"), ("managesearch", "Lbl_Search"), ("looksearch", "Lbl_Search"), ("lookchipsearch", "Lbl_Search"), ("hdrname", "Lbl_HdrName"), ("hdrdisplay", "Lbl_HdrDisplay"), ("hdrorigin", "Lbl_HdrIds"), ("hdrcontent", "Btn_ModContent"), ("posesearch", "Lbl_Search"), ("invsearch", "Lbl_Search"), ("posefavorites", "Lbl_Favorites"), ("poseall", "Lbl_All"), ("weaponsearch", "Lbl_Search"), ("weaponfavorites", "Lbl_Favorites"), ("weaponall", "Hdr_WeaponSkins"), ("weaponmodels", "Hdr_WeaponModels"), ("weaponsounds", "Hdr_WeaponSounds"), ("tabshint", "Lbl_TabsHint"), ("quickkey", "Lbl_QuickKey"), ("quickinwheel", "Lbl_QuickInWheel"), ("quickavailable", "Lbl_QuickAvailable"), ("tabstyle", "Lbl_TabStyle"), ("tabiconpos", "Lbl_TabIconPos"), ("tabrow", "Lbl_TabRow"), ("bgimage", "Lbl_BgImage"), ("bgfit", "Lbl_BgFit"), ("bghalign", "Lbl_BgHAlign"), ("bgvalign", "Lbl_BgVAlign"), ("btnimage", "Lbl_BtnImage"), ("bghue", "Lbl_Hue"), ("bgsepia", "Lbl_Sepia"), ("bginv", "Lbl_Invert"), ("imgthumbs", "Lbl_ImgThumbs"), ("btnhue", "Lbl_Hue"), ("btnsepia", "Lbl_Sepia"), ("btninv", "Lbl_Invert"), ("themesave", "Lbl_ThemeSave"), ("themename", "Hint_ThemeName"), ("themepresets", "Lbl_ThemePresets"), ("themepresetshint", "Lbl_ThemePresetsHint"), ("managechipsearch", "Lbl_Search"), ("quickcontrol", "Lbl_QuickControl"), ("quickkeywidth", "Lbl_KeyPress"), ("invbag", "Inv_BagTitle"), ("folbag", "Fol_BagTitle"), ("folbox", "Inv_BoxTitle"), ("invbox", "Inv_BoxTitle"), ("invcat", "Inv_CatTitle"), ("invcatalog", "Opt_InvCatalog"), ("invautoequip", "Opt_InvAutoEquip"), ("weaponattach", "Lbl_WeaponAttach")]
 PANEL_STRINGS += [("sc" + k.lower(), "Lbl_Sc" + k) for k in bg.SLIDER_ORDER[9:]] + [("scgrp" + h[len("Lbl_ScGrp"):].lower(), h) for h in bg.GROUP_HEADS.values()]   # 2026-10-09 body-physics rows + group headings
 PANEL_STRINGS += [("ragwheel", "Lbl_RagWheel"), ("slowmo", "Lbl_SlowMo")]
 PANEL_STRINGS += [("hdr" + k.lower(), "Hdr_" + k) for k in ("ThemeColors", "BgPic", "BtnPic", "ThemeSchemes")]   # 2026-10-11 sliders (after the body rows, like PANEL_TEXTS)
@@ -15091,9 +15477,21 @@ def event_graph():
     g.call("ttin_a", K_MAP, "Map_Add", inp={"TargetMap": "@ttin_f.TmpFColors", "Key": "@ttin.piece", "Value": "@ttin.color"})
     g.get("ttin_f2", "TmpFColors"); g.make("ttin_m", P_OUTFIT_S, **{OUTFIT_MEMBER: "@ttin_f2.TmpFColors"})
     g.get("ttin_o2", "Outfits"); g.get("ttin_oa2", "outfits", cls=P_OUTFITS); g.link("ttin_o2.Outfits", "ttin_oa2.self")
-    g.call("ttin_s", K_ARR, "Array_Set", inp={"TargetArray": "@ttin_oa2.outfits", "Index": "@ttin.index", "Item": "@ttin_m.Outfit_Struct", "bSizeToFit": "false"}); g.chain("ttin", "ttin_c", "ttin_a", "ttin_s")
+    g.call("ttin_s", K_ARR, "Array_Set", inp={"TargetArray": "@ttin_oa2.outfits", "Index": "@ttin.index", "Item": "@ttin_m.Outfit_Struct", "bSizeToFit": "false"})
+    g.n("ttin_ci", "call_self", function="Clear Outfit Ids"); g.chain("ttin", "ttin_c", "ttin_a", "ttin_s", "ttin_ci")
     g.custom("took", "Test Outfit Old Key", [param("index", "int")]); g.n("took_c", "call_self", function="Outfit Old Key", inp={"index": "@took.index"})
     g.set("took_s", "TmpStr2", inp={"TmpStr2": "@took_c.key"}); g.chain("took", "took_c", "took_s")
+    g.custom("toid", "Test Outfit Id", [param("index", "int")]); g.n("toid_c", "call_self", function="Outfit Id", inp={"index": "@toid.index"})
+    g.set("toid_s", "TmpStr2", inp={"TmpStr2": "@toid_c.key"}); g.chain("toid", "toid_c", "toid_s")
+    g.custom("tmki", "Test Move Outfit Keep Ids", [param("index", "int"), param("to", "int")]); g.n("tmki_c", "call_self", function="Move Outfit Keep Ids", inp={"index": "@tmki.index", "to": "@tmki.to"}); g.chain("tmki", "tmki_c")
+    g.custom("tdoa", "Test Delete Outfit In Array", [param("index", "int")]); g.n("tdoa_c", "call_self", function="Delete Outfit In Array", inp={"index": "@tdoa.index"}); g.chain("tdoa", "tdoa_c")
+    g.custom("troc", "Test Remember Outfit Colors", [param("index", "int")]); g.n("troc_c", "call_self", function="Remember Outfit Colors", inp={"index": "@troc.index"}); g.chain("troc", "troc_c")
+    g.custom("toslc", "Test Outfit Slot Colors", [param("index", "int")]); g.n("toslc_c", "call_self", function="Outfit Slot Colors", inp={"index": "@toslc.index"}); g.chain("toslc", "toslc_c")
+    g.custom("tsoc", "Test Set Outfit Colors", [param("colors", "string", "map", value_type=S_LINCOLOR)])
+    g.get("tsoc_g", "Settings"); g.n("tsoc_s", "set", var="OutfitColors", cls=SG, inp={"self": "@tsoc_g.Settings", "OutfitColors": "@tsoc.colors"}); g.chain("tsoc", "tsoc_s")
+    g.custom("tmoi", "Test Migrate Outfit Ids", [param("reset", "bool")]); g.branch("tmoi_b", "@tmoi.reset")
+    g.get("tmoi_g", "Settings"); g.n("tmoi_s", "set", var="OutfitIdsDone", cls=SG, inp={"self": "@tmoi_g.Settings", "OutfitIdsDone": "false"})
+    g.n("tmoi_m", "call_self", function="Migrate Outfit Ids"); g.chain("tmoi", "tmoi_b", "tmoi_s", "tmoi_m"); g.chain("tmoi_b:else", "tmoi_m")
     g.custom("tok", "Test Outfit Key", [param("index", "int")]); g.n("tok_c", "call_self", function="Outfit Key", inp={"index": "@tok.index"})
     g.set("tok_s", "TmpStr2", inp={"TmpStr2": "@tok_c.key"}); g.chain("tok", "tok_c", "tok_s")
     g.custom("tlky", "Test Look Key", [param("name", "name")]); g.n("tlky_c", "call_self", function="Look Key", inp={"name": "@tlky.name"}); g.set("tlky_s", "TmpName", inp={"TmpName": "@tlky_c.key"}); g.chain("tlky", "tlky_c", "tlky_s")
@@ -15341,7 +15739,7 @@ def f_quick_find():
     g.get("go2", "Outfits"); g.get("goa", "outfits", cls=P_OUTFITS); g.link("go2.Outfits", "goa.self")
     g.call("ovi", K_ARR, "Array_IsValidIndex", inp={"TargetArray": "@goa.outfits", "IndexToTest": "@omf.Value"})
     g.call("ofv", K_MATH, "BooleanAND", inp={"A": "@omf.ReturnValue", "B": "@ovi.ReturnValue"}); g.branch("bof", "@ofv.ReturnValue")
-    g.n("okey", "call_self", function="Outfit Key", inp={"index": "@omf.Value"}); g.call("oeq", K_STR, "EqualEqual_StrStr", inp={"A": "@okey.key", "B": "@k.id"}); g.branch("boe", "@oeq.ReturnValue")
+    g.n("okey", "call_self", function="Outfit Id", inp={"index": "@omf.Value"}); g.call("oeq", K_STR, "EqualEqual_StrStr", inp={"A": "@okey.key", "B": "@k.id"}); g.branch("boe", "@oeq.ReturnValue")
     g.set("oo", "QOk", inp={"QOk": "true"}); g.set("oi", "QIdx", inp={"QIdx": "@omf.Value"})
     g.n("oix", "call_self", function="Quick Index Outfits")
     g.get("goi2", "QOutfitIdx"); g.call("omf2", K_MAP, "Map_Find", inp={"TargetMap": "@goi2.QOutfitIdx", "Key": "@k.id"}); g.branch("bo2", "@omf2.ReturnValue")
@@ -15373,7 +15771,7 @@ def f_quick_index_outfits():
     g = G(); g.get("gi", "QOutfitIdx"); g.call("cl", K_MAP, "Map_Clear", inp={"TargetMap": "@gi.QOutfitIdx"})
     g.get("go", "Outfits"); g.call("ov", K_SYS, "IsValid", inp={"Object": "@go.Outfits"}); g.branch("bov", "@ov.ReturnValue")
     g.get("go2", "Outfits"); g.get("goa", "outfits", cls=P_OUTFITS); g.link("go2.Outfits", "goa.self"); g.foreach("fo", "@goa.outfits")
-    g.n("ok", "call_self", function="Outfit Key", inp={"index": "@fo.Array Index"})
+    g.n("ok", "call_self", function="Outfit Id", inp={"index": "@fo.Array Index"})
     g.get("gi2", "QOutfitIdx"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gi2.QOutfitIdx", "Key": "@ok.key", "Value": "@fo.Array Index"})
     g.chain("entry", "cl", "bov", "fo"); g.chain("fo", "ok", "add")
     return fn("Quick Index Outfits", graph=g)
@@ -15809,7 +16207,7 @@ def f_rebuild_quick_available():
     prev = qa_head(g, "ho", "QuickGrp_Outfits", prev)
     g.get("go", "Outfits"); g.call("ov", K_SYS, "IsValid", inp={"Object": "@go.Outfits"}); g.branch("bov", "@ov.ReturnValue"); g.chain(prev, "bov")
     g.get("go2", "Outfits"); g.get("goa", "outfits", cls=P_OUTFITS); g.link("go2.Outfits", "goa.self"); g.foreach("fo", "@goa.outfits"); g.chain("bov", "fo")
-    g.n("ok", "call_self", function="Outfit Key", inp={"index": "@fo.Array Index"}); g.set("so", "QStr2", inp={"QStr2": concat_item(g, "oci", "outfit:", "@ok.key")}); g.chain("fo", "ok", "so")
+    g.n("ok", "call_self", function="Outfit Id", inp={"index": "@fo.Array Index"}); g.set("so", "QStr2", inp={"QStr2": concat_item(g, "oci", "outfit:", "@ok.key")}); g.chain("fo", "ok", "so")
     g.get("gs2", "QStr2"); qa_item(g, "ro", "@gs2.QStr2", "so")
     g.n("jo", "call_self", function="Quick Noop"); g.chain("fo:Completed", "jo"); g.chain("bov:else", "jo"); prev = "jo"
     for kind, arr_fn, struct, field, ensure, head in (("look", looks_array, S_LOOK, "Id", ensure_looks, "QuickGrp_Looks"), ("face", faces_array, fc.S_FACE, "Id", ensure_faces, "QuickGrp_Faces"),
@@ -16032,7 +16430,7 @@ assets = [bp_cam_input(), blueprint(MGR, mode="augment", variables=INV_VARS + AT
                                f_apply_makeup_colors(), f_open_makeup_color(), f_set_makeup_color(), f_makeup_reset_color(),
                                *([f_makeup_probe()] if MAKEUPPROBE else []), f_apply_face(), f_apply_eyes_closed(), f_face_row_changed(), f_face_all_fixed(), f_face_all_game(), f_toggle_face_add(), f_select_face_group(), f_rebuild_face_page(), f_rebuild_face_groups(), f_rebuild_face_right(), f_load_faces(), f_save_faces(), f_add_face(), f_update_face(), f_delete_face(), f_face_name(), f_set_face_name(), f_apply_saved_face(), f_rebuild_faces(), f_on_face_clicked(), f_on_face_context(), f_start_face_rename(), f_capture_face_photo(), f_face_icon(), f_current_look_row(), f_apply_eye_colors(), f_open_eye_color(), f_set_eye_color(), f_eye_reset_colors(), f_pop_notice(), f_set_slot_color_on(), f_set_slot_color(), f_fol_apply_slot_colors(), f_save_slot_color(), f_apply_item_colors(), f_game_color_of(), f_check_game_color(), f_note_game_color(), f_restore_piece_color(), f_apply_all_item_colors(), f_note_worn_game_colors(), f_poll_game_colors(), f_wearer_is_player(), f_load_save_slot_colors(), f_sync_save_slot_colors(), f_apply_saved_colors(), f_slot_reset_color(), f_reset_item_colors(), f_reset_dropped_colors(), f_commit_color(), f_close_color(), f_apply_preview(), *hex_functions(), *time_functions(), *version_functions(), f_toggle(), f_open(), f_close(), f_rebuild_left(), f_rebuild_list(), f_chip_shown(), f_rebuild_subtabs(), f_select_slot(),
                                f_take_off_slot(), f_on_item_clicked(), f_on_item_context(), f_close_menu(), f_on_menu_action(), f_select_subtab(), f_on_search_changed(), f_on_chip_search_changed(),
-                               f_load_outfits(), f_save_outfits(), f_rebuild_top_tabs(), f_select_page(), f_rebuild_catalog_if_dirty(), f_on_manage_search_changed(), f_name_matches(), f_manage_rows(), f_manage_count(), f_manage_sub_counts(), f_rebuild_manage_cats(), f_select_manage_cat(), f_manage_default(), f_manage_origin(), f_manage_icon(), f_rebuild_manage(), f_focus_name_row(), f_refresh_manage_rows(), f_manage_search_for(), f_rename_kind(), f_start_item_rename(), f_finish_item_rename(), f_refresh_after_rename(), f_manage_rename(), f_manage_go_to(), f_rename_mod_of_item(), rename_weapon_mod("Skin", "Skin Mod"), rename_weapon_mod("Model", "Model Mod"), rename_weapon_mod("Sound", "Sound Mod"), f_rename_group_of_item(), f_rebuild_manage_links(), f_poll_manage(), f_show_only_group(), f_open_mod_content_of_item(), f_open_mod_content(), f_wpn_content_icon(), f_rebuild_mod_content(), f_on_look_item_context(), f_swatch_color(), f_rebuild_hair_swatches(), f_hair_swatch_clicked(), f_toggle_hair_swatches(), f_rebuild_outfits(), f_outfit_slot_key(), f_remember_outfit_colors(), f_outfit_slot_colors(), f_on_outfit_clicked(), f_on_outfit_context(), f_delete_outfit(), *all_move_fns(),
+                               f_load_outfits(), f_save_outfits(), f_rebuild_top_tabs(), f_select_page(), f_rebuild_catalog_if_dirty(), f_on_manage_search_changed(), f_name_matches(), f_manage_rows(), f_manage_count(), f_manage_sub_counts(), f_rebuild_manage_cats(), f_select_manage_cat(), f_manage_default(), f_manage_origin(), f_manage_icon(), f_rebuild_manage(), f_focus_name_row(), f_refresh_manage_rows(), f_manage_search_for(), f_rename_kind(), f_start_item_rename(), f_finish_item_rename(), f_refresh_after_rename(), f_manage_rename(), f_manage_go_to(), f_rename_mod_of_item(), rename_weapon_mod("Skin", "Skin Mod"), rename_weapon_mod("Model", "Model Mod"), rename_weapon_mod("Sound", "Sound Mod"), f_rename_group_of_item(), f_rebuild_manage_links(), f_poll_manage(), f_show_only_group(), f_open_mod_content_of_item(), f_open_mod_content(), f_wpn_content_icon(), f_rebuild_mod_content(), f_on_look_item_context(), f_swatch_color(), f_rebuild_hair_swatches(), f_hair_swatch_clicked(), f_toggle_hair_swatches(), f_rebuild_outfits(), f_outfit_slot_key(), f_remember_outfit_colors(), f_outfit_slot_colors(), f_on_outfit_clicked(), f_on_outfit_context(), f_delete_outfit(), f_delete_outfit_in_array(), f_ensure_outfit_ids(), f_outfit_id(), f_clear_outfit_ids(), f_outfit_ids_before_move(), f_move_outfit_keep_ids(), f_rekey_outfit_ids(), f_migrate_outfit_ids(), *all_move_fns(),
                                f_in_bag(), f_can_wear(), f_is_damaged(), f_rebuild_bag(), f_bag_toggle_wear(), f_bag_remove(), f_bag_cleanup(), f_bag_all_worn(), f_bag_repair(), f_bag_to_wardrobe(), f_put_in_bag(), f_on_bag_item_context(),
                                f_speed_pct(), f_speed_slider(), f_apply_move(), f_reset_move_speeds(), f_toggle_move(), f_select_move_style(), f_hair_key(), f_is_hair_favorite(), f_toggle_hair_favorite(), f_rebuild_hair(), f_hair_clicked(), f_open_hair_color(), f_look_caption(), f_is_look_selected(), f_look_type_of(), f_look_key(), f_is_look_favorite(), f_is_look_hidden(), f_toggle_look_favorite(), f_toggle_look_hidden(), f_collect_look_rows(), f_look_row_passes(), f_look_groups(), f_look_chip_caption(), f_look_chip_shown(), f_rebuild_look_chips(), f_select_look_group(), f_look_only_mod(), f_look_matches(), f_on_look_search_changed(), f_on_look_chip_search_changed(), f_rebuild_look_links(), f_look_count(), f_rebuild_look_cats(), f_select_look_cat(), f_tab_shown(), f_first_visible_page(), f_toggle_tab_hidden(), f_quick_sector_at(), f_quick_item_kind(), f_quick_find(), f_quick_index_outfits(), f_quick_item_caption(), f_quick_item_icon(), f_start_next_snapshot(), f_quick_add(), f_quick_remove(), f_quick_move(), f_run_quick_item(), f_open_quick_wheel(), f_quick_lock(), f_quick_hover(), f_close_quick_wheel(), f_quick_release(), f_quick_cancel(), f_quick_item_live(), f_rebuild_quick_options(), f_quick_noop(), f_init_outfit_tile(), f_focus_panel(), f_quick_context_toggle(), f_bind_begin(), f_bind_key_captured(), f_bind_remove(), f_bind_run(), f_toggle_game_ui(), f_tab_context(), f_mod_entry_context(), f_mod_field_context(), *outfit_list_fns(), *clo_list_fns(), *qa_list_fns(), f_rebuild_quick_available(), f_perf_mark(), f_quick_toggle(), f_quick_action(), f_quick_key_captured(), f_mod_action_pos(), f_quick_mod_info(), f_quick_mod_actor(), *([f_select_page_timed()] if TABLOG else []), f_rebuild_option_cats(), f_select_option_cat(), f_rebuild_tab_chips(), f_select_tab_style(), f_preset_name_row(), f_preset_shown_name(), f_sort_chips(), f_weapon_count_text(), f_manage_row_group(), f_manage_row_in_group(), f_manage_groups(), f_rebuild_manage_chips(), f_select_manage_group(), f_on_manage_chip_search_changed(), f_clear_manage_chip_search(), scale_getter("Outfit Scale", "OutfitScale"), scale_getter("Look Scale", "LookScale"), scale_getter("Rag Scale", "RagScale"), f_inv_scale(), f_quick_alpha(), grid_getter("Outfit Cols", "OutfitCols"), grid_getter("Outfit Rows", "OutfitRows"), f_theme_save(), f_save_theme_preset(), f_apply_theme_preset(), f_delete_theme_preset(), f_rebuild_theme_presets(), f_subtab_context(),
                                f_rebuild_look(), f_look_clicked(), f_rebuild_body(), f_poll_body(), f_save_appearance_data(), f_scan_body_mods(), f_scan_idle_mods(), f_add_idle_mod_chips(), f_apply_body(), f_apply_saved_body(), f_find_menu_wearer(), f_select_body(),
@@ -16042,10 +16440,44 @@ assets = [bp_cam_input(), blueprint(MGR, mode="augment", variables=INV_VARS + AT
                                f_load_looks(), f_save_looks(), f_looks_count(), f_add_look(), f_update_look(), f_clean_snap(), f_keep_missing(), f_look_clean_copy(), f_look_has_missing(), photo_mode_wrapper("Update Look Front", "Update Look", False), photo_mode_wrapper("Update Look View", "Update Look", True),
                                photo_mode_wrapper("Update Face Front", "Update Face", False), photo_mode_wrapper("Update Face View", "Update Face", True),
                                f_update_preset(), f_store_preset_colors(), photo_mode_wrapper("Update Preset Front", "Update Preset", False), photo_mode_wrapper("Update Preset View", "Update Preset", True), f_delete_look(), f_look_name(), f_set_look_name(), f_apply_look(), f_rebuild_looks(), f_on_look_clicked(), f_on_look_context(), f_start_look_rename(),
-                               f_select_layout(), f_rebuild_conflicts(), f_toggle_conflict(), f_free_slot(), f_free_all(), f_ensure_cam_mod(), f_set_view_shift(), f_start_free_cam(), f_stop_free_cam(), f_free_cam_look(), f_free_cam_wheel(), f_free_cam_step(), f_start_photo_mode(), f_end_photo_mode(), f_cam_tick(), f_wheel_dist(), f_begin_jodi_drag(), f_jodi_drag(), f_end_jodi_drag(), f_collect_pose_rows(), f_pose_section_caption(), f_pose_section_count(), f_pose_title(), f_pose_name(), f_pose_actors(), f_pose_kind(), f_is_pose_moving(), f_is_pose_manual(), f_set_pose_kind(), f_pelvis_height(), f_measure_tick(), f_start_pose_scan(), f_stop_pose_scan(), f_scan_tick(), f_pose_set_stand(), f_pose_set_sit(), f_pose_set_lie(), f_reset_pose_measurement(), f_set_pose_measurement(), f_toggle_pose_moving(), f_pose_cat_count(), f_rebuild_pose_cats(), f_select_pose_cat(), f_pose_key(), f_is_pose_favorite(), f_is_pose_hidden(), f_pose_matches(), f_pose_row_shown(), f_pose_row_passes(), f_bump_pose_count(), f_count_pose_cats(), f_pose_groups(), f_rebuild_pose_chips(), f_select_pose_group(), f_rebuild_poses(), f_pose_has_sound(), f_pose_clicked(), f_stop_pose(), f_toggle_idle_pose(), f_end_idle_pose(), f_idle_pose_tick(), f_pose_loop_tick(), f_toggle_pose_loop(), f_top_fit_tick(), f_notice_tick(), f_image_tex(), f_scan_user_images(), f_apply_bg_image(), f_apply_button_image(), f_rebuild_image_chips(), f_select_image_chip(), f_anim_log_tick(), f_rebuild_pose_links(), f_toggle_pose_favorite(), f_toggle_pose_hidden(), f_pose_only_mod(), f_on_pose_context(), f_on_pose_search_changed(), f_mod_field_valid(), f_mod_entry_pos(), f_add_mod_field(), f_scan_mod_entries(), f_mod_field_changed(), mod_forward("Mod Color Changed", mu.ON_COLOR, "color", S_LINCOLOR),
+                               f_select_layout(), f_rebuild_conflicts(), f_toggle_conflict(), f_free_slot(), f_free_all(), f_ensure_cam_mod(), f_set_view_shift(), f_start_free_cam(), f_stop_free_cam(), f_free_cam_look(), f_free_cam_wheel(), f_free_cam_step(), f_start_photo_mode(), f_end_photo_mode(), f_cam_tick(), f_wheel_dist(), f_begin_jodi_drag(), f_jodi_drag(), f_end_jodi_drag(), f_collect_pose_rows(), f_pose_section_caption(), f_pose_section_count(), f_pose_title(), f_pose_name(), f_pose_actors(), f_pose_kind(), f_is_pose_moving(), f_is_pose_manual(), f_set_pose_kind(), f_pelvis_height(), f_measure_tick(), f_start_pose_scan(), f_stop_pose_scan(), f_scan_tick(), f_pose_set_stand(), f_pose_set_sit(), f_pose_set_lie(), f_reset_pose_measurement(), f_set_pose_measurement(), f_toggle_pose_moving(), f_pose_cat_count(), f_rebuild_pose_cats(), f_select_pose_cat(), f_pose_key(), f_is_pose_favorite(), f_is_pose_hidden(), f_pose_matches(), f_pose_row_shown(), f_pose_row_passes(), f_bump_pose_count(), f_count_pose_cats(), f_pose_groups(), f_rebuild_pose_chips(), f_select_pose_group(), f_rebuild_poses(), f_pose_has_sound(), f_pose_clicked(), f_stop_pose(), f_toggle_idle_pose(), f_end_idle_pose(), f_idle_pose_tick(), f_pose_loop_tick(), f_toggle_pose_loop(), f_top_fit_tick(), f_notice_tick(), f_image_tex(), f_scan_user_images(), f_apply_bg_image(), f_apply_button_image(), f_thumb_rts(), f_write_user_thumb(), f_thumb_tex(), f_chip_thumb(), f_redo_user_thumb(), f_rebuild_image_chips(), f_select_image_chip(), f_anim_log_tick(), f_rebuild_pose_links(), f_toggle_pose_favorite(), f_toggle_pose_hidden(), f_pose_only_mod(), f_on_pose_context(), f_on_pose_search_changed(), f_mod_field_valid(), f_mod_entry_pos(), f_add_mod_field(), f_scan_mod_entries(), f_mod_field_changed(), mod_forward("Mod Color Changed", mu.ON_COLOR, "color", S_LINCOLOR),
                                mod_forward("Mod Key Changed", mu.ON_KEY, "pressed", mu.KEY_TYPE), f_begin_key_capture(), f_key_captured(), f_cancel_key_capture(), f_capturing_key(), mod_forward("Mod Text Changed", mu.ON_TEXT, "text", "string"), f_open_mod_color(), f_rebuild_mod_entries(), f_rebuild_mod_fields(), f_poll_mods(), f_select_mod_entry(), f_rebuild_mod_page(), f_scan_weapon_skins(), f_scan_weapon_models(), f_scan_weapon_sounds(), f_sound_mod(), f_sounds_for_weapon(), f_weapon_rows(), f_skins_for_weapon(), f_skin_mod(), f_skin_row(), f_model_mod(), f_models_for_weapon(), f_model_mesh(), f_material_takes_color(), f_item_color_slots(), f_apply_weapon_model(), f_apply_weapon_sound(), f_apply_weapon_look(), f_apply_weapon_look(on=True), f_sync_weapon_paint(), f_apply_all_weapon_looks(), f_kodex_valid(), f_rebuild_kodex_cats(), f_select_kodex(), f_rebuild_kodex(), f_kodex_unlocked_rows(), f_kodex_archive_rows(), f_kodex_tile_clicked(), f_kodex_back(), f_kodex_noop_rename(), f_kodex_place_text(), f_collect_kodex_locks(), f_kodex_toggle_code(), f_spawn_ragdoll_copy(), f_rag_refresh(), f_rebuild_ragdolls(), f_ragdoll_action(), f_rag_move_update(), f_rag_lift(), f_start_ragdoll_mode(), f_ragdoll_mode_step(), f_toggle_aimed_ragdoll(), f_toggle_ragdolls_active(), f_remove_ragdolls(), f_ragdoll_grab_update(), f_spawn_look_ragdoll(), f_look_ragdoll_poll(), f_finish_look_ragdoll(), f_spawn_zombie_ragdoll(), f_finish_zombie_ragdoll(), f_rag_kind_name(), f_rag_kind_clicked(), f_load_rag_save(), f_save_rag_preset(), f_load_rag_preset(), f_rag_load_next(), f_rag_load_place(), f_rag_load_apply(), f_rag_load_zombie(), f_delete_rag_preset(), f_rag_save_click(), f_rag_pose_type(), f_store_rag_pose(), f_save_rag_pose(), f_load_rag_pose(), f_delete_rag_pose(),
                                chip_dispatch("Context Chip Apply", "Load Rag Preset", "Apply Theme Preset", "Load Rag Pose"), chip_dispatch("Context Chip Delete", "Delete Rag Preset", "Delete Theme Preset", "Delete Rag Pose"), f_poll_weapons(), f_select_weapon(), f_weapon_skin_clicked(), f_rebuild_weapons(), f_rebuild_weapon_skins(), f_skin_caption(), f_skin_icon(), f_is_skin_favorite(), f_skin_key(), f_skin_row_passes(), f_current_model(), f_current_skin(), f_model_row(), f_model_caption(), f_model_icon(), f_model_key(), f_is_model_favorite(), f_model_row_passes(), f_rebuild_weapon_models(), f_sound_row_passes(), f_sound_key(), f_is_sound_favorite(), f_current_sound(), f_sound_caption(), f_vanilla_shot_sound(), f_rebuild_weapon_sounds(), f_weapon_sound_clicked(), f_toggle_sound_favorite(), f_toggle_sound_hidden(), f_sound_only_mod(), f_on_sound_context(), f_weapon_model_clicked(), f_toggle_model_favorite(), f_toggle_model_hidden(), f_model_has_icon(), f_toggle_model_own_icon(), f_model_forced(), *[f_toggle_model_skip(p, a) for p, _, a, _, _, _ in WEAPON_PARTS], f_toggle_model_force_skin(), f_model_only_mod(), f_on_model_context(), f_weapon_tile_row(), f_weapon_tile_clicked(), f_on_weapon_context(), f_weapon_icon_key(), f_weapon_icon(), f_capture_weapon_icon(), f_capture_weapon_icon_step(), f_skin_groups(), f_rebuild_weapon_chips(), f_select_skin_group(), f_rebuild_weapon_links(), f_on_weapon_search_changed(), f_toggle_skin_favorite(), f_toggle_skin_hidden(), f_skin_only_mod(), f_on_skin_context(), f_select_unowned(), f_redo_weapon_icons(), f_toggle_rendered_icons(), f_rebuild_status(), f_take_snapshot(), f_push_history(), f_apply_snapshot(), f_wear_queue_step(), f_finish_apply_snapshot(), history_step("Undo", "UndoStack", "RedoStack"), history_step("Redo", "RedoStack", "UndoStack"),
                                f_content_open(), f_open_content(), f_content_snapshot(), open_content_wrapper("Open Outfit Content", "Outfit"), open_content_wrapper("Open Look Content", "Look"), open_content_wrapper("Open Preset Content", "Preset"), open_content_wrapper("Open Face Content", "Face"), f_close_content(),
                                *fol_functions(), *menuscene.functions(simple_menu, ts), f_inv_box_count(), f_weapon_gun(), f_att_matches(), f_mounted_part(), f_att_section(), f_attach_fill(), f_att_note(), f_rebuild_weapon_attach(), f_weapon_attach_clicked(), f_rebuild_inventory(), f_inv_box_data(), f_inv_row(), f_inv_tile_caption(), f_rebuild_inv_chips(), f_select_inv_group(), f_inv_head_chips(), f_inv_head_clicked(), f_inv_layout(), f_on_inv_search_changed(), f_rebuild_inv_cat(), f_inv_got_gun(), f_inv_section(), f_inv_empty(), f_inv_fill(), f_inv_gun_tip(), f_inv_fill_cat(), f_inv_cat_bag(), f_inv_cat_box(), f_inv_bag_sig(), f_poll_inventory(), f_inv_tile_parse(), f_inv_set_ctx(), f_inv_store(), f_inv_clamp(), f_inv_take(), f_inv_take_gun(), f_inv_drop_all(), f_inv_action(), f_on_inv_clicked(), f_on_inv_context(), f_rebuild_content(), f_on_content_item_context(), f_content_kind(), f_content_item_clicked(), f_content_use(), f_go_to_item(), f_scroll_to_highlight()],
                     event_graph=event_graph())]
+# Rebuilds keep the scroll position (2026-10-17: lists jumped to the top - a pose ending, a button picture chosen, an outfit clicked):
+# "<name>" becomes "<name> Body", the wrapper remembers every page scroll box, runs the body, puts the offsets back at once and once
+# more a moment later (the virtual lists grow back to full height only in their next window update). Select Page keeps them only
+# when it shows the page that is already shown (a page change / a category change starts at the top as before).
+KEEP_SCROLL = ["Select Page", "Rebuild Poses", "Rebuild Outfits", "Rebuild Looks", "Rebuild Look", "Rebuild Face Page", "Rebuild Inventory", "Rebuild Bag",
+               "Rebuild Hair", "Rebuild List", "Rebuild Weapons", "Rebuild Weapon Skins", "Rebuild Weapon Models", "Rebuild Followers", "Rebuild Ragdolls",
+               "Rebuild Manage", "Rebuild Image Chips", "Rebuild Options"]
+SCROLL_RESTORE_DELAY = 0.05
+
+
+def keep_scroll_wrapper(f):
+    name = f["name"]; inner = name + " Body"; f["name"] = inner; args = {p["name"]: "@entry." + p["name"] for p in f.get("inputs", [])}
+    g = G(); g.get("gp", "Panel"); g.call("vp", K_SYS, "IsValid", inp={"Object": "@gp.Panel"}); cond = "@vp.ReturnValue"
+    if name == "Select Page":
+        g.get("gpg", "Page"); g.call("same", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg.Page", "B": "@entry.name"})
+        g.call("both", K_MATH, "BooleanAND", inp={"A": cond, "B": "@same.ReturnValue"}); cond = "@both.ReturnValue"
+    g.branch("b", cond); g.get("gp1", "Panel"); g.call("rm", W_PANEL, "Remember Scrolls", inp={"self": "@gp1.Panel"})
+    g.n("in", "call_self", function=inner, inp=args); g.n("in2", "call_self", function=inner, inp=args)
+    g.get("gp2", "Panel"); g.call("rs", W_PANEL, "Restore Scrolls", inp={"self": "@gp2.Panel"}); g.self_("me")
+    g.call("tm", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Restore Scrolls Later", "Time": str(SCROLL_RESTORE_DELAY), "bLooping": "false"})
+    g.chain("entry", "b", "rm", "in", "rs", "tm"); g.chain("b:else", "in2")
+    return fn(name, f.get("inputs", []), graph=g)
+
+
+def f_restore_scrolls_later():
+    g = G(); g.get("gp", "Panel"); g.call("vp", K_SYS, "IsValid", inp={"Object": "@gp.Panel"}); g.branch("b", "@vp.ReturnValue")
+    g.get("gp2", "Panel"); g.call("rs", W_PANEL, "Restore Scrolls", inp={"self": "@gp2.Panel"}); g.chain("entry", "b", "rs")
+    return fn("Restore Scrolls Later", graph=g)
+
+
+_mgr = next(a for a in assets if isinstance(a, dict) and a.get("path") == MGR and any(f["name"] == "Rebuild Poses" for f in a.get("functions", [])))
+_by = {f["name"]: f for f in _mgr["functions"]}
+assert all(n in _by and not _by[n].get("outputs") for n in KEEP_SCROLL), "KEEP_SCROLL: a missing function or one with outputs"
+_mgr["functions"] += [keep_scroll_wrapper(_by[n]) for n in KEEP_SCROLL] + [f_restore_scrolls_later()]
 write(os.path.join(os.path.dirname(__file__), "..", "50_manager_ui.json"), assets)

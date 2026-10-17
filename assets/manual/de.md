@@ -74,6 +74,7 @@ Die gespeicherten Outfits des Spiels – dieselben, die Kleiderschrank und Spieg
 - Rechtsklick: Anziehen, Inhalt anzeigen, ins Schnellmenü oder heraus, Umbenennen, nach links / nach rechts / an den Anfang / ans Ende, Löschen.
 - Ein Outfit ohne eigenen Namen heißt „Outfit“ mit seinem Platz in der Liste.
 - Kachelgröße und wie viele Teile eine Kachel zeigt, stehen unter Optionen › Kacheln.
+- Ein hier gespeichertes Outfit behält jeden Farbkanal seiner Teile, so wie AltUI sie gefärbt hat; das Spiel selbst kennt nur eine Farbe pro Teil. Ein am Spiegel gespeichertes Outfit hat nur diese eine.
 
 ## Looks {#looks}
 
@@ -192,7 +193,7 @@ Links die Kategorien.
 - Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.
 - Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).
 - Schnellmenü: Taste, Deckkraft, was im Rad steht, eigene Tasten.
-- Theme: jede Farbe des Panels mit ihrer Deckkraft, ein Hintergrundbild (Füllung, Ausrichtung, Farbton, Sepia, Invertieren, eigene Deckkraft) und ein Bild für Kacheln und Reiter, Farbschemata unter einem Namen gespeichert; Zurücksetzen steht in der Statusleiste. Ein jetzt gespeichertes Theme behält auch die Bilder und ihre Einstellungen. Eigene Bilder: Background_1 … Background_30 und Button_1 … Button_30 (.png oder .jpg) in dem Ordner, den die Seite nennt.
+- Theme: jede Farbe des Panels mit ihrer Deckkraft, ein Hintergrundbild (Füllung, Ausrichtung, Farbton, Sepia, Invertieren, eigene Deckkraft) und ein Bild für Kacheln und Reiter, Farbschemata unter einem Namen gespeichert; Zurücksetzen steht in der Statusleiste. Ein jetzt gespeichertes Theme behält auch die Bilder und ihre Einstellungen. Eigene Bilder: Background_1 … Background_30 und Button_1 … Button_30 (.png, .jpg oder .jpeg) in dem Ordner, den die Seite nennt. „Vorschauen einblenden“ zeigt die Bilder selbst auf ihren Chips; Rechtsklick auf die Vorschau eines eigenen Bildes: „Vorschau neu erstellen“.
 - Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können.
 - Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten. „Möglichst in eine Zeile“: die Beschriftungen werden kleiner und dann kürzer, damit die Leiste wo möglich in eine Zeile passt.
 

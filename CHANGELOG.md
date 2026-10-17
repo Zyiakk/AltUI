@@ -1,5 +1,37 @@
 # Changelog
 
+## 2.4.0 – 2026-10-17
+
+Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the
+same as in 2.3.0; converted bodies do not need to be converted again.
+
+Outfits that keep their colours, previews of the theme pictures, and lists that stay where you left them.
+
+* **Options › Theme: "Show previews"** (off by default): the picture chips of the background and button picture show
+  the picture itself instead of its name – with the hue, sepia and invert of their row, the name in the tooltip. Your
+  own pictures get a small preview of their own the first time, kept in `Images/Thumbs`; after that the page loads only
+  those. A picture replaced under the same name gets its new preview when it is chosen (or the game starts with it).
+  Right click on the preview of one of your own pictures: **Redo preview** draws it anew from the file.
+* **Own pictures** may also end in `.jpeg` (before: only `.png` and `.jpg` were found).
+* **Lists keep their place:** pages no longer jump to the top when they are rebuilt – choosing a button picture,
+  clicking a pose or an outfit, a pose ending on its own. Coming back to a page finds it where you left it; another
+  options category starts at the top.
+
+Fixes:
+
+* **Outfits keep AltUI's colours.** An outfit saved in AltUI could come back with one colour on everything or none at
+  all – with many pieces or long piece names (mods) its colours all ended up on one shared entry. And outfits with the
+  same pieces shared their colours and name: saving the same pieces again changed or wiped the colours of the first.
+  Every outfit now keeps its own colours and name, also when moved or deleted. Outfits saved before are taken over as
+  they were shown; one whose colours were already lost has to be saved once more. Outfits saved at the game's mirror
+  still keep only the game's one colour per piece.
+* **NPCs stay NPCs:** the game's untargeted "Follow me" (and "Attack") reached AltUI's NPCs too, so they followed Jodi.
+  They now stay at their place; followers still follow.
+* **Body Shape:** with many body mods the body chips no longer push the sliders off the page – they scroll in an area as
+  tall as the group chips (Options › Groups › "Group chip area: max. height").
+* **Ragdolls:** the colour variants under a figure no longer run past the tile – they break into a second line
+  (Squirter: blue, red, yellow; longer names in other languages).
+
 ## 2.3.0 – 2026-10-16
 
 Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the

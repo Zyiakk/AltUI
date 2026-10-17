@@ -148,7 +148,7 @@ class IdleMods(unittest.TestCase):
         mgr = next(a for a in d["assets"] if a["path"].endswith("BP_AltUIManager"))
         scan = json.dumps(next(f["graph"] for f in mgr["functions"] if f["name"] == "Scan Idle Mods"))
         self.assertIn(idle_mods.MOD_PREFIX, scan); self.assertIn("IdleCaptions", scan)
-        ro = json.dumps(next(f["graph"] for f in mgr["functions"] if f["name"] == "Rebuild Options"))
+        ro = json.dumps(next(f["graph"] for f in mgr["functions"] if f["name"] == "Rebuild Options Body"))   # KEEP_SCROLL wrapper: the logic is in the body
         self.assertIn("Add Idle Mod Chips", ro)
         self.assertIn("IdleMods", json.dumps(next(f["graph"] for f in mgr["functions"] if f["name"] == "Add Idle Mod Chips")))
         callers = [f["name"] for f in mgr["functions"] if "Scan Idle Mods" in json.dumps(f["graph"]) and f["name"] != "Scan Idle Mods"]
