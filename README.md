@@ -120,6 +120,9 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * On maps where the game never saves the backpack, the tab says so.
 * Optional, off by default (*Options › General*): an "All items" catalogue with every item of the game, into the backpack
   or the box.
+* "Collectibles" in the catalogue holds the game's **Invisible Hand**: while it is in the backpack it brings items near
+  Jodi to her, one after another – faster with more hands. Backpack and box list collectibles too, so you see how many
+  hands she carries; "+1 Invisible Hand" is also a quick menu entry.
 
 ### Coiffure
 
@@ -159,6 +162,10 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   look.
 * Appearance presets with a photo: save, update, rename and delete.
 * Your own order: right click moves a preset left, right, to the start or to the end.
+* **Mutation** (under "Skin"): Jodi's mutated look from the story, in parts – skin colour and glow as sliders, veins and
+  eyes as switches. Make-up stays visible on the discoloured skin; your own iris colour tints the mutated eye. "Story look"
+  sets the cutscene's look in full (the story's own skin material) – without make-up and scars. Looks, presets, followers
+  and ragdolls keep it.
 
 ### Body Shape
 
@@ -260,6 +267,9 @@ In categories, chosen in a list on the left:
 * Each figure wears the make-up of its look and has one of the game's NPC voices.
 * Quick menu: "Follower: follow me / wait here" for the one in view, "All followers: follow / wait" and "All followers:
   come to me" – every active follower to the places in front of Jodi, also one waiting in another level.
+* "Infinite ammo" (chip per figure): it keeps reloading without ammo in its bag.
+* "+ Jason" (bottom right) adds Jason from the story as a follower with his Glock – orders, bag, saving and level changes
+  as for every figure. He fights with his own Glock only, has no look, and his death does not end the game.
 * Figures are kept in `AltUI_Followers.sav`, never in the game's save.
 
 ### Codex

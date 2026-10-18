@@ -52,6 +52,14 @@
      "type": "object:/Script/Engine.TextureRenderTarget2D"
     },
     {
+     "name": "InfAmmo",
+     "type": "bool"
+    },
+    {
+     "name": "LookSkinTex",
+     "type": "object:/Script/Engine.TextureRenderTarget2D"
+    },
+    {
      "name": "HeldComps",
      "type": "object:/Game/Project/Classes/Misc/Clothes_Comp",
      "container": "array"
@@ -523,6 +531,139 @@
          "self": "@cm.AsMaterial Instance Dynamic",
          "ParameterName": "MakeupTex",
          "Value": "@gt2.LookMakeupTex"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bt",
+        "fm"
+       ],
+       [
+        "fm",
+        "gtp",
+        "bok",
+        "st"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Skin Tex",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "LookSkinTex"
+       },
+       {
+        "id": "vt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gt.LookSkinTex"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vt.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Mesh"
+       },
+       {
+        "id": "ms",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterials",
+        "in": {
+         "self": "@gm.Mesh"
+        }
+       },
+       {
+        "id": "fm",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ms.ReturnValue"
+        }
+       },
+       {
+        "id": "cm",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "vm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@cm.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "gtp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetTextureParameterValue",
+        "in": {
+         "self": "@cm.AsMaterial Instance Dynamic",
+         "ParameterName": "MakeupTex"
+        }
+       },
+       {
+        "id": "vp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gtp.ReturnValue"
+        }
+       },
+       {
+        "id": "ok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@vm.ReturnValue",
+         "B": "@vp.ReturnValue"
+        }
+       },
+       {
+        "id": "bok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ok.ReturnValue"
+        }
+       },
+       {
+        "id": "gt2",
+        "kind": "get",
+        "var": "LookSkinTex"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetTextureParameterValue",
+        "in": {
+         "self": "@cm.AsMaterial Instance Dynamic",
+         "ParameterName": "MainTex",
+         "Value": "@gt2.LookSkinTex"
         }
        }
       ],
@@ -1299,6 +1440,11 @@
         "id": "amt",
         "kind": "call_self",
         "function": "Apply Makeup Tex"
+       },
+       {
+        "id": "ast",
+        "kind": "call_self",
+        "function": "Apply Skin Tex"
        }
       ],
       "links": [
@@ -1338,6 +1484,7 @@
         "cbm",
         "sbm",
         "amt",
+        "ast",
         "fmn"
        ],
        [
@@ -1749,6 +1896,83 @@
         "al"
        ]
       ]
+     }
+    },
+    {
+     "name": "Count Weapon Ammo",
+     "inputs": [
+      {
+       "name": "weapon",
+       "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "num",
+       "type": "int"
+      }
+     ],
+     "pure": true,
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "an",
+        "kind": "call",
+        "class": "/Game/Project/Actors/Weapons/Weapon_Base",
+        "function": "Get Ammo Name",
+        "in": {
+         "self": "@entry.weapon"
+        }
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bag",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "ci",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Misc/Bag_Comp",
+        "function": "Count Items",
+        "in": {
+         "self": "@gb.Bag",
+         "item name": "@an.ammo name"
+        }
+       },
+       {
+        "id": "gi",
+        "kind": "get",
+        "var": "InfAmmo"
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "9999",
+         "B": "@ci.count",
+         "bPickA": "@gi.InfAmmo"
+        }
+       }
+      ],
+      "links": [
+       [
+        "me.self",
+        "gb.self"
+       ],
+       [
+        "sel.ReturnValue",
+        "return.num"
+       ]
+      ],
+      "exec": []
      }
     },
     {

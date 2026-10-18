@@ -36,8 +36,10 @@ S_COLOR = "struct:/Script/CoreUObject.Color"
 P_CPB = "/Game/Project/Classes/Character_Player_Base"
 P_CB = "/Game/Project/Classes/Character_Base"
 P_CNPC = "/Game/Project/Character/Npc/Character_NPC"; P_NPCF = "/Game/Project/Character/Npc/NPC_Female"
+P_JASON = "/Game/Project/Character/Jason/Jason"; P_JASONCTRL = "/Game/Project/Character/Jason/Jason_Controller"   # the story's Jason (Character_NPC, Jason_Controller): AltUI's Jason prototype derives from it
 P_NPCCTRL = "/Game/Project/Classes/Controller/Npc_Controller"   # followers (stubs: gen_stubs.py)
 P_JODI = "/Game/Project/Character/Jodi/Jodi"
+P_IHC = "/Game/Project/Classes/Misc/InvisibleHand_Comp"   # the invisible hand: picks up items near Jodi while "InvisibleHand" is in her bag
 P_JODI_BASE = "/Game/Project/Character/Jodi/Jodi_Base"   # parent of Jodi; the main menu's figure (Jodi_Intro) is one too, but no Jodi
 P_GS = "/Game/Project/Classes/GameMode/TKA_GameState_Base"
 P_ATTUI = "/Game/Project/UserInterface/AttentionUI"   # the game's notice widget (TKA_GameState_Base.Get Attention UI, on the player screen)

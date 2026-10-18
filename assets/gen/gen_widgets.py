@@ -2104,7 +2104,8 @@ def w_face_row():
     ss.n("ul", "call_self", function="Update Look"); ss.chain("entry", "sf", "sv", "sc", "ssl", "ul")
     # Tick: slider moved -> fixed with that value; else the box flipped -> fixed/free with the value as it is
     tk = G(); tk.get("gsl", "Sld"); tk.call("gsv", E_SLIDER, "GetValue", inp={"self": "@gsl.Sld"}); tk.n("sval", "call_self", function="Slider Value", inp={"pos": "@gsv.ReturnValue"})
-    tk.get("gv", "Value"); tk.call("same", K_MATH, "NearlyEqual_FloatFloat", inp={"A": "@sval.value", "B": "@gv.Value", "ErrorTolerance": "0.006"}); tk.branch("bm", "@same.ReturnValue")
+    tk.get("gv", "Value"); tk.call("same", K_MATH, "NearlyEqual_FloatFloat", inp={"A": "@sval.value", "B": "@gv.Value", "ErrorTolerance": "0.006"})
+    tk.get("gsw", "Switch"); tk.call("nomv", K_MATH, "BooleanOR", inp={"A": "@same.ReturnValue", "B": "@gsw.Switch"}); tk.branch("bm", "@nomv.ReturnValue")   # a switch row: only the box
     tk.n("s1", "call_self", function="Set State", inp={"fixed": "true", "value": "@sval.value"})
     tk.get("gc", "Check"); tk.call("ic", E_CHECK, "IsChecked", inp={"self": "@gc.Check"}); tk.get("gf", "Fixed")
     tk.call("flip", K_MATH, "NotEqual_BoolBool", inp={"A": "@ic.ReturnValue", "B": "@gf.Fixed"}); tk.branch("bc", "@flip.ReturnValue")
@@ -2112,18 +2113,23 @@ def w_face_row():
     tk.get("gm", "Manager"); tk.get("gk", "Key"); tk.get("gf2", "Fixed"); tk.get("gv3", "Value")
     tk.call("rep", MGR, "Face Row Changed", inp={"self": "@gm.Manager", "key": "@gk.Key", "fixed": "@gf2.Fixed", "value": "@gv3.Value"})
     tk.chain("entry", "bm", "bc", "s2", "rep"); tk.chain("bm:else", "s1", "rep")
+    # Set Switch: a plain on/off row (mutation veins / eyes) - slider and value hidden (Hidden keeps the rows aligned), the box alone reports
+    sw = G(); sw.set("ss", "Switch", inp={"Switch": "true"})
+    sw.get("gsb", "SldBox"); sw.call("h1", E_WIDGET, "SetVisibility", inp={"self": "@gsb.SldBox", "InVisibility": "Hidden"})
+    sw.get("gvt", "ValText"); sw.call("h2", E_WIDGET, "SetVisibility", inp={"self": "@gvt.ValText", "InVisibility": "Hidden"})
+    sw.chain("entry", "ss", "h1", "h2")
     # colours
     c = G(); ct = ["entry"]
     text_color(c, "tl", "Label", mcol(c, "ctx", "ColText"), ct); text_color(c, "tv", "ValText", mcol(c, "cdim", "ColTextDim"), ct)
     c.get("gsl", "Sld"); c.call("sbc", E_SLIDER, "SetSliderBarColor", inp={"self": "@gsl.Sld", "InValue": mcol(c, "csl", "ColSlider")}); ct.append("sbc")
     c.chain(*ct)
     return blueprint(W_FACEROW, E_USERWIDGET,
-                     variables=[var("Manager", "object:" + MGR), var("Key", "name"), var("Bipolar", "bool"), var("Fixed", "bool"), var("Value", "float")],
+                     variables=[var("Manager", "object:" + MGR), var("Key", "name"), var("Bipolar", "bool"), var("Fixed", "bool"), var("Value", "float"), var("Switch", "bool")],
                      functions=[fn("Init", [param("key", "name"), param("caption", "text"), param("bipolar", "bool")], graph=g),
                                 fn("Slider Pos", [param("value", "float")], [param("pos", "float")], graph=sp, pure=True),
                                 fn("Slider Value", [param("pos", "float")], [param("value", "float")], graph=sv, pure=True),
                                 fn("Update Look", graph=ul), fn("Set State", [param("fixed", "bool"), param("value", "float")], graph=ss),
-                                compute_fn(c), fn("Tick", override=True, graph=tk)],
+                                fn("Set Switch", graph=sw), compute_fn(c), fn("Tick", override=True, graph=tk)],
                      widget_tree=tree)
 
 
@@ -2380,6 +2386,7 @@ def w_panel():
                                 slot={"Padding": "(Left=30,Top=0,Right=10,Bottom=0)", "VerticalAlignment": "VAlign_Center"}),
                         text("LblLookWorn", "only\nworn", 11, slot={"VerticalAlignment": "VAlign_Center"})]),
                     w(U_SCROLL, "LookScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "LookVB", children=[
+                        w(U_VBOX, "LookRowList"),   # the mutation entry's rows (W_FaceRow) and its reset link
                         text("LookFavHeader", "Favourites", 13, "(SpecifiedColor=(R=0.95,G=0.8,B=0.3,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
                         w(U_WRAP, "LookFavList", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=23)"}),
                         text("LookAllHeader", "All", 13, "(SpecifiedColor=(R=0.7,G=0.7,B=0.7,A=1))", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=8)"}),
@@ -3489,6 +3496,7 @@ def w_panel():
              clear("Clear Key Binds", "KeyBinds"), add("Add Key Bind", "KeyBinds", U_VBOX, "AddChildToVerticalBox"), fn("Set Key Bind Hint", [param("text", "text")], graph=kbh),
              *vlist_panel_fns("Qa", "OptionsScroll", "QuickAvailable", "QaTop", "QaWrap", "QaBottom"),
              clear("Clear Look", "LookList"), add("Add Look", "LookList", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear Look Rows", "LookRowList"), add("Add Look Row", "LookRowList", U_VBOX, "AddChildToVerticalBox"),
              clear("Clear Look Fav", "LookFavList"), add("Add Look Fav", "LookFavList", U_WRAP, "AddChildToWrapBox"), fn("Set Look Fav Visible", [param("visible", "bool")], graph=lfv), fn("Set Manage Content Space", [param("keep", "bool")], graph=mcs),
              clear("Clear Look SubTabs", "LookSubTabs"), add("Add Look SubTab", "LookSubTabs", U_WRAP, "AddChildToWrapBox"), fn("Set Look Chips Visible", [param("visible", "bool")], graph=lcv),
              clear("Clear Pose Cats", "PoseCats"), add("Add Pose Cat", "PoseCats", U_VBOX, "AddChildToVerticalBox"),

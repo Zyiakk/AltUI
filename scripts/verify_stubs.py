@@ -14,7 +14,9 @@ STUBS = {  # cooked stub -> (API dump, checked functions)
                                                                      "Put Item to Bag", "Consume Item", "Got A Gun", "Drop Item", "Equip This Weapon", "Has This Item",   # inventory tab
                                                                      "Get Weapon In Hand",   # body switch: the weapon in hand back on its socket
                                                                      "Get Clothes Damage", "Store Clothes Damage",   # damage slider in the clothes menu
-                                                                     "Change Hairstyle Ex", "check clothes covering"]),   # followers: the game's hair, the underwear rule
+                                                                     "Change Hairstyle Ex", "check clothes covering",   # followers: the game's hair, the underwear rule
+                                                                     "Count Weapon Ammo",   # followers: infinite ammo
+                                                                     "Character Die", "Play Montage", "Attach Weapon to Right Hand"]),   # Jason: his death; any weapon with his montages   # Jason: his death past Character_NPC's
     "Project/Classes/Character_Base": ("Character_Base", ["Is Crouching"]),   # walk / run speed (BP_AltUIMove)
     "Project/Character/Jodi/Jodi": ("Jodi", ["Save Appearance", "Is Input Enabled ?", "Wanna Running", "Wanna Use This Item", "Add Item to Shortcut"]),
     "Project/Character/Jodi/Jodi_Base": ("Jodi_Base", ["Get Makeup Data", "Update Makeup Texture", "Load Player Makeup"]),
@@ -23,17 +25,19 @@ STUBS = {  # cooked stub -> (API dump, checked functions)
     "Project/Classes/Misc/WardrobeData": ("WardrobeData", ["Has This Clothes"]),
     "Project/Classes/Misc/Clothes_Comp": ("Clothes_Comp", ["Change Color", "Change Damage", "Is Damaged"]),
     "Project/Classes/Misc/Hair_Comp": ("Hair_Comp", ["Change Color"]),
-    "Project/Classes/GameMode/TKA_GameState": ("TKA_GameState", ["Get Note Save", "Get Hyper Box Data"]),   # Kodex: the encyclopedia's unlock list
+    "Project/Classes/Misc/InvisibleHand_Comp": ("InvisibleHand_Comp", ["Update Power"]),
+    "Project/Classes/GameMode/TKA_GameState": ("TKA_GameState", ["Get Note Save", "Get Hyper Box Data", "Is Game Over ?"]),   # Kodex: the encyclopedia's unlock list
     "Project/Classes/Items/ItemComponent": ("ItemComponent", ["Is Locked"]),   # Kodex: lock state of a code lock
     # inventory tab: backpack, storage box, weapon, item detail
     "Project/Classes/Misc/Bag_Comp": ("Bag_Comp", ["Count Items", "Can I Pickup This Item ?", "Add Clothes To Bag", "Remove Clothes", "Append Clothes"]),
     "Project/Classes/Misc/HyperBoxData": ("HyperBoxData", ["Add Item", "Consume Item Count", "Save", "Count Items", "Add a Gun", "Remove a Gun"]),
-    "Project/Actors/Weapons/Weapon_Base": ("Weapon_Base", ["Unload Ammo", "Attach to Hand", "Set Visible"]),   # body switch: Attach to Hand, Set Visible
+    "Project/Actors/Weapons/Weapon_Base": ("Weapon_Base", ["Unload Ammo", "Attach to Hand", "Set Visible", "Get Ammo Name", "Get Player Montage"]),   # body switch: Attach to Hand, Set Visible
     "Project/Actors/Weapons/Weapon_Gun_Base": ("Weapon_Gun_Base", ["Mount Equipment", "Apply Extra Attributes", "Change Gun Paint", "Mark to Need Update Anim"]),   # weapons tab: attachments; body switch
     "Project/UserInterface/PlayingHud": ("PlayingHud", ["Show Item Detail with Name"]),
-    "Project/Character/Npc/Character_NPC": ("Character_NPC", ["Need to Save", "Mutate"]),   # followers: the child says no / never mutates
+    "Project/Character/Jason/Jason": ("Jason", ["Got Glock"]),   # Jason: a given Glock becomes his own
+    "Project/Character/Npc/Character_NPC": ("Character_NPC", ["Need to Save", "Mutate", "on Spawn in Runtime", "Ani Notify Grab Weapon"]),   # followers: the child says no / never mutates
     "Project/Character/Npc/NPC_Female": ("NPC_Female", ["delay to mutant", "Apply Npc Appearance"]),
-    "Project/Classes/Controller/Npc_Controller": ("Npc_Controller", ["Change Order", "Receive Order"]),   # followers: NpcFollow / NpcStay
+    "Project/Classes/Controller/Npc_Controller": ("Npc_Controller", ["Change Order", "Receive Order", "Decide Next State"]),   # followers: NpcFollow / NpcStay
 }
 
 
@@ -42,13 +46,15 @@ def strip_mod(p):
 
 
 VARS = {  # cooked stub -> (API dump, checked variables: name and type must match the game)
-    "Project/Character/Jodi/Jodi": ("Jodi", ["previous weapon", "wanna toggle weapon", "Settings"]),   # inventory tab: auto-equip option (Inv Got Gun)
+    "Project/Character/Jodi/Jodi": ("Jodi", ["previous weapon", "wanna toggle weapon", "Settings", "InvisibleHand_Comp"]),   # inventory tab: auto-equip option (Inv Got Gun)
     "Project/Classes/Controller/Npc_Controller": ("Npc_Controller", ["master"]),   # followers
     "Project/Character/Npc/NPC_Female": ("NPC_Female", ["save order", "Order Location"]),
+    "Project/Character/Jason/Jason": ("Jason", ["State"]),   # Jason prototype
+    "Project/Classes/Misc/InvisibleHand_Comp": ("InvisibleHand_Comp", ["Number"]),   # catalog: the invisible hand (Hand Watch)
     "Project/Classes/Character_Base": ("Character_Base", ["Health", "Anim Blueprint"]),
     "Project/Classes/TKA_Controller": ("TKA_Controller", ["Input Move Values"]),   # idle pose: raw move input
     "Project/UserInterface/PlayingHud": ("PlayingHud", ["InventoryNpc"]),   # followers: Fol Watch (the game's swap dialog)
-    "Project/Classes/Character_Player_Base": ("Character_Player_Base", ["Bag", "Weapons", "Save Player Clothes", "Save Clothes Damaged", "Hair Comps", "clothes component list"]),   # followers: fallen when Health <= 0; anim instance after the body swap
+    "Project/Classes/Character_Player_Base": ("Character_Player_Base", ["Bag", "Weapons", "Save Player Clothes", "Save Clothes Damaged", "Hair Comps", "clothes component list", "in hand weapon"]),   # followers: fallen when Health <= 0; anim instance after the body swap
 }
 
 

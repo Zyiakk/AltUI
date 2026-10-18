@@ -663,6 +663,58 @@
   },
   {
    "type": "struct",
+   "path": "/Game/Mod/AltUI/S_MutOrig",
+   "members": [
+    {
+     "name": "Main",
+     "type": "object:/Script/Engine.Texture",
+     "internal_name": "Main_2_F0871FF25C28DEBFEC6113428EFC16FC"
+    },
+    {
+     "name": "Normal",
+     "type": "object:/Script/Engine.Texture",
+     "internal_name": "Normal_4_AFF816FE00E8C5A57DE2D77FFC9C1463"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_Mutation",
+   "members": [
+    {
+     "name": "Color",
+     "type": "float",
+     "internal_name": "Color_2_80EEB57ED00CBADC0425B2FE277C13D7"
+    },
+    {
+     "name": "Glow",
+     "type": "float",
+     "internal_name": "Glow_4_61877CFE3F775DEFD57521653B14B1D8"
+    },
+    {
+     "name": "Veins",
+     "type": "bool",
+     "internal_name": "Veins_6_941893767DD56807D17515D2536BAC21"
+    },
+    {
+     "name": "Eyes",
+     "type": "bool",
+     "internal_name": "Eyes_8_8788401161276F9FE0A2567E9DB05A47"
+    },
+    {
+     "name": "Skin",
+     "type": "name",
+     "internal_name": "Skin_10_CBFB596C587CD3FFA2916C8255D14FCA"
+    },
+    {
+     "name": "Story",
+     "type": "bool",
+     "internal_name": "Story_12_225C671BC219FF24B843B9783920BDF6"
+    }
+   ]
+  },
+  {
+   "type": "struct",
    "path": "/Game/Mod/AltUI/S_Snapshot",
    "members": [
     {
@@ -758,6 +810,11 @@
      "name": "FaceAdd",
      "type": "bool",
      "internal_name": "FaceAdd_32_8409F50982F1D3642636FA5B392F6A41"
+    },
+    {
+     "name": "Mutation",
+     "type": "struct:/Game/Mod/AltUI/S_Mutation",
+     "internal_name": "Mutation_34_C1A06A1B441AB778721FDEEEEFAC9A36"
     }
    ]
   },
@@ -845,6 +902,11 @@
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor",
      "internal_name": "MakeupColors_4_9CE677FA56AAF233AB06B744042F72C6"
+    },
+    {
+     "name": "Mutation",
+     "type": "struct:/Game/Mod/AltUI/S_Mutation",
+     "internal_name": "Mutation_6_9FBB358D5CEAF73FC1426F818D40BEAC"
     }
    ]
   },
@@ -1114,6 +1176,21 @@
      "name": "Voice",
      "type": "name",
      "internal_name": "Voice_56_2651F36FFE9095DB8A08C98C4E75DADE"
+    },
+    {
+     "name": "InfAmmo",
+     "type": "bool",
+     "internal_name": "InfAmmo_58_9C7E98AED094617C30F4FCD46D41ABF8"
+    },
+    {
+     "name": "Kind",
+     "type": "int",
+     "internal_name": "Kind_60_0EA56884C18C8FB37F23ECBBE07E2F7E"
+    },
+    {
+     "name": "Mutation",
+     "type": "struct:/Game/Mod/AltUI/S_Mutation",
+     "internal_name": "Mutation_62_D7E8430A033338C0D41F65E08FC5AB0D"
     }
    ]
   },
@@ -3993,6 +4070,51 @@
      "pl": "Nieśmiertelny",
      "fr": "Invulnérable"
     },
+    "Fol_NewJason": {
+     "en": "+ Jason",
+     "de": "+ Jason",
+     "zh": "+ 杰森",
+     "ru": "+ Джейсон",
+     "es": "+ Jason",
+     "pl": "+ Jason",
+     "fr": "+ Jason"
+    },
+    "Fol_JasonOnlyGlock": {
+     "en": "Jason fights only with his Glock - other weapons he cannot use.",
+     "de": "Jason kämpft nur mit seiner Glock – andere Waffen kann er nicht benutzen.",
+     "zh": "杰森只用他的格洛克战斗——其他武器他无法使用。",
+     "ru": "Джейсон сражается только своим Glock – другим оружием он пользоваться не умеет.",
+     "es": "Jason solo lucha con su Glock: no sabe usar otras armas.",
+     "pl": "Jason walczy tylko swoim Glockiem – innej broni nie umie używać.",
+     "fr": "Jason ne se bat qu'avec son Glock – il ne sait pas utiliser d'autres armes."
+    },
+    "Fol_JasonHasGlock": {
+     "en": "Jason already has his Glock.",
+     "de": "Jason hat seine Glock schon.",
+     "zh": "杰森已经有他的格洛克了。",
+     "ru": "У Джейсона уже есть его Glock.",
+     "es": "Jason ya tiene su Glock.",
+     "pl": "Jason ma już swojego Glocka.",
+     "fr": "Jason a déjà son Glock."
+    },
+    "Fol_JasonNoClothes": {
+     "en": "Jason wears his own clothes - pieces cannot be given to him.",
+     "de": "Jason trägt seine eigene Kleidung – Teile kann man ihm nicht geben.",
+     "zh": "杰森穿着自己的衣服——无法给他衣物。",
+     "ru": "Джейсон носит свою одежду – отдать ему вещи нельзя.",
+     "es": "Jason lleva su propia ropa: no se le pueden dar prendas.",
+     "pl": "Jason nosi własne ubrania – nie można mu dać części garderoby.",
+     "fr": "Jason porte ses propres vêtements – on ne peut pas lui en donner."
+    },
+    "Fol_InfAmmo": {
+     "en": "Infinite ammo",
+     "de": "Endlosmunition",
+     "zh": "无限弹药",
+     "ru": "Беск. патроны",
+     "es": "Munición infinita",
+     "pl": "Amunicja bez końca",
+     "fr": "Munitions infinies"
+    },
     "Fol_SelectHint": {
      "en": "Click a figure to select it - clicks in the backpack or the box then give to it.",
      "de": "Eine Figur anklicken, um sie auszuwählen – Klicks in Rucksack oder Box geben dann an sie.",
@@ -6747,6 +6869,15 @@
      "pl": "Ukryj / pokaż interfejs gry",
      "fr": "Masquer / afficher l'interface du jeu"
     },
+    "Quick_Hand": {
+     "en": "+1 Invisible Hand",
+     "de": "+1 Unsichtbare Hand",
+     "zh": "+1 无形之手",
+     "ru": "+1 Невидимая рука",
+     "es": "+1 Mano invisible",
+     "pl": "+1 Niewidzialna ręka",
+     "fr": "+1 Main invisible"
+    },
     "Lbl_RunSpeed": {
      "en": "Run speed",
      "de": "Rennen",
@@ -7557,6 +7688,69 @@
      "pl": "Wyłączone karty nie pojawiają się na pasku kart. Przejście do jednej z nich (np. „Pokaż w karcie”) pokazuje ją, dopóki jej nie opuścisz.",
      "fr": "Les onglets désactivés n'apparaissent pas dans la barre d'onglets. Un saut vers l'un d'eux (p. ex. « Afficher dans l'onglet ») l'affiche jusqu'à ce que vous le quittiez."
     },
+    "Look_Mutation": {
+     "en": "Mutation",
+     "de": "Mutation",
+     "zh": "变异",
+     "ru": "Мутация",
+     "es": "Mutación",
+     "pl": "Mutacja",
+     "fr": "Mutation"
+    },
+    "Mut_Color": {
+     "en": "Skin colour",
+     "de": "Hautfarbe",
+     "zh": "肤色",
+     "ru": "Цвет кожи",
+     "es": "Color de piel",
+     "pl": "Kolor skóry",
+     "fr": "Couleur de peau"
+    },
+    "Mut_Glow": {
+     "en": "Glow",
+     "de": "Glühen",
+     "zh": "发光",
+     "ru": "Свечение",
+     "es": "Brillo",
+     "pl": "Poświata",
+     "fr": "Lueur"
+    },
+    "Mut_Veins": {
+     "en": "Veins",
+     "de": "Adern",
+     "zh": "血管",
+     "ru": "Вены",
+     "es": "Venas",
+     "pl": "Żyły",
+     "fr": "Veines"
+    },
+    "Mut_Eyes": {
+     "en": "Eyes",
+     "de": "Augen",
+     "zh": "眼睛",
+     "ru": "Глаза",
+     "es": "Ojos",
+     "pl": "Oczy",
+     "fr": "Yeux"
+    },
+    "Btn_MutReset": {
+     "en": "Reset",
+     "de": "Zurücksetzen",
+     "zh": "重置",
+     "ru": "Сбросить",
+     "es": "Restablecer",
+     "pl": "Resetuj",
+     "fr": "Réinitialiser"
+    },
+    "Mut_Story": {
+     "en": "Story look (no make-up, no scars)",
+     "de": "Story-Look (ohne Make-up, Narben)",
+     "zh": "剧情外观（无妆容、疤痕）",
+     "ru": "Облик из сюжета (без макияжа и шрамов)",
+     "es": "Look de la historia (sin maquillaje ni cicatrices)",
+     "pl": "Wygląd z fabuły (bez makijażu i blizn)",
+     "fr": "Look de l'histoire (sans maquillage ni cicatrices)"
+    },
     "Hair_Black": {
      "en": "Black",
      "de": "Schwarz",
@@ -7783,13 +7977,13 @@
      "fr": "Looks"
     },
     "Man_looks_B": {
-     "en": "A look is everything at once: clothes with their colours, hairstyle and hair colour, make-up, eyes, skin, body sliders, body mod and face.\n\n• The \"+\" tile saves the current look with a full-body photo – from the front or as you see her.\n• Click a look to apply it.\n• Right click: view content, rename, update (photo from the front or as seen), move, delete, add to or remove from the quick menu.\n• Right click also: \"Spawn as ragdoll\", \"Spawn as follower\", \"Spawn as NPC\" (see \"Ragdolls\" and \"Followers\").\n• Right click \"Clean copy (without missing parts)\" – only shown when the look holds pieces of a mod that is no longer installed, or make-up / eye rows no table has: a new look right after it without those entries, with the same photo. The original stays as it is; saving a look again never removes them by itself.",
-     "de": "Ein Look ist alles auf einmal: Kleidung mit ihren Farben, Frisur und Haarfarbe, Make-up, Augen, Haut, Körperregler, Body-Mod und Gesicht.\n\n• Die „+“-Kachel speichert den aktuellen Look mit einem Ganzkörperfoto – frontal oder wie du sie gerade siehst.\n• Klick auf einen Look wendet ihn an.\n• Rechtsklick: Inhalt anzeigen, Umbenennen, Aktualisieren (Foto frontal oder wie gesehen), Verschieben, Löschen, ins Schnellmenü oder heraus.\n• Rechtsklick außerdem: „Als Ragdoll spawnen“, „Als Follower spawnen“, „Als NPC spawnen“ (siehe „Ragdolls“ und „Follower“).\n• Rechtsklick „Bereinigte Kopie (ohne fehlende Teile)“ – nur, wenn der Look Teile einer nicht mehr installierten Mod oder Make-up-/Augen-Zeilen enthält, die keine Tabelle mehr kennt: ein neuer Look direkt dahinter ohne diese Einträge, mit demselben Foto. Das Original bleibt, wie es ist; Neuspeichern entfernt sie nie von selbst.",
-     "zh": "造型就是一次保存所有内容：服装及其颜色、发型和发色、妆容、眼睛、皮肤、身材滑块、身体模组和面部。\n\n• “+”图块会保存当前造型并拍一张全身照——正面或当前视角。\n• 点击造型即可应用。\n• 右键：查看内容、重命名、更新（正面照片或当前视角照片）、移动、删除、加入或移出快捷菜单。\n• 右键还有：“生成为布娃娃”、“生成为跟随者”、“生成为NPC”（见“布娃娃”和“跟随者”）。\n• 右键“清理副本（去掉缺失部分）”——仅当造型含有已不再安装的模组的物品，或任何表格都没有的妆容/眼睛条目时出现：在其后创建一个不含这些条目的新造型，照片相同。原造型保持不变；重新保存造型不会自行删除它们。",
-     "ru": "Образ – это все сразу: одежда с цветами, прическа и цвет волос, макияж, глаза, кожа, ползунки тела, мод тела и лицо.\n\n• Плитка «+» сохраняет текущий образ с фото в полный рост – спереди или так, как вы ее сейчас видите.\n• Щелчок по образу применяет его.\n• Правый щелчок: показать содержимое, переименовать, обновить (фото спереди или как видно), переместить, удалить, в быстрое меню или из него.\n• Правый щелчок также: «Создать как рэгдолл», «Создать как спутника», «Создать как NPC» (см. «Рэгдоллы» и «Спутники»).\n• Правый щелчок «Очищенная копия (без недостающего)» – появляется, только если образ содержит предметы уже не установленного мода или строки макияжа / глаз, которых нет ни в одной таблице: новый образ сразу за ним без этих записей, с тем же фото. Оригинал остаётся как есть; повторное сохранение никогда не удаляет их само.",
-     "es": "Un look es todo a la vez: ropa con sus colores, peinado y color de pelo, maquillaje, ojos, piel, controles del cuerpo, mod de cuerpo y rostro.\n\n• La casilla «+» guarda el look actual con una foto de cuerpo entero, de frente o como la ves ahora.\n• Un clic en un look lo aplica.\n• Clic derecho: ver contenido, renombrar, actualizar (foto de frente o como se ve), mover, borrar, añadir al menú rápido o quitar de él.\n• Clic derecho también: «Crear como ragdoll», «Crear como seguidor», «Crear como PNJ» (ver «Ragdolls» y «Seguidores»).\n• Clic derecho «Copia limpia (sin partes que faltan)»: solo aparece si el look contiene prendas de un mod ya no instalado o filas de maquillaje / ojos que ninguna tabla tiene; crea un look nuevo justo detrás sin esas entradas, con la misma foto. El original queda como está; volver a guardar un look nunca las quita por sí solo.",
-     "pl": "Stylizacja to wszystko naraz: ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, suwaki ciała, mod ciała i twarz.\n\n• Kafelek „+” zapisuje aktualną stylizację ze zdjęciem całej postaci – z przodu albo tak, jak ją teraz widzisz.\n• Kliknięcie stylizacji ją stosuje.\n• Prawy przycisk: pokaż zawartość, zmień nazwę, aktualizuj (zdjęcie z przodu lub jak widać), przesuń, usuń, dodaj do szybkiego menu lub usuń z niego.\n• Prawy przycisk także: „Utwórz jako ragdoll”, „Utwórz jako towarzysza”, „Utwórz jako NPC” (zobacz „Ragdolle” i „Towarzysze”).\n• Prawy przycisk „Oczyszczona kopia (bez brakujących części)” – widoczne tylko, gdy wygląd zawiera części moda, którego już nie ma, albo wiersze makijażu / oczu, których nie zna żadna tabela: nowy wygląd tuż za nim bez tych wpisów, z tym samym zdjęciem. Oryginał zostaje bez zmian; ponowne zapisanie nigdy ich samo nie usuwa.",
-     "fr": "Un look, c'est tout à la fois : vêtements avec leurs couleurs, coiffure et couleur des cheveux, maquillage, yeux, peau, curseurs du corps, mod de corps et visage.\n\n• La tuile « + » enregistre le look actuel avec une photo en pied – de face ou telle que vous la voyez.\n• Un clic sur un look l'applique.\n• Clic droit : voir le contenu, renommer, mettre à jour (photo de face ou telle que vue), déplacer, supprimer, ajouter au menu rapide ou l'en retirer.\n• Clic droit aussi : « Créer en ragdoll », « Créer en compagnon », « Créer en PNJ » (voir « Ragdolls » et « Compagnons »).\n• Clic droit « Copie nettoyée (sans les parties manquantes) » – affiché seulement si le look contient des pièces d'un mod qui n'est plus installé, ou des lignes de maquillage / d'yeux qu'aucune table ne connaît : un nouveau look juste après, sans ces entrées, avec la même photo. L'original reste tel quel ; réenregistrer un look ne les retire jamais de lui-même."
+     "en": "A look is everything at once: clothes with their colours, hairstyle and hair colour, make-up, eyes, skin, mutation, body sliders, body mod and face.\n\n• The \"+\" tile saves the current look with a full-body photo – from the front or as you see her.\n• Click a look to apply it.\n• Right click: view content, rename, update (photo from the front or as seen), move, delete, add to or remove from the quick menu.\n• Right click also: \"Spawn as ragdoll\", \"Spawn as follower\", \"Spawn as NPC\" (see \"Ragdolls\" and \"Followers\").\n• Right click \"Clean copy (without missing parts)\" – only shown when the look holds pieces of a mod that is no longer installed, or make-up / eye rows no table has: a new look right after it without those entries, with the same photo. The original stays as it is; saving a look again never removes them by itself.",
+     "de": "Ein Look ist alles auf einmal: Kleidung mit ihren Farben, Frisur und Haarfarbe, Make-up, Augen, Haut, Mutation, Körperregler, Body-Mod und Gesicht.\n\n• Die „+“-Kachel speichert den aktuellen Look mit einem Ganzkörperfoto – frontal oder wie du sie gerade siehst.\n• Klick auf einen Look wendet ihn an.\n• Rechtsklick: Inhalt anzeigen, Umbenennen, Aktualisieren (Foto frontal oder wie gesehen), Verschieben, Löschen, ins Schnellmenü oder heraus.\n• Rechtsklick außerdem: „Als Ragdoll spawnen“, „Als Follower spawnen“, „Als NPC spawnen“ (siehe „Ragdolls“ und „Follower“).\n• Rechtsklick „Bereinigte Kopie (ohne fehlende Teile)“ – nur, wenn der Look Teile einer nicht mehr installierten Mod oder Make-up-/Augen-Zeilen enthält, die keine Tabelle mehr kennt: ein neuer Look direkt dahinter ohne diese Einträge, mit demselben Foto. Das Original bleibt, wie es ist; Neuspeichern entfernt sie nie von selbst.",
+     "zh": "造型就是一次保存所有内容：服装及其颜色、发型和发色、妆容、眼睛、皮肤、变异、身材滑块、身体模组和面部。\n\n• “+”图块会保存当前造型并拍一张全身照——正面或当前视角。\n• 点击造型即可应用。\n• 右键：查看内容、重命名、更新（正面照片或当前视角照片）、移动、删除、加入或移出快捷菜单。\n• 右键还有：“生成为布娃娃”、“生成为跟随者”、“生成为NPC”（见“布娃娃”和“跟随者”）。\n• 右键“清理副本（去掉缺失部分）”——仅当造型含有已不再安装的模组的物品，或任何表格都没有的妆容/眼睛条目时出现：在其后创建一个不含这些条目的新造型，照片相同。原造型保持不变；重新保存造型不会自行删除它们。",
+     "ru": "Образ – это все сразу: одежда с цветами, прическа и цвет волос, макияж, глаза, кожа, мутация, ползунки тела, мод тела и лицо.\n\n• Плитка «+» сохраняет текущий образ с фото в полный рост – спереди или так, как вы ее сейчас видите.\n• Щелчок по образу применяет его.\n• Правый щелчок: показать содержимое, переименовать, обновить (фото спереди или как видно), переместить, удалить, в быстрое меню или из него.\n• Правый щелчок также: «Создать как рэгдолл», «Создать как спутника», «Создать как NPC» (см. «Рэгдоллы» и «Спутники»).\n• Правый щелчок «Очищенная копия (без недостающего)» – появляется, только если образ содержит предметы уже не установленного мода или строки макияжа / глаз, которых нет ни в одной таблице: новый образ сразу за ним без этих записей, с тем же фото. Оригинал остаётся как есть; повторное сохранение никогда не удаляет их само.",
+     "es": "Un look es todo a la vez: ropa con sus colores, peinado y color de pelo, maquillaje, ojos, piel, mutación, controles del cuerpo, mod de cuerpo y rostro.\n\n• La casilla «+» guarda el look actual con una foto de cuerpo entero, de frente o como la ves ahora.\n• Un clic en un look lo aplica.\n• Clic derecho: ver contenido, renombrar, actualizar (foto de frente o como se ve), mover, borrar, añadir al menú rápido o quitar de él.\n• Clic derecho también: «Crear como ragdoll», «Crear como seguidor», «Crear como PNJ» (ver «Ragdolls» y «Seguidores»).\n• Clic derecho «Copia limpia (sin partes que faltan)»: solo aparece si el look contiene prendas de un mod ya no instalado o filas de maquillaje / ojos que ninguna tabla tiene; crea un look nuevo justo detrás sin esas entradas, con la misma foto. El original queda como está; volver a guardar un look nunca las quita por sí solo.",
+     "pl": "Stylizacja to wszystko naraz: ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, mutacja, suwaki ciała, mod ciała i twarz.\n\n• Kafelek „+” zapisuje aktualną stylizację ze zdjęciem całej postaci – z przodu albo tak, jak ją teraz widzisz.\n• Kliknięcie stylizacji ją stosuje.\n• Prawy przycisk: pokaż zawartość, zmień nazwę, aktualizuj (zdjęcie z przodu lub jak widać), przesuń, usuń, dodaj do szybkiego menu lub usuń z niego.\n• Prawy przycisk także: „Utwórz jako ragdoll”, „Utwórz jako towarzysza”, „Utwórz jako NPC” (zobacz „Ragdolle” i „Towarzysze”).\n• Prawy przycisk „Oczyszczona kopia (bez brakujących części)” – widoczne tylko, gdy wygląd zawiera części moda, którego już nie ma, albo wiersze makijażu / oczu, których nie zna żadna tabela: nowy wygląd tuż za nim bez tych wpisów, z tym samym zdjęciem. Oryginał zostaje bez zmian; ponowne zapisanie nigdy ich samo nie usuwa.",
+     "fr": "Un look, c'est tout à la fois : vêtements avec leurs couleurs, coiffure et couleur des cheveux, maquillage, yeux, peau, mutation, curseurs du corps, mod de corps et visage.\n\n• La tuile « + » enregistre le look actuel avec une photo en pied – de face ou telle que vous la voyez.\n• Un clic sur un look l'applique.\n• Clic droit : voir le contenu, renommer, mettre à jour (photo de face ou telle que vue), déplacer, supprimer, ajouter au menu rapide ou l'en retirer.\n• Clic droit aussi : « Créer en ragdoll », « Créer en compagnon », « Créer en PNJ » (voir « Ragdolls » et « Compagnons »).\n• Clic droit « Copie nettoyée (sans les parties manquantes) » – affiché seulement si le look contient des pièces d'un mod qui n'est plus installé, ou des lignes de maquillage / d'yeux qu'aucune table ne connaît : un nouveau look juste après, sans ces entrées, avec la même photo. L'original reste tel quel ; réenregistrer un look ne les retire jamais de lui-même."
     },
     "Man_bag_T": {
      "en": "Backpack",
@@ -7819,13 +8013,13 @@
      "fr": "Inventaire"
     },
     "Man_inventory_B": {
-     "en": "Jodi's items and the Hyper Storage Box, one list under the other.\n\n• The chips filter by the game's groups (weapons, ammo, weapon accessories, tools …). The weight shows what Jodi carries, what she can carry and how far she is overloaded.\n• A click puts one item into the box or takes one out. Right click: half or all, use, inspect, discard, quick slot 1 or 2, unload ammo, \"Accessories…\" (opens the gun in the Weapons tab).\n• The context menu of a stack ends with \"Amount\": a slider and a number field, and below one entry per target with that number (\"Put 5 in the box\", \"Take 5\"). Enter in the field runs the first entry. In the catalogue the number counts pieces and the field takes more than the slider reaches. Guns and single items have no amount.\n• \"Discard all\" puts one object on the ground per pack. From 100 objects on a window asks first: \"Cancel\", \"Destroy instead\" (the items are gone, nothing falls) or \"Drop anyway\" – that many objects with physics at once can crash the game. Esc cancels.\n• Everything goes through the game's own functions, so the game's rules stay – overloading included.\n• \"...\" above a list folds it, ↑↓ gives it the full height (click again: back).\n• On maps where the game never saves the backpack (the shooting range, for example) the tab says so: keep what you want in the box.\n• \"All items\" is off by default (Options › General): every item of the game as a third list with its own search. A click puts one pack into the backpack; right click: five, or into the box.\n• \"Auto-equip weapons\" (Options › General, on by default): a gun from the box or the catalogue goes into Jodi's hand as in the game; off, she keeps what she holds.\n• The tile size of this tab is set under Options › Tiles.",
-     "de": "Jodis Gegenstände und die Hyper Item-Box, eine Liste unter der anderen.\n\n• Die Chips filtern nach den Gruppen des Spiels (Waffen, Munition, Waffenzubehör, Werkzeug …). Das Gewicht zeigt, was Jodi trägt, was sie tragen kann und wie weit sie überladen ist.\n• Ein Klick legt einen Gegenstand in die Box oder nimmt einen heraus. Rechtsklick: die Hälfte oder alle, verwenden, untersuchen, wegwerfen, Schnellwahl 1 oder 2, Munition entnehmen, „Zubehör …“ (öffnet die Waffe im Reiter Waffen).\n• Das Kontextmenü eines Stapels endet mit „Anzahl“: Regler und Zahlenfeld, darunter je Ziel ein Eintrag mit dieser Zahl („5 in die Box“, „5 nehmen“). Enter im Feld führt den ersten Eintrag aus. Im Katalog zählt die Zahl Stück, das Feld nimmt mehr, als der Regler erreicht. Waffen und Einzelstücke haben keine Anzahl.\n• „Alle wegwerfen“ legt je Packung ein Objekt auf den Boden. Ab 100 Objekten fragt ein Fenster zuerst: „Abbrechen“, „Stattdessen vernichten“ (die Gegenstände sind weg, nichts fällt) oder „Trotzdem ablegen“ – so viele Objekte mit Physik auf einmal können das Spiel abstürzen lassen. Esc bricht ab.\n• Alles läuft über die Funktionen des Spiels, die Regeln des Spiels bleiben also – Überladen eingeschlossen.\n• „...“ über einer Liste klappt sie ein, ↑↓ gibt ihr die ganze Höhe (noch einmal: zurück).\n• Auf Karten, auf denen das Spiel den Rucksack nie speichert (zum Beispiel der Schießstand), sagt der Reiter das: Was du behalten willst, gehört in die Box.\n• „Alle Items“ ist standardmäßig aus (Optionen › Allgemein): jeder Gegenstand des Spiels als dritte Liste mit eigener Suche. Ein Klick legt eine Packung in den Rucksack; Rechtsklick: fünf, oder in die Box.\n• „Waffen automatisch ausrüsten“ (Optionen › Allgemein, standardmäßig an): Eine Waffe aus der Box oder dem Katalog kommt wie im Spiel in Jodis Hand; aus, behält sie, was sie hält.\n• Die Kachelgröße dieses Reiters steht unter Optionen › Kacheln.",
-     "zh": "朱蒂的物品和超级物品箱，上下排列。\n\n• 标签按游戏的分组筛选（武器、弹药、枪械配件、工具……）。重量显示朱蒂携带了多少、能携带多少以及超重多少。\n• 单击把一个物品放入物品箱或取出一个。右键：一半或全部、使用、查看、丢弃、快捷栏 1 或 2、卸下弹药、“配件…”（在武器标签页中打开该枪械）。\n• 堆叠物品的右键菜单末尾有“数量”：滑块和数字框，下方每个目标一项，带上这个数字（“将 5 个放入物品箱”“取出 5 个”）。在数字框中按 Enter 执行第一项。在目录中数字按件计算，数字框可以超过滑块的范围。枪械和单件物品没有数量。\n• “全部丢弃”每包在地上放置一个物体。达到 100 个物体时会先弹出窗口：“取消”、“改为销毁”（物品消失，不会掉落）或“仍然丢弃”——一次产生这么多物理物体可能导致游戏崩溃。Esc 取消。\n• 一切都通过游戏自身的函数完成，因此游戏的规则保持不变——包括超重。\n• 列表上方的“...”折叠该列表，↑↓ 让它占满全部高度（再点一次：恢复）。\n• 在游戏从不保存背包的地图上（例如射击场），标签页会提示：想保留的东西请放进物品箱。\n• “全部物品”默认关闭（选项 › 常规）：游戏中的所有物品作为第三个列表，带有自己的搜索。单击把一包放入背包；右键：五包，或放入物品箱。\n• “自动装备武器”（选项 › 常规，默认开启）：从物品箱或目录中取出的枪械会像游戏中一样拿到朱蒂手上；关闭时，她保持手中原有的东西。\n• 本标签页的图块大小在 选项 › 图块 中设置。",
-     "ru": "Предметы Джоди и гиперхранилище, один список под другим.\n\n• Фишки фильтруют по группам игры (оружие, патроны, обвесы, инструменты…). Вес показывает, сколько Джоди несет, сколько может нести и насколько она перегружена.\n• Щелчок кладет один предмет в хранилище или достает один. Правый щелчок: половину или все, использовать, осмотреть, выбросить, быстрый слот 1 или 2, разрядить, «Обвесы…» (открывает оружие во вкладке «Оружие»).\n• Контекстное меню стопки заканчивается строкой «Количество»: ползунок и числовое поле, ниже — по пункту на каждую цель с этим числом («Положить 5 в ящик», «Взять 5»). Enter в поле выполняет первый пункт. В каталоге число считается в штуках, и в поле можно ввести больше, чем позволяет ползунок. У оружия и одиночных предметов количества нет.\n• «Выбросить все» кладёт на землю по одному объекту на упаковку. Начиная со 100 объектов сначала появляется окно: «Отмена», «Вместо этого уничтожить» (предметы исчезают, ничего не падает) или «Всё равно выбросить» — столько физических объектов сразу может привести к вылету игры. Esc отменяет.\n• Все идет через функции самой игры, поэтому ее правила остаются – вместе с перегрузом.\n• «...» над списком сворачивает его, ↑↓ отдает ему всю высоту (еще раз – обратно).\n• На картах, где игра никогда не сохраняет рюкзак (например, тир), вкладка говорит об этом: то, что хотите сохранить, держите в хранилище.\n• «Все предметы» по умолчанию выключен (Настройки › Общие): все предметы игры третьим списком со своим поиском. Щелчок кладет одну пачку в рюкзак; правый щелчок: пять или в хранилище.\n• «Автоматически экипировать оружие» (Настройки › Общие, по умолчанию включено): оружие из хранилища или каталога попадает в руку Джоди, как в игре; если выключено, она держит то, что держала.\n• Размер плиток этой вкладки задается в Настройки › Плитки.",
-     "es": "Los objetos de Jodi y la hipercaja de almacenamiento, una lista bajo la otra.\n\n• Las fichas filtran por los grupos del juego (armas, munición, accesorios de armas, herramientas…). El peso muestra lo que lleva Jodi, lo que puede llevar y cuánto se ha sobrecargado.\n• Un clic pone un objeto en la caja o saca uno. Clic derecho: la mitad o todos, usar, examinar, tirar, acceso rápido 1 o 2, descargar munición, «Accesorios…» (abre el arma en la pestaña Armas).\n• El menú contextual de una pila termina con «Cantidad»: un control deslizante y un campo numérico, y debajo una entrada por destino con ese número («Guardar 5 en la caja», «Coger 5»). Enter en el campo ejecuta la primera entrada. En el catálogo el número cuenta unidades y el campo admite más de lo que alcanza el control. Las armas de fuego y los objetos sueltos no tienen cantidad.\n• «Tirar todo» deja un objeto en el suelo por paquete. A partir de 100 objetos una ventana pregunta primero: «Cancelar», «Destruir en su lugar» (los objetos desaparecen, no cae nada) o «Tirar de todos modos»: tantos objetos con física a la vez pueden hacer que el juego se cierre. Esc cancela.\n• Todo pasa por las funciones del propio juego, así que sus reglas se mantienen, sobrecarga incluida.\n• «...» sobre una lista la pliega, ↑↓ le da toda la altura (otra vez: vuelve).\n• En los mapas donde el juego nunca guarda la mochila (el campo de tiro, por ejemplo) la pestaña lo indica: guarda en la caja lo que quieras conservar.\n• «Todos los objetos» está desactivado por defecto (Opciones › General): todos los objetos del juego como tercera lista, con su propia búsqueda. Un clic pone un paquete en la mochila; clic derecho: cinco, o a la caja.\n• «Equipar armas automáticamente» (Opciones › General, activado por defecto): un arma de la caja o del catálogo pasa a la mano de Jodi como en el juego; desactivado, conserva lo que tiene en la mano.\n• El tamaño de las casillas de esta pestaña se ajusta en Opciones › Casillas.",
-     "pl": "Przedmioty Jodi i hiperskrzynia, jedna lista pod drugą.\n\n• Chipy filtrują według grup gry (broń, amunicja, akcesoria do broni, narzędzia…). Waga pokazuje, ile Jodi niesie, ile może unieść i jak bardzo jest przeciążona.\n• Kliknięcie wkłada jeden przedmiot do skrzyni albo wyjmuje jeden. Prawy przycisk: połowa albo wszystko, użyj, obejrzyj, wyrzuć, szybki wybór 1 lub 2, rozładuj, „Akcesoria…” (otwiera broń w karcie Broń).\n• Menu kontekstowe stosu kończy się wierszem „Ilość”: suwak i pole liczbowe, a pod nimi po jednym wpisie na cel z tą liczbą („Włóż 5 do skrzyni”, „Weź 5”). Enter w polu wykonuje pierwszy wpis. W katalogu liczba oznacza sztuki, a pole przyjmuje więcej, niż sięga suwak. Broń palna i pojedyncze przedmioty nie mają ilości.\n• „Wyrzuć wszystko” kładzie na ziemi jeden obiekt na paczkę. Od 100 obiektów najpierw pyta okno: „Anuluj”, „Zamiast tego zniszcz” (przedmioty znikają, nic nie spada) albo „Wyrzuć mimo to” – tyle obiektów z fizyką naraz może spowodować awarię gry. Esc anuluje.\n• Wszystko idzie przez funkcje samej gry, więc jej zasady zostają – razem z przeciążeniem.\n• „...” nad listą zwija ją, ↑↓ daje jej całą wysokość (jeszcze raz: powrót).\n• Na mapach, na których gra nigdy nie zapisuje plecaka (na przykład strzelnica), karta to mówi: to, co chcesz zachować, trzymaj w skrzyni.\n• „Wszystkie przedmioty” jest domyślnie wyłączony (Opcje › Ogólne): każdy przedmiot gry jako trzecia lista z własnym wyszukiwaniem. Kliknięcie wkłada jedną paczkę do plecaka; prawy przycisk: pięć albo do skrzyni.\n• „Automatycznie wyposażaj broń” (Opcje › Ogólne, domyślnie włączone): broń ze skrzyni lub z katalogu trafia do ręki Jodi tak jak w grze; wyłączone – Jodi trzyma to, co trzymała.\n• Rozmiar kafelków tej karty ustawia się w Opcje › Kafelki.",
-     "fr": "Les objets de Jodi et l'hyper coffre de stockage, une liste sous l'autre.\n\n• Les puces filtrent par les groupes du jeu (armes, munitions, accessoires d'armes, outils…). Le poids montre ce que Jodi porte, ce qu'elle peut porter et de combien elle est en surcharge.\n• Un clic met un objet dans le coffre ou en sort un. Clic droit : la moitié ou tout, utiliser, examiner, jeter, raccourci 1 ou 2, décharger, « Accessoires… » (ouvre l'arme dans l'onglet Armes).\n• Le menu contextuel d'une pile se termine par « Quantité » : un curseur et un champ numérique, puis une entrée par destination avec ce nombre (« Ranger 5 dans le coffre », « En prendre 5 »). Entrée dans le champ exécute la première entrée. Dans le catalogue, le nombre compte des unités et le champ accepte plus que le curseur. Les armes à feu et les objets uniques n'ont pas de quantité.\n• « Tout jeter » pose un objet au sol par paquet. À partir de 100 objets, une fenêtre demande d'abord : « Annuler », « Détruire à la place » (les objets disparaissent, rien ne tombe) ou « Jeter quand même » – autant d'objets physiques à la fois peuvent faire planter le jeu. Échap annule.\n• Tout passe par les fonctions du jeu lui-même, ses règles restent donc – surcharge comprise.\n• « ... » au-dessus d'une liste la replie, ↑↓ lui donne toute la hauteur (encore une fois : retour).\n• Sur les cartes où le jeu ne sauvegarde jamais le sac à dos (le stand de tir, par exemple), l'onglet le signale : gardez ce que vous voulez conserver dans le coffre.\n• « Tous les objets » est désactivé par défaut (Paramètres › Général) : chaque objet du jeu en troisième liste, avec sa propre recherche. Un clic met un paquet dans le sac à dos ; clic droit : cinq, ou dans le coffre.\n• « Équiper automatiquement les armes » (Paramètres › Général, activé par défaut) : une arme sortie du coffre ou du catalogue va dans la main de Jodi comme dans le jeu ; désactivé, elle garde ce qu'elle tient.\n• La taille des tuiles de cet onglet se règle dans Paramètres › Tuiles."
+     "en": "Jodi's items and the Hyper Storage Box, one list under the other.\n\n• The chips filter by the game's groups (weapons, ammo, weapon accessories, tools …). The weight shows what Jodi carries, what she can carry and how far she is overloaded.\n• A click puts one item into the box or takes one out. Right click: half or all, use, inspect, discard, quick slot 1 or 2, unload ammo, \"Accessories…\" (opens the gun in the Weapons tab).\n• The context menu of a stack ends with \"Amount\": a slider and a number field, and below one entry per target with that number (\"Put 5 in the box\", \"Take 5\"). Enter in the field runs the first entry. In the catalogue the number counts pieces and the field takes more than the slider reaches. Guns and single items have no amount.\n• \"Discard all\" puts one object on the ground per pack. From 100 objects on a window asks first: \"Cancel\", \"Destroy instead\" (the items are gone, nothing falls) or \"Drop anyway\" – that many objects with physics at once can crash the game. Esc cancels.\n• Everything goes through the game's own functions, so the game's rules stay – overloading included.\n• \"...\" above a list folds it, ↑↓ gives it the full height (click again: back).\n• On maps where the game never saves the backpack (the shooting range, for example) the tab says so: keep what you want in the box.\n• \"All items\" is off by default (Options › General): every item of the game as a third list with its own search. A click puts one pack into the backpack; right click: five, or into the box.\n  \"Collectibles\" also holds the game's Invisible Hand: while it is in the backpack it brings items near Jodi to her, one after another, faster with more hands (one every 2.5 s, from six on every 0.1 s). \"Collectibles\" in the backpack shows how many Jodi has.\n• \"Auto-equip weapons\" (Options › General, on by default): a gun from the box or the catalogue goes into Jodi's hand as in the game; off, she keeps what she holds.\n• The tile size of this tab is set under Options › Tiles.",
+     "de": "Jodis Gegenstände und die Hyper Item-Box, eine Liste unter der anderen.\n\n• Die Chips filtern nach den Gruppen des Spiels (Waffen, Munition, Waffenzubehör, Werkzeug …). Das Gewicht zeigt, was Jodi trägt, was sie tragen kann und wie weit sie überladen ist.\n• Ein Klick legt einen Gegenstand in die Box oder nimmt einen heraus. Rechtsklick: die Hälfte oder alle, verwenden, untersuchen, wegwerfen, Schnellwahl 1 oder 2, Munition entnehmen, „Zubehör …“ (öffnet die Waffe im Reiter Waffen).\n• Das Kontextmenü eines Stapels endet mit „Anzahl“: Regler und Zahlenfeld, darunter je Ziel ein Eintrag mit dieser Zahl („5 in die Box“, „5 nehmen“). Enter im Feld führt den ersten Eintrag aus. Im Katalog zählt die Zahl Stück, das Feld nimmt mehr, als der Regler erreicht. Waffen und Einzelstücke haben keine Anzahl.\n• „Alle wegwerfen“ legt je Packung ein Objekt auf den Boden. Ab 100 Objekten fragt ein Fenster zuerst: „Abbrechen“, „Stattdessen vernichten“ (die Gegenstände sind weg, nichts fällt) oder „Trotzdem ablegen“ – so viele Objekte mit Physik auf einmal können das Spiel abstürzen lassen. Esc bricht ab.\n• Alles läuft über die Funktionen des Spiels, die Regeln des Spiels bleiben also – Überladen eingeschlossen.\n• „...“ über einer Liste klappt sie ein, ↑↓ gibt ihr die ganze Höhe (noch einmal: zurück).\n• Auf Karten, auf denen das Spiel den Rucksack nie speichert (zum Beispiel der Schießstand), sagt der Reiter das: Was du behalten willst, gehört in die Box.\n• „Alle Items“ ist standardmäßig aus (Optionen › Allgemein): jeder Gegenstand des Spiels als dritte Liste mit eigener Suche. Ein Klick legt eine Packung in den Rucksack; Rechtsklick: fünf, oder in die Box.\n  Unter „Sammeln“ steht auch die Unsichtbare Hand des Spiels: Solange sie im Rucksack ist, holt sie Items in Jodis Nähe zu ihr, eins nach dem anderen, mit mehr Händen schneller (eine alle 2,5 s, ab sechs alle 0,1 s). Wie viele Jodi hat, zeigt „Sammeln“ im Rucksack.\n• „Waffen automatisch ausrüsten“ (Optionen › Allgemein, standardmäßig an): Eine Waffe aus der Box oder dem Katalog kommt wie im Spiel in Jodis Hand; aus, behält sie, was sie hält.\n• Die Kachelgröße dieses Reiters steht unter Optionen › Kacheln.",
+     "zh": "朱蒂的物品和超级物品箱，上下排列。\n\n• 标签按游戏的分组筛选（武器、弹药、枪械配件、工具……）。重量显示朱蒂携带了多少、能携带多少以及超重多少。\n• 单击把一个物品放入物品箱或取出一个。右键：一半或全部、使用、查看、丢弃、快捷栏 1 或 2、卸下弹药、“配件…”（在武器标签页中打开该枪械）。\n• 堆叠物品的右键菜单末尾有“数量”：滑块和数字框，下方每个目标一项，带上这个数字（“将 5 个放入物品箱”“取出 5 个”）。在数字框中按 Enter 执行第一项。在目录中数字按件计算，数字框可以超过滑块的范围。枪械和单件物品没有数量。\n• “全部丢弃”每包在地上放置一个物体。达到 100 个物体时会先弹出窗口：“取消”、“改为销毁”（物品消失，不会掉落）或“仍然丢弃”——一次产生这么多物理物体可能导致游戏崩溃。Esc 取消。\n• 一切都通过游戏自身的函数完成，因此游戏的规则保持不变——包括超重。\n• 列表上方的“...”折叠该列表，↑↓ 让它占满全部高度（再点一次：恢复）。\n• 在游戏从不保存背包的地图上（例如射击场），标签页会提示：想保留的东西请放进物品箱。\n• “全部物品”默认关闭（选项 › 常规）：游戏中的所有物品作为第三个列表，带有自己的搜索。单击把一包放入背包；右键：五包，或放入物品箱。\n  “收藏品”里也有游戏的无形之手：只要它在背包里，就会把朱蒂附近的物品一个接一个送到她身边，手越多越快（一只每 2.5 秒一次，六只起每 0.1 秒一次）。朱蒂有几只，可在背包的“收藏品”中查看。\n• “自动装备武器”（选项 › 常规，默认开启）：从物品箱或目录中取出的枪械会像游戏中一样拿到朱蒂手上；关闭时，她保持手中原有的东西。\n• 本标签页的图块大小在 选项 › 图块 中设置。",
+     "ru": "Предметы Джоди и гиперхранилище, один список под другим.\n\n• Фишки фильтруют по группам игры (оружие, патроны, обвесы, инструменты…). Вес показывает, сколько Джоди несет, сколько может нести и насколько она перегружена.\n• Щелчок кладет один предмет в хранилище или достает один. Правый щелчок: половину или все, использовать, осмотреть, выбросить, быстрый слот 1 или 2, разрядить, «Обвесы…» (открывает оружие во вкладке «Оружие»).\n• Контекстное меню стопки заканчивается строкой «Количество»: ползунок и числовое поле, ниже — по пункту на каждую цель с этим числом («Положить 5 в ящик», «Взять 5»). Enter в поле выполняет первый пункт. В каталоге число считается в штуках, и в поле можно ввести больше, чем позволяет ползунок. У оружия и одиночных предметов количества нет.\n• «Выбросить все» кладёт на землю по одному объекту на упаковку. Начиная со 100 объектов сначала появляется окно: «Отмена», «Вместо этого уничтожить» (предметы исчезают, ничего не падает) или «Всё равно выбросить» — столько физических объектов сразу может привести к вылету игры. Esc отменяет.\n• Все идет через функции самой игры, поэтому ее правила остаются – вместе с перегрузом.\n• «...» над списком сворачивает его, ↑↓ отдает ему всю высоту (еще раз – обратно).\n• На картах, где игра никогда не сохраняет рюкзак (например, тир), вкладка говорит об этом: то, что хотите сохранить, держите в хранилище.\n• «Все предметы» по умолчанию выключен (Настройки › Общие): все предметы игры третьим списком со своим поиском. Щелчок кладет одну пачку в рюкзак; правый щелчок: пять или в хранилище.\n  В «Коллекции» есть и Невидимая рука из игры: пока она в рюкзаке, она приносит Джоди предметы поблизости, один за другим, и тем быстрее, чем больше рук (одна – раз в 2,5 с, от шести – раз в 0,1 с). Сколько их у Джоди, видно в «Коллекции» рюкзака.\n• «Автоматически экипировать оружие» (Настройки › Общие, по умолчанию включено): оружие из хранилища или каталога попадает в руку Джоди, как в игре; если выключено, она держит то, что держала.\n• Размер плиток этой вкладки задается в Настройки › Плитки.",
+     "es": "Los objetos de Jodi y la hipercaja de almacenamiento, una lista bajo la otra.\n\n• Las fichas filtran por los grupos del juego (armas, munición, accesorios de armas, herramientas…). El peso muestra lo que lleva Jodi, lo que puede llevar y cuánto se ha sobrecargado.\n• Un clic pone un objeto en la caja o saca uno. Clic derecho: la mitad o todos, usar, examinar, tirar, acceso rápido 1 o 2, descargar munición, «Accesorios…» (abre el arma en la pestaña Armas).\n• El menú contextual de una pila termina con «Cantidad»: un control deslizante y un campo numérico, y debajo una entrada por destino con ese número («Guardar 5 en la caja», «Coger 5»). Enter en el campo ejecuta la primera entrada. En el catálogo el número cuenta unidades y el campo admite más de lo que alcanza el control. Las armas de fuego y los objetos sueltos no tienen cantidad.\n• «Tirar todo» deja un objeto en el suelo por paquete. A partir de 100 objetos una ventana pregunta primero: «Cancelar», «Destruir en su lugar» (los objetos desaparecen, no cae nada) o «Tirar de todos modos»: tantos objetos con física a la vez pueden hacer que el juego se cierre. Esc cancela.\n• Todo pasa por las funciones del propio juego, así que sus reglas se mantienen, sobrecarga incluida.\n• «...» sobre una lista la pliega, ↑↓ le da toda la altura (otra vez: vuelve).\n• En los mapas donde el juego nunca guarda la mochila (el campo de tiro, por ejemplo) la pestaña lo indica: guarda en la caja lo que quieras conservar.\n• «Todos los objetos» está desactivado por defecto (Opciones › General): todos los objetos del juego como tercera lista, con su propia búsqueda. Un clic pone un paquete en la mochila; clic derecho: cinco, o a la caja.\n  «Coleccionables» incluye también la Mano invisible del juego: mientras está en la mochila, trae a Jodi los objetos cercanos, uno tras otro, más rápido con más manos (una cada 2,5 s, desde seis cada 0,1 s). «Coleccionables» en la mochila muestra cuántas tiene Jodi.\n• «Equipar armas automáticamente» (Opciones › General, activado por defecto): un arma de la caja o del catálogo pasa a la mano de Jodi como en el juego; desactivado, conserva lo que tiene en la mano.\n• El tamaño de las casillas de esta pestaña se ajusta en Opciones › Casillas.",
+     "pl": "Przedmioty Jodi i hiperskrzynia, jedna lista pod drugą.\n\n• Chipy filtrują według grup gry (broń, amunicja, akcesoria do broni, narzędzia…). Waga pokazuje, ile Jodi niesie, ile może unieść i jak bardzo jest przeciążona.\n• Kliknięcie wkłada jeden przedmiot do skrzyni albo wyjmuje jeden. Prawy przycisk: połowa albo wszystko, użyj, obejrzyj, wyrzuć, szybki wybór 1 lub 2, rozładuj, „Akcesoria…” (otwiera broń w karcie Broń).\n• Menu kontekstowe stosu kończy się wierszem „Ilość”: suwak i pole liczbowe, a pod nimi po jednym wpisie na cel z tą liczbą („Włóż 5 do skrzyni”, „Weź 5”). Enter w polu wykonuje pierwszy wpis. W katalogu liczba oznacza sztuki, a pole przyjmuje więcej, niż sięga suwak. Broń palna i pojedyncze przedmioty nie mają ilości.\n• „Wyrzuć wszystko” kładzie na ziemi jeden obiekt na paczkę. Od 100 obiektów najpierw pyta okno: „Anuluj”, „Zamiast tego zniszcz” (przedmioty znikają, nic nie spada) albo „Wyrzuć mimo to” – tyle obiektów z fizyką naraz może spowodować awarię gry. Esc anuluje.\n• Wszystko idzie przez funkcje samej gry, więc jej zasady zostają – razem z przeciążeniem.\n• „...” nad listą zwija ją, ↑↓ daje jej całą wysokość (jeszcze raz: powrót).\n• Na mapach, na których gra nigdy nie zapisuje plecaka (na przykład strzelnica), karta to mówi: to, co chcesz zachować, trzymaj w skrzyni.\n• „Wszystkie przedmioty” jest domyślnie wyłączony (Opcje › Ogólne): każdy przedmiot gry jako trzecia lista z własnym wyszukiwaniem. Kliknięcie wkłada jedną paczkę do plecaka; prawy przycisk: pięć albo do skrzyni.\n  W „Kolekcji” jest też Niewidzialna ręka z gry: dopóki jest w plecaku, przynosi Jodi przedmioty z okolicy, jeden po drugim, tym szybciej, im więcej rąk (jedna co 2,5 s, od sześciu co 0,1 s). Ile ich ma Jodi, widać w „Kolekcji” plecaka.\n• „Automatycznie wyposażaj broń” (Opcje › Ogólne, domyślnie włączone): broń ze skrzyni lub z katalogu trafia do ręki Jodi tak jak w grze; wyłączone – Jodi trzyma to, co trzymała.\n• Rozmiar kafelków tej karty ustawia się w Opcje › Kafelki.",
+     "fr": "Les objets de Jodi et l'hyper coffre de stockage, une liste sous l'autre.\n\n• Les puces filtrent par les groupes du jeu (armes, munitions, accessoires d'armes, outils…). Le poids montre ce que Jodi porte, ce qu'elle peut porter et de combien elle est en surcharge.\n• Un clic met un objet dans le coffre ou en sort un. Clic droit : la moitié ou tout, utiliser, examiner, jeter, raccourci 1 ou 2, décharger, « Accessoires… » (ouvre l'arme dans l'onglet Armes).\n• Le menu contextuel d'une pile se termine par « Quantité » : un curseur et un champ numérique, puis une entrée par destination avec ce nombre (« Ranger 5 dans le coffre », « En prendre 5 »). Entrée dans le champ exécute la première entrée. Dans le catalogue, le nombre compte des unités et le champ accepte plus que le curseur. Les armes à feu et les objets uniques n'ont pas de quantité.\n• « Tout jeter » pose un objet au sol par paquet. À partir de 100 objets, une fenêtre demande d'abord : « Annuler », « Détruire à la place » (les objets disparaissent, rien ne tombe) ou « Jeter quand même » – autant d'objets physiques à la fois peuvent faire planter le jeu. Échap annule.\n• Tout passe par les fonctions du jeu lui-même, ses règles restent donc – surcharge comprise.\n• « ... » au-dessus d'une liste la replie, ↑↓ lui donne toute la hauteur (encore une fois : retour).\n• Sur les cartes où le jeu ne sauvegarde jamais le sac à dos (le stand de tir, par exemple), l'onglet le signale : gardez ce que vous voulez conserver dans le coffre.\n• « Tous les objets » est désactivé par défaut (Paramètres › Général) : chaque objet du jeu en troisième liste, avec sa propre recherche. Un clic met un paquet dans le sac à dos ; clic droit : cinq, ou dans le coffre.\n  « Collection » contient aussi la Main invisible du jeu : tant qu'elle est dans le sac à dos, elle apporte à Jodi les objets proches, l'un après l'autre, plus vite avec plusieurs mains (une toutes les 2,5 s, dès six toutes les 0,1 s). « Collection » dans le sac à dos montre combien Jodi en a.\n• « Équiper automatiquement les armes » (Paramètres › Général, activé par défaut) : une arme sortie du coffre ou du catalogue va dans la main de Jodi comme dans le jeu ; désactivé, elle garde ce qu'elle tient.\n• La taille des tuiles de cet onglet se règle dans Paramètres › Tuiles."
     },
     "Man_hair_T": {
      "en": "Coiffure",
@@ -7891,13 +8085,13 @@
      "fr": "Apparence"
     },
     "Man_look_B": {
-     "en": "Skin, every make-up type, eyes and the game's appearance presets.\n\n• Click an entry to put it on. Right click on make-up: tint with the game's palette, reset the tint.\n• Eyes: iris and eyelash colour in the context menu.\n• Presets: the \"+\" tile saves the current appearance with a photo. Right click: apply, view content, rename, update, move, delete, quick menu.",
-     "de": "Haut, jede Make-up-Art, Augen und die Aussehen-Presets des Spiels.\n\n• Klick auf einen Eintrag legt ihn auf. Rechtsklick auf Make-up: mit der Palette des Spiels tönen, Tönung zurücksetzen.\n• Augen: Iris- und Wimpernfarbe im Kontextmenü.\n• Presets: Die „+“-Kachel speichert das aktuelle Aussehen mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen, Schnellmenü.",
-     "zh": "皮肤、各类妆容、眼睛以及游戏的外观预设。\n\n• 点击条目即可使用。右键妆容：用游戏调色板染色、重置染色。\n• 眼睛：菜单中可改虹膜和睫毛颜色。\n• 预设：“+”图块会保存当前外观并拍照。右键：应用、查看内容、重命名、更新、移动、删除、快捷菜单。",
-     "ru": "Кожа, все виды макияжа, глаза и пресеты внешности игры.\n\n• Щелчок по записи применяет ее. Правый щелчок по макияжу: тонировать палитрой игры, сбросить тонировку.\n• Глаза: цвет радужки и ресниц в контекстном меню.\n• Пресеты: плитка «+» сохраняет текущую внешность с фото. Правый щелчок: применить, показать содержимое, переименовать, обновить, переместить, удалить, быстрое меню.",
-     "es": "Piel, cada tipo de maquillaje, ojos y los presets de apariencia del juego.\n\n• Un clic en una entrada la aplica. Clic derecho en el maquillaje: teñir con la paleta del juego, restablecer el teñido.\n• Ojos: color del iris y de las pestañas en el menú contextual.\n• Presets: la casilla «+» guarda la apariencia actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar, menú rápido.",
-     "pl": "Skóra, każdy rodzaj makijażu, oczy i presety wyglądu z gry.\n\n• Kliknięcie wpisu go nakłada. Prawy przycisk na makijażu: tonowanie paletą gry, przywróć tonowanie.\n• Oczy: kolor tęczówki i rzęs w menu kontekstowym.\n• Presety: kafelek „+” zapisuje aktualny wygląd ze zdjęciem. Prawy przycisk: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń, szybkie menu.",
-     "fr": "Peau, chaque type de maquillage, yeux et préréglages d'apparence du jeu.\n\n• Un clic sur une entrée l'applique. Clic droit sur un maquillage : teinter avec la palette du jeu, réinitialiser la teinte.\n• Yeux : couleur de l'iris et des cils dans le menu contextuel.\n• Préréglages : la tuile « + » enregistre l'apparence actuelle avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer, menu rapide."
+     "en": "Skin, every make-up type, eyes and the game's appearance presets.\n\n• Click an entry to put it on. Right click on make-up: tint with the game's palette, reset the tint.\n• Eyes: iris and eyelash colour in the context menu.\n• Mutation: Jodi's mutated look from the story in parts – skin colour and glow as sliders (ticked = on), veins and eyes as switches, \"Reset\" turns everything off. Make-up stays visible on the discoloured skin, your own iris colour tints the mutated eye. \"Story look\" sets the cutscene's look: the story's own skin material, every row at full; you can take single rows back afterwards. Make-up and scars are not visible with it. While the story mutates Jodi herself, the story's look applies.\n• Presets: the \"+\" tile saves the current appearance with a photo. Right click: apply, view content, rename, update, move, delete, quick menu.",
+     "de": "Haut, jede Make-up-Art, Augen und die Aussehen-Presets des Spiels.\n\n• Klick auf einen Eintrag legt ihn auf. Rechtsklick auf Make-up: mit der Palette des Spiels tönen, Tönung zurücksetzen.\n• Augen: Iris- und Wimpernfarbe im Kontextmenü.\n• Mutation: Jodis Mutations-Look aus der Story in Teilen – Hautfarbe und Glühen als Regler (Haken an = wirkt), Adern und Augen als Schalter, „Zurücksetzen“ schaltet alles ab. Make-up bleibt über der verfärbten Haut sichtbar, eine eigene Irisfarbe tönt das Mutations-Auge. „Story-Look“ stellt den Look der Cutscene her: Hautmaterial der Story, alle Zeilen auf voll; einzelne Zeilen lassen sich danach zurücknehmen. Dabei sind Make-up und Narben nicht zu sehen. Während die Story Jodi selbst mutieren lässt, gilt deren Aussehen.\n• Presets: Die „+“-Kachel speichert das aktuelle Aussehen mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen, Schnellmenü.",
+     "zh": "皮肤、各类妆容、眼睛以及游戏的外观预设。\n\n• 点击条目即可使用。右键妆容：用游戏调色板染色、重置染色。\n• 眼睛：菜单中可改虹膜和睫毛颜色。\n• 变异：分部分使用剧情中 Jodi 的变异外观——肤色和发光为滑块（勾选 = 生效），血管和眼睛为开关，“重置”全部关闭。变色的皮肤上仍可见妆容，自定义虹膜颜色会为变异眼睛着色。“剧情外观”还原过场动画中的外观：使用剧情本身的皮肤材质，所有行开到最大；之后可单独调低各行。此时妆容和疤痕不可见。剧情让 Jodi 本人变异期间，以剧情外观为准。\n• 预设：“+”图块会保存当前外观并拍照。右键：应用、查看内容、重命名、更新、移动、删除、快捷菜单。",
+     "ru": "Кожа, все виды макияжа, глаза и пресеты внешности игры.\n\n• Щелчок по записи применяет ее. Правый щелчок по макияжу: тонировать палитрой игры, сбросить тонировку.\n• Глаза: цвет радужки и ресниц в контекстном меню.\n• Мутация: мутировавший облик Джоди из сюжета по частям – цвет кожи и свечение ползунками (галочка = включено), вены и глаза переключателями, «Сбросить» выключает всё. Макияж остаётся виден на изменённой коже, свой цвет радужки окрашивает мутировавший глаз. «Облик из сюжета» включает облик из ролика: материал кожи из сюжета, все строки на максимум; затем отдельные строки можно убавить. Макияж и шрамы при этом не видны. Пока сюжет сам превращает Джоди, действует его облик.\n• Пресеты: плитка «+» сохраняет текущую внешность с фото. Правый щелчок: применить, показать содержимое, переименовать, обновить, переместить, удалить, быстрое меню.",
+     "es": "Piel, cada tipo de maquillaje, ojos y los presets de apariencia del juego.\n\n• Un clic en una entrada la aplica. Clic derecho en el maquillaje: teñir con la paleta del juego, restablecer el teñido.\n• Ojos: color del iris y de las pestañas en el menú contextual.\n• Mutación: el aspecto mutado de Jodi de la historia, por partes – color de piel y brillo como controles (casilla marcada = activo), venas y ojos como interruptores, «Restablecer» lo apaga todo. El maquillaje sigue visible sobre la piel descolorida y tu propio color de iris tiñe el ojo mutado. «Look de la historia» pone el aspecto de la cinemática: material de piel de la historia, todas las filas al máximo; después se puede bajar cada fila. Con él no se ven ni el maquillaje ni las cicatrices. Mientras la historia muta a la propia Jodi, se aplica su aspecto.\n• Presets: la casilla «+» guarda la apariencia actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar, menú rápido.",
+     "pl": "Skóra, każdy rodzaj makijażu, oczy i presety wyglądu z gry.\n\n• Kliknięcie wpisu go nakłada. Prawy przycisk na makijażu: tonowanie paletą gry, przywróć tonowanie.\n• Oczy: kolor tęczówki i rzęs w menu kontekstowym.\n• Mutacja: zmutowany wygląd Jodi z fabuły w częściach – kolor skóry i poświata jako suwaki (zaznaczone = działa), żyły i oczy jako przełączniki, „Resetuj” wyłącza wszystko. Makijaż pozostaje widoczny na przebarwionej skórze, własny kolor tęczówki barwi zmutowane oko. „Wygląd z fabuły” ustawia wygląd z przerywnika: materiał skóry z fabuły, wszystkie wiersze na maksimum; potem można cofnąć pojedyncze wiersze. Makijaż i blizny nie są z nim widoczne. Gdy fabuła sama zmienia Jodi w mutanta, obowiązuje jej wygląd.\n• Presety: kafelek „+” zapisuje aktualny wygląd ze zdjęciem. Prawy przycisk: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń, szybkie menu.",
+     "fr": "Peau, chaque type de maquillage, yeux et préréglages d'apparence du jeu.\n\n• Un clic sur une entrée l'applique. Clic droit sur un maquillage : teinter avec la palette du jeu, réinitialiser la teinte.\n• Yeux : couleur de l'iris et des cils dans le menu contextuel.\n• Mutation : l'apparence mutée de Jodi dans l'histoire, par parties – couleur de peau et lueur en curseurs (case cochée = actif), veines et yeux en interrupteurs, « Réinitialiser » désactive tout. Le maquillage reste visible sur la peau décolorée, votre couleur d'iris teinte l'œil muté. « Look de l'histoire » reproduit l'apparence de la cinématique : matériau de peau de l'histoire, toutes les lignes au maximum ; chaque ligne peut ensuite être réduite. Maquillage et cicatrices n'y sont pas visibles. Pendant que l'histoire fait muter Jodi elle-même, c'est son apparence qui s'applique.\n• Préréglages : la tuile « + » enregistre l'apparence actuelle avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer, menu rapide."
     },
     "Man_body_T": {
      "en": "Body Shape",
@@ -8035,13 +8229,13 @@
      "fr": "Compagnons"
     },
     "Man_followers_B": {
-     "en": "Looks as people in the game: a follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.\n\n• In the Looks tab, right click a look: \"Spawn as follower\" or \"Spawn as NPC\". The figure appears in front of Jodi wearing that look.\n• The tab \"Followers\" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: \"Follow me\", \"Wait here\", \"Bring here\", → NPC / → Follower, \"Active\", \"Invulnerable\" and \"...\" (rename, change look, revive, remove).\n• Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. \"...\" above a list folds it.\n• The context menu of a stack – Jodi's or the figure's – has the amount row as in the Inventory tab: \"Give 5\", \"Take 5\", into the box.\n• Clothes are real pieces of the figure, as with the game's NPCs: they take damage, can tear off and show up in the game's own NPC inventory, where you can swap them too. Under a figure, its pieces are tiles (a badge marks damaged ones): a click takes one off into Jodi's backpack; right click: repair with a sewing kit from Jodi's backpack, or repair all. In the backpack column, \"Clothes\" lists Jodi's pieces: a click gives one to the selected figure, which puts it on (her damage and colours go along).\n• \"Active\" off takes a figure out of the world, with everything it carries; on again, it comes back in front of Jodi.\n• A figure that is not invulnerable can fall. It stays in the list and \"Revive\" brings it back with what it carried. Figures never turn into zombies.\n• \"Remove\" asks first; the figure's items and guns go into the storage box, its clothes into Jodi's backpack.\n• \"Change look\" switches to the Looks tab: click the look the figure should wear.\n• Every figure wears the make-up of its look and has one of the game's NPC voices. A figure made with AltUI before 2.2.0 shows Jodi's make-up until \"Change look…\" gives it its own.\n\nAltUI keeps the figures in a save of its own (AltUI_Followers.sav), the game's save never contains them. Following followers come along to every level and after loading; waiting followers and NPCs stay in their level at their place.\n\nQuick menu: \"Follower: follow me / wait here\" orders the follower in view, \"All followers: follow / wait\" all of them. \"All followers: come to me\" brings every active follower to the places in front of Jodi – also one waiting in another level.",
-     "de": "Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befehle an; ein NPC bleibt, wo er ist, und verteidigt sich.\n\n• Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.\n• Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, „Unverwundbar“ und „...“ (umbenennen, Look ändern, wiederbeleben, entfernen).\n• Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.\n• Das Kontextmenü eines Stapels – bei Jodi oder der Figur – hat die Anzahl-Zeile wie im Reiter Inventar: „5 geben“, „5 nehmen“, in die Box.\n• Die Kleidung besteht aus echten Stücken der Figur wie bei den NPCs des Spiels: Sie bekommt Schaden, kann abreißen und steht im Inventar-Dialog des Spiels, wo man sie auch tauschen kann. Unter einer Figur stehen ihre Stücke als Kacheln (beschädigte mit Markierung): Ein Klick zieht eines aus und legt es in Jodis Rucksack; Rechtsklick: mit einem Nähset aus Jodis Rucksack reparieren oder alle reparieren. In der Rucksack-Spalte listet „Kleidung“ Jodis Stücke: Ein Klick gibt eines an die ausgewählte Figur, die es anzieht (Schaden und Farben gehen mit).\n• „Aktiv“ aus nimmt eine Figur mit allem, was sie trägt, aus der Welt; wieder an, kommt sie vor Jodi zurück.\n• Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.\n• „Entfernen“ fragt nach; Items und Schusswaffen der Figur kommen in die Box, ihre Kleidung in Jodis Rucksack.\n• „Look ändern“ wechselt in den Looks-Reiter: den Look anklicken, den die Figur tragen soll.\n• Jede Figur trägt das Make-up ihres Looks und hat eine der NPC-Stimmen des Spiels. Eine Figur, die mit AltUI vor 2.2.0 entstanden ist, zeigt Jodis Make-up, bis „Look ändern…“ ihr ein eigenes gibt.\n\nAltUI speichert die Figuren in einem eigenen Spielstand (AltUI_Followers.sav), der Spielstand des Spiels enthält sie nie. Folgende Follower kommen in jedes Level mit und sind nach dem Laden da; wartende Follower und NPCs bleiben in ihrem Level an ihrem Platz.\n\nSchnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im Blick, „Alle Follower: folgen / warten“ für alle. „Alle Follower: zu mir“ holt jeden aktiven Follower auf die Plätze vor Jodi – auch einen, der in einem anderen Level wartet.",
-     "zh": "把造型变成游戏中的人物：跟随者与朱蒂同行、战斗并听从命令；NPC 留在原地并自卫。\n\n• 在造型页右键点击一个造型：“生成为跟随者”或“生成为NPC”。人物会以该造型出现在朱蒂面前。\n• “跟随者”页列出所有人物及其状态（跟随中、等待中、NPC、未激活、已倒下），以及按钮：“跟着我”、“在这里等”、“召回”、→ NPC / → 跟随者、“激活”、“无敌”和“...”（重命名、更换造型、复活、移除）。\n• 点击一行即可选中该人物。上方是背包（左）和箱子（右）：点击会把一件物品交给选中的人物，枪械连同涂装和配件一起。点击人物自己的图块会把物品还回背包；右键：全部，或放入箱子。列表上方的“...”可以折叠它。\n• 堆叠物品的右键菜单（朱蒂的或该人物的）与“物品栏”标签页一样有数量行：“给出 5 个”“取出 5 个”、放入物品箱。\n• 服装是人物的真实衣物，与游戏中的NPC一样：会受损、可能被撕掉，并显示在游戏自带的NPC物品栏中，也可以在那里交换。人物下方以图块显示其衣物（受损的有标记）：点击会脱下一件并放入朱蒂的背包；右键：用朱蒂背包里的针线包修补，或全部修补。背包一栏中的“服装”列出朱蒂的衣物：点击会把一件交给选中的人物，人物会穿上它（损坏程度和颜色一并带走）。\n• 关闭“激活”会把人物连同其所带物品一起移出世界；再次打开时它会回到朱蒂面前。\n• 没有无敌的人物可能倒下。它仍留在列表中，“复活”会带着它的物品把它带回来。人物永远不会变成僵尸。\n• “移除”会先确认；人物的物品和枪械会放入箱子，衣物放入朱蒂的背包。\n• “更换造型”会切换到造型页：点击人物要穿的造型。\n• 每个人物都带着其造型的妆容，并拥有游戏中的一种 NPC 声音。用 2.2.0 之前的 AltUI 创建的人物会显示朱蒂的妆容，直到“更换造型…”给它自己的妆容。\n\nAltUI 把人物保存在自己的存档中（AltUI_Followers.sav），游戏存档里永远不会有它们。正在跟随的跟随者会随朱蒂进入每个关卡，读档后也在；等待中的跟随者和NPC留在各自关卡的原处。\n\n快捷菜单：“跟随者：跟着我 / 在这里等”作用于视野中的跟随者，“所有跟随者：跟随 / 等待”作用于全部。“所有跟随者：到我这里来”会把所有活跃的跟随者带到朱蒂面前的位置——也包括在另一个关卡等待的跟随者。",
-     "ru": "Образы как персонажи игры: спутник идёт с Джоди, сражается и слушается приказов; NPC остаётся на месте и защищается.\n\n• Во вкладке «Образы» правый щелчок по образу: «Создать как спутника» или «Создать как NPC». Персонаж появляется перед Джоди в этом образе.\n• Вкладка «Спутники» показывает всех персонажей с их состоянием (следует, ждёт, NPC, неактивен, погиб) и кнопками: «За мной», «Жди здесь», «Позвать», → NPC / → Спутник, «Активен», «Неуязвим» и «...» (переименовать, сменить образ, воскресить, удалить).\n• Щелчок по строке выбирает персонажа. Наверху рюкзак (слева) и ящик (справа): щелчок передаёт предмет выбранному персонажу, оружие – вместе с покраской и обвесом. Щелчок по плитке персонажа возвращает предмет в рюкзак; правый щелчок: всё или в ящик. «...» над списком сворачивает его.\n• В контекстном меню стопки — у Джоди или у фигуры — есть строка количества, как во вкладке «Инвентарь»: «Дать 5», «Взять 5», в ящик.\n• Одежда — настоящие вещи персонажа, как у NPC игры: она получает повреждения, может порваться и видна в инвентаре NPC самой игры, где её тоже можно обменивать. Под персонажем его вещи показаны плитками (повреждённые отмечены): щелчок снимает вещь и кладёт её в рюкзак Джоди; правый щелчок: починить швейным набором из рюкзака Джоди или починить всё. В колонке рюкзака раздел «Одежда» показывает вещи Джоди: щелчок отдаёт вещь выбранному персонажу, и он её надевает (повреждения и цвета переходят вместе с ней).\n• «Активен» выключено убирает персонажа из мира со всем, что он несёт; при включении он возвращается перед Джоди.\n• Персонаж без неуязвимости может погибнуть. Он остаётся в списке, «Воскресить» возвращает его с вещами. Персонажи никогда не превращаются в зомби.\n• «Удалить» спрашивает подтверждение; предметы и оружие персонажа уходят в ящик, одежда — в рюкзак Джоди.\n• «Сменить образ» переходит во вкладку «Образы»: щёлкните образ, который должен носить персонаж.\n• Каждый персонаж носит макияж своего образа и говорит одним из голосов NPC игры. Персонаж, созданный в AltUI до 2.2.0, показывает макияж Джоди, пока «Сменить образ…» не даст ему собственный.\n\nAltUI хранит персонажей в собственном сохранении (AltUI_Followers.sav), сохранение игры их никогда не содержит. Следующие спутники переходят с Джоди на каждый уровень и появляются после загрузки; ждущие спутники и NPC остаются на своём уровне, на своём месте.\n\nБыстрое меню: «Спутник: за мной / жди здесь» – для спутника в поле зрения, «Все спутники: за мной / ждать» – для всех. «Все спутники: ко мне» приводит каждого активного спутника на места перед Джоди – и того, кто ждёт на другом уровне.",
-     "es": "Looks convertidos en personas del juego: un seguidor acompaña a Jodi, lucha y obedece órdenes; un PNJ se queda donde está y se defiende.\n\n• En la pestaña Looks, clic derecho en un look: «Crear como seguidor» o «Crear como PNJ». La figura aparece delante de Jodi con ese look.\n• La pestaña «Seguidores» muestra todas las figuras con su estado (sigue, espera, PNJ, inactivo, caído) y chips: «Sígueme», «Espera aquí», «Traer aquí», → PNJ / → Seguidor, «Activo», «Invulnerable» y «...» (renombrar, cambiar look, revivir, eliminar).\n• Un clic en una fila selecciona la figura. Arriba están la mochila (izquierda) y la caja (derecha): un clic da un objeto a la figura seleccionada, un arma con su pintura y accesorios. Un clic en una casilla de la figura la devuelve a la mochila; clic derecho: todo, o a la caja. «...» sobre una lista la pliega.\n• El menú contextual de una pila – de Jodi o de la figura – tiene la fila de cantidad como en la pestaña Inventario: «Dar 5», «Coger 5», a la caja.\n• La ropa son prendas reales de la figura, como con los PNJ del juego: se daña, puede romperse y aparece en el inventario de PNJ del propio juego, donde también se puede intercambiar. Bajo una figura, sus prendas son casillas (las dañadas, marcadas): un clic se quita una y la deja en la mochila de Jodi; clic derecho: reparar con un kit de costura de la mochila de Jodi, o reparar todo. En la columna de la mochila, «Ropa» muestra las prendas de Jodi: un clic da una a la figura seleccionada, que se la pone (el daño y los colores van con ella).\n• «Activo» desactivado saca a la figura del mundo con todo lo que lleva; al activarla vuelve delante de Jodi.\n• Una figura que no es invulnerable puede caer. Sigue en la lista y «Revivir» la devuelve con sus cosas. Las figuras nunca se convierten en zombis.\n• «Eliminar» pide confirmación; los objetos y armas de la figura van a la caja y su ropa a la mochila de Jodi.\n• «Cambiar look» pasa a la pestaña Looks: haz clic en el look que debe llevar la figura.\n• Cada figura lleva el maquillaje de su look y tiene una de las voces de PNJ del juego. Una figura creada con AltUI antes de la 2.2.0 muestra el maquillaje de Jodi hasta que «Cambiar look…» le da el suyo.\n\nAltUI guarda las figuras en una partida propia (AltUI_Followers.sav); la partida del juego nunca las contiene. Los seguidores que siguen vienen a cada nivel y tras cargar; los que esperan y los PNJ se quedan en su nivel, en su sitio.\n\nMenú rápido: «Seguidor: sígueme / espera aquí» se dirige al seguidor que tienes a la vista, «Todos los seguidores: seguir / esperar» a todos. «Todos los seguidores: venid aquí» trae a cada seguidor activo a los puestos delante de Jodi, también a uno que espera en otro nivel.",
-     "pl": "Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkazów; NPC zostaje na miejscu i się broni.\n\n• W zakładce Stylizacje prawy klik na stylizację: „Utwórz jako towarzysza” albo „Utwórz jako NPC”. Postać pojawia się przed Jodi w tej stylizacji.\n• Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, „Nieśmiertelny” i „...” (zmień nazwę, zmień stylizację, ożyw, usuń).\n• Kliknięcie wiersza wybiera postać. Na górze są plecak (po lewej) i skrzynia (po prawej): kliknięcie daje przedmiot wybranej postaci, broń razem z malowaniem i akcesoriami. Kliknięcie kafelka postaci oddaje go do plecaka; prawy klik: wszystko albo do skrzyni. „...” nad listą zwija ją.\n• Menu kontekstowe stosu – Jodi lub postaci – ma wiersz ilości jak w karcie Ekwipunek: „Daj 5”, „Weź 5”, do skrzyni.\n• Ubrania to prawdziwe rzeczy postaci, jak u NPC w grze: niszczą się, mogą zostać zerwane i widać je w ekwipunku NPC samej gry, gdzie można je też wymieniać. Pod postacią jej rzeczy są kafelkami (uszkodzone mają znacznik): kliknięcie zdejmuje rzecz i wkłada ją do plecaka Jodi; prawy klik: napraw zestawem do szycia z plecaka Jodi albo napraw wszystko. W kolumnie plecaka „Ubrania” pokazuje rzeczy Jodi: kliknięcie daje jedną wybranej postaci, która ją zakłada (uszkodzenia i kolory idą razem z nią).\n• Wyłączenie „Aktywny” zabiera postać ze świata razem z tym, co niesie; po włączeniu wraca przed Jodi.\n• Postać, która nie jest nieśmiertelna, może polec. Zostaje na liście, a „Ożyw” przywraca ją z jej rzeczami. Postacie nigdy nie zmieniają się w zombie.\n• „Usuń” pyta o potwierdzenie; przedmioty i broń postaci trafiają do skrzyni, a ubrania do plecaka Jodi.\n• „Zmień stylizację” przechodzi do zakładki Stylizacje: kliknij stylizację, którą postać ma nosić.\n• Każda postać nosi makijaż swojej stylizacji i ma jeden z głosów NPC z gry. Postać utworzona w AltUI przed 2.2.0 pokazuje makijaż Jodi, dopóki „Zmień stylizację…” nie da jej własnego.\n\nAltUI przechowuje postacie we własnym zapisie (AltUI_Followers.sav); zapis gry nigdy ich nie zawiera. Podążający towarzysze przechodzą z Jodi do każdego poziomu i są po wczytaniu; czekający i NPC zostają w swoim poziomie na swoim miejscu.\n\nSzybkie menu: „Towarzysz: za mną / czekaj tutaj” dotyczy towarzysza w polu widzenia, „Wszyscy towarzysze: za mną / czekać” – wszystkich. „Wszyscy towarzysze: do mnie” sprowadza każdego aktywnego towarzysza na miejsca przed Jodi – także tego, który czeka na innym poziomie.",
-     "fr": "Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et obéit aux ordres ; un PNJ reste où il est et se défend.\n\n• Dans l'onglet Looks, clic droit sur un look : « Créer en compagnon » ou « Créer en PNJ ». La figure apparaît devant Jodi avec ce look.\n• L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », « Invulnérable » et « ... » (renommer, changer de look, ranimer, retirer).\n• Un clic sur une ligne sélectionne la figure. En haut se trouvent le sac à dos (à gauche) et la caisse (à droite) : un clic donne un objet à la figure sélectionnée, une arme avec sa peinture et ses accessoires. Un clic sur une tuile de la figure le rend au sac à dos ; clic droit : tout, ou dans la caisse. « ... » au-dessus d'une liste la replie.\n• Le menu contextuel d'une pile – de Jodi ou de la figure – a la ligne de quantité comme dans l'onglet Inventaire : « En donner 5 », « En prendre 5 », dans le coffre.\n• Les vêtements sont de vraies pièces de la figure, comme pour les PNJ du jeu : ils s'abîment, peuvent se déchirer et apparaissent dans l'inventaire PNJ du jeu, où l'on peut aussi les échanger. Sous une figure, ses pièces sont des tuiles (celles abîmées sont marquées) : un clic en enlève une et la met dans le sac à dos de Jodi ; clic droit : réparer avec un kit de couture du sac à dos de Jodi, ou tout réparer. Dans la colonne du sac à dos, « Vêtements » liste les pièces de Jodi : un clic en donne une à la figure sélectionnée, qui l'enfile (dégâts et couleurs suivent).\n• « Actif » désactivé retire la figure du monde avec tout ce qu'elle porte ; réactivée, elle revient devant Jodi.\n• Une figure qui n'est pas invulnérable peut tomber. Elle reste dans la liste et « Ranimer » la ramène avec ses affaires. Les figures ne deviennent jamais des zombies.\n• « Retirer » demande confirmation ; les objets et les armes de la figure vont dans la caisse, ses vêtements dans le sac à dos de Jodi.\n• « Changer de look » passe à l'onglet Looks : cliquez sur le look que la figure doit porter.\n• Chaque figure porte le maquillage de son look et a une des voix de PNJ du jeu. Une figure créée avec AltUI avant la 2.2.0 montre le maquillage de Jodi jusqu'à ce que « Changer de look… » lui donne le sien.\n\nAltUI garde les figures dans une sauvegarde à part (AltUI_Followers.sav) ; la sauvegarde du jeu ne les contient jamais. Les compagnons qui suivent viennent dans chaque niveau et après un chargement ; ceux qui attendent et les PNJ restent dans leur niveau, à leur place.\n\nMenu rapide : « Compagnon : suis-moi / attends ici » s'adresse au compagnon en vue, « Tous les compagnons : suivre / attendre » à tous. « Tous les compagnons : venez ici » amène chaque compagnon actif aux places devant Jodi – aussi celui qui attend dans un autre niveau."
+     "en": "Looks as people in the game: a follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.\n\n• In the Looks tab, right click a look: \"Spawn as follower\" or \"Spawn as NPC\". The figure appears in front of Jodi wearing that look.\n• The tab \"Followers\" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: \"Follow me\", \"Wait here\", \"Bring here\", → NPC / → Follower, \"Active\", \"Invulnerable\", \"Infinite ammo\" and \"...\" (rename, change look, revive, remove).\n• Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. \"...\" above a list folds it.\n• The context menu of a stack – Jodi's or the figure's – has the amount row as in the Inventory tab: \"Give 5\", \"Take 5\", into the box.\n• Clothes are real pieces of the figure, as with the game's NPCs: they take damage, can tear off and show up in the game's own NPC inventory, where you can swap them too. Under a figure, its pieces are tiles (a badge marks damaged ones): a click takes one off into Jodi's backpack; right click: repair with a sewing kit from Jodi's backpack, or repair all. In the backpack column, \"Clothes\" lists Jodi's pieces: a click gives one to the selected figure, which puts it on (her damage and colours go along).\n• \"Active\" off takes a figure out of the world, with everything it carries; on again, it comes back in front of Jodi.\n• \"Infinite ammo\": the figure keeps reloading its guns without needing ammo in its bag. Guns with a magazine leave its ammo untouched; the shotgun and the grenade launcher use up what it carries first.\n• A figure that is not invulnerable can fall. It stays in the list and \"Revive\" brings it back with what it carried. Figures never turn into zombies.\n• \"+ Jason\" (bottom right of the tab) adds Jason from the story as a follower, with his Glock. He takes orders, comes along and is saved. He fights only with his own Glock: a Glock you give him becomes his, other weapons he does not take. He has no look, clothes or make-up; when he is down he cannot be healed – \"Revive\" brings him back.\n• \"Remove\" asks first; the figure's items and guns go into the storage box, its clothes into Jodi's backpack.\n• \"Change look\" switches to the Looks tab: click the look the figure should wear.\n• Every figure wears the make-up of its look and has one of the game's NPC voices. A figure made with AltUI before 2.2.0 shows Jodi's make-up until \"Change look…\" gives it its own.\n\nAltUI keeps the figures in a save of its own (AltUI_Followers.sav), the game's save never contains them. Following followers come along to every level and after loading; waiting followers and NPCs stay in their level at their place.\n\nQuick menu: \"Follower: follow me / wait here\" orders the follower in view, \"All followers: follow / wait\" all of them. \"All followers: come to me\" brings every active follower to the places in front of Jodi – also one waiting in another level.",
+     "de": "Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befehle an; ein NPC bleibt, wo er ist, und verteidigt sich.\n\n• Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.\n• Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, „Unverwundbar“, „Endlosmunition“ und „...“ (umbenennen, Look ändern, wiederbeleben, entfernen).\n• Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.\n• Das Kontextmenü eines Stapels – bei Jodi oder der Figur – hat die Anzahl-Zeile wie im Reiter Inventar: „5 geben“, „5 nehmen“, in die Box.\n• Die Kleidung besteht aus echten Stücken der Figur wie bei den NPCs des Spiels: Sie bekommt Schaden, kann abreißen und steht im Inventar-Dialog des Spiels, wo man sie auch tauschen kann. Unter einer Figur stehen ihre Stücke als Kacheln (beschädigte mit Markierung): Ein Klick zieht eines aus und legt es in Jodis Rucksack; Rechtsklick: mit einem Nähset aus Jodis Rucksack reparieren oder alle reparieren. In der Rucksack-Spalte listet „Kleidung“ Jodis Stücke: Ein Klick gibt eines an die ausgewählte Figur, die es anzieht (Schaden und Farben gehen mit).\n• „Aktiv“ aus nimmt eine Figur mit allem, was sie trägt, aus der Welt; wieder an, kommt sie vor Jodi zurück.\n• „Endlosmunition“: Die Figur lädt ihre Schusswaffen immer wieder nach, ohne Munition in ihrer Tasche zu brauchen. Magazinwaffen lassen ihre Munition unberührt; Schrotflinte und Granatwerfer verbrauchen zuerst, was sie dabei hat.\n• Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.\n• „+ Jason“ (unten rechts im Reiter) holt Jason aus der Story als Follower dazu, mit seiner Glock. Er nimmt Befehle, kommt mit und wird gespeichert. Er kämpft nur mit seiner eigenen Glock: Eine Glock, die man ihm gibt, wird seine, andere Waffen nimmt er nicht. Look, Kleidung und Make-up hat er nicht; liegt er am Boden, kann man ihn nicht heilen – „Wiederbeleben“ holt ihn zurück.\n• „Entfernen“ fragt nach; Items und Schusswaffen der Figur kommen in die Box, ihre Kleidung in Jodis Rucksack.\n• „Look ändern“ wechselt in den Looks-Reiter: den Look anklicken, den die Figur tragen soll.\n• Jede Figur trägt das Make-up ihres Looks und hat eine der NPC-Stimmen des Spiels. Eine Figur, die mit AltUI vor 2.2.0 entstanden ist, zeigt Jodis Make-up, bis „Look ändern…“ ihr ein eigenes gibt.\n\nAltUI speichert die Figuren in einem eigenen Spielstand (AltUI_Followers.sav), der Spielstand des Spiels enthält sie nie. Folgende Follower kommen in jedes Level mit und sind nach dem Laden da; wartende Follower und NPCs bleiben in ihrem Level an ihrem Platz.\n\nSchnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im Blick, „Alle Follower: folgen / warten“ für alle. „Alle Follower: zu mir“ holt jeden aktiven Follower auf die Plätze vor Jodi – auch einen, der in einem anderen Level wartet.",
+     "zh": "把造型变成游戏中的人物：跟随者与朱蒂同行、战斗并听从命令；NPC 留在原地并自卫。\n\n• 在造型页右键点击一个造型：“生成为跟随者”或“生成为NPC”。人物会以该造型出现在朱蒂面前。\n• “跟随者”页列出所有人物及其状态（跟随中、等待中、NPC、未激活、已倒下），以及按钮：“跟着我”、“在这里等”、“召回”、→ NPC / → 跟随者、“激活”、“无敌”、“无限弹药”和“...”（重命名、更换造型、复活、移除）。\n• 点击一行即可选中该人物。上方是背包（左）和箱子（右）：点击会把一件物品交给选中的人物，枪械连同涂装和配件一起。点击人物自己的图块会把物品还回背包；右键：全部，或放入箱子。列表上方的“...”可以折叠它。\n• 堆叠物品的右键菜单（朱蒂的或该人物的）与“物品栏”标签页一样有数量行：“给出 5 个”“取出 5 个”、放入物品箱。\n• 服装是人物的真实衣物，与游戏中的NPC一样：会受损、可能被撕掉，并显示在游戏自带的NPC物品栏中，也可以在那里交换。人物下方以图块显示其衣物（受损的有标记）：点击会脱下一件并放入朱蒂的背包；右键：用朱蒂背包里的针线包修补，或全部修补。背包一栏中的“服装”列出朱蒂的衣物：点击会把一件交给选中的人物，人物会穿上它（损坏程度和颜色一并带走）。\n• 关闭“激活”会把人物连同其所带物品一起移出世界；再次打开时它会回到朱蒂面前。\n• “无限弹药”：人物会不断为枪械装弹，背包里不需要弹药。使用弹匣的枪不会动它的弹药；霰弹枪和榴弹发射器会先用掉它身上带的。\n• 没有无敌的人物可能倒下。它仍留在列表中，“复活”会带着它的物品把它带回来。人物永远不会变成僵尸。\n• “+ 杰森”（该页右下角）把剧情中的杰森作为跟随者加入，带着他的格洛克。他听从命令、跟随并会被保存。他只用自己的格洛克战斗：给他的格洛克会变成他的，其他武器他不接受。他没有造型、服装和妆容；倒地时无法治疗——“复活”会把他带回来。\n• “移除”会先确认；人物的物品和枪械会放入箱子，衣物放入朱蒂的背包。\n• “更换造型”会切换到造型页：点击人物要穿的造型。\n• 每个人物都带着其造型的妆容，并拥有游戏中的一种 NPC 声音。用 2.2.0 之前的 AltUI 创建的人物会显示朱蒂的妆容，直到“更换造型…”给它自己的妆容。\n\nAltUI 把人物保存在自己的存档中（AltUI_Followers.sav），游戏存档里永远不会有它们。正在跟随的跟随者会随朱蒂进入每个关卡，读档后也在；等待中的跟随者和NPC留在各自关卡的原处。\n\n快捷菜单：“跟随者：跟着我 / 在这里等”作用于视野中的跟随者，“所有跟随者：跟随 / 等待”作用于全部。“所有跟随者：到我这里来”会把所有活跃的跟随者带到朱蒂面前的位置——也包括在另一个关卡等待的跟随者。",
+     "ru": "Образы как персонажи игры: спутник идёт с Джоди, сражается и слушается приказов; NPC остаётся на месте и защищается.\n\n• Во вкладке «Образы» правый щелчок по образу: «Создать как спутника» или «Создать как NPC». Персонаж появляется перед Джоди в этом образе.\n• Вкладка «Спутники» показывает всех персонажей с их состоянием (следует, ждёт, NPC, неактивен, погиб) и кнопками: «За мной», «Жди здесь», «Позвать», → NPC / → Спутник, «Активен», «Неуязвим», «Беск. патроны» и «...» (переименовать, сменить образ, воскресить, удалить).\n• Щелчок по строке выбирает персонажа. Наверху рюкзак (слева) и ящик (справа): щелчок передаёт предмет выбранному персонажу, оружие – вместе с покраской и обвесом. Щелчок по плитке персонажа возвращает предмет в рюкзак; правый щелчок: всё или в ящик. «...» над списком сворачивает его.\n• В контекстном меню стопки — у Джоди или у фигуры — есть строка количества, как во вкладке «Инвентарь»: «Дать 5», «Взять 5», в ящик.\n• Одежда — настоящие вещи персонажа, как у NPC игры: она получает повреждения, может порваться и видна в инвентаре NPC самой игры, где её тоже можно обменивать. Под персонажем его вещи показаны плитками (повреждённые отмечены): щелчок снимает вещь и кладёт её в рюкзак Джоди; правый щелчок: починить швейным набором из рюкзака Джоди или починить всё. В колонке рюкзака раздел «Одежда» показывает вещи Джоди: щелчок отдаёт вещь выбранному персонажу, и он её надевает (повреждения и цвета переходят вместе с ней).\n• «Активен» выключено убирает персонажа из мира со всем, что он несёт; при включении он возвращается перед Джоди.\n• «Беск. патроны»: персонаж перезаряжает оружие снова и снова, патроны в его сумке не нужны. Оружие с магазином его патроны не трогает; дробовик и гранатомёт сначала расходуют те, что у него есть.\n• Персонаж без неуязвимости может погибнуть. Он остаётся в списке, «Воскресить» возвращает его с вещами. Персонажи никогда не превращаются в зомби.\n• «+ Джейсон» (внизу справа на вкладке) добавляет Джейсона из сюжета как спутника, с его Glock. Он выполняет приказы, идёт с Джоди и сохраняется. Сражается только своим Glock: отданный ему Glock становится его, другое оружие он не берёт. Образа, одежды и макияжа у него нет; упавшего его нельзя вылечить – «Воскресить» возвращает его.\n• «Удалить» спрашивает подтверждение; предметы и оружие персонажа уходят в ящик, одежда — в рюкзак Джоди.\n• «Сменить образ» переходит во вкладку «Образы»: щёлкните образ, который должен носить персонаж.\n• Каждый персонаж носит макияж своего образа и говорит одним из голосов NPC игры. Персонаж, созданный в AltUI до 2.2.0, показывает макияж Джоди, пока «Сменить образ…» не даст ему собственный.\n\nAltUI хранит персонажей в собственном сохранении (AltUI_Followers.sav), сохранение игры их никогда не содержит. Следующие спутники переходят с Джоди на каждый уровень и появляются после загрузки; ждущие спутники и NPC остаются на своём уровне, на своём месте.\n\nБыстрое меню: «Спутник: за мной / жди здесь» – для спутника в поле зрения, «Все спутники: за мной / ждать» – для всех. «Все спутники: ко мне» приводит каждого активного спутника на места перед Джоди – и того, кто ждёт на другом уровне.",
+     "es": "Looks convertidos en personas del juego: un seguidor acompaña a Jodi, lucha y obedece órdenes; un PNJ se queda donde está y se defiende.\n\n• En la pestaña Looks, clic derecho en un look: «Crear como seguidor» o «Crear como PNJ». La figura aparece delante de Jodi con ese look.\n• La pestaña «Seguidores» muestra todas las figuras con su estado (sigue, espera, PNJ, inactivo, caído) y chips: «Sígueme», «Espera aquí», «Traer aquí», → PNJ / → Seguidor, «Activo», «Invulnerable», «Munición infinita» y «...» (renombrar, cambiar look, revivir, eliminar).\n• Un clic en una fila selecciona la figura. Arriba están la mochila (izquierda) y la caja (derecha): un clic da un objeto a la figura seleccionada, un arma con su pintura y accesorios. Un clic en una casilla de la figura la devuelve a la mochila; clic derecho: todo, o a la caja. «...» sobre una lista la pliega.\n• El menú contextual de una pila – de Jodi o de la figura – tiene la fila de cantidad como en la pestaña Inventario: «Dar 5», «Coger 5», a la caja.\n• La ropa son prendas reales de la figura, como con los PNJ del juego: se daña, puede romperse y aparece en el inventario de PNJ del propio juego, donde también se puede intercambiar. Bajo una figura, sus prendas son casillas (las dañadas, marcadas): un clic se quita una y la deja en la mochila de Jodi; clic derecho: reparar con un kit de costura de la mochila de Jodi, o reparar todo. En la columna de la mochila, «Ropa» muestra las prendas de Jodi: un clic da una a la figura seleccionada, que se la pone (el daño y los colores van con ella).\n• «Activo» desactivado saca a la figura del mundo con todo lo que lleva; al activarla vuelve delante de Jodi.\n• «Munición infinita»: la figura recarga sus armas de fuego una y otra vez sin necesitar munición en su bolsa. Las armas con cargador no tocan su munición; la escopeta y el lanzagranadas gastan primero la que lleva.\n• Una figura que no es invulnerable puede caer. Sigue en la lista y «Revivir» la devuelve con sus cosas. Las figuras nunca se convierten en zombis.\n• «+ Jason» (abajo a la derecha de la pestaña) añade a Jason de la historia como seguidor, con su Glock. Obedece órdenes, te acompaña y se guarda. Solo lucha con su propia Glock: una Glock que le des pasa a ser suya; otras armas no las acepta. No tiene look, ropa ni maquillaje; si cae, no se le puede curar: «Revivir» lo trae de vuelta.\n• «Eliminar» pide confirmación; los objetos y armas de la figura van a la caja y su ropa a la mochila de Jodi.\n• «Cambiar look» pasa a la pestaña Looks: haz clic en el look que debe llevar la figura.\n• Cada figura lleva el maquillaje de su look y tiene una de las voces de PNJ del juego. Una figura creada con AltUI antes de la 2.2.0 muestra el maquillaje de Jodi hasta que «Cambiar look…» le da el suyo.\n\nAltUI guarda las figuras en una partida propia (AltUI_Followers.sav); la partida del juego nunca las contiene. Los seguidores que siguen vienen a cada nivel y tras cargar; los que esperan y los PNJ se quedan en su nivel, en su sitio.\n\nMenú rápido: «Seguidor: sígueme / espera aquí» se dirige al seguidor que tienes a la vista, «Todos los seguidores: seguir / esperar» a todos. «Todos los seguidores: venid aquí» trae a cada seguidor activo a los puestos delante de Jodi, también a uno que espera en otro nivel.",
+     "pl": "Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkazów; NPC zostaje na miejscu i się broni.\n\n• W zakładce Stylizacje prawy klik na stylizację: „Utwórz jako towarzysza” albo „Utwórz jako NPC”. Postać pojawia się przed Jodi w tej stylizacji.\n• Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, „Nieśmiertelny”, „Amunicja bez końca” i „...” (zmień nazwę, zmień stylizację, ożyw, usuń).\n• Kliknięcie wiersza wybiera postać. Na górze są plecak (po lewej) i skrzynia (po prawej): kliknięcie daje przedmiot wybranej postaci, broń razem z malowaniem i akcesoriami. Kliknięcie kafelka postaci oddaje go do plecaka; prawy klik: wszystko albo do skrzyni. „...” nad listą zwija ją.\n• Menu kontekstowe stosu – Jodi lub postaci – ma wiersz ilości jak w karcie Ekwipunek: „Daj 5”, „Weź 5”, do skrzyni.\n• Ubrania to prawdziwe rzeczy postaci, jak u NPC w grze: niszczą się, mogą zostać zerwane i widać je w ekwipunku NPC samej gry, gdzie można je też wymieniać. Pod postacią jej rzeczy są kafelkami (uszkodzone mają znacznik): kliknięcie zdejmuje rzecz i wkłada ją do plecaka Jodi; prawy klik: napraw zestawem do szycia z plecaka Jodi albo napraw wszystko. W kolumnie plecaka „Ubrania” pokazuje rzeczy Jodi: kliknięcie daje jedną wybranej postaci, która ją zakłada (uszkodzenia i kolory idą razem z nią).\n• Wyłączenie „Aktywny” zabiera postać ze świata razem z tym, co niesie; po włączeniu wraca przed Jodi.\n• „Amunicja bez końca”: postać przeładowuje broń palną bez końca i nie potrzebuje amunicji w torbie. Broń z magazynkiem nie rusza jej amunicji; strzelba i granatnik najpierw zużywają to, co ma przy sobie.\n• Postać, która nie jest nieśmiertelna, może polec. Zostaje na liście, a „Ożyw” przywraca ją z jej rzeczami. Postacie nigdy nie zmieniają się w zombie.\n• „+ Jason” (na dole po prawej w zakładce) dodaje Jasona z fabuły jako towarzysza, z jego Glockiem. Słucha poleceń, idzie z Jodi i jest zapisywany. Walczy tylko własnym Glockiem: Glock, który mu dasz, staje się jego, innej broni nie przyjmuje. Nie ma stylizacji, ubrań ani makijażu; gdy leży, nie da się go uleczyć – „Ożyw” przywraca go.\n• „Usuń” pyta o potwierdzenie; przedmioty i broń postaci trafiają do skrzyni, a ubrania do plecaka Jodi.\n• „Zmień stylizację” przechodzi do zakładki Stylizacje: kliknij stylizację, którą postać ma nosić.\n• Każda postać nosi makijaż swojej stylizacji i ma jeden z głosów NPC z gry. Postać utworzona w AltUI przed 2.2.0 pokazuje makijaż Jodi, dopóki „Zmień stylizację…” nie da jej własnego.\n\nAltUI przechowuje postacie we własnym zapisie (AltUI_Followers.sav); zapis gry nigdy ich nie zawiera. Podążający towarzysze przechodzą z Jodi do każdego poziomu i są po wczytaniu; czekający i NPC zostają w swoim poziomie na swoim miejscu.\n\nSzybkie menu: „Towarzysz: za mną / czekaj tutaj” dotyczy towarzysza w polu widzenia, „Wszyscy towarzysze: za mną / czekać” – wszystkich. „Wszyscy towarzysze: do mnie” sprowadza każdego aktywnego towarzysza na miejsca przed Jodi – także tego, który czeka na innym poziomie.",
+     "fr": "Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et obéit aux ordres ; un PNJ reste où il est et se défend.\n\n• Dans l'onglet Looks, clic droit sur un look : « Créer en compagnon » ou « Créer en PNJ ». La figure apparaît devant Jodi avec ce look.\n• L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », « Invulnérable », « Munitions infinies » et « ... » (renommer, changer de look, ranimer, retirer).\n• Un clic sur une ligne sélectionne la figure. En haut se trouvent le sac à dos (à gauche) et la caisse (à droite) : un clic donne un objet à la figure sélectionnée, une arme avec sa peinture et ses accessoires. Un clic sur une tuile de la figure le rend au sac à dos ; clic droit : tout, ou dans la caisse. « ... » au-dessus d'une liste la replie.\n• Le menu contextuel d'une pile – de Jodi ou de la figure – a la ligne de quantité comme dans l'onglet Inventaire : « En donner 5 », « En prendre 5 », dans le coffre.\n• Les vêtements sont de vraies pièces de la figure, comme pour les PNJ du jeu : ils s'abîment, peuvent se déchirer et apparaissent dans l'inventaire PNJ du jeu, où l'on peut aussi les échanger. Sous une figure, ses pièces sont des tuiles (celles abîmées sont marquées) : un clic en enlève une et la met dans le sac à dos de Jodi ; clic droit : réparer avec un kit de couture du sac à dos de Jodi, ou tout réparer. Dans la colonne du sac à dos, « Vêtements » liste les pièces de Jodi : un clic en donne une à la figure sélectionnée, qui l'enfile (dégâts et couleurs suivent).\n• « Actif » désactivé retire la figure du monde avec tout ce qu'elle porte ; réactivée, elle revient devant Jodi.\n• « Munitions infinies » : la figure recharge ses armes à feu sans fin, sans avoir besoin de munitions dans son sac. Les armes à chargeur ne touchent pas à ses munitions ; le fusil à pompe et le lance-grenades utilisent d'abord ce qu'elle porte.\n• Une figure qui n'est pas invulnérable peut tomber. Elle reste dans la liste et « Ranimer » la ramène avec ses affaires. Les figures ne deviennent jamais des zombies.\n• « + Jason » (en bas à droite de l'onglet) ajoute Jason de l'histoire comme compagnon, avec son Glock. Il obéit aux ordres, suit et est sauvegardé. Il ne se bat qu'avec son propre Glock : un Glock qu'on lui donne devient le sien, il refuse les autres armes. Il n'a ni look, ni vêtements, ni maquillage ; à terre, il ne peut pas être soigné – « Ranimer » le ramène.\n• « Retirer » demande confirmation ; les objets et les armes de la figure vont dans la caisse, ses vêtements dans le sac à dos de Jodi.\n• « Changer de look » passe à l'onglet Looks : cliquez sur le look que la figure doit porter.\n• Chaque figure porte le maquillage de son look et a une des voix de PNJ du jeu. Une figure créée avec AltUI avant la 2.2.0 montre le maquillage de Jodi jusqu'à ce que « Changer de look… » lui donne le sien.\n\nAltUI garde les figures dans une sauvegarde à part (AltUI_Followers.sav) ; la sauvegarde du jeu ne les contient jamais. Les compagnons qui suivent viennent dans chaque niveau et après un chargement ; ceux qui attendent et les PNJ restent dans leur niveau, à leur place.\n\nMenu rapide : « Compagnon : suis-moi / attends ici » s'adresse au compagnon en vue, « Tous les compagnons : suivre / attendre » à tous. « Tous les compagnons : venez ici » amène chaque compagnon actif aux places devant Jodi – aussi celui qui attend dans un autre niveau."
     },
     "Man_kodex_T": {
      "en": "Codex",
@@ -8071,13 +8265,13 @@
      "fr": "Menu rapide"
     },
     "Man_quick_B": {
-     "en": "Hold 4 (another key under Options › Quick menu) and a wheel opens around the mouse. Let go on an item to run it; let go in the middle to do nothing.\n\n• Items: outfits, looks, faces, appearance presets, poses, tabs, settings of other mods and actions: free camera, photo mode, ragdolls mode, a copy of Jodi as a ragdoll, switch every ragdoll between active and frozen, activate / freeze the one in view, remove all ragdolls, own speed on / off.\n• More actions: \"Slow motion on / off\", \"Stop time / go on\" (everything stands still; the panel and the cameras keep working; also the camera of the game's photo mode), \"Hide / show Jodi\" (with clothes, hair and weapon; she is back in the next level) and the orders for followers (see \"Followers\").\n• \"Hide / show the game's UI\" switches the game's HUD off and on, as its photo mode does.\n• Own keys: under Options › Quick menu, right click an item under \"Available\" and press a key – the item then runs on that key, with the panel closed, also in the free camera and in the game's photo mode. Click the key of a row for another one, ✕ removes it. The panel key, the quick menu key and a key already given are refused; a key the game uses itself triggers both.\n• Add them under Options › Quick menu, or with a right click on a tile, a tab or a mod's entry (\"Add to quick menu\").\n• The order in the wheel is the order in the list under Options › Quick menu.",
-     "de": "4 gedrückt halten (andere Taste unter Optionen › Schnellmenü), und um die Maus öffnet sich ein Rad. Über einem Eintrag loslassen führt ihn aus; in der Mitte loslassen tut nichts.\n\n• Einträge: Outfits, Looks, Gesichter, Aussehen-Presets, Posen, Reiter, Einstellungen anderer Mods und Aktionen: freie Kamera, Fotomodus, Ragdoll-Modus, Kopie von Jodi als Ragdoll, alle Ragdolls zwischen aktiv und eingefroren umschalten, anvisierte aktivieren / einfrieren, alle Ragdolls entfernen, eigenes Tempo an / aus.\n• Weitere Aktionen: „Zeitlupe an / aus“, „Zeit anhalten / weiter“ (alles steht still; Panel und Kameras arbeiten weiter; auch die Kamera des Fotomodus), „Jodi aus- / einblenden“ (mit Kleidung, Haaren und Waffe; im nächsten Level ist sie wieder da) und die Befehle an Follower (siehe „Follower“).\n• „Spiel-UI aus- / einblenden“ schaltet das HUD des Spiels aus und ein, wie es sein Fotomodus tut.\n• Eigene Tasten: unter Optionen › Schnellmenü Rechtsklick auf einen Eintrag unter „Verfügbar“ und eine Taste drücken – der Eintrag läuft dann auf dieser Taste, bei geschlossenem Panel, auch in der freien Kamera und im Fotomodus des Spiels. Klick auf die Taste einer Zeile legt eine andere fest, ✕ entfernt sie. Panel-Taste, Schnellmenü-Taste und schon vergebene Tasten werden abgelehnt; eine Taste, die das Spiel selbst nutzt, löst beides aus.\n• Hinzufügen unter Optionen › Schnellmenü oder per Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods („Ins Schnellmenü“).\n• Die Reihenfolge im Rad ist die Reihenfolge der Liste unter Optionen › Schnellmenü.",
-     "zh": "按住 4（可在 选项 › 快捷菜单 中更换按键），鼠标周围会出现一个轮盘。在某个条目上松开即执行它；在中间松开则什么也不做。\n\n• 条目：搭配、造型、面部、外观预设、姿势、标签页、其他模组的设置，以及这些操作：自由相机、拍照模式、布娃娃模式、朱蒂的布娃娃副本、所有布娃娃在激活和冻结之间切换、激活 / 冻结视野中的人物、移除所有布娃娃、自定义速度开 / 关。\n• 更多操作：“慢动作 开 / 关”、“时间暂停 / 继续”（一切静止；面板和相机照常工作；游戏拍照模式的相机也一样）、“隐藏 / 显示朱蒂”（连同服装、头发和武器；下一个关卡她会重新出现）以及对跟随者的命令（见“跟随者”）。\n• “隐藏 / 显示游戏界面”关闭和打开游戏的 HUD，与游戏的拍照模式相同。\n• 自定义按键：在 选项 › 快捷菜单 中，右键点击“可用”下的条目并按下一个键——该条目就由这个键执行，在面板关闭时生效，在自由相机和游戏的拍照模式中同样有效。点击某一行的按键可改为另一个键，✕ 删除。面板键、快捷菜单键和已被占用的键会被拒绝；游戏自身使用的按键会同时触发两者。\n• 在 选项 › 快捷菜单 中添加，或右键图块、标签页或模组条目（“加入快捷菜单”）。\n• 轮盘中的顺序就是 选项 › 快捷菜单 中列表的顺序。",
-     "ru": "Удерживайте 4 (другая клавиша – в Настройки › Быстрое меню), и вокруг мыши откроется колесо. Отпустите над записью, чтобы выполнить ее; отпустите в центре – ничего не произойдет.\n\n• Записи: комплекты, образы, лица, пресеты внешности, позы, вкладки, настройки других модов и действия: свободная камера, фоторежим, режим рэгдоллов, копия Джоди как рэгдолл, переключение всех рэгдоллов между активными и замороженными, активировать / заморозить фигуру в центре, удалить все рэгдоллы, своя скорость вкл. / выкл.\n• Другие действия: «Замедление вкл / выкл», «Остановить время / продолжить» (все замирает; панель и камеры продолжают работать; также камера фоторежима игры), «Скрыть / показать Джоди» (вместе с одеждой, волосами и оружием; на следующем уровне она снова видна) и приказы спутникам (см. «Спутники»).\n• «Скрыть / показать интерфейс игры» выключает и включает HUD игры, как это делает ее фоторежим.\n• Свои клавиши: в Настройки › Быстрое меню щелкните правой кнопкой по пункту в «Доступно» и нажмите клавишу — пункт будет выполняться этой клавишей при закрытой панели, также в свободной камере и в фоторежиме игры. Щелчок по клавише в строке назначает другую, ✕ удаляет ее. Клавиша панели, клавиша быстрого меню и уже занятая клавиша отклоняются; клавиша, которую использует сама игра, сработает в обоих местах.\n• Добавляются в Настройки › Быстрое меню или правым щелчком по плитке, вкладке или записи мода («В быстрое меню»).\n• Порядок в колесе – это порядок списка в Настройки › Быстрое меню.",
-     "es": "Mantén pulsado 4 (otra tecla en Opciones › Menú rápido) y se abre una rueda alrededor del ratón. Suelta sobre una entrada para ejecutarla; suelta en el centro para no hacer nada.\n\n• Entradas: conjuntos, looks, rostros, presets de apariencia, poses, pestañas, ajustes de otros mods y acciones: cámara libre, modo foto, modo ragdoll, una copia de Jodi como ragdoll, cambiar todos los ragdolls entre activos y congelados, activar / congelar el del centro, quitar todos los ragdolls, velocidad propia sí / no.\n• Más acciones: «Cámara lenta sí / no», «Detener el tiempo / seguir» (todo se queda quieto; el panel y las cámaras siguen funcionando; también la cámara del modo foto del juego), «Ocultar / mostrar a Jodi» (con ropa, pelo y arma; en el siguiente nivel vuelve a estar) y las órdenes a los seguidores (ver «Seguidores»).\n• «Ocultar / mostrar la interfaz del juego» apaga y enciende el HUD del juego, como hace su modo foto.\n• Teclas propias: en Opciones › Menú rápido, clic derecho en un elemento de «Disponible» y pulsa una tecla: el elemento se ejecuta con esa tecla, con el panel cerrado, también en la cámara libre y en el modo foto del juego. Un clic en la tecla de una fila asigna otra, ✕ la quita. La tecla del panel, la del menú rápido y una tecla ya asignada se rechazan; una tecla que el juego ya usa activa ambas cosas.\n• Se añaden en Opciones › Menú rápido, o con clic derecho en una casilla, una pestaña o la entrada de un mod («Añadir al menú rápido»).\n• El orden en la rueda es el orden de la lista en Opciones › Menú rápido.",
-     "pl": "Przytrzymaj 4 (inny klawisz w Opcje › Szybkie menu), a wokół myszy otworzy się koło. Puść nad wpisem, aby go wykonać; puść na środku, aby nic nie robić.\n\n• Wpisy: stroje, stylizacje, twarze, presety wyglądu, pozy, karty, ustawienia innych modów i akcje: swobodna kamera, tryb fotograficzny, tryb ragdolli, kopia Jodi jako ragdoll, przełączanie wszystkich ragdolli między aktywnymi a zamrożonymi, aktywuj / zamroź tę na środku, usuń wszystkie ragdolle, własna prędkość wł. / wył.\n• Dalsze akcje: „Zwolnienie wł / wył”, „Zatrzymaj czas / dalej” (wszystko staje; panel i kamery działają dalej; także kamera trybu fotograficznego gry), „Ukryj / pokaż Jodi” (z ubraniem, włosami i bronią; w następnym poziomie znów jest widoczna) oraz rozkazy dla towarzyszy (zobacz „Towarzysze”).\n• „Ukryj / pokaż interfejs gry” wyłącza i włącza HUD gry, tak jak jej tryb fotograficzny.\n• Własne klawisze: w Opcje › Szybkie menu kliknij prawym przyciskiem pozycję w „Dostępne” i naciśnij klawisz – pozycja działa wtedy pod tym klawiszem, przy zamkniętym panelu, także w swobodnej kamerze i w trybie fotograficznym gry. Kliknięcie klawisza w wierszu przypisuje inny, ✕ go usuwa. Klawisz panelu, klawisz szybkiego menu i klawisz już przypisany są odrzucane; klawisz używany przez grę uruchamia oba działania.\n• Dodaje się je w Opcje › Szybkie menu albo prawym przyciskiem na kafelku, karcie lub wpisie moda („Dodaj do szybkiego menu”).\n• Kolejność w kole to kolejność listy w Opcje › Szybkie menu.",
-     "fr": "Maintenez 4 (autre touche dans Paramètres › Menu rapide) et une roue s'ouvre autour de la souris. Relâchez sur une entrée pour l'exécuter ; relâchez au centre pour ne rien faire.\n\n• Entrées : tenues, looks, visages, préréglages d'apparence, poses, onglets, réglages d'autres mods et actions : caméra libre, mode photo, mode ragdoll, une copie de Jodi en ragdoll, basculer tous les ragdolls entre actif et figé, activer / figer celui visé, retirer tous les ragdolls, vitesse personnalisée oui / non.\n• Autres actions : « Ralenti oui / non », « Arrêter le temps / reprendre » (tout s'immobilise ; le panneau et les caméras continuent de fonctionner ; aussi la caméra du mode photo du jeu), « Masquer / afficher Jodi » (avec vêtements, cheveux et arme ; au niveau suivant elle est de retour) et les ordres aux compagnons (voir « Compagnons »).\n• « Masquer / afficher l'interface du jeu » éteint et rallume le HUD du jeu, comme son mode photo.\n• Touches personnelles : dans Paramètres › Menu rapide, clic droit sur un élément sous « Disponibles » puis appuyez sur une touche – l'élément s'exécute alors avec cette touche, panneau fermé, aussi en caméra libre et dans le mode photo du jeu. Un clic sur la touche d'une ligne en choisit une autre, ✕ la supprime. La touche du panneau, celle du menu rapide et une touche déjà prise sont refusées ; une touche que le jeu utilise lui-même déclenche les deux.\n• On les ajoute dans Paramètres › Menu rapide, ou par clic droit sur une tuile, un onglet ou l'entrée d'un mod (« Ajouter au menu rapide »).\n• L'ordre dans la roue est l'ordre de la liste dans Paramètres › Menu rapide."
+     "en": "Hold 4 (another key under Options › Quick menu) and a wheel opens around the mouse. Let go on an item to run it; let go in the middle to do nothing.\n\n• Items: outfits, looks, faces, appearance presets, poses, tabs, settings of other mods and actions: free camera, photo mode, ragdolls mode, a copy of Jodi as a ragdoll, switch every ragdoll between active and frozen, activate / freeze the one in view, remove all ragdolls, own speed on / off.\n• More actions: \"Slow motion on / off\", \"Stop time / go on\" (everything stands still; the panel and the cameras keep working; also the camera of the game's photo mode), \"Hide / show Jodi\" (with clothes, hair and weapon; she is back in the next level) and the orders for followers (see \"Followers\").\n• \"Hide / show the game's UI\" switches the game's HUD off and on, as its photo mode does.\n• \"+1 Invisible Hand\" puts one Invisible Hand into the backpack (see Inventory › All items).\n• Own keys: under Options › Quick menu, right click an item under \"Available\" and press a key – the item then runs on that key, with the panel closed, also in the free camera and in the game's photo mode. Click the key of a row for another one, ✕ removes it. The panel key, the quick menu key and a key already given are refused; a key the game uses itself triggers both.\n• Add them under Options › Quick menu, or with a right click on a tile, a tab or a mod's entry (\"Add to quick menu\").\n• The order in the wheel is the order in the list under Options › Quick menu.",
+     "de": "4 gedrückt halten (andere Taste unter Optionen › Schnellmenü), und um die Maus öffnet sich ein Rad. Über einem Eintrag loslassen führt ihn aus; in der Mitte loslassen tut nichts.\n\n• Einträge: Outfits, Looks, Gesichter, Aussehen-Presets, Posen, Reiter, Einstellungen anderer Mods und Aktionen: freie Kamera, Fotomodus, Ragdoll-Modus, Kopie von Jodi als Ragdoll, alle Ragdolls zwischen aktiv und eingefroren umschalten, anvisierte aktivieren / einfrieren, alle Ragdolls entfernen, eigenes Tempo an / aus.\n• Weitere Aktionen: „Zeitlupe an / aus“, „Zeit anhalten / weiter“ (alles steht still; Panel und Kameras arbeiten weiter; auch die Kamera des Fotomodus), „Jodi aus- / einblenden“ (mit Kleidung, Haaren und Waffe; im nächsten Level ist sie wieder da) und die Befehle an Follower (siehe „Follower“).\n• „Spiel-UI aus- / einblenden“ schaltet das HUD des Spiels aus und ein, wie es sein Fotomodus tut.\n• „+1 Unsichtbare Hand“ legt eine Unsichtbare Hand in den Rucksack (siehe Inventar › Alle Items).\n• Eigene Tasten: unter Optionen › Schnellmenü Rechtsklick auf einen Eintrag unter „Verfügbar“ und eine Taste drücken – der Eintrag läuft dann auf dieser Taste, bei geschlossenem Panel, auch in der freien Kamera und im Fotomodus des Spiels. Klick auf die Taste einer Zeile legt eine andere fest, ✕ entfernt sie. Panel-Taste, Schnellmenü-Taste und schon vergebene Tasten werden abgelehnt; eine Taste, die das Spiel selbst nutzt, löst beides aus.\n• Hinzufügen unter Optionen › Schnellmenü oder per Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods („Ins Schnellmenü“).\n• Die Reihenfolge im Rad ist die Reihenfolge der Liste unter Optionen › Schnellmenü.",
+     "zh": "按住 4（可在 选项 › 快捷菜单 中更换按键），鼠标周围会出现一个轮盘。在某个条目上松开即执行它；在中间松开则什么也不做。\n\n• 条目：搭配、造型、面部、外观预设、姿势、标签页、其他模组的设置，以及这些操作：自由相机、拍照模式、布娃娃模式、朱蒂的布娃娃副本、所有布娃娃在激活和冻结之间切换、激活 / 冻结视野中的人物、移除所有布娃娃、自定义速度开 / 关。\n• 更多操作：“慢动作 开 / 关”、“时间暂停 / 继续”（一切静止；面板和相机照常工作；游戏拍照模式的相机也一样）、“隐藏 / 显示朱蒂”（连同服装、头发和武器；下一个关卡她会重新出现）以及对跟随者的命令（见“跟随者”）。\n• “隐藏 / 显示游戏界面”关闭和打开游戏的 HUD，与游戏的拍照模式相同。\n• “+1 无形之手”把一只无形之手放进背包（见 物品栏 › 全部物品）。\n• 自定义按键：在 选项 › 快捷菜单 中，右键点击“可用”下的条目并按下一个键——该条目就由这个键执行，在面板关闭时生效，在自由相机和游戏的拍照模式中同样有效。点击某一行的按键可改为另一个键，✕ 删除。面板键、快捷菜单键和已被占用的键会被拒绝；游戏自身使用的按键会同时触发两者。\n• 在 选项 › 快捷菜单 中添加，或右键图块、标签页或模组条目（“加入快捷菜单”）。\n• 轮盘中的顺序就是 选项 › 快捷菜单 中列表的顺序。",
+     "ru": "Удерживайте 4 (другая клавиша – в Настройки › Быстрое меню), и вокруг мыши откроется колесо. Отпустите над записью, чтобы выполнить ее; отпустите в центре – ничего не произойдет.\n\n• Записи: комплекты, образы, лица, пресеты внешности, позы, вкладки, настройки других модов и действия: свободная камера, фоторежим, режим рэгдоллов, копия Джоди как рэгдолл, переключение всех рэгдоллов между активными и замороженными, активировать / заморозить фигуру в центре, удалить все рэгдоллы, своя скорость вкл. / выкл.\n• Другие действия: «Замедление вкл / выкл», «Остановить время / продолжить» (все замирает; панель и камеры продолжают работать; также камера фоторежима игры), «Скрыть / показать Джоди» (вместе с одеждой, волосами и оружием; на следующем уровне она снова видна) и приказы спутникам (см. «Спутники»).\n• «Скрыть / показать интерфейс игры» выключает и включает HUD игры, как это делает ее фоторежим.\n• «+1 Невидимая рука» кладёт одну Невидимую руку в рюкзак (см. Инвентарь › Все предметы).\n• Свои клавиши: в Настройки › Быстрое меню щелкните правой кнопкой по пункту в «Доступно» и нажмите клавишу — пункт будет выполняться этой клавишей при закрытой панели, также в свободной камере и в фоторежиме игры. Щелчок по клавише в строке назначает другую, ✕ удаляет ее. Клавиша панели, клавиша быстрого меню и уже занятая клавиша отклоняются; клавиша, которую использует сама игра, сработает в обоих местах.\n• Добавляются в Настройки › Быстрое меню или правым щелчком по плитке, вкладке или записи мода («В быстрое меню»).\n• Порядок в колесе – это порядок списка в Настройки › Быстрое меню.",
+     "es": "Mantén pulsado 4 (otra tecla en Opciones › Menú rápido) y se abre una rueda alrededor del ratón. Suelta sobre una entrada para ejecutarla; suelta en el centro para no hacer nada.\n\n• Entradas: conjuntos, looks, rostros, presets de apariencia, poses, pestañas, ajustes de otros mods y acciones: cámara libre, modo foto, modo ragdoll, una copia de Jodi como ragdoll, cambiar todos los ragdolls entre activos y congelados, activar / congelar el del centro, quitar todos los ragdolls, velocidad propia sí / no.\n• Más acciones: «Cámara lenta sí / no», «Detener el tiempo / seguir» (todo se queda quieto; el panel y las cámaras siguen funcionando; también la cámara del modo foto del juego), «Ocultar / mostrar a Jodi» (con ropa, pelo y arma; en el siguiente nivel vuelve a estar) y las órdenes a los seguidores (ver «Seguidores»).\n• «Ocultar / mostrar la interfaz del juego» apaga y enciende el HUD del juego, como hace su modo foto.\n• «+1 Mano invisible» pone una Mano invisible en la mochila (ver Inventario › Todos los objetos).\n• Teclas propias: en Opciones › Menú rápido, clic derecho en un elemento de «Disponible» y pulsa una tecla: el elemento se ejecuta con esa tecla, con el panel cerrado, también en la cámara libre y en el modo foto del juego. Un clic en la tecla de una fila asigna otra, ✕ la quita. La tecla del panel, la del menú rápido y una tecla ya asignada se rechazan; una tecla que el juego ya usa activa ambas cosas.\n• Se añaden en Opciones › Menú rápido, o con clic derecho en una casilla, una pestaña o la entrada de un mod («Añadir al menú rápido»).\n• El orden en la rueda es el orden de la lista en Opciones › Menú rápido.",
+     "pl": "Przytrzymaj 4 (inny klawisz w Opcje › Szybkie menu), a wokół myszy otworzy się koło. Puść nad wpisem, aby go wykonać; puść na środku, aby nic nie robić.\n\n• Wpisy: stroje, stylizacje, twarze, presety wyglądu, pozy, karty, ustawienia innych modów i akcje: swobodna kamera, tryb fotograficzny, tryb ragdolli, kopia Jodi jako ragdoll, przełączanie wszystkich ragdolli między aktywnymi a zamrożonymi, aktywuj / zamroź tę na środku, usuń wszystkie ragdolle, własna prędkość wł. / wył.\n• Dalsze akcje: „Zwolnienie wł / wył”, „Zatrzymaj czas / dalej” (wszystko staje; panel i kamery działają dalej; także kamera trybu fotograficznego gry), „Ukryj / pokaż Jodi” (z ubraniem, włosami i bronią; w następnym poziomie znów jest widoczna) oraz rozkazy dla towarzyszy (zobacz „Towarzysze”).\n• „Ukryj / pokaż interfejs gry” wyłącza i włącza HUD gry, tak jak jej tryb fotograficzny.\n• „+1 Niewidzialna ręka” wkłada jedną Niewidzialną rękę do plecaka (zob. Ekwipunek › Wszystkie przedmioty).\n• Własne klawisze: w Opcje › Szybkie menu kliknij prawym przyciskiem pozycję w „Dostępne” i naciśnij klawisz – pozycja działa wtedy pod tym klawiszem, przy zamkniętym panelu, także w swobodnej kamerze i w trybie fotograficznym gry. Kliknięcie klawisza w wierszu przypisuje inny, ✕ go usuwa. Klawisz panelu, klawisz szybkiego menu i klawisz już przypisany są odrzucane; klawisz używany przez grę uruchamia oba działania.\n• Dodaje się je w Opcje › Szybkie menu albo prawym przyciskiem na kafelku, karcie lub wpisie moda („Dodaj do szybkiego menu”).\n• Kolejność w kole to kolejność listy w Opcje › Szybkie menu.",
+     "fr": "Maintenez 4 (autre touche dans Paramètres › Menu rapide) et une roue s'ouvre autour de la souris. Relâchez sur une entrée pour l'exécuter ; relâchez au centre pour ne rien faire.\n\n• Entrées : tenues, looks, visages, préréglages d'apparence, poses, onglets, réglages d'autres mods et actions : caméra libre, mode photo, mode ragdoll, une copie de Jodi en ragdoll, basculer tous les ragdolls entre actif et figé, activer / figer celui visé, retirer tous les ragdolls, vitesse personnalisée oui / non.\n• Autres actions : « Ralenti oui / non », « Arrêter le temps / reprendre » (tout s'immobilise ; le panneau et les caméras continuent de fonctionner ; aussi la caméra du mode photo du jeu), « Masquer / afficher Jodi » (avec vêtements, cheveux et arme ; au niveau suivant elle est de retour) et les ordres aux compagnons (voir « Compagnons »).\n• « Masquer / afficher l'interface du jeu » éteint et rallume le HUD du jeu, comme son mode photo.\n• « +1 Main invisible » met une Main invisible dans le sac à dos (voir Inventaire › Tous les objets).\n• Touches personnelles : dans Paramètres › Menu rapide, clic droit sur un élément sous « Disponibles » puis appuyez sur une touche – l'élément s'exécute alors avec cette touche, panneau fermé, aussi en caméra libre et dans le mode photo du jeu. Un clic sur la touche d'une ligne en choisit une autre, ✕ la supprime. La touche du panneau, celle du menu rapide et une touche déjà prise sont refusées ; une touche que le jeu utilise lui-même déclenche les deux.\n• On les ajoute dans Paramètres › Menu rapide, ou par clic droit sur une tuile, un onglet ou l'entrée d'un mod (« Ajouter au menu rapide »).\n• L'ordre dans la roue est l'ordre de la liste dans Paramètres › Menu rapide."
     },
     "Man_modding_T": {
      "en": "For mod authors",
@@ -8501,6 +8695,10 @@
     {
      "name": "FaceAdd",
      "type": "bool"
+    },
+    {
+     "name": "Mutation",
+     "type": "struct:/Game/Mod/AltUI/S_Mutation"
     },
     {
      "name": "LastOptionsCat",
@@ -11103,6 +11301,76 @@
     {
      "name": "ColAccent",
      "type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "Mutation",
+     "type": "struct:/Game/Mod/AltUI/S_Mutation"
+    },
+    {
+     "name": "MutSkinRT",
+     "type": "object:/Script/Engine.TextureRenderTarget2D"
+    },
+    {
+     "name": "MutTmpRT",
+     "type": "object:/Script/Engine.TextureRenderTarget2D"
+    },
+    {
+     "name": "MutDragging",
+     "type": "bool"
+    },
+    {
+     "name": "MutEyesWas",
+     "type": "bool"
+    },
+    {
+     "name": "MutTexD",
+     "type": "object:/Script/Engine.Texture"
+    },
+    {
+     "name": "MutTexN",
+     "type": "object:/Script/Engine.Texture"
+    },
+    {
+     "name": "MutTexE",
+     "type": "object:/Script/Engine.Texture"
+    },
+    {
+     "name": "MutEyeMat",
+     "type": "object:/Script/Engine.MaterialInterface"
+    },
+    {
+     "name": "MutStoryMat",
+     "type": "object:/Script/Engine.MaterialInterface"
+    },
+    {
+     "name": "MutStoryMID",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    },
+    {
+     "name": "MutGlowComp",
+     "type": "object:/Script/Engine.SkeletalMeshComponent"
+    },
+    {
+     "name": "MutOrig",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_MutOrig"
+    },
+    {
+     "name": "MutBase",
+     "type": "struct:/Game/Mod/AltUI/S_MutOrig"
+    },
+    {
+     "name": "MutHasBase",
+     "type": "bool"
+    },
+    {
+     "name": "MutColorOn",
+     "type": "bool"
+    },
+    {
+     "name": "MutGlowTmp",
+     "type": "object:/Script/Engine.SkeletalMeshComponent"
     },
     {
      "name": "FaceValues",
@@ -24845,15 +25113,15 @@
        {
         "id": "lg68",
         "kind": "get",
-        "var": "PresetColors",
+        "var": "Mutation",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls68",
         "kind": "set",
-        "var": "PresetColors",
+        "var": "Mutation",
         "in": {
-         "PresetColors": "@lg68.PresetColors"
+         "Mutation": "@lg68.Mutation"
         }
        },
        {
@@ -24864,32 +25132,15 @@
        {
         "id": "lg69",
         "kind": "get",
-        "var": "ToggleKey",
+        "var": "PresetColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls69",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "PresetColors",
         "in": {
-         "ToggleKey": "@lg69.ToggleKey"
-        }
-       },
-       {
-        "id": "ln69",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg69.ToggleKey",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb69",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln69.ReturnValue"
+         "PresetColors": "@lg69.PresetColors"
         }
        },
        {
@@ -24900,15 +25151,15 @@
        {
         "id": "lg70",
         "kind": "get",
-        "var": "LastOptionsCat",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls70",
         "kind": "set",
-        "var": "OptionsCat",
+        "var": "ToggleKey",
         "in": {
-         "OptionsCat": "@lg70.LastOptionsCat"
+         "ToggleKey": "@lg70.ToggleKey"
         }
        },
        {
@@ -24917,7 +25168,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg70.LastOptionsCat",
+         "A": "@lg70.ToggleKey",
          "B": "None"
         }
        },
@@ -24936,15 +25187,15 @@
        {
         "id": "lg71",
         "kind": "get",
-        "var": "LastKodex",
+        "var": "LastOptionsCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls71",
         "kind": "set",
-        "var": "KodexSel",
+        "var": "OptionsCat",
         "in": {
-         "KodexSel": "@lg71.LastKodex"
+         "OptionsCat": "@lg71.LastOptionsCat"
         }
        },
        {
@@ -24953,7 +25204,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg71.LastKodex",
+         "A": "@lg71.LastOptionsCat",
          "B": "None"
         }
        },
@@ -24972,15 +25223,15 @@
        {
         "id": "lg72",
         "kind": "get",
-        "var": "LastInvGroup",
+        "var": "LastKodex",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls72",
         "kind": "set",
-        "var": "InvGroup",
+        "var": "KodexSel",
         "in": {
-         "InvGroup": "@lg72.LastInvGroup"
+         "KodexSel": "@lg72.LastKodex"
         }
        },
        {
@@ -24989,7 +25240,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg72.LastInvGroup",
+         "A": "@lg72.LastKodex",
          "B": "None"
         }
        },
@@ -25008,15 +25259,32 @@
        {
         "id": "lg73",
         "kind": "get",
-        "var": "KodexAll",
+        "var": "LastInvGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls73",
         "kind": "set",
-        "var": "KodexAll",
+        "var": "InvGroup",
         "in": {
-         "KodexAll": "@lg73.KodexAll"
+         "InvGroup": "@lg73.LastInvGroup"
+        }
+       },
+       {
+        "id": "ln73",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg73.LastInvGroup",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb73",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln73.ReturnValue"
         }
        },
        {
@@ -25027,15 +25295,15 @@
        {
         "id": "lg74",
         "kind": "get",
-        "var": "InvCatalog",
+        "var": "KodexAll",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls74",
         "kind": "set",
-        "var": "InvCatalog",
+        "var": "KodexAll",
         "in": {
-         "InvCatalog": "@lg74.InvCatalog"
+         "KodexAll": "@lg74.KodexAll"
         }
        },
        {
@@ -25046,15 +25314,15 @@
        {
         "id": "lg75",
         "kind": "get",
-        "var": "InvNoAutoEquip",
+        "var": "InvCatalog",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls75",
         "kind": "set",
-        "var": "InvNoAutoEquip",
+        "var": "InvCatalog",
         "in": {
-         "InvNoAutoEquip": "@lg75.InvNoAutoEquip"
+         "InvCatalog": "@lg75.InvCatalog"
         }
        },
        {
@@ -25065,15 +25333,15 @@
        {
         "id": "lg76",
         "kind": "get",
-        "var": "InvFoldBag",
+        "var": "InvNoAutoEquip",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls76",
         "kind": "set",
-        "var": "InvFoldBag",
+        "var": "InvNoAutoEquip",
         "in": {
-         "InvFoldBag": "@lg76.InvFoldBag"
+         "InvNoAutoEquip": "@lg76.InvNoAutoEquip"
         }
        },
        {
@@ -25084,15 +25352,15 @@
        {
         "id": "lg77",
         "kind": "get",
-        "var": "InvFoldBox",
+        "var": "InvFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls77",
         "kind": "set",
-        "var": "InvFoldBox",
+        "var": "InvFoldBag",
         "in": {
-         "InvFoldBox": "@lg77.InvFoldBox"
+         "InvFoldBag": "@lg77.InvFoldBag"
         }
        },
        {
@@ -25103,15 +25371,15 @@
        {
         "id": "lg78",
         "kind": "get",
-        "var": "InvFoldCat",
+        "var": "InvFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls78",
         "kind": "set",
-        "var": "InvFoldCat",
+        "var": "InvFoldBox",
         "in": {
-         "InvFoldCat": "@lg78.InvFoldCat"
+         "InvFoldBox": "@lg78.InvFoldBox"
         }
        },
        {
@@ -25122,32 +25390,15 @@
        {
         "id": "lg79",
         "kind": "get",
-        "var": "InvMax",
+        "var": "InvFoldCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls79",
         "kind": "set",
-        "var": "InvMax",
+        "var": "InvFoldCat",
         "in": {
-         "InvMax": "@lg79.InvMax"
-        }
-       },
-       {
-        "id": "ln79",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg79.InvMax",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb79",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln79.ReturnValue"
+         "InvFoldCat": "@lg79.InvFoldCat"
         }
        },
        {
@@ -25158,15 +25409,32 @@
        {
         "id": "lg80",
         "kind": "get",
-        "var": "FolFoldBag",
+        "var": "InvMax",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls80",
         "kind": "set",
-        "var": "FolFoldBag",
+        "var": "InvMax",
         "in": {
-         "FolFoldBag": "@lg80.FolFoldBag"
+         "InvMax": "@lg80.InvMax"
+        }
+       },
+       {
+        "id": "ln80",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg80.InvMax",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb80",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln80.ReturnValue"
         }
        },
        {
@@ -25177,15 +25445,15 @@
        {
         "id": "lg81",
         "kind": "get",
-        "var": "FolFoldBox",
+        "var": "FolFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls81",
         "kind": "set",
-        "var": "FolFoldBox",
+        "var": "FolFoldBag",
         "in": {
-         "FolFoldBox": "@lg81.FolFoldBox"
+         "FolFoldBag": "@lg81.FolFoldBag"
         }
        },
        {
@@ -25196,32 +25464,15 @@
        {
         "id": "lg82",
         "kind": "get",
-        "var": "RagKey",
+        "var": "FolFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls82",
         "kind": "set",
-        "var": "RagKey",
+        "var": "FolFoldBox",
         "in": {
-         "RagKey": "@lg82.RagKey"
-        }
-       },
-       {
-        "id": "ln82",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg82.RagKey",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb82",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln82.ReturnValue"
+         "FolFoldBox": "@lg82.FolFoldBox"
         }
        },
        {
@@ -25232,15 +25483,32 @@
        {
         "id": "lg83",
         "kind": "get",
-        "var": "HiddenTabs",
+        "var": "RagKey",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls83",
         "kind": "set",
-        "var": "HiddenTabs",
+        "var": "RagKey",
         "in": {
-         "HiddenTabs": "@lg83.HiddenTabs"
+         "RagKey": "@lg83.RagKey"
+        }
+       },
+       {
+        "id": "ln83",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg83.RagKey",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb83",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln83.ReturnValue"
         }
        },
        {
@@ -25251,32 +25519,15 @@
        {
         "id": "lg84",
         "kind": "get",
-        "var": "QuickKey",
+        "var": "HiddenTabs",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls84",
         "kind": "set",
-        "var": "QuickKey",
+        "var": "HiddenTabs",
         "in": {
-         "QuickKey": "@lg84.QuickKey"
-        }
-       },
-       {
-        "id": "ln84",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg84.QuickKey",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb84",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln84.ReturnValue"
+         "HiddenTabs": "@lg84.HiddenTabs"
         }
        },
        {
@@ -25287,15 +25538,32 @@
        {
         "id": "lg85",
         "kind": "get",
-        "var": "QuickItems",
+        "var": "QuickKey",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls85",
         "kind": "set",
-        "var": "QuickItems",
+        "var": "QuickKey",
         "in": {
-         "QuickItems": "@lg85.QuickItems"
+         "QuickKey": "@lg85.QuickKey"
+        }
+       },
+       {
+        "id": "ln85",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg85.QuickKey",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb85",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln85.ReturnValue"
         }
        },
        {
@@ -25306,15 +25574,15 @@
        {
         "id": "lg86",
         "kind": "get",
-        "var": "KeyBindKeys",
+        "var": "QuickItems",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls86",
         "kind": "set",
-        "var": "KeyBindKeys",
+        "var": "QuickItems",
         "in": {
-         "KeyBindKeys": "@lg86.KeyBindKeys"
+         "QuickItems": "@lg86.QuickItems"
         }
        },
        {
@@ -25325,15 +25593,15 @@
        {
         "id": "lg87",
         "kind": "get",
-        "var": "KeyBindItems",
+        "var": "KeyBindKeys",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls87",
         "kind": "set",
-        "var": "KeyBindItems",
+        "var": "KeyBindKeys",
         "in": {
-         "KeyBindItems": "@lg87.KeyBindItems"
+         "KeyBindKeys": "@lg87.KeyBindKeys"
         }
        },
        {
@@ -25344,15 +25612,15 @@
        {
         "id": "lg88",
         "kind": "get",
-        "var": "TabStyle",
+        "var": "KeyBindItems",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls88",
         "kind": "set",
-        "var": "TabStyle",
+        "var": "KeyBindItems",
         "in": {
-         "TabStyle": "@lg88.TabStyle"
+         "KeyBindItems": "@lg88.KeyBindItems"
         }
        },
        {
@@ -25363,15 +25631,15 @@
        {
         "id": "lg89",
         "kind": "get",
-        "var": "TabIconRight",
+        "var": "TabStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls89",
         "kind": "set",
-        "var": "TabIconRight",
+        "var": "TabStyle",
         "in": {
-         "TabIconRight": "@lg89.TabIconRight"
+         "TabStyle": "@lg89.TabStyle"
         }
        },
        {
@@ -25382,15 +25650,15 @@
        {
         "id": "lg90",
         "kind": "get",
-        "var": "TabOneRow",
+        "var": "TabIconRight",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls90",
         "kind": "set",
-        "var": "TabOneRow",
+        "var": "TabIconRight",
         "in": {
-         "TabOneRow": "@lg90.TabOneRow"
+         "TabIconRight": "@lg90.TabIconRight"
         }
        },
        {
@@ -25401,15 +25669,15 @@
        {
         "id": "lg91",
         "kind": "get",
-        "var": "BgImage",
+        "var": "TabOneRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls91",
         "kind": "set",
-        "var": "BgImage",
+        "var": "TabOneRow",
         "in": {
-         "BgImage": "@lg91.BgImage"
+         "TabOneRow": "@lg91.TabOneRow"
         }
        },
        {
@@ -25420,15 +25688,15 @@
        {
         "id": "lg92",
         "kind": "get",
-        "var": "BgFit",
+        "var": "BgImage",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls92",
         "kind": "set",
-        "var": "BgFit",
+        "var": "BgImage",
         "in": {
-         "BgFit": "@lg92.BgFit"
+         "BgImage": "@lg92.BgImage"
         }
        },
        {
@@ -25439,15 +25707,15 @@
        {
         "id": "lg93",
         "kind": "get",
-        "var": "BgHAlign",
+        "var": "BgFit",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls93",
         "kind": "set",
-        "var": "BgHAlign",
+        "var": "BgFit",
         "in": {
-         "BgHAlign": "@lg93.BgHAlign"
+         "BgFit": "@lg93.BgFit"
         }
        },
        {
@@ -25458,15 +25726,15 @@
        {
         "id": "lg94",
         "kind": "get",
-        "var": "BgVAlign",
+        "var": "BgHAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls94",
         "kind": "set",
-        "var": "BgVAlign",
+        "var": "BgHAlign",
         "in": {
-         "BgVAlign": "@lg94.BgVAlign"
+         "BgHAlign": "@lg94.BgHAlign"
         }
        },
        {
@@ -25477,15 +25745,15 @@
        {
         "id": "lg95",
         "kind": "get",
-        "var": "BtnImage",
+        "var": "BgVAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls95",
         "kind": "set",
-        "var": "BtnImage",
+        "var": "BgVAlign",
         "in": {
-         "BtnImage": "@lg95.BtnImage"
+         "BgVAlign": "@lg95.BgVAlign"
         }
        },
        {
@@ -25496,15 +25764,15 @@
        {
         "id": "lg96",
         "kind": "get",
-        "var": "BgHue",
+        "var": "BtnImage",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls96",
         "kind": "set",
-        "var": "BgHue",
+        "var": "BtnImage",
         "in": {
-         "BgHue": "@lg96.BgHue"
+         "BtnImage": "@lg96.BtnImage"
         }
        },
        {
@@ -25515,15 +25783,15 @@
        {
         "id": "lg97",
         "kind": "get",
-        "var": "BgSepia",
+        "var": "BgHue",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls97",
         "kind": "set",
-        "var": "BgSepia",
+        "var": "BgHue",
         "in": {
-         "BgSepia": "@lg97.BgSepia"
+         "BgHue": "@lg97.BgHue"
         }
        },
        {
@@ -25534,15 +25802,15 @@
        {
         "id": "lg98",
         "kind": "get",
-        "var": "BgInvert",
+        "var": "BgSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls98",
         "kind": "set",
-        "var": "BgInvert",
+        "var": "BgSepia",
         "in": {
-         "BgInvert": "@lg98.BgInvert"
+         "BgSepia": "@lg98.BgSepia"
         }
        },
        {
@@ -25553,15 +25821,15 @@
        {
         "id": "lg99",
         "kind": "get",
-        "var": "ImgThumbs",
+        "var": "BgInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls99",
         "kind": "set",
-        "var": "ImgThumbs",
+        "var": "BgInvert",
         "in": {
-         "ImgThumbs": "@lg99.ImgThumbs"
+         "BgInvert": "@lg99.BgInvert"
         }
        },
        {
@@ -25572,15 +25840,15 @@
        {
         "id": "lg100",
         "kind": "get",
-        "var": "BtnHue",
+        "var": "ImgThumbs",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls100",
         "kind": "set",
-        "var": "BtnHue",
+        "var": "ImgThumbs",
         "in": {
-         "BtnHue": "@lg100.BtnHue"
+         "ImgThumbs": "@lg100.ImgThumbs"
         }
        },
        {
@@ -25591,15 +25859,15 @@
        {
         "id": "lg101",
         "kind": "get",
-        "var": "BtnSepia",
+        "var": "BtnHue",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls101",
         "kind": "set",
-        "var": "BtnSepia",
+        "var": "BtnHue",
         "in": {
-         "BtnSepia": "@lg101.BtnSepia"
+         "BtnHue": "@lg101.BtnHue"
         }
        },
        {
@@ -25610,15 +25878,15 @@
        {
         "id": "lg102",
         "kind": "get",
-        "var": "BtnInvert",
+        "var": "BtnSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls102",
         "kind": "set",
-        "var": "BtnInvert",
+        "var": "BtnSepia",
         "in": {
-         "BtnInvert": "@lg102.BtnInvert"
+         "BtnSepia": "@lg102.BtnSepia"
         }
        },
        {
@@ -25629,15 +25897,15 @@
        {
         "id": "lg103",
         "kind": "get",
-        "var": "ThemePresets",
+        "var": "BtnInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls103",
         "kind": "set",
-        "var": "ThemePresets",
+        "var": "BtnInvert",
         "in": {
-         "ThemePresets": "@lg103.ThemePresets"
+         "BtnInvert": "@lg103.BtnInvert"
         }
        },
        {
@@ -25648,15 +25916,15 @@
        {
         "id": "lg104",
         "kind": "get",
-        "var": "ManageChipsCollapsed",
+        "var": "ThemePresets",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls104",
         "kind": "set",
-        "var": "ManageChipsCollapsed",
+        "var": "ThemePresets",
         "in": {
-         "ManageChipsCollapsed": "@lg104.ManageChipsCollapsed"
+         "ThemePresets": "@lg104.ThemePresets"
         }
        },
        {
@@ -25667,15 +25935,15 @@
        {
         "id": "lg105",
         "kind": "get",
-        "var": "QuickAlpha",
+        "var": "ManageChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls105",
         "kind": "set",
-        "var": "QuickAlpha",
+        "var": "ManageChipsCollapsed",
         "in": {
-         "QuickAlpha": "@lg105.QuickAlpha"
+         "ManageChipsCollapsed": "@lg105.ManageChipsCollapsed"
         }
        },
        {
@@ -25686,15 +25954,15 @@
        {
         "id": "lg106",
         "kind": "get",
-        "var": "MoveOn",
+        "var": "QuickAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls106",
         "kind": "set",
-        "var": "MoveOn",
+        "var": "QuickAlpha",
         "in": {
-         "MoveOn": "@lg106.MoveOn"
+         "QuickAlpha": "@lg106.QuickAlpha"
         }
        },
        {
@@ -25705,15 +25973,15 @@
        {
         "id": "lg107",
         "kind": "get",
-        "var": "WalkSpeedPct",
+        "var": "MoveOn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls107",
         "kind": "set",
-        "var": "WalkSpeedPct",
+        "var": "MoveOn",
         "in": {
-         "WalkSpeedPct": "@lg107.WalkSpeedPct"
+         "MoveOn": "@lg107.MoveOn"
         }
        },
        {
@@ -25724,15 +25992,15 @@
        {
         "id": "lg108",
         "kind": "get",
-        "var": "RunSpeedPct",
+        "var": "WalkSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls108",
         "kind": "set",
-        "var": "RunSpeedPct",
+        "var": "WalkSpeedPct",
         "in": {
-         "RunSpeedPct": "@lg108.RunSpeedPct"
+         "WalkSpeedPct": "@lg108.WalkSpeedPct"
         }
        },
        {
@@ -25743,32 +26011,15 @@
        {
         "id": "lg109",
         "kind": "get",
-        "var": "WalkStyle",
+        "var": "RunSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls109",
         "kind": "set",
-        "var": "WalkStyle",
+        "var": "RunSpeedPct",
         "in": {
-         "WalkStyle": "@lg109.WalkStyle"
-        }
-       },
-       {
-        "id": "ln109",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg109.WalkStyle",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb109",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln109.ReturnValue"
+         "RunSpeedPct": "@lg109.RunSpeedPct"
         }
        },
        {
@@ -25779,15 +26030,15 @@
        {
         "id": "lg110",
         "kind": "get",
-        "var": "RunStyle",
+        "var": "WalkStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls110",
         "kind": "set",
-        "var": "RunStyle",
+        "var": "WalkStyle",
         "in": {
-         "RunStyle": "@lg110.RunStyle"
+         "WalkStyle": "@lg110.WalkStyle"
         }
        },
        {
@@ -25796,7 +26047,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg110.RunStyle",
+         "A": "@lg110.WalkStyle",
          "B": "None"
         }
        },
@@ -25815,15 +26066,15 @@
        {
         "id": "lg111",
         "kind": "get",
-        "var": "IdleStyle",
+        "var": "RunStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls111",
         "kind": "set",
-        "var": "IdleStyle",
+        "var": "RunStyle",
         "in": {
-         "IdleStyle": "@lg111.IdleStyle"
+         "RunStyle": "@lg111.RunStyle"
         }
        },
        {
@@ -25832,7 +26083,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg111.IdleStyle",
+         "A": "@lg111.RunStyle",
          "B": "None"
         }
        },
@@ -25851,15 +26102,15 @@
        {
         "id": "lg112",
         "kind": "get",
-        "var": "IdlePose",
+        "var": "IdleStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls112",
         "kind": "set",
-        "var": "IdlePose",
+        "var": "IdleStyle",
         "in": {
-         "IdlePose": "@lg112.IdlePose"
+         "IdleStyle": "@lg112.IdleStyle"
         }
        },
        {
@@ -25868,7 +26119,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg112.IdlePose",
+         "A": "@lg112.IdleStyle",
          "B": "None"
         }
        },
@@ -25887,15 +26138,32 @@
        {
         "id": "lg113",
         "kind": "get",
-        "var": "PoseLoop",
+        "var": "IdlePose",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls113",
         "kind": "set",
-        "var": "PoseLoop",
+        "var": "IdlePose",
         "in": {
-         "PoseLoop": "@lg113.PoseLoop"
+         "IdlePose": "@lg113.IdlePose"
+        }
+       },
+       {
+        "id": "ln113",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg113.IdlePose",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb113",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln113.ReturnValue"
         }
        },
        {
@@ -25906,15 +26174,15 @@
        {
         "id": "lg114",
         "kind": "get",
-        "var": "NoRenderedIcons",
+        "var": "PoseLoop",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls114",
         "kind": "set",
-        "var": "NoRenderedIcons",
+        "var": "PoseLoop",
         "in": {
-         "NoRenderedIcons": "@lg114.NoRenderedIcons"
+         "PoseLoop": "@lg114.PoseLoop"
         }
        },
        {
@@ -25925,15 +26193,15 @@
        {
         "id": "lg115",
         "kind": "get",
-        "var": "RagWheelCm",
+        "var": "NoRenderedIcons",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls115",
         "kind": "set",
-        "var": "RagWheelCm",
+        "var": "NoRenderedIcons",
         "in": {
-         "RagWheelCm": "@lg115.RagWheelCm"
+         "NoRenderedIcons": "@lg115.NoRenderedIcons"
         }
        },
        {
@@ -25944,15 +26212,15 @@
        {
         "id": "lg116",
         "kind": "get",
-        "var": "SlowMoPct",
+        "var": "RagWheelCm",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls116",
         "kind": "set",
-        "var": "SlowMoPct",
+        "var": "RagWheelCm",
         "in": {
-         "SlowMoPct": "@lg116.SlowMoPct"
+         "RagWheelCm": "@lg116.RagWheelCm"
         }
        },
        {
@@ -25963,15 +26231,15 @@
        {
         "id": "lg117",
         "kind": "get",
-        "var": "AcceptedFingerprint",
+        "var": "SlowMoPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls117",
         "kind": "set",
-        "var": "AcceptedFingerprint",
+        "var": "SlowMoPct",
         "in": {
-         "AcceptedFingerprint": "@lg117.AcceptedFingerprint"
+         "SlowMoPct": "@lg117.SlowMoPct"
         }
        },
        {
@@ -25982,15 +26250,15 @@
        {
         "id": "lg118",
         "kind": "get",
-        "var": "OutfitScale",
+        "var": "AcceptedFingerprint",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls118",
         "kind": "set",
-        "var": "OutfitScale",
+        "var": "AcceptedFingerprint",
         "in": {
-         "OutfitScale": "@lg118.OutfitScale"
+         "AcceptedFingerprint": "@lg118.AcceptedFingerprint"
         }
        },
        {
@@ -26001,15 +26269,15 @@
        {
         "id": "lg119",
         "kind": "get",
-        "var": "LookScale",
+        "var": "OutfitScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls119",
         "kind": "set",
-        "var": "LookScale",
+        "var": "OutfitScale",
         "in": {
-         "LookScale": "@lg119.LookScale"
+         "OutfitScale": "@lg119.OutfitScale"
         }
        },
        {
@@ -26020,15 +26288,15 @@
        {
         "id": "lg120",
         "kind": "get",
-        "var": "RagScale",
+        "var": "LookScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls120",
         "kind": "set",
-        "var": "RagScale",
+        "var": "LookScale",
         "in": {
-         "RagScale": "@lg120.RagScale"
+         "LookScale": "@lg120.LookScale"
         }
        },
        {
@@ -26039,15 +26307,15 @@
        {
         "id": "lg121",
         "kind": "get",
-        "var": "InvScale",
+        "var": "RagScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls121",
         "kind": "set",
-        "var": "InvScale",
+        "var": "RagScale",
         "in": {
-         "InvScale": "@lg121.InvScale"
+         "RagScale": "@lg121.RagScale"
         }
        },
        {
@@ -26058,15 +26326,15 @@
        {
         "id": "lg122",
         "kind": "get",
-        "var": "OutfitCols",
+        "var": "InvScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls122",
         "kind": "set",
-        "var": "OutfitCols",
+        "var": "InvScale",
         "in": {
-         "OutfitCols": "@lg122.OutfitCols"
+         "InvScale": "@lg122.InvScale"
         }
        },
        {
@@ -26077,15 +26345,34 @@
        {
         "id": "lg123",
         "kind": "get",
-        "var": "OutfitRows",
+        "var": "OutfitCols",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls123",
         "kind": "set",
+        "var": "OutfitCols",
+        "in": {
+         "OutfitCols": "@lg123.OutfitCols"
+        }
+       },
+       {
+        "id": "lg124_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg124",
+        "kind": "get",
+        "var": "OutfitRows",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls124",
+        "kind": "set",
         "var": "OutfitRows",
         "in": {
-         "OutfitRows": "@lg123.OutfitRows"
+         "OutfitRows": "@lg124.OutfitRows"
         }
        },
        {
@@ -26107,25 +26394,6 @@
         }
        },
        {
-        "id": "lg124_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg124",
-        "kind": "get",
-        "var": "ThemeBg",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls124",
-        "kind": "set",
-        "var": "ThemeBg",
-        "in": {
-         "ThemeBg": "@lg124.ThemeBg"
-        }
-       },
-       {
         "id": "lg125_s",
         "kind": "get",
         "var": "Settings"
@@ -26133,15 +26401,15 @@
        {
         "id": "lg125",
         "kind": "get",
-        "var": "ThemeAccent",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls125",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "ThemeBg",
         "in": {
-         "ThemeAccent": "@lg125.ThemeAccent"
+         "ThemeBg": "@lg125.ThemeBg"
         }
        },
        {
@@ -26152,15 +26420,15 @@
        {
         "id": "lg126",
         "kind": "get",
-        "var": "ThemeFill",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls126",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeAccent",
         "in": {
-         "ThemeFill": "@lg126.ThemeFill"
+         "ThemeAccent": "@lg126.ThemeAccent"
         }
        },
        {
@@ -26171,15 +26439,15 @@
        {
         "id": "lg127",
         "kind": "get",
-        "var": "ThemeFrame",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls127",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeFill",
         "in": {
-         "ThemeFrame": "@lg127.ThemeFrame"
+         "ThemeFill": "@lg127.ThemeFill"
         }
        },
        {
@@ -26190,15 +26458,15 @@
        {
         "id": "lg128",
         "kind": "get",
-        "var": "ThemeWorn",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls128",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFrame",
         "in": {
-         "ThemeWorn": "@lg128.ThemeWorn"
+         "ThemeFrame": "@lg128.ThemeFrame"
         }
        },
        {
@@ -26209,15 +26477,15 @@
        {
         "id": "lg129",
         "kind": "get",
-        "var": "ThemeRow",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls129",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeWorn",
         "in": {
-         "ThemeRow": "@lg129.ThemeRow"
+         "ThemeWorn": "@lg129.ThemeWorn"
         }
        },
        {
@@ -26228,15 +26496,15 @@
        {
         "id": "lg130",
         "kind": "get",
-        "var": "ThemeText",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls130",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeRow",
         "in": {
-         "ThemeText": "@lg130.ThemeText"
+         "ThemeRow": "@lg130.ThemeRow"
         }
        },
        {
@@ -26247,15 +26515,15 @@
        {
         "id": "lg131",
         "kind": "get",
-        "var": "ThemeHead",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls131",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeText",
         "in": {
-         "ThemeHead": "@lg131.ThemeHead"
+         "ThemeText": "@lg131.ThemeText"
         }
        },
        {
@@ -26266,15 +26534,15 @@
        {
         "id": "lg132",
         "kind": "get",
-        "var": "ThemeLink",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls132",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeHead",
         "in": {
-         "ThemeLink": "@lg132.ThemeLink"
+         "ThemeHead": "@lg132.ThemeHead"
         }
        },
        {
@@ -26285,15 +26553,15 @@
        {
         "id": "lg133",
         "kind": "get",
-        "var": "ThemeLine",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls133",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeLink",
         "in": {
-         "ThemeLine": "@lg133.ThemeLine"
+         "ThemeLink": "@lg133.ThemeLink"
         }
        },
        {
@@ -26304,46 +26572,15 @@
        {
         "id": "lg134",
         "kind": "get",
-        "var": "BgAlpha",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz134",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg134.BgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv134",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz134.ReturnValue"
-        }
-       },
-       {
-        "id": "ld134",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg134.BgAlpha",
-         "B": "0.88",
-         "bPickA": "@lv134.ReturnValue"
-        }
        },
        {
         "id": "ls134",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeLine",
         "in": {
-         "BgAlpha": "@ld134.ReturnValue"
+         "ThemeLine": "@lg134.ThemeLine"
         }
        },
        {
@@ -26354,7 +26591,7 @@
        {
         "id": "lg135",
         "kind": "get",
-        "var": "TileAlpha",
+        "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -26363,7 +26600,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg135.TileAlpha",
+         "A": "@lg135.BgAlpha",
          "B": "0.0"
         }
        },
@@ -26383,17 +26620,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg135.TileAlpha",
-         "B": "1.0",
+         "A": "@lg135.BgAlpha",
+         "B": "0.88",
          "bPickA": "@lv135.ReturnValue"
         }
        },
        {
         "id": "ls135",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "BgAlpha",
         "in": {
-         "TileAlpha": "@ld135.ReturnValue"
+         "BgAlpha": "@ld135.ReturnValue"
         }
        },
        {
@@ -26404,7 +26641,7 @@
        {
         "id": "lg136",
         "kind": "get",
-        "var": "BgImgAlpha",
+        "var": "TileAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -26413,7 +26650,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg136.BgImgAlpha",
+         "A": "@lg136.TileAlpha",
          "B": "0.0"
         }
        },
@@ -26433,7 +26670,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg136.BgImgAlpha",
+         "A": "@lg136.TileAlpha",
          "B": "1.0",
          "bPickA": "@lv136.ReturnValue"
         }
@@ -26441,9 +26678,59 @@
        {
         "id": "ls136",
         "kind": "set",
+        "var": "TileAlpha",
+        "in": {
+         "TileAlpha": "@ld136.ReturnValue"
+        }
+       },
+       {
+        "id": "lg137_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg137",
+        "kind": "get",
+        "var": "BgImgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz137",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg137.BgImgAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv137",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz137.ReturnValue"
+        }
+       },
+       {
+        "id": "ld137",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg137.BgImgAlpha",
+         "B": "1.0",
+         "bPickA": "@lv137.ReturnValue"
+        }
+       },
+       {
+        "id": "ls137",
+        "kind": "set",
         "var": "BgImgAlpha",
         "in": {
-         "BgImgAlpha": "@ld136.ReturnValue"
+         "BgImgAlpha": "@ld137.ReturnValue"
         }
        },
        {
@@ -26999,12 +27286,12 @@
         "lg123.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg124_s.Settings",
         "lg124.self"
+       ],
+       [
+        "gth_s.Settings",
+        "gth.self"
        ],
        [
         "lg125_s.Settings",
@@ -27053,6 +27340,10 @@
        [
         "lg136_s.Settings",
         "lg136.self"
+       ],
+       [
+        "lg137_s.Settings",
+        "lg137.self"
        ],
        [
         "gls.Settings",
@@ -27570,18 +27861,13 @@
        ],
        [
         "ls68",
-        "lb69"
+        "ls69"
        ],
        [
-        "lb69",
         "ls69"
        ],
        [
         "ls69",
-        "lb70"
-       ],
-       [
-        "lb69:else",
         "lb70"
        ],
        [
@@ -27614,17 +27900,22 @@
        ],
        [
         "ls72",
-        "ls73"
+        "lb73"
        ],
        [
         "lb72:else",
-        "ls73"
+        "lb73"
        ],
        [
+        "lb73",
         "ls73"
        ],
        [
         "ls73",
+        "ls74"
+       ],
+       [
+        "lb73:else",
         "ls74"
        ],
        [
@@ -27660,21 +27951,17 @@
        ],
        [
         "ls78",
-        "lb79"
+        "ls79"
        ],
        [
-        "lb79",
         "ls79"
        ],
        [
         "ls79",
-        "ls80"
+        "lb80"
        ],
        [
-        "lb79:else",
-        "ls80"
-       ],
-       [
+        "lb80",
         "ls80"
        ],
        [
@@ -27682,48 +27969,52 @@
         "ls81"
        ],
        [
+        "lb80:else",
+        "ls81"
+       ],
+       [
         "ls81"
        ],
        [
         "ls81",
-        "lb82"
+        "ls82"
        ],
        [
-        "lb82",
         "ls82"
        ],
        [
         "ls82",
-        "ls83"
+        "lb83"
        ],
        [
-        "lb82:else",
-        "ls83"
-       ],
-       [
+        "lb83",
         "ls83"
        ],
        [
         "ls83",
-        "lb84"
+        "ls84"
        ],
        [
-        "lb84",
+        "lb83:else",
+        "ls84"
+       ],
+       [
         "ls84"
        ],
        [
         "ls84",
-        "ls85"
+        "lb85"
        ],
        [
-        "lb84:else",
-        "ls85"
-       ],
-       [
+        "lb85",
         "ls85"
        ],
        [
         "ls85",
+        "ls86"
+       ],
+       [
+        "lb85:else",
         "ls86"
        ],
        [
@@ -27885,18 +28176,13 @@
        ],
        [
         "ls108",
-        "lb109"
+        "ls109"
        ],
        [
-        "lb109",
         "ls109"
        ],
        [
         "ls109",
-        "lb110"
-       ],
-       [
-        "lb109:else",
         "lb110"
        ],
        [
@@ -27929,17 +28215,22 @@
        ],
        [
         "ls112",
-        "ls113"
+        "lb113"
        ],
        [
         "lb112:else",
-        "ls113"
+        "lb113"
        ],
        [
+        "lb113",
         "ls113"
        ],
        [
         "ls113",
+        "ls114"
+       ],
+       [
+        "lb113:else",
         "ls114"
        ],
        [
@@ -28009,6 +28300,13 @@
         "ls123"
        ],
        [
+        "ls123",
+        "ls124"
+       ],
+       [
+        "ls124"
+       ],
+       [
         "entry",
         "ex",
         "b",
@@ -28027,12 +28325,11 @@
         "cr"
        ],
        [
-        "ls123",
+        "ls124",
         "bth"
        ],
        [
         "bth",
-        "ls124",
         "ls125",
         "ls126",
         "ls127",
@@ -28045,6 +28342,7 @@
         "ls134",
         "ls135",
         "ls136",
+        "ls137",
         "ath"
        ],
        [
@@ -29482,16 +29780,16 @@
        {
         "id": "g68",
         "kind": "get",
-        "var": "PresetColors"
+        "var": "Mutation"
        },
        {
         "id": "w68",
         "kind": "set",
-        "var": "PresetColors",
+        "var": "Mutation",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs68.Settings",
-         "PresetColors": "@g68.PresetColors"
+         "Mutation": "@g68.Mutation"
         }
        },
        {
@@ -29502,16 +29800,16 @@
        {
         "id": "g69",
         "kind": "get",
-        "var": "ToggleKey"
+        "var": "PresetColors"
        },
        {
         "id": "w69",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "PresetColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs69.Settings",
-         "ToggleKey": "@g69.ToggleKey"
+         "PresetColors": "@g69.PresetColors"
         }
        },
        {
@@ -29522,16 +29820,16 @@
        {
         "id": "g70",
         "kind": "get",
-        "var": "OptionsCat"
+        "var": "ToggleKey"
        },
        {
         "id": "w70",
         "kind": "set",
-        "var": "LastOptionsCat",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs70.Settings",
-         "LastOptionsCat": "@g70.OptionsCat"
+         "ToggleKey": "@g70.ToggleKey"
         }
        },
        {
@@ -29542,16 +29840,16 @@
        {
         "id": "g71",
         "kind": "get",
-        "var": "KodexSel"
+        "var": "OptionsCat"
        },
        {
         "id": "w71",
         "kind": "set",
-        "var": "LastKodex",
+        "var": "LastOptionsCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs71.Settings",
-         "LastKodex": "@g71.KodexSel"
+         "LastOptionsCat": "@g71.OptionsCat"
         }
        },
        {
@@ -29562,16 +29860,16 @@
        {
         "id": "g72",
         "kind": "get",
-        "var": "InvGroup"
+        "var": "KodexSel"
        },
        {
         "id": "w72",
         "kind": "set",
-        "var": "LastInvGroup",
+        "var": "LastKodex",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs72.Settings",
-         "LastInvGroup": "@g72.InvGroup"
+         "LastKodex": "@g72.KodexSel"
         }
        },
        {
@@ -29582,16 +29880,16 @@
        {
         "id": "g73",
         "kind": "get",
-        "var": "KodexAll"
+        "var": "InvGroup"
        },
        {
         "id": "w73",
         "kind": "set",
-        "var": "KodexAll",
+        "var": "LastInvGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs73.Settings",
-         "KodexAll": "@g73.KodexAll"
+         "LastInvGroup": "@g73.InvGroup"
         }
        },
        {
@@ -29602,16 +29900,16 @@
        {
         "id": "g74",
         "kind": "get",
-        "var": "InvCatalog"
+        "var": "KodexAll"
        },
        {
         "id": "w74",
         "kind": "set",
-        "var": "InvCatalog",
+        "var": "KodexAll",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs74.Settings",
-         "InvCatalog": "@g74.InvCatalog"
+         "KodexAll": "@g74.KodexAll"
         }
        },
        {
@@ -29622,16 +29920,16 @@
        {
         "id": "g75",
         "kind": "get",
-        "var": "InvNoAutoEquip"
+        "var": "InvCatalog"
        },
        {
         "id": "w75",
         "kind": "set",
-        "var": "InvNoAutoEquip",
+        "var": "InvCatalog",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs75.Settings",
-         "InvNoAutoEquip": "@g75.InvNoAutoEquip"
+         "InvCatalog": "@g75.InvCatalog"
         }
        },
        {
@@ -29642,16 +29940,16 @@
        {
         "id": "g76",
         "kind": "get",
-        "var": "InvFoldBag"
+        "var": "InvNoAutoEquip"
        },
        {
         "id": "w76",
         "kind": "set",
-        "var": "InvFoldBag",
+        "var": "InvNoAutoEquip",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs76.Settings",
-         "InvFoldBag": "@g76.InvFoldBag"
+         "InvNoAutoEquip": "@g76.InvNoAutoEquip"
         }
        },
        {
@@ -29662,16 +29960,16 @@
        {
         "id": "g77",
         "kind": "get",
-        "var": "InvFoldBox"
+        "var": "InvFoldBag"
        },
        {
         "id": "w77",
         "kind": "set",
-        "var": "InvFoldBox",
+        "var": "InvFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs77.Settings",
-         "InvFoldBox": "@g77.InvFoldBox"
+         "InvFoldBag": "@g77.InvFoldBag"
         }
        },
        {
@@ -29682,16 +29980,16 @@
        {
         "id": "g78",
         "kind": "get",
-        "var": "InvFoldCat"
+        "var": "InvFoldBox"
        },
        {
         "id": "w78",
         "kind": "set",
-        "var": "InvFoldCat",
+        "var": "InvFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs78.Settings",
-         "InvFoldCat": "@g78.InvFoldCat"
+         "InvFoldBox": "@g78.InvFoldBox"
         }
        },
        {
@@ -29702,16 +30000,16 @@
        {
         "id": "g79",
         "kind": "get",
-        "var": "InvMax"
+        "var": "InvFoldCat"
        },
        {
         "id": "w79",
         "kind": "set",
-        "var": "InvMax",
+        "var": "InvFoldCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs79.Settings",
-         "InvMax": "@g79.InvMax"
+         "InvFoldCat": "@g79.InvFoldCat"
         }
        },
        {
@@ -29722,16 +30020,16 @@
        {
         "id": "g80",
         "kind": "get",
-        "var": "FolFoldBag"
+        "var": "InvMax"
        },
        {
         "id": "w80",
         "kind": "set",
-        "var": "FolFoldBag",
+        "var": "InvMax",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs80.Settings",
-         "FolFoldBag": "@g80.FolFoldBag"
+         "InvMax": "@g80.InvMax"
         }
        },
        {
@@ -29742,16 +30040,16 @@
        {
         "id": "g81",
         "kind": "get",
-        "var": "FolFoldBox"
+        "var": "FolFoldBag"
        },
        {
         "id": "w81",
         "kind": "set",
-        "var": "FolFoldBox",
+        "var": "FolFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs81.Settings",
-         "FolFoldBox": "@g81.FolFoldBox"
+         "FolFoldBag": "@g81.FolFoldBag"
         }
        },
        {
@@ -29762,16 +30060,16 @@
        {
         "id": "g82",
         "kind": "get",
-        "var": "RagKey"
+        "var": "FolFoldBox"
        },
        {
         "id": "w82",
         "kind": "set",
-        "var": "RagKey",
+        "var": "FolFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs82.Settings",
-         "RagKey": "@g82.RagKey"
+         "FolFoldBox": "@g82.FolFoldBox"
         }
        },
        {
@@ -29782,16 +30080,16 @@
        {
         "id": "g83",
         "kind": "get",
-        "var": "HiddenTabs"
+        "var": "RagKey"
        },
        {
         "id": "w83",
         "kind": "set",
-        "var": "HiddenTabs",
+        "var": "RagKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs83.Settings",
-         "HiddenTabs": "@g83.HiddenTabs"
+         "RagKey": "@g83.RagKey"
         }
        },
        {
@@ -29802,16 +30100,16 @@
        {
         "id": "g84",
         "kind": "get",
-        "var": "QuickKey"
+        "var": "HiddenTabs"
        },
        {
         "id": "w84",
         "kind": "set",
-        "var": "QuickKey",
+        "var": "HiddenTabs",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs84.Settings",
-         "QuickKey": "@g84.QuickKey"
+         "HiddenTabs": "@g84.HiddenTabs"
         }
        },
        {
@@ -29822,16 +30120,16 @@
        {
         "id": "g85",
         "kind": "get",
-        "var": "QuickItems"
+        "var": "QuickKey"
        },
        {
         "id": "w85",
         "kind": "set",
-        "var": "QuickItems",
+        "var": "QuickKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs85.Settings",
-         "QuickItems": "@g85.QuickItems"
+         "QuickKey": "@g85.QuickKey"
         }
        },
        {
@@ -29842,16 +30140,16 @@
        {
         "id": "g86",
         "kind": "get",
-        "var": "KeyBindKeys"
+        "var": "QuickItems"
        },
        {
         "id": "w86",
         "kind": "set",
-        "var": "KeyBindKeys",
+        "var": "QuickItems",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs86.Settings",
-         "KeyBindKeys": "@g86.KeyBindKeys"
+         "QuickItems": "@g86.QuickItems"
         }
        },
        {
@@ -29862,16 +30160,16 @@
        {
         "id": "g87",
         "kind": "get",
-        "var": "KeyBindItems"
+        "var": "KeyBindKeys"
        },
        {
         "id": "w87",
         "kind": "set",
-        "var": "KeyBindItems",
+        "var": "KeyBindKeys",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs87.Settings",
-         "KeyBindItems": "@g87.KeyBindItems"
+         "KeyBindKeys": "@g87.KeyBindKeys"
         }
        },
        {
@@ -29882,16 +30180,16 @@
        {
         "id": "g88",
         "kind": "get",
-        "var": "TabStyle"
+        "var": "KeyBindItems"
        },
        {
         "id": "w88",
         "kind": "set",
-        "var": "TabStyle",
+        "var": "KeyBindItems",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs88.Settings",
-         "TabStyle": "@g88.TabStyle"
+         "KeyBindItems": "@g88.KeyBindItems"
         }
        },
        {
@@ -29902,16 +30200,16 @@
        {
         "id": "g89",
         "kind": "get",
-        "var": "TabIconRight"
+        "var": "TabStyle"
        },
        {
         "id": "w89",
         "kind": "set",
-        "var": "TabIconRight",
+        "var": "TabStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs89.Settings",
-         "TabIconRight": "@g89.TabIconRight"
+         "TabStyle": "@g89.TabStyle"
         }
        },
        {
@@ -29922,16 +30220,16 @@
        {
         "id": "g90",
         "kind": "get",
-        "var": "TabOneRow"
+        "var": "TabIconRight"
        },
        {
         "id": "w90",
         "kind": "set",
-        "var": "TabOneRow",
+        "var": "TabIconRight",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs90.Settings",
-         "TabOneRow": "@g90.TabOneRow"
+         "TabIconRight": "@g90.TabIconRight"
         }
        },
        {
@@ -29942,16 +30240,16 @@
        {
         "id": "g91",
         "kind": "get",
-        "var": "BgImage"
+        "var": "TabOneRow"
        },
        {
         "id": "w91",
         "kind": "set",
-        "var": "BgImage",
+        "var": "TabOneRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs91.Settings",
-         "BgImage": "@g91.BgImage"
+         "TabOneRow": "@g91.TabOneRow"
         }
        },
        {
@@ -29962,16 +30260,16 @@
        {
         "id": "g92",
         "kind": "get",
-        "var": "BgFit"
+        "var": "BgImage"
        },
        {
         "id": "w92",
         "kind": "set",
-        "var": "BgFit",
+        "var": "BgImage",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs92.Settings",
-         "BgFit": "@g92.BgFit"
+         "BgImage": "@g92.BgImage"
         }
        },
        {
@@ -29982,16 +30280,16 @@
        {
         "id": "g93",
         "kind": "get",
-        "var": "BgHAlign"
+        "var": "BgFit"
        },
        {
         "id": "w93",
         "kind": "set",
-        "var": "BgHAlign",
+        "var": "BgFit",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs93.Settings",
-         "BgHAlign": "@g93.BgHAlign"
+         "BgFit": "@g93.BgFit"
         }
        },
        {
@@ -30002,16 +30300,16 @@
        {
         "id": "g94",
         "kind": "get",
-        "var": "BgVAlign"
+        "var": "BgHAlign"
        },
        {
         "id": "w94",
         "kind": "set",
-        "var": "BgVAlign",
+        "var": "BgHAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs94.Settings",
-         "BgVAlign": "@g94.BgVAlign"
+         "BgHAlign": "@g94.BgHAlign"
         }
        },
        {
@@ -30022,16 +30320,16 @@
        {
         "id": "g95",
         "kind": "get",
-        "var": "BtnImage"
+        "var": "BgVAlign"
        },
        {
         "id": "w95",
         "kind": "set",
-        "var": "BtnImage",
+        "var": "BgVAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs95.Settings",
-         "BtnImage": "@g95.BtnImage"
+         "BgVAlign": "@g95.BgVAlign"
         }
        },
        {
@@ -30042,16 +30340,16 @@
        {
         "id": "g96",
         "kind": "get",
-        "var": "BgHue"
+        "var": "BtnImage"
        },
        {
         "id": "w96",
         "kind": "set",
-        "var": "BgHue",
+        "var": "BtnImage",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs96.Settings",
-         "BgHue": "@g96.BgHue"
+         "BtnImage": "@g96.BtnImage"
         }
        },
        {
@@ -30062,16 +30360,16 @@
        {
         "id": "g97",
         "kind": "get",
-        "var": "BgSepia"
+        "var": "BgHue"
        },
        {
         "id": "w97",
         "kind": "set",
-        "var": "BgSepia",
+        "var": "BgHue",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs97.Settings",
-         "BgSepia": "@g97.BgSepia"
+         "BgHue": "@g97.BgHue"
         }
        },
        {
@@ -30082,16 +30380,16 @@
        {
         "id": "g98",
         "kind": "get",
-        "var": "BgInvert"
+        "var": "BgSepia"
        },
        {
         "id": "w98",
         "kind": "set",
-        "var": "BgInvert",
+        "var": "BgSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs98.Settings",
-         "BgInvert": "@g98.BgInvert"
+         "BgSepia": "@g98.BgSepia"
         }
        },
        {
@@ -30102,16 +30400,16 @@
        {
         "id": "g99",
         "kind": "get",
-        "var": "ImgThumbs"
+        "var": "BgInvert"
        },
        {
         "id": "w99",
         "kind": "set",
-        "var": "ImgThumbs",
+        "var": "BgInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs99.Settings",
-         "ImgThumbs": "@g99.ImgThumbs"
+         "BgInvert": "@g99.BgInvert"
         }
        },
        {
@@ -30122,16 +30420,16 @@
        {
         "id": "g100",
         "kind": "get",
-        "var": "BtnHue"
+        "var": "ImgThumbs"
        },
        {
         "id": "w100",
         "kind": "set",
-        "var": "BtnHue",
+        "var": "ImgThumbs",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs100.Settings",
-         "BtnHue": "@g100.BtnHue"
+         "ImgThumbs": "@g100.ImgThumbs"
         }
        },
        {
@@ -30142,16 +30440,16 @@
        {
         "id": "g101",
         "kind": "get",
-        "var": "BtnSepia"
+        "var": "BtnHue"
        },
        {
         "id": "w101",
         "kind": "set",
-        "var": "BtnSepia",
+        "var": "BtnHue",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs101.Settings",
-         "BtnSepia": "@g101.BtnSepia"
+         "BtnHue": "@g101.BtnHue"
         }
        },
        {
@@ -30162,16 +30460,16 @@
        {
         "id": "g102",
         "kind": "get",
-        "var": "BtnInvert"
+        "var": "BtnSepia"
        },
        {
         "id": "w102",
         "kind": "set",
-        "var": "BtnInvert",
+        "var": "BtnSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs102.Settings",
-         "BtnInvert": "@g102.BtnInvert"
+         "BtnSepia": "@g102.BtnSepia"
         }
        },
        {
@@ -30182,16 +30480,16 @@
        {
         "id": "g103",
         "kind": "get",
-        "var": "ThemePresets"
+        "var": "BtnInvert"
        },
        {
         "id": "w103",
         "kind": "set",
-        "var": "ThemePresets",
+        "var": "BtnInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs103.Settings",
-         "ThemePresets": "@g103.ThemePresets"
+         "BtnInvert": "@g103.BtnInvert"
         }
        },
        {
@@ -30202,16 +30500,16 @@
        {
         "id": "g104",
         "kind": "get",
-        "var": "ManageChipsCollapsed"
+        "var": "ThemePresets"
        },
        {
         "id": "w104",
         "kind": "set",
-        "var": "ManageChipsCollapsed",
+        "var": "ThemePresets",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs104.Settings",
-         "ManageChipsCollapsed": "@g104.ManageChipsCollapsed"
+         "ThemePresets": "@g104.ThemePresets"
         }
        },
        {
@@ -30222,16 +30520,16 @@
        {
         "id": "g105",
         "kind": "get",
-        "var": "QuickAlpha"
+        "var": "ManageChipsCollapsed"
        },
        {
         "id": "w105",
         "kind": "set",
-        "var": "QuickAlpha",
+        "var": "ManageChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs105.Settings",
-         "QuickAlpha": "@g105.QuickAlpha"
+         "ManageChipsCollapsed": "@g105.ManageChipsCollapsed"
         }
        },
        {
@@ -30242,16 +30540,16 @@
        {
         "id": "g106",
         "kind": "get",
-        "var": "MoveOn"
+        "var": "QuickAlpha"
        },
        {
         "id": "w106",
         "kind": "set",
-        "var": "MoveOn",
+        "var": "QuickAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs106.Settings",
-         "MoveOn": "@g106.MoveOn"
+         "QuickAlpha": "@g106.QuickAlpha"
         }
        },
        {
@@ -30262,16 +30560,16 @@
        {
         "id": "g107",
         "kind": "get",
-        "var": "WalkSpeedPct"
+        "var": "MoveOn"
        },
        {
         "id": "w107",
         "kind": "set",
-        "var": "WalkSpeedPct",
+        "var": "MoveOn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs107.Settings",
-         "WalkSpeedPct": "@g107.WalkSpeedPct"
+         "MoveOn": "@g107.MoveOn"
         }
        },
        {
@@ -30282,16 +30580,16 @@
        {
         "id": "g108",
         "kind": "get",
-        "var": "RunSpeedPct"
+        "var": "WalkSpeedPct"
        },
        {
         "id": "w108",
         "kind": "set",
-        "var": "RunSpeedPct",
+        "var": "WalkSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs108.Settings",
-         "RunSpeedPct": "@g108.RunSpeedPct"
+         "WalkSpeedPct": "@g108.WalkSpeedPct"
         }
        },
        {
@@ -30302,16 +30600,16 @@
        {
         "id": "g109",
         "kind": "get",
-        "var": "WalkStyle"
+        "var": "RunSpeedPct"
        },
        {
         "id": "w109",
         "kind": "set",
-        "var": "WalkStyle",
+        "var": "RunSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs109.Settings",
-         "WalkStyle": "@g109.WalkStyle"
+         "RunSpeedPct": "@g109.RunSpeedPct"
         }
        },
        {
@@ -30322,16 +30620,16 @@
        {
         "id": "g110",
         "kind": "get",
-        "var": "RunStyle"
+        "var": "WalkStyle"
        },
        {
         "id": "w110",
         "kind": "set",
-        "var": "RunStyle",
+        "var": "WalkStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs110.Settings",
-         "RunStyle": "@g110.RunStyle"
+         "WalkStyle": "@g110.WalkStyle"
         }
        },
        {
@@ -30342,16 +30640,16 @@
        {
         "id": "g111",
         "kind": "get",
-        "var": "IdleStyle"
+        "var": "RunStyle"
        },
        {
         "id": "w111",
         "kind": "set",
-        "var": "IdleStyle",
+        "var": "RunStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs111.Settings",
-         "IdleStyle": "@g111.IdleStyle"
+         "RunStyle": "@g111.RunStyle"
         }
        },
        {
@@ -30362,16 +30660,16 @@
        {
         "id": "g112",
         "kind": "get",
-        "var": "IdlePose"
+        "var": "IdleStyle"
        },
        {
         "id": "w112",
         "kind": "set",
-        "var": "IdlePose",
+        "var": "IdleStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs112.Settings",
-         "IdlePose": "@g112.IdlePose"
+         "IdleStyle": "@g112.IdleStyle"
         }
        },
        {
@@ -30382,16 +30680,16 @@
        {
         "id": "g113",
         "kind": "get",
-        "var": "PoseLoop"
+        "var": "IdlePose"
        },
        {
         "id": "w113",
         "kind": "set",
-        "var": "PoseLoop",
+        "var": "IdlePose",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs113.Settings",
-         "PoseLoop": "@g113.PoseLoop"
+         "IdlePose": "@g113.IdlePose"
         }
        },
        {
@@ -30402,16 +30700,16 @@
        {
         "id": "g114",
         "kind": "get",
-        "var": "NoRenderedIcons"
+        "var": "PoseLoop"
        },
        {
         "id": "w114",
         "kind": "set",
-        "var": "NoRenderedIcons",
+        "var": "PoseLoop",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs114.Settings",
-         "NoRenderedIcons": "@g114.NoRenderedIcons"
+         "PoseLoop": "@g114.PoseLoop"
         }
        },
        {
@@ -30422,16 +30720,16 @@
        {
         "id": "g115",
         "kind": "get",
-        "var": "RagWheelCm"
+        "var": "NoRenderedIcons"
        },
        {
         "id": "w115",
         "kind": "set",
-        "var": "RagWheelCm",
+        "var": "NoRenderedIcons",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs115.Settings",
-         "RagWheelCm": "@g115.RagWheelCm"
+         "NoRenderedIcons": "@g115.NoRenderedIcons"
         }
        },
        {
@@ -30442,16 +30740,16 @@
        {
         "id": "g116",
         "kind": "get",
-        "var": "SlowMoPct"
+        "var": "RagWheelCm"
        },
        {
         "id": "w116",
         "kind": "set",
-        "var": "SlowMoPct",
+        "var": "RagWheelCm",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs116.Settings",
-         "SlowMoPct": "@g116.SlowMoPct"
+         "RagWheelCm": "@g116.RagWheelCm"
         }
        },
        {
@@ -30462,16 +30760,16 @@
        {
         "id": "g117",
         "kind": "get",
-        "var": "AcceptedFingerprint"
+        "var": "SlowMoPct"
        },
        {
         "id": "w117",
         "kind": "set",
-        "var": "AcceptedFingerprint",
+        "var": "SlowMoPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs117.Settings",
-         "AcceptedFingerprint": "@g117.AcceptedFingerprint"
+         "SlowMoPct": "@g117.SlowMoPct"
         }
        },
        {
@@ -30482,16 +30780,16 @@
        {
         "id": "g118",
         "kind": "get",
-        "var": "OutfitScale"
+        "var": "AcceptedFingerprint"
        },
        {
         "id": "w118",
         "kind": "set",
-        "var": "OutfitScale",
+        "var": "AcceptedFingerprint",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs118.Settings",
-         "OutfitScale": "@g118.OutfitScale"
+         "AcceptedFingerprint": "@g118.AcceptedFingerprint"
         }
        },
        {
@@ -30502,16 +30800,16 @@
        {
         "id": "g119",
         "kind": "get",
-        "var": "LookScale"
+        "var": "OutfitScale"
        },
        {
         "id": "w119",
         "kind": "set",
-        "var": "LookScale",
+        "var": "OutfitScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs119.Settings",
-         "LookScale": "@g119.LookScale"
+         "OutfitScale": "@g119.OutfitScale"
         }
        },
        {
@@ -30522,16 +30820,16 @@
        {
         "id": "g120",
         "kind": "get",
-        "var": "RagScale"
+        "var": "LookScale"
        },
        {
         "id": "w120",
         "kind": "set",
-        "var": "RagScale",
+        "var": "LookScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs120.Settings",
-         "RagScale": "@g120.RagScale"
+         "LookScale": "@g120.LookScale"
         }
        },
        {
@@ -30542,16 +30840,16 @@
        {
         "id": "g121",
         "kind": "get",
-        "var": "InvScale"
+        "var": "RagScale"
        },
        {
         "id": "w121",
         "kind": "set",
-        "var": "InvScale",
+        "var": "RagScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs121.Settings",
-         "InvScale": "@g121.InvScale"
+         "RagScale": "@g121.RagScale"
         }
        },
        {
@@ -30562,16 +30860,16 @@
        {
         "id": "g122",
         "kind": "get",
-        "var": "OutfitCols"
+        "var": "InvScale"
        },
        {
         "id": "w122",
         "kind": "set",
-        "var": "OutfitCols",
+        "var": "InvScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs122.Settings",
-         "OutfitCols": "@g122.OutfitCols"
+         "InvScale": "@g122.InvScale"
         }
        },
        {
@@ -30582,16 +30880,16 @@
        {
         "id": "g123",
         "kind": "get",
-        "var": "OutfitRows"
+        "var": "OutfitCols"
        },
        {
         "id": "w123",
         "kind": "set",
-        "var": "OutfitRows",
+        "var": "OutfitCols",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs123.Settings",
-         "OutfitRows": "@g123.OutfitRows"
+         "OutfitCols": "@g123.OutfitCols"
         }
        },
        {
@@ -30602,16 +30900,16 @@
        {
         "id": "g124",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "OutfitRows"
        },
        {
         "id": "w124",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "OutfitRows",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs124.Settings",
-         "ThemeBg": "@g124.ThemeBg"
+         "OutfitRows": "@g124.OutfitRows"
         }
        },
        {
@@ -30622,16 +30920,16 @@
        {
         "id": "g125",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "ThemeBg"
        },
        {
         "id": "w125",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs125.Settings",
-         "ThemeAccent": "@g125.ThemeAccent"
+         "ThemeBg": "@g125.ThemeBg"
         }
        },
        {
@@ -30642,16 +30940,16 @@
        {
         "id": "g126",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "ThemeAccent"
        },
        {
         "id": "w126",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs126.Settings",
-         "ThemeFill": "@g126.ThemeFill"
+         "ThemeAccent": "@g126.ThemeAccent"
         }
        },
        {
@@ -30662,16 +30960,16 @@
        {
         "id": "g127",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "ThemeFill"
        },
        {
         "id": "w127",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs127.Settings",
-         "ThemeFrame": "@g127.ThemeFrame"
+         "ThemeFill": "@g127.ThemeFill"
         }
        },
        {
@@ -30682,16 +30980,16 @@
        {
         "id": "g128",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "ThemeFrame"
        },
        {
         "id": "w128",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs128.Settings",
-         "ThemeWorn": "@g128.ThemeWorn"
+         "ThemeFrame": "@g128.ThemeFrame"
         }
        },
        {
@@ -30702,16 +31000,16 @@
        {
         "id": "g129",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "ThemeWorn"
        },
        {
         "id": "w129",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs129.Settings",
-         "ThemeRow": "@g129.ThemeRow"
+         "ThemeWorn": "@g129.ThemeWorn"
         }
        },
        {
@@ -30722,16 +31020,16 @@
        {
         "id": "g130",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "ThemeRow"
        },
        {
         "id": "w130",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs130.Settings",
-         "ThemeText": "@g130.ThemeText"
+         "ThemeRow": "@g130.ThemeRow"
         }
        },
        {
@@ -30742,16 +31040,16 @@
        {
         "id": "g131",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "ThemeText"
        },
        {
         "id": "w131",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs131.Settings",
-         "ThemeHead": "@g131.ThemeHead"
+         "ThemeText": "@g131.ThemeText"
         }
        },
        {
@@ -30762,16 +31060,16 @@
        {
         "id": "g132",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "ThemeHead"
        },
        {
         "id": "w132",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs132.Settings",
-         "ThemeLink": "@g132.ThemeLink"
+         "ThemeHead": "@g132.ThemeHead"
         }
        },
        {
@@ -30782,16 +31080,16 @@
        {
         "id": "g133",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "ThemeLink"
        },
        {
         "id": "w133",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs133.Settings",
-         "ThemeLine": "@g133.ThemeLine"
+         "ThemeLink": "@g133.ThemeLink"
         }
        },
        {
@@ -30802,16 +31100,16 @@
        {
         "id": "g134",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "ThemeLine"
        },
        {
         "id": "w134",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs134.Settings",
-         "BgAlpha": "@g134.BgAlpha"
+         "ThemeLine": "@g134.ThemeLine"
         }
        },
        {
@@ -30822,16 +31120,16 @@
        {
         "id": "g135",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "BgAlpha"
        },
        {
         "id": "w135",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs135.Settings",
-         "TileAlpha": "@g135.TileAlpha"
+         "BgAlpha": "@g135.BgAlpha"
         }
        },
        {
@@ -30842,16 +31140,36 @@
        {
         "id": "g136",
         "kind": "get",
-        "var": "BgImgAlpha"
+        "var": "TileAlpha"
        },
        {
         "id": "w136",
         "kind": "set",
-        "var": "BgImgAlpha",
+        "var": "TileAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs136.Settings",
-         "BgImgAlpha": "@g136.BgImgAlpha"
+         "TileAlpha": "@g136.TileAlpha"
+        }
+       },
+       {
+        "id": "gs137",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g137",
+        "kind": "get",
+        "var": "BgImgAlpha"
+       },
+       {
+        "id": "w137",
+        "kind": "set",
+        "var": "BgImgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs137.Settings",
+         "BgImgAlpha": "@g137.BgImgAlpha"
         }
        },
        {
@@ -31078,6 +31396,7 @@
         "w134",
         "w135",
         "w136",
+        "w137",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",
@@ -35800,6 +36119,25 @@
      ]
     },
     {
+     "name": "Fol Set Inf Ammo",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      },
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Fol New Jason"
+    },
+    {
+     "name": "Hand Watch"
+    },
+    {
      "name": "Fol Revive",
      "inputs": [
       {
@@ -36293,6 +36631,174 @@
       {
        "name": "name",
        "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Mutate Mesh",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.MeshComponent"
+      },
+      {
+       "name": "mut",
+       "type": "struct:/Game/Mod/AltUI/S_Mutation"
+      },
+      {
+       "name": "rt",
+       "type": "object:/Script/Engine.TextureRenderTarget2D"
+      },
+      {
+       "name": "size",
+       "type": "int"
+      },
+      {
+       "name": "base",
+       "type": "object:/Script/Engine.MaterialInstanceDynamic"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "out",
+       "type": "object:/Script/Engine.TextureRenderTarget2D"
+      }
+     ]
+    },
+    {
+     "name": "Load Mutation Assets"
+    },
+    {
+     "name": "Mutation Orig Of",
+     "inputs": [
+      {
+       "name": "mid",
+       "type": "object:/Script/Engine.MaterialInstanceDynamic"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "orig",
+       "type": "struct:/Game/Mod/AltUI/S_MutOrig"
+      }
+     ]
+    },
+    {
+     "name": "Mutation Skin Tex",
+     "inputs": [
+      {
+       "name": "mut",
+       "type": "struct:/Game/Mod/AltUI/S_Mutation"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "tex",
+       "type": "object:/Script/Engine.TextureRenderTarget2D"
+      }
+     ]
+    },
+    {
+     "name": "Mutate Copy",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.MeshComponent"
+      },
+      {
+       "name": "mut",
+       "type": "struct:/Game/Mod/AltUI/S_Mutation"
+      }
+     ]
+    },
+    {
+     "name": "Mutation Active",
+     "inputs": [
+      {
+       "name": "mut",
+       "type": "struct:/Game/Mod/AltUI/S_Mutation"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Apply Jodi Mutation"
+    },
+    {
+     "name": "Mutation Watch"
+    },
+    {
+     "name": "Mutation Row Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "fixed",
+       "type": "bool"
+      },
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Mutation Reset"
+    },
+    {
+     "name": "Mutation Eyes Off",
+     "inputs": [
+      {
+       "name": "was",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Mutation Story Slot",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.MeshComponent"
+      },
+      {
+       "name": "body",
+       "type": "object:/Script/Engine.MaterialInstanceDynamic"
+      },
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Mutation Glow Layer",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.SkeletalMeshComponent"
+      },
+      {
+       "name": "comp",
+       "type": "object:/Script/Engine.SkeletalMeshComponent"
+      },
+      {
+       "name": "strength",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "out",
+       "type": "object:/Script/Engine.SkeletalMeshComponent"
       }
      ]
     },

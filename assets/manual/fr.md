@@ -78,7 +78,7 @@ Les tenues enregistrées du jeu – les mêmes que celles de la garde-robe et du
 
 ## Looks {#looks}
 
-Un look, c'est tout à la fois : vêtements avec leurs couleurs, coiffure et couleur des cheveux, maquillage, yeux, peau, curseurs du corps, mod de corps et visage.
+Un look, c'est tout à la fois : vêtements avec leurs couleurs, coiffure et couleur des cheveux, maquillage, yeux, peau, mutation, curseurs du corps, mod de corps et visage.
 
 - La tuile « + » enregistre le look actuel avec une photo en pied – de face ou telle que vous la voyez.
 - Un clic sur un look l'applique.
@@ -108,6 +108,7 @@ Les objets de Jodi et l'hyper coffre de stockage, une liste sous l'autre.
 - « ... » au-dessus d'une liste la replie, ↑↓ lui donne toute la hauteur (encore une fois : retour).
 - Sur les cartes où le jeu ne sauvegarde jamais le sac à dos (le stand de tir, par exemple), l'onglet le signale : gardez ce que vous voulez conserver dans le coffre.
 - « Tous les objets » est désactivé par défaut (Paramètres › Général) : chaque objet du jeu en troisième liste, avec sa propre recherche. Un clic met un paquet dans le sac à dos ; clic droit : cinq, ou dans le coffre.
+  « Collection » contient aussi la Main invisible du jeu : tant qu'elle est dans le sac à dos, elle apporte à Jodi les objets proches, l'un après l'autre, plus vite avec plusieurs mains (une toutes les 2,5 s, dès six toutes les 0,1 s). « Collection » dans le sac à dos montre combien Jodi en a.
 - « Équiper automatiquement les armes » (Paramètres › Général, activé par défaut) : une arme sortie du coffre ou du catalogue va dans la main de Jodi comme dans le jeu ; désactivé, elle garde ce qu'elle tient.
 - La taille des tuiles de cet onglet se règle dans Paramètres › Tuiles.
 
@@ -156,6 +157,7 @@ Peau, chaque type de maquillage, yeux et préréglages d'apparence du jeu.
 
 - Un clic sur une entrée l'applique. Clic droit sur un maquillage : teinter avec la palette du jeu, réinitialiser la teinte.
 - Yeux : couleur de l'iris et des cils dans le menu contextuel.
+- Mutation : l'apparence mutée de Jodi dans l'histoire, par parties – couleur de peau et lueur en curseurs (case cochée = actif), veines et yeux en interrupteurs, « Réinitialiser » désactive tout. Le maquillage reste visible sur la peau décolorée, votre couleur d'iris teinte l'œil muté. « Look de l'histoire » reproduit l'apparence de la cinématique : matériau de peau de l'histoire, toutes les lignes au maximum ; chaque ligne peut ensuite être réduite. Maquillage et cicatrices n'y sont pas visibles. Pendant que l'histoire fait muter Jodi elle-même, c'est son apparence qui s'applique.
 - Préréglages : la tuile « + » enregistre l'apparence actuelle avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer, menu rapide.
 
 ## Morphologie {#body}
@@ -244,12 +246,14 @@ Déplacer et poser les figures sans le panneau, la caméra libre dans la pièce.
 Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et obéit aux ordres ; un PNJ reste où il est et se défend.
 
 - Dans l'onglet Looks, clic droit sur un look : « Créer en compagnon » ou « Créer en PNJ ». La figure apparaît devant Jodi avec ce look.
-- L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », « Invulnérable » et « ... » (renommer, changer de look, ranimer, retirer).
+- L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », « Invulnérable », « Munitions infinies » et « ... » (renommer, changer de look, ranimer, retirer).
 - Un clic sur une ligne sélectionne la figure. En haut se trouvent le sac à dos (à gauche) et la caisse (à droite) : un clic donne un objet à la figure sélectionnée, une arme avec sa peinture et ses accessoires. Un clic sur une tuile de la figure le rend au sac à dos ; clic droit : tout, ou dans la caisse. « ... » au-dessus d'une liste la replie.
 - Le menu contextuel d'une pile – de Jodi ou de la figure – a la ligne de quantité comme dans l'onglet Inventaire : « En donner 5 », « En prendre 5 », dans le coffre.
 - Les vêtements sont de vraies pièces de la figure, comme pour les PNJ du jeu : ils s'abîment, peuvent se déchirer et apparaissent dans l'inventaire PNJ du jeu, où l'on peut aussi les échanger. Sous une figure, ses pièces sont des tuiles (celles abîmées sont marquées) : un clic en enlève une et la met dans le sac à dos de Jodi ; clic droit : réparer avec un kit de couture du sac à dos de Jodi, ou tout réparer. Dans la colonne du sac à dos, « Vêtements » liste les pièces de Jodi : un clic en donne une à la figure sélectionnée, qui l'enfile (dégâts et couleurs suivent).
 - « Actif » désactivé retire la figure du monde avec tout ce qu'elle porte ; réactivée, elle revient devant Jodi.
+- « Munitions infinies » : la figure recharge ses armes à feu sans fin, sans avoir besoin de munitions dans son sac. Les armes à chargeur ne touchent pas à ses munitions ; le fusil à pompe et le lance-grenades utilisent d'abord ce qu'elle porte.
 - Une figure qui n'est pas invulnérable peut tomber. Elle reste dans la liste et « Ranimer » la ramène avec ses affaires. Les figures ne deviennent jamais des zombies.
+- « + Jason » (en bas à droite de l'onglet) ajoute Jason de l'histoire comme compagnon, avec son Glock. Il obéit aux ordres, suit et est sauvegardé. Il ne se bat qu'avec son propre Glock : un Glock qu'on lui donne devient le sien, il refuse les autres armes. Il n'a ni look, ni vêtements, ni maquillage ; à terre, il ne peut pas être soigné – « Ranimer » le ramène.
 - « Retirer » demande confirmation ; les objets et les armes de la figure vont dans la caisse, ses vêtements dans le sac à dos de Jodi.
 - « Changer de look » passe à l'onglet Looks : cliquez sur le look que la figure doit porter.
 - Chaque figure porte le maquillage de son look et a une des voix de PNJ du jeu. Une figure créée avec AltUI avant la 2.2.0 montre le maquillage de Jodi jusqu'à ce que « Changer de look… » lui donne le sien.
@@ -271,6 +275,7 @@ Maintenez 4 (autre touche dans Paramètres › Menu rapide) et une roue s'ouvre 
 - Entrées : tenues, looks, visages, préréglages d'apparence, poses, onglets, réglages d'autres mods et actions : caméra libre, mode photo, mode ragdoll, une copie de Jodi en ragdoll, basculer tous les ragdolls entre actif et figé, activer / figer celui visé, retirer tous les ragdolls, vitesse personnalisée oui / non.
 - Autres actions : « Ralenti oui / non », « Arrêter le temps / reprendre » (tout s'immobilise ; le panneau et les caméras continuent de fonctionner ; aussi la caméra du mode photo du jeu), « Masquer / afficher Jodi » (avec vêtements, cheveux et arme ; au niveau suivant elle est de retour) et les ordres aux compagnons (voir « Compagnons »).
 - « Masquer / afficher l'interface du jeu » éteint et rallume le HUD du jeu, comme son mode photo.
+- « +1 Main invisible » met une Main invisible dans le sac à dos (voir Inventaire › Tous les objets).
 - Touches personnelles : dans Paramètres › Menu rapide, clic droit sur un élément sous « Disponibles » puis appuyez sur une touche – l'élément s'exécute alors avec cette touche, panneau fermé, aussi en caméra libre et dans le mode photo du jeu. Un clic sur la touche d'une ligne en choisit une autre, ✕ la supprime. La touche du panneau, celle du menu rapide et une touche déjà prise sont refusées ; une touche que le jeu utilise lui-même déclenche les deux.
 - On les ajoute dans Paramètres › Menu rapide, ou par clic droit sur une tuile, un onglet ou l'entrée d'un mod (« Ajouter au menu rapide »).
 - L'ordre dans la roue est l'ordre de la liste dans Paramètres › Menu rapide.

@@ -8,6 +8,7 @@
 28b_anims.json
 29_move.json
 29b_follower.json
+29c_jason.json
 30_manager.json
 40_widgets.json
 50_manager_ui.json

@@ -295,7 +295,7 @@
      "name": "FolActors",
      "type": "name",
      "container": "map",
-     "value_type": "object:/Game/Mod/AltUI/BP_AltUIFollower"
+     "value_type": "object:/Game/Project/Character/Npc/Character_NPC"
     },
     {
      "name": "FolSpawnMode",
@@ -344,7 +344,11 @@
     },
     {
      "name": "FolActor",
-     "type": "object:/Game/Mod/AltUI/BP_AltUIFollower"
+     "type": "object:/Game/Project/Character/Npc/Character_NPC"
+    },
+    {
+     "name": "FolJasonNew",
+     "type": "bool"
     },
     {
      "name": "FolLevel",
@@ -428,6 +432,10 @@
      "name": "FolMkRows",
      "type": "name",
      "container": "array"
+    },
+    {
+     "name": "FolMutation",
+     "type": "struct:/Game/Mod/AltUI/S_Mutation"
     },
     {
      "name": "FolMkColors",
@@ -4458,6 +4466,43 @@
      "graph": {
       "nodes": [
        {
+        "id": "ks",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@entry.key"
+        }
+       },
+       {
+        "id": "kmu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "StartsWith",
+        "in": {
+         "SourceString": "@ks.ReturnValue",
+         "InPrefix": "Mut",
+         "SearchCase": "CaseSensitive"
+        }
+       },
+       {
+        "id": "bmu",
+        "kind": "branch",
+        "in": {
+         "Condition": "@kmu.ReturnValue"
+        }
+       },
+       {
+        "id": "mrc",
+        "kind": "call_self",
+        "function": "Mutation Row Changed",
+        "in": {
+         "key": "@entry.key",
+         "fixed": "@entry.fixed",
+         "value": "@entry.value"
+        }
+       },
+       {
         "id": "e0eq",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
@@ -6877,6 +6922,11 @@
       "exec": [
        [
         "entry",
+        "bmu",
+        "mrc"
+       ],
+       [
+        "bmu:else",
         "e0b"
        ],
        [
@@ -17020,6 +17070,11 @@
          "ParameterName": "MainColor",
          "Value": "@eLashesf.Value"
         }
+       },
+       {
+        "id": "ajm",
+        "kind": "call_self",
+        "function": "Apply Jodi Mutation"
        }
       ],
       "links": [
@@ -17060,6 +17115,22 @@
        [
         "eIrisbf:else",
         "eLashescur"
+       ],
+       [
+        "eLashess",
+        "ajm"
+       ],
+       [
+        "eLashesbc:else",
+        "ajm"
+       ],
+       [
+        "eLashesb:else",
+        "ajm"
+       ],
+       [
+        "eLashesbf:else",
+        "ajm"
        ]
       ]
      }
@@ -28393,6 +28464,70 @@
         }
        },
        {
+        "id": "ggo",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetGameState"
+       },
+       {
+        "id": "cgo",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/GameMode/TKA_GameState",
+        "pure": false,
+        "in": {
+         "Object": "@ggo.ReturnValue"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "igo",
+        "kind": "call",
+        "class": "/Game/Project/Classes/GameMode/TKA_GameState",
+        "function": "Is Game Over ?",
+        "in": {
+         "self": "@cgo.AsTKA Game State"
+        }
+       },
+       {
+        "id": "bgo",
+        "kind": "branch",
+        "in": {
+         "Condition": "@igo.yes"
+        }
+       },
+       {
+        "id": "gpc5",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "cur5",
+        "kind": "call",
+        "class": "/Game/Project/Classes/TKA_Controller",
+        "function": "ShowMouseCursor",
+        "in": {
+         "self": "@gpc5.PC",
+         "show": "true"
+        }
+       },
+       {
+        "id": "gpc6",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "im6",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "SetInputMode_GameAndUIEx",
+        "in": {
+         "PlayerController": "@gpc6.PC",
+         "InWidgetToFocus": "None",
+         "InMouseLockMode": "DoNotLock",
+         "bHideCursorDuringCapture": "false"
+        }
+       },
+       {
         "id": "arm",
         "kind": "call_self",
         "function": "Apply Rag Markers"
@@ -28463,6 +28598,18 @@
        ],
        [
         "so",
+        "cgo",
+        "bgo",
+        "cur5",
+        "im6",
+        "svs"
+       ],
+       [
+        "cgo:CastFailed",
+        "cur"
+       ],
+       [
+        "bgo:else",
         "cur",
         "im",
         "bl",
@@ -37631,7 +37778,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceApply"
+         "B": "MutReset"
         }
        },
        {
@@ -37642,17 +37789,9 @@
         }
        },
        {
-        "id": "gc116",
-        "kind": "get",
-        "var": "ContextFace"
-       },
-       {
         "id": "fa116",
         "kind": "call_self",
-        "function": "Apply Saved Face",
-        "in": {
-         "index": "@gc116.ContextFace"
-        }
+        "function": "Mutation Reset"
        },
        {
         "id": "ia117",
@@ -37661,7 +37800,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceRename"
+         "B": "FaceApply"
         }
        },
        {
@@ -37679,7 +37818,7 @@
        {
         "id": "fa117",
         "kind": "call_self",
-        "function": "Start Face Rename",
+        "function": "Apply Saved Face",
         "in": {
          "index": "@gc117.ContextFace"
         }
@@ -37691,7 +37830,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceUpdate"
+         "B": "FaceRename"
         }
        },
        {
@@ -37709,7 +37848,7 @@
        {
         "id": "fa118",
         "kind": "call_self",
-        "function": "Update Face Front",
+        "function": "Start Face Rename",
         "in": {
          "index": "@gc118.ContextFace"
         }
@@ -37721,7 +37860,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceUpdateView"
+         "B": "FaceUpdate"
         }
        },
        {
@@ -37739,7 +37878,7 @@
        {
         "id": "fa119",
         "kind": "call_self",
-        "function": "Update Face View",
+        "function": "Update Face Front",
         "in": {
          "index": "@gc119.ContextFace"
         }
@@ -37751,7 +37890,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceDelete"
+         "B": "FaceUpdateView"
         }
        },
        {
@@ -37769,7 +37908,7 @@
        {
         "id": "fa120",
         "kind": "call_self",
-        "function": "Delete Face",
+        "function": "Update Face View",
         "in": {
          "index": "@gc120.ContextFace"
         }
@@ -37781,7 +37920,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FaceView"
+         "B": "FaceDelete"
         }
        },
        {
@@ -37799,7 +37938,7 @@
        {
         "id": "fa121",
         "kind": "call_self",
-        "function": "Open Face Content",
+        "function": "Delete Face",
         "in": {
          "index": "@gc121.ContextFace"
         }
@@ -37811,7 +37950,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "FreeCam"
+         "B": "FaceView"
         }
        },
        {
@@ -37822,9 +37961,17 @@
         }
        },
        {
+        "id": "gc122",
+        "kind": "get",
+        "var": "ContextFace"
+       },
+       {
         "id": "fa122",
         "kind": "call_self",
-        "function": "Start Free Cam"
+        "function": "Open Face Content",
+        "in": {
+         "index": "@gc122.ContextFace"
+        }
        },
        {
         "id": "ia123",
@@ -37833,7 +37980,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "PhotoMode"
+         "B": "FreeCam"
         }
        },
        {
@@ -37846,7 +37993,7 @@
        {
         "id": "fa123",
         "kind": "call_self",
-        "function": "Start Photo Mode"
+        "function": "Start Free Cam"
        },
        {
         "id": "ia124",
@@ -37855,7 +38002,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "ModeRagdoll"
+         "B": "PhotoMode"
         }
        },
        {
@@ -37868,7 +38015,7 @@
        {
         "id": "fa124",
         "kind": "call_self",
-        "function": "Start Ragdoll Mode"
+        "function": "Start Photo Mode"
        },
        {
         "id": "ia125",
@@ -37877,7 +38024,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "SpeedReset"
+         "B": "ModeRagdoll"
         }
        },
        {
@@ -37890,7 +38037,7 @@
        {
         "id": "fa125",
         "kind": "call_self",
-        "function": "Reset Move Speeds"
+        "function": "Start Ragdoll Mode"
        },
        {
         "id": "ia126",
@@ -37899,7 +38046,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "Undo"
+         "B": "SpeedReset"
         }
        },
        {
@@ -37912,7 +38059,7 @@
        {
         "id": "fa126",
         "kind": "call_self",
-        "function": "Undo"
+        "function": "Reset Move Speeds"
        },
        {
         "id": "ia127",
@@ -37921,7 +38068,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "Redo"
+         "B": "Undo"
         }
        },
        {
@@ -37934,7 +38081,7 @@
        {
         "id": "fa127",
         "kind": "call_self",
-        "function": "Redo"
+        "function": "Undo"
        },
        {
         "id": "ia128",
@@ -37943,7 +38090,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "KodexBack"
+         "B": "Redo"
         }
        },
        {
@@ -37956,7 +38103,7 @@
        {
         "id": "fa128",
         "kind": "call_self",
-        "function": "Kodex Back"
+        "function": "Redo"
        },
        {
         "id": "ia129",
@@ -37965,7 +38112,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "KodexRefresh"
+         "B": "KodexBack"
         }
        },
        {
@@ -37978,7 +38125,7 @@
        {
         "id": "fa129",
         "kind": "call_self",
-        "function": "Rebuild Kodex"
+        "function": "Kodex Back"
        },
        {
         "id": "ia130",
@@ -37987,7 +38134,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookRagdoll"
+         "B": "KodexRefresh"
         }
        },
        {
@@ -37998,17 +38145,9 @@
         }
        },
        {
-        "id": "gc130",
-        "kind": "get",
-        "var": "ContextLook"
-       },
-       {
         "id": "fa130",
         "kind": "call_self",
-        "function": "Spawn Look Ragdoll",
-        "in": {
-         "index": "@gc130.ContextLook"
-        }
+        "function": "Rebuild Kodex"
        },
        {
         "id": "ia131",
@@ -38017,7 +38156,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookFollower"
+         "B": "LookRagdoll"
         }
        },
        {
@@ -38035,7 +38174,7 @@
        {
         "id": "fa131",
         "kind": "call_self",
-        "function": "Spawn Look As Follower",
+        "function": "Spawn Look Ragdoll",
         "in": {
          "index": "@gc131.ContextLook"
         }
@@ -38047,7 +38186,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookNpc"
+         "B": "LookFollower"
         }
        },
        {
@@ -38065,7 +38204,7 @@
        {
         "id": "fa132",
         "kind": "call_self",
-        "function": "Spawn Look As Npc",
+        "function": "Spawn Look As Follower",
         "in": {
          "index": "@gc132.ContextLook"
         }
@@ -38077,7 +38216,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookClean"
+         "B": "LookNpc"
         }
        },
        {
@@ -38095,9 +38234,39 @@
        {
         "id": "fa133",
         "kind": "call_self",
-        "function": "Look Clean Copy",
+        "function": "Spawn Look As Npc",
         "in": {
          "index": "@gc133.ContextLook"
+        }
+       },
+       {
+        "id": "ia134",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "LookClean"
+        }
+       },
+       {
+        "id": "ba134",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ia134.ReturnValue"
+        }
+       },
+       {
+        "id": "gc134",
+        "kind": "get",
+        "var": "ContextLook"
+       },
+       {
+        "id": "fa134",
+        "kind": "call_self",
+        "function": "Look Clean Copy",
+        "in": {
+         "index": "@gc134.ContextLook"
         }
        }
       ],
@@ -38869,6 +39038,11 @@
         "ba132:else",
         "ba133",
         "fa133"
+       ],
+       [
+        "ba133:else",
+        "ba134",
+        "fa134"
        ]
       ]
      }
@@ -76216,6 +76390,31 @@
         }
        },
        {
+        "id": "gnm",
+        "kind": "get",
+        "var": "TmpNames"
+       },
+       {
+        "id": "mut",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Mutation"
+        }
+       },
+       {
+        "id": "insm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Insert",
+        "in": {
+         "TargetArray": "@gnm.TmpNames",
+         "NewItem": "@mut.ReturnValue",
+         "Index": "1"
+        }
+       },
+       {
         "id": "gna",
         "kind": "get",
         "var": "TmpNames"
@@ -76439,13 +76638,33 @@
         }
        },
        {
-        "id": "has",
+        "id": "has0",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_IntInt",
         "in": {
          "A": "@cnt.n",
          "B": "0"
+        }
+       },
+       {
+        "id": "ismu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@fe.Array Element",
+         "B": "Mutation"
+        }
+       },
+       {
+        "id": "has",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@has0.ReturnValue",
+         "B": "@ismu.ReturnValue"
         }
        },
        {
@@ -76502,6 +76721,7 @@
         "rn",
         "sn",
         "ins",
+        "insm",
         "insa",
         "adp",
         "fe"
@@ -78166,6 +78386,23 @@
         }
        },
        {
+        "id": "qe_hand",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.kind",
+         "B": "hand"
+        }
+       },
+       {
+        "id": "qb_hand",
+        "kind": "branch",
+        "in": {
+         "Condition": "@qe_hand.ReturnValue"
+        }
+       },
+       {
         "id": "qe_tab",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -79264,6 +79501,10 @@
        ],
        [
         "qb_hideui:else",
+        "qb_hand"
+       ],
+       [
+        "qb_hand:else",
         "qb_tab"
        ],
        [
@@ -79392,6 +79633,10 @@
        ],
        [
         "qb_hideui",
+        "ok"
+       ],
+       [
+        "qb_hand",
         "ok"
        ],
        [
@@ -79988,6 +80233,23 @@
         "kind": "branch",
         "in": {
          "Condition": "@qe_hideui.ReturnValue"
+        }
+       },
+       {
+        "id": "qe_hand",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.kind",
+         "B": "hand"
+        }
+       },
+       {
+        "id": "qb_hand",
+        "kind": "branch",
+        "in": {
+         "Condition": "@qe_hand.ReturnValue"
         }
        },
        {
@@ -80635,6 +80897,31 @@
         }
        },
        {
+        "id": "tf_hand",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Quick_Hand"
+        }
+       },
+       {
+        "id": "tf_hand_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@tf_hand.text"
+        }
+       },
+       {
+        "id": "sf_hand",
+        "kind": "set",
+        "var": "QStr",
+        "in": {
+         "QStr": "@tf_hand_2s.ReturnValue"
+        }
+       },
+       {
         "id": "pn",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -81116,6 +81403,10 @@
        ],
        [
         "qb_hideui:else",
+        "qb_hand"
+       ],
+       [
+        "qb_hand:else",
         "qb_tab"
        ],
        [
@@ -81259,6 +81550,11 @@
        [
         "qb_hideui",
         "sf_hideui",
+        "return"
+       ],
+       [
+        "qb_hand",
+        "sf_hand",
         "return"
        ],
        [
@@ -81699,6 +81995,23 @@
         }
        },
        {
+        "id": "qe_hand",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.kind",
+         "B": "hand"
+        }
+       },
+       {
+        "id": "qb_hand",
+        "kind": "branch",
+        "in": {
+         "Condition": "@qe_hand.ReturnValue"
+        }
+       },
+       {
         "id": "qe_tab",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -81984,6 +82297,14 @@
         "var": "QTex",
         "in": {
          "QTex": "/Game/Mod/AltUI/T_Photo"
+        }
+       },
+       {
+        "id": "si_hand",
+        "kind": "set",
+        "var": "QTex",
+        "in": {
+         "QTex": "/Game/Mod/AltUI/T_TabInventory"
         }
        },
        {
@@ -82752,6 +83073,10 @@
        ],
        [
         "qb_hideui:else",
+        "qb_hand"
+       ],
+       [
+        "qb_hand:else",
         "qb_tab"
        ],
        [
@@ -82879,6 +83204,11 @@
        [
         "qb_hideui",
         "si_hideui",
+        "return"
+       ],
+       [
+        "qb_hand",
+        "si_hand",
         "return"
        ],
        [
@@ -83803,6 +84133,23 @@
         }
        },
        {
+        "id": "qe_hand",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.kind",
+         "B": "hand"
+        }
+       },
+       {
+        "id": "qb_hand",
+        "kind": "branch",
+        "in": {
+         "Condition": "@qe_hand.ReturnValue"
+        }
+       },
+       {
         "id": "qe_tab",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -84094,6 +84441,16 @@
         "id": "tgu",
         "kind": "call_self",
         "function": "Toggle Game UI"
+       },
+       {
+        "id": "ihd",
+        "kind": "call_self",
+        "function": "Inv Cat Bag",
+        "in": {
+         "item": "InvisibleHand",
+         "packs": "1",
+         "count": "0"
+        }
        },
        {
         "id": "fq_folfollow",
@@ -84389,6 +84746,10 @@
        ],
        [
         "qb_hideui:else",
+        "qb_hand"
+       ],
+       [
+        "qb_hand:else",
         "qb_tab"
        ],
        [
@@ -84488,6 +84849,10 @@
        [
         "qb_hideui",
         "tgu"
+       ],
+       [
+        "qb_hand",
+        "ihd"
        ],
        [
         "qb_folfollow",
@@ -101633,6 +101998,137 @@
         }
        },
        {
+        "id": "fx19lit",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralString",
+        "in": {
+         "Value": "hand"
+        }
+       },
+       {
+        "id": "fx19gi",
+        "kind": "get",
+        "var": "QaItems"
+       },
+       {
+        "id": "fx19ai",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@fx19gi.QaItems",
+         "NewItem": "@fx19lit.ReturnValue"
+        }
+       },
+       {
+        "id": "fx19gs",
+        "kind": "get",
+        "var": "QStripe"
+       },
+       {
+        "id": "fx19row",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_IntInt",
+        "in": {
+         "A": "@fx19gs.QStripe",
+         "B": "3"
+        }
+       },
+       {
+        "id": "fx19rm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Percent_IntInt",
+        "in": {
+         "A": "@fx19row.ReturnValue",
+         "B": "2"
+        }
+       },
+       {
+        "id": "fx19ev",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@fx19rm.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "fx19gt",
+        "kind": "get",
+        "var": "QaTint"
+       },
+       {
+        "id": "fx19at",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@fx19gt.QaTint",
+         "NewItem": "@fx19ev.ReturnValue"
+        }
+       },
+       {
+        "id": "fx19si",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@fx19gs.QStripe",
+         "B": "1"
+        }
+       },
+       {
+        "id": "fx19ss",
+        "kind": "set",
+        "var": "QStripe",
+        "in": {
+         "QStripe": "@fx19si.ReturnValue"
+        }
+       },
+       {
+        "id": "fx19gk",
+        "kind": "get",
+        "var": "QaKind"
+       },
+       {
+        "id": "fx19lki",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralInt",
+        "in": {
+         "Value": "2"
+        }
+       },
+       {
+        "id": "fx19ak",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@fx19gk.QaKind",
+         "NewItem": "@fx19lki.ReturnValue"
+        }
+       },
+       {
+        "id": "fx19gr",
+        "kind": "get",
+        "var": "QaRef"
+       },
+       {
+        "id": "fx19ar",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@fx19gr.QaRef",
+         "NewItem": "@fx19ai.ReturnValue"
+        }
+       },
+       {
         "id": "hogh",
         "kind": "get",
         "var": "QaHeads"
@@ -106875,6 +107371,14 @@
        ],
        [
         "fx18ar",
+        "fx19ai",
+        "fx19at",
+        "fx19ss",
+        "fx19ak",
+        "fx19ar"
+       ],
+       [
+        "fx19ar",
         "hoah",
         "hoak",
         "hoar",
@@ -119790,6 +120294,617 @@
         "in": {
          "ScrollWidget": "@aet.AsW_ClothesButton"
         }
+       },
+       {
+        "id": "gpr",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "clmr",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Look Rows",
+        "in": {
+         "self": "@gpr.Panel"
+        }
+       },
+       {
+        "id": "smdr",
+        "kind": "set",
+        "var": "MutDragging",
+        "in": {
+         "MutDragging": "false"
+        }
+       },
+       {
+        "id": "glcm",
+        "kind": "get",
+        "var": "LookCat"
+       },
+       {
+        "id": "ism",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@glcm.LookCat",
+         "B": "Mutation"
+        }
+       },
+       {
+        "id": "bmu",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ism.ReturnValue"
+        }
+       },
+       {
+        "id": "gpm",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "sfvm",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Look Fav Visible",
+        "in": {
+         "self": "@gpm.Panel",
+         "visible": "false"
+        }
+       },
+       {
+        "id": "gmu",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "bmv",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@gmu.Mutation"
+        }
+       },
+       {
+        "id": "cgc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bmv.Color",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "cgg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bmv.Glow",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "mr0w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr0w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_FaceRow",
+         "OwningPlayer": "@mr0w_pc.PC"
+        }
+       },
+       {
+        "id": "mr0w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr0w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "mr0sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "mr0sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "in": {
+         "self": "@mr0w.AsW_FaceRow",
+         "Manager": "@mr0sm_me.self"
+        }
+       },
+       {
+        "id": "mr0t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Mut_Color"
+        }
+       },
+       {
+        "id": "mr0in",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr0w.AsW_FaceRow",
+         "key": "MutColor",
+         "caption": "@mr0t.text",
+         "bipolar": "false"
+        }
+       },
+       {
+        "id": "mr0ss",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Set State",
+        "in": {
+         "self": "@mr0w.AsW_FaceRow",
+         "fixed": "@cgc.ReturnValue",
+         "value": "@bmv.Color"
+        }
+       },
+       {
+        "id": "mr0gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "mr0ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Look Row",
+        "in": {
+         "self": "@mr0gp.Panel",
+         "widget": "@mr0w.AsW_FaceRow"
+        }
+       },
+       {
+        "id": "mr1w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr1w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_FaceRow",
+         "OwningPlayer": "@mr1w_pc.PC"
+        }
+       },
+       {
+        "id": "mr1w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr1w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "mr1sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "mr1sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "in": {
+         "self": "@mr1w.AsW_FaceRow",
+         "Manager": "@mr1sm_me.self"
+        }
+       },
+       {
+        "id": "mr1t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Mut_Glow"
+        }
+       },
+       {
+        "id": "mr1in",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr1w.AsW_FaceRow",
+         "key": "MutGlow",
+         "caption": "@mr1t.text",
+         "bipolar": "false"
+        }
+       },
+       {
+        "id": "mr1ss",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Set State",
+        "in": {
+         "self": "@mr1w.AsW_FaceRow",
+         "fixed": "@cgg.ReturnValue",
+         "value": "@bmv.Glow"
+        }
+       },
+       {
+        "id": "mr1gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "mr1ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Look Row",
+        "in": {
+         "self": "@mr1gp.Panel",
+         "widget": "@mr1w.AsW_FaceRow"
+        }
+       },
+       {
+        "id": "mr2w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr2w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_FaceRow",
+         "OwningPlayer": "@mr2w_pc.PC"
+        }
+       },
+       {
+        "id": "mr2w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr2w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "mr2sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "mr2sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "in": {
+         "self": "@mr2w.AsW_FaceRow",
+         "Manager": "@mr2sm_me.self"
+        }
+       },
+       {
+        "id": "mr2t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Mut_Veins"
+        }
+       },
+       {
+        "id": "mr2in",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr2w.AsW_FaceRow",
+         "key": "MutVeins",
+         "caption": "@mr2t.text",
+         "bipolar": "false"
+        }
+       },
+       {
+        "id": "mr2sw",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Set Switch",
+        "in": {
+         "self": "@mr2w.AsW_FaceRow"
+        }
+       },
+       {
+        "id": "mr2ss",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Set State",
+        "in": {
+         "self": "@mr2w.AsW_FaceRow",
+         "fixed": "@bmv.Veins",
+         "value": "1.0"
+        }
+       },
+       {
+        "id": "mr2gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "mr2ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Look Row",
+        "in": {
+         "self": "@mr2gp.Panel",
+         "widget": "@mr2w.AsW_FaceRow"
+        }
+       },
+       {
+        "id": "mr3w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr3w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_FaceRow",
+         "OwningPlayer": "@mr3w_pc.PC"
+        }
+       },
+       {
+        "id": "mr3w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr3w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "mr3sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "mr3sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "in": {
+         "self": "@mr3w.AsW_FaceRow",
+         "Manager": "@mr3sm_me.self"
+        }
+       },
+       {
+        "id": "mr3t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Mut_Eyes"
+        }
+       },
+       {
+        "id": "mr3in",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr3w.AsW_FaceRow",
+         "key": "MutEyes",
+         "caption": "@mr3t.text",
+         "bipolar": "false"
+        }
+       },
+       {
+        "id": "mr3sw",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Set Switch",
+        "in": {
+         "self": "@mr3w.AsW_FaceRow"
+        }
+       },
+       {
+        "id": "mr3ss",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Set State",
+        "in": {
+         "self": "@mr3w.AsW_FaceRow",
+         "fixed": "@bmv.Eyes",
+         "value": "1.0"
+        }
+       },
+       {
+        "id": "mr3gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "mr3ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Look Row",
+        "in": {
+         "self": "@mr3gp.Panel",
+         "widget": "@mr3w.AsW_FaceRow"
+        }
+       },
+       {
+        "id": "mr4w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mr4w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_FaceRow",
+         "OwningPlayer": "@mr4w_pc.PC"
+        }
+       },
+       {
+        "id": "mr4w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "pure": true,
+        "in": {
+         "Object": "@mr4w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "mr4sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "mr4sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "in": {
+         "self": "@mr4w.AsW_FaceRow",
+         "Manager": "@mr4sm_me.self"
+        }
+       },
+       {
+        "id": "mr4t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Mut_Story"
+        }
+       },
+       {
+        "id": "mr4in",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Init",
+        "in": {
+         "self": "@mr4w.AsW_FaceRow",
+         "key": "MutStory",
+         "caption": "@mr4t.text",
+         "bipolar": "false"
+        }
+       },
+       {
+        "id": "mr4sw",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Set Switch",
+        "in": {
+         "self": "@mr4w.AsW_FaceRow"
+        }
+       },
+       {
+        "id": "mr4ss",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FaceRow",
+        "function": "Set State",
+        "in": {
+         "self": "@mr4w.AsW_FaceRow",
+         "fixed": "@bmv.Story",
+         "value": "1.0"
+        }
+       },
+       {
+        "id": "mr4gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "mr4ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Look Row",
+        "in": {
+         "self": "@mr4gp.Panel",
+         "widget": "@mr4w.AsW_FaceRow"
+        }
+       },
+       {
+        "id": "mrl_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "mrl_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_TextButton",
+         "OwningPlayer": "@mrl_pc.PC"
+        }
+       },
+       {
+        "id": "mrl",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "pure": true,
+        "in": {
+         "Object": "@mrl_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "mrlsm_me",
+        "kind": "self"
+       },
+       {
+        "id": "mrlsm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "in": {
+         "self": "@mrl.AsW_TextButton",
+         "Manager": "@mrlsm_me.self"
+        }
+       },
+       {
+        "id": "mrlt",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Btn_MutReset"
+        }
+       },
+       {
+        "id": "mrli",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "function": "Init",
+        "in": {
+         "self": "@mrl.AsW_TextButton",
+         "action": "MutReset",
+         "caption": "@mrlt.text"
+        }
+       },
+       {
+        "id": "mrlgp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "mrla",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Look Row",
+        "in": {
+         "self": "@mrlgp.Panel",
+         "widget": "@mrl.AsW_TextButton"
+        }
        }
       ],
       "links": [
@@ -119899,7 +121014,52 @@
         "entry",
         "cl",
         "clf",
+        "clmr",
+        "smdr",
         "lcp",
+        "bmu"
+       ],
+       [
+        "bmu",
+        "sfvm",
+        "mr0w_cr",
+        "mr0sm",
+        "mr0in",
+        "mr0ss",
+        "mr0ad",
+        "mr1w_cr",
+        "mr1sm",
+        "mr1in",
+        "mr1ss",
+        "mr1ad",
+        "mr2w_cr",
+        "mr2sm",
+        "mr2in",
+        "mr2sw",
+        "mr2ss",
+        "mr2ad",
+        "mr3w_cr",
+        "mr3sm",
+        "mr3in",
+        "mr3sw",
+        "mr3ss",
+        "mr3ad",
+        "mr4w_cr",
+        "mr4sm",
+        "mr4in",
+        "mr4sw",
+        "mr4ss",
+        "mr4ad",
+        "mrl_cr",
+        "mrlsm",
+        "mrli",
+        "mrla"
+       ],
+       [
+        "bmu:else",
+        "bp"
+       ],
+       [
         "bp",
         "sfv0",
         "clr0",
@@ -120126,6 +121286,11 @@
          "self": "@gpl.Player",
          "SkinName": "@entry.name"
         }
+       },
+       {
+        "id": "ajms",
+        "kind": "call_self",
+        "function": "Apply Jodi Mutation"
        },
        {
         "id": "glc2",
@@ -120640,6 +121805,7 @@
         "bs",
         "ph",
         "cs",
+        "ajms",
         "sd"
        ],
        [
@@ -149617,6 +150783,14 @@
         }
        },
        {
+        "id": "smu",
+        "kind": "set",
+        "var": "Mutation",
+        "in": {
+         "Mutation": "@bpc.Mutation"
+        }
+       },
+       {
         "id": "gplu",
         "kind": "get",
         "var": "Player"
@@ -149665,6 +150839,7 @@
         "ap",
         "sec",
         "smc",
+        "smu",
         "ues",
         "aec",
         "amc",
@@ -154192,7 +155367,8 @@
          "EyeColors": "@bs.EyeColors",
          "MakeupColors": "@bs.MakeupColors",
          "Face": "@bs.Face",
-         "FaceAdd": "@bs.FaceAdd"
+         "FaceAdd": "@bs.FaceAdd",
+         "Mutation": "@bs.Mutation"
         }
        },
        {
@@ -154683,7 +155859,8 @@
          "EyeColors": "@nb.EyeColors",
          "MakeupColors": "@nb.MakeupColors",
          "Face": "@nb.Face",
-         "FaceAdd": "@nb.FaceAdd"
+         "FaceAdd": "@nb.FaceAdd",
+         "Mutation": "@nb.Mutation"
         }
        },
        {
@@ -155812,12 +156989,18 @@
         "var": "MakeupColors"
        },
        {
+        "id": "gmu",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
         "id": "mk",
         "kind": "make",
         "struct": "/Game/Mod/AltUI/S_PresetColors",
         "in": {
          "EyeColors": "@gec.EyeColors",
-         "MakeupColors": "@gmc.MakeupColors"
+         "MakeupColors": "@gmc.MakeupColors",
+         "Mutation": "@gmu.Mutation"
         }
        },
        {
@@ -221151,6 +222334,20 @@
         }
        },
        {
+        "id": "gmut",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "omu",
+        "kind": "call_self",
+        "function": "Mutate Copy",
+        "in": {
+         "mesh": "@gcbd.Body",
+         "mut": "@gmut.Mutation"
+        }
+       },
+       {
         "id": "gpl4",
         "kind": "get",
         "var": "Player"
@@ -221362,6 +222559,7 @@
         "sp",
         "cf",
         "omk",
+        "omu",
         "snp",
         "gr",
         "ad",
@@ -234360,6 +235558,28 @@
         "function": "Toggle Rag Markers"
        },
        {
+        "id": "ijp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@s.ReturnValue",
+         "B": "RagJasonProto"
+        }
+       },
+       {
+        "id": "bjp",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ijp.ReturnValue"
+        }
+       },
+       {
+        "id": "jp",
+        "kind": "call_self",
+        "function": "Fol New Jason"
+       },
+       {
         "id": "sp2",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -235169,6 +236389,11 @@
        ],
        [
         "bmk:else",
+        "bjp",
+        "jp"
+       ],
+       [
+        "bjp:else",
         "bz",
         "sz"
        ],
@@ -262071,6 +263296,100 @@
         }
        },
        {
+        "id": "gpjp",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "isjp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpjp.Page",
+         "B": "Followers"
+        }
+       },
+       {
+        "id": "bjp",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isjp.ReturnValue"
+        }
+       },
+       {
+        "id": "rjp_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "rjp_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_TextButton",
+         "OwningPlayer": "@rjp_pc.PC"
+        }
+       },
+       {
+        "id": "rjp",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "pure": true,
+        "in": {
+         "Object": "@rjp_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "smjp_me",
+        "kind": "self"
+       },
+       {
+        "id": "smjp",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "in": {
+         "self": "@rjp.AsW_TextButton",
+         "Manager": "@smjp_me.self"
+        }
+       },
+       {
+        "id": "jpt",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Fol_NewJason"
+        }
+       },
+       {
+        "id": "jpi",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "function": "Init",
+        "in": {
+         "self": "@rjp.AsW_TextButton",
+         "action": "RagJasonProto",
+         "caption": "@jpt.text"
+        }
+       },
+       {
+        "id": "gpjq",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "ajp",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Status Right",
+        "in": {
+         "self": "@gpjq.Panel",
+         "widget": "@rjp.AsW_TextButton"
+        }
+       },
+       {
         "id": "gnr",
         "kind": "get",
         "var": "NoRenderedIcons"
@@ -262275,10 +263594,22 @@
         "smra",
         "rai",
         "ara",
-        "bws"
+        "bjp"
        ],
        [
         "brgs:else",
+        "bjp"
+       ],
+       [
+        "bjp",
+        "rjp_cr",
+        "smjp",
+        "jpi",
+        "ajp",
+        "bws"
+       ],
+       [
+        "bjp:else",
         "bws"
        ],
        [
@@ -262504,12 +263835,18 @@
         "var": "FaceAdd"
        },
        {
+        "id": "gmu9",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
         "id": "mk",
         "kind": "make",
         "struct": "/Game/Mod/AltUI/S_Snapshot",
         "in": {
          "Face": "@gfv9.FaceValues",
          "FaceAdd": "@gfa9.FaceAdd",
+         "Mutation": "@gmu9.Mutation",
          "SlotColors": "@gsc9.SlotColors",
          "EyeColors": "@gec9.EyeColors",
          "MakeupColors": "@gmc9.MakeupColors",
@@ -264159,6 +265496,14 @@
         "function": "Save Settings"
        },
        {
+        "id": "smu9",
+        "kind": "set",
+        "var": "Mutation",
+        "in": {
+         "Mutation": "@bs.Mutation"
+        }
+       },
+       {
         "id": "gplC",
         "kind": "get",
         "var": "Player"
@@ -264597,6 +265942,7 @@
         "sfv9",
         "afc9",
         "svf9",
+        "smu9",
         "ues",
         "aecS",
         "amcS",
@@ -265729,6 +267075,7 @@
         "in": {
          "EyeColors": "@bpcv.EyeColors",
          "MakeupColors": "@bpcv.MakeupColors",
+         "Mutation": "@bpcv.Mutation",
          "Makeup": "@pbr.MakeupData",
          "Skin": "@pbr.SkinName",
          "Hair": "@pbr.HairstyleName",
@@ -268005,6 +269352,4247 @@
      }
     },
     {
+     "name": "Load Mutation Assets",
+     "graph": {
+      "nodes": [
+       {
+        "id": "a0g",
+        "kind": "get",
+        "var": "MutTexD"
+       },
+       {
+        "id": "a0v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@a0g.MutTexD"
+        }
+       },
+       {
+        "id": "a0b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@a0v.ReturnValue"
+        }
+       },
+       {
+        "id": "a0sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "/Game/Project/Character/Jodi/Body/Skin/Mutations_D.Mutations_D"
+        }
+       },
+       {
+        "id": "a0sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@a0sp.ReturnValue"
+        }
+       },
+       {
+        "id": "a0ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@a0sr.ReturnValue"
+        }
+       },
+       {
+        "id": "a0c",
+        "kind": "cast",
+        "class": "/Script/Engine.Texture",
+        "pure": true,
+        "in": {
+         "Object": "@a0ld.ReturnValue"
+        }
+       },
+       {
+        "id": "a0s",
+        "kind": "set",
+        "var": "MutTexD",
+        "in": {
+         "MutTexD": "@a0c.AsTexture"
+        }
+       },
+       {
+        "id": "a1g",
+        "kind": "get",
+        "var": "MutTexN"
+       },
+       {
+        "id": "a1v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@a1g.MutTexN"
+        }
+       },
+       {
+        "id": "a1b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@a1v.ReturnValue"
+        }
+       },
+       {
+        "id": "a1sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "/Game/Project/Character/Jodi/Body/Skin/Mutations_N.Mutations_N"
+        }
+       },
+       {
+        "id": "a1sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@a1sp.ReturnValue"
+        }
+       },
+       {
+        "id": "a1ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@a1sr.ReturnValue"
+        }
+       },
+       {
+        "id": "a1c",
+        "kind": "cast",
+        "class": "/Script/Engine.Texture",
+        "pure": true,
+        "in": {
+         "Object": "@a1ld.ReturnValue"
+        }
+       },
+       {
+        "id": "a1s",
+        "kind": "set",
+        "var": "MutTexN",
+        "in": {
+         "MutTexN": "@a1c.AsTexture"
+        }
+       },
+       {
+        "id": "a2g",
+        "kind": "get",
+        "var": "MutTexE"
+       },
+       {
+        "id": "a2v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@a2g.MutTexE"
+        }
+       },
+       {
+        "id": "a2b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@a2v.ReturnValue"
+        }
+       },
+       {
+        "id": "a2sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "/Game/Project/Character/Jodi/Body/Skin/Mutations_E.Mutations_E"
+        }
+       },
+       {
+        "id": "a2sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@a2sp.ReturnValue"
+        }
+       },
+       {
+        "id": "a2ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@a2sr.ReturnValue"
+        }
+       },
+       {
+        "id": "a2c",
+        "kind": "cast",
+        "class": "/Script/Engine.Texture",
+        "pure": true,
+        "in": {
+         "Object": "@a2ld.ReturnValue"
+        }
+       },
+       {
+        "id": "a2s",
+        "kind": "set",
+        "var": "MutTexE",
+        "in": {
+         "MutTexE": "@a2c.AsTexture"
+        }
+       },
+       {
+        "id": "a3g",
+        "kind": "get",
+        "var": "MutEyeMat"
+       },
+       {
+        "id": "a3v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@a3g.MutEyeMat"
+        }
+       },
+       {
+        "id": "a3b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@a3v.ReturnValue"
+        }
+       },
+       {
+        "id": "a3sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "/Game/Project/Character/Jodi/Body/Eyes_Jodi_Mutanted.Eyes_Jodi_Mutanted"
+        }
+       },
+       {
+        "id": "a3sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@a3sp.ReturnValue"
+        }
+       },
+       {
+        "id": "a3ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@a3sr.ReturnValue"
+        }
+       },
+       {
+        "id": "a3c",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInterface",
+        "pure": true,
+        "in": {
+         "Object": "@a3ld.ReturnValue"
+        }
+       },
+       {
+        "id": "a3s",
+        "kind": "set",
+        "var": "MutEyeMat",
+        "in": {
+         "MutEyeMat": "@a3c.AsMaterial Interface"
+        }
+       },
+       {
+        "id": "a4g",
+        "kind": "get",
+        "var": "MutStoryMat"
+       },
+       {
+        "id": "a4v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@a4g.MutStoryMat"
+        }
+       },
+       {
+        "id": "a4b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@a4v.ReturnValue"
+        }
+       },
+       {
+        "id": "a4sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "/Game/Project/Character/Jodi/Body/Skin_Jodi_Mutanted.Skin_Jodi_Mutanted"
+        }
+       },
+       {
+        "id": "a4sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@a4sp.ReturnValue"
+        }
+       },
+       {
+        "id": "a4ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@a4sr.ReturnValue"
+        }
+       },
+       {
+        "id": "a4c",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInterface",
+        "pure": true,
+        "in": {
+         "Object": "@a4ld.ReturnValue"
+        }
+       },
+       {
+        "id": "a4s",
+        "kind": "set",
+        "var": "MutStoryMat",
+        "in": {
+         "MutStoryMat": "@a4c.AsMaterial Interface"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a0b"
+       ],
+       [
+        "a0b:else",
+        "a0ld",
+        "a0s"
+       ],
+       [
+        "a0b",
+        "a1b"
+       ],
+       [
+        "a0s",
+        "a1b"
+       ],
+       [
+        "a1b:else",
+        "a1ld",
+        "a1s"
+       ],
+       [
+        "a1b",
+        "a2b"
+       ],
+       [
+        "a1s",
+        "a2b"
+       ],
+       [
+        "a2b:else",
+        "a2ld",
+        "a2s"
+       ],
+       [
+        "a2b",
+        "a3b"
+       ],
+       [
+        "a2s",
+        "a3b"
+       ],
+       [
+        "a3b:else",
+        "a3ld",
+        "a3s"
+       ],
+       [
+        "a3b",
+        "a4b"
+       ],
+       [
+        "a3s",
+        "a4b"
+       ],
+       [
+        "a4b:else",
+        "a4ld",
+        "a4s"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutation Orig Of",
+     "inputs": [
+      {
+       "name": "mid",
+       "type": "object:/Script/Engine.MaterialInstanceDynamic"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "orig",
+       "type": "struct:/Game/Mod/AltUI/S_MutOrig"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gor",
+        "kind": "get",
+        "var": "MutOrig"
+       },
+       {
+        "id": "fo",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gor.MutOrig",
+         "Key": "@entry.mid"
+        }
+       },
+       {
+        "id": "bo",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_MutOrig",
+        "in": {
+         "S_MutOrig": "@fo.Value"
+        }
+       },
+       {
+        "id": "cm",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetTextureParameterValue",
+        "in": {
+         "self": "@entry.mid",
+         "ParameterName": "MainTex"
+        }
+       },
+       {
+        "id": "crt",
+        "kind": "cast",
+        "class": "/Script/Engine.TextureRenderTarget2D",
+        "pure": true,
+        "in": {
+         "Object": "@cm.ReturnValue"
+        }
+       },
+       {
+        "id": "isrt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@crt.AsTexture Render Target 2D"
+        }
+       },
+       {
+        "id": "mn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@bo.Main",
+         "B": "@cm.ReturnValue",
+         "bSelectA": "@isrt.ReturnValue"
+        }
+       },
+       {
+        "id": "mnt",
+        "kind": "cast",
+        "class": "/Script/Engine.Texture",
+        "pure": true,
+        "in": {
+         "Object": "@mn.ReturnValue"
+        }
+       },
+       {
+        "id": "cn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetTextureParameterValue",
+        "in": {
+         "self": "@entry.mid",
+         "ParameterName": "NormalTex"
+        }
+       },
+       {
+        "id": "gtn",
+        "kind": "get",
+        "var": "MutTexN"
+       },
+       {
+        "id": "isn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@cn.ReturnValue",
+         "B": "@gtn.MutTexN"
+        }
+       },
+       {
+        "id": "nn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@bo.Normal",
+         "B": "@cn.ReturnValue",
+         "bSelectA": "@isn.ReturnValue"
+        }
+       },
+       {
+        "id": "nnt",
+        "kind": "cast",
+        "class": "/Script/Engine.Texture",
+        "pure": true,
+        "in": {
+         "Object": "@nn.ReturnValue"
+        }
+       },
+       {
+        "id": "mk",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_MutOrig",
+        "in": {
+         "Main": "@mnt.AsTexture",
+         "Normal": "@nnt.AsTexture"
+        }
+       },
+       {
+        "id": "gor2",
+        "kind": "get",
+        "var": "MutOrig"
+       },
+       {
+        "id": "add",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@gor2.MutOrig",
+         "Key": "@entry.mid",
+         "Value": "@mk.S_MutOrig"
+        }
+       },
+       {
+        "id": "gor3",
+        "kind": "get",
+        "var": "MutOrig"
+       },
+       {
+        "id": "fr",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gor3.MutOrig",
+         "Key": "@entry.mid"
+        }
+       }
+      ],
+      "links": [
+       [
+        "fr.Value",
+        "return.orig"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "cm",
+        "cn",
+        "add",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutate Mesh",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.MeshComponent"
+      },
+      {
+       "name": "mut",
+       "type": "struct:/Game/Mod/AltUI/S_Mutation"
+      },
+      {
+       "name": "rt",
+       "type": "object:/Script/Engine.TextureRenderTarget2D"
+      },
+      {
+       "name": "size",
+       "type": "int"
+      },
+      {
+       "name": "base",
+       "type": "object:/Script/Engine.MaterialInstanceDynamic"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "out",
+       "type": "object:/Script/Engine.TextureRenderTarget2D"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "la",
+        "kind": "call_self",
+        "function": "Load Mutation Assets"
+       },
+       {
+        "id": "bm",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@entry.mut"
+        }
+       },
+       {
+        "id": "srt",
+        "kind": "set",
+        "var": "MutTmpRT",
+        "in": {
+         "MutTmpRT": "@entry.rt"
+        }
+       },
+       {
+        "id": "shb",
+        "kind": "set",
+        "var": "MutHasBase",
+        "in": {
+         "MutHasBase": "false"
+        }
+       },
+       {
+        "id": "vme",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@entry.mesh"
+        }
+       },
+       {
+        "id": "bme",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vme.ReturnValue"
+        }
+       },
+       {
+        "id": "ams",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterials",
+        "in": {
+         "self": "@entry.mesh"
+        }
+       },
+       {
+        "id": "afm",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ams.ReturnValue"
+        }
+       },
+       {
+        "id": "acm",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@afm.Array Element"
+        }
+       },
+       {
+        "id": "avm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@acm.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "agtp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetTextureParameterValue",
+        "in": {
+         "self": "@acm.AsMaterial Instance Dynamic",
+         "ParameterName": "MakeupTex"
+        }
+       },
+       {
+        "id": "avp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@agtp.ReturnValue"
+        }
+       },
+       {
+        "id": "aok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@avm.ReturnValue",
+         "B": "@avp.ReturnValue"
+        }
+       },
+       {
+        "id": "agsm",
+        "kind": "get",
+        "var": "MutStoryMID"
+       },
+       {
+        "id": "aiss",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@acm.AsMaterial Instance Dynamic",
+         "B": "@agsm.MutStoryMID"
+        }
+       },
+       {
+        "id": "anst",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@aiss.ReturnValue"
+        }
+       },
+       {
+        "id": "aok2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@aok.ReturnValue",
+         "B": "@anst.ReturnValue"
+        }
+       },
+       {
+        "id": "abs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@aok2.ReturnValue"
+        }
+       },
+       {
+        "id": "aoo",
+        "kind": "call_self",
+        "function": "Mutation Orig Of",
+        "in": {
+         "mid": "@acm.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "ahb",
+        "kind": "get",
+        "var": "MutHasBase"
+       },
+       {
+        "id": "abh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ahb.MutHasBase"
+        }
+       },
+       {
+        "id": "abse",
+        "kind": "set",
+        "var": "MutBase",
+        "in": {
+         "MutBase": "@aoo.orig"
+        }
+       },
+       {
+        "id": "ahbt",
+        "kind": "set",
+        "var": "MutHasBase",
+        "in": {
+         "MutHasBase": "true"
+        }
+       },
+       {
+        "id": "phb",
+        "kind": "get",
+        "var": "MutHasBase"
+       },
+       {
+        "id": "vba",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@entry.base"
+        }
+       },
+       {
+        "id": "nhb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@phb.MutHasBase"
+        }
+       },
+       {
+        "id": "ub",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@nhb.ReturnValue",
+         "B": "@vba.ReturnValue"
+        }
+       },
+       {
+        "id": "bub",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ub.ReturnValue"
+        }
+       },
+       {
+        "id": "boo",
+        "kind": "call_self",
+        "function": "Mutation Orig Of",
+        "in": {
+         "mid": "@entry.base"
+        }
+       },
+       {
+        "id": "bbse",
+        "kind": "set",
+        "var": "MutBase",
+        "in": {
+         "MutBase": "@boo.orig"
+        }
+       },
+       {
+        "id": "bhbt",
+        "kind": "set",
+        "var": "MutHasBase",
+        "in": {
+         "MutHasBase": "true"
+        }
+       },
+       {
+        "id": "row",
+        "kind": "get_row",
+        "table": "/Game/Project/Tables/SkinTable",
+        "in": {
+         "RowName": "@bm.Skin"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "br",
+        "kind": "break",
+        "struct": "/Game/Project/Tables/SkinStruct",
+        "in": {
+         "SkinStruct": "@row.OutRow"
+        }
+       },
+       {
+        "id": "rf",
+        "kind": "set",
+        "var": "TmpBool",
+        "in": {
+         "TmpBool": "true"
+        }
+       },
+       {
+        "id": "rn",
+        "kind": "set",
+        "var": "TmpBool",
+        "in": {
+         "TmpBool": "false"
+        }
+       },
+       {
+        "id": "gbs",
+        "kind": "get",
+        "var": "MutBase"
+       },
+       {
+        "id": "bb",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_MutOrig",
+        "in": {
+         "S_MutOrig": "@gbs.MutBase"
+        }
+       },
+       {
+        "id": "ghb",
+        "kind": "get",
+        "var": "MutHasBase"
+       },
+       {
+        "id": "bsel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@bb.Main",
+         "B": "@br.diffusetexture",
+         "bSelectA": "@ghb.MutHasBase"
+        }
+       },
+       {
+        "id": "bselt",
+        "kind": "cast",
+        "class": "/Script/Engine.Texture",
+        "pure": true,
+        "in": {
+         "Object": "@bsel.ReturnValue"
+        }
+       },
+       {
+        "id": "bvt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@bselt.AsTexture"
+        }
+       },
+       {
+        "id": "gtb",
+        "kind": "get",
+        "var": "TmpBool"
+       },
+       {
+        "id": "bor",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ghb.MutHasBase",
+         "B": "@gtb.TmpBool"
+        }
+       },
+       {
+        "id": "cgt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bm.Color",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "cok0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@cgt.ReturnValue",
+         "B": "@bvt.ReturnValue"
+        }
+       },
+       {
+        "id": "cok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@cok0.ReturnValue",
+         "B": "@bor.ReturnValue"
+        }
+       },
+       {
+        "id": "sco",
+        "kind": "set",
+        "var": "MutColorOn",
+        "in": {
+         "MutColorOn": "@cok.ReturnValue"
+        }
+       },
+       {
+        "id": "bc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@cok.ReturnValue"
+        }
+       },
+       {
+        "id": "grt",
+        "kind": "get",
+        "var": "MutTmpRT"
+       },
+       {
+        "id": "vrt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@grt.MutTmpRT"
+        }
+       },
+       {
+        "id": "bvr",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vrt.ReturnValue"
+        }
+       },
+       {
+        "id": "crt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetRenderingLibrary",
+        "function": "CreateRenderTarget2D",
+        "in": {
+         "Width": "@entry.size",
+         "Height": "@entry.size",
+         "Format": "RTF_RGBA8",
+         "ClearColor": "(R=0,G=0,B=0,A=1)",
+         "bAutoGenerateMipMaps": "false"
+        }
+       },
+       {
+        "id": "snr",
+        "kind": "set",
+        "var": "MutTmpRT",
+        "in": {
+         "MutTmpRT": "@crt.ReturnValue"
+        }
+       },
+       {
+        "id": "grt2",
+        "kind": "get",
+        "var": "MutTmpRT"
+       },
+       {
+        "id": "beg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetRenderingLibrary",
+        "function": "BeginDrawCanvasToRenderTarget",
+        "in": {
+         "TextureRenderTarget": "@grt2.MutTmpRT"
+        }
+       },
+       {
+        "id": "zero",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "0.0",
+         "Y": "0.0"
+        }
+       },
+       {
+        "id": "one",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector2D",
+        "in": {
+         "X": "1.0",
+         "Y": "1.0"
+        }
+       },
+       {
+        "id": "d1",
+        "kind": "call",
+        "class": "/Script/Engine.Canvas",
+        "function": "K2_DrawTexture",
+        "in": {
+         "self": "@beg.Canvas",
+         "RenderTexture": "@bselt.AsTexture",
+         "ScreenPosition": "@zero.ReturnValue",
+         "ScreenSize": "@beg.Size",
+         "CoordinatePosition": "@zero.ReturnValue",
+         "CoordinateSize": "@one.ReturnValue",
+         "RenderColor": "(R=1,G=1,B=1,A=1)",
+         "BlendMode": "BLEND_Opaque",
+         "Rotation": "0.0",
+         "PivotPoint": "@zero.ReturnValue"
+        }
+       },
+       {
+        "id": "col",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "1.0",
+         "G": "1.0",
+         "B": "1.0",
+         "A": "@bm.Color"
+        }
+       },
+       {
+        "id": "gtd",
+        "kind": "get",
+        "var": "MutTexD"
+       },
+       {
+        "id": "d2",
+        "kind": "call",
+        "class": "/Script/Engine.Canvas",
+        "function": "K2_DrawTexture",
+        "in": {
+         "self": "@beg.Canvas",
+         "RenderTexture": "@gtd.MutTexD",
+         "ScreenPosition": "@zero.ReturnValue",
+         "ScreenSize": "@beg.Size",
+         "CoordinatePosition": "@zero.ReturnValue",
+         "CoordinateSize": "@one.ReturnValue",
+         "RenderColor": "@col.ReturnValue",
+         "BlendMode": "BLEND_Translucent",
+         "Rotation": "0.0",
+         "PivotPoint": "@zero.ReturnValue"
+        }
+       },
+       {
+        "id": "end",
+        "kind": "call",
+        "class": "/Script/Engine.KismetRenderingLibrary",
+        "function": "EndDrawCanvasToRenderTarget",
+        "in": {
+         "Context": "@beg.Context"
+        }
+       },
+       {
+        "id": "bms",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterials",
+        "in": {
+         "self": "@entry.mesh"
+        }
+       },
+       {
+        "id": "bfm",
+        "kind": "foreach",
+        "in": {
+         "Array": "@bms.ReturnValue"
+        }
+       },
+       {
+        "id": "bcm",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@bfm.Array Element"
+        }
+       },
+       {
+        "id": "bvm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@bcm.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "bgtp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetTextureParameterValue",
+        "in": {
+         "self": "@bcm.AsMaterial Instance Dynamic",
+         "ParameterName": "MakeupTex"
+        }
+       },
+       {
+        "id": "bvp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@bgtp.ReturnValue"
+        }
+       },
+       {
+        "id": "bok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@bvm.ReturnValue",
+         "B": "@bvp.ReturnValue"
+        }
+       },
+       {
+        "id": "bgsm",
+        "kind": "get",
+        "var": "MutStoryMID"
+       },
+       {
+        "id": "biss",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@bcm.AsMaterial Instance Dynamic",
+         "B": "@bgsm.MutStoryMID"
+        }
+       },
+       {
+        "id": "bbs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bok.ReturnValue"
+        }
+       },
+       {
+        "id": "bor_",
+        "kind": "get",
+        "var": "MutOrig"
+       },
+       {
+        "id": "bfo",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@bor_.MutOrig",
+         "Key": "@bcm.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "bfb",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_MutOrig",
+        "in": {
+         "S_MutOrig": "@bfo.Value"
+        }
+       },
+       {
+        "id": "gbs2",
+        "kind": "get",
+        "var": "MutBase"
+       },
+       {
+        "id": "bb2",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_MutOrig",
+        "in": {
+         "S_MutOrig": "@gbs2.MutBase"
+        }
+       },
+       {
+        "id": "om",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@bb2.Main",
+         "B": "@bfb.Main",
+         "bSelectA": "@biss.ReturnValue"
+        }
+       },
+       {
+        "id": "on",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@bb2.Normal",
+         "B": "@bfb.Normal",
+         "bSelectA": "@biss.ReturnValue"
+        }
+       },
+       {
+        "id": "grt3",
+        "kind": "get",
+        "var": "MutTmpRT"
+       },
+       {
+        "id": "gco",
+        "kind": "get",
+        "var": "MutColorOn"
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@grt3.MutTmpRT",
+         "B": "@om.ReturnValue",
+         "bSelectA": "@gco.MutColorOn"
+        }
+       },
+       {
+        "id": "selt",
+        "kind": "cast",
+        "class": "/Script/Engine.Texture",
+        "pure": true,
+        "in": {
+         "Object": "@sel.ReturnValue"
+        }
+       },
+       {
+        "id": "svm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@selt.AsTexture"
+        }
+       },
+       {
+        "id": "bsvm",
+        "kind": "branch",
+        "in": {
+         "Condition": "@svm.ReturnValue"
+        }
+       },
+       {
+        "id": "smt",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetTextureParameterValue",
+        "in": {
+         "self": "@bcm.AsMaterial Instance Dynamic",
+         "ParameterName": "MainTex",
+         "Value": "@selt.AsTexture"
+        }
+       },
+       {
+        "id": "gtn",
+        "kind": "get",
+        "var": "MutTexN"
+       },
+       {
+        "id": "seln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@gtn.MutTexN",
+         "B": "@on.ReturnValue",
+         "bSelectA": "@bm.Veins"
+        }
+       },
+       {
+        "id": "selnt",
+        "kind": "cast",
+        "class": "/Script/Engine.Texture",
+        "pure": true,
+        "in": {
+         "Object": "@seln.ReturnValue"
+        }
+       },
+       {
+        "id": "svn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@selnt.AsTexture"
+        }
+       },
+       {
+        "id": "bsvn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@svn.ReturnValue"
+        }
+       },
+       {
+        "id": "snt",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetTextureParameterValue",
+        "in": {
+         "self": "@bcm.AsMaterial Instance Dynamic",
+         "ParameterName": "NormalTex",
+         "Value": "@selnt.AsTexture"
+        }
+       },
+       {
+        "id": "bst",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bm.Story"
+        }
+       },
+       {
+        "id": "gte",
+        "kind": "get",
+        "var": "MutTexE"
+       },
+       {
+        "id": "set",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetTextureParameterValue",
+        "in": {
+         "self": "@bcm.AsMaterial Instance Dynamic",
+         "ParameterName": "EmissiveTex",
+         "Value": "@gte.MutTexE"
+        }
+       },
+       {
+        "id": "gr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@bm.Glow",
+         "B": "0.5"
+        }
+       },
+       {
+        "id": "ec",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@gr.ReturnValue",
+         "G": "0.0",
+         "B": "0.0",
+         "A": "0.0"
+        }
+       },
+       {
+        "id": "sec",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@bcm.AsMaterial Instance Dynamic",
+         "ParameterName": "EmissiveColor",
+         "Value": "@ec.ReturnValue"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bm.Eyes"
+        }
+       },
+       {
+        "id": "cpc",
+        "kind": "cast",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "pure": true,
+        "in": {
+         "Object": "@entry.mesh"
+        }
+       },
+       {
+        "id": "mix",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterialIndex",
+        "in": {
+         "self": "@entry.mesh",
+         "MaterialSlotName": "Female_Eyes"
+        }
+       },
+       {
+        "id": "mok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@mix.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bmok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@mok.ReturnValue"
+        }
+       },
+       {
+        "id": "gem",
+        "kind": "get",
+        "var": "MutEyeMat"
+       },
+       {
+        "id": "cdm",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@cpc.AsPrimitive Component",
+         "ElementIndex": "@mix.ReturnValue",
+         "SourceMaterial": "@gem.MutEyeMat",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "gout",
+        "kind": "get",
+        "var": "MutTmpRT"
+       },
+       {
+        "id": "vme2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@entry.mesh"
+        }
+       },
+       {
+        "id": "bme2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vme2.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gout.MutTmpRT",
+        "return.out"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "la",
+        "srt",
+        "shb",
+        "bme"
+       ],
+       [
+        "bme",
+        "afm"
+       ],
+       [
+        "bme:else",
+        "row"
+       ],
+       [
+        "afm",
+        "agtp",
+        "abs",
+        "aoo",
+        "abh"
+       ],
+       [
+        "abh:else",
+        "abse",
+        "ahbt"
+       ],
+       [
+        "afm:Completed",
+        "bub",
+        "boo",
+        "bbse",
+        "bhbt",
+        "row"
+       ],
+       [
+        "bub:else",
+        "row"
+       ],
+       [
+        "row",
+        "rf",
+        "sco",
+        "bc"
+       ],
+       [
+        "row:Row Not Found",
+        "rn",
+        "sco"
+       ],
+       [
+        "bc",
+        "bvr",
+        "beg"
+       ],
+       [
+        "bvr:else",
+        "crt",
+        "snr",
+        "beg"
+       ],
+       [
+        "beg",
+        "d1",
+        "d2",
+        "end",
+        "bme2"
+       ],
+       [
+        "bc:else",
+        "bme2"
+       ],
+       [
+        "bme2",
+        "bfm"
+       ],
+       [
+        "bme2:else",
+        "return"
+       ],
+       [
+        "bfm",
+        "bgtp",
+        "bbs",
+        "bsvm",
+        "smt",
+        "bsvn"
+       ],
+       [
+        "bsvm:else",
+        "bsvn"
+       ],
+       [
+        "bsvn",
+        "snt",
+        "bst"
+       ],
+       [
+        "bsvn:else",
+        "bst"
+       ],
+       [
+        "bst",
+        "set",
+        "sec"
+       ],
+       [
+        "bfm:Completed",
+        "be",
+        "bmok",
+        "cdm",
+        "return"
+       ],
+       [
+        "be:else",
+        "return"
+       ],
+       [
+        "bmok:else",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutation Active",
+     "inputs": [
+      {
+       "name": "mut",
+       "type": "struct:/Game/Mod/AltUI/S_Mutation"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "bm",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@entry.mut"
+        }
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bm.Color",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bm.Glow",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "o1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@c.ReturnValue",
+         "B": "@gl.ReturnValue"
+        }
+       },
+       {
+        "id": "o2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o1.ReturnValue",
+         "B": "@bm.Veins"
+        }
+       },
+       {
+        "id": "o3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o2.ReturnValue",
+         "B": "@bm.Eyes"
+        }
+       },
+       {
+        "id": "o4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o3.ReturnValue",
+         "B": "@bm.Story"
+        }
+       }
+      ],
+      "links": [
+       [
+        "o4.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Apply Jodi Mutation",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "vw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gw.Wearer"
+        }
+       },
+       {
+        "id": "bvw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vw.ReturnValue"
+        }
+       },
+       {
+        "id": "md_p",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "md",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jodi/Jodi_Base",
+        "function": "Get Makeup Data",
+        "in": {
+         "self": "@md_p.Wearer"
+        }
+       },
+       {
+        "id": "gsn",
+        "kind": "get",
+        "var": "Skin Name",
+        "class": "/Game/Project/Classes/Save/Makeup_Save"
+       },
+       {
+        "id": "gmu",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "bmu",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@gmu.Mutation"
+        }
+       },
+       {
+        "id": "mk",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "Color": "@bmu.Color",
+         "Glow": "@bmu.Glow",
+         "Veins": "@bmu.Veins",
+         "Eyes": "@bmu.Eyes",
+         "Skin": "@gsn.Skin Name",
+         "Story": "@bmu.Story"
+        }
+       },
+       {
+        "id": "smu",
+        "kind": "set",
+        "var": "Mutation",
+        "in": {
+         "Mutation": "@mk.S_Mutation"
+        }
+       },
+       {
+        "id": "gw2",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Mesh",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "gmu2",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "grt",
+        "kind": "get",
+        "var": "MutSkinRT"
+       },
+       {
+        "id": "gbm",
+        "kind": "get",
+        "var": "Body Material",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "bms",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@gmu2.Mutation"
+        }
+       },
+       {
+        "id": "ssl",
+        "kind": "call_self",
+        "function": "Mutation Story Slot",
+        "in": {
+         "mesh": "@gm.Mesh",
+         "body": "@gbm.Body Material",
+         "on": "@bms.Story"
+        }
+       },
+       {
+        "id": "mm",
+        "kind": "call_self",
+        "function": "Mutate Mesh",
+        "in": {
+         "mesh": "@gm.Mesh",
+         "mut": "@gmu2.Mutation",
+         "rt": "@grt.MutSkinRT",
+         "size": "4096",
+         "base": "@gbm.Body Material"
+        }
+       },
+       {
+        "id": "srt",
+        "kind": "set",
+        "var": "MutSkinRT",
+        "in": {
+         "MutSkinRT": "@mm.out"
+        }
+       },
+       {
+        "id": "lgs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "0.0",
+         "B": "@bms.Glow",
+         "bPickA": "@bms.Story"
+        }
+       },
+       {
+        "id": "ggc",
+        "kind": "get",
+        "var": "MutGlowComp"
+       },
+       {
+        "id": "gly",
+        "kind": "call_self",
+        "function": "Mutation Glow Layer",
+        "in": {
+         "mesh": "@gm.Mesh",
+         "comp": "@ggc.MutGlowComp",
+         "strength": "@lgs.ReturnValue"
+        }
+       },
+       {
+        "id": "sgl",
+        "kind": "set",
+        "var": "MutGlowComp",
+        "in": {
+         "MutGlowComp": "@gly.out"
+        }
+       },
+       {
+        "id": "gmu3",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "bme",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@gmu3.Mutation"
+        }
+       },
+       {
+        "id": "bey",
+        "kind": "branch",
+        "in": {
+         "Condition": "@bme.Eyes"
+        }
+       },
+       {
+        "id": "cur",
+        "kind": "call_self",
+        "function": "Current Look Row",
+        "in": {
+         "type": "Eye"
+        }
+       },
+       {
+        "id": "ek",
+        "kind": "call_self",
+        "function": "Eye Color Key",
+        "in": {
+         "part": "Iris",
+         "row": "@cur.row"
+        }
+       },
+       {
+        "id": "gec",
+        "kind": "get",
+        "var": "EyeColors"
+       },
+       {
+        "id": "ef",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gec.EyeColors",
+         "Key": "@ek.key"
+        }
+       },
+       {
+        "id": "bef",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ef.ReturnValue"
+        }
+       },
+       {
+        "id": "ei",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterialIndex",
+        "in": {
+         "self": "@gm.Mesh",
+         "MaterialSlotName": "Female_Eyes"
+        }
+       },
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "GetMaterial",
+        "in": {
+         "self": "@gm.Mesh",
+         "ElementIndex": "@ei.ReturnValue"
+        }
+       },
+       {
+        "id": "cem",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "vem",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@cem.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "bvem",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vem.ReturnValue"
+        }
+       },
+       {
+        "id": "smc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@cem.AsMaterial Instance Dynamic",
+         "ParameterName": "MainColor",
+         "Value": "@ef.Value"
+        }
+       },
+       {
+        "id": "glw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_LinearColorFloat",
+        "in": {
+         "A": "@ef.Value",
+         "B": "2.0"
+        }
+       },
+       {
+        "id": "sgc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@cem.AsMaterial Instance Dynamic",
+         "ParameterName": "EmissiveColor",
+         "Value": "@glw.ReturnValue"
+        }
+       },
+       {
+        "id": "xei",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterialIndex",
+        "in": {
+         "self": "@gm.Mesh",
+         "MaterialSlotName": "Female_Eyes"
+        }
+       },
+       {
+        "id": "xem",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "GetMaterial",
+        "in": {
+         "self": "@gm.Mesh",
+         "ElementIndex": "@xei.ReturnValue"
+        }
+       },
+       {
+        "id": "xeb",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInterface",
+        "function": "GetBaseMaterial",
+        "in": {
+         "self": "@xem.ReturnValue"
+        }
+       },
+       {
+        "id": "xgm",
+        "kind": "get",
+        "var": "MutEyeMat"
+       },
+       {
+        "id": "xmb",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInterface",
+        "function": "GetBaseMaterial",
+        "in": {
+         "self": "@xgm.MutEyeMat"
+        }
+       },
+       {
+        "id": "xsame",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@xeb.ReturnValue",
+         "B": "@xmb.ReturnValue"
+        }
+       },
+       {
+        "id": "xew",
+        "kind": "get",
+        "var": "Eye Material",
+        "class": "/Game/Project/Character/Jodi/Jodi_Base"
+       },
+       {
+        "id": "xvm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@xew.Eye Material"
+        }
+       },
+       {
+        "id": "xok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@xsame.ReturnValue",
+         "B": "@xvm.ReturnValue"
+        }
+       },
+       {
+        "id": "bxok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@xok.ReturnValue"
+        }
+       },
+       {
+        "id": "xset",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterialByName",
+        "in": {
+         "self": "@gm.Mesh",
+         "MaterialSlotName": "Female_Eyes",
+         "Material": "@xew.Eye Material"
+        }
+       }
+      ],
+      "links": [
+       [
+        "md.Makeup Data",
+        "gsn.self"
+       ],
+       [
+        "gw2.Wearer",
+        "gm.self"
+       ],
+       [
+        "gw2.Wearer",
+        "gbm.self"
+       ],
+       [
+        "gw2.Wearer",
+        "xew.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bvw",
+        "md",
+        "smu",
+        "ssl",
+        "mm",
+        "srt",
+        "gly",
+        "sgl",
+        "bey",
+        "cur",
+        "bef",
+        "bvem",
+        "smc",
+        "sgc"
+       ],
+       [
+        "bey:else",
+        "xeb",
+        "xmb",
+        "bxok",
+        "xset"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutation Watch",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gmu",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "act",
+        "kind": "call_self",
+        "function": "Mutation Active",
+        "in": {
+         "mut": "@gmu.Mutation"
+        }
+       },
+       {
+        "id": "ba",
+        "kind": "branch",
+        "in": {
+         "Condition": "@act.yes"
+        }
+       },
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "vw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gw.Wearer"
+        }
+       },
+       {
+        "id": "bvw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vw.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Mesh",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "m0",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "GetMaterial",
+        "in": {
+         "self": "@gm.Mesh",
+         "ElementIndex": "0"
+        }
+       },
+       {
+        "id": "c0",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@m0.ReturnValue"
+        }
+       },
+       {
+        "id": "dyn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@c0.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "bdyn",
+        "kind": "branch",
+        "in": {
+         "Condition": "@dyn.ReturnValue"
+        }
+       },
+       {
+        "id": "mt",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetTextureParameterValue",
+        "in": {
+         "self": "@c0.AsMaterial Instance Dynamic",
+         "ParameterName": "MainTex"
+        }
+       },
+       {
+        "id": "grt",
+        "kind": "get",
+        "var": "MutSkinRT"
+       },
+       {
+        "id": "same",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@mt.ReturnValue",
+         "B": "@grt.MutSkinRT"
+        }
+       },
+       {
+        "id": "bm",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@gmu.Mutation"
+        }
+       },
+       {
+        "id": "cpos",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bm.Color",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "nsame",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@same.ReturnValue"
+        }
+       },
+       {
+        "id": "lost",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@cpos.ReturnValue",
+         "B": "@nsame.ReturnValue"
+        }
+       },
+       {
+        "id": "ei",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterialIndex",
+        "in": {
+         "self": "@gm.Mesh",
+         "MaterialSlotName": "Female_Eyes"
+        }
+       },
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "GetMaterial",
+        "in": {
+         "self": "@gm.Mesh",
+         "ElementIndex": "@ei.ReturnValue"
+        }
+       },
+       {
+        "id": "eb",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInterface",
+        "function": "GetBaseMaterial",
+        "in": {
+         "self": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gem",
+        "kind": "get",
+        "var": "MutEyeMat"
+       },
+       {
+        "id": "mb",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInterface",
+        "function": "GetBaseMaterial",
+        "in": {
+         "self": "@gem.MutEyeMat"
+        }
+       },
+       {
+        "id": "eyok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@eb.ReturnValue",
+         "B": "@mb.ReturnValue"
+        }
+       },
+       {
+        "id": "neye",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@eyok.ReturnValue"
+        }
+       },
+       {
+        "id": "elost",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@bm.Eyes",
+         "B": "@neye.ReturnValue"
+        }
+       },
+       {
+        "id": "gsm",
+        "kind": "get",
+        "var": "MutStoryMID"
+       },
+       {
+        "id": "sso",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@c0.AsMaterial Instance Dynamic",
+         "B": "@gsm.MutStoryMID"
+        }
+       },
+       {
+        "id": "nso",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@sso.ReturnValue"
+        }
+       },
+       {
+        "id": "slost",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@bm.Story",
+         "B": "@nso.ReturnValue"
+        }
+       },
+       {
+        "id": "ggc",
+        "kind": "get",
+        "var": "MutGlowComp"
+       },
+       {
+        "id": "gcv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@ggc.MutGlowComp"
+        }
+       },
+       {
+        "id": "gsk1",
+        "kind": "get",
+        "var": "SkeletalMesh",
+        "class": "/Script/Engine.SkinnedMeshComponent"
+       },
+       {
+        "id": "gsk2",
+        "kind": "get",
+        "var": "SkeletalMesh",
+        "class": "/Script/Engine.SkinnedMeshComponent"
+       },
+       {
+        "id": "gsame",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@gsk1.SkeletalMesh",
+         "B": "@gsk2.SkeletalMesh"
+        }
+       },
+       {
+        "id": "gok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gcv.ReturnValue",
+         "B": "@gsame.ReturnValue"
+        }
+       },
+       {
+        "id": "gpos",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bm.Glow",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "nst",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@bm.Story"
+        }
+       },
+       {
+        "id": "gwant",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gpos.ReturnValue",
+         "B": "@nst.ReturnValue"
+        }
+       },
+       {
+        "id": "ngok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@gok.ReturnValue"
+        }
+       },
+       {
+        "id": "glost",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gwant.ReturnValue",
+         "B": "@ngok.ReturnValue"
+        }
+       },
+       {
+        "id": "any0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@lost.ReturnValue",
+         "B": "@elost.ReturnValue"
+        }
+       },
+       {
+        "id": "any1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@slost.ReturnValue",
+         "B": "@glost.ReturnValue"
+        }
+       },
+       {
+        "id": "any",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@any0.ReturnValue",
+         "B": "@any1.ReturnValue"
+        }
+       },
+       {
+        "id": "bany",
+        "kind": "branch",
+        "in": {
+         "Condition": "@any.ReturnValue"
+        }
+       },
+       {
+        "id": "ap",
+        "kind": "call_self",
+        "function": "Apply Jodi Mutation"
+       },
+       {
+        "id": "la",
+        "kind": "call_self",
+        "function": "Load Mutation Assets"
+       },
+       {
+        "id": "bsm",
+        "kind": "branch",
+        "in": {
+         "Condition": "@sso.ReturnValue"
+        }
+       },
+       {
+        "id": "gbm",
+        "kind": "get",
+        "var": "Body Material",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "gmt",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetVectorParameterValue",
+        "in": {
+         "self": "@gbm.Body Material",
+         "ParameterName": "MaskThreshold"
+        }
+       },
+       {
+        "id": "smt",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@gsm.MutStoryMID",
+         "ParameterName": "MaskThreshold",
+         "Value": "@gmt.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gw.Wearer",
+        "gm.self"
+       ],
+       [
+        "gm.Mesh",
+        "gsk1.self"
+       ],
+       [
+        "ggc.MutGlowComp",
+        "gsk2.self"
+       ],
+       [
+        "gw.Wearer",
+        "gbm.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "ba",
+        "bvw",
+        "la",
+        "bdyn",
+        "mt",
+        "eb",
+        "mb",
+        "bany",
+        "ap",
+        "bsm",
+        "gmt",
+        "smt"
+       ],
+       [
+        "bany:else",
+        "bsm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutation Row Changed",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      },
+      {
+       "name": "fixed",
+       "type": "bool"
+      },
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gdr",
+        "kind": "get",
+        "var": "MutDragging"
+       },
+       {
+        "id": "bdr",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gdr.MutDragging"
+        }
+       },
+       {
+        "id": "ph",
+        "kind": "call_self",
+        "function": "Push History"
+       },
+       {
+        "id": "sdr",
+        "kind": "set",
+        "var": "MutDragging",
+        "in": {
+         "MutDragging": "true"
+        }
+       },
+       {
+        "id": "gmu",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "bm",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@gmu.Mutation"
+        }
+       },
+       {
+        "id": "z",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NearlyEqual_FloatFloat",
+        "in": {
+         "A": "@entry.value",
+         "B": "0.0",
+         "ErrorTolerance": "0.001"
+        }
+       },
+       {
+        "id": "v1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "@entry.value",
+         "bPickA": "@z.ReturnValue"
+        }
+       },
+       {
+        "id": "val",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@v1.ReturnValue",
+         "B": "0.0",
+         "bPickA": "@entry.fixed"
+        }
+       },
+       {
+        "id": "kc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.key",
+         "B": "MutColor"
+        }
+       },
+       {
+        "id": "kg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.key",
+         "B": "MutGlow"
+        }
+       },
+       {
+        "id": "kv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.key",
+         "B": "MutVeins"
+        }
+       },
+       {
+        "id": "ke",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.key",
+         "B": "MutEyes"
+        }
+       },
+       {
+        "id": "ks",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.key",
+         "B": "MutStory"
+        }
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@val.ReturnValue",
+         "B": "@bm.Color",
+         "bPickA": "@kc.ReturnValue"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@val.ReturnValue",
+         "B": "@bm.Glow",
+         "bPickA": "@kg.ReturnValue"
+        }
+       },
+       {
+        "id": "vea",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@kv.ReturnValue",
+         "B": "@entry.fixed"
+        }
+       },
+       {
+        "id": "ven",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@kv.ReturnValue"
+        }
+       },
+       {
+        "id": "veb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ven.ReturnValue",
+         "B": "@bm.Veins"
+        }
+       },
+       {
+        "id": "ve",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@vea.ReturnValue",
+         "B": "@veb.ReturnValue"
+        }
+       },
+       {
+        "id": "eya",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ke.ReturnValue",
+         "B": "@entry.fixed"
+        }
+       },
+       {
+        "id": "eyn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@ke.ReturnValue"
+        }
+       },
+       {
+        "id": "eyb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@eyn.ReturnValue",
+         "B": "@bm.Eyes"
+        }
+       },
+       {
+        "id": "ey",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@eya.ReturnValue",
+         "B": "@eyb.ReturnValue"
+        }
+       },
+       {
+        "id": "sya",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ks.ReturnValue",
+         "B": "@entry.fixed"
+        }
+       },
+       {
+        "id": "syn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@ks.ReturnValue"
+        }
+       },
+       {
+        "id": "syb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@syn.ReturnValue",
+         "B": "@bm.Story"
+        }
+       },
+       {
+        "id": "sy",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@sya.ReturnValue",
+         "B": "@syb.ReturnValue"
+        }
+       },
+       {
+        "id": "son",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ks.ReturnValue",
+         "B": "@entry.fixed"
+        }
+       },
+       {
+        "id": "cS",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "@c.ReturnValue",
+         "bPickA": "@son.ReturnValue"
+        }
+       },
+       {
+        "id": "glS",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "@gl.ReturnValue",
+         "bPickA": "@son.ReturnValue"
+        }
+       },
+       {
+        "id": "veS",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ve.ReturnValue",
+         "B": "@son.ReturnValue"
+        }
+       },
+       {
+        "id": "eyS",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ey.ReturnValue",
+         "B": "@son.ReturnValue"
+        }
+       },
+       {
+        "id": "mk",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "Color": "@cS.ReturnValue",
+         "Glow": "@glS.ReturnValue",
+         "Veins": "@veS.ReturnValue",
+         "Eyes": "@eyS.ReturnValue",
+         "Skin": "@bm.Skin",
+         "Story": "@sy.ReturnValue"
+        }
+       },
+       {
+        "id": "sew",
+        "kind": "set",
+        "var": "MutEyesWas",
+        "in": {
+         "MutEyesWas": "@bm.Eyes"
+        }
+       },
+       {
+        "id": "smu",
+        "kind": "set",
+        "var": "Mutation",
+        "in": {
+         "Mutation": "@mk.S_Mutation"
+        }
+       },
+       {
+        "id": "gew",
+        "kind": "get",
+        "var": "MutEyesWas"
+       },
+       {
+        "id": "eyo",
+        "kind": "call_self",
+        "function": "Mutation Eyes Off",
+        "in": {
+         "was": "@gew.MutEyesWas"
+        }
+       },
+       {
+        "id": "ap",
+        "kind": "call_self",
+        "function": "Apply Jodi Mutation"
+       },
+       {
+        "id": "sd",
+        "kind": "set",
+        "var": "FaceDirty",
+        "in": {
+         "FaceDirty": "true"
+        }
+       },
+       {
+        "id": "rb",
+        "kind": "call_self",
+        "function": "Rebuild Status"
+       },
+       {
+        "id": "rz",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@z.ReturnValue",
+         "B": "@entry.fixed"
+        }
+       },
+       {
+        "id": "rlx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@rz.ReturnValue",
+         "B": "@son.ReturnValue"
+        }
+       },
+       {
+        "id": "brz",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rlx.ReturnValue"
+        }
+       },
+       {
+        "id": "rl",
+        "kind": "call_self",
+        "function": "Rebuild Look"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bdr"
+       ],
+       [
+        "bdr",
+        "sew"
+       ],
+       [
+        "bdr:else",
+        "ph",
+        "sdr",
+        "sew"
+       ],
+       [
+        "sew",
+        "smu",
+        "eyo",
+        "ap",
+        "sd",
+        "rb",
+        "brz",
+        "rl"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutation Eyes Off",
+     "inputs": [
+      {
+       "name": "was",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gmu",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "bm",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@gmu.Mutation"
+        }
+       },
+       {
+        "id": "no",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@bm.Eyes"
+        }
+       },
+       {
+        "id": "off",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@entry.was",
+         "B": "@no.ReturnValue"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@off.ReturnValue"
+        }
+       },
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "Wearer"
+       },
+       {
+        "id": "gem",
+        "kind": "get",
+        "var": "Eye Material",
+        "class": "/Game/Project/Character/Jodi/Jodi_Base"
+       },
+       {
+        "id": "vem",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gem.Eye Material"
+        }
+       },
+       {
+        "id": "bvem",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vem.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Mesh",
+        "class": "/Script/Engine.Character"
+       },
+       {
+        "id": "sm",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterialByName",
+        "in": {
+         "self": "@gm.Mesh",
+         "MaterialSlotName": "Female_Eyes",
+         "Material": "@gem.Eye Material"
+        }
+       },
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "ues",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jodi/Jodi",
+        "function": "Update Eyes Style",
+        "in": {
+         "self": "@gpl.Player"
+        }
+       },
+       {
+        "id": "aec",
+        "kind": "call_self",
+        "function": "Apply Eye Colors"
+       }
+      ],
+      "links": [
+       [
+        "gw.Wearer",
+        "gem.self"
+       ],
+       [
+        "gw.Wearer",
+        "gm.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "bvem",
+        "sm",
+        "ues",
+        "aec"
+       ],
+       [
+        "bvem:else",
+        "ues"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutation Reset",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ph",
+        "kind": "call_self",
+        "function": "Push History"
+       },
+       {
+        "id": "gmu",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "bm",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@gmu.Mutation"
+        }
+       },
+       {
+        "id": "mk",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "Color": "0.0",
+         "Glow": "0.0",
+         "Veins": "false",
+         "Eyes": "false",
+         "Skin": "@bm.Skin",
+         "Story": "false"
+        }
+       },
+       {
+        "id": "sew",
+        "kind": "set",
+        "var": "MutEyesWas",
+        "in": {
+         "MutEyesWas": "@bm.Eyes"
+        }
+       },
+       {
+        "id": "smu",
+        "kind": "set",
+        "var": "Mutation",
+        "in": {
+         "Mutation": "@mk.S_Mutation"
+        }
+       },
+       {
+        "id": "gew",
+        "kind": "get",
+        "var": "MutEyesWas"
+       },
+       {
+        "id": "eyo",
+        "kind": "call_self",
+        "function": "Mutation Eyes Off",
+        "in": {
+         "was": "@gew.MutEyesWas"
+        }
+       },
+       {
+        "id": "ap",
+        "kind": "call_self",
+        "function": "Apply Jodi Mutation"
+       },
+       {
+        "id": "sv",
+        "kind": "call_self",
+        "function": "Save Settings"
+       },
+       {
+        "id": "rl",
+        "kind": "call_self",
+        "function": "Rebuild Look"
+       },
+       {
+        "id": "rb",
+        "kind": "call_self",
+        "function": "Rebuild Status"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ph",
+        "sew",
+        "smu",
+        "eyo",
+        "ap",
+        "sv",
+        "rl",
+        "rb"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutate Copy",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.MeshComponent"
+      },
+      {
+       "name": "mut",
+       "type": "struct:/Game/Mod/AltUI/S_Mutation"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "act",
+        "kind": "call_self",
+        "function": "Mutation Active",
+        "in": {
+         "mut": "@entry.mut"
+        }
+       },
+       {
+        "id": "ba",
+        "kind": "branch",
+        "in": {
+         "Condition": "@act.yes"
+        }
+       },
+       {
+        "id": "mm",
+        "kind": "call_self",
+        "function": "Mutate Mesh",
+        "in": {
+         "mesh": "@entry.mesh",
+         "mut": "@entry.mut",
+         "rt": "None",
+         "size": "2048",
+         "base": "None"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ba",
+        "mm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutation Skin Tex",
+     "inputs": [
+      {
+       "name": "mut",
+       "type": "struct:/Game/Mod/AltUI/S_Mutation"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "tex",
+       "type": "object:/Script/Engine.TextureRenderTarget2D"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "bm",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Mutation",
+        "in": {
+         "S_Mutation": "@entry.mut"
+        }
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bm.Color",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "bc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@c.ReturnValue"
+        }
+       },
+       {
+        "id": "sn",
+        "kind": "set",
+        "var": "MutTmpRT",
+        "in": {
+         "MutTmpRT": "None"
+        }
+       },
+       {
+        "id": "mm",
+        "kind": "call_self",
+        "function": "Mutate Mesh",
+        "in": {
+         "mesh": "None",
+         "mut": "@entry.mut",
+         "rt": "None",
+         "size": "2048",
+         "base": "None"
+        }
+       },
+       {
+        "id": "so",
+        "kind": "set",
+        "var": "MutTmpRT",
+        "in": {
+         "MutTmpRT": "@mm.out"
+        }
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "MutTmpRT"
+       }
+      ],
+      "links": [
+       [
+        "gr.MutTmpRT",
+        "return.tex"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "sn",
+        "bc",
+        "mm",
+        "so",
+        "return"
+       ],
+       [
+        "bc:else",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutation Story Slot",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.MeshComponent"
+      },
+      {
+       "name": "body",
+       "type": "object:/Script/Engine.MaterialInstanceDynamic"
+      },
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "la",
+        "kind": "call_self",
+        "function": "Load Mutation Assets"
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.on"
+        }
+       },
+       {
+        "id": "gsm",
+        "kind": "get",
+        "var": "MutStoryMID"
+       },
+       {
+        "id": "vs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gsm.MutStoryMID"
+        }
+       },
+       {
+        "id": "bvs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vs.ReturnValue"
+        }
+       },
+       {
+        "id": "gst",
+        "kind": "get",
+        "var": "MutStoryMat"
+       },
+       {
+        "id": "cdm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMaterialLibrary",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "Parent": "@gst.MutStoryMat",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "ssm",
+        "kind": "set",
+        "var": "MutStoryMID",
+        "in": {
+         "MutStoryMID": "@cdm.ReturnValue"
+        }
+       },
+       {
+        "id": "gsm2",
+        "kind": "get",
+        "var": "MutStoryMID"
+       },
+       {
+        "id": "s1",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@entry.mesh",
+         "ElementIndex": "0",
+         "Material": "@gsm2.MutStoryMID"
+        }
+       },
+       {
+        "id": "vb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@entry.body"
+        }
+       },
+       {
+        "id": "bvb",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vb.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetVectorParameterValue",
+        "in": {
+         "self": "@entry.body",
+         "ParameterName": "MaskThreshold"
+        }
+       },
+       {
+        "id": "smt",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@gsm2.MutStoryMID",
+         "ParameterName": "MaskThreshold",
+         "Value": "@gmt.ReturnValue"
+        }
+       },
+       {
+        "id": "m0",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "GetMaterial",
+        "in": {
+         "self": "@entry.mesh",
+         "ElementIndex": "0"
+        }
+       },
+       {
+        "id": "gsm3",
+        "kind": "get",
+        "var": "MutStoryMID"
+       },
+       {
+        "id": "iss",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@m0.ReturnValue",
+         "B": "@gsm3.MutStoryMID"
+        }
+       },
+       {
+        "id": "ob",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@iss.ReturnValue",
+         "B": "@vb.ReturnValue"
+        }
+       },
+       {
+        "id": "bob",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ob.ReturnValue"
+        }
+       },
+       {
+        "id": "s0",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@entry.mesh",
+         "ElementIndex": "0",
+         "Material": "@entry.body"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "la",
+        "b",
+        "bvs",
+        "s1",
+        "bvb",
+        "gmt",
+        "smt"
+       ],
+       [
+        "bvs:else",
+        "cdm",
+        "ssm",
+        "s1"
+       ],
+       [
+        "b:else",
+        "bob",
+        "s0"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mutation Glow Layer",
+     "inputs": [
+      {
+       "name": "mesh",
+       "type": "object:/Script/Engine.SkeletalMeshComponent"
+      },
+      {
+       "name": "comp",
+       "type": "object:/Script/Engine.SkeletalMeshComponent"
+      },
+      {
+       "name": "strength",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "out",
+       "type": "object:/Script/Engine.SkeletalMeshComponent"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "la",
+        "kind": "call_self",
+        "function": "Load Mutation Assets"
+       },
+       {
+        "id": "st0",
+        "kind": "set",
+        "var": "MutGlowTmp",
+        "in": {
+         "MutGlowTmp": "@entry.comp"
+        }
+       },
+       {
+        "id": "pos",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@entry.strength",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "bpos",
+        "kind": "branch",
+        "in": {
+         "Condition": "@pos.ReturnValue"
+        }
+       },
+       {
+        "id": "cv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@entry.comp"
+        }
+       },
+       {
+        "id": "gk1",
+        "kind": "get",
+        "var": "SkeletalMesh",
+        "class": "/Script/Engine.SkinnedMeshComponent"
+       },
+       {
+        "id": "gk2",
+        "kind": "get",
+        "var": "SkeletalMesh",
+        "class": "/Script/Engine.SkinnedMeshComponent"
+       },
+       {
+        "id": "same",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@gk1.SkeletalMesh",
+         "B": "@gk2.SkeletalMesh"
+        }
+       },
+       {
+        "id": "keep",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@cv.ReturnValue",
+         "B": "@same.ReturnValue"
+        }
+       },
+       {
+        "id": "bkeep",
+        "kind": "branch",
+        "in": {
+         "Condition": "@keep.ReturnValue"
+        }
+       },
+       {
+        "id": "bcv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@cv.ReturnValue"
+        }
+       },
+       {
+        "id": "dc",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "K2_DestroyComponent",
+        "in": {
+         "self": "@entry.comp",
+         "Object": "@entry.comp"
+        }
+       },
+       {
+        "id": "stn",
+        "kind": "set",
+        "var": "MutGlowTmp",
+        "in": {
+         "MutGlowTmp": "None"
+        }
+       },
+       {
+        "id": "bpos2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@pos.ReturnValue"
+        }
+       },
+       {
+        "id": "own",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "GetOwner",
+        "in": {
+         "self": "@entry.mesh"
+        }
+       },
+       {
+        "id": "tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "add",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@own.ReturnValue",
+         "Class": "/Script/Engine.SkeletalMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "cnk",
+        "kind": "cast",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@add.ReturnValue"
+        }
+       },
+       {
+        "id": "snk",
+        "kind": "set",
+        "var": "MutGlowTmp",
+        "in": {
+         "MutGlowTmp": "@cnk.AsSkeletal Mesh Component"
+        }
+       },
+       {
+        "id": "att",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@cnk.AsSkeletal Mesh Component",
+         "Parent": "@entry.mesh",
+         "SocketName": "None",
+         "LocationRule": "SnapToTarget",
+         "RotationRule": "SnapToTarget",
+         "ScaleRule": "SnapToTarget",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "ssk",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "SetSkeletalMesh",
+        "in": {
+         "self": "@cnk.AsSkeletal Mesh Component",
+         "NewMesh": "@gk1.SkeletalMesh",
+         "bReinitPose": "true"
+        }
+       },
+       {
+        "id": "smp",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "SetMasterPoseComponent",
+        "in": {
+         "self": "@cnk.AsSkeletal Mesh Component",
+         "NewMasterBoneComponent": "@entry.mesh",
+         "bForceUpdate": "true"
+        }
+       },
+       {
+        "id": "csh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@cnk.AsSkeletal Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "col",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@cnk.AsSkeletal Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "ms",
+        "kind": "call",
+        "class": "/Script/Engine.MeshComponent",
+        "function": "GetMaterials",
+        "in": {
+         "self": "@entry.mesh"
+        }
+       },
+       {
+        "id": "fm",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ms.ReturnValue"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "MutGlowTmp"
+       },
+       {
+        "id": "gm",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "GetMaterial",
+        "in": {
+         "self": "@gt.MutGlowTmp",
+         "ElementIndex": "@fm.Array Index"
+        }
+       },
+       {
+        "id": "cgm",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@gm.ReturnValue"
+        }
+       },
+       {
+        "id": "vgm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@cgm.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "bvgm",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vgm.ReturnValue"
+        }
+       },
+       {
+        "id": "cdm",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@gt.MutGlowTmp",
+         "ElementIndex": "@fm.Array Index",
+         "SourceMaterial": "/Game/Mod/AltUI/Mat/M_MutGlow",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "gm2",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "GetMaterial",
+        "in": {
+         "self": "@gt.MutGlowTmp",
+         "ElementIndex": "@fm.Array Index"
+        }
+       },
+       {
+        "id": "cgm2",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@gm2.ReturnValue"
+        }
+       },
+       {
+        "id": "csk",
+        "kind": "cast",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "pure": true,
+        "in": {
+         "Object": "@fm.Array Element"
+        }
+       },
+       {
+        "id": "vsk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@csk.AsMaterial Instance Dynamic"
+        }
+       },
+       {
+        "id": "gtp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetTextureParameterValue",
+        "in": {
+         "self": "@csk.AsMaterial Instance Dynamic",
+         "ParameterName": "MakeupTex"
+        }
+       },
+       {
+        "id": "vtp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gtp.ReturnValue"
+        }
+       },
+       {
+        "id": "skin",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@vsk.ReturnValue",
+         "B": "@vtp.ReturnValue"
+        }
+       },
+       {
+        "id": "str",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@entry.strength",
+         "B": "0.5"
+        }
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@str.ReturnValue",
+         "B": "0.0",
+         "bPickA": "@skin.ReturnValue"
+        }
+       },
+       {
+        "id": "gte",
+        "kind": "get",
+        "var": "MutTexE"
+       },
+       {
+        "id": "stx",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetTextureParameterValue",
+        "in": {
+         "self": "@cgm2.AsMaterial Instance Dynamic",
+         "ParameterName": "GlowTex",
+         "Value": "@gte.MutTexE"
+        }
+       },
+       {
+        "id": "sst",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@cgm2.AsMaterial Instance Dynamic",
+         "ParameterName": "Strength",
+         "Value": "@sel.ReturnValue"
+        }
+       },
+       {
+        "id": "gout",
+        "kind": "get",
+        "var": "MutGlowTmp"
+       }
+      ],
+      "links": [
+       [
+        "entry.mesh",
+        "gk1.self"
+       ],
+       [
+        "entry.comp",
+        "gk2.self"
+       ],
+       [
+        "gout.MutGlowTmp",
+        "return.out"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "la",
+        "st0",
+        "bpos",
+        "bkeep",
+        "fm"
+       ],
+       [
+        "bpos:else",
+        "bcv"
+       ],
+       [
+        "bkeep:else",
+        "bcv"
+       ],
+       [
+        "bcv",
+        "dc",
+        "stn",
+        "bpos2"
+       ],
+       [
+        "bcv:else",
+        "stn"
+       ],
+       [
+        "bpos2",
+        "add",
+        "snk",
+        "att",
+        "ssk",
+        "smp",
+        "csh",
+        "col",
+        "fm"
+       ],
+       [
+        "bpos2:else",
+        "return"
+       ],
+       [
+        "fm",
+        "bvgm",
+        "gtp",
+        "stx",
+        "sst"
+       ],
+       [
+        "bvgm:else",
+        "cdm",
+        "gtp"
+       ],
+       [
+        "fm:Completed",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Spawn Look As Follower",
      "inputs": [
       {
@@ -268926,6 +274514,19 @@
         "function": "Fol Take Makeup"
        },
        {
+        "id": "gmut",
+        "kind": "get",
+        "var": "Mutation"
+       },
+       {
+        "id": "sfmu",
+        "kind": "set",
+        "var": "FolMutation",
+        "in": {
+         "FolMutation": "@gmut.Mutation"
+        }
+       },
+       {
         "id": "un",
         "kind": "call_self",
         "function": "Undo"
@@ -268991,6 +274592,11 @@
         "id": "gfmc",
         "kind": "get",
         "var": "FolMkColors"
+       },
+       {
+        "id": "gfmu",
+        "kind": "get",
+        "var": "FolMutation"
        },
        {
         "id": "grl",
@@ -269088,7 +274694,9 @@
          "MakeupRows": "@gfmr.FolMkRows",
          "MakeupColors": "@gfmc.FolMkColors",
          "MakeupKept": "true",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -269235,13 +274843,46 @@
         }
        },
        {
+        "id": "rcfl",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/BP_AltUIFollower",
+        "pure": false,
+        "in": {
+         "Object": "@ra.Value"
+        },
+        "miss": "ignore"
+       },
+       {
         "id": "rsmt",
         "kind": "set",
         "var": "LookMakeupTex",
         "class": "/Game/Mod/AltUI/BP_AltUIFollower",
         "in": {
-         "self": "@ra.Value",
+         "self": "@rcfl.AsBP Alt UIFollower",
          "LookMakeupTex": "@rmt.tex"
+        }
+       },
+       {
+        "id": "gfmu2",
+        "kind": "get",
+        "var": "FolMutation"
+       },
+       {
+        "id": "rmst",
+        "kind": "call_self",
+        "function": "Mutation Skin Tex",
+        "in": {
+         "mut": "@gfmu2.FolMutation"
+        }
+       },
+       {
+        "id": "rsst",
+        "kind": "set",
+        "var": "LookSkinTex",
+        "class": "/Game/Mod/AltUI/BP_AltUIFollower",
+        "in": {
+         "self": "@rcfl.AsBP Alt UIFollower",
+         "LookSkinTex": "@rmst.tex"
         }
        },
        {
@@ -269250,7 +274891,7 @@
         "class": "/Game/Mod/AltUI/BP_AltUIFollower",
         "function": "Set Look",
         "in": {
-         "self": "@ra.Value",
+         "self": "@rcfl.AsBP Alt UIFollower",
          "parts": "@gfp.FolParts",
          "names": "@gfn.FolMorphN",
          "values": "@gfv.FolMorphV",
@@ -269535,6 +275176,7 @@
          "Order": "@ord.ReturnValue",
          "Active": "true",
          "Invulnerable": "false",
+         "InfAmmo": "false",
          "Fallen": "false",
          "Parts": "@gfp2.FolParts",
          "MorphNames": "@gfn2.FolMorphN",
@@ -269552,7 +275194,8 @@
          "HairColor": "@gfhc.FolHairColor",
          "MakeupRows": "@gfmr.FolMkRows",
          "MakeupColors": "@gfmc.FolMkColors",
-         "MakeupKept": "true"
+         "MakeupKept": "true",
+         "Mutation": "@gfmu.FolMutation"
         }
        },
        {
@@ -269736,6 +275379,7 @@
         "sfs",
         "sfb",
         "tmk",
+        "sfmu",
         "un",
         "brl",
         "bra0",
@@ -269764,7 +275408,10 @@
         "prset",
         "bra",
         "rmt",
+        "rcfl",
         "rsmt",
+        "rmst",
+        "rsst",
         "rsl",
         "frw"
        ],
@@ -269934,7 +275581,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rvo.ReturnValue"
+         "Voice": "@rvo.ReturnValue",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -270083,17 +275732,12 @@
         }
        },
        {
-        "id": "a1",
-        "kind": "get",
-        "var": "FolActor"
-       },
-       {
         "id": "sid",
         "kind": "set",
         "var": "FollowerId",
         "class": "/Game/Mod/AltUI/BP_AltUIFollower",
         "in": {
-         "self": "@a1.FolActor",
+         "self": "@sp.ReturnValue",
          "FollowerId": "@rb.Id"
         }
        },
@@ -270137,24 +275781,14 @@
         }
        },
        {
-        "id": "a2v",
-        "kind": "get",
-        "var": "FolActor"
-       },
-       {
         "id": "snn",
         "kind": "set",
         "var": "Npc Name",
         "class": "/Game/Project/Character/Npc/NPC_Female",
         "in": {
-         "self": "@a2v.FolActor",
+         "self": "@sp.ReturnValue",
          "Npc Name": "@rb.Voice"
         }
-       },
-       {
-        "id": "a2",
-        "kind": "get",
-        "var": "FolActor"
        },
        {
         "id": "sso",
@@ -270162,7 +275796,7 @@
         "var": "save order",
         "class": "/Game/Project/Character/Npc/NPC_Female",
         "in": {
-         "self": "@a2.FolActor",
+         "self": "@sp.ReturnValue",
          "save order": "@on.ReturnValue"
         }
        },
@@ -270176,17 +275810,12 @@
         }
        },
        {
-        "id": "a3",
-        "kind": "get",
-        "var": "FolActor"
-       },
-       {
         "id": "sol",
         "kind": "set",
         "var": "Order Location",
         "class": "/Game/Project/Character/Npc/NPC_Female",
         "in": {
-         "self": "@a3.FolActor",
+         "self": "@sp.ReturnValue",
          "Order Location": "@loc.Location"
         }
        },
@@ -270201,24 +275830,32 @@
         }
        },
        {
-        "id": "a4m",
-        "kind": "get",
-        "var": "FolActor"
-       },
-       {
         "id": "smt",
         "kind": "set",
         "var": "LookMakeupTex",
         "class": "/Game/Mod/AltUI/BP_AltUIFollower",
         "in": {
-         "self": "@a4m.FolActor",
+         "self": "@sp.ReturnValue",
          "LookMakeupTex": "@fmt.tex"
         }
        },
        {
-        "id": "a4",
-        "kind": "get",
-        "var": "FolActor"
+        "id": "mst",
+        "kind": "call_self",
+        "function": "Mutation Skin Tex",
+        "in": {
+         "mut": "@rb.Mutation"
+        }
+       },
+       {
+        "id": "sst",
+        "kind": "set",
+        "var": "LookSkinTex",
+        "class": "/Game/Mod/AltUI/BP_AltUIFollower",
+        "in": {
+         "self": "@sp.ReturnValue",
+         "LookSkinTex": "@mst.tex"
+        }
        },
        {
         "id": "sl",
@@ -270226,7 +275863,7 @@
         "class": "/Game/Mod/AltUI/BP_AltUIFollower",
         "function": "Set Look",
         "in": {
-         "self": "@a4.FolActor",
+         "self": "@sp.ReturnValue",
          "parts": "@rb.Parts",
          "names": "@rb.MorphNames",
          "values": "@rb.MorphValues",
@@ -270260,6 +275897,223 @@
         "in": {
          "self": "@a5.FolActor",
          "bCanBeDamaged": "@ninv.ReturnValue"
+        }
+       },
+       {
+        "id": "sia",
+        "kind": "set",
+        "var": "InfAmmo",
+        "class": "/Game/Mod/AltUI/BP_AltUIFollower",
+        "in": {
+         "self": "@sp.ReturnValue",
+         "InfAmmo": "@rb.InfAmmo"
+        }
+       },
+       {
+        "id": "isj",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@rb.Kind",
+         "B": "1"
+        }
+       },
+       {
+        "id": "bkj",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isj.ReturnValue"
+        }
+       },
+       {
+        "id": "spj",
+        "kind": "spawn",
+        "class": "/Game/Mod/AltUI/BP_AltUIJason",
+        "in": {
+         "SpawnTransform": "@tf.ReturnValue",
+         "CollisionHandlingOverride": "AdjustIfPossibleButAlwaysSpawn"
+        }
+       },
+       {
+        "id": "saj",
+        "kind": "set",
+        "var": "FolActor",
+        "in": {
+         "FolActor": "@spj.ReturnValue"
+        }
+       },
+       {
+        "id": "vj",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@spj.ReturnValue"
+        }
+       },
+       {
+        "id": "bvj",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vj.ReturnValue"
+        }
+       },
+       {
+        "id": "jfg",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rb.Guns"
+        }
+       },
+       {
+        "id": "jgb",
+        "kind": "break",
+        "struct": "/Game/Project/Classes/Struct/Gun_Struct",
+        "in": {
+         "Gun_Struct": "@jfg.Array Element"
+        }
+       },
+       {
+        "id": "jgi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@jgb.GunName",
+         "B": "Glock"
+        }
+       },
+       {
+        "id": "bjg",
+        "kind": "branch",
+        "in": {
+         "Condition": "@jgi.ReturnValue"
+        }
+       },
+       {
+        "id": "jgn",
+        "kind": "set",
+        "var": "FolJasonNew",
+        "in": {
+         "FolJasonNew": "true"
+        }
+       },
+       {
+        "id": "gjn",
+        "kind": "get",
+        "var": "FolJasonNew"
+       },
+       {
+        "id": "jsv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "2",
+         "B": "3",
+         "bPickA": "@gjn.FolJasonNew"
+        }
+       },
+       {
+        "id": "jia",
+        "kind": "set",
+        "var": "InfAmmo",
+        "class": "/Game/Mod/AltUI/BP_AltUIJason",
+        "in": {
+         "self": "@spj.ReturnValue",
+         "InfAmmo": "@rb.InfAmmo"
+        }
+       },
+       {
+        "id": "jst",
+        "kind": "set",
+        "var": "State",
+        "class": "/Game/Project/Character/Jason/Jason",
+        "in": {
+         "self": "@spj.ReturnValue",
+         "State": "@jsv.ReturnValue"
+        }
+       },
+       {
+        "id": "jnw",
+        "kind": "set",
+        "var": "FolJasonNew",
+        "in": {
+         "FolJasonNew": "false"
+        }
+       },
+       {
+        "id": "josr",
+        "kind": "call",
+        "class": "/Game/Project/Character/Npc/Character_NPC",
+        "function": "on Spawn in Runtime",
+        "in": {
+         "self": "@spj.ReturnValue"
+        }
+       },
+       {
+        "id": "jdmg",
+        "kind": "set",
+        "var": "bCanBeDamaged",
+        "class": "/Script/Engine.Actor",
+        "in": {
+         "self": "@spj.ReturnValue",
+         "bCanBeDamaged": "@ninv.ReturnValue"
+        }
+       },
+       {
+        "id": "jctgc",
+        "kind": "call",
+        "class": "/Script/Engine.Pawn",
+        "function": "GetController",
+        "in": {
+         "self": "@spj.ReturnValue"
+        }
+       },
+       {
+        "id": "jct",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/Controller/Npc_Controller",
+        "pure": false,
+        "in": {
+         "Object": "@jctgc.ReturnValue"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "gplj",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "jsm",
+        "kind": "set",
+        "var": "master",
+        "class": "/Game/Project/Classes/Controller/Npc_Controller",
+        "in": {
+         "self": "@jct.AsNpc Controller",
+         "master": "@gplj.Player"
+        }
+       },
+       {
+        "id": "jcho",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Controller/Npc_Controller",
+        "function": "Change Order",
+        "in": {
+         "self": "@jct.AsNpc Controller",
+         "order": "@on.ReturnValue"
+        }
+       },
+       {
+        "id": "jcol",
+        "kind": "set",
+        "var": "Order Location",
+        "class": "/Game/Project/Classes/Controller/Npc_Controller",
+        "in": {
+         "self": "@jct.AsNpc Controller",
+         "Order Location": "@loc.Location"
         }
        },
        {
@@ -270425,6 +276279,37 @@
         }
        },
        {
+        "id": "bjk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isj.ReturnValue"
+        }
+       },
+       {
+        "id": "gn9",
+        "kind": "get",
+        "var": "FolGunNames"
+       },
+       {
+        "id": "lglk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Glock"
+        }
+       },
+       {
+        "id": "agj",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gn9.FolGunNames",
+         "NewItem": "@lglk.ReturnValue"
+        }
+       },
+       {
         "id": "gn1",
         "kind": "get",
         "var": "FolGunNames"
@@ -270488,6 +276373,23 @@
         }
        },
        {
+        "id": "icp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@ic.Value",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bic",
+        "kind": "branch",
+        "in": {
+         "Condition": "@icp.ReturnValue"
+        }
+       },
+       {
         "id": "a7",
         "kind": "get",
         "var": "FolActor"
@@ -270533,6 +276435,42 @@
         "struct": "/Game/Project/Classes/Struct/Gun_Struct",
         "in": {
          "Gun_Struct": "@fgg.Array Element"
+        }
+       },
+       {
+        "id": "ggl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@ggb.GunName",
+         "B": "Glock"
+        }
+       },
+       {
+        "id": "ggj",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@isj.ReturnValue",
+         "B": "@ggl.ReturnValue"
+        }
+       },
+       {
+        "id": "ggn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@ggj.ReturnValue"
+        }
+       },
+       {
+        "id": "bgg",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ggn.ReturnValue"
         }
        },
        {
@@ -270591,6 +276529,36 @@
        [
         "lvl",
         "fr",
+        "bkj",
+        "spj",
+        "saj",
+        "bvj",
+        "jfg"
+       ],
+       [
+        "jfg",
+        "bjg",
+        "jgn"
+       ],
+       [
+        "jfg:Completed",
+        "jst",
+        "jnw",
+        "jia",
+        "josr",
+        "jdmg",
+        "jct",
+        "jsm",
+        "jcho",
+        "jcol",
+        "cgn"
+       ],
+       [
+        "jct:CastFailed",
+        "cgn"
+       ],
+       [
+        "bkj:else",
         "sp",
         "sa",
         "bv",
@@ -270600,8 +276568,11 @@
         "sol",
         "fmt",
         "smt",
+        "mst",
+        "sst",
         "sl",
         "dmg",
+        "sia",
         "bfm",
         "ct",
         "sm",
@@ -270635,6 +276606,15 @@
        ],
        [
         "fg:Completed",
+        "bjk",
+        "agj",
+        "ik"
+       ],
+       [
+        "bjk:else",
+        "ik"
+       ],
+       [
         "ik",
         "fi"
        ],
@@ -270644,6 +276624,7 @@
        ],
        [
         "big:else",
+        "bic",
         "pt"
        ],
        [
@@ -270652,6 +276633,7 @@
        ],
        [
         "fgg",
+        "bgg",
         "gg",
         "awl"
        ],
@@ -270787,7 +276769,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -271075,7 +277059,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -271431,7 +277417,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -273041,6 +279029,18 @@
          "Time": "0.25",
          "bLooping": "true"
         }
+       },
+       {
+        "id": "th",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "K2_SetTimer",
+        "in": {
+         "Object": "@me.self",
+         "FunctionName": "Hand Watch",
+         "Time": "1.0",
+         "bLooping": "true"
+        }
        }
       ],
       "links": [
@@ -273067,7 +279067,8 @@
         "fe:Completed",
         "tm",
         "tw",
-        "tg"
+        "tg",
+        "th"
        ]
       ]
      }
@@ -273147,7 +279148,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -273370,7 +279373,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -273599,7 +279604,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -273700,7 +279707,9 @@
          "MakeupRows": "@r2b.MakeupRows",
          "MakeupColors": "@r2b.MakeupColors",
          "MakeupKept": "@r2b.MakeupKept",
-         "Voice": "@r2b.Voice"
+         "Voice": "@r2b.Voice",
+         "InfAmmo": "@r2b.InfAmmo",
+         "Kind": "@r2b.Kind"
         }
        },
        {
@@ -273861,7 +279870,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -273978,6 +279989,547 @@
      }
     },
     {
+     "name": "Fol Set Inf Ammo",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      },
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "rls",
+        "kind": "get",
+        "var": "FolSave"
+       },
+       {
+        "id": "rl",
+        "kind": "get",
+        "var": "Followers",
+        "class": "/Game/Mod/AltUI/SG_Followers"
+       },
+       {
+        "id": "rg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@rl.Followers",
+         "Index": "@entry.index"
+        }
+       },
+       {
+        "id": "rb",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Follower",
+        "in": {
+         "S_Follower": "@rg.Item"
+        }
+       },
+       {
+        "id": "pm",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_Follower",
+        "in": {
+         "Id": "@rb.Id",
+         "Name": "@rb.Name",
+         "Mode": "@rb.Mode",
+         "Order": "@rb.Order",
+         "Active": "@rb.Active",
+         "Invulnerable": "@rb.Invulnerable",
+         "Fallen": "@rb.Fallen",
+         "Parts": "@rb.Parts",
+         "MorphNames": "@rb.MorphNames",
+         "MorphValues": "@rb.MorphValues",
+         "Items": "@rb.Items",
+         "Guns": "@rb.Guns",
+         "Level": "@rb.Level",
+         "Where": "@rb.Where",
+         "Heel": "@rb.Heel",
+         "Scales": "@rb.Scales",
+         "BodyDef": "@rb.BodyDef",
+         "Clothes": "@rb.Clothes",
+         "Worn": "@rb.Worn",
+         "Colors": "@rb.Colors",
+         "Damage": "@rb.Damage",
+         "SlotColors": "@rb.SlotColors",
+         "Hair": "@rb.Hair",
+         "HairColor": "@rb.HairColor",
+         "MakeupRows": "@rb.MakeupRows",
+         "MakeupColors": "@rb.MakeupColors",
+         "MakeupKept": "@rb.MakeupKept",
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@entry.on",
+         "Kind": "@rb.Kind"
+        }
+       },
+       {
+        "id": "pls",
+        "kind": "get",
+        "var": "FolSave"
+       },
+       {
+        "id": "pl",
+        "kind": "get",
+        "var": "Followers",
+        "class": "/Game/Mod/AltUI/SG_Followers"
+       },
+       {
+        "id": "pset",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Set",
+        "in": {
+         "TargetArray": "@pl.Followers",
+         "Index": "@entry.index",
+         "Item": "@pm.S_Follower",
+         "bSizeToFit": "false"
+        }
+       },
+       {
+        "id": "fam",
+        "kind": "get",
+        "var": "FolActors"
+       },
+       {
+        "id": "fa",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@fam.FolActors",
+         "Key": "@rb.Id"
+        }
+       },
+       {
+        "id": "fav",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@fa.Value"
+        }
+       },
+       {
+        "id": "bok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fav.ReturnValue"
+        }
+       },
+       {
+        "id": "cfl",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/BP_AltUIFollower",
+        "pure": false,
+        "in": {
+         "Object": "@fa.Value"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "cja",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/BP_AltUIJason",
+        "pure": false,
+        "in": {
+         "Object": "@fa.Value"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "sia",
+        "kind": "set",
+        "var": "InfAmmo",
+        "class": "/Game/Mod/AltUI/BP_AltUIFollower",
+        "in": {
+         "self": "@cfl.AsBP Alt UIFollower",
+         "InfAmmo": "@entry.on"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call_self",
+        "function": "Save Fol Save"
+       },
+       {
+        "id": "rf",
+        "kind": "call_self",
+        "function": "Fol Refresh"
+       },
+       {
+        "id": "sja",
+        "kind": "set",
+        "var": "InfAmmo",
+        "class": "/Game/Mod/AltUI/BP_AltUIJason",
+        "in": {
+         "self": "@cja.AsBP Alt UIJason",
+         "InfAmmo": "@entry.on"
+        }
+       }
+      ],
+      "links": [
+       [
+        "rls.FolSave",
+        "rl.self"
+       ],
+       [
+        "pls.FolSave",
+        "pl.self"
+       ]
+      ],
+      "exec": [
+       [
+        "cfl:CastFailed",
+        "cja",
+        "sja",
+        "sv"
+       ],
+       [
+        "cja:CastFailed",
+        "sv"
+       ],
+       [
+        "entry",
+        "pset",
+        "bok",
+        "cfl",
+        "sia",
+        "sv"
+       ],
+       [
+        "bok:else",
+        "sv"
+       ],
+       [
+        "sv",
+        "rf"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Fol New Jason",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ld",
+        "kind": "call_self",
+        "function": "Load Fol Save"
+       },
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "FolSave"
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Counter",
+        "class": "/Game/Mod/AltUI/SG_Followers"
+       },
+       {
+        "id": "ci",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@gc.Counter",
+         "B": "1"
+        }
+       },
+       {
+        "id": "gs2",
+        "kind": "get",
+        "var": "FolSave"
+       },
+       {
+        "id": "sc",
+        "kind": "set",
+        "var": "Counter",
+        "class": "/Game/Mod/AltUI/SG_Followers",
+        "in": {
+         "self": "@gs2.FolSave",
+         "Counter": "@ci.ReturnValue"
+        }
+       },
+       {
+        "id": "cs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@ci.ReturnValue"
+        }
+       },
+       {
+        "id": "ic",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "F",
+         "B": "@cs.ReturnValue"
+        }
+       },
+       {
+        "id": "id",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@ic.ReturnValue"
+        }
+       },
+       {
+        "id": "fr",
+        "kind": "call_self",
+        "function": "Fol Front"
+       },
+       {
+        "id": "lvl",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetCurrentLevelName",
+        "in": {
+         "bRemovePrefixString": "true"
+        }
+       },
+       {
+        "id": "nr",
+        "kind": "make",
+        "struct": "/Game/Mod/AltUI/S_Follower",
+        "in": {
+         "Id": "@id.ReturnValue",
+         "Name": "Jason",
+         "Mode": "1",
+         "Order": "NpcFollow",
+         "Active": "true",
+         "Invulnerable": "false",
+         "InfAmmo": "false",
+         "Fallen": "false",
+         "Level": "@lvl.ReturnValue",
+         "Where": "@fr.tf",
+         "Kind": "1"
+        }
+       },
+       {
+        "id": "als",
+        "kind": "get",
+        "var": "FolSave"
+       },
+       {
+        "id": "al",
+        "kind": "get",
+        "var": "Followers",
+        "class": "/Game/Mod/AltUI/SG_Followers"
+       },
+       {
+        "id": "ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@al.Followers",
+         "NewItem": "@nr.S_Follower"
+        }
+       },
+       {
+        "id": "ssel",
+        "kind": "set",
+        "var": "FolSel",
+        "in": {
+         "FolSel": "@id.ReturnValue"
+        }
+       },
+       {
+        "id": "sjn",
+        "kind": "set",
+        "var": "FolJasonNew",
+        "in": {
+         "FolJasonNew": "true"
+        }
+       },
+       {
+        "id": "nsv",
+        "kind": "call_self",
+        "function": "Save Fol Save"
+       },
+       {
+        "id": "nsp",
+        "kind": "call_self",
+        "function": "Fol Spawn",
+        "in": {
+         "index": "@ad.ReturnValue"
+        }
+       },
+       {
+        "id": "nsv2",
+        "kind": "call_self",
+        "function": "Save Fol Save"
+       },
+       {
+        "id": "nrf",
+        "kind": "call_self",
+        "function": "Fol Refresh"
+       }
+      ],
+      "links": [
+       [
+        "gs.FolSave",
+        "gc.self"
+       ],
+       [
+        "als.FolSave",
+        "al.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "ld",
+        "sc",
+        "fr",
+        "lvl",
+        "ad",
+        "ssel",
+        "sjn",
+        "nsv",
+        "nsp",
+        "nsv2",
+        "nrf"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Hand Watch",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "vp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gp.Player"
+        }
+       },
+       {
+        "id": "bvp",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vp.ReturnValue"
+        }
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "InvisibleHand_Comp",
+        "class": "/Game/Project/Character/Jodi/Jodi"
+       },
+       {
+        "id": "vh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gh.InvisibleHand_Comp"
+        }
+       },
+       {
+        "id": "bvh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vh.ReturnValue"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bag",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "ci",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Misc/Bag_Comp",
+        "function": "Count Items",
+        "in": {
+         "self": "@gb.Bag",
+         "item name": "InvisibleHand"
+        }
+       },
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "Number",
+        "class": "/Game/Project/Classes/Misc/InvisibleHand_Comp"
+       },
+       {
+        "id": "ne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@ci.count",
+         "B": "@gn.Number"
+        }
+       },
+       {
+        "id": "bne",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ne.ReturnValue"
+        }
+       },
+       {
+        "id": "up",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Misc/InvisibleHand_Comp",
+        "function": "Update Power",
+        "in": {
+         "self": "@gh.InvisibleHand_Comp",
+         "Number": "@ci.count"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gp.Player",
+        "gh.self"
+       ],
+       [
+        "gp.Player",
+        "gb.self"
+       ],
+       [
+        "gh.InvisibleHand_Comp",
+        "gn.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bvp",
+        "bvh",
+        "bne",
+        "up"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Fol Revive",
      "inputs": [
       {
@@ -274062,7 +280614,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -274688,7 +281242,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -276945,6 +283501,107 @@
         }
        },
        {
+        "id": "rt7a",
+        "kind": "get",
+        "var": "FolRowTmp"
+       },
+       {
+        "id": "camt",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Fol_InfAmmo"
+        }
+       },
+       {
+        "id": "cam_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "cam_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_SubTab",
+         "OwningPlayer": "@cam_pc.PC"
+        }
+       },
+       {
+        "id": "cam",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_SubTab",
+        "pure": true,
+        "in": {
+         "Object": "@cam_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "camsm_me",
+        "kind": "self"
+       },
+       {
+        "id": "camsm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_SubTab",
+        "in": {
+         "self": "@cam.AsW_SubTab",
+         "Manager": "@camsm_me.self"
+        }
+       },
+       {
+        "id": "camis",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@b.Id"
+        }
+       },
+       {
+        "id": "camc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "FolC:Ammo:",
+         "B": "@camis.ReturnValue"
+        }
+       },
+       {
+        "id": "camn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@camc.ReturnValue"
+        }
+       },
+       {
+        "id": "cami",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_SubTab",
+        "function": "Init",
+        "in": {
+         "self": "@cam.AsW_SubTab",
+         "group": "@camn.ReturnValue",
+         "caption": "@camt.text",
+         "selected": "@b.InfAmmo"
+        }
+       },
+       {
+        "id": "cama",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_FolRow",
+        "function": "Set Chip Ammo",
+        "in": {
+         "self": "@rt7a.FolRowTmp",
+         "widget": "@cam.AsW_SubTab"
+        }
+       },
+       {
         "id": "rt8",
         "kind": "get",
         "var": "FolRowTmp"
@@ -277094,13 +283751,33 @@
         }
        },
        {
-        "id": "old",
+        "id": "old0",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanAND",
         "in": {
          "A": "@oc0.ReturnValue",
          "B": "@ohn.ReturnValue"
+        }
+       },
+       {
+        "id": "rlk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@b.Kind",
+         "B": "1"
+        }
+       },
+       {
+        "id": "old",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@old0.ReturnValue",
+         "B": "@rlk.ReturnValue"
         }
        },
        {
@@ -277972,6 +284649,13 @@
        ],
        [
         "cina",
+        "cam_cr",
+        "camsm",
+        "cami",
+        "cama"
+       ],
+       [
+        "cama",
         "cmm_cr",
         "cmmsm",
         "cmmi",
@@ -278424,6 +285108,23 @@
         }
        },
        {
+        "id": "nkj",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@rb.Kind",
+         "B": "1"
+        }
+       },
+       {
+        "id": "bkr",
+        "kind": "branch",
+        "in": {
+         "Condition": "@nkj.ReturnValue"
+        }
+       },
+       {
         "id": "t2",
         "kind": "call_self",
         "function": "T",
@@ -278717,6 +285418,7 @@
         "ms0",
         "mi0",
         "ma0",
+        "bkr",
         "mr1_cr",
         "ms1",
         "mi1",
@@ -278727,6 +285429,10 @@
         "mi2",
         "ma2",
         "mr3_cr"
+       ],
+       [
+        "bkr:else",
+        "bfa"
        ],
        [
         "bfa:else",
@@ -279796,6 +286502,23 @@
         }
        },
        {
+        "id": "isAmmo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@sp2.LeftS",
+         "B": "Ammo"
+        }
+       },
+       {
+        "id": "bAmmo",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isAmmo.ReturnValue"
+        }
+       },
+       {
         "id": "isMore",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
@@ -279910,6 +286633,24 @@
         }
        },
        {
+        "id": "nam",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@rb.InfAmmo"
+        }
+       },
+       {
+        "id": "ia",
+        "kind": "call_self",
+        "function": "Fol Set Inf Ammo",
+        "in": {
+         "index": "@ix.index",
+         "on": "@nam.ReturnValue"
+        }
+       },
+       {
         "id": "mm",
         "kind": "call_self",
         "function": "Fol Menu",
@@ -279969,6 +286710,10 @@
        ],
        [
         "bInvuln:else",
+        "bAmmo"
+       ],
+       [
+        "bAmmo:else",
         "bMore"
        ],
        [
@@ -279998,6 +286743,10 @@
        [
         "bInvuln",
         "iv"
+       ],
+       [
+        "bAmmo",
+        "ia"
        ],
        [
         "bMore",
@@ -280272,7 +287021,9 @@
          "MakeupRows": "@r2b.MakeupRows",
          "MakeupColors": "@r2b.MakeupColors",
          "MakeupKept": "@r2b.MakeupKept",
-         "Voice": "@r2b.Voice"
+         "Voice": "@r2b.Voice",
+         "InfAmmo": "@r2b.InfAmmo",
+         "Kind": "@r2b.Kind"
         }
        },
        {
@@ -281440,6 +288191,208 @@
         "id": "rb",
         "kind": "call_self",
         "function": "Rebuild Followers"
+       },
+       {
+        "id": "jrls",
+        "kind": "get",
+        "var": "FolSave"
+       },
+       {
+        "id": "jrl",
+        "kind": "get",
+        "var": "Followers",
+        "class": "/Game/Mod/AltUI/SG_Followers"
+       },
+       {
+        "id": "jrg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@jrl.Followers",
+         "Index": "@nx.index"
+        }
+       },
+       {
+        "id": "jrb",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Follower",
+        "in": {
+         "S_Follower": "@jrg.Item"
+        }
+       },
+       {
+        "id": "jk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@jrb.Kind",
+         "B": "1"
+        }
+       },
+       {
+        "id": "jw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@isg.ReturnValue",
+         "B": "@isw.ReturnValue"
+        }
+       },
+       {
+        "id": "jx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@jk.ReturnValue",
+         "B": "@jw.ReturnValue"
+        }
+       },
+       {
+        "id": "bjx",
+        "kind": "branch",
+        "in": {
+         "Condition": "@jx.ReturnValue"
+        }
+       },
+       {
+        "id": "jgl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.item",
+         "B": "Glock"
+        }
+       },
+       {
+        "id": "jnb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@entry.box"
+        }
+       },
+       {
+        "id": "jok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@jgl.ReturnValue",
+         "B": "@jnb.ReturnValue"
+        }
+       },
+       {
+        "id": "bjok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@jok.ReturnValue"
+        }
+       },
+       {
+        "id": "jwp",
+        "kind": "get",
+        "var": "Weapons",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "ljg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Glock"
+        }
+       },
+       {
+        "id": "jhs",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Contains",
+        "in": {
+         "TargetMap": "@jwp.Weapons",
+         "Key": "@ljg.ReturnValue"
+        }
+       },
+       {
+        "id": "bjh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@jhs.ReturnValue"
+        }
+       },
+       {
+        "id": "jpl",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "jcg",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Consume Item",
+        "in": {
+         "self": "@jpl.Player",
+         "item name": "@entry.item",
+         "num": "1",
+         "destroy weapon": "true"
+        }
+       },
+       {
+        "id": "jca",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/BP_AltUIJason",
+        "pure": false,
+        "in": {
+         "Object": "@na.Value"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "jgg",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jason/Jason",
+        "function": "Got Glock",
+        "in": {
+         "self": "@jca.AsBP Alt UIJason"
+        }
+       },
+       {
+        "id": "jpot",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Fol_JasonOnlyGlock"
+        }
+       },
+       {
+        "id": "jpo",
+        "kind": "call_self",
+        "function": "Pop Notice",
+        "in": {
+         "content": "@jpot.text"
+        }
+       },
+       {
+        "id": "jpht",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Fol_JasonHasGlock"
+        }
+       },
+       {
+        "id": "jph",
+        "kind": "call_self",
+        "function": "Pop Notice",
+        "in": {
+         "content": "@jpht.text"
+        }
        }
       ],
       "links": [
@@ -281478,6 +288431,14 @@
        [
         "na.Value",
         "xmc1b.self"
+       ],
+       [
+        "jrls.FolSave",
+        "jrl.self"
+       ],
+       [
+        "na.Value",
+        "jwp.self"
        ]
       ],
       "exec": [
@@ -281501,6 +288462,24 @@
        [
         "nba",
         "ir",
+        "bjx",
+        "bjok",
+        "bjh",
+        "jph"
+       ],
+       [
+        "bjh:else",
+        "jcg",
+        "jca",
+        "jgg",
+        "sy"
+       ],
+       [
+        "bjok:else",
+        "jpo"
+       ],
+       [
+        "bjx:else",
         "bbox",
         "bd",
         "bbv",
@@ -281784,6 +288763,152 @@
         "id": "rb",
         "kind": "call_self",
         "function": "Rebuild Followers"
+       },
+       {
+        "id": "jrls",
+        "kind": "get",
+        "var": "FolSave"
+       },
+       {
+        "id": "jrl",
+        "kind": "get",
+        "var": "Followers",
+        "class": "/Game/Mod/AltUI/SG_Followers"
+       },
+       {
+        "id": "jrg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@jrl.Followers",
+         "Index": "@nx.index"
+        }
+       },
+       {
+        "id": "jrb",
+        "kind": "break",
+        "struct": "/Game/Mod/AltUI/S_Follower",
+        "in": {
+         "S_Follower": "@jrg.Item"
+        }
+       },
+       {
+        "id": "jk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@jrb.Kind",
+         "B": "1"
+        }
+       },
+       {
+        "id": "bjk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@jk.ReturnValue"
+        }
+       },
+       {
+        "id": "jgl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@agb.GunName",
+         "B": "Glock"
+        }
+       },
+       {
+        "id": "bjg",
+        "kind": "branch",
+        "in": {
+         "Condition": "@jgl.ReturnValue"
+        }
+       },
+       {
+        "id": "jwp",
+        "kind": "get",
+        "var": "Weapons",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "ljg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Glock"
+        }
+       },
+       {
+        "id": "jhs",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Contains",
+        "in": {
+         "TargetMap": "@jwp.Weapons",
+         "Key": "@ljg.ReturnValue"
+        }
+       },
+       {
+        "id": "bjh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@jhs.ReturnValue"
+        }
+       },
+       {
+        "id": "jca",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/BP_AltUIJason",
+        "pure": false,
+        "in": {
+         "Object": "@na.Value"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "jgg",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jason/Jason",
+        "function": "Got Glock",
+        "in": {
+         "self": "@jca.AsBP Alt UIJason"
+        }
+       },
+       {
+        "id": "jpot",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Fol_JasonOnlyGlock"
+        }
+       },
+       {
+        "id": "jpo",
+        "kind": "call_self",
+        "function": "Pop Notice",
+        "in": {
+         "content": "@jpot.text"
+        }
+       },
+       {
+        "id": "jpht",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Fol_JasonHasGlock"
+        }
+       },
+       {
+        "id": "jph",
+        "kind": "call_self",
+        "function": "Pop Notice",
+        "in": {
+         "content": "@jpht.text"
+        }
        }
       ],
       "links": [
@@ -281798,6 +288923,14 @@
        [
         "hbs.HyperBoxSave",
         "hbg.self"
+       ],
+       [
+        "jrls.FolSave",
+        "jrl.self"
+       ],
+       [
+        "na.Value",
+        "jwp.self"
        ]
       ],
       "exec": [
@@ -281823,8 +288956,28 @@
         "bd",
         "bbv",
         "bvi",
+        "bjk",
+        "bjg",
+        "bjh",
+        "jph"
+       ],
+       [
+        "bjh:else",
+        "jca",
+        "jgg",
+        "rg"
+       ],
+       [
+        "bjg:else",
+        "jpo"
+       ],
+       [
+        "bjk:else",
         "gg",
         "awl",
+        "rg"
+       ],
+       [
         "rg",
         "sy",
         "sv",
@@ -282827,14 +289980,44 @@
         }
        },
        {
-        "id": "bold",
-        "kind": "branch",
+        "id": "gkj",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
         "in": {
-         "Condition": "@old.ReturnValue"
+         "A": "@rb.Kind",
+         "B": "1"
         }
        },
        {
-        "id": "pot",
+        "id": "old2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@old.ReturnValue",
+         "B": "@gkj.ReturnValue"
+        }
+       },
+       {
+        "id": "ptj",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Fol_JasonNoClothes"
+        }
+       },
+       {
+        "id": "ptj_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@ptj.text"
+        }
+       },
+       {
+        "id": "pto",
         "kind": "call_self",
         "function": "T",
         "in": {
@@ -282842,11 +290025,47 @@
         }
        },
        {
+        "id": "pto_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@pto.text"
+        }
+       },
+       {
+        "id": "pts",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@ptj_2s.ReturnValue",
+         "B": "@pto_2s.ReturnValue",
+         "bPickA": "@gkj.ReturnValue"
+        }
+       },
+       {
+        "id": "ptt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@pts.ReturnValue"
+        }
+       },
+       {
+        "id": "bold",
+        "kind": "branch",
+        "in": {
+         "Condition": "@old2.ReturnValue"
+        }
+       },
+       {
         "id": "po",
         "kind": "call_self",
         "function": "Pop Notice",
         "in": {
-         "content": "@pot.text"
+         "content": "@ptt.ReturnValue"
         }
        },
        {
@@ -283226,7 +290445,9 @@
          "MakeupRows": "@rb.MakeupRows",
          "MakeupColors": "@rb.MakeupColors",
          "MakeupKept": "@rb.MakeupKept",
-         "Voice": "@rb.Voice"
+         "Voice": "@rb.Voice",
+         "InfAmmo": "@rb.InfAmmo",
+         "Kind": "@rb.Kind"
         }
        },
        {
@@ -292728,6 +299949,57 @@
         }
        },
        {
+        "id": "f04g",
+        "kind": "get",
+        "var": "InvGroup"
+       },
+       {
+        "id": "f04a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@f04g.InvGroup",
+         "B": "None"
+        }
+       },
+       {
+        "id": "f04e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@f04g.InvGroup",
+         "B": "Collect"
+        }
+       },
+       {
+        "id": "f04o",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@f04a.ReturnValue",
+         "B": "@f04e.ReturnValue"
+        }
+       },
+       {
+        "id": "f04b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f04o.ReturnValue"
+        }
+       },
+       {
+        "id": "f04f",
+        "kind": "call_self",
+        "function": "Inv Fill",
+        "in": {
+         "box": "false",
+         "group": "Collect"
+        }
+       },
+       {
         "id": "e0g",
         "kind": "get",
         "var": "InvShown"
@@ -292978,6 +300250,57 @@
         }
        },
        {
+        "id": "f14g",
+        "kind": "get",
+        "var": "InvGroup"
+       },
+       {
+        "id": "f14a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@f14g.InvGroup",
+         "B": "None"
+        }
+       },
+       {
+        "id": "f14e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@f14g.InvGroup",
+         "B": "Collect"
+        }
+       },
+       {
+        "id": "f14o",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@f14a.ReturnValue",
+         "B": "@f14e.ReturnValue"
+        }
+       },
+       {
+        "id": "f14b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f14o.ReturnValue"
+        }
+       },
+       {
+        "id": "f14f",
+        "kind": "call_self",
+        "function": "Inv Fill",
+        "in": {
+         "box": "true",
+         "group": "Collect"
+        }
+       },
+       {
         "id": "e1g",
         "kind": "get",
         "var": "InvShown"
@@ -293122,10 +300445,22 @@
        ],
        [
         "f03b:else",
-        "e0se"
+        "f04b"
        ],
        [
         "f03f",
+        "f04b"
+       ],
+       [
+        "f04b",
+        "f04f"
+       ],
+       [
+        "f04b:else",
+        "e0se"
+       ],
+       [
+        "f04f",
         "e0se"
        ],
        [
@@ -293187,10 +300522,22 @@
        ],
        [
         "f13b:else",
-        "e1se"
+        "f14b"
        ],
        [
         "f13f",
+        "f14b"
+       ],
+       [
+        "f14b",
+        "f14f"
+       ],
+       [
+        "f14b:else",
+        "e1se"
+       ],
+       [
+        "f14f",
         "e1se"
        ],
        [
@@ -293497,12 +300844,32 @@
         }
        },
        {
-        "id": "hac",
+        "id": "hac0",
         "kind": "call",
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValidClass",
         "in": {
          "Class": "@br.ActorClass"
+        }
+       },
+       {
+        "id": "ihd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.item",
+         "B": "InvisibleHand"
+        }
+       },
+       {
+        "id": "hac",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@hac0.ReturnValue",
+         "B": "@ihd.ReturnValue"
         }
        },
        {
@@ -297351,7 +304718,7 @@
         }
        },
        {
-        "id": "eg0",
+        "id": "eg1",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_NameName",
@@ -297368,6 +304735,46 @@
         "in": {
          "A": "@cf.Value",
          "B": "0"
+        }
+       },
+       {
+        "id": "ecg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.group",
+         "B": "Collect"
+        }
+       },
+       {
+        "id": "ecc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@ir.cat",
+         "B": "Collect"
+        }
+       },
+       {
+        "id": "ecb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ecg.ReturnValue",
+         "B": "@ecc.ReturnValue"
+        }
+       },
+       {
+        "id": "eg0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@eg1.ReturnValue",
+         "B": "@ecb.ReturnValue"
         }
        },
        {
@@ -321023,6 +328430,22 @@
       }
      },
      {
+      "id": "mme",
+      "kind": "self"
+     },
+     {
+      "id": "mwt",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_SetTimer",
+      "in": {
+       "Object": "@mme.self",
+       "FunctionName": "Mutation Watch",
+       "Time": "1.0",
+       "bLooping": "true"
+      }
+     },
+     {
       "id": "vgt",
       "kind": "call_self",
       "function": "Version Gate"
@@ -329903,7 +337326,8 @@
       "ssmv",
       "amv",
       "fls",
-      "pgc"
+      "pgc",
+      "mwt"
      ],
      [
       "kAny:Released",

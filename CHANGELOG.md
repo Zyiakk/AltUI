@@ -1,5 +1,30 @@
 # Changelog
 
+## 2.6.0 – 2026-10-18
+
+Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the
+same as in 2.5.0; converted bodies do not need to be converted again.
+
+* **Appearance › Mutation** (new entry under "Skin"): Jodi's mutated look from the story, in parts – skin colour and glow as
+  sliders, veins and eyes as switches. Make-up stays visible on the discoloured skin, and your own iris colour tints the
+  mutated eye. "Story look" sets the cutscene's look in full (the story's own skin material, every row
+  on) – without make-up and scars. It is part of a look, so followers and ragdolls made from a look carry it too.
+* **Followers: "Infinite ammo"** (chip in a figure's row): the figure keeps reloading its guns without needing ammo in
+  its bag. Guns with a magazine leave the ammo it carries untouched; the shotgun and the grenade launcher use up what it
+  carries first.
+* **Followers: "+ Jason"** (bottom right of the tab) adds Jason from the story as a follower, with his Glock: orders, "come to
+  me", active, invulnerable, NPC mode, bag, saving and level changes work as for every figure. He fights only with his own
+  Glock: a Glock given to him becomes his, other weapons he refuses. He has no look, clothes or make-up, and cannot be
+  healed when down ("Revive" brings him back). His death does not end the game.
+* **Inventory › All items:** the game's Invisible Hand is in "Collectibles". While it is in the backpack it brings items
+  near Jodi to her, one after another – faster with more hands (one every 2.5 s, from six on every 0.1 s). It now also
+  works right after loading a save, and stops when the last hand leaves the backpack.
+* **Inventory:** backpack and box show "Collectibles" too – the invisible hands, decor, crystals – so you can see how many
+  hands Jodi carries.
+* **Quick menu: "+1 Invisible Hand"** puts one hand into the backpack.
+* **Fix:** closing the panel after a challenge was won or lost (or the story ended) took the mouse away from the game's
+  Congratulations / results screens, and Esc did not work there either – the game had to be closed. The mouse now stays.
+
 ## 2.5.0 – 2026-10-18
 
 Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the

@@ -333,6 +333,11 @@ STRINGS = {
     'Fol_ToFollower': ('→ Follower', '→ Follower', '→ 跟随者', '→ Спутник', '→ Seguidor', '→ Towarzysz'),
     'Fol_Active': ('Active', 'Aktiv', '激活', 'Активен', 'Activo', 'Aktywny'),
     'Fol_Invulnerable': ('Invulnerable', 'Unverwundbar', '无敌', 'Неуязвим', 'Invulnerable', 'Nieśmiertelny'),
+    'Fol_NewJason': ('+ Jason', '+ Jason', '+ 杰森', '+ Джейсон', '+ Jason', '+ Jason'),
+    'Fol_JasonOnlyGlock': ('Jason fights only with his Glock - other weapons he cannot use.', 'Jason kämpft nur mit seiner Glock – andere Waffen kann er nicht benutzen.', '杰森只用他的格洛克战斗——其他武器他无法使用。', 'Джейсон сражается только своим Glock – другим оружием он пользоваться не умеет.', 'Jason solo lucha con su Glock: no sabe usar otras armas.', 'Jason walczy tylko swoim Glockiem – innej broni nie umie używać.'),
+    'Fol_JasonHasGlock': ('Jason already has his Glock.', 'Jason hat seine Glock schon.', '杰森已经有他的格洛克了。', 'У Джейсона уже есть его Glock.', 'Jason ya tiene su Glock.', 'Jason ma już swojego Glocka.'),
+    'Fol_JasonNoClothes': ('Jason wears his own clothes - pieces cannot be given to him.', 'Jason trägt seine eigene Kleidung – Teile kann man ihm nicht geben.', '杰森穿着自己的衣服——无法给他衣物。', 'Джейсон носит свою одежду – отдать ему вещи нельзя.', 'Jason lleva su propia ropa: no se le pueden dar prendas.', 'Jason nosi własne ubrania – nie można mu dać części garderoby.'),
+    'Fol_InfAmmo': ('Infinite ammo', 'Endlosmunition', '无限弹药', 'Беск. патроны', 'Munición infinita', 'Amunicja bez końca'),
     'Fol_SelectHint': ('Click a figure to select it - clicks in the backpack or the box then give to it.', 'Eine Figur anklicken, um sie auszuwählen – Klicks in Rucksack oder Box geben dann an sie.', '点击一个角色将其选中——之后在背包或箱子中点击会把物品交给它。', 'Щёлкните по персонажу, чтобы выбрать его, – щелчки в рюкзаке или ящике затем передают ему.', 'Haz clic en una figura para seleccionarla; los clics en la mochila o la caja se le entregan.', 'Kliknij postać, aby ją wybrać – kliknięcia w plecaku lub skrzyni przekażą jej przedmiot.'),
     'Fol_Empty': ('No followers yet: right-click a look -> Spawn as follower / NPC.', 'Noch keine Follower: Rechtsklick auf einen Look → Als Follower/NPC spawnen.', '还没有跟随者：右键点击一个造型 → 生成为跟随者/NPC。', 'Спутников пока нет: правый щелчок по образу → Создать как спутника / NPC.', 'Aún no hay seguidores: clic derecho en un look → Crear como seguidor / PNJ.', 'Brak towarzyszy: prawy klik na stylizację → Utwórz jako towarzysza / NPC.'),
     'Fol_Clothes': ('Clothes', 'Kleidung', '服装', 'Одежда', 'Ropa', 'Ubrania'),
@@ -685,6 +690,7 @@ STRINGS.update({   # Face tab (assets/gen/face.py): groups, one caption per entr
     "Scene_ShowText": ("Show the texts", "Texte einblenden", "显示文字", "Показать тексты", "Mostrar los textos", "Pokaż teksty"),
     "Quick_HideJodi": ("Hide / show Jodi", "Jodi aus- / einblenden", "隐藏 / 显示朱蒂", "Скрыть / показать Джоди", "Ocultar / mostrar a Jodi", "Ukryj / pokaż Jodi"),
     "Quick_HideUI": ("Hide / show the game's UI", "Spiel-UI aus- / einblenden", "隐藏 / 显示游戏界面", "Скрыть / показать интерфейс игры", "Ocultar / mostrar la interfaz del juego", "Ukryj / pokaż interfejs gry"),
+    "Quick_Hand": ("+1 Invisible Hand", "+1 Unsichtbare Hand", "+1 无形之手", "+1 Невидимая рука", "+1 Mano invisible", "+1 Niewidzialna ręka"),
     "Lbl_RunSpeed": ("Run speed", "Rennen", "奔跑速度", "Скорость бега", "Velocidad al correr", "Prędkość biegu"),
     "Btn_SpeedReset": ("Reset to default", "Auf Standard zurücksetzen", "恢复默认", "Сбросить по умолчанию", "Restablecer valores predeterminados", "Przywróć domyślne"),
     "Lbl_WalkStyle": ("Walk style", "Gehstil", "行走方式", "Стиль ходьбы", "Estilo al andar", "Styl chodu"),
@@ -791,6 +797,15 @@ STRINGS.update({   # Face tab (assets/gen/face.py): groups, one caption per entr
                      "Отключённые вкладки не показываются в панели вкладок. Переход в такую вкладку (например, «Показать во вкладке») показывает её, пока вы её не покинете.",
                      "Las pestañas desactivadas no aparecen en la barra de pestañas. Un salto a una de ellas (p. ej. «Mostrar en pestaña») la muestra hasta que la abandonas.",
                      "Wyłączone karty nie pojawiają się na pasku kart. Przejście do jednej z nich (np. „Pokaż w karcie”) pokazuje ją, dopóki jej nie opuścisz."),
+})
+STRINGS.update({   # Appearance > Mutation (assets/gen/mutation.py): the story's mutation look in parts
+    "Look_Mutation": ("Mutation", "Mutation", "变异", "Мутация", "Mutación", "Mutacja"),
+    "Mut_Color": ("Skin colour", "Hautfarbe", "肤色", "Цвет кожи", "Color de piel", "Kolor skóry"),
+    "Mut_Glow": ("Glow", "Glühen", "发光", "Свечение", "Brillo", "Poświata"),
+    "Mut_Veins": ("Veins", "Adern", "血管", "Вены", "Venas", "Żyły"),
+    "Mut_Eyes": ("Eyes", "Augen", "眼睛", "Глаза", "Ojos", "Oczy"),
+    "Btn_MutReset": ("Reset", "Zurücksetzen", "重置", "Сбросить", "Restablecer", "Resetuj"),
+    "Mut_Story": ("Story look (no make-up, no scars)", "Story-Look (ohne Make-up, Narben)", "剧情外观（无妆容、疤痕）", "Облик из сюжета (без макияжа и шрамов)", "Look de la historia (sin maquillaje ni cicatrices)", "Wygląd z fabuły (bez makijażu i blizn)"),
 })
 STRINGS.update(hair_colors.string_rows())   # tooltips of the natural hair colour swatches
 from strings_fr import FR

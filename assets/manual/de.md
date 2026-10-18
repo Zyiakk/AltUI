@@ -78,7 +78,7 @@ Die gespeicherten Outfits des Spiels – dieselben, die Kleiderschrank und Spieg
 
 ## Looks {#looks}
 
-Ein Look ist alles auf einmal: Kleidung mit ihren Farben, Frisur und Haarfarbe, Make-up, Augen, Haut, Körperregler, Body-Mod und Gesicht.
+Ein Look ist alles auf einmal: Kleidung mit ihren Farben, Frisur und Haarfarbe, Make-up, Augen, Haut, Mutation, Körperregler, Body-Mod und Gesicht.
 
 - Die „+“-Kachel speichert den aktuellen Look mit einem Ganzkörperfoto – frontal oder wie du sie gerade siehst.
 - Klick auf einen Look wendet ihn an.
@@ -108,6 +108,7 @@ Jodis Gegenstände und die Hyper Item-Box, eine Liste unter der anderen.
 - „...“ über einer Liste klappt sie ein, ↑↓ gibt ihr die ganze Höhe (noch einmal: zurück).
 - Auf Karten, auf denen das Spiel den Rucksack nie speichert (zum Beispiel der Schießstand), sagt der Reiter das: Was du behalten willst, gehört in die Box.
 - „Alle Items“ ist standardmäßig aus (Optionen › Allgemein): jeder Gegenstand des Spiels als dritte Liste mit eigener Suche. Ein Klick legt eine Packung in den Rucksack; Rechtsklick: fünf, oder in die Box.
+  Unter „Sammeln“ steht auch die Unsichtbare Hand des Spiels: Solange sie im Rucksack ist, holt sie Items in Jodis Nähe zu ihr, eins nach dem anderen, mit mehr Händen schneller (eine alle 2,5 s, ab sechs alle 0,1 s). Wie viele Jodi hat, zeigt „Sammeln“ im Rucksack.
 - „Waffen automatisch ausrüsten“ (Optionen › Allgemein, standardmäßig an): Eine Waffe aus der Box oder dem Katalog kommt wie im Spiel in Jodis Hand; aus, behält sie, was sie hält.
 - Die Kachelgröße dieses Reiters steht unter Optionen › Kacheln.
 
@@ -156,6 +157,7 @@ Haut, jede Make-up-Art, Augen und die Aussehen-Presets des Spiels.
 
 - Klick auf einen Eintrag legt ihn auf. Rechtsklick auf Make-up: mit der Palette des Spiels tönen, Tönung zurücksetzen.
 - Augen: Iris- und Wimpernfarbe im Kontextmenü.
+- Mutation: Jodis Mutations-Look aus der Story in Teilen – Hautfarbe und Glühen als Regler (Haken an = wirkt), Adern und Augen als Schalter, „Zurücksetzen“ schaltet alles ab. Make-up bleibt über der verfärbten Haut sichtbar, eine eigene Irisfarbe tönt das Mutations-Auge. „Story-Look“ stellt den Look der Cutscene her: Hautmaterial der Story, alle Zeilen auf voll; einzelne Zeilen lassen sich danach zurücknehmen. Dabei sind Make-up und Narben nicht zu sehen. Während die Story Jodi selbst mutieren lässt, gilt deren Aussehen.
 - Presets: Die „+“-Kachel speichert das aktuelle Aussehen mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen, Schnellmenü.
 
 ## Körperform {#body}
@@ -244,12 +246,14 @@ Figuren ohne Panel bewegen und posieren, die Kamera frei im Raum. Start mit dem 
 Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befehle an; ein NPC bleibt, wo er ist, und verteidigt sich.
 
 - Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.
-- Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, „Unverwundbar“ und „...“ (umbenennen, Look ändern, wiederbeleben, entfernen).
+- Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, „Unverwundbar“, „Endlosmunition“ und „...“ (umbenennen, Look ändern, wiederbeleben, entfernen).
 - Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.
 - Das Kontextmenü eines Stapels – bei Jodi oder der Figur – hat die Anzahl-Zeile wie im Reiter Inventar: „5 geben“, „5 nehmen“, in die Box.
 - Die Kleidung besteht aus echten Stücken der Figur wie bei den NPCs des Spiels: Sie bekommt Schaden, kann abreißen und steht im Inventar-Dialog des Spiels, wo man sie auch tauschen kann. Unter einer Figur stehen ihre Stücke als Kacheln (beschädigte mit Markierung): Ein Klick zieht eines aus und legt es in Jodis Rucksack; Rechtsklick: mit einem Nähset aus Jodis Rucksack reparieren oder alle reparieren. In der Rucksack-Spalte listet „Kleidung“ Jodis Stücke: Ein Klick gibt eines an die ausgewählte Figur, die es anzieht (Schaden und Farben gehen mit).
 - „Aktiv“ aus nimmt eine Figur mit allem, was sie trägt, aus der Welt; wieder an, kommt sie vor Jodi zurück.
+- „Endlosmunition“: Die Figur lädt ihre Schusswaffen immer wieder nach, ohne Munition in ihrer Tasche zu brauchen. Magazinwaffen lassen ihre Munition unberührt; Schrotflinte und Granatwerfer verbrauchen zuerst, was sie dabei hat.
 - Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.
+- „+ Jason“ (unten rechts im Reiter) holt Jason aus der Story als Follower dazu, mit seiner Glock. Er nimmt Befehle, kommt mit und wird gespeichert. Er kämpft nur mit seiner eigenen Glock: Eine Glock, die man ihm gibt, wird seine, andere Waffen nimmt er nicht. Look, Kleidung und Make-up hat er nicht; liegt er am Boden, kann man ihn nicht heilen – „Wiederbeleben“ holt ihn zurück.
 - „Entfernen“ fragt nach; Items und Schusswaffen der Figur kommen in die Box, ihre Kleidung in Jodis Rucksack.
 - „Look ändern“ wechselt in den Looks-Reiter: den Look anklicken, den die Figur tragen soll.
 - Jede Figur trägt das Make-up ihres Looks und hat eine der NPC-Stimmen des Spiels. Eine Figur, die mit AltUI vor 2.2.0 entstanden ist, zeigt Jodis Make-up, bis „Look ändern…“ ihr ein eigenes gibt.
@@ -271,6 +275,7 @@ Schnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im B
 - Einträge: Outfits, Looks, Gesichter, Aussehen-Presets, Posen, Reiter, Einstellungen anderer Mods und Aktionen: freie Kamera, Fotomodus, Ragdoll-Modus, Kopie von Jodi als Ragdoll, alle Ragdolls zwischen aktiv und eingefroren umschalten, anvisierte aktivieren / einfrieren, alle Ragdolls entfernen, eigenes Tempo an / aus.
 - Weitere Aktionen: „Zeitlupe an / aus“, „Zeit anhalten / weiter“ (alles steht still; Panel und Kameras arbeiten weiter; auch die Kamera des Fotomodus), „Jodi aus- / einblenden“ (mit Kleidung, Haaren und Waffe; im nächsten Level ist sie wieder da) und die Befehle an Follower (siehe „Follower“).
 - „Spiel-UI aus- / einblenden“ schaltet das HUD des Spiels aus und ein, wie es sein Fotomodus tut.
+- „+1 Unsichtbare Hand“ legt eine Unsichtbare Hand in den Rucksack (siehe Inventar › Alle Items).
 - Eigene Tasten: unter Optionen › Schnellmenü Rechtsklick auf einen Eintrag unter „Verfügbar“ und eine Taste drücken – der Eintrag läuft dann auf dieser Taste, bei geschlossenem Panel, auch in der freien Kamera und im Fotomodus des Spiels. Klick auf die Taste einer Zeile legt eine andere fest, ✕ entfernt sie. Panel-Taste, Schnellmenü-Taste und schon vergebene Tasten werden abgelehnt; eine Taste, die das Spiel selbst nutzt, löst beides aus.
 - Hinzufügen unter Optionen › Schnellmenü oder per Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods („Ins Schnellmenü“).
 - Die Reihenfolge im Rad ist die Reihenfolge der Liste unter Optionen › Schnellmenü.

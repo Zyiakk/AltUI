@@ -6,6 +6,7 @@ from bodyscale_ui import factor_text
 import weapon_skins as ws
 import modui as mu
 import face as fc
+import mutation as mutn
 from gen_manager import S_PRESETCOL, S_NAMES
 import vlist as vl
 from gen_manager import COLORLOG, pop, text_from_str, S_ITEM, T_ITEM, S_COLSLOTS, S_MATS, MGR, S_SNAP, SG, S_LOOK, SG_LOOKS, LOOKS_SLOT, SG_LOG, LOG_SLOT, LOG_MAX
@@ -13,6 +14,7 @@ from strings import LANGS, LIST_CAP
 from gen_move import MOVE, WALK_STYLES, RUN_STYLES, IDLE_STYLES
 import idle_mods
 from gen_follower import FOLLOWER
+from gen_jason import JASON
 from theme import THEME, DERIVED, BG_ALPHA, TILE_ALPHA
 from gen_manager import S_THEMEP, sg_get, KODEX_DEFAULT, S_RAGFIG, S_RAGPRE, SG_RAG, RAG_SLOT, S_RAGPOSE
 import manual
@@ -303,7 +305,13 @@ def f_close():
     g.call("srr", E_SCENECOMP, "K2_SetRelativeRotation", inp={"self": "@gmcm.Mesh", "NewRotation": "@gmr.JodiMeshRot", "bSweep": "false", "bTeleport": "true"})
     g.set("ccp0", "CamClosePanel", inp={"CamClosePanel": "false"})   # closing anyway: Stop Free Cam / End Photo Mode must not close it again
     g.chain("sjd", "ejd", "bpo"); g.chain("sjd:else", "bpo"); g.chain("entry", "ccp0", "sjd"); g.chain("bpo", "srr", "bsc9", "sps9", "bc1", "sfc", "cmn"); g.chain("bsc9:else", "bc1"); g.chain("bpo:else", "bc1"); g.chain("bc1:else", "bc2", "cgs", "xp", "so0", "epm", "cmn"); g.chain("bc2:else", "cmn")
-    g.chain("cmn", "cdw", "ccl", "b", "rm", "so"); g.chain("b:else", "so"); g.chain("so", "cur", "im", "bl", "epc", "svs"); g.chain("bl:else", "ei", "svs"); g.chain("svs", "sad", "svs0", "svc0")
+    # the game is over (a challenge won or lost, the story's end): its own screens follow (Congratulations, rewards, statistics) and need the
+    # mouse; the game has switched Esc off and its HUD.ShowMouseCursor keeps the cursor on after the end - hiding it here and GameOnly
+    # left a dead screen (2026-10-18, Testing Grounds won with the panel open). Then: cursor on, game and UI, no player control back
+    g.call("ggo", K_GS, "GetGameState"); g.cast("cgo", P_GS2, "@ggo.ReturnValue", pure=False, miss="ignore"); g.call("igo", P_GS2, "Is Game Over ?", inp={"self": "@cgo.AsTKA Game State"})
+    g.branch("bgo", "@igo.yes"); g.get("gpc5", "PC"); g.call("cur5", P_PC, "ShowMouseCursor", inp={"self": "@gpc5.PC", "show": "true"})
+    g.get("gpc6", "PC"); g.call("im6", K_WBL, "SetInputMode_GameAndUIEx", inp={"PlayerController": "@gpc6.PC", "InWidgetToFocus": "None", "InMouseLockMode": "DoNotLock", "bHideCursorDuringCapture": "false"})
+    g.chain("cmn", "cdw", "ccl", "b", "rm", "so"); g.chain("b:else", "so"); g.chain("so", "cgo", "bgo", "cur5", "im6", "svs"); g.chain("cgo:CastFailed", "cur"); g.chain("bgo:else", "cur", "im", "bl", "epc", "svs"); g.chain("bl:else", "ei", "svs"); g.chain("svs", "sad", "svs0", "svc0")
     perf_marks(g)
     g.n("arm", "call_self", function="Apply Rag Markers");    # joint spheres follow (spec 2026-10-17)
     g.chain("svc0", "arm")
@@ -1371,6 +1379,377 @@ def f_set_makeup_tex_on():
     return fn("Set Makeup Tex On", [param("mesh", "object:/Script/Engine.MeshComponent"), param("tex", "object:/Script/Engine.Texture")], graph=g)
 
 
+# ---------------- Mutation look (mutation.py, spec docs/specs/2026-10-18-mutation-look-design.md) ----------------
+MU_MESHC = "/Script/Engine.MeshComponent"; MU_PRIMC = "/Script/Engine.PrimitiveComponent"; MU_MID = "/Script/Engine.MaterialInstanceDynamic"
+MU_TEX = "/Script/Engine.Texture"; MU_MATI = "/Script/Engine.MaterialInterface"; MU_RT = "/Script/Engine.TextureRenderTarget2D"
+MUTATION_POLL = 1.0   # s between two looks whether the game put Jodi's skin / eyes back (Mutation Watch)
+
+
+def f_load_mutation_assets():
+    """The story's mutation textures and eye material into MutTexD/N/E and MutEyeMat, once (by path: the mod kit lacks them)."""
+    g = G()
+    for i, (var_name, path, kind) in enumerate(mutn.ASSETS):
+        p = "a%d" % i; cls = MU_TEX if kind == "texture" else MU_MATI
+        g.get(p + "g", var_name); g.call(p + "v", K_SYS, "IsValid", inp={"Object": "@%sg.%s" % (p, var_name)}); g.branch(p + "b", "@%sv.ReturnValue" % p)
+        g.call(p + "sp", K_SYS, "MakeSoftObjectPath", inp={"PathString": path}); g.call(p + "sr", K_SYS, "Conv_SoftObjPathToSoftObjRef", inp={"SoftObjectPath": "@%ssp.ReturnValue" % p})
+        g.call(p + "ld", K_SYS, "LoadAsset_Blocking", inp={"Asset": "@%ssr.ReturnValue" % p}); g.cast(p + "c", cls, "@%sld.ReturnValue" % p)
+        g.set(p + "s", var_name, inp={var_name: "@%sc.As%s" % (p, "Texture" if kind == "texture" else "Material Interface")})
+        if i == 0: g.chain("entry", p + "b")
+        g.chain(p + "b:else", p + "ld", p + "s")
+        nxt = "a%db" % (i + 1) if i + 1 < len(mutn.ASSETS) else None
+        if nxt: g.chain(p + "b", nxt); g.chain(p + "s", nxt)
+    return fn("Load Mutation Assets", graph=g)
+
+
+def f_mutation_orig_of():
+    """The skin instance `mid`'s own textures (MutOrig[mid]), brought up to date: a MainTex that is no render target and a NormalTex
+    that is not Mutations_N were put there by the game (skin tile, body, level load) and become the new originals; AltUI's own stay
+    out. Mutate Mesh mixes on them and puts them back - without a mutation AltUI changes nothing (ui-test-126 round 4: old looks)."""
+    g = G(); g.get("gor", "MutOrig"); g.call("fo", K_MAP, "Map_Find", inp={"TargetMap": "@gor.MutOrig", "Key": "@entry.mid"}); g.brk("bo", mutn.S_ORIG, "@fo.Value")
+    g.call("cm", MU_MID, "K2_GetTextureParameterValue", inp={"self": "@entry.mid", "ParameterName": "MainTex"}); g.cast("crt", MU_RT, "@cm.ReturnValue")
+    g.call("isrt", K_SYS, "IsValid", inp={"Object": "@crt.AsTexture Render Target 2D"})
+    g.call("mn", K_MATH, "SelectObject", inp={"A": "@bo.Main", "B": "@cm.ReturnValue", "bSelectA": "@isrt.ReturnValue"}); g.cast("mnt", MU_TEX, "@mn.ReturnValue")
+    g.call("cn", MU_MID, "K2_GetTextureParameterValue", inp={"self": "@entry.mid", "ParameterName": "NormalTex"}); g.get("gtn", "MutTexN")
+    g.call("isn", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@cn.ReturnValue", "B": "@gtn.MutTexN"})
+    g.call("nn", K_MATH, "SelectObject", inp={"A": "@bo.Normal", "B": "@cn.ReturnValue", "bSelectA": "@isn.ReturnValue"}); g.cast("nnt", MU_TEX, "@nn.ReturnValue")
+    g.make("mk", mutn.S_ORIG, Main="@mnt.AsTexture", Normal="@nnt.AsTexture")
+    g.get("gor2", "MutOrig"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gor2.MutOrig", "Key": "@entry.mid", "Value": "@mk.S_MutOrig"})
+    g.get("gor3", "MutOrig"); g.call("fr", K_MAP, "Map_Find", inp={"TargetMap": "@gor3.MutOrig", "Key": "@entry.mid"}); g.link("fr.Value", "return.orig")
+    g.chain("entry", "cm", "cn", "add", "return")   # GetTextureParameterValue is impure
+    return fn("Mutation Orig Of", [param("mid", "object:" + MU_MID)], [param("orig", "struct:" + mutn.S_ORIG)], graph=g)
+
+
+def skin_mid_loop(g, p, mesh_pin, own_only=True):
+    """foreach over `mesh`'s materials, cast to MID, branch "is a skin material" (samples MakeupTex - lashes / eyes have MainTex too)
+    and not the story variant's instance (it is no skin of hers: its originals are those of the base). Returns (loop id, MID pin,
+    is-story pin) - the loop body starts with p+"gtp" (impure), then the branch."""
+    g.call(p + "ms", MU_MESHC, "GetMaterials", inp={"self": mesh_pin}); g.foreach(p + "fm", "@%sms.ReturnValue" % p)
+    g.cast(p + "cm", MU_MID, "@%sfm.Array Element" % p); mid = "@%scm.AsMaterial Instance Dynamic" % p; g.call(p + "vm", K_SYS, "IsValid", inp={"Object": mid})
+    g.call(p + "gtp", MU_MID, "K2_GetTextureParameterValue", inp={"self": mid, "ParameterName": "MakeupTex"})
+    g.call(p + "vp", K_SYS, "IsValid", inp={"Object": "@%sgtp.ReturnValue" % p}); g.call(p + "ok", K_MATH, "BooleanAND", inp={"A": "@%svm.ReturnValue" % p, "B": "@%svp.ReturnValue" % p})
+    g.get(p + "gsm", "MutStoryMID"); g.call(p + "iss", K_MATH, "EqualEqual_ObjectObject", inp={"A": mid, "B": "@%sgsm.MutStoryMID" % p})
+    if own_only:   # her own skins only (not the story variant's instance)
+        g.call(p + "nst", K_MATH, "Not_PreBool", inp={"A": "@%siss.ReturnValue" % p}); g.call(p + "ok2", K_MATH, "BooleanAND", inp={"A": "@%sok.ReturnValue" % p, "B": "@%snst.ReturnValue" % p})
+        return p + "fm", mid, "@%sok2.ReturnValue" % p, "@%siss.ReturnValue" % p
+    return p + "fm", mid, "@%sok.ReturnValue" % p, "@%siss.ReturnValue" % p
+
+
+def f_mutate_mesh():
+    """The mutation `mut` onto every skin material of `mesh` (dynamic, samples MakeupTex), its eyes onto slot Female_Eyes.
+    Originals first (Mutation Orig Of, per skin instance; the story variant's instance takes those of the first skin, else of `base`
+    - her own instance while the story variant is on): colour > 0 draws the first original MainTex opaque into `rt` (made when invalid,
+    size x size), Mutations_D over it at alpha = colour - without any skin on the mesh (a follower's target: Mutation Skin Tex) the
+    diffuse of the row mut.Skin. MainTex = the target or the original, NormalTex = Mutations_N (veins) or the original, EmissiveTex
+    Mutations_E with EmissiveColor (GLOW_RED * glow, 0, 0) on the story variant only - Jodi's own variant has no emissive texture
+    and would glow all over (ui-test-126 round 2), the glow layer does it there. No mutation: the originals, i.e. nothing changes
+    (round 4: a skin of a body mod was overwritten with the skin table's). Eyes on: an instance of Eyes_Jodi_Mutanted."""
+    g = G(); g.n("la", "call_self", function="Load Mutation Assets"); g.brk("bm", mutn.S_MUT, "@entry.mut")
+    g.set("srt", "MutTmpRT", inp={"MutTmpRT": "@entry.rt"}); g.set("shb", "MutHasBase", inp={"MutHasBase": "false"})
+    g.call("vme", K_SYS, "IsValid", inp={"Object": "@entry.mesh"}); g.branch("bme", "@vme.ReturnValue")
+    # pass 1: the originals, the first one is the base
+    la, mid, isskin, _ = skin_mid_loop(g, "a", "@entry.mesh"); g.branch("abs", isskin)
+    g.n("aoo", "call_self", function="Mutation Orig Of", inp={"mid": mid}); g.get("ahb", "MutHasBase"); g.branch("abh", "@ahb.MutHasBase")
+    g.set("abse", "MutBase", inp={"MutBase": "@aoo.orig"}); g.set("ahbt", "MutHasBase", inp={"MutHasBase": "true"})
+    # none on the mesh (story variant on): her own instance `base`
+    g.get("phb", "MutHasBase"); g.call("vba", K_SYS, "IsValid", inp={"Object": "@entry.base"}); g.call("nhb", K_MATH, "Not_PreBool", inp={"A": "@phb.MutHasBase"})
+    g.call("ub", K_MATH, "BooleanAND", inp={"A": "@nhb.ReturnValue", "B": "@vba.ReturnValue"}); g.branch("bub", "@ub.ReturnValue")
+    g.n("boo", "call_self", function="Mutation Orig Of", inp={"mid": "@entry.base"}); g.set("bbse", "MutBase", inp={"MutBase": "@boo.orig"}); g.set("bhbt", "MutHasBase", inp={"MutHasBase": "true"})
+    # the colour target: on the base, else on the skin row (no mesh)
+    g.n("row", "get_row", table=P_SKIN_T, inp={"RowName": "@bm.Skin"}, miss="ignore"); g.brk("br", P_SKIN_S, "@row.OutRow")
+    g.set("rf", "TmpBool", inp={"TmpBool": "true"}); g.set("rn", "TmpBool", inp={"TmpBool": "false"})
+    g.get("gbs", "MutBase"); g.brk("bb", mutn.S_ORIG, "@gbs.MutBase"); g.get("ghb", "MutHasBase")
+    g.call("bsel", K_MATH, "SelectObject", inp={"A": "@bb.Main", "B": "@br.diffusetexture", "bSelectA": "@ghb.MutHasBase"}); g.cast("bselt", MU_TEX, "@bsel.ReturnValue")
+    g.call("bvt", K_SYS, "IsValid", inp={"Object": "@bselt.AsTexture"}); g.get("gtb", "TmpBool"); g.call("bor", K_MATH, "BooleanOR", inp={"A": "@ghb.MutHasBase", "B": "@gtb.TmpBool"})
+    g.call("cgt", K_MATH, "Greater_FloatFloat", inp={"A": "@bm.Color", "B": "0.0"}); g.call("cok0", K_MATH, "BooleanAND", inp={"A": "@cgt.ReturnValue", "B": "@bvt.ReturnValue"})
+    g.call("cok", K_MATH, "BooleanAND", inp={"A": "@cok0.ReturnValue", "B": "@bor.ReturnValue"}); g.set("sco", "MutColorOn", inp={"MutColorOn": "@cok.ReturnValue"}); g.branch("bc", "@cok.ReturnValue")
+    g.get("grt", "MutTmpRT"); g.call("vrt", K_SYS, "IsValid", inp={"Object": "@grt.MutTmpRT"}); g.branch("bvr", "@vrt.ReturnValue")
+    g.call("crt", K_REND, "CreateRenderTarget2D", inp={"Width": "@entry.size", "Height": "@entry.size", "Format": "RTF_RGBA8",
+                                                       "ClearColor": "(R=0,G=0,B=0,A=1)", "bAutoGenerateMipMaps": "false"})   # a canvas draw fills mip 0 only: auto mips stayed black (skin black from afar)
+    g.set("snr", "MutTmpRT", inp={"MutTmpRT": "@crt.ReturnValue"})
+    g.get("grt2", "MutTmpRT"); g.call("beg", K_REND, "BeginDrawCanvasToRenderTarget", inp={"TextureRenderTarget": "@grt2.MutTmpRT"})
+    g.call("zero", K_MATH, "MakeVector2D", inp={"X": "0.0", "Y": "0.0"}); g.call("one", K_MATH, "MakeVector2D", inp={"X": "1.0", "Y": "1.0"})
+    g.call("d1", E_CANVAS, "K2_DrawTexture", inp={"self": "@beg.Canvas", "RenderTexture": "@bselt.AsTexture", "ScreenPosition": "@zero.ReturnValue",
+                                                  "ScreenSize": "@beg.Size", "CoordinatePosition": "@zero.ReturnValue", "CoordinateSize": "@one.ReturnValue",
+                                                  "RenderColor": "(R=1,G=1,B=1,A=1)", "BlendMode": "BLEND_Opaque", "Rotation": "0.0", "PivotPoint": "@zero.ReturnValue"})
+    g.call("col", K_MATH, "MakeColor", inp={"R": "1.0", "G": "1.0", "B": "1.0", "A": "@bm.Color"}); g.get("gtd", "MutTexD")
+    g.call("d2", E_CANVAS, "K2_DrawTexture", inp={"self": "@beg.Canvas", "RenderTexture": "@gtd.MutTexD", "ScreenPosition": "@zero.ReturnValue",
+                                                  "ScreenSize": "@beg.Size", "CoordinatePosition": "@zero.ReturnValue", "CoordinateSize": "@one.ReturnValue",
+                                                  "RenderColor": "@col.ReturnValue", "BlendMode": "BLEND_Translucent", "Rotation": "0.0", "PivotPoint": "@zero.ReturnValue"})
+    g.call("end", K_REND, "EndDrawCanvasToRenderTarget", inp={"Context": "@beg.Context"})
+    # pass 2: every skin material (the story variant's instance included) - from its originals
+    lb, midb, isskin_any, isstory = skin_mid_loop(g, "b", "@entry.mesh", own_only=False); g.branch("bbs", isskin_any)
+    g.get("bor_", "MutOrig"); g.call("bfo", K_MAP, "Map_Find", inp={"TargetMap": "@bor_.MutOrig", "Key": midb}); g.brk("bfb", mutn.S_ORIG, "@bfo.Value")
+    g.get("gbs2", "MutBase"); g.brk("bb2", mutn.S_ORIG, "@gbs2.MutBase")
+    g.call("om", K_MATH, "SelectObject", inp={"A": "@bb2.Main", "B": "@bfb.Main", "bSelectA": isstory}); g.call("on", K_MATH, "SelectObject", inp={"A": "@bb2.Normal", "B": "@bfb.Normal", "bSelectA": isstory})
+    g.get("grt3", "MutTmpRT"); g.get("gco", "MutColorOn"); g.call("sel", K_MATH, "SelectObject", inp={"A": "@grt3.MutTmpRT", "B": "@om.ReturnValue", "bSelectA": "@gco.MutColorOn"})
+    g.cast("selt", MU_TEX, "@sel.ReturnValue"); g.call("svm", K_SYS, "IsValid", inp={"Object": "@selt.AsTexture"}); g.branch("bsvm", "@svm.ReturnValue")
+    g.call("smt", MU_MID, "SetTextureParameterValue", inp={"self": midb, "ParameterName": "MainTex", "Value": "@selt.AsTexture"})
+    g.get("gtn", "MutTexN"); g.call("seln", K_MATH, "SelectObject", inp={"A": "@gtn.MutTexN", "B": "@on.ReturnValue", "bSelectA": "@bm.Veins"}); g.cast("selnt", MU_TEX, "@seln.ReturnValue")
+    g.call("svn", K_SYS, "IsValid", inp={"Object": "@selnt.AsTexture"}); g.branch("bsvn", "@svn.ReturnValue")
+    g.call("snt", MU_MID, "SetTextureParameterValue", inp={"self": midb, "ParameterName": "NormalTex", "Value": "@selnt.AsTexture"})
+    g.branch("bst", "@bm.Story")   # emissive only on the story variant (Jodi's own: the glow layer)
+    g.get("gte", "MutTexE"); g.call("set", MU_MID, "SetTextureParameterValue", inp={"self": midb, "ParameterName": "EmissiveTex", "Value": "@gte.MutTexE"})
+    g.call("gr", K_MATH, "Multiply_FloatFloat", inp={"A": "@bm.Glow", "B": str(mutn.GLOW_RED)})
+    g.call("ec", K_MATH, "MakeColor", inp={"R": "@gr.ReturnValue", "G": "0.0", "B": "0.0", "A": "0.0"})
+    g.call("sec", MU_MID, "SetVectorParameterValue", inp={"self": midb, "ParameterName": "EmissiveColor", "Value": "@ec.ReturnValue"})
+    # eyes
+    g.branch("be", "@bm.Eyes"); g.cast("cpc", MU_PRIMC, "@entry.mesh")
+    g.call("mix", MU_MESHC, "GetMaterialIndex", inp={"self": "@entry.mesh", "MaterialSlotName": "Female_Eyes"})
+    g.call("mok", K_MATH, "GreaterEqual_IntInt", inp={"A": "@mix.ReturnValue", "B": "0"}); g.branch("bmok", "@mok.ReturnValue")
+    g.get("gem", "MutEyeMat")
+    g.call("cdm", MU_PRIMC, "CreateDynamicMaterialInstance", inp={"self": "@cpc.AsPrimitive Component", "ElementIndex": "@mix.ReturnValue",
+                                                                   "SourceMaterial": "@gem.MutEyeMat", "OptionalName": "None"})
+    g.get("gout", "MutTmpRT"); g.link("gout.MutTmpRT", "return.out")
+    g.chain("entry", "la", "srt", "shb", "bme"); g.chain("bme", la); g.chain("bme:else", "row")
+    g.chain(la, "agtp", "abs", "aoo", "abh"); g.chain("abh:else", "abse", "ahbt")
+    g.chain(la + ":Completed", "bub", "boo", "bbse", "bhbt", "row"); g.chain("bub:else", "row")
+    g.chain("row", "rf", "sco", "bc"); g.chain("row:Row Not Found", "rn", "sco")
+    g.chain("bc", "bvr", "beg"); g.chain("bvr:else", "crt", "snr", "beg"); g.chain("beg", "d1", "d2", "end", "bme2"); g.chain("bc:else", "bme2")
+    g.call("vme2", K_SYS, "IsValid", inp={"Object": "@entry.mesh"}); g.branch("bme2", "@vme2.ReturnValue"); g.chain("bme2", lb); g.chain("bme2:else", "return")
+    g.chain(lb, "bgtp", "bbs", "bsvm", "smt", "bsvn"); g.chain("bsvm:else", "bsvn"); g.chain("bsvn", "snt", "bst"); g.chain("bsvn:else", "bst"); g.chain("bst", "set", "sec")
+    g.chain(lb + ":Completed", "be", "bmok", "cdm", "return"); g.chain("be:else", "return"); g.chain("bmok:else", "return")
+    return fn("Mutate Mesh", [param("mesh", "object:" + MU_MESHC), param("mut", "struct:" + mutn.S_MUT), param("rt", "object:" + MU_RT), param("size", "int"),
+                              param("base", "object:" + MU_MID)], [param("out", "object:" + MU_RT)], graph=g)
+
+
+def f_mutation_active():
+    """Pure: `mut` changes anything (colour or glow above 0, veins, eyes or the story's variant on)."""
+    g = G(); g.brk("bm", mutn.S_MUT, "@entry.mut")
+    g.call("c", K_MATH, "Greater_FloatFloat", inp={"A": "@bm.Color", "B": "0.0"}); g.call("gl", K_MATH, "Greater_FloatFloat", inp={"A": "@bm.Glow", "B": "0.0"})
+    g.call("o1", K_MATH, "BooleanOR", inp={"A": "@c.ReturnValue", "B": "@gl.ReturnValue"}); g.call("o2", K_MATH, "BooleanOR", inp={"A": "@o1.ReturnValue", "B": "@bm.Veins"})
+    g.call("o3", K_MATH, "BooleanOR", inp={"A": "@o2.ReturnValue", "B": "@bm.Eyes"}); g.call("o4", K_MATH, "BooleanOR", inp={"A": "@o3.ReturnValue", "B": "@bm.Story"}); g.link("o4.ReturnValue", "return.yes")
+    return fn("Mutation Active", [param("mut", "struct:" + mutn.S_MUT)], [param("yes", "bool")], graph=g, pure=True)
+
+
+def f_apply_jodi_mutation():
+    """Mutation onto the figure being dressed (Wearer), mixed on her current skin row (Mutation.Skin follows it). While the story
+    has mutated her (Jodi_StoryMode.Mutante: slot 0 is the constant Skin_Jodi_Mutanted, no dynamic instance) Mutate Mesh finds
+    no skin to touch; Mutante(false) puts her own instance back, AltUI's values still in it. Without any mutation it still runs
+    once, so the row's own textures come back."""
+    g = G(); g.get("gw", "Wearer"); g.call("vw", K_SYS, "IsValid", inp={"Object": "@gw.Wearer"}); g.branch("bvw", "@vw.ReturnValue")
+    md = makeup_data(g, "md"); g.get("gsn", "Skin Name", cls=P_MAKEUP_SAVE); g.link("md.Makeup Data", "gsn.self")
+    g.get("gmu", "Mutation"); g.brk("bmu", mutn.S_MUT, "@gmu.Mutation")
+    g.make("mk", mutn.S_MUT, Color="@bmu.Color", Glow="@bmu.Glow", Veins="@bmu.Veins", Eyes="@bmu.Eyes", Skin="@gsn.Skin Name", Story="@bmu.Story")
+    g.set("smu", "Mutation", inp={"Mutation": "@mk.S_Mutation"})
+    g.get("gw2", "Wearer"); g.get("gm", "Mesh", cls=E_CHARACTER); g.link("gw2.Wearer", "gm.self"); g.get("gmu2", "Mutation"); g.get("grt", "MutSkinRT")
+    g.get("gbm", "Body Material", cls=P_CPB); g.link("gw2.Wearer", "gbm.self"); g.brk("bms", mutn.S_MUT, "@gmu2.Mutation")
+    g.n("ssl", "call_self", function="Mutation Story Slot", inp={"mesh": "@gm.Mesh", "body": "@gbm.Body Material", "on": "@bms.Story"})   # before: the story variant gets the parameters too
+    g.n("mm", "call_self", function="Mutate Mesh", inp={"mesh": "@gm.Mesh", "mut": "@gmu2.Mutation", "rt": "@grt.MutSkinRT", "size": str(mutn.MUT_RT_SIZE), "base": "@gbm.Body Material"})
+    g.set("srt", "MutSkinRT", inp={"MutSkinRT": "@mm.out"})
+    # the glow layer (not with the story variant: it glows itself)
+    g.call("lgs", K_MATH, "SelectFloat", inp={"A": "0.0", "B": "@bms.Glow", "bPickA": "@bms.Story"}); g.get("ggc", "MutGlowComp")
+    g.n("gly", "call_self", function="Mutation Glow Layer", inp={"mesh": "@gm.Mesh", "comp": "@ggc.MutGlowComp", "strength": "@lgs.ReturnValue"})
+    g.set("sgl", "MutGlowComp", inp={"MutGlowComp": "@gly.out"})
+    # her own iris colour (Eye Colors, lens worn now) tints the mutated eye: MainColor, and its glow takes the colour (EYE_GLOW)
+    g.get("gmu3", "Mutation"); g.brk("bme", mutn.S_MUT, "@gmu3.Mutation"); g.branch("bey", "@bme.Eyes")
+    g.n("cur", "call_self", function="Current Look Row", inp={"type": "Eye"}); g.n("ek", "call_self", function="Eye Color Key", inp={"part": "Iris", "row": "@cur.row"})
+    g.get("gec", "EyeColors"); g.call("ef", K_MAP, "Map_Find", inp={"TargetMap": "@gec.EyeColors", "Key": "@ek.key"}); g.branch("bef", "@ef.ReturnValue")
+    g.call("ei", MU_MESHC, "GetMaterialIndex", inp={"self": "@gm.Mesh", "MaterialSlotName": "Female_Eyes"})
+    g.call("em", MU_PRIMC, "GetMaterial", inp={"self": "@gm.Mesh", "ElementIndex": "@ei.ReturnValue"}); g.cast("cem", MU_MID, "@em.ReturnValue")
+    g.call("vem", K_SYS, "IsValid", inp={"Object": "@cem.AsMaterial Instance Dynamic"}); g.branch("bvem", "@vem.ReturnValue")
+    g.call("smc", MU_MID, "SetVectorParameterValue", inp={"self": "@cem.AsMaterial Instance Dynamic", "ParameterName": "MainColor", "Value": "@ef.Value"})
+    g.call("glw", K_MATH, "Multiply_LinearColorFloat", inp={"A": "@ef.Value", "B": str(mutn.EYE_GLOW)})
+    g.call("sgc", MU_MID, "SetVectorParameterValue", inp={"self": "@cem.AsMaterial Instance Dynamic", "ParameterName": "EmissiveColor", "Value": "@glw.ReturnValue"})
+    # eyes off, but the mutated eye still in the slot (a look / undo / reset turned them off - Update Eyes Style only sets parameters
+    # while her Eye Material exists, ui-test-126 round 4): her own eye back, as Mutante(false) does
+    g.call("xei", MU_MESHC, "GetMaterialIndex", inp={"self": "@gm.Mesh", "MaterialSlotName": "Female_Eyes"})
+    g.call("xem", MU_PRIMC, "GetMaterial", inp={"self": "@gm.Mesh", "ElementIndex": "@xei.ReturnValue"})
+    g.call("xeb", MU_MATI, "GetBaseMaterial", inp={"self": "@xem.ReturnValue"}); g.get("xgm", "MutEyeMat"); g.call("xmb", MU_MATI, "GetBaseMaterial", inp={"self": "@xgm.MutEyeMat"})
+    g.call("xsame", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@xeb.ReturnValue", "B": "@xmb.ReturnValue"}); g.get("xew", "Eye Material", cls=P_JODI_BASE); g.link("gw2.Wearer", "xew.self")
+    g.call("xvm", K_SYS, "IsValid", inp={"Object": "@xew.Eye Material"}); g.call("xok", K_MATH, "BooleanAND", inp={"A": "@xsame.ReturnValue", "B": "@xvm.ReturnValue"}); g.branch("bxok", "@xok.ReturnValue")
+    g.call("xset", MU_PRIMC, "SetMaterialByName", inp={"self": "@gm.Mesh", "MaterialSlotName": "Female_Eyes", "Material": "@xew.Eye Material"})
+    g.chain("entry", "bvw", "md", "smu", "ssl", "mm", "srt", "gly", "sgl", "bey", "cur", "bef", "bvem", "smc", "sgc")
+    g.chain("bey:else", "xeb", "xmb", "bxok", "xset")
+    return fn("Apply Jodi Mutation", graph=g)
+
+
+def f_mutation_watch():
+    """Every MUTATION_POLL s in a level: something of the game's (level load, cutscene, mirror, Update Eyes Style) put the skin
+    or the eyes back - slot 0 is her dynamic skin but MainTex is not AltUI's target although the colour is on, or the eyes are on
+    and slot Female_Eyes is not built on the mutation's material - then apply again. Slot 0 a constant material = the story's
+    mutation: leave it. Cheap: a few reads."""
+    g = G(); g.get("gmu", "Mutation"); g.n("act", "call_self", function="Mutation Active", inp={"mut": "@gmu.Mutation"}); g.branch("ba", "@act.yes")
+    g.get("gw", "Wearer"); g.call("vw", K_SYS, "IsValid", inp={"Object": "@gw.Wearer"}); g.branch("bvw", "@vw.ReturnValue")
+    g.get("gm", "Mesh", cls=E_CHARACTER); g.link("gw.Wearer", "gm.self")
+    g.call("m0", MU_PRIMC, "GetMaterial", inp={"self": "@gm.Mesh", "ElementIndex": "0"}); g.cast("c0", MU_MID, "@m0.ReturnValue")
+    g.call("dyn", K_SYS, "IsValid", inp={"Object": "@c0.AsMaterial Instance Dynamic"}); g.branch("bdyn", "@dyn.ReturnValue")
+    g.call("mt", MU_MID, "K2_GetTextureParameterValue", inp={"self": "@c0.AsMaterial Instance Dynamic", "ParameterName": "MainTex"})
+    g.get("grt", "MutSkinRT"); g.call("same", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@mt.ReturnValue", "B": "@grt.MutSkinRT"})
+    g.brk("bm", mutn.S_MUT, "@gmu.Mutation"); g.call("cpos", K_MATH, "Greater_FloatFloat", inp={"A": "@bm.Color", "B": "0.0"})
+    g.call("nsame", K_MATH, "Not_PreBool", inp={"A": "@same.ReturnValue"}); g.call("lost", K_MATH, "BooleanAND", inp={"A": "@cpos.ReturnValue", "B": "@nsame.ReturnValue"})
+    g.call("ei", MU_MESHC, "GetMaterialIndex", inp={"self": "@gm.Mesh", "MaterialSlotName": "Female_Eyes"})
+    g.call("em", MU_PRIMC, "GetMaterial", inp={"self": "@gm.Mesh", "ElementIndex": "@ei.ReturnValue"})
+    g.call("eb", MU_MATI, "GetBaseMaterial", inp={"self": "@em.ReturnValue"}); g.get("gem", "MutEyeMat"); g.call("mb", MU_MATI, "GetBaseMaterial", inp={"self": "@gem.MutEyeMat"})
+    g.call("eyok", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@eb.ReturnValue", "B": "@mb.ReturnValue"}); g.call("neye", K_MATH, "Not_PreBool", inp={"A": "@eyok.ReturnValue"})
+    g.call("elost", K_MATH, "BooleanAND", inp={"A": "@bm.Eyes", "B": "@neye.ReturnValue"})
+    # story variant on, but slot 0 is not it (Apply Body, level load) / glow layer missing or on another body mesh
+    g.get("gsm", "MutStoryMID"); g.call("sso", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@c0.AsMaterial Instance Dynamic", "B": "@gsm.MutStoryMID"})
+    g.call("nso", K_MATH, "Not_PreBool", inp={"A": "@sso.ReturnValue"}); g.call("slost", K_MATH, "BooleanAND", inp={"A": "@bm.Story", "B": "@nso.ReturnValue"})
+    g.get("ggc", "MutGlowComp"); g.call("gcv", K_SYS, "IsValid", inp={"Object": "@ggc.MutGlowComp"})
+    g.get("gsk1", "SkeletalMesh", cls=E_SKINNED); g.link("gm.Mesh", "gsk1.self"); g.get("gsk2", "SkeletalMesh", cls=E_SKINNED); g.link("ggc.MutGlowComp", "gsk2.self")
+    g.call("gsame", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@gsk1.SkeletalMesh", "B": "@gsk2.SkeletalMesh"}); g.call("gok", K_MATH, "BooleanAND", inp={"A": "@gcv.ReturnValue", "B": "@gsame.ReturnValue"})
+    g.call("gpos", K_MATH, "Greater_FloatFloat", inp={"A": "@bm.Glow", "B": "0.0"}); g.call("nst", K_MATH, "Not_PreBool", inp={"A": "@bm.Story"})
+    g.call("gwant", K_MATH, "BooleanAND", inp={"A": "@gpos.ReturnValue", "B": "@nst.ReturnValue"}); g.call("ngok", K_MATH, "Not_PreBool", inp={"A": "@gok.ReturnValue"})
+    g.call("glost", K_MATH, "BooleanAND", inp={"A": "@gwant.ReturnValue", "B": "@ngok.ReturnValue"})
+    g.call("any0", K_MATH, "BooleanOR", inp={"A": "@lost.ReturnValue", "B": "@elost.ReturnValue"}); g.call("any1", K_MATH, "BooleanOR", inp={"A": "@slost.ReturnValue", "B": "@glost.ReturnValue"})
+    g.call("any", K_MATH, "BooleanOR", inp={"A": "@any0.ReturnValue", "B": "@any1.ReturnValue"}); g.branch("bany", "@any.ReturnValue")
+    g.n("ap", "call_self", function="Apply Jodi Mutation"); g.n("la", "call_self", function="Load Mutation Assets")   # eyes on from the settings: MutEyeMat to compare with
+    # story variant: her clothes mask (the game writes MaskThreshold into her own Body Material) follows every second
+    g.branch("bsm", "@sso.ReturnValue"); g.get("gbm", "Body Material", cls=P_CPB); g.link("gw.Wearer", "gbm.self")
+    g.call("gmt", MU_MID, "K2_GetVectorParameterValue", inp={"self": "@gbm.Body Material", "ParameterName": "MaskThreshold"})
+    g.call("smt", MU_MID, "SetVectorParameterValue", inp={"self": "@gsm.MutStoryMID", "ParameterName": "MaskThreshold", "Value": "@gmt.ReturnValue"})
+    g.chain("entry", "ba", "bvw", "la", "bdyn", "mt", "eb", "mb", "bany", "ap", "bsm", "gmt", "smt"); g.chain("bany:else", "bsm")   # GetBaseMaterial / GetTextureParameterValue are impure
+    return fn("Mutation Watch", graph=g)
+
+
+def f_mutation_row_changed():
+    """A row of the mutation page (W_FaceRow, keys mutation.ROWS): sliders - ticked = the value (a tick at 0 = 100 %), unticked = 0;
+    switches - the box. One history entry per drag: Push History only while MutDragging is false; the first change sets it,
+    the next Rebuild Look clears it. Applied at once; the settings are saved when the panel closes (FaceDirty: same flag)."""
+    g = G(); g.get("gdr", "MutDragging"); g.branch("bdr", "@gdr.MutDragging"); g.n("ph", "call_self", function="Push History")
+    g.set("sdr", "MutDragging", inp={"MutDragging": "true"})
+    g.get("gmu", "Mutation"); g.brk("bm", mutn.S_MUT, "@gmu.Mutation")
+    g.call("z", K_MATH, "NearlyEqual_FloatFloat", inp={"A": "@entry.value", "B": "0.0", "ErrorTolerance": "0.001"})
+    g.call("v1", K_MATH, "SelectFloat", inp={"A": "1.0", "B": "@entry.value", "bPickA": "@z.ReturnValue"})
+    g.call("val", K_MATH, "SelectFloat", inp={"A": "@v1.ReturnValue", "B": "0.0", "bPickA": "@entry.fixed"})
+    g.call("kc", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.key", "B": "MutColor"}); g.call("kg", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.key", "B": "MutGlow"})
+    g.call("kv", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.key", "B": "MutVeins"}); g.call("ke", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.key", "B": "MutEyes"})
+    g.call("ks", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.key", "B": "MutStory"})
+    g.call("c", K_MATH, "SelectFloat", inp={"A": "@val.ReturnValue", "B": "@bm.Color", "bPickA": "@kc.ReturnValue"})
+    g.call("gl", K_MATH, "SelectFloat", inp={"A": "@val.ReturnValue", "B": "@bm.Glow", "bPickA": "@kg.ReturnValue"})
+    # no SelectBool in 4.27's KismetMathLibrary: (k AND fixed) OR (NOT k AND old)
+    for k, old, out in (("kv", "@bm.Veins", "ve"), ("ke", "@bm.Eyes", "ey"), ("ks", "@bm.Story", "sy")):
+        g.call(out + "a", K_MATH, "BooleanAND", inp={"A": "@%s.ReturnValue" % k, "B": "@entry.fixed"})
+        g.call(out + "n", K_MATH, "Not_PreBool", inp={"A": "@%s.ReturnValue" % k}); g.call(out + "b", K_MATH, "BooleanAND", inp={"A": "@%sn.ReturnValue" % out, "B": old})
+        g.call(out, K_MATH, "BooleanOR", inp={"A": "@%sa.ReturnValue" % out, "B": "@%sb.ReturnValue" % out})
+    # Story look switched on: the story's look in full - colour and glow 100 %, veins and eyes on (ui-test-126 round 3: alone it only took
+    # make-up and scars away); the rows can take parts back afterwards. Switched off: only the material goes back.
+    g.call("son", K_MATH, "BooleanAND", inp={"A": "@ks.ReturnValue", "B": "@entry.fixed"})
+    g.call("cS", K_MATH, "SelectFloat", inp={"A": "1.0", "B": "@c.ReturnValue", "bPickA": "@son.ReturnValue"})
+    g.call("glS", K_MATH, "SelectFloat", inp={"A": "1.0", "B": "@gl.ReturnValue", "bPickA": "@son.ReturnValue"})
+    g.call("veS", K_MATH, "BooleanOR", inp={"A": "@ve.ReturnValue", "B": "@son.ReturnValue"}); g.call("eyS", K_MATH, "BooleanOR", inp={"A": "@ey.ReturnValue", "B": "@son.ReturnValue"})
+    g.make("mk", mutn.S_MUT, Color="@cS.ReturnValue", Glow="@glS.ReturnValue", Veins="@veS.ReturnValue", Eyes="@eyS.ReturnValue", Skin="@bm.Skin", Story="@sy.ReturnValue")
+    g.set("sew", "MutEyesWas", inp={"MutEyesWas": "@bm.Eyes"})   # a break re-reads Mutation at every use: the old value before the set
+    g.set("smu", "Mutation", inp={"Mutation": "@mk.S_Mutation"}); g.get("gew", "MutEyesWas"); g.n("eyo", "call_self", function="Mutation Eyes Off", inp={"was": "@gew.MutEyesWas"})
+    g.n("ap", "call_self", function="Apply Jodi Mutation"); g.set("sd", "FaceDirty", inp={"FaceDirty": "true"}); g.n("rb", "call_self", function="Rebuild Status")
+    g.chain("entry", "bdr")
+    g.chain("bdr", "sew"); g.chain("bdr:else", "ph", "sdr", "sew"); g.call("rz", K_MATH, "BooleanAND", inp={"A": "@z.ReturnValue", "B": "@entry.fixed"})
+    g.call("rlx", K_MATH, "BooleanOR", inp={"A": "@rz.ReturnValue", "B": "@son.ReturnValue"}); g.branch("brz", "@rlx.ReturnValue")
+    g.n("rl", "call_self", function="Rebuild Look")   # ticked at 0 -> 100 %: the row has to show it
+    g.chain("sew", "smu", "eyo", "ap", "sd", "rb", "brz", "rl")
+    return fn("Mutation Row Changed", [param("key", "name"), param("fixed", "bool"), param("value", "float")], graph=g)
+
+
+def f_mutation_eyes_off():
+    """Eyes were on (`was`) and are off now: her own eye back into slot Female_Eyes, as the story's Mutante(false) does - Update Eyes
+    Style only sets parameters while her Eye Material exists, the mutated eye stayed (ui-test-126 round 2). Then Update Eyes Style
+    (it builds the instance when it is missing) and Apply Eye Colors (which runs Apply Jodi Mutation after it)."""
+    g = G(); g.get("gmu", "Mutation"); g.brk("bm", mutn.S_MUT, "@gmu.Mutation"); g.call("no", K_MATH, "Not_PreBool", inp={"A": "@bm.Eyes"})
+    g.call("off", K_MATH, "BooleanAND", inp={"A": "@entry.was", "B": "@no.ReturnValue"}); g.branch("b", "@off.ReturnValue")
+    g.get("gw", "Wearer"); g.get("gem", "Eye Material", cls=P_JODI_BASE); g.link("gw.Wearer", "gem.self"); g.call("vem", K_SYS, "IsValid", inp={"Object": "@gem.Eye Material"}); g.branch("bvem", "@vem.ReturnValue")
+    g.get("gm", "Mesh", cls=E_CHARACTER); g.link("gw.Wearer", "gm.self")
+    g.call("sm", MU_PRIMC, "SetMaterialByName", inp={"self": "@gm.Mesh", "MaterialSlotName": "Female_Eyes", "Material": "@gem.Eye Material"})
+    g.get("gpl", "Player"); g.call("ues", P_JODI, "Update Eyes Style", inp={"self": "@gpl.Player"}); g.n("aec", "call_self", function="Apply Eye Colors")
+    g.chain("entry", "b", "bvem", "sm", "ues", "aec"); g.chain("bvem:else", "ues")
+    return fn("Mutation Eyes Off", [param("was", "bool")], graph=g)
+
+
+def f_mutation_reset():
+    """Link "Reset" on the mutation page: everything off (the skin row stays), history first, saved, page redrawn."""
+    g = G(); g.n("ph", "call_self", function="Push History"); g.get("gmu", "Mutation"); g.brk("bm", mutn.S_MUT, "@gmu.Mutation")
+    g.make("mk", mutn.S_MUT, Color="0.0", Glow="0.0", Veins="false", Eyes="false", Skin="@bm.Skin", Story="false"); g.set("sew", "MutEyesWas", inp={"MutEyesWas": "@bm.Eyes"})
+    g.set("smu", "Mutation", inp={"Mutation": "@mk.S_Mutation"})
+    g.get("gew", "MutEyesWas"); g.n("eyo", "call_self", function="Mutation Eyes Off", inp={"was": "@gew.MutEyesWas"}); g.n("ap", "call_self", function="Apply Jodi Mutation")
+    g.n("sv", "call_self", function="Save Settings"); g.n("rl", "call_self", function="Rebuild Look"); g.n("rb", "call_self", function="Rebuild Status")
+    g.chain("entry", "ph", "sew", "smu", "eyo", "ap", "sv", "rl", "rb")
+    return fn("Mutation Reset", graph=g)
+
+
+def f_mutation_story_slot():
+    """Story variant (Mutation.Story): on - slot 0 of `mesh` becomes MutStoryMID, an instance of Skin_Jodi_Mutanted (the story's
+    own variant: true glow, no make-up, no scars), with the clothes mask (MaskThreshold) of her own skin instance `body`; off - if
+    slot 0 is it, `body` back (Mutante(false) does the same)."""
+    g = G(); g.n("la", "call_self", function="Load Mutation Assets"); g.branch("b", "@entry.on")
+    g.get("gsm", "MutStoryMID"); g.call("vs", K_SYS, "IsValid", inp={"Object": "@gsm.MutStoryMID"}); g.branch("bvs", "@vs.ReturnValue")
+    g.get("gst", "MutStoryMat"); g.call("cdm", K_MATLIB, "CreateDynamicMaterialInstance", inp={"Parent": "@gst.MutStoryMat", "OptionalName": "None"})
+    g.set("ssm", "MutStoryMID", inp={"MutStoryMID": "@cdm.ReturnValue"})
+    g.get("gsm2", "MutStoryMID"); g.call("s1", MU_PRIMC, "SetMaterial", inp={"self": "@entry.mesh", "ElementIndex": "0", "Material": "@gsm2.MutStoryMID"})
+    g.call("vb", K_SYS, "IsValid", inp={"Object": "@entry.body"}); g.branch("bvb", "@vb.ReturnValue")
+    g.call("gmt", MU_MID, "K2_GetVectorParameterValue", inp={"self": "@entry.body", "ParameterName": "MaskThreshold"})
+    g.call("smt", MU_MID, "SetVectorParameterValue", inp={"self": "@gsm2.MutStoryMID", "ParameterName": "MaskThreshold", "Value": "@gmt.ReturnValue"})
+    g.call("m0", MU_PRIMC, "GetMaterial", inp={"self": "@entry.mesh", "ElementIndex": "0"}); g.get("gsm3", "MutStoryMID")
+    g.call("iss", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@m0.ReturnValue", "B": "@gsm3.MutStoryMID"}); g.call("ob", K_MATH, "BooleanAND", inp={"A": "@iss.ReturnValue", "B": "@vb.ReturnValue"}); g.branch("bob", "@ob.ReturnValue")
+    g.call("s0", MU_PRIMC, "SetMaterial", inp={"self": "@entry.mesh", "ElementIndex": "0", "Material": "@entry.body"})
+    g.chain("entry", "la", "b", "bvs", "s1", "bvb", "gmt", "smt"); g.chain("bvs:else", "cdm", "ssm", "s1"); g.chain("b:else", "bob", "s0")
+    return fn("Mutation Story Slot", [param("mesh", "object:" + MU_MESHC), param("body", "object:" + MU_MID), param("on", "bool")], graph=g)
+
+
+def f_mutation_glow_layer():
+    """The glow layer (spec addendum 2): a second skeletal mesh component on `mesh`'s owner - the same body mesh, following it (master
+    pose: bones and morphs) - in AltUI's M_MutGlow (unlit, additive: Mutations_E x red x Strength). Only the skin slots glow (those
+    of `mesh` that sample MakeupTex), the others get Strength 0. strength <= 0: the layer goes (None). A layer on another body mesh
+    (Apply Body) is made anew. Returns the layer."""
+    g = G(); g.n("la", "call_self", function="Load Mutation Assets"); g.set("st0", "MutGlowTmp", inp={"MutGlowTmp": "@entry.comp"})
+    g.call("pos", K_MATH, "Greater_FloatFloat", inp={"A": "@entry.strength", "B": "0.0"}); g.branch("bpos", "@pos.ReturnValue")
+    g.call("cv", K_SYS, "IsValid", inp={"Object": "@entry.comp"})
+    g.get("gk1", "SkeletalMesh", cls=E_SKINNED); g.link("entry.mesh", "gk1.self"); g.get("gk2", "SkeletalMesh", cls=E_SKINNED); g.link("entry.comp", "gk2.self")
+    g.call("same", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@gk1.SkeletalMesh", "B": "@gk2.SkeletalMesh"}); g.call("keep", K_MATH, "BooleanAND", inp={"A": "@cv.ReturnValue", "B": "@same.ReturnValue"}); g.branch("bkeep", "@keep.ReturnValue")
+    # off / remade: the old one goes
+    g.branch("bcv", "@cv.ReturnValue"); g.call("dc", "/Script/Engine.ActorComponent", "K2_DestroyComponent", inp={"self": "@entry.comp", "Object": "@entry.comp"}); g.set("stn", "MutGlowTmp", inp={"MutGlowTmp": "None"})
+    g.branch("bpos2", "@pos.ReturnValue")
+    # a new layer
+    g.call("own", "/Script/Engine.ActorComponent", "GetOwner", inp={"self": "@entry.mesh"})
+    g.call("tf", K_MATH, "MakeTransform", inp={"Location": "(X=0,Y=0,Z=0)", "Rotation": "(Pitch=0,Yaw=0,Roll=0)", "Scale": "(X=1,Y=1,Z=1)"})
+    g.call("add", E_ACTOR, "AddComponentByClass", inp={"self": "@own.ReturnValue", "Class": "/Script/Engine.SkeletalMeshComponent", "bManualAttachment": "true", "RelativeTransform": "@tf.ReturnValue", "bDeferredFinish": "false"})
+    g.cast("cnk", "/Script/Engine.SkeletalMeshComponent", "@add.ReturnValue"); nk = "@cnk.AsSkeletal Mesh Component"; g.set("snk", "MutGlowTmp", inp={"MutGlowTmp": nk})
+    g.call("att", "/Script/Engine.SceneComponent", "K2_AttachToComponent", inp={"self": nk, "Parent": "@entry.mesh", "SocketName": "None", "LocationRule": "SnapToTarget",
+                                                                              "RotationRule": "SnapToTarget", "ScaleRule": "SnapToTarget", "bWeldSimulatedBodies": "false"})
+    g.call("ssk", "/Script/Engine.SkinnedMeshComponent", "SetSkeletalMesh", inp={"self": nk, "NewMesh": "@gk1.SkeletalMesh", "bReinitPose": "true"})
+    g.call("smp", "/Script/Engine.SkinnedMeshComponent", "SetMasterPoseComponent", inp={"self": nk, "NewMasterBoneComponent": "@entry.mesh", "bForceUpdate": "true"})
+    g.call("csh", MU_PRIMC, "SetCastShadow", inp={"self": nk, "NewCastShadow": "false"})
+    g.call("col", MU_PRIMC, "SetCollisionEnabled", inp={"self": nk, "NewType": "NoCollision"})
+    # its materials: one glow instance per slot, Strength on the skin slots only
+    g.call("ms", MU_MESHC, "GetMaterials", inp={"self": "@entry.mesh"}); g.foreach("fm", "@ms.ReturnValue")
+    g.get("gt", "MutGlowTmp"); g.call("gm", MU_PRIMC, "GetMaterial", inp={"self": "@gt.MutGlowTmp", "ElementIndex": "@fm.Array Index"}); g.cast("cgm", MU_MID, "@gm.ReturnValue")
+    g.call("vgm", K_SYS, "IsValid", inp={"Object": "@cgm.AsMaterial Instance Dynamic"}); g.branch("bvgm", "@vgm.ReturnValue")
+    g.call("cdm", MU_PRIMC, "CreateDynamicMaterialInstance", inp={"self": "@gt.MutGlowTmp", "ElementIndex": "@fm.Array Index", "SourceMaterial": mutn.GLOW_MAT, "OptionalName": "None"})
+    g.call("gm2", MU_PRIMC, "GetMaterial", inp={"self": "@gt.MutGlowTmp", "ElementIndex": "@fm.Array Index"}); g.cast("cgm2", MU_MID, "@gm2.ReturnValue"); mid = "@cgm2.AsMaterial Instance Dynamic"
+    g.cast("csk", MU_MID, "@fm.Array Element"); g.call("vsk", K_SYS, "IsValid", inp={"Object": "@csk.AsMaterial Instance Dynamic"})
+    g.call("gtp", MU_MID, "K2_GetTextureParameterValue", inp={"self": "@csk.AsMaterial Instance Dynamic", "ParameterName": "MakeupTex"})
+    g.call("vtp", K_SYS, "IsValid", inp={"Object": "@gtp.ReturnValue"}); g.call("skin", K_MATH, "BooleanAND", inp={"A": "@vsk.ReturnValue", "B": "@vtp.ReturnValue"})
+    g.call("str", K_MATH, "Multiply_FloatFloat", inp={"A": "@entry.strength", "B": str(mutn.GLOW_RED)}); g.call("sel", K_MATH, "SelectFloat", inp={"A": "@str.ReturnValue", "B": "0.0", "bPickA": "@skin.ReturnValue"})
+    g.get("gte", "MutTexE"); g.call("stx", MU_MID, "SetTextureParameterValue", inp={"self": mid, "ParameterName": "GlowTex", "Value": "@gte.MutTexE"})
+    g.call("sst", MU_MID, "SetScalarParameterValue", inp={"self": mid, "ParameterName": "Strength", "Value": "@sel.ReturnValue"})
+    g.get("gout", "MutGlowTmp"); g.link("gout.MutGlowTmp", "return.out")
+    g.chain("entry", "la", "st0", "bpos", "bkeep", "fm"); g.chain("bpos:else", "bcv"); g.chain("bkeep:else", "bcv")
+    g.chain("bcv", "dc", "stn", "bpos2"); g.chain("bcv:else", "stn")
+    g.chain("bpos2", "add", "snk", "att", "ssk", "smp", "csh", "col", "fm"); g.chain("bpos2:else", "return")
+    g.chain("fm", "bvgm", "gtp", "stx", "sst"); g.chain("bvgm:else", "cdm", "gtp"); g.chain("fm:Completed", "return")
+    return fn("Mutation Glow Layer", [param("mesh", "object:/Script/Engine.SkeletalMeshComponent"), param("comp", "object:/Script/Engine.SkeletalMeshComponent"), param("strength", "float")],
+              [param("out", "object:/Script/Engine.SkeletalMeshComponent")], graph=g)
+
+
+def f_mutate_copy():
+    """A ragdoll copy of Jodi gets the mutation in a skin target of its own (MUT_COPY_RT_SIZE): Copy From gave it her materials,
+    whose MainTex is HER target - it would change with her. Nothing without any mutation."""
+    g = G(); g.n("act", "call_self", function="Mutation Active", inp={"mut": "@entry.mut"}); g.branch("ba", "@act.yes")
+    g.n("mm", "call_self", function="Mutate Mesh", inp={"mesh": "@entry.mesh", "mut": "@entry.mut", "rt": "None", "size": str(mutn.MUT_COPY_RT_SIZE), "base": "None"})
+    g.chain("entry", "ba", "mm")
+    return fn("Mutate Copy", [param("mesh", "object:" + MU_MESHC), param("mut", "struct:" + mutn.S_MUT)], graph=g)
+
+
+def f_mutation_skin_tex():
+    """A follower's skin target for `mut` (colour above 0, else None): drawn here, set as its MainTex by the figure (BP_AltUIFollower.Apply
+    Skin Tex) every time its look is applied - its materials come back from paths, and a render target has none. Veins, glow and
+    eyes are plain parameters and come back with them."""
+    g = G(); g.brk("bm", mutn.S_MUT, "@entry.mut"); g.call("c", K_MATH, "Greater_FloatFloat", inp={"A": "@bm.Color", "B": "0.0"}); g.branch("bc", "@c.ReturnValue")
+    g.set("sn", "MutTmpRT", inp={"MutTmpRT": "None"})
+    g.n("mm", "call_self", function="Mutate Mesh", inp={"mesh": "None", "mut": "@entry.mut", "rt": "None", "size": str(mutn.MUT_COPY_RT_SIZE), "base": "None"}); g.set("so", "MutTmpRT", inp={"MutTmpRT": "@mm.out"})
+    g.get("gr", "MutTmpRT"); g.link("gr.MutTmpRT", "return.tex")
+    g.chain("entry", "sn", "bc", "mm", "so", "return"); g.chain("bc:else", "return")
+    return fn("Mutation Skin Tex", [param("mut", "struct:" + mutn.S_MUT)], [param("tex", "object:" + MU_RT)], graph=g)
+
+
 def f_spawn_ragdoll_copy():
     """A copy of Jodi as she looks now, RAG_DIST in front of her (in the camera's direction) on her floor height, facing her and the camera, standing frozen in
     her current pose (SnapshotPose of her mesh -> the copy's ABP)."""
@@ -1388,6 +1767,7 @@ def f_spawn_ragdoll_copy():
     g.n("sp", "spawn", cls=RAGDOLL, inp={"SpawnTransform": "@tf.ReturnValue"})
     g.get("gpl3", "Player"); g.call("cf", RAGDOLL, "Copy From", inp={"self": "@sp.ReturnValue", "source": "@gpl3.Player"})
     g.get("gcbd", "Body", cls=RAGDOLL); g.link("sp.ReturnValue", "gcbd.self"); g.n("omk", "call_self", function="Own Makeup Copy", inp={"mesh": "@gcbd.Body"})   # else it shows Jodi's make-up
+    g.get("gmut", "Mutation"); g.n("omu", "call_self", function="Mutate Copy", inp={"mesh": "@gcbd.Body", "mut": "@gmut.Mutation"})   # else it shares Jodi's skin target
     g.get("gpl4", "Player"); g.get("gmc4", "Mesh", cls=E_CHARACTER); g.link("gpl4.Player", "gmc4.self"); g.get("grp", "RagPose")
     g.call("snp", "/Script/Engine.SkeletalMeshComponent", "SnapshotPose", inp={"self": "@gmc4.Mesh", "Snapshot": "@grp.RagPose"})
     g.get("grp2", "RagPose"); g.call("gr", RAGDOLL, "Set Pose", inp={"self": "@sp.ReturnValue", "snap": "@grp2.RagPose"})
@@ -1400,7 +1780,7 @@ def f_spawn_ragdoll_copy():
     g.n("sdn", "set", var="DisplayName", cls=RAGDOLL, inp={"self": "@sp.ReturnValue", "DisplayName": "@nm.ReturnValue"}); g.set("cnn", "RagNextName", inp={"RagNextName": ""})
     g.n("tsn", "call_self", function="Take Snapshot"); g.get("glk", "RagLooks"); g.call("alk", K_MAP, "Map_Add", inp={"TargetMap": "@glk.RagLooks", "Key": "@sp.ReturnValue", "Value": "@tsn.snap"})   # its look, for presets
     g.n("rr", "call_self", function="Rag Refresh")
-    g.chain("entry", "bpv", "sp", "cf", "omk", "snp", "gr", "ad", "scn", "sdn", "cnn", "tsn", "alk", "rr"); return fn("Spawn Ragdoll Copy", graph=g)
+    g.chain("entry", "bpv", "sp", "cf", "omk", "omu", "snp", "gr", "ad", "scn", "sdn", "cnn", "tsn", "alk", "rr"); return fn("Spawn Ragdoll Copy", graph=g)
 
 
 def f_apply_rag_markers():
@@ -1734,6 +2114,7 @@ def f_ragdoll_action():
     g.call("ira", K_STR, "EqualEqual_StrStr", inp={"A": "@s.ReturnValue", "B": "RagRemoveAll"}); g.branch("bra", "@ira.ReturnValue"); g.n("ra", "call_self", function="Remove Ragdolls")
     g.call("isv", K_STR, "EqualEqual_StrStr", inp={"A": "@s.ReturnValue", "B": "RagSave"}); g.branch("bsv", "@isv.ReturnValue"); g.n("sv", "call_self", function="Rag Save Click")
     g.call("imk", K_STR, "EqualEqual_StrStr", inp={"A": "@s.ReturnValue", "B": "RagMarkers"}); g.branch("bmk", "@imk.ReturnValue"); g.n("tmk", "call_self", function="Toggle Rag Markers")
+    g.call("ijp", K_STR, "EqualEqual_StrStr", inp={"A": "@s.ReturnValue", "B": "RagJasonProto"}); g.branch("bjp", "@ijp.ReturnValue"); g.n("jp", "call_self", function="Fol New Jason")
     g.call("sp2", K_STR, "Split", inp={"SourceString": "@s.ReturnValue", "InStr": ":", "SearchCase": "CaseSensitive", "SearchDir": "FromStart"})
     g.call("num", K_STR, "Conv_StringToInt", inp={"InString": "@sp2.RightS"}); g.call("isj1", K_STR, "EqualEqual_StrStr", inp={"A": "@sp2.LeftS", "B": "RagJoint"})
     g.call("isj2", K_STR, "EqualEqual_StrStr", inp={"A": "@sp2.LeftS", "B": "RagLoose"}); g.call("isj", K_MATH, "BooleanOR", inp={"A": "@isj1.ReturnValue", "B": "@isj2.ReturnValue"})
@@ -1771,7 +2152,7 @@ def f_ragdoll_action():
     g.call("pbn", W_RAGPOSES, "Get Name", inp={"self": "@fpb.Value"}); g.call("pbs", K_TXT, "Conv_TextToString", inp={"InText": "@pbn.text"})
     g.n("srp", "call_self", function="Save Rag Pose", inp={"figure": "@idx.ReturnValue", "name": "@pbs.ReturnValue"}); g.chain(br["RagPoseSave"], "bfpb", "srp")
     g.call("isz", K_STR, "EqualEqual_StrStr", inp={"A": "@sp2.LeftS", "B": "RagZ"}); g.branch("bz", "@isz.ReturnValue"); g.n("sz", "call_self", function="Spawn Zombie Ragdoll", inp={"index": "@num.ReturnValue"})
-    g.chain("entry", "bsp", "sp"); g.chain("bsp:else", "bra", "ra"); g.chain("bra:else", "bsv", "sv"); g.chain("bsv:else", "bmk", "tmk"); g.chain("bmk:else", "bz", "sz"); g.chain("bz:else", "bvi")
+    g.chain("entry", "bsp", "sp"); g.chain("bsp:else", "bra", "ra"); g.chain("bra:else", "bsv", "sv"); g.chain("bsv:else", "bmk", "tmk"); g.chain("bmk:else", "bjp", "jp"); g.chain("bjp:else", "bz", "sz"); g.chain("bz:else", "bvi")
     return fn("Ragdoll Action", [param("name", "name")], graph=g)
 
 
@@ -2628,9 +3009,10 @@ def f_inv_row():
     g.call("kk", K_MATH, "SelectString", inp={"A": "@kg.ReturnValue", "B": "@ka.ReturnValue", "bPickA": "@is3.ReturnValue"})
     g.call("kn", K_STR, "Conv_StringToName", inp={"InString": "@kk.ReturnValue"})
     g.call("fd", K_MATH, "NotEqual_NameName", inp={"A": "@entry.item", "B": "None"})
-    # catalog group: the box group, else "Collect" for rows that are no key / card (ItemClass 2) and have an actor class, else None
+    # catalog group: the box group, else "Collect" for rows that are no key / card (ItemClass 2) and have an actor class (or are the invisible hand), else None
     g.call("hg", K_MATH, "NotEqual_NameName", inp={"A": "@br.HyperBoxGroup", "B": "None"}); g.call("is2", K_MATH, "NotEqual_IntInt", inp={"A": "@ci.ReturnValue", "B": "2"})
-    g.call("hac", K_SYS, "IsValidClass", inp={"Class": "@br.ActorClass"}); g.call("col", K_MATH, "BooleanAND", inp={"A": "@is2.ReturnValue", "B": "@hac.ReturnValue"})
+    g.call("hac0", K_SYS, "IsValidClass", inp={"Class": "@br.ActorClass"}); g.call("ihd", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.item", "B": inv.CAT_NO_ACTOR})
+    g.call("hac", K_MATH, "BooleanOR", inp={"A": "@hac0.ReturnValue", "B": "@ihd.ReturnValue"}); g.call("col", K_MATH, "BooleanAND", inp={"A": "@is2.ReturnValue", "B": "@hac.ReturnValue"})
     g.call("cs1", K_MATH, "SelectString", inp={"A": inv.CAT_GROUP, "B": "None", "bPickA": "@col.ReturnValue"}); g.call("gs1", K_STR, "Conv_NameToString", inp={"InName": "@br.HyperBoxGroup"})
     g.call("cs2", K_MATH, "SelectString", inp={"A": "@gs1.ReturnValue", "B": "@cs1.ReturnValue", "bPickA": "@hg.ReturnValue"}); g.call("cn", K_STR, "Conv_StringToName", inp={"InString": "@cs2.ReturnValue"})
     for out, pin in (("found", "fd.ReturnValue"), ("group", "br.HyperBoxGroup"), ("caption", "br.Caption"), ("icon", "br.Icon"), ("consumable", "br.IsConsumable"),
@@ -2807,7 +3189,10 @@ def f_inv_fill():
     g.get("gk", "InvKeys"); g.foreach("fe", "@gk.InvKeys")
     g.n("ir", "call_self", function="Inv Row", inp={"item": "@fe.Array Element"})
     g.get("gc2", "InvCounts"); g.call("cf", K_MAP, "Map_Find", inp={"TargetMap": "@gc2.InvCounts", "Key": "@fe.Array Element"})
-    g.call("eg0", K_MATH, "EqualEqual_NameName", inp={"A": "@ir.group", "B": "@entry.group"}); g.call("pos", K_MATH, "Greater_IntInt", inp={"A": "@cf.Value", "B": "0"})
+    g.call("eg1", K_MATH, "EqualEqual_NameName", inp={"A": "@ir.group", "B": "@entry.group"}); g.call("pos", K_MATH, "Greater_IntInt", inp={"A": "@cf.Value", "B": "0"})
+    # "Collect": what the catalogue files there (no box group, no key / card) - the invisible hand, decor, crystals (ui-test-121: the hands showed nowhere)
+    g.call("ecg", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.group", "B": inv.CAT_GROUP}); g.call("ecc", K_MATH, "EqualEqual_NameName", inp={"A": "@ir.cat", "B": inv.CAT_GROUP})
+    g.call("ecb", K_MATH, "BooleanAND", inp={"A": "@ecg.ReturnValue", "B": "@ecc.ReturnValue"}); g.call("eg0", K_MATH, "BooleanOR", inp={"A": "@eg1.ReturnValue", "B": "@ecb.ReturnValue"})
     g.call("eg", K_MATH, "BooleanAND", inp={"A": "@eg0.ReturnValue", "B": "@pos.ReturnValue"}); g.branch("bg", "@eg.ReturnValue")   # a used-up entry stays at 0 in bag Tools
     g.call("pf", K_MATH, "SelectString", inp={"A": "box:", "B": "bag:", "bPickA": "@entry.box"}); g.call("es", K_STR, "Conv_NameToString", inp={"InName": "@fe.Array Element"})
     g.call("tn", K_STR, "Concat_StrStr", inp={"A": "@pf.ReturnValue", "B": "@es.ReturnValue"}); g.call("tnn", K_STR, "Conv_StringToName", inp={"InString": "@tn.ReturnValue"})
@@ -2923,7 +3308,7 @@ def f_rebuild_inventory():
         for e in ends: g.chain(e, node)
     for b, box in enumerate(("false", "true")):
         g.set("z%d" % b, "InvShown", inp={"InvShown": "0"}); go("z%d" % b); ends = ["z%d" % b]
-        for i, grp in enumerate(inv.INV_GROUPS):
+        for i, grp in enumerate(inv.INV_GROUPS + [inv.CAT_GROUP]):
             p = "f%d%d" % (b, i)
             g.get(p + "g", "InvGroup"); g.call(p + "a", K_MATH, "EqualEqual_NameName", inp={"A": "@%sg.InvGroup" % p, "B": "None"})
             g.call(p + "e", K_MATH, "EqualEqual_NameName", inp={"A": "@%sg.InvGroup" % p, "B": grp}); g.call(p + "o", K_MATH, "BooleanOR", inp={"A": "@%sa.ReturnValue" % p, "B": "@%se.ReturnValue" % p})
@@ -4269,7 +4654,12 @@ def f_rebuild_status():
     g.call("mki", W_TXT, "Init", inp={"self": mkw, "action": "RagMarkers", "caption": "@mkt.ReturnValue"}); g.get("gpmk", "Panel"); g.call("amk", W_PANEL, "Add Status Right", inp={"self": "@gpmk.Panel", "widget": mkw})
     raw = create_widget(g, "rra", W_TXT); set_manager(g, "smra", W_TXT, raw)
     g.call("rai", W_TXT, "Init", inp={"self": raw, "action": "RagRemoveAll", "caption": tt(g, "rat", "Rag_RemoveAll")}); g.get("gpra", "Panel"); g.call("ara", W_PANEL, "Add Status Right", inp={"self": "@gpra.Panel", "widget": raw})
-    g.chain("brgs", "rmk_cr", "smmk", "mki", "amk", "rra_cr", "smra", "rai", "ara", "bws"); g.chain("brgs:else", "bws")
+    g.chain("brgs", "rmk_cr", "smmk", "mki", "amk", "rra_cr", "smra", "rai", "ara", "bjp"); g.chain("brgs:else", "bjp")
+    # Followers: "+ Jason", a new Jason record (docs/notes/2026-10-18-follower-munition-und-npc-typen.md)
+    g.get("gpjp", "Page"); g.call("isjp", K_MATH, "EqualEqual_NameName", inp={"A": "@gpjp.Page", "B": "Followers"}); g.branch("bjp", "@isjp.ReturnValue")
+    jpw = create_widget(g, "rjp", W_TXT); set_manager(g, "smjp", W_TXT, jpw)
+    g.call("jpi", W_TXT, "Init", inp={"self": jpw, "action": "RagJasonProto", "caption": tt(g, "jpt", "Fol_NewJason")}); g.get("gpjq", "Panel"); g.call("ajp", W_PANEL, "Add Status Right", inp={"self": "@gpjq.Panel", "widget": jpw})
+    g.chain("bjp", "rjp_cr", "smjp", "jpi", "ajp", "bws"); g.chain("bjp:else", "bws")
     g.get("gnr", "NoRenderedIcons"); g.branch("bnr", "@gnr.NoRenderedIcons")   # item pictures: nothing to take again
     g.call("ics", K_TXT, "Conv_TextToString", inp={"InText": tt(g, "ict1", "Btn_RenderedIcons")}); g.call("icn", K_TXT, "Conv_TextToString", inp={"InText": tt(g, "ict2", "Btn_ItemIcons")})
     g.get("gnr2", "NoRenderedIcons"); g.call("icsel", K_MATH, "SelectString", inp={"A": "@ics.ReturnValue", "B": "@icn.ReturnValue", "bPickA": "@gnr2.NoRenderedIcons"}); g.call("ict", K_TXT, "Conv_StringToText", inp={"InString": "@icsel.ReturnValue"})
@@ -4297,8 +4687,8 @@ def f_take_snapshot():
     g.get("gtc2", "TmpColors"); g.call("madd", K_MAP, "Map_Add", inp={"TargetMap": "@gtc2.TmpColors", "Key": "@fc.Array Element", "Value": "@gc.color"})
     g.get("gw", "Worn"); g.get("gtc3", "TmpColors"); g.get("gcb", "CurrentBody")
     g.get("gcb0", "CurrentBody"); g.n("fac", "call_self", function="Body Scale Factors", inp={"name": "@gcb0.CurrentBody"})
-    g.get("gsc9", "SlotColors"); g.get("gec9", "EyeColors"); g.get("gmc9", "MakeupColors"); g.get("gfv9", "FaceValues"); g.get("gfa9", "FaceAdd")
-    g.make("mk", S_SNAP, Face="@gfv9.FaceValues", FaceAdd="@gfa9.FaceAdd", SlotColors="@gsc9.SlotColors", EyeColors="@gec9.EyeColors", MakeupColors="@gmc9.MakeupColors", Worn="@gw.Worn", Makeup="@gmd.Makeup Data", Skin="@gsn.Skin Name", Hair="@hn.name", Colors="@gtc3.TmpColors", HairColor="@hc.color",
+    g.get("gsc9", "SlotColors"); g.get("gec9", "EyeColors"); g.get("gmc9", "MakeupColors"); g.get("gfv9", "FaceValues"); g.get("gfa9", "FaceAdd"); g.get("gmu9", "Mutation")
+    g.make("mk", S_SNAP, Face="@gfv9.FaceValues", FaceAdd="@gfa9.FaceAdd", Mutation="@gmu9.Mutation", SlotColors="@gsc9.SlotColors", EyeColors="@gec9.EyeColors", MakeupColors="@gmc9.MakeupColors", Worn="@gw.Worn", Makeup="@gmd.Makeup Data", Skin="@gsn.Skin Name", Hair="@hn.name", Colors="@gtc3.TmpColors", HairColor="@hc.color",
            Boobs="@gbs.Boobs Size", Waist="@gwa.Waist", Hip="@ghp.Hip", Body="@gcb.CurrentBody", Scales="@fac.factors")
     g.set("st", "TmpSnap2", inp={"TmpSnap2": "@mk.S_Snapshot"}); g.get("gt", "TmpSnap2"); g.link("gt.TmpSnap2", "return.snap")
     g.chain("entry", "rs", "md", "mclr", "fc"); g.chain("fc", "gc", "bf", "madd"); g.chain("fc:Completed", "fac", "st", "return")
@@ -4430,6 +4820,7 @@ def f_finish_apply_snapshot():
     g.set("smc9", "MakeupColors", inp={"MakeupColors": "@bs.MakeupColors"})
     g.set("sfa9", "FaceAdd", inp={"FaceAdd": "@bs.FaceAdd"})
     g.set("sfv9", "FaceValues", inp={"FaceValues": "@bs.Face"}); g.n("afc9", "call_self", function="Apply Face"); g.n("svf9", "call_self", function="Save Settings")   # an empty map (look from before the face tab) = the game's face
+    g.set("smu9", "Mutation", inp={"Mutation": "@bs.Mutation"})   # the look's mutation: Apply Eye Colors puts it on (Apply Jodi Mutation, after the eyes)
     g.get("gplC", "Player"); g.call("ues", P_JODI, "Update Eyes Style", inp={"self": "@gplC.Player"})
     g.n("aecS", "call_self", function="Apply Eye Colors")
     g.n("amcS", "call_self", function="Apply Makeup Colors")
@@ -4460,7 +4851,7 @@ def f_finish_apply_snapshot():
     # inside the underwear loop of the Apply Snapshot that called Wear Queue Step - a recursion that refilled its loop array
     g.chain("entry", "spp", "md", "smd", "sbo", "swa", "shi", "cb2", "cw2", "sbc", "bsk", "cs", "bh"); g.chain("bsk:else", "bh")
     g.chain("bh", "hrow", "bho", "ch", "chc"); g.chain("bho:else", "hpop", "chc"); g.chain("bh:else", "chc"); g.chain("hrow:Row Not Found", "chc")   # hairstyle gone (mod removed) -> keep going
-    g.chain("chc", "svh", "umt", "rdc", "ssc9", "sec9", "smc9", "sfa9", "sfv9", "afc9", "svf9", "ues", "aecS", "amcS", "rcp", "aicA", "sa", "sd", "bb", "ab", "bsc", "ssf", "sbv", "svs", "mkk", "fmk"); g.chain("fmk", "fms"); g.chain("fms", "mxe", "mxm", "bmx"); g.chain("bmx:else", "mxa"); g.chain("fmk:Completed", "bms"); g.chain("bsc:else", "sbv"); g.chain("bb:else", "bsc"); g.chain("bms", "mpop", "rs2"); g.chain("bms:else", "rs2"); g.chain("rs2", "sp")
+    g.chain("chc", "svh", "umt", "rdc", "ssc9", "sec9", "smc9", "sfa9", "sfv9", "afc9", "svf9", "smu9", "ues", "aecS", "amcS", "rcp", "aicA", "sa", "sd", "bb", "ab", "bsc", "ssf", "sbv", "svs", "mkk", "fmk"); g.chain("fmk", "fms"); g.chain("fms", "mxe", "mxm", "bmx"); g.chain("bmx:else", "mxa"); g.chain("fmk:Completed", "bms"); g.chain("bsc:else", "sbv"); g.chain("bb:else", "bsc"); g.chain("bms", "mpop", "rs2"); g.chain("bms:else", "rs2"); g.chain("rs2", "sp")
     return fn("Finish Apply Snapshot", graph=g)
 
 
@@ -4545,14 +4936,16 @@ def f_preset_clicked():
     g.get("gtp2", "TmpPreset"); g.brk("btp", P_PRESET_S, "@gtp2.TmpPreset")
     g.get("gpc", "PresetColors"); g.call("fpc", K_MAP, "Map_Find", inp={"TargetMap": "@gpc.PresetColors", "Key": "@btp.IconNumber"}); g.brk("bpc", S_PRESETCOL, "@fpc.Value")
     g.set("sec", "EyeColors", inp={"EyeColors": "@bpc.EyeColors"}); g.set("smc", "MakeupColors", inp={"MakeupColors": "@bpc.MakeupColors"})
+    g.set("smu", "Mutation", inp={"Mutation": "@bpc.Mutation"})   # its mutation look; none stored (an older preset) = none - Apply Eye Colors applies it
     g.get("gplu", "Player"); g.call("ues", P_JODI, "Update Eyes Style", inp={"self": "@gplu.Player"})   # the EyeTable colour back first
     g.n("aec", "call_self", function="Apply Eye Colors"); g.n("amc", "call_self", function="Apply Makeup Colors"); g.n("svs", "call_self", function="Save Settings")
-    g.n("ph", "call_self", function="Push History"); g.chain("entry", "ph", "st", "ap", "sec", "smc", "ues", "aec", "amc", "svs", "sa", "sd", "rl"); return fn("Preset Clicked", [param("index", "int")], graph=g)
+    g.n("ph", "call_self", function="Push History"); g.chain("entry", "ph", "st", "ap", "sec", "smc", "smu", "ues", "aec", "amc", "svs", "sa", "sd", "rl"); return fn("Preset Clicked", [param("index", "int")], graph=g)
 
 
 def f_store_preset_colors():
-    """Settings.PresetColors[number] = the current eye and make-up colours (the game's preset keeps everything else)."""
-    g = G(); g.get("gec", "EyeColors"); g.get("gmc", "MakeupColors"); g.make("mk", S_PRESETCOL, EyeColors="@gec.EyeColors", MakeupColors="@gmc.MakeupColors")
+    """Settings.PresetColors[number] = the current eye and make-up colours and the mutation look (the game's preset keeps everything else)."""
+    g = G(); g.get("gec", "EyeColors"); g.get("gmc", "MakeupColors"); g.get("gmu", "Mutation")
+    g.make("mk", S_PRESETCOL, EyeColors="@gec.EyeColors", MakeupColors="@gmc.MakeupColors", Mutation="@gmu.Mutation")
     g.get("gpc", "PresetColors"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gpc.PresetColors", "Key": "@entry.number", "Value": "@mk.S_PresetColors"})
     g.n("sv", "call_self", function="Save Settings"); g.chain("entry", "add", "sv")
     return fn("Store Preset Colors", [param("number", "int")], graph=g)
@@ -4873,7 +5266,7 @@ MENU_ACTIONS = [
     ("OnlyGroup", "Show Only Group", "ContextItem"), ("ModContent", "Open Mod Content Of Item", "ContextItem"),
     ("Rename", "Start Item Rename", "ContextItem"), ("LookFav", "Toggle Look Favorite", "ContextItem"), ("LookHide", "Toggle Look Hidden", "ContextItem"), ("LookOnlyMod", "Look Only Mod", "ContextItem"), ("PoseFav", "Toggle Pose Favorite", "ContextItem"), ("PoseHide", "Toggle Pose Hidden", "ContextItem"), ("PoseOnlyMod", "Pose Only Mod", "ContextItem"), ("PoseReset", "Reset Pose Measurement", "ContextItem"), ("PoseIdle", "Toggle Idle Pose", "ContextItem"), ("PoseSetStand", "Pose Set Stand", "ContextItem"), ("PoseSetSit", "Pose Set Sit", "ContextItem"), ("PoseSetLie", "Pose Set Lie", "ContextItem"), ("PoseSetMove", "Toggle Pose Moving", "ContextItem"), ("SkinFav", "Toggle Skin Favorite", "ContextItem"), ("SkinHide", "Toggle Skin Hidden", "ContextItem"), ("SkinOnlyMod", "Skin Only Mod", "ContextItem"), ("ModelFav", "Toggle Model Favorite", "ContextItem"), ("ModelHide", "Toggle Model Hidden", "ContextItem"), ("ModelOnlyMod", "Model Only Mod", "ContextItem"), ("SoundFav", "Toggle Sound Favorite", "ContextItem"), ("SoundHide", "Toggle Sound Hidden", "ContextItem"), ("SoundOnlyMod", "Sound Only Mod", "ContextItem"), ("ModelOwnIcon", "Toggle Model Own Icon", "ContextItem"), ("ModelForceSkin", "Toggle Model Force Skin", "ContextItem"), ] + [("ModelSkip" + p, "Toggle Model Skip " + p, "ContextItem") for p, _, _, _, _, _ in WEAPON_PARTS] + [
  ("PoseStop", "Stop Pose", None), ("PoseLoop", "Toggle Pose Loop", None), ("PoseScan", "Start Pose Scan", None), ("PoseScanStop", "Stop Pose Scan", None), ("WeaponIconsRedo", "Redo Weapon Icons", None), ("WeaponIconsMode", "Toggle Rendered Icons", None), ("VerContinue", "Version Continue", None), ("VerOff", "Version Off", None), ("DropWarnCancel", "Drop Warn Cancel", None), ("DropWarnDestroy", "Drop Warn Destroy", None), ("DropWarnDrop", "Drop Warn Drop", None), ("RenameMod", "Rename Mod Of Item", "ContextItem"), ("SkinRenameMod", "Rename Skin Mod", "ContextItem"), ("ModelRenameMod", "Rename Model Mod", "ContextItem"), ("SoundRenameMod", "Rename Sound Mod", "ContextItem"), ("RenameGroup", "Rename Group Of Item", "ContextItem"),
-    ("HairNatural", "Toggle Hair Swatches", None), ("FaceAllFixed", "Face All Fixed", None), ("FaceAllGame", "Face All Game", None), ("FaceAddToggle", "Toggle Face Add", None),
+    ("HairNatural", "Toggle Hair Swatches", None), ("FaceAllFixed", "Face All Fixed", None), ("FaceAllGame", "Face All Game", None), ("FaceAddToggle", "Toggle Face Add", None), ("MutReset", "Mutation Reset", None),
     ("FaceApply", "Apply Saved Face", "ContextFace"), ("FaceRename", "Start Face Rename", "ContextFace"), ("FaceUpdate", "Update Face Front", "ContextFace"), ("FaceUpdateView", "Update Face View", "ContextFace"), ("FaceDelete", "Delete Face", "ContextFace"), ("FaceView", "Open Face Content", "ContextFace"),
     ("FreeCam", "Start Free Cam", None), ("PhotoMode", "Start Photo Mode", None), ("ModeRagdoll", "Start Ragdoll Mode", None), ("SpeedReset", "Reset Move Speeds", None),   # not "Rag...": that prefix goes to Ragdoll Action
     ("Undo", "Undo", None), ("Redo", "Redo", None), ("KodexBack", "Kodex Back", None), ("KodexRefresh", "Rebuild Kodex", None), ("LookRagdoll", "Spawn Look Ragdoll", "ContextLook"),
@@ -4962,18 +5355,18 @@ def f_on_menu_action():
 # One S_Follower per figure in FolSave.Followers (own save AltUI_Followers.sav; the game never saves our figures). FolActors maps
 # a figure's Id to its BP_AltUIFollower while it is in the world. fol_get / fol_put read and write one record.
 import followers as fol
-from followers import S_FOL, SG_FOL, FOL_SLOT, MODE_FOLLOWER, MODE_NPC, ORDER_FOLLOW, ORDER_STAY, S_RAGPART, VOICES
+from followers import S_FOL, SG_FOL, FOL_SLOT, MODE_FOLLOWER, MODE_NPC, ORDER_FOLLOW, ORDER_STAY, S_RAGPART, VOICES, KIND_LOOK, KIND_JASON
 FOL_FIELDS = ["Id", "Name", "Mode", "Order", "Active", "Invulnerable", "Fallen", "Parts", "MorphNames", "MorphValues", "Items", "Guns", "Level", "Where", "Heel", "Scales", "BodyDef",
-              "Clothes", "Worn", "Colors", "Damage", "SlotColors", "Hair", "HairColor", "MakeupRows", "MakeupColors", "MakeupKept", "Voice"]
-FOL_VARS = [var("FolSave", "object:" + SG_FOL), var("FolActors", "name", "map", value_type="object:" + FOLLOWER), var("FolSpawnMode", "int"), var("FolRelook", "int"),
+              "Clothes", "Worn", "Colors", "Damage", "SlotColors", "Hair", "HairColor", "MakeupRows", "MakeupColors", "MakeupKept", "Voice", "InfAmmo", "Kind"]
+FOL_VARS = [var("FolSave", "object:" + SG_FOL), var("FolActors", "name", "map", value_type="object:" + P_CNPC), var("FolSpawnMode", "int"), var("FolRelook", "int"),
             var("FolSel", "name"), var("FolParts", "struct:" + S_RAGPART, "array"), var("FolMorphN", "name", "array"), var("FolMorphV", "float", "array"), var("FolHeel", "struct:/Script/CoreUObject.Vector"),
-            var("FolGunsTmp", "struct:" + P_GUN_S, "array"), var("FolGunNames", "name", "array"), var("FolIdx", "int"), var("FolActor", "object:" + FOLLOWER),
+            var("FolGunsTmp", "struct:" + P_GUN_S, "array"), var("FolGunNames", "name", "array"), var("FolIdx", "int"), var("FolActor", "object:" + P_CNPC), var("FolJasonNew", "bool"),
             var("FolLevel", "string"), var("FolTf", "struct:/Script/CoreUObject.Transform"), var("FolScales", "float", "array"), var("FolBodyDef", "struct:" + S_BODYSCALE), var("FolCnt", "int"),
             var("FolClothes", "name", "array"), var("FolWorn", "name", "array"), var("FolColors", "name", "map", value_type=S_LINCOLOR),
             var("FolSlotColors", "name", "map", value_type=S_LINCOLOR), var("FolHair", "name"), var("FolHairColor", S_LINCOLOR),
             var("FolHidden", "object:/Script/Engine.SceneComponent", "array"), var("FolDamage0", "name", "map", value_type="float"), var("FolNoNames", "name", "array"),
             var("FolBagCount", "name", "map", value_type="int"), var("FolSelClothes", "name", "array"),
-            var("FolMkRows", "name", "array"), var("FolMkColors", "name", "map", value_type=S_LINCOLOR), var("FolMkData", "name", "map", value_type="struct:" + P_MDATA_S),
+            var("FolMkRows", "name", "array"), var("FolMutation", "struct:" + mutn.S_MUT), var("FolMkColors", "name", "map", value_type=S_LINCOLOR), var("FolMkData", "name", "map", value_type="struct:" + P_MDATA_S),
             var("FolMkTex", "object:/Script/Engine.TextureRenderTarget2D"), var("FolMkList", "name", "array")]   # clothes in a figure's bag at its last sync (Fol Watch)
 
 
@@ -5132,12 +5525,13 @@ def f_finish_look_follower():
     g.get("gcbd", "CurrentBody"); g.n("bsf", "call_self", function="Body Scale Factors", inp={"name": "@gcbd.CurrentBody"}); g.set("sfs", "FolScales", inp={"FolScales": "@bsf.factors"})
     g.get("gbdf", "BodyDefaults"); g.set("sfb", "FolBodyDef", inp={"FolBodyDef": "@gbdf.BodyDefaults"})
     g.n("tmk", "call_self", function="Fol Take Makeup")   # her make-up as data, before Undo
+    g.get("gmut", "Mutation"); g.set("sfmu", "FolMutation", inp={"FolMutation": "@gmut.Mutation"})   # her mutation look, before Undo
     g.n("un", "call_self", function="Undo")
     g.get("gsm", "FolSpawnMode"); g.call("isr", K_MATH, "EqualEqual_IntInt", inp={"A": "@gsm.FolSpawnMode", "B": "3"}); g.branch("brl", "@isr.ReturnValue")
     g.get("gfcl", "FolClothes"); g.get("gfwn", "FolWorn"); g.get("gfco", "FolColors"); g.get("gfsc", "FolSlotColors"); g.get("gfhr", "FolHair"); g.get("gfhc", "FolHairColor")
-    g.get("gfmr", "FolMkRows"); g.get("gfmc", "FolMkColors")
+    g.get("gfmr", "FolMkRows"); g.get("gfmc", "FolMkColors"); g.get("gfmu", "FolMutation")
     new = dict(Clothes="@gfcl.FolClothes", Worn="@gfwn.FolWorn", Colors="@gfco.FolColors", SlotColors="@gfsc.FolSlotColors", Hair="@gfhr.FolHair", HairColor="@gfhc.FolHairColor",
-               MakeupRows="@gfmr.FolMkRows", MakeupColors="@gfmc.FolMkColors", MakeupKept="true")
+               MakeupRows="@gfmr.FolMkRows", MakeupColors="@gfmc.FolMkColors", MakeupKept="true", Mutation="@gfmu.FolMutation")
     # new look for an existing record
     g.get("grl", "FolRelook"); rec = fol_get(g, "r", "@grl.FolRelook"); g.get("gfp", "FolParts"); g.get("gfn", "FolMorphN"); g.get("gfv", "FolMorphV")
     g.get("gfs", "FolScales"); g.get("gfd", "FolBodyDef"); g.get("gfd0", "FolDamage0")   # FolDamage0: never written, an empty map - a new look is fresh
@@ -5153,8 +5547,11 @@ def f_finish_look_follower():
     g.call("rrm", P_CPB, "Remove Clothing From Bag", inp={"self": act, "clothing name": "@frr.Array Element"})
     g.get("gfcl4", "FolClothes"); g.n("rrj", "call_self", function="Fol Record Clothes To Jodi", inp={"index": "@grl.FolRelook", "keep": "@gfcl4.FolClothes"})
     g.n("rmt", "call_self", function="Fol Makeup Tex", inp={"rows": "@gfmr.FolMkRows", "colors": "@gfmc.FolMkColors", "kept": "true"})
-    g.n("rsmt", "set", var="LookMakeupTex", cls=FOLLOWER, inp={"self": act, "LookMakeupTex": "@rmt.tex"})
-    g.call("rsl", FOLLOWER, "Set Look", inp={"self": act, "parts": "@gfp.FolParts", "names": "@gfn.FolMorphN", "values": "@gfv.FolMorphV",
+    g.cast("rcfl", FOLLOWER, act, pure=False, miss="ignore"); rfl = "@rcfl.AsBP Alt UIFollower"   # FolActors holds Character_NPCs (Jason too)
+    g.n("rsmt", "set", var="LookMakeupTex", cls=FOLLOWER, inp={"self": rfl, "LookMakeupTex": "@rmt.tex"})
+    g.get("gfmu2", "FolMutation"); g.n("rmst", "call_self", function="Mutation Skin Tex", inp={"mut": "@gfmu2.FolMutation"})
+    g.n("rsst", "set", var="LookSkinTex", cls=FOLLOWER, inp={"self": rfl, "LookSkinTex": "@rmst.tex"})
+    g.call("rsl", FOLLOWER, "Set Look", inp={"self": rfl, "parts": "@gfp.FolParts", "names": "@gfn.FolMorphN", "values": "@gfv.FolMorphV",
                                              "clothes": "@gfcl.FolClothes", "worn": "@gfwn.FolWorn", "colors": "@gfco.FolColors", "damage": "@gfd0.FolDamage0",
                                              "hair": "@gfhr.FolHair", "haircolor": "@gfhc.FolHairColor"})
     # the figure has started already: Set Look only hands the pieces over - put them on as Wear These Clothes does, then the slot colours
@@ -5174,7 +5571,7 @@ def f_finish_look_follower():
     g.n("fr", "call_self", function="Fol Front"); g.call("lvl", K_GS, "GetCurrentLevelName", inp={"bRemovePrefixString": "true"})
     g.get("gfs2", "FolScales"); g.get("gfd2", "FolBodyDef")
     g.get("gnn", "RagNextName"); g.get("gfp2", "FolParts"); g.get("gfn2", "FolMorphN"); g.get("gfv2", "FolMorphV")
-    g.make("nr", S_FOL, Id="@id.ReturnValue", Name="@gnn.RagNextName", Mode="@gm2.FolSpawnMode", Order="@ord.ReturnValue", Active="true", Invulnerable="false", Fallen="false",
+    g.make("nr", S_FOL, Id="@id.ReturnValue", Name="@gnn.RagNextName", Mode="@gm2.FolSpawnMode", Order="@ord.ReturnValue", Active="true", Invulnerable="false", InfAmmo="false", Fallen="false",
            Parts="@gfp2.FolParts", MorphNames="@gfn2.FolMorphN", MorphValues="@gfv2.FolMorphV", Level="@lvl.ReturnValue", Where="@fr.tf",
            Scales="@gfs2.FolScales", BodyDef="@gfd2.FolBodyDef", Voice=random_voice(g, "nvo"), **new)
     g.call("ad", K_ARR, "Array_Add", inp={"TargetArray": fol_list(g, "al"), "NewItem": "@nr.S_Follower"}); g.set("ssel", "FolSel", inp={"FolSel": "@id.ReturnValue"})
@@ -5184,8 +5581,8 @@ def f_finish_look_follower():
     g.chain("hfe:Completed", "rs", "hid", "cf", "cp", "sp", "fsh"); g.chain("fsh", "shw")
     g.chain("fsh:Completed", "dr", "cmn", "cmv", "fm"); g.chain("fm", "amn", "amv")
     g.chain("fm:Completed", "wn", "swn", "scl", "cfc", "cfs", "fwc"); g.chain("fwc", "gcc", "bgc", "afc", "sck", "fsk"); g.chain("bgc:else", "sck"); g.chain("fsk", "bsw", "afs")
-    g.chain("fwc:Completed", "shn", "shc", "bsf", "sfs", "sfb", "tmk", "un", "brl", "bra0", "frr"); g.chain("frr", "binn", "rto", "rrm"); g.chain("binn:else", "rtj"); g.chain("frr:Completed", pr); g.chain("bra0:else", "rrj", pr)
-    g.chain(pr, "bra", "rmt", "rsmt", "rsl", "frw"); g.chain("frw", "rww"); g.chain("frw:Completed", "rcc", "rasc", "rbs", "rsv")
+    g.chain("fwc:Completed", "shn", "shc", "bsf", "sfs", "sfb", "tmk", "sfmu", "un", "brl", "bra0", "frr"); g.chain("frr", "binn", "rto", "rrm"); g.chain("binn:else", "rtj"); g.chain("frr:Completed", pr); g.chain("bra0:else", "rrj", pr)
+    g.chain(pr, "bra", "rmt", "rcfl", "rsmt", "rmst", "rsst", "rsl", "frw"); g.chain("frw", "rww"); g.chain("frw:Completed", "rcc", "rasc", "rbs", "rsv")
     g.chain("bra:else", "rsv"); g.chain("rsv", "rrf", "z0"); g.chain("brl:else", "ld", "sc", "fr", "lvl", "ad", "ssel", "nsv", "nsp", "nrf", "z0"); g.chain("z0", "z1")
     return fn("Finish Look Follower", graph=g)
 
@@ -5291,19 +5688,38 @@ def f_fol_spawn():
     g.n("fr", "call_self", function="Fol Front"); g.call("tf", K_MATH, "SelectTransform", inp={"A": rec + "Where", "B": "@fr.tf", "bPickA": "@atp.ReturnValue"})
     g.n("sp", "spawn", cls=FOLLOWER, inp={"SpawnTransform": "@tf.ReturnValue", "CollisionHandlingOverride": "AdjustIfPossibleButAlwaysSpawn"}); g.set("sa", "FolActor", inp={"FolActor": "@sp.ReturnValue"})
     g.call("v", K_SYS, "IsValid", inp={"Object": "@sa.Output_Get"}); g.branch("bv", "@v.ReturnValue")
-    g.get("a1", "FolActor"); g.n("sid", "set", var="FollowerId", cls=FOLLOWER, inp={"self": "@a1.FolActor", "FollowerId": rec + "Id"})
+    g.n("sid", "set", var="FollowerId", cls=FOLLOWER, inp={"self": "@sp.ReturnValue", "FollowerId": rec + "Id"})
     g.call("isn", K_MATH, "EqualEqual_IntInt", inp={"A": rec + "Mode", "B": str(MODE_NPC)}); g.call("ons", K_STR, "Conv_NameToString", inp={"InName": rec + "Order"})
     g.call("os", K_MATH, "SelectString", inp={"A": ORDER_STAY, "B": "@ons.ReturnValue", "bPickA": "@isn.ReturnValue"}); g.call("on", K_STR, "Conv_StringToName", inp={"InString": "@os.ReturnValue"})
-    g.get("a2v", "FolActor"); g.n("snn", "set", var="Npc Name", cls=P_NPCF, inp={"self": "@a2v.FolActor", "Npc Name": rec + "Voice"})   # Play Voice With Name: VoiceTable row = Npc Name
-    g.get("a2", "FolActor"); g.n("sso", "set", var="save order", cls=P_NPCF, inp={"self": "@a2.FolActor", "save order": "@on.ReturnValue"})
+    g.n("snn", "set", var="Npc Name", cls=P_NPCF, inp={"self": "@sp.ReturnValue", "Npc Name": rec + "Voice"})   # Play Voice With Name: VoiceTable row = Npc Name
+    g.n("sso", "set", var="save order", cls=P_NPCF, inp={"self": "@sp.ReturnValue", "save order": "@on.ReturnValue"})
     g.call("loc", K_MATH, "BreakTransform", inp={"InTransform": "@tf.ReturnValue"})
-    g.get("a3", "FolActor"); g.n("sol", "set", var="Order Location", cls=P_NPCF, inp={"self": "@a3.FolActor", "Order Location": "@loc.Location"})
+    g.n("sol", "set", var="Order Location", cls=P_NPCF, inp={"self": "@sp.ReturnValue", "Order Location": "@loc.Location"})
     g.n("fmt", "call_self", function="Fol Makeup Tex", inp={"rows": rec + "MakeupRows", "colors": rec + "MakeupColors", "kept": rec + "MakeupKept"})
-    g.get("a4m", "FolActor"); g.n("smt", "set", var="LookMakeupTex", cls=FOLLOWER, inp={"self": "@a4m.FolActor", "LookMakeupTex": "@fmt.tex"})
-    g.get("a4", "FolActor"); g.call("sl", FOLLOWER, "Set Look", inp={"self": "@a4.FolActor", "parts": rec + "Parts", "names": rec + "MorphNames", "values": rec + "MorphValues",
+    g.n("smt", "set", var="LookMakeupTex", cls=FOLLOWER, inp={"self": "@sp.ReturnValue", "LookMakeupTex": "@fmt.tex"})
+    g.n("mst", "call_self", function="Mutation Skin Tex", inp={"mut": rec + "Mutation"})   # mutation look: its own skin target (None without colour)
+    g.n("sst", "set", var="LookSkinTex", cls=FOLLOWER, inp={"self": "@sp.ReturnValue", "LookSkinTex": "@mst.tex"})
+    g.call("sl", FOLLOWER, "Set Look", inp={"self": "@sp.ReturnValue", "parts": rec + "Parts", "names": rec + "MorphNames", "values": rec + "MorphValues",
                                                                      "clothes": rec + "Clothes", "worn": rec + "Worn", "colors": rec + "Colors", "damage": rec + "Damage",
                                                                      "hair": rec + "Hair", "haircolor": rec + "HairColor"})
     g.call("ninv", K_MATH, "Not_PreBool", inp={"A": rec + "Invulnerable"}); g.get("a5", "FolActor"); g.n("dmg", "set", var="bCanBeDamaged", cls=E_ACTOR, inp={"self": "@a5.FolActor", "bCanBeDamaged": "@ninv.ReturnValue"})
+    g.n("sia", "set", var="InfAmmo", cls=FOLLOWER, inp={"self": "@sp.ReturnValue", "InfAmmo": rec + "InfAmmo"})
+    # Jason (Kind 1, docs/notes/2026-10-18-follower-munition-und-npc-typen.md): BP_AltUIJason, no look / make-up / voice / body sliders.
+    # State 2 = the Glock, only for a new record (FolJasonNew) - later his guns come from the record; 3 = none (Init Jason needs > 0).
+    # His start (Init Jason) gives him his controller and sets bCanBeDamaged = true: damage, master, order after it
+    g.call("isj", K_MATH, "EqualEqual_IntInt", inp={"A": rec + "Kind", "B": str(KIND_JASON)}); g.branch("bkj", "@isj.ReturnValue")
+    g.n("spj", "spawn", cls=JASON, inp={"SpawnTransform": "@tf.ReturnValue", "CollisionHandlingOverride": "AdjustIfPossibleButAlwaysSpawn"}); g.set("saj", "FolActor", inp={"FolActor": "@spj.ReturnValue"})
+    g.call("vj", K_SYS, "IsValid", inp={"Object": "@spj.ReturnValue"}); g.branch("bvj", "@vj.ReturnValue")
+    # his Glock: his own (Jason_Glock - only it has his montages; Jason fights with it alone) when new or when the record has one
+    g.foreach("jfg", rec + "Guns"); g.brk("jgb", P_GUN_S, "@jfg.Array Element"); g.call("jgi", K_MATH, "EqualEqual_NameName", inp={"A": "@jgb.GunName", "B": "Glock"}); g.branch("bjg", "@jgi.ReturnValue")
+    g.set("jgn", "FolJasonNew", inp={"FolJasonNew": "true"})
+    g.get("gjn", "FolJasonNew"); g.call("jsv", K_MATH, "SelectInt", inp={"A": "2", "B": "3", "bPickA": "@gjn.FolJasonNew"})
+    g.n("jia", "set", var="InfAmmo", cls=JASON, inp={"self": "@spj.ReturnValue", "InfAmmo": rec + "InfAmmo"})
+    g.n("jst", "set", var="State", cls=P_JASON, inp={"self": "@spj.ReturnValue", "State": "@jsv.ReturnValue"}); g.set("jnw", "FolJasonNew", inp={"FolJasonNew": "false"})
+    g.call("josr", P_CNPC, "on Spawn in Runtime", inp={"self": "@spj.ReturnValue"})
+    g.n("jdmg", "set", var="bCanBeDamaged", cls=E_ACTOR, inp={"self": "@spj.ReturnValue", "bCanBeDamaged": "@ninv.ReturnValue"})
+    jct = fol_ctrl(g, "jct", "@spj.ReturnValue"); g.get("gplj", "Player"); g.n("jsm", "set", var="master", cls=P_NPCCTRL, inp={"self": jct, "master": "@gplj.Player"})
+    g.call("jcho", P_NPCCTRL, "Change Order", inp={"self": jct, "order": "@on.ReturnValue"}); g.n("jcol", "set", var="Order Location", cls=P_NPCCTRL, inp={"self": jct, "Order Location": "@loc.Location"})
     g.branch("bfm", "@isf.ReturnValue"); g.get("a6", "FolActor"); ctl = fol_ctrl(g, "ct", "@a6.FolActor")
     g.get("gpl", "Player"); g.n("sm", "set", var="master", cls=P_NPCCTRL, inp={"self": ctl, "master": "@gpl.Player"})
     # the game's start of a figure spawned while playing: On Begun Play - our look (Apply Npc Appearance), health, the anim class
@@ -5319,18 +5735,22 @@ def f_fol_spawn():
     g.get("a13", "FolActor"); g.n("asc", "call_self", function="Fol Apply Slot Colors", inp={"char": "@a13.FolActor", "colors": rec + "SlotColors"})
     # its bag: items (not the guns - they come from their Gun Data), then the guns
     g.get("gn0", "FolGunNames"); g.call("cgn", K_ARR, "Array_Clear", inp={"TargetArray": "@gn0.FolGunNames"}); g.foreach("fg", rec + "Guns"); g.brk("bg", P_GUN_S, "@fg.Array Element")
+    g.branch("bjk", "@isj.ReturnValue"); g.get("gn9", "FolGunNames"); g.call("agj", K_ARR, "Array_Add", inp={"TargetArray": "@gn9.FolGunNames", "NewItem": g.lit_name("lglk", "Glock")})   # a Jason: his Glock (gun or item) stays out - State 2 gave him his own
     g.get("gn1", "FolGunNames"); g.call("agn", K_ARR, "Array_Add", inp={"TargetArray": "@gn1.FolGunNames", "NewItem": "@bg.GunName"})
     g.call("ik", K_MAP, "Map_Keys", inp={"TargetMap": rec + "Items"}); g.foreach("fi", "@ik.Keys"); g.get("gn2", "FolGunNames")
     g.call("isg", K_ARR, "Array_Contains", inp={"TargetArray": "@gn2.FolGunNames", "ItemToFind": "@fi.Array Element"}); g.branch("big", "@isg.ReturnValue")
     g.call("ic", K_MAP, "Map_Find", inp={"TargetMap": rec + "Items", "Key": "@fi.Array Element"})
+    g.call("icp", K_MATH, "Greater_IntInt", inp={"A": "@ic.Value", "B": "0"}); g.branch("bic", "@icp.ReturnValue")   # bag Tools keeps a used-up entry at 0: no item (a weapon with 0 came back, ui-test-123 #7)
     g.get("a7", "FolActor"); g.call("pt", P_CPB, "Put Item to Bag", inp={"self": "@a7.FolActor", "item name": "@fi.Array Element", "num": "@ic.Value", "is clothing": "false", "fx": "false"})
     g.foreach("fgg", rec + "Guns"); g.get("a8", "FolActor"); g.call("gg", P_CPB, "Got A Gun", inp={"self": "@a8.FolActor", "Gun Data": "@fgg.Array Element"})
-    g.brk("ggb", P_GUN_S, "@fgg.Array Element"); g.n("awl", "call_self", function="Apply Weapon Look On", inp={"weapon": "@ggb.GunName", "actor": "@gg.gun"})
+    g.brk("ggb", P_GUN_S, "@fgg.Array Element"); g.call("ggl", K_MATH, "EqualEqual_NameName", inp={"A": "@ggb.GunName", "B": "Glock"}); g.call("ggj", K_MATH, "BooleanAND", inp={"A": "@isj.ReturnValue", "B": "@ggl.ReturnValue"})
+    g.call("ggn", K_MATH, "Not_PreBool", inp={"A": "@ggj.ReturnValue"}); g.branch("bgg", "@ggn.ReturnValue"); g.n("awl", "call_self", function="Apply Weapon Look On", inp={"weapon": "@ggb.GunName", "actor": "@gg.gun"})
     g.get("gam", "FolActors"); g.get("a9", "FolActor"); g.call("ma", K_MAP, "Map_Add", inp={"TargetMap": "@gam.FolActors", "Key": rec + "Id", "Value": "@a9.FolActor"})
     g.chain("entry", "bnv", pv, "svv", "lvl"); g.chain("bnv:else", "lvl")
-    g.chain("lvl", "fr", "sp", "sa", "bv", "sid", "snn", "sso", "sol", "fmt", "smt", "sl", "dmg", "bfm", "ct", "sm", "osr", "ct2", "cho", "col", "abs", "asc", "cgn"); g.chain("bfm:else", "osr"); g.chain("ct:CastFailed", "osr")
+    g.chain("lvl", "fr", "bkj", "spj", "saj", "bvj", "jfg"); g.chain("jfg", "bjg", "jgn"); g.chain("jfg:Completed", "jst", "jnw", "jia", "josr", "jdmg", "jct", "jsm", "jcho", "jcol", "cgn"); g.chain("jct:CastFailed", "cgn")
+    g.chain("bkj:else", "sp", "sa", "bv", "sid", "snn", "sso", "sol", "fmt", "smt", "mst", "sst", "sl", "dmg", "sia", "bfm", "ct", "sm", "osr", "ct2", "cho", "col", "abs", "asc", "cgn"); g.chain("bfm:else", "osr"); g.chain("ct:CastFailed", "osr")
     g.chain("ct2:CastFailed", "abs")
-    g.chain("cgn", "fg"); g.chain("fg", "agn"); g.chain("fg:Completed", "ik", "fi"); g.chain("fi", "big"); g.chain("big:else", "pt"); g.chain("fi:Completed", "fgg"); g.chain("fgg", "gg", "awl"); g.chain("fgg:Completed", "ma")
+    g.chain("cgn", "fg"); g.chain("fg", "agn"); g.chain("fg:Completed", "bjk", "agj", "ik"); g.chain("bjk:else", "ik"); g.chain("ik", "fi"); g.chain("fi", "big"); g.chain("big:else", "bic", "pt"); g.chain("fi:Completed", "fgg"); g.chain("fgg", "bgg", "gg", "awl"); g.chain("fgg:Completed", "ma")
     return fn("Fol Spawn", [param("index", "int")], graph=g)
 
 
@@ -5495,7 +5915,8 @@ def f_fol_level_start():
     g.call("tm", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Fol Tick", "Time": str(fol.FOL_SYNC), "bLooping": "true"})
     g.call("tw", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Fol Watch", "Time": str(fol.FOL_WATCH), "bLooping": "true"})
     g.call("tg", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Fol Npc Guard", "Time": str(fol.FOL_NPC_GUARD), "bLooping": "true"})
-    g.chain("entry", "ld", "mc", "lvl", "slv", "fe"); g.chain("fe", "bgo", "sp"); g.chain("fe:Completed", "tm", "tw", "tg")
+    g.call("th", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Hand Watch", "Time": "1.0", "bLooping": "true"})   # the invisible hand
+    g.chain("entry", "ld", "mc", "lvl", "slv", "fe"); g.chain("fe", "bgo", "sp"); g.chain("fe:Completed", "tm", "tw", "tg", "th")
     if FOLLOG:
         g.call("tmd", K_SYS, "K2_SetTimer", inp={"Object": "@me.self", "FunctionName": "Fol Debug", "Time": "1.0", "bLooping": "true"}); g.chain("tw", "tmd")
     return fn("Fol Level Start", graph=g)
@@ -5509,7 +5930,7 @@ def f_fol_debug():
     g.get("co", "Current Order", cls=P_NPCCTRL); g.link("ct.AsNpc Controller", "co.self"); g.get("ws", "walking state", cls=P_NPCCTRL); g.link("ct.AsNpc Controller", "ws.self")
     g.get("bz", "is busy", cls=P_NPCCTRL); g.link("ct.AsNpc Controller", "bz.self"); g.get("ms", "master", cls=P_NPCCTRL); g.link("ct.AsNpc Controller", "ms.self")
     g.call("bzs", K_STR, "Conv_BoolToString", inp={"InBool": "@bz.is busy"})
-    g.get("dm", "Distance to Master", cls=P_CNPC); g.link("fe.Array Element", "dm.self"); g.get("so", "save order", cls=P_NPCF); g.link("fe.Array Element", "so.self")
+    g.get("dm", "Distance to Master", cls=P_CNPC); g.link("fe.Array Element", "dm.self"); g.cast("cnf", P_NPCF, "@fe.Array Element"); g.get("so", "save order", cls=P_NPCF); g.link("cnf.AsNPC Female", "so.self")
     g.get("zb", "Zombie in front of me", cls=P_CPB); g.link("fe.Array Element", "zb.self")
     g.get("pa", "is paralleled animation playing", cls=P_CPB); g.link("fe.Array Element", "pa.self"); g.call("pas", K_STR, "Conv_BoolToString", inp={"InBool": "@pa.is paralleled animation playing"})
     g.call("vel", E_ACTOR, "GetVelocity", inp={"self": a}); g.call("vs", K_MATH, "VSize", inp={"A": "@vel.ReturnValue"})
@@ -5585,6 +6006,18 @@ def f_fol_set_invulnerable():
     return fn("Fol Set Invulnerable", [param("index", "int"), param("on", "bool")], graph=g)
 
 
+def f_fol_set_inf_ammo():
+    """Infinite ammo on / off: the record and, while it is in the world, the figure (BP_AltUIFollower.Count Weapon Ammo)."""
+    g = G(); rec = fol_get(g, "r", "@entry.index"); p = fol_put(g, "p", "@entry.index", rec, InfAmmo="@entry.on")
+    act, ok = fol_actor(g, "fa", rec + "Id"); g.branch("bok", ok)
+    g.cast("cfl", FOLLOWER, act, pure=False, miss="ignore"); g.cast("cja", JASON, act, pure=False, miss="ignore")   # a look figure or a Jason
+    g.n("sia", "set", var="InfAmmo", cls=FOLLOWER, inp={"self": "@cfl.AsBP Alt UIFollower", "InfAmmo": "@entry.on"}); g.n("sv", "call_self", function="Save Fol Save"); g.n("rf", "call_self", function="Fol Refresh")
+    g.n("sja", "set", var="InfAmmo", cls=JASON, inp={"self": "@cja.AsBP Alt UIJason", "InfAmmo": "@entry.on"})
+    g.chain("cfl:CastFailed", "cja", "sja", "sv"); g.chain("cja:CastFailed", "sv")
+    g.chain("entry", p, "bok", "cfl", "sia", "sv"); g.chain("bok:else", "sv"); g.chain("sv", "rf")
+    return fn("Fol Set Inf Ammo", [param("index", "int"), param("on", "bool")], graph=g)
+
+
 def f_fol_revive():
     """A fallen figure anew in front of Jodi (its body, if still there, stays as in the game), with the bag it had at its last sync."""
     g = G(); rec = fol_get(g, "r", "@entry.index"); g.n("fr", "call_self", function="Fol Front"); g.call("lvl", K_GS, "GetCurrentLevelName", inp={"bRemovePrefixString": "true"})
@@ -5633,9 +6066,9 @@ def f_fol_relook():
 
 
 def fol_functions():
-    return [f_load_fol_save(), f_save_fol_save(), f_fol_front(), f_fol_index(), f_fol_take_makeup(), f_fol_makeup_tex(), f_own_makeup_copy(), f_set_makeup_tex_on(), f_spawn_look_as(MODE_FOLLOWER, "Spawn Look As Follower"), f_spawn_look_as(MODE_NPC, "Spawn Look As Npc"),
+    return [f_load_fol_save(), f_save_fol_save(), f_fol_front(), f_fol_index(), f_fol_take_makeup(), f_fol_makeup_tex(), f_own_makeup_copy(), f_set_makeup_tex_on(), f_load_mutation_assets(), f_mutation_orig_of(), f_mutate_mesh(), f_mutation_active(), f_apply_jodi_mutation(), f_mutation_watch(), f_mutation_row_changed(), f_mutation_eyes_off(), f_mutation_reset(), f_mutate_copy(), f_mutation_skin_tex(), f_mutation_story_slot(), f_mutation_glow_layer(), f_spawn_look_as(MODE_FOLLOWER, "Spawn Look As Follower"), f_spawn_look_as(MODE_NPC, "Spawn Look As Npc"),
             f_spawn_look_follower(), f_finish_look_follower(), f_fol_spawn(), f_fol_sync(), f_fol_clothes_to_jodi(), f_fol_record_clothes_to_jodi(), f_fol_watch(), f_fol_npc_guard(), f_fol_sync_all(), f_fol_tick(), f_fol_despawn(), f_fol_level_start(),
-            f_fol_order(), f_fol_set_mode(), f_fol_set_active(), f_fol_set_invulnerable(), f_fol_revive(), f_fol_remove(), f_fol_rename(), f_fol_relook(), f_fol_refresh_tab(), f_fol_bag_saved()] + ([f_fol_debug()] if FOLLOG else []) + fol_tab_functions()
+            f_fol_order(), f_fol_set_mode(), f_fol_set_active(), f_fol_set_invulnerable(), f_fol_set_inf_ammo(), f_fol_new_jason(), f_hand_watch(), f_fol_revive(), f_fol_remove(), f_fol_rename(), f_fol_relook(), f_fol_refresh_tab(), f_fol_bag_saved()] + ([f_fol_debug()] if FOLLOG else []) + fol_tab_functions()
 
 
 
@@ -5737,11 +6170,13 @@ def f_rebuild_followers():
     g.branch("bnf", "@nf.ReturnValue")
     g.get("rt6", "FolRowTmp"); c_ac = fol_chip(g, "cac", "@rt6.FolRowTmp", "Active", "@b.Id", tt(g, "cact", "Fol_Active"), "@b.Active")
     g.get("rt7", "FolRowTmp"); c_in = fol_chip(g, "cin", "@rt7.FolRowTmp", "Invuln", "@b.Id", tt(g, "cint", "Fol_Invulnerable"), "@b.Invulnerable")
+    g.get("rt7a", "FolRowTmp"); c_am = fol_chip(g, "cam", "@rt7a.FolRowTmp", "Ammo", "@b.Id", tt(g, "camt", "Fol_InfAmmo"), "@b.InfAmmo")
     g.get("rt8", "FolRowTmp"); c_mm = fol_chip(g, "cmm", "@rt8.FolRowTmp", "More", "@b.Id", tt(g, "cmmt", "Chip_More"), "false")
     # its clothes (real clothes, 2026-10-12): tiles "folc:<id>:<piece>", damaged ones with the badge; an old record (followers.is_old_record) a note instead
     g.call("oc1", K_ARR, "Array_Length", inp={"TargetArray": "@b.Clothes"}); g.call("oc2", K_ARR, "Array_Length", inp={"TargetArray": "@b.Worn"})
     g.call("oc3", K_MATH, "Add_IntInt", inp={"A": "@oc1.ReturnValue", "B": "@oc2.ReturnValue"}); g.call("oc0", K_MATH, "EqualEqual_IntInt", inp={"A": "@oc3.ReturnValue", "B": "0"})
-    g.call("ohn", K_MATH, "EqualEqual_NameName", inp={"A": "@b.Hair", "B": "None"}); g.call("old", K_MATH, "BooleanAND", inp={"A": "@oc0.ReturnValue", "B": "@ohn.ReturnValue"}); g.branch("bold", "@old.ReturnValue")
+    g.call("ohn", K_MATH, "EqualEqual_NameName", inp={"A": "@b.Hair", "B": "None"}); g.call("old0", K_MATH, "BooleanAND", inp={"A": "@oc0.ReturnValue", "B": "@ohn.ReturnValue"})
+    g.call("rlk", K_MATH, "NotEqual_IntInt", inp={"A": "@b.Kind", "B": str(KIND_JASON)}); g.call("old", K_MATH, "BooleanAND", inp={"A": "@old0.ReturnValue", "B": "@rlk.ReturnValue"}); g.branch("bold", "@old.ReturnValue")
     g.get("rt11", "FolRowTmp"); g.call("onote", W_FOLROW, "Set Note", inp={"self": "@rt11.FolRowTmp", "text": tt(g, "ont", "Fol_OldLook")})
     act_r, ok_r = fol_actor(g, "rfa", "@b.Id")
     g.foreach("fcl", "@b.Clothes"); g.n("rfi", "call_self", function="Find Item", inp={"name": "@fcl.Array Element"}); g.branch("brf", "@rfi.found"); g.brk("rfb", S_ITEM, "@rfi.item")
@@ -5775,7 +6210,7 @@ def f_rebuild_followers():
     g.get("rt9", "FolRowTmp"); g.call("tad", W_FOLROW, "Add Tile", inp={"self": "@rt9.FolRowTmp", "widget": tw})
     g.get("gp5", "Panel"); g.get("rt10", "FolRowTmp"); g.call("ar", W_PANEL, "Add Fol Row", inp={"self": "@gp5.Panel", "widget": "@rt10.FolRowTmp"})
     g.chain("fe", "rw_cr", "rwsm", "srw", "ri", "arw", "blive"); g.chain("blive", "bfol", *c_fo, *c_wa, *c_he); g.chain("bfol:else", c_he[0]); g.chain(c_he[-1], *c_mo, "bnf")
-    g.chain("blive:else", "bnf"); g.chain("bnf", *c_ac, *c_in); g.chain("bnf:else", c_in[0]); g.chain(c_in[-1], *c_mm, "bold", "onote", "ik", "fi"); g.chain("bold:else", "fcl")
+    g.chain("blive:else", "bnf"); g.chain("bnf", *c_ac, *c_in); g.chain("bnf:else", c_in[0]); g.chain(c_in[-1], *c_am); g.chain(c_am[-1], *c_mm, "bold", "onote", "ik", "fi"); g.chain("bold:else", "fcl")
     g.chain("fcl", "rfi", "brf", "rtip", "rtw_cr", "rtsm", "rti", "rtsc", "rtad"); g.chain("fcl:Completed", "ik")
     g.chain("fi", "bpos", "ir", "tw_cr", "twsm", "twi", "tsc", "tad"); g.chain("fi:Completed", "ar")
     # hint: no figures yet / none selected
@@ -5834,11 +6269,12 @@ def f_fol_menu():
     """"..." of a figure: rename, new look, revive (fallen), remove (asks), cancel - rows "Fol:<action>" for FolMenuIdx."""
     g = G(); g.set("si", "FolMenuIdx", inp={"FolMenuIdx": "@entry.index"}); head, tail = fol_menu_open(g)
     rec = fol_get(g, "r", "@entry.index")
-    rows = menu_row(g, 0, "Fol:Rename", tt(g, "t0", "Menu_Rename")) + menu_row(g, 1, "Fol:Relook", tt(g, "t1", "Fol_Relook"))
+    rn = menu_row(g, 0, "Fol:Rename", tt(g, "t0", "Menu_Rename")); rl = menu_row(g, 1, "Fol:Relook", tt(g, "t1", "Fol_Relook"))
+    g.call("nkj", K_MATH, "NotEqual_IntInt", inp={"A": rec + "Kind", "B": str(KIND_JASON)}); g.branch("bkr", "@nkj.ReturnValue")   # a Jason has no look
     rv = menu_row(g, 2, "Fol:Revive", tt(g, "t2", "Fol_Revive")); g.branch("bfa", rec + "Fallen")
     rest = menu_row(g, 3, "Fol:RemoveAsk", tt(g, "t3", "Fol_Remove")) + menu_row(g, 4, "Cancel", tt(g, "t4", "Menu_Cancel"))
     show = fol_menu_show(g)
-    g.chain("entry", "si", head); g.chain(tail, *rows, "bfa", *rv, rest[0]); g.chain("bfa:else", rest[0]); g.chain(*rest, show)
+    g.chain("entry", "si", head); g.chain(tail, *rn, "bkr", *rl, "bfa", *rv, rest[0]); g.chain("bkr:else", "bfa"); g.chain("bfa:else", rest[0]); g.chain(*rest, show)
     return fn("Fol Menu", [param("index", "int")], graph=g)
 
 
@@ -5871,7 +6307,7 @@ def f_fol_finish_rename():
 
 def f_fol_chip():
     """Chips of the tab: "FolFoldBag" / "FolFoldBox" (fold a column, saved), or "FolC:<action>:<id>" (Follow, Wait, Here, Mode,
-    Active, Invuln, More); the chip's figure becomes the selected one."""
+    Active, Invuln, Ammo, More); the chip's figure becomes the selected one."""
     g = G(); g.call("s", K_STR, "Conv_NameToString", inp={"InName": "@entry.name"})
     for k in ("Bag", "Box"):
         g.call("isf" + k, K_STR, "EqualEqual_StrStr", inp={"A": "@s.ReturnValue", "B": "FolFold" + k}); g.branch("bf" + k, "@isf%s.ReturnValue" % k)
@@ -5888,7 +6324,7 @@ def f_fol_chip():
     g.call("idn", K_STR, "Conv_StringToName", inp={"InString": "@sp2.RightS"}); g.set("ssel", "FolSel", inp={"FolSel": "@idn.ReturnValue"})
     g.n("ix", "call_self", function="Fol Index", inp={"id": "@idn.ReturnValue"}); g.call("ok", K_MATH, "GreaterEqual_IntInt", inp={"A": "@ix.index", "B": "0"}); g.branch("bok", "@ok.ReturnValue")
     rec = fol_get(g, "r", "@ix.index"); prev = "bok"; br = {}
-    for k in ("Follow", "Wait", "Here", "Mode", "Active", "Invuln", "More"):
+    for k in ("Follow", "Wait", "Here", "Mode", "Active", "Invuln", "Ammo", "More"):
         g.call("is" + k, K_STR, "EqualEqual_StrStr", inp={"A": "@sp2.LeftS", "B": k}); g.branch("b" + k, "@is%s.ReturnValue" % k); g.chain(prev, "b" + k); prev = "b%s:else" % k; br[k] = "b" + k
     g.n("rbf", "call_self", function="Rebuild Followers")
     g.n("fo", "call_self", function="Fol Order", inp={"index": "@ix.index", "order": ORDER_FOLLOW}); g.chain(br["Follow"], "fo", "rbf")
@@ -5898,9 +6334,40 @@ def f_fol_chip():
     g.n("mo", "call_self", function="Fol Set Mode", inp={"index": "@ix.index", "mode": "@nm.ReturnValue"}); g.chain(br["Mode"], "mo", "rbf")
     g.call("na", K_MATH, "Not_PreBool", inp={"A": rec + "Active"}); g.n("ac", "call_self", function="Fol Set Active", inp={"index": "@ix.index", "on": "@na.ReturnValue"}); g.chain(br["Active"], "ac")
     g.call("ni", K_MATH, "Not_PreBool", inp={"A": rec + "Invulnerable"}); g.n("iv", "call_self", function="Fol Set Invulnerable", inp={"index": "@ix.index", "on": "@ni.ReturnValue"}); g.chain(br["Invuln"], "iv")
+    g.call("nam", K_MATH, "Not_PreBool", inp={"A": rec + "InfAmmo"}); g.n("ia", "call_self", function="Fol Set Inf Ammo", inp={"index": "@ix.index", "on": "@nam.ReturnValue"}); g.chain(br["Ammo"], "ia")
     g.n("mm", "call_self", function="Fol Menu", inp={"index": "@ix.index"}); g.chain(br["More"], "mm")
     g.chain("bfBox:else", "ssel"); g.chain("ssel", "ix", "bok")
     return fn("Fol Chip", [param("name", "name")], graph=g)
+
+
+def f_hand_watch():
+    """The invisible hand works while "InvisibleHand" is in Jodi's bag, faster with more (InvisibleHand_Comp: every 3 - 0.5 n s, at
+    least 0.1 s, one item). Only Jodi.Put Item to Bag sets its power - after loading a save, or when a hand leaves the bag (box,
+    followers), it was wrong. Once a second: power = the hands in the bag, if it differs."""
+    g = G(); g.get("gp", "Player"); g.call("vp", K_SYS, "IsValid", inp={"Object": "@gp.Player"}); g.branch("bvp", "@vp.ReturnValue")
+    g.get("gh", "InvisibleHand_Comp", cls=P_JODI); g.link("gp.Player", "gh.self"); g.call("vh", K_SYS, "IsValid", inp={"Object": "@gh.InvisibleHand_Comp"}); g.branch("bvh", "@vh.ReturnValue")
+    g.get("gb", "Bag", cls=P_CPB); g.link("gp.Player", "gb.self"); g.call("ci", P_BAG, "Count Items", inp={"self": "@gb.Bag", "item name": inv.CAT_NO_ACTOR})
+    g.get("gn", "Number", cls=P_IHC); g.link("gh.InvisibleHand_Comp", "gn.self"); g.call("ne", K_MATH, "NotEqual_IntInt", inp={"A": "@ci.count", "B": "@gn.Number"}); g.branch("bne", "@ne.ReturnValue")
+    g.call("up", P_IHC, "Update Power", inp={"self": "@gh.InvisibleHand_Comp", "Number": "@ci.count"})
+    g.chain("entry", "bvp", "bvh", "bne", "up")
+    return fn("Hand Watch", graph=g)
+
+
+def f_fol_new_jason():
+    """"+ Jason" (Followers tab): a new record of KIND_JASON - a follower named Jason, saved, spawned in front of Jodi with the Glock
+    (FolJasonNew) and selected. Everything else is a figure's: orders, bring here, active, invulnerable, NPC, bag, levels, revive."""
+    g = G(); g.n("ld", "call_self", function="Load Fol Save"); g.get("gs", "FolSave"); g.get("gc", "Counter", cls=SG_FOL); g.link("gs.FolSave", "gc.self")
+    g.call("ci", K_MATH, "Add_IntInt", inp={"A": "@gc.Counter", "B": "1"}); g.get("gs2", "FolSave"); g.n("sc", "set", var="Counter", cls=SG_FOL, inp={"self": "@gs2.FolSave", "Counter": "@ci.ReturnValue"})
+    g.call("cs", K_STR, "Conv_IntToString", inp={"InInt": "@ci.ReturnValue"}); g.call("ic", K_STR, "Concat_StrStr", inp={"A": "F", "B": "@cs.ReturnValue"}); g.call("id", K_STR, "Conv_StringToName", inp={"InString": "@ic.ReturnValue"})
+    g.n("fr", "call_self", function="Fol Front"); g.call("lvl", K_GS, "GetCurrentLevelName", inp={"bRemovePrefixString": "true"})
+    g.make("nr", S_FOL, Id="@id.ReturnValue", Name="Jason", Mode=str(MODE_FOLLOWER), Order=ORDER_FOLLOW, Active="true", Invulnerable="false", InfAmmo="false", Fallen="false",
+           Level="@lvl.ReturnValue", Where="@fr.tf", Kind=str(KIND_JASON))
+    g.call("ad", K_ARR, "Array_Add", inp={"TargetArray": fol_list(g, "al"), "NewItem": "@nr.S_Follower"}); g.set("ssel", "FolSel", inp={"FolSel": "@id.ReturnValue"})
+    g.set("sjn", "FolJasonNew", inp={"FolJasonNew": "true"})
+    g.n("nsv", "call_self", function="Save Fol Save"); g.n("nsp", "call_self", function="Fol Spawn", inp={"index": "@ad.ReturnValue"}); g.n("nsv2", "call_self", function="Save Fol Save")
+    g.n("nrf", "call_self", function="Fol Refresh")
+    g.chain("entry", "ld", "sc", "fr", "lvl", "ad", "ssel", "sjn", "nsv", "nsp", "nsv2", "nrf")
+    return fn("Fol New Jason", graph=g)
 
 
 def f_fol_here():
@@ -6002,7 +6469,18 @@ def f_fol_give():
     g.call("xcc", P_HBDATA, "Consume Item Count", inp={"self": "@bd.data", "item name": "@entry.item", "count": xgot})
     g.call("xsv", P_HBDATA, "Save", inp={"self": "@bd.data"})
     g.n("sy", "call_self", function="Fol Sync", inp={"index": idx}); g.n("sv", "call_self", function="Save Fol Save"); g.n("rb", "call_self", function="Rebuild Followers")
-    g.chain("entry", head); g.chain(ok, "ir", "bbox", "bd", "bbv", "bxp", xmk, "xpt", "xcc", "xsv", "sy"); g.chain("bbox:else", "sn", "bg", "cg", "ag0", "ag1", "cgu", "gg", "awl", "sy"); g.chain("bg:else", mk, "pt", "ci", "sy")
+    # a Jason fights with his own Glock alone (Jason_Glock: his montages): a Glock from the backpack becomes it (Got Glock), unless he
+    # has it (a second would replace it and leave the first behind); any other weapon he refuses
+    jrec = fol_get(g, "jr", idx); g.call("jk", K_MATH, "EqualEqual_IntInt", inp={"A": jrec + "Kind", "B": str(KIND_JASON)})
+    g.call("jw", K_MATH, "BooleanOR", inp={"A": "@isg.ReturnValue", "B": "@isw.ReturnValue"}); g.call("jx", K_MATH, "BooleanAND", inp={"A": "@jk.ReturnValue", "B": "@jw.ReturnValue"}); g.branch("bjx", "@jx.ReturnValue")
+    g.call("jgl", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.item", "B": "Glock"}); g.call("jnb", K_MATH, "Not_PreBool", inp={"A": "@entry.box"})
+    g.call("jok", K_MATH, "BooleanAND", inp={"A": "@jgl.ReturnValue", "B": "@jnb.ReturnValue"}); g.branch("bjok", "@jok.ReturnValue")
+    g.get("jwp", "Weapons", cls=P_CPB); g.link(act[1:].split(".")[0] + ".Value", "jwp.self"); g.call("jhs", K_MAP, "Map_Contains", inp={"TargetMap": "@jwp.Weapons", "Key": g.lit_name("ljg", "Glock")}); g.branch("bjh", "@jhs.ReturnValue")
+    g.get("jpl", "Player"); g.call("jcg", P_CPB, "Consume Item", inp={"self": "@jpl.Player", "item name": "@entry.item", "num": "1", "destroy weapon": "true"})
+    g.cast("jca", JASON, act, pure=False, miss="ignore"); g.call("jgg", P_JASON, "Got Glock", inp={"self": "@jca.AsBP Alt UIJason"})
+    pop(g, "jpo", tt(g, "jpot", "Fol_JasonOnlyGlock")); pop(g, "jph", tt(g, "jpht", "Fol_JasonHasGlock"))
+    g.chain("entry", head); g.chain(ok, "ir", "bjx", "bjok", "bjh", "jph"); g.chain("bjh:else", "jcg", "jca", "jgg", "sy"); g.chain("bjok:else", "jpo")
+    g.chain("bjx:else", "bbox", "bd", "bbv", "bxp", xmk, "xpt", "xcc", "xsv", "sy"); g.chain("bbox:else", "sn", "bg", "cg", "ag0", "ag1", "cgu", "gg", "awl", "sy"); g.chain("bg:else", mk, "pt", "ci", "sy")
     g.chain("sy", "sv", "rb")
     return fn("Fol Give", [param("item", "name"), param("num", "int"), param("box", "bool")], graph=g)
 
@@ -6026,7 +6504,9 @@ def f_fol_clothes_give():
     g.call("e1", K_ARR, "Array_Length", inp={"TargetArray": rec + "Clothes"}); g.call("e2", K_ARR, "Array_Length", inp={"TargetArray": rec + "Worn"})
     g.call("e3", K_MATH, "Add_IntInt", inp={"A": "@e1.ReturnValue", "B": "@e2.ReturnValue"}); g.call("e0", K_MATH, "EqualEqual_IntInt", inp={"A": "@e3.ReturnValue", "B": "0"})
     g.call("hn", K_MATH, "EqualEqual_NameName", inp={"A": rec + "Hair", "B": "None"}); g.call("old", K_MATH, "BooleanAND", inp={"A": "@e0.ReturnValue", "B": "@hn.ReturnValue"})
-    g.branch("bold", "@old.ReturnValue"); pop(g, "po", tt(g, "pot", "Fol_OldLookGive"))   # the row's note (Fol_OldLook) says how to change pieces; here: why not
+    g.call("gkj", K_MATH, "EqualEqual_IntInt", inp={"A": rec + "Kind", "B": str(KIND_JASON)}); g.call("old2", K_MATH, "BooleanOR", inp={"A": "@old.ReturnValue", "B": "@gkj.ReturnValue"})
+    g.call("pts", K_MATH, "SelectString", inp={"A": ts(g, "ptj", "Fol_JasonNoClothes"), "B": ts(g, "pto", "Fol_OldLookGive"), "bPickA": "@gkj.ReturnValue"}); g.call("ptt", K_TXT, "Conv_StringToText", inp={"InString": "@pts.ReturnValue"})
+    g.branch("bold", "@old2.ReturnValue"); pop(g, "po", "@ptt.ReturnValue")   # the row's note (Fol_OldLook) says how to change pieces; here: why not
     g.get("fb", "Bag", cls=P_CPB); g.link(act[1:].split(".")[0] + ".Value", "fb.self")
     g.call("fhas", P_BAG, "Has this Clothes ?", inp={"self": "@fb.Bag", "clothes name": "@entry.piece"}); g.call("nfh", K_MATH, "Not_PreBool", inp={"A": "@fhas.yes"}); g.branch("bfh", "@nfh.ReturnValue")
     g.get("pl", "Player"); g.call("dm", P_CPB, "Get Clothes Damage", inp={"self": "@pl.Player", "clothes": "@entry.piece"})
@@ -6099,7 +6579,14 @@ def f_fol_give_box_gun():
     g.brk("agb", P_GUN_S, "@ag.Item"); g.n("awl", "call_self", function="Apply Weapon Look On", inp={"weapon": "@agb.GunName", "actor": "@gg.gun"})
     g.call("rg", P_HBDATA, "Remove a Gun", inp={"self": "@bd.data", "IndexToRemove": "@entry.gun"})
     g.n("sy", "call_self", function="Fol Sync", inp={"index": idx}); g.n("sv", "call_self", function="Save Fol Save"); g.n("rb", "call_self", function="Rebuild Followers")
-    g.chain("entry", head); g.chain(ok, "bd", "bbv", "bvi", "gg", "awl", "rg", "sy", "sv", "rb")
+    # a Jason: a Glock becomes his own (unless he has it), any other gun he refuses - as Fol Give
+    jrec = fol_get(g, "jr", idx); g.call("jk", K_MATH, "EqualEqual_IntInt", inp={"A": jrec + "Kind", "B": str(KIND_JASON)}); g.branch("bjk", "@jk.ReturnValue")
+    g.call("jgl", K_MATH, "EqualEqual_NameName", inp={"A": "@agb.GunName", "B": "Glock"}); g.branch("bjg", "@jgl.ReturnValue")
+    g.get("jwp", "Weapons", cls=P_CPB); g.link(act[1:].split(".")[0] + ".Value", "jwp.self"); g.call("jhs", K_MAP, "Map_Contains", inp={"TargetMap": "@jwp.Weapons", "Key": g.lit_name("ljg", "Glock")}); g.branch("bjh", "@jhs.ReturnValue")
+    g.cast("jca", JASON, act, pure=False, miss="ignore"); g.call("jgg", P_JASON, "Got Glock", inp={"self": "@jca.AsBP Alt UIJason"})
+    pop(g, "jpo", tt(g, "jpot", "Fol_JasonOnlyGlock")); pop(g, "jph", tt(g, "jpht", "Fol_JasonHasGlock"))
+    g.chain("entry", head); g.chain(ok, "bd", "bbv", "bvi", "bjk", "bjg", "bjh", "jph"); g.chain("bjh:else", "jca", "jgg", "rg"); g.chain("bjg:else", "jpo")
+    g.chain("bjk:else", "gg", "awl", "rg"); g.chain("rg", "sy", "sv", "rb")
     return fn("Fol Give Box Gun", [param("gun", "int")], graph=g)
 
 
@@ -11486,6 +11973,7 @@ def f_rebuild_look_cats():
     g.get("gp", "Panel"); g.call("cl", W_PANEL, "Clear Look Cats", inp={"self": "@gp.Panel"})
     g.call("rn", K_DT, "GetDataTableRowNames", inp={"Table": P_MTYPE_T}); g.set("sn", "TmpNames", inp={"TmpNames": "@rn.OutRowNames"})
     g.get("gn0", "TmpNames"); g.call("ins", K_ARR, "Array_Insert", inp={"TargetArray": "@gn0.TmpNames", "NewItem": g.lit_name("skin", "Skin"), "Index": "0"})
+    g.get("gnm", "TmpNames"); g.call("insm", K_ARR, "Array_Insert", inp={"TargetArray": "@gnm.TmpNames", "NewItem": g.lit_name("mut", mutn.CAT), "Index": "1"})   # mutation look: right under the skin
     g.get("gna", "TmpNames"); g.call("insa", K_ARR, "Array_Insert", inp={"TargetArray": "@gna.TmpNames", "NewItem": g.lit_name("all", "All"), "Index": "0"})
     g.get("gn9", "TmpNames"); g.call("adp", K_ARR, "Array_Add", inp={"TargetArray": "@gn9.TmpNames", "NewItem": g.lit_name("prs", "Presets")})
     g.get("gn", "TmpNames"); g.foreach("fe", "@gn.TmpNames")
@@ -11499,11 +11987,12 @@ def f_rebuild_look_cats():
     g.call("noact1", K_MATH, "BooleanAND", inp={"A": "@noact0.ReturnValue", "B": "@nof.ReturnValue"})
     g.call("noact", K_MATH, "BooleanAND", inp={"A": "@noact1.ReturnValue", "B": "@nowc.ReturnValue"})
     g.call("fsel", K_MATH, "SelectInt", inp={"A": "-1", "B": "@cntf.n", "bPickA": "@noact.ReturnValue"})
-    g.call("has", K_MATH, "Greater_IntInt", inp={"A": "@cnt.n", "B": "0"})
+    g.call("has0", K_MATH, "Greater_IntInt", inp={"A": "@cnt.n", "B": "0"})
+    g.call("ismu", K_MATH, "EqualEqual_NameName", inp={"A": "@fe.Array Element", "B": mutn.CAT}); g.call("has", K_MATH, "BooleanOR", inp={"A": "@has0.ReturnValue", "B": "@ismu.ReturnValue"})   # the mutation entry has rows, not tiles
     g.get("glc", "LookCat"); g.call("sel", K_MATH, "EqualEqual_NameName", inp={"A": "@fe.Array Element", "B": "@glc.LookCat"})
     g.call("ti", W_TAB, "Init", inp={"self": tw, "slot": "@fe.Array Element", "caption": "@cap.caption", "count": "@cnt.n", "selected": "@sel.ReturnValue", "has items": "@has.ReturnValue", "filtered": "@fsel.ReturnValue"})
     g.get("gp3", "Panel"); g.call("at", W_PANEL, "Add Look Cat", inp={"self": "@gp3.Panel", "widget": tw})
-    g.chain("entry", "cl", "rn", "sn", "ins", "insa", "adp", "fe"); g.chain("fe", "ct_cr", "smt", "cap", "cnt", "cntf", "ti", "at")
+    g.chain("entry", "cl", "rn", "sn", "ins", "insm", "insa", "adp", "fe"); g.chain("fe", "ct_cr", "smt", "cap", "cnt", "cntf", "ti", "at")
     return fn("Rebuild Look Cats", graph=g)
 
 
@@ -11540,6 +12029,31 @@ def look_row_tiles(g, p, idx_pin, row_pin, add_fn, fav_pin):
     return p + "bk"
 
 
+def mutation_rows(g):
+    """Rebuild Look, category Mutation: no tiles, no favourites / "All" header, one W_FaceRow per mutation.ROWS entry (switches
+    without slider) with its state from Mutation, and the reset link. Also clears the rows of any category (clmr) and ends a
+    slider drag (MutDragging: the next change writes history again). Returns the exec ids of the mutation branch after bmu."""
+    g.get("gpr", "Panel"); g.call("clmr", W_PANEL, "Clear Look Rows", inp={"self": "@gpr.Panel"}); g.set("smdr", "MutDragging", inp={"MutDragging": "false"})
+    g.get("glcm", "LookCat"); g.call("ism", K_MATH, "EqualEqual_NameName", inp={"A": "@glcm.LookCat", "B": mutn.CAT}); g.branch("bmu", "@ism.ReturnValue")
+    g.get("gpm", "Panel"); g.call("sfvm", W_PANEL, "Set Look Fav Visible", inp={"self": "@gpm.Panel", "visible": "false"})
+    g.get("gmu", "Mutation"); g.brk("bmv", mutn.S_MUT, "@gmu.Mutation")
+    g.call("cgc", K_MATH, "Greater_FloatFloat", inp={"A": "@bmv.Color", "B": "0.0"}); g.call("cgg", K_MATH, "Greater_FloatFloat", inp={"A": "@bmv.Glow", "B": "0.0"})
+    states = {"MutColor": ("@cgc.ReturnValue", "@bmv.Color"), "MutGlow": ("@cgg.ReturnValue", "@bmv.Glow"), "MutVeins": ("@bmv.Veins", "1.0"), "MutEyes": ("@bmv.Eyes", "1.0"), "MutStory": ("@bmv.Story", "1.0")}
+    out = ["sfvm"]
+    for i, (key, cap, slider) in enumerate(mutn.ROWS):
+        q = "mr%d" % i; rw = create_widget(g, q + "w", W_FACEROW); set_manager(g, q + "sm", W_FACEROW, rw)
+        g.call(q + "in", W_FACEROW, "Init", inp={"self": rw, "key": key, "caption": tt(g, q + "t", cap), "bipolar": "false"})
+        out += [q + "w_cr", q + "sm", q + "in"]
+        if not slider: g.call(q + "sw", W_FACEROW, "Set Switch", inp={"self": rw}); out.append(q + "sw")
+        fixed, val = states[key]
+        g.call(q + "ss", W_FACEROW, "Set State", inp={"self": rw, "fixed": fixed, "value": val})
+        g.get(q + "gp", "Panel"); g.call(q + "ad", W_PANEL, "Add Look Row", inp={"self": "@%sgp.Panel" % q, "widget": rw}); out += [q + "ss", q + "ad"]
+    lw = create_widget(g, "mrl", W_TXT); set_manager(g, "mrlsm", W_TXT, lw)
+    g.call("mrli", W_TXT, "Init", inp={"self": lw, "action": "MutReset", "caption": tt(g, "mrlt", "Btn_MutReset")})
+    g.get("mrlgp", "Panel"); g.call("mrla", W_PANEL, "Add Look Row", inp={"self": "@mrlgp.Panel", "widget": lw})
+    return out + ["mrl_cr", "mrlsm", "mrli", "mrla"]
+
+
 def f_rebuild_look():
     g = G()
     g.get("glc7", "LookCat"); g.n("lcp", "call_self", function="Look Caption", inp={"type": "@glc7.LookCat"})   # presets: tooltip of every tile
@@ -11572,7 +12086,9 @@ def f_rebuild_look():
     g.n("pe", "call_self", function="Look Row Passes", inp={"kind": "@ke.Item", "row": "@fe.Array Element"}); g.branch("be", "@pe.yes")
     g.n("efv", "call_self", function="Is Look Favorite", inp={"name": "@fe.Array Element"})
     t2 = look_row_tiles(g, "a", "@fe.Array Index", "@fe.Array Element", "Add Look", "@efv.yes")
-    g.chain("entry", "cl", "clf", "lcp", "bp", "sfv0", "clr0", "cpa_cr", "smpa", "pai", "paa", "fp"); g.chain("fp", "pic", "bpm", *tp)
+    mut = mutation_rows(g)
+    g.chain("entry", "cl", "clf", "clmr", "smdr", "lcp", "bmu"); g.chain("bmu", *mut); g.chain("bmu:else", "bp")
+    g.chain("bp", "sfv0", "clr0", "cpa_cr", "smpa", "pai", "paa", "fp"); g.chain("fp", "pic", "bpm", *tp)
     g.chain("bp:else", "col", "nf", "ff"); g.chain("ff", "pf", "ffv", "bf", "sn", t1)
     g.chain("ff:Completed", "sfv", "fe"); g.chain("fe", "pe", "be", "efv", t2)
     return fn("Rebuild Look", graph=g)
@@ -11591,6 +12107,7 @@ def f_look_clicked():
     g.n("pix", "call_self", function="Preset Index", inp={"name": "@entry.name"}); g.n("pcl", "call_self", function="Preset Clicked", inp={"index": "@pix.index"})
     g.get("glc", "LookCat"); g.call("iss", K_MATH, "EqualEqual_NameName", inp={"A": "@glc.LookCat", "B": "Skin"}); g.branch("bs", "@iss.ReturnValue")
     g.get("gpl", "Player"); g.call("cs", P_JODI, "Change Skin", inp={"self": "@gpl.Player", "SkinName": "@entry.name"})
+    g.n("ajms", "call_self", function="Apply Jodi Mutation")   # mutation look: the colour is mixed on the new skin row
     # type info
     g.get("glc2", "LookCat"); g.n("trow", "get_row", table=P_MTYPE_T, inp={"RowName": "@glc2.LookCat"}, miss="ignore"); g.brk("bt", P_MTYPE_S, "@trow.OutRow")   # unknown category -> nothing (no history entry)
     g.n("ph2", "call_self", function="Push History")
@@ -11635,7 +12152,7 @@ def f_look_clicked():
     # finish
     g.set("sd", "MakeupDirty", inp={"MakeupDirty": "true"}); g.n("rl", "call_self", function="Rebuild Look")
     g.n("ph", "call_self", function="Push History")
-    g.chain("entry", "svc", "ba", "lto", "bln"); g.chain("bln:else", "slc", "bp"); g.chain("ba:else", "bp"); g.chain("bp", "pix", "pcl"); g.chain("bp:else", "md", "bs", "ph", "cs", "sd"); g.chain("bs:else", "trow", "ph2", "sel", "be", "bes", "erm", "ues"); g.chain("bes:else", "eclr", "eadd", "eset", "ues"); g.chain("ues", "aec", "amc", "sd")
+    g.chain("entry", "svc", "ba", "lto", "bln"); g.chain("bln:else", "slc", "bp"); g.chain("ba:else", "bp"); g.chain("bp", "pix", "pcl"); g.chain("bp:else", "md", "bs", "ph", "cs", "ajms", "sd"); g.chain("bs:else", "trow", "ph2", "sel", "be", "bes", "erm", "ues"); g.chain("bes:else", "eclr", "eadd", "eset", "ues"); g.chain("ues", "aec", "amc", "sd")
     g.chain("be:else", "sl", "bms", "beb", "sd"); g.chain("beb:else", "mrm", "bgt"); g.chain("bms:else", "bsg", "mclr", "madd", "bgt"); g.chain("bsg:else", "madd")
     g.chain("bgt", "mset", "srow"); g.chain("bgt:else", "mrem", "srow"); g.chain("srow", "ban", "pm", "umt"); g.chain("ban:else", "umt"); g.chain("srow:Row Not Found", "umt"); g.chain("umt", "amc2", "sd"); g.chain("sd", "rlc", "rl")
     return fn("Look Clicked", [param("name", "name")], graph=g)
@@ -13405,7 +13922,11 @@ def f_face_row_changed():
     """A row of the face tab changed (W_FaceRow): fixed -> the entry's morph(s) into FaceValues (gaze: the side of the
     value gets |value|, the other side 0), not fixed -> out of FaceValues. Apply at once; saved when the panel closes.
     The group counts are redrawn only when the fixed state flipped (not on every slider step)."""
-    g = G(); prev = "entry"
+    g = G(); prev = "bmu:else"
+    # mutation rows (mutation.ROWS, keys "Mut...") share the widget: their own handler
+    g.call("ks", K_STR, "Conv_NameToString", inp={"InName": "@entry.key"}); g.call("kmu", K_STR, "StartsWith", inp={"SourceString": "@ks.ReturnValue", "InPrefix": mutn.PREFIX, "SearchCase": "CaseSensitive"})
+    g.branch("bmu", "@kmu.ReturnValue"); g.n("mrc", "call_self", function="Mutation Row Changed", inp={"key": "@entry.key", "fixed": "@entry.fixed", "value": "@entry.value"})
+    g.chain("entry", "bmu", "mrc")
     for i, e in enumerate(fc.ENTRIES):
         key, _, neg, pos = e; p = "e%d" % i
         g.call(p + "eq", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.key", "B": key}); g.branch(p + "b", "@%seq.ReturnValue" % p)
@@ -13753,6 +14274,9 @@ def f_apply_eye_colors():
         g.chain(*tail, q + "cur", q + "bc", q + "b", q + "bf", q + "s")
         for e in ends: g.chain(e, q + "cur")
         ends = [q + "bc:else", q + "b:else", q + "bf:else"]; tail = [q + "s"]
+    g.n("ajm", "call_self", function="Apply Jodi Mutation")   # mutation look: after every Update Eyes Style (it put the game's eye back)
+    g.chain(*tail, "ajm")
+    for e in ends: g.chain(e, "ajm")
     return fn("Apply Eye Colors", graph=g)
 
 
@@ -13994,7 +14518,7 @@ def f_update_look():
     return fn("Update Look", [param("index", "int")], graph=g)
 
 
-SNAP_FIELDS = ["Worn", "Makeup", "Skin", "Hair", "Colors", "HairColor", "Boobs", "Waist", "Hip", "Body", "Scales", "SlotColors", "EyeColors", "MakeupColors", "Face", "FaceAdd"]
+SNAP_FIELDS = ["Worn", "Makeup", "Skin", "Hair", "Colors", "HairColor", "Boobs", "Waist", "Hip", "Body", "Scales", "SlotColors", "EyeColors", "MakeupColors", "Face", "FaceAdd", "Mutation"]
 LOOK_CLEAN_VARS = [var("CsWorn", "name", "array"), var("CsGone", "name", "array"), var("CsColors", "name", "map", value_type=S_LINCOLOR), var("CsSlot", "name", "map", value_type=S_LINCOLOR),
                    var("CsMakeup", "name", "map", value_type="struct:" + P_MDATA_S), var("CsList", "name", "array"), var("CsN", "int"), var("CsSnap", "struct:" + S_SNAP),
                    var("CsRT", "object:/Script/Engine.TextureRenderTarget2D"), var("CsHas", "bool"), var("FolLookIdx", "int", default="-1"), var("ScanTitle", "string"), var("LoopRow", "name"), var("LoopKeep", "name"), var("TopFitW", "float"), var("TopFitDirty", "bool"), var("ImgTmp", "object:" + E_TEX2D), var("ImgCache", "string", "map", value_type="object:" + E_TEX2D), var("ThumbCache", "string", "map", value_type="object:/Script/Engine.Texture"), var("ThumbTmp", "object:/Script/Engine.Texture"), var("ThumbRTs", "object:/Script/Engine.TextureRenderTarget2D", "array"), var("ImgFilesBg", "string", "array"), var("ImgFilesBtn", "string", "array"), var("ButtonMID", "object:/Script/Engine.MaterialInstanceDynamic"), var("BgMID", "object:/Script/Engine.MaterialInstanceDynamic"), var("RagRelTmp", "struct:/Script/CoreUObject.Transform")]
@@ -14291,7 +14815,7 @@ def f_content_snapshot():
     g.call("ge1", K_MATH, "GreaterEqual_IntInt", inp={"A": "@entry.index", "B": "0"}); g.call("pin2", K_MATH, "BooleanAND", inp={"A": "@pin.ReturnValue", "B": "@ge1.ReturnValue"}); g.branch("bPi", "@pin2.ReturnValue")
     g.call("pget", K_ARR, "Array_Get", inp={"TargetArray": pd, "Index": "@entry.index"}); g.brk("pbr", P_PRESET_S, "@pget.Item")
     g.get("gpcv", "PresetColors"); g.call("fpcv", K_MAP, "Map_Find", inp={"TargetMap": "@gpcv.PresetColors", "Key": "@pbr.IconNumber"}); g.brk("bpcv", S_PRESETCOL, "@fpcv.Value")
-    g.make("pmk", S_SNAP, EyeColors="@bpcv.EyeColors", MakeupColors="@bpcv.MakeupColors", Makeup="@pbr.MakeupData", Skin="@pbr.SkinName", Hair="@pbr.HairstyleName", HairColor="@pbr.HairColor", Boobs="@pbr.BoobsSize", Waist="@pbr.Waist", Hip="@pbr.Hip")
+    g.make("pmk", S_SNAP, EyeColors="@bpcv.EyeColors", MakeupColors="@bpcv.MakeupColors", Mutation="@bpcv.Mutation", Makeup="@pbr.MakeupData", Skin="@pbr.SkinName", Hair="@pbr.HairstyleName", HairColor="@pbr.HairColor", Boobs="@pbr.BoobsSize", Waist="@pbr.Waist", Hip="@pbr.Hip")
     g.set("psn", "ViewSnap", inp={"ViewSnap": "@pmk.S_Snapshot"})
     g.n("pt", "call_self", function="Preset Shown Name", inp={"index": "@entry.index"})   # its own name, else "Preset <n>"
     g.set("pst", "ViewTitle", inp={"ViewTitle": "@pt.s"}); g.set("pok", "TmpBool", inp={"TmpBool": "true"})
@@ -15284,10 +15808,11 @@ def event_graph():
     g.n("smv", "spawn", cls=MOVE, inp={"SpawnTransform": "@mvtf.ReturnValue"}); g.set("ssmv", "Move", inp={"Move": "@smv.ReturnValue"}); g.n("amv", "call_self", function="Apply Move")
     g.self_("fme"); g.call("fls", K_SYS, "K2_SetTimer", inp={"Object": "@fme.self", "FunctionName": "Fol Level Start", "Time": str(fol.FOL_START_DELAY), "bLooping": "false"})   # followers of this level
     g.self_("gme"); g.call("pgc", K_SYS, "K2_SetTimer", inp={"Object": "@gme.self", "FunctionName": "Poll Game Colors", "Time": str(GAME_COLOR_POLL), "bLooping": "true"})   # mirror check while it happens
+    g.self_("mme"); g.call("mwt", K_SYS, "K2_SetTimer", inp={"Object": "@mme.self", "FunctionName": "Mutation Watch", "Time": str(MUTATION_POLL), "bLooping": "true"})   # mutation look: the game put skin / eyes back
     # first the game fingerprint: a game AltUI was not built for is only touched after the player said so (Version Gate)
     g.n("vgt", "call_self", function="Version Gate"); g.branch("bvg", "@vgt.ok"); g.custom("sta", "Start AltUI")   # "Start AltUI": Version Continue, by timer
     g.chain("bp", "vgt", "bvg"); g.chain("sta", "cpc")
-    g.chain("bvg", "cpc", "spc", "ei", "tkwp", "cj", "spl", "cjb", "swr", "isg", "bcf", "lnm", "bc", "lds", "bga", "apn", "dl", "ist", "rs", "asb", "flu", "rmw", "asc", "afc", "smv", "ssmv", "amv", "fls", "pgc")
+    g.chain("bvg", "cpc", "spc", "ei", "tkwp", "cj", "spl", "cjb", "swr", "isg", "bcf", "lnm", "bc", "lds", "bga", "apn", "dl", "ist", "rs", "asb", "flu", "rmw", "asc", "afc", "smv", "ssmv", "amv", "fls", "pgc", "mwt")
     # panel key (configurable): ONE "AnyKey" event without consume (no key is taken away from the game or other mods),
     # acts only if the key's display name equals ToggleKey and input is allowed
     g.key("kAny", "AnyKey", consume=False)
@@ -15837,8 +16362,8 @@ def event_graph():
 # Items are strings "<kind>:<id>" (fixed ones without id); QuickItems = the wheel in order, QuickKey = the key held to open it.
 QUICK_MAX = 32          # sectors at most
 QUICK_INNER = 0.36      # dead zone / dark centre, share of the wheel radius (= Inner of M_QuickSector)
-QUICK_FIXED = ["freecam", "photo", "panel", "posestop", "ragdoll", "ragdolltoggle", "ragdollclear", "ragdollmode", "ragdollaim", "speedtoggle", "folfollow", "folwait", "folallfollow", "folallwait", "folbring", "slowmo", "freeze", "hidejodi", "hideui"]
-QUICK_FIXED_TEXT = {"folfollow": "Quick_FolFollow", "folwait": "Quick_FolWait", "folallfollow": "Quick_FolAllFollow", "folallwait": "Quick_FolAllWait", "folbring": "Quick_FolBringAll", "freecam": "Quick_FreeCam", "photo": "Quick_Photo", "panel": "Quick_Panel", "posestop": "Quick_PoseStop", "ragdoll": "Quick_Ragdoll", "ragdolltoggle": "Quick_RagdollToggle", "ragdollclear": "Quick_RagdollClear", "ragdollmode": "Quick_RagdollMode", "ragdollaim": "Quick_RagdollAim", "speedtoggle": "Quick_SpeedToggle", "slowmo": "Quick_SlowMo", "freeze": "Quick_Freeze", "hidejodi": "Quick_HideJodi", "hideui": "Quick_HideUI"}
+QUICK_FIXED = ["freecam", "photo", "panel", "posestop", "ragdoll", "ragdolltoggle", "ragdollclear", "ragdollmode", "ragdollaim", "speedtoggle", "folfollow", "folwait", "folallfollow", "folallwait", "folbring", "slowmo", "freeze", "hidejodi", "hideui", "hand"]
+QUICK_FIXED_TEXT = {"folfollow": "Quick_FolFollow", "folwait": "Quick_FolWait", "folallfollow": "Quick_FolAllFollow", "folallwait": "Quick_FolAllWait", "folbring": "Quick_FolBringAll", "freecam": "Quick_FreeCam", "photo": "Quick_Photo", "panel": "Quick_Panel", "posestop": "Quick_PoseStop", "ragdoll": "Quick_Ragdoll", "ragdolltoggle": "Quick_RagdollToggle", "ragdollclear": "Quick_RagdollClear", "ragdollmode": "Quick_RagdollMode", "ragdollaim": "Quick_RagdollAim", "speedtoggle": "Quick_SpeedToggle", "slowmo": "Quick_SlowMo", "freeze": "Quick_Freeze", "hidejodi": "Quick_HideJodi", "hideui": "Quick_HideUI", "hand": "Quick_Hand"}
 QUICK_MOD_KINDS = ["modfield", "modaction"]   # a mod's Button / Toggle field, a row of its AltUI_Actions
 
 
@@ -15853,7 +16378,7 @@ def quick_run_mod(g, br, id_pin):
     g.chain("qmb", "qbt", "qgv", "qoc"); g.chain("qbt:else", "qoc")
 
 
-QUICK_FIXED_ICON = {"folfollow": TAB_ICONS["Followers"], "folwait": TAB_ICONS["Followers"], "folallfollow": TAB_ICONS["Followers"], "folallwait": TAB_ICONS["Followers"], "folbring": TAB_ICONS["Followers"], "freecam": M + "/T_Cam", "photo": M + "/T_Photo", "panel": T_ALTUI, "posestop": M + "/T_Pose", "ragdoll": M + "/T_Pose", "ragdolltoggle": M + "/T_Pose", "ragdollclear": M + "/T_Pose", "ragdollmode": M + "/T_RagMode", "ragdollaim": M + "/T_TabRagdolls", "speedtoggle": M + "/T_Pose", "slowmo": M + "/T_Pose", "freeze": M + "/T_Pose", "hidejodi": TAB_ICONS["Look"], "hideui": M + "/T_Photo"}
+QUICK_FIXED_ICON = {"folfollow": TAB_ICONS["Followers"], "folwait": TAB_ICONS["Followers"], "folallfollow": TAB_ICONS["Followers"], "folallwait": TAB_ICONS["Followers"], "folbring": TAB_ICONS["Followers"], "freecam": M + "/T_Cam", "photo": M + "/T_Photo", "panel": T_ALTUI, "posestop": M + "/T_Pose", "ragdoll": M + "/T_Pose", "ragdolltoggle": M + "/T_Pose", "ragdollclear": M + "/T_Pose", "ragdollmode": M + "/T_RagMode", "ragdollaim": M + "/T_TabRagdolls", "speedtoggle": M + "/T_Pose", "slowmo": M + "/T_Pose", "freeze": M + "/T_Pose", "hidejodi": TAB_ICONS["Look"], "hideui": M + "/T_Photo", "hand": TAB_ICONS["Inventory"]}
 
 
 def f_quick_sector_at():
@@ -16051,6 +16576,7 @@ def f_run_quick_item():
     g.n("tsm", "call_self", function="Toggle Slow Mo"); g.chain(br["slowmo"], "tsm"); g.n("tfz", "call_self", function="Toggle Freeze"); g.chain(br["freeze"], "tfz")
     g.n("thj", "call_self", function="Toggle Hide Jodi"); g.chain(br["hidejodi"], "thj")
     g.n("tgu", "call_self", function="Toggle Game UI"); g.chain(br["hideui"], "tgu")
+    g.n("ihd", "call_self", function="Inv Cat Bag", inp={"item": inv.CAT_NO_ACTOR, "packs": "1", "count": "0"}); g.chain(br["hand"], "ihd")   # one invisible hand into the backpack (the catalogue's way)
     for k, al, order in (("folfollow", "false", ORDER_FOLLOW), ("folwait", "false", ORDER_STAY), ("folallfollow", "true", ORDER_FOLLOW), ("folallwait", "true", ORDER_STAY)):
         g.n("fq_" + k, "call_self", function="Fol Quick", inp={"all": al, "order": order}); g.chain(br[k], "fq_" + k)   # followers: one / all follow / wait
     g.n("fba", "call_self", function="Fol Bring All"); g.chain(br["folbring"], "fba")   # all active followers to Jodi

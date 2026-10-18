@@ -63,13 +63,14 @@ def new_pieces(before, now):
     """Pieces a figure has now and did not have at the last sync (the game's swap dialog gave them)."""
     return [p for p in now if p not in before]
 
+KIND_LOOK, KIND_JASON = 0, 1   # S_Follower.Kind
 STATE_FOLLOWS, STATE_WAITS, STATE_NPC, STATE_INACTIVE, STATE_FALLEN = "Fol_Follows", "Fol_Waits", "Fol_Npc", "Fol_Inactive", "Fol_Fallen"
 
 
 # Followers tab rows are a table: name, status, then one column per chip in this order. A chip a state does not have leaves its
 # column empty, so the chips of all rows stay in line. Widths (layout units) from the longest caption over all languages.
 FOL_COLS = [("Follow", ["Fol_Follow"]), ("Wait", ["Fol_Wait"]), ("Here", ["Fol_Here"]), ("Mode", ["Fol_ToNpc", "Fol_ToFollower"]),
-            ("Active", ["Fol_Active"]), ("Invuln", ["Fol_Invulnerable"]), ("More", ["Chip_More"])]
+            ("Active", ["Fol_Active"]), ("Invuln", ["Fol_Invulnerable"]), ("Ammo", ["Fol_InfAmmo"]), ("More", ["Chip_More"])]
 FOL_NAME_W = 150          # name column, the status below it (longer names are cut at its edge; the status sets the minimum)
 FOL_ROW_GAP = 12          # space between two rows (and above the first) = the gap between backpack and box (6 + 6)
 CHIP_CHAR, CHIP_PAD = 7.5, 24   # chip text (12 pt): units per character; padding + frame of a chip
@@ -128,5 +129,11 @@ def structs():
                            # samples one global render target (Skin_RenderTarget), so a copied skin showed HER make-up. Kept false = an old record
                            param("MakeupRows", "name", "array"), param("MakeupColors", "name", "map", value_type=S_LINCOLOR), param("MakeupKept", "bool"),
                            # its voice: VoiceTable row (Character_Base.Play Voice With Name looks it up by Npc Name); None = an old record, gets one on its next spawn
-                           param("Voice", "name")]),
+                           param("Voice", "name"),
+                           # infinite ammo: BP_AltUIFollower.Count Weapon Ammo says 9999, a reload fills the magazine without taking from its bag; false = an old record
+                           param("InfAmmo", "bool"),
+                           # what the figure is: KIND_LOOK (BP_AltUIFollower wearing a look) or KIND_JASON (BP_AltUIJason, the story's Jason); 0 = an old record
+                           param("Kind", "int"),
+                           # the look's mutation (mutation.py), drawn into a skin target of its own on spawn; zeros = none / an old record
+                           param("Mutation", "struct:/Game/Mod/AltUI/S_Mutation")]),
             blueprint(SG_FOL, "/Script/Engine.SaveGame", variables=[var("Followers", "struct:" + S_FOL, "array"), var("Counter", "int")])]

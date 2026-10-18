@@ -1,0 +1,234 @@
+{
+ "assets": [
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BP_AltUIJasonCtrl",
+   "mode": "create",
+   "parent": "/Game/Project/Character/Jason/Jason_Controller",
+   "functions": [
+    {
+     "name": "Decide Next State",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "pd",
+        "kind": "call_parent",
+        "function": "Decide Next State",
+        "class": "/Game/Project/Classes/Controller/Npc_Controller"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "pd"
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BP_AltUIJason",
+   "mode": "create",
+   "parent": "/Game/Project/Character/Jason/Jason",
+   "variables": [
+    {
+     "name": "InfAmmo",
+     "type": "bool"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Need to Save",
+     "pure": true,
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "no",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "false",
+         "B": "false"
+        }
+       }
+      ],
+      "links": [
+       [
+        "no.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Character Die",
+     "inputs": [
+      {
+       "name": "murderer",
+       "type": "object:/Game/Project/Classes/Character_Base"
+      }
+     ],
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "pd",
+        "kind": "call_parent",
+        "function": "Character Die",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "in": {
+         "murderer": "@entry.murderer"
+        }
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "gc",
+        "kind": "call",
+        "class": "/Script/Engine.Pawn",
+        "function": "GetController",
+        "in": {
+         "self": "@me.self"
+        }
+       },
+       {
+        "id": "tk",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "SetActorTickEnabled",
+        "in": {
+         "self": "@gc.ReturnValue",
+         "bEnabled": "false"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "pd",
+        "tk"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Change Controller",
+     "inputs": [
+      {
+       "name": "Class",
+       "type": "class:/Script/AIModule.AIController"
+      }
+     ],
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "pc",
+        "kind": "call_parent",
+        "function": "Change Controller",
+        "class": "/Game/Project/Classes/Character_Base",
+        "in": {
+         "Class": "/Game/Mod/AltUI/BP_AltUIJasonCtrl"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "pc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Count Weapon Ammo",
+     "inputs": [
+      {
+       "name": "weapon",
+       "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "num",
+       "type": "int"
+      }
+     ],
+     "pure": true,
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "an",
+        "kind": "call",
+        "class": "/Game/Project/Actors/Weapons/Weapon_Base",
+        "function": "Get Ammo Name",
+        "in": {
+         "self": "@entry.weapon"
+        }
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bag",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "ci",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Misc/Bag_Comp",
+        "function": "Count Items",
+        "in": {
+         "self": "@gb.Bag",
+         "item name": "@an.ammo name"
+        }
+       },
+       {
+        "id": "gi",
+        "kind": "get",
+        "var": "InfAmmo"
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "9999",
+         "B": "@ci.count",
+         "bPickA": "@gi.InfAmmo"
+        }
+       }
+      ],
+      "links": [
+       [
+        "me.self",
+        "gb.self"
+       ],
+       [
+        "sel.ReturnValue",
+        "return.num"
+       ]
+      ],
+      "exec": []
+     }
+    }
+   ]
+  }
+ ]
+}

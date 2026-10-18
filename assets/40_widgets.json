@@ -39045,6 +39045,61 @@
      }
     },
     {
+     "name": "Set Chip Ammo",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ColAmmo"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.ContentWidget",
+        "function": "SetContent",
+        "in": {
+         "self": "@g.ColAmmo",
+         "Content": "@entry.widget"
+        }
+       },
+       {
+        "id": "cs",
+        "kind": "cast",
+        "class": "/Script/UMG.SizeBoxSlot",
+        "pure": true,
+        "in": {
+         "Object": "@a.ReturnValue"
+        }
+       },
+       {
+        "id": "ha",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBoxSlot",
+        "function": "SetHorizontalAlignment",
+        "in": {
+         "self": "@cs.AsSizeBoxSlot",
+         "InHorizontalAlignment": "HAlign_Left"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a",
+        "ha"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Set Chip More",
      "inputs": [
       {
@@ -39955,6 +40010,14 @@
                 "props": {
                  "bOverride_WidthOverride": true,
                  "WidthOverride": 232
+                }
+               },
+               {
+                "class": "/Script/UMG.SizeBox",
+                "name": "ColAmmo",
+                "props": {
+                 "bOverride_WidthOverride": true,
+                 "WidthOverride": 302
                 }
                },
                {
@@ -46289,6 +46352,10 @@
     {
      "name": "Value",
      "type": "float"
+    },
+    {
+     "name": "Switch",
+     "type": "bool"
     }
    ],
    "functions": [
@@ -46805,6 +46872,60 @@
      }
     },
     {
+     "name": "Set Switch",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ss",
+        "kind": "set",
+        "var": "Switch",
+        "in": {
+         "Switch": "true"
+        }
+       },
+       {
+        "id": "gsb",
+        "kind": "get",
+        "var": "SldBox"
+       },
+       {
+        "id": "h1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gsb.SldBox",
+         "InVisibility": "Hidden"
+        }
+       },
+       {
+        "id": "gvt",
+        "kind": "get",
+        "var": "ValText"
+       },
+       {
+        "id": "h2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gvt.ValText",
+         "InVisibility": "Hidden"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ss",
+        "h1",
+        "h2"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Compute Colors",
      "graph": {
       "nodes": [
@@ -46971,10 +47092,25 @@
         }
        },
        {
+        "id": "gsw",
+        "kind": "get",
+        "var": "Switch"
+       },
+       {
+        "id": "nomv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@same.ReturnValue",
+         "B": "@gsw.Switch"
+        }
+       },
+       {
         "id": "bm",
         "kind": "branch",
         "in": {
-         "Condition": "@same.ReturnValue"
+         "Condition": "@nomv.ReturnValue"
         }
        },
        {
@@ -69723,6 +69859,69 @@
      }
     },
     {
+     "name": "Clear Look Rows",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "LookRowList"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.LookRowList"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Look Row",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "LookRowList"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.VerticalBox",
+        "function": "AddChildToVerticalBox",
+        "in": {
+         "self": "@g.LookRowList",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Clear Look Fav",
      "graph": {
       "nodes": [
@@ -89539,6 +89738,10 @@
                 "class": "/Script/UMG.VerticalBox",
                 "name": "LookVB",
                 "children": [
+                 {
+                  "class": "/Script/UMG.VerticalBox",
+                  "name": "LookRowList"
+                 },
                  {
                   "class": "/Script/UMG.TextBlock",
                   "name": "LookFavHeader",

@@ -78,7 +78,7 @@ Los conjuntos guardados del juego: los mismos que usan el armario y el espejo.
 
 ## Looks {#looks}
 
-Un look es todo a la vez: ropa con sus colores, peinado y color de pelo, maquillaje, ojos, piel, controles del cuerpo, mod de cuerpo y rostro.
+Un look es todo a la vez: ropa con sus colores, peinado y color de pelo, maquillaje, ojos, piel, mutación, controles del cuerpo, mod de cuerpo y rostro.
 
 - La casilla «+» guarda el look actual con una foto de cuerpo entero, de frente o como la ves ahora.
 - Un clic en un look lo aplica.
@@ -108,6 +108,7 @@ Los objetos de Jodi y la hipercaja de almacenamiento, una lista bajo la otra.
 - «...» sobre una lista la pliega, ↑↓ le da toda la altura (otra vez: vuelve).
 - En los mapas donde el juego nunca guarda la mochila (el campo de tiro, por ejemplo) la pestaña lo indica: guarda en la caja lo que quieras conservar.
 - «Todos los objetos» está desactivado por defecto (Opciones › General): todos los objetos del juego como tercera lista, con su propia búsqueda. Un clic pone un paquete en la mochila; clic derecho: cinco, o a la caja.
+  «Coleccionables» incluye también la Mano invisible del juego: mientras está en la mochila, trae a Jodi los objetos cercanos, uno tras otro, más rápido con más manos (una cada 2,5 s, desde seis cada 0,1 s). «Coleccionables» en la mochila muestra cuántas tiene Jodi.
 - «Equipar armas automáticamente» (Opciones › General, activado por defecto): un arma de la caja o del catálogo pasa a la mano de Jodi como en el juego; desactivado, conserva lo que tiene en la mano.
 - El tamaño de las casillas de esta pestaña se ajusta en Opciones › Casillas.
 
@@ -156,6 +157,7 @@ Piel, cada tipo de maquillaje, ojos y los presets de apariencia del juego.
 
 - Un clic en una entrada la aplica. Clic derecho en el maquillaje: teñir con la paleta del juego, restablecer el teñido.
 - Ojos: color del iris y de las pestañas en el menú contextual.
+- Mutación: el aspecto mutado de Jodi de la historia, por partes – color de piel y brillo como controles (casilla marcada = activo), venas y ojos como interruptores, «Restablecer» lo apaga todo. El maquillaje sigue visible sobre la piel descolorida y tu propio color de iris tiñe el ojo mutado. «Look de la historia» pone el aspecto de la cinemática: material de piel de la historia, todas las filas al máximo; después se puede bajar cada fila. Con él no se ven ni el maquillaje ni las cicatrices. Mientras la historia muta a la propia Jodi, se aplica su aspecto.
 - Presets: la casilla «+» guarda la apariencia actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar, menú rápido.
 
 ## Curvas {#body}
@@ -244,12 +246,14 @@ Mover y posar las figuras sin el panel, con la cámara libre en la sala. Se inic
 Looks convertidos en personas del juego: un seguidor acompaña a Jodi, lucha y obedece órdenes; un PNJ se queda donde está y se defiende.
 
 - En la pestaña Looks, clic derecho en un look: «Crear como seguidor» o «Crear como PNJ». La figura aparece delante de Jodi con ese look.
-- La pestaña «Seguidores» muestra todas las figuras con su estado (sigue, espera, PNJ, inactivo, caído) y chips: «Sígueme», «Espera aquí», «Traer aquí», → PNJ / → Seguidor, «Activo», «Invulnerable» y «...» (renombrar, cambiar look, revivir, eliminar).
+- La pestaña «Seguidores» muestra todas las figuras con su estado (sigue, espera, PNJ, inactivo, caído) y chips: «Sígueme», «Espera aquí», «Traer aquí», → PNJ / → Seguidor, «Activo», «Invulnerable», «Munición infinita» y «...» (renombrar, cambiar look, revivir, eliminar).
 - Un clic en una fila selecciona la figura. Arriba están la mochila (izquierda) y la caja (derecha): un clic da un objeto a la figura seleccionada, un arma con su pintura y accesorios. Un clic en una casilla de la figura la devuelve a la mochila; clic derecho: todo, o a la caja. «...» sobre una lista la pliega.
 - El menú contextual de una pila – de Jodi o de la figura – tiene la fila de cantidad como en la pestaña Inventario: «Dar 5», «Coger 5», a la caja.
 - La ropa son prendas reales de la figura, como con los PNJ del juego: se daña, puede romperse y aparece en el inventario de PNJ del propio juego, donde también se puede intercambiar. Bajo una figura, sus prendas son casillas (las dañadas, marcadas): un clic se quita una y la deja en la mochila de Jodi; clic derecho: reparar con un kit de costura de la mochila de Jodi, o reparar todo. En la columna de la mochila, «Ropa» muestra las prendas de Jodi: un clic da una a la figura seleccionada, que se la pone (el daño y los colores van con ella).
 - «Activo» desactivado saca a la figura del mundo con todo lo que lleva; al activarla vuelve delante de Jodi.
+- «Munición infinita»: la figura recarga sus armas de fuego una y otra vez sin necesitar munición en su bolsa. Las armas con cargador no tocan su munición; la escopeta y el lanzagranadas gastan primero la que lleva.
 - Una figura que no es invulnerable puede caer. Sigue en la lista y «Revivir» la devuelve con sus cosas. Las figuras nunca se convierten en zombis.
+- «+ Jason» (abajo a la derecha de la pestaña) añade a Jason de la historia como seguidor, con su Glock. Obedece órdenes, te acompaña y se guarda. Solo lucha con su propia Glock: una Glock que le des pasa a ser suya; otras armas no las acepta. No tiene look, ropa ni maquillaje; si cae, no se le puede curar: «Revivir» lo trae de vuelta.
 - «Eliminar» pide confirmación; los objetos y armas de la figura van a la caja y su ropa a la mochila de Jodi.
 - «Cambiar look» pasa a la pestaña Looks: haz clic en el look que debe llevar la figura.
 - Cada figura lleva el maquillaje de su look y tiene una de las voces de PNJ del juego. Una figura creada con AltUI antes de la 2.2.0 muestra el maquillaje de Jodi hasta que «Cambiar look…» le da el suyo.
@@ -271,6 +275,7 @@ Mantén pulsado 4 (otra tecla en Opciones › Menú rápido) y se abre una rueda
 - Entradas: conjuntos, looks, rostros, presets de apariencia, poses, pestañas, ajustes de otros mods y acciones: cámara libre, modo foto, modo ragdoll, una copia de Jodi como ragdoll, cambiar todos los ragdolls entre activos y congelados, activar / congelar el del centro, quitar todos los ragdolls, velocidad propia sí / no.
 - Más acciones: «Cámara lenta sí / no», «Detener el tiempo / seguir» (todo se queda quieto; el panel y las cámaras siguen funcionando; también la cámara del modo foto del juego), «Ocultar / mostrar a Jodi» (con ropa, pelo y arma; en el siguiente nivel vuelve a estar) y las órdenes a los seguidores (ver «Seguidores»).
 - «Ocultar / mostrar la interfaz del juego» apaga y enciende el HUD del juego, como hace su modo foto.
+- «+1 Mano invisible» pone una Mano invisible en la mochila (ver Inventario › Todos los objetos).
 - Teclas propias: en Opciones › Menú rápido, clic derecho en un elemento de «Disponible» y pulsa una tecla: el elemento se ejecuta con esa tecla, con el panel cerrado, también en la cámara libre y en el modo foto del juego. Un clic en la tecla de una fila asigna otra, ✕ la quita. La tecla del panel, la del menú rápido y una tecla ya asignada se rechazan; una tecla que el juego ya usa activa ambas cosas.
 - Se añaden en Opciones › Menú rápido, o con clic derecho en una casilla, una pestaña o la entrada de un mod («Añadir al menú rápido»).
 - El orden en la rueda es el orden de la lista en Opciones › Menú rápido.

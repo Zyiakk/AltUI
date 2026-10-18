@@ -100,7 +100,9 @@ assets = [
     # the mesh components are reached with GetComponentsByClass (a stub variable named SkeletalMesh is refused - it collides with the engine class)
     blueprint(P_WEAPON, E_ACTOR, functions=[fn("Get Weapon Name", outputs=[param("name", "name")], pure=True),
                                             fn("Unload Ammo", outputs=[param("succeed", "bool")]),   # inventory tab: "Unload"
-                                            fn("Attach to Hand"), fn("Set Visible", [param("visible", "bool")])]),   # body switch: the weapon in hand back on its socket
+                                            fn("Attach to Hand"), fn("Set Visible", [param("visible", "bool")]),
+                                            fn("Get Ammo Name", outputs=[param("ammo name", "name")], pure=True),   # followers: infinite ammo (Count Weapon Ammo)
+                                            fn("Get Player Montage", [param("montage name", "name")], [param("montage", "object:/Script/Engine.AnimMontage")])]),   # Jason: which montage is which   # body switch: the weapon in hand back on its socket
     # Gun_Equipment_Base_C derives from StaticMeshComponent, so the magazine is a component of the weapon - Mount Mag hangs
     # one of the given class on it. A freshly spawned weapon actor has none; only the game's own equip flow puts it there.
     blueprint(P_EQUIPBASE, "/Script/Engine.StaticMeshComponent"),   # magazine, optics, suppressor, grip all derive from this
@@ -207,9 +209,14 @@ assets = [
     # breast / hip jiggle bodies: the game switches them on here; AltUI calls it again after re-instantiating the physics state (height slider)
     blueprint(P_CB, mode="augment", remove_functions=["Is Alive ?"],   # a stub of 2026-10-09 that collided with the kit's Jodi.Is Alive ?
               functions=[fn("Enable Boobs Physics", [param("hip", "bool")]),
+                         # Jason prototype: Init Jason asks for Jason_Controller here, ours swaps the class (the game's pin is Class<AI_Controller_C>; the stub
+                         # chain has no AI_Controller, the pointer is the same)
+                         fn("Change Controller", [param("Class", "class:/Script/AIModule.AIController")]),
                                                fn("Is Crouching", outputs=[param("yes", "bool")], pure=True),
                                                ], variables=[var("Health", "float"), var("Speed 2d", "float"), var("Anim Blueprint", "object:/Script/Engine.AnimInstance")]),   # BP_AltUIMove (Anim Blueprint: set once in Begin Play Ex - reset after a style switch)
-    blueprint(P_JODI, mode="augment", variables=[var("previous weapon", "object:" + P_WEAPON), var("wanna toggle weapon", "bool"),   # inventory tab: Got A Gun's equip request (Inv Got Gun)
+    # the invisible hand (catalog item): Jodi.Put Item to Bag sets its power from the hands in the bag, nothing else does - Hand Watch keeps it in step
+    blueprint(P_IHC, "/Script/Engine.SceneComponent", variables=[var("Number", "int")], functions=[fn("Update Power", [param("Number", "int")])]),
+    blueprint(P_JODI, mode="augment", variables=[var("InvisibleHand_Comp", "object:" + P_IHC), var("previous weapon", "object:" + P_WEAPON), var("wanna toggle weapon", "bool"),   # inventory tab: Got A Gun's equip request (Inv Got Gun)
                                                 var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Wanna Use This Item", [param("item name", "name")]), fn("Add Item to Shortcut", [param("item name", "name"), param("group", "int"), param("gun", "object:" + P_WEAPON)]),   # inventory tab
                                                 fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True), fn("Wanna Running"),
                                                 fn("Use Clothes from Bag", [param("clothes name", "name"), param("is wear", "bool")]),
@@ -230,7 +237,7 @@ assets = [
     # Weapons (name -> weapon actor): on Character_Player_Base as in the game (the old kit had it on Jodi); Jodi and the followers inherit it
     # Check Appearence: the follower overrides it (it would put the game's default clothes on a figure without clothes components)
     # heels (Clothes_Comp.Wear of heeled shoes: Set Heel Height + Feet Additive; the anims read Heels Height Ratio / Feet Additive): the follower copies them
-    blueprint(P_CPB, mode="augment", variables=[var("Weapons", "name", "map", value_type="object:" + P_WEAPON), var("Heels Height Ratio", "float"), var("Heel Height", "float"),
+    blueprint(P_CPB, mode="augment", variables=[var("Weapons", "name", "map", value_type="object:" + P_WEAPON), var("in hand weapon", "object:" + P_WEAPON), var("Heels Height Ratio", "float"), var("Heel Height", "float"),
                                                 var("Feet Additive", "float"),
                                                 var("Save Player Clothes", "name", "array"),   # On Begun Play puts these on (Wear These Clothes), then clears them
                                                 var("Save Clothes Damaged", "name", "map", value_type="float"),   # damage per piece (Store / Get Clothes Damage)
@@ -238,15 +245,28 @@ assets = [
                                                 var("Zombie in front of me", "object:" + P_CB), var("is paralleled animation playing", "bool")],   # ALTUI_FOLLOG (Fol Debug)
               functions=[fn("Check Appearence"), fn("Set Heel Height", [param("height ratio", "float"), param("thickness", "float")]),
                          fn("Change Hairstyle Ex", [param("hairstyle", "name")]),   # the hairstyle's Hair_Comps (HairstyleTable), unknown row -> the first
-                         fn("check clothes covering")]),   # the underwear rule (Bra01 / Briefs01 unless Is Nude Allowed); the follower's Check Appearence calls it
+                         fn("check clothes covering"),
+                         # Jason: his death skips Character_NPC's (that one calls the controller's on Character Die = Game Over for Jason_Controller)
+                         fn("Character Die", [param("murderer", "object:" + P_CB)]),
+                         # Jason: every weapon's montage goes through here - a foreign one (Jodi's skeleton) becomes his own
+                         fn("Play Montage", [param("AnimMontage", "object:/Script/Engine.AnimMontage"), param("StartSectionName", "name")], [param("duration", "float")]),
+                         fn("Attach Weapon to Right Hand"),
+                         # the game's reload asks this (Npc_Controller.Try to Reload, Weapon_Gun_Base.New Mag Installed): the follower overrides it for infinite ammo
+                         fn("Count Weapon Ammo", [param("weapon", "object:" + P_WEAPON)], [param("num", "int")], pure=True)]),   # the underwear rule (Bra01 / Briefs01 unless Is Nude Allowed); the follower's Check Appearence calls it
     # on Spawn in Runtime: the game's start of a figure spawned while playing (-> On Begun Play: anim class, order, health)
-    blueprint(P_CNPC, P_CPB, variables=[var("Distance to Master", "float")], functions=[fn("Need to Save", outputs=[param("yes", "bool")], pure=True), fn("Mutate"), fn("on Spawn in Runtime")]),
+    blueprint(P_CNPC, P_CPB, variables=[var("Distance to Master", "float")], functions=[fn("Need to Save", outputs=[param("yes", "bool")], pure=True), fn("Mutate"), fn("on Spawn in Runtime"),
+                                                                                 fn("Ani Notify Grab Weapon", [param("equip", "bool")])],   # Jason: a weapon on a socket he lacks goes to Prop_R
+              remove_functions=["Character Die"]),   # since 2026-10-18 on Character_Player_Base (Jason's death skips Character_NPC's)
+    # Jason (story NPC): State > 0 starts him in On Begun Play (Init Jason: Jason_Controller), 1 = hammer, 2 = Glock
+    blueprint(P_JASON, P_CNPC, variables=[var("State", "int")], functions=[fn("Got Glock")]),   # Got Glock: his own (Jason_Glock: his montages) - a given Glock becomes it
     blueprint(P_NPCF, P_CNPC, variables=[var("save order", "name"), var("Order Location", "struct:/Script/CoreUObject.Vector"),
                                          var("Npc Name", "name")],   # Get Character Name -> VoiceTable row (Female_1..4): no name, no voice   # On Begun Play gives the controller these
               functions=[fn("delay to mutant"), fn("Apply Npc Appearance"), fn("Init Npc Appearance")]),   # the follower applies its look in Apply, rolls nothing in Init
     blueprint(P_NPCCTRL, "/Script/AIModule.AIController", variables=[var("master", "object:" + P_JODI), var("Order Location", "struct:/Script/CoreUObject.Vector"),   # Fol Spawn: order + place straight to the controller
                                                                                    var("Current Order", "name"), var("walking state", "int"), var("is busy", "bool")],   # Current Order: Fol Sync (the game's NPC menu); the last two: ALTUI_FOLLOG
-              functions=[fn("Change Order", [param("order", "name")]), fn("Receive Order", [param("order", "name")])]),   # Receive Order: as the game's NPC menu (voice, stay = here)
+              functions=[fn("Change Order", [param("order", "name")]), fn("Receive Order", [param("order", "name")]),   # Receive Order: as the game's NPC menu (voice, stay = here)
+                         fn("Decide Next State")]),   # the orders (follow: walk to master); Jason_Controller's own never calls it, the prototype's controller does
+    blueprint(P_JASONCTRL, P_NPCCTRL),   # Jason's AI: the prototype's controller derives from it
     blueprint(P_ATTUI, E_USERWIDGET),   # pop(): moved above AltUI's panel (the game adds it to the player screen, under every viewport widget)
     blueprint(P_GS, mode="augment", functions=[fn("Get Wardrobe Data", outputs=[param("wardrobe data", "object:" + P_WD)]),
                                                fn("Get Attention UI", outputs=[param("AttentionUI", "object:" + P_ATTUI)])]),
@@ -271,7 +291,8 @@ assets = [
                          fn("Enter Photo Mode"), fn("Try Exit Photo Mode"), fn("Is In Photo Mode", outputs=[param("yes", "bool")]),
                          fn("Show UI", [param("show", "bool")]), fn("Is UI Visible", outputs=[param("yes", "bool")]),   # the HUD (UserInterface), as the photo mode hides it
                          fn("Get Note Save", outputs=[param("note save", "object:" + P_NOTE_SAVE)]),
-                         fn("Get Hyper Box Data", outputs=[param("data", "object:" + P_HBDATA)])]),   # inventory tab: the global storage box
+                         fn("Get Hyper Box Data", outputs=[param("data", "object:" + P_HBDATA)]),   # inventory tab: the global storage box
+                         fn("Is Game Over ?", outputs=[param("yes", "bool")], pure=True)]),   # Close Panel: after the end the game's own screens keep the mouse
     blueprint(P_PC, mode="augment", variables=[var("Input Move Values", "struct:/Script/CoreUObject.Vector")],   # raw move input (idle pose: ends on it - a pose blocks the movement itself)
               functions=[fn("ShowMouseCursor", [param("show", "bool")]),
                                               fn("Set Widget Focus", [param("widget", "object:" + E_WIDGET)]),

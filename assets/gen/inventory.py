@@ -3,7 +3,8 @@ The generators build the blueprint branches from these tables; the unit test che
 INV_GROUPS = ["Weapon", "Ammo", "Equipment", "Tool"]   # ItemTable.HyperBoxGroup, chip order; "None" = all
 ACTIONS = ["Store1", "StoreHalf", "StoreAll", "Take1", "TakeHalf", "TakeAll", "Use", "Check", "Drop1", "DropAll", "Shortcut1", "Shortcut2", "Unload",
            "CatBag1", "CatBag5", "CatBox1", "CatBox5", "Attach", "StoreN", "TakeN", "CatBagN", "CatBoxN"]   # *N: the amount row's number (Manager.MenuAmount)   # Attach: to the weapons tab, the weapon's accessories   # Cat*: from the all-items catalog, 1 or 5 packs (ItemTable.NumberOfPick)
-CAT_GROUP = "Collect"   # catalog only: rows without a box group that are no keys / cards (ItemClass 2) and have an actor class
+CAT_GROUP = "Collect"   # catalog only: rows without a box group that are no keys / cards (ItemClass 2) and have an actor class - or are the invisible hand
+CAT_NO_ACTOR = "InvisibleHand"   # no actor (it is never on the ground), works in the bag: picks up items near Jodi
 KINDS = ["gun", "weapon", "ammo", "usable", "other"]
 
 

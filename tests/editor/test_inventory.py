@@ -39,7 +39,7 @@ def main():
     expect("cat GlockAmmo", cat("GlockAmmo"), "Ammo")
     expect("cat Decor_Dog", cat("Decor_Dog"), "Collect")
     expect("cat EntryCard_Blue (key, has actor)", cat("EntryCard_Blue"), "None")
-    expect("cat InvisibleHand (no actor)", cat("InvisibleHand"), "None")
+    expect("cat InvisibleHand (no actor, but works in the bag)", cat("InvisibleHand"), "Collect")
     # weapons tab, attachments: a GunEquipment row fits a slot of the current weapon (type, Guns list, a part class)
     def att(weapon, row, t):
         mgr.call_method("Test Att Matches", args=(weapon, row, t)); return mgr.get_editor_property("TmpBool")

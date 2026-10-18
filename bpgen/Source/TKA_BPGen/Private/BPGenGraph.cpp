@@ -9,6 +9,7 @@
 #include "K2Node_Event.h"
 #include "K2Node_CustomEvent.h"
 #include "K2Node_CallFunction.h"
+#include "K2Node_CallParentFunction.h"
 #include "K2Node_Message.h"
 #include "HAL/PlatformMemory.h"
 #include "K2Node_CallArrayFunction.h"
@@ -167,6 +168,12 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
       UFunction* F = BP->SkeletonGeneratedClass ? BP->SkeletonGeneratedClass->FindFunctionByName(FnName) : nullptr;
       if (!F) { Err = TEXT("call_self: function not in skeleton class: ") + FnName.ToString(); return false; }
       Node = NewNode<UK2Node_CallFunction>(G, X, Y, [&](UK2Node_CallFunction* CF) { CF->SetFromFunction(F); }); }
+    else if (Kind == TEXT("call_parent")) {   // a parent's version of an overridden function ("class": which ancestor's, default the direct parent)
+      const FName FnName(*JS(N, TEXT("function"))); const FString Cls = JS(N, TEXT("class"));
+      UClass* C = Cls.IsEmpty() ? BP->ParentClass.Get() : BPGenTypes::LoadClassChecked(Cls);
+      UFunction* F = C ? C->FindFunctionByName(FnName) : nullptr;
+      if (!F) { Err = FString::Printf(TEXT("call_parent: function not found %s::%s"), *Cls, *FnName.ToString()); return false; }
+      Node = NewNode<UK2Node_CallParentFunction>(G, X, Y, [&](UK2Node_CallParentFunction* CF) { CF->SetFromFunction(F); }); }
     else if (Kind == TEXT("foreach")) { UEdGraph* M = FindMacro(TEXT("ForEachLoop")); if (!M) { Err = TEXT("ForEachLoop macro not found"); return false; }
       Node = NewNode<UK2Node_MacroInstance>(G, X, Y, [&](UK2Node_MacroInstance* MI) { MI->SetMacroGraph(M); }); }
     else if (Kind == TEXT("make_array")) { UK2Node_MakeArray* MA = NewNode<UK2Node_MakeArray>(G, X, Y, nullptr);

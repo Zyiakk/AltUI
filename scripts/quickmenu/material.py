@@ -52,6 +52,7 @@ def main():
     MEL.recompile_material(m); EAL.save_asset(PATH)
     image_box()
     joint_marker()
+    mut_glow()
     unreal.log_warning("EDTEST PASS quick sector material saved")
 
 
@@ -157,6 +158,34 @@ def joint_marker():
     MEL.connect_material_property(col, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     MEL.connect_material_property(cu, "", unreal.MaterialProperty.MP_OPACITY)
     MEL.recompile_material(m); EAL.save_asset(JM)
+
+
+GLOW = "/Game/Mod/AltUI/Mat/M_MutGlow"
+
+
+def mut_glow():
+    """Mutation look's glow layer (spec 2026-10-18-mutation-look-design, addendum 2): on a copy of Jodi's body mesh that follows her
+    (master pose). Unlit, additive: Emissive = GlowTex (Mutations_E, white veins on black) x Color x Strength - black adds nothing.
+    Jodi's own skin variant (Skin_Jodi) has no emissive texture, so the veins cannot glow in her material. No world position offset
+    (not exposed to the editor's Python in 4.27): the layer is the same mesh with the same bones, so its depth equals the skin's, and
+    translucency passes the depth test on equal - her clothes, in front, cover it."""
+    if EAL.does_asset_exist(GLOW): EAL.delete_asset(GLOW)
+    m = AT.create_asset(GLOW.rsplit("/", 1)[1], GLOW.rsplit("/", 1)[0], unreal.Material, unreal.MaterialFactoryNew())
+    m.set_editor_property("blend_mode", unreal.BlendMode.BLEND_ADDITIVE)
+    m.set_editor_property("shading_model", unreal.MaterialShadingModel.MSM_UNLIT)
+    for flag in ("used_with_skeletal_mesh", "used_with_morph_targets"): m.set_editor_property(flag, True)
+    tex = MEL.create_material_expression(m, unreal.MaterialExpressionTextureSampleParameter2D, -900, -200)
+    tex.set_editor_property("parameter_name", "GlowTex"); tex.set_editor_property("texture", unreal.load_asset(ROUND))
+    col = MEL.create_material_expression(m, unreal.MaterialExpressionVectorParameter, -900, 100)
+    col.set_editor_property("parameter_name", "Color"); col.set_editor_property("default_value", unreal.LinearColor(1.0, 0.0, 0.0, 1.0))
+    st = MEL.create_material_expression(m, unreal.MaterialExpressionScalarParameter, -900, 300)
+    st.set_editor_property("parameter_name", "Strength"); st.set_editor_property("default_value", 0.0)
+    m1 = MEL.create_material_expression(m, unreal.MaterialExpressionMultiply, -600, -100)
+    MEL.connect_material_expressions(tex, "RGB", m1, "A"); MEL.connect_material_expressions(col, "", m1, "B")
+    m2 = MEL.create_material_expression(m, unreal.MaterialExpressionMultiply, -400, 0)
+    MEL.connect_material_expressions(m1, "", m2, "A"); MEL.connect_material_expressions(st, "", m2, "B")
+    MEL.connect_material_property(m2, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    MEL.recompile_material(m); EAL.save_asset(GLOW)
 
 
 try:

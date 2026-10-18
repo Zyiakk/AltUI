@@ -78,7 +78,7 @@ The game's saved outfits, the same ones the wardrobe and the mirror use.
 
 ## Looks {#looks}
 
-A look is everything at once: clothes with their colours, hairstyle and hair colour, make-up, eyes, skin, body sliders, body mod and face.
+A look is everything at once: clothes with their colours, hairstyle and hair colour, make-up, eyes, skin, mutation, body sliders, body mod and face.
 
 - The "+" tile saves the current look with a full-body photo – from the front or as you see her.
 - Click a look to apply it.
@@ -108,6 +108,7 @@ Jodi's items and the Hyper Storage Box, one list under the other.
 - "..." above a list folds it, ↑↓ gives it the full height (click again: back).
 - On maps where the game never saves the backpack (the shooting range, for example) the tab says so: keep what you want in the box.
 - "All items" is off by default (Options › General): every item of the game as a third list with its own search. A click puts one pack into the backpack; right click: five, or into the box.
+  "Collectibles" also holds the game's Invisible Hand: while it is in the backpack it brings items near Jodi to her, one after another, faster with more hands (one every 2.5 s, from six on every 0.1 s). "Collectibles" in the backpack shows how many Jodi has.
 - "Auto-equip weapons" (Options › General, on by default): a gun from the box or the catalogue goes into Jodi's hand as in the game; off, she keeps what she holds.
 - The tile size of this tab is set under Options › Tiles.
 
@@ -156,6 +157,7 @@ Skin, every make-up type, eyes and the game's appearance presets.
 
 - Click an entry to put it on. Right click on make-up: tint with the game's palette, reset the tint.
 - Eyes: iris and eyelash colour in the context menu.
+- Mutation: Jodi's mutated look from the story in parts – skin colour and glow as sliders (ticked = on), veins and eyes as switches, "Reset" turns everything off. Make-up stays visible on the discoloured skin, your own iris colour tints the mutated eye. "Story look" sets the cutscene's look: the story's own skin material, every row at full; you can take single rows back afterwards. Make-up and scars are not visible with it. While the story mutates Jodi herself, the story's look applies.
 - Presets: the "+" tile saves the current appearance with a photo. Right click: apply, view content, rename, update, move, delete, quick menu.
 
 ## Body Shape {#body}
@@ -244,12 +246,14 @@ Moves and poses the figures without the panel, with the camera free in the room.
 Looks as people in the game: a follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
 
 - In the Looks tab, right click a look: "Spawn as follower" or "Spawn as NPC". The figure appears in front of Jodi wearing that look.
-- The tab "Followers" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: "Follow me", "Wait here", "Bring here", → NPC / → Follower, "Active", "Invulnerable" and "..." (rename, change look, revive, remove).
+- The tab "Followers" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: "Follow me", "Wait here", "Bring here", → NPC / → Follower, "Active", "Invulnerable", "Infinite ammo" and "..." (rename, change look, revive, remove).
 - Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. "..." above a list folds it.
 - The context menu of a stack – Jodi's or the figure's – has the amount row as in the Inventory tab: "Give 5", "Take 5", into the box.
 - Clothes are real pieces of the figure, as with the game's NPCs: they take damage, can tear off and show up in the game's own NPC inventory, where you can swap them too. Under a figure, its pieces are tiles (a badge marks damaged ones): a click takes one off into Jodi's backpack; right click: repair with a sewing kit from Jodi's backpack, or repair all. In the backpack column, "Clothes" lists Jodi's pieces: a click gives one to the selected figure, which puts it on (her damage and colours go along).
 - "Active" off takes a figure out of the world, with everything it carries; on again, it comes back in front of Jodi.
+- "Infinite ammo": the figure keeps reloading its guns without needing ammo in its bag. Guns with a magazine leave its ammo untouched; the shotgun and the grenade launcher use up what it carries first.
 - A figure that is not invulnerable can fall. It stays in the list and "Revive" brings it back with what it carried. Figures never turn into zombies.
+- "+ Jason" (bottom right of the tab) adds Jason from the story as a follower, with his Glock. He takes orders, comes along and is saved. He fights only with his own Glock: a Glock you give him becomes his, other weapons he does not take. He has no look, clothes or make-up; when he is down he cannot be healed – "Revive" brings him back.
 - "Remove" asks first; the figure's items and guns go into the storage box, its clothes into Jodi's backpack.
 - "Change look" switches to the Looks tab: click the look the figure should wear.
 - Every figure wears the make-up of its look and has one of the game's NPC voices. A figure made with AltUI before 2.2.0 shows Jodi's make-up until "Change look…" gives it its own.
@@ -271,6 +275,7 @@ Hold 4 (another key under Options › Quick menu) and a wheel opens around the m
 - Items: outfits, looks, faces, appearance presets, poses, tabs, settings of other mods and actions: free camera, photo mode, ragdolls mode, a copy of Jodi as a ragdoll, switch every ragdoll between active and frozen, activate / freeze the one in view, remove all ragdolls, own speed on / off.
 - More actions: "Slow motion on / off", "Stop time / go on" (everything stands still; the panel and the cameras keep working; also the camera of the game's photo mode), "Hide / show Jodi" (with clothes, hair and weapon; she is back in the next level) and the orders for followers (see "Followers").
 - "Hide / show the game's UI" switches the game's HUD off and on, as its photo mode does.
+- "+1 Invisible Hand" puts one Invisible Hand into the backpack (see Inventory › All items).
 - Own keys: under Options › Quick menu, right click an item under "Available" and press a key – the item then runs on that key, with the panel closed, also in the free camera and in the game's photo mode. Click the key of a row for another one, ✕ removes it. The panel key, the quick menu key and a key already given are refused; a key the game uses itself triggers both.
 - Add them under Options › Quick menu, or with a right click on a tile, a tab or a mod's entry ("Add to quick menu").
 - The order in the wheel is the order in the list under Options › Quick menu.

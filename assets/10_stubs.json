@@ -613,6 +613,31 @@
        "type": "bool"
       }
      ]
+    },
+    {
+     "name": "Get Ammo Name",
+     "outputs": [
+      {
+       "name": "ammo name",
+       "type": "name"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Get Player Montage",
+     "inputs": [
+      {
+       "name": "montage name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "montage",
+       "type": "object:/Script/Engine.AnimMontage"
+      }
+     ]
     }
    ]
   },
@@ -1964,6 +1989,15 @@
      ]
     },
     {
+     "name": "Change Controller",
+     "inputs": [
+      {
+       "name": "Class",
+       "type": "class:/Script/AIModule.AIController"
+      }
+     ]
+    },
+    {
      "name": "Is Crouching",
      "outputs": [
       {
@@ -1977,9 +2011,36 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/Classes/Misc/InvisibleHand_Comp",
+   "mode": "create",
+   "parent": "/Script/Engine.SceneComponent",
+   "variables": [
+    {
+     "name": "Number",
+     "type": "int"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Update Power",
+     "inputs": [
+      {
+       "name": "Number",
+       "type": "int"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/Character/Jodi/Jodi",
    "mode": "augment",
    "variables": [
+    {
+     "name": "InvisibleHand_Comp",
+     "type": "object:/Game/Project/Classes/Misc/InvisibleHand_Comp"
+    },
     {
      "name": "previous weapon",
      "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
@@ -2271,6 +2332,10 @@
      "value_type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
     },
     {
+     "name": "in hand weapon",
+     "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+    },
+    {
      "name": "Heels Height Ratio",
      "type": "float"
     },
@@ -2340,6 +2405,53 @@
     },
     {
      "name": "check clothes covering"
+    },
+    {
+     "name": "Character Die",
+     "inputs": [
+      {
+       "name": "murderer",
+       "type": "object:/Game/Project/Classes/Character_Base"
+      }
+     ]
+    },
+    {
+     "name": "Play Montage",
+     "inputs": [
+      {
+       "name": "AnimMontage",
+       "type": "object:/Script/Engine.AnimMontage"
+      },
+      {
+       "name": "StartSectionName",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "duration",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Attach Weapon to Right Hand"
+    },
+    {
+     "name": "Count Weapon Ammo",
+     "inputs": [
+      {
+       "name": "weapon",
+       "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "num",
+       "type": "int"
+      }
+     ],
+     "pure": true
     }
    ]
   },
@@ -2348,6 +2460,9 @@
    "path": "/Game/Project/Character/Npc/Character_NPC",
    "mode": "create",
    "parent": "/Game/Project/Classes/Character_Player_Base",
+   "remove_functions": [
+    "Character Die"
+   ],
    "variables": [
     {
      "name": "Distance to Master",
@@ -2370,6 +2485,32 @@
     },
     {
      "name": "on Spawn in Runtime"
+    },
+    {
+     "name": "Ani Notify Grab Weapon",
+     "inputs": [
+      {
+       "name": "equip",
+       "type": "bool"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Character/Jason/Jason",
+   "mode": "create",
+   "parent": "/Game/Project/Character/Npc/Character_NPC",
+   "variables": [
+    {
+     "name": "State",
+     "type": "int"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Got Glock"
     }
    ]
   },
@@ -2449,8 +2590,17 @@
        "type": "name"
       }
      ]
+    },
+    {
+     "name": "Decide Next State"
     }
    ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Character/Jason/Jason_Controller",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/Controller/Npc_Controller"
   },
   {
    "type": "blueprint",
@@ -2760,6 +2910,16 @@
        "type": "object:/Game/Project/Classes/Misc/HyperBoxData"
       }
      ]
+    },
+    {
+     "name": "Is Game Over ?",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
     }
    ]
   },
