@@ -214,7 +214,8 @@ In categories, chosen in a list on the left:
     `Button_1` … `Button_30` (`.png`, `.jpg` or `.jpeg`) in `Saved/SaveGames/AltUI/Images`; "Show previews" puts
     the pictures themselves on their chips (right click on an own picture's preview: "Redo preview");
   * themes saved under a name keep colours, opacities and pictures; "Reset colours" sits in the status bar.
-* **Slot conflicts:** free the game's slot pairs, such as bra and shirt.
+* **Slot conflicts:** free the game's slot pairs, such as bra and shirt, and let a slot hold several pieces (knee socks over
+  tights) – for Jodi, looks and followers.
 * **Tabs:** switch tabs off; the tab bar shows text, icons or both, icon left or right of the text; "try to fit in one
   row" makes the captions smaller and shorter so the bar fits on one row where it can.
 
@@ -235,10 +236,11 @@ In categories, chosen in a list on the left:
   * every kind of zombie from the encyclopedia, with its variants;
   * the nurse, a survivor and the mercenary, rifle in hand.
 * Each figure is active (falls, can be thrown) or frozen (keeps its pose).
-* 17 joints per figure, each locked, free or movable.
+* 17 joints per figure, each locked or free, and movable or fixed.
+* Joint spheres show where a figure can be grabbed: grey, red = locked, green = movable, blue = pinned.
 * With the mouse beside the panel:
   * drag a frozen figure to move it; the wheel lifts it;
-  * drag an active figure by a body part;
+  * drag an active figure by a body part; a right click while dragging pins the part in the air (like the physics gun);
   * right drag turns a figure;
   * Shift + click locks or frees a joint;
   * Shift + right click makes a joint movable – dragging a body part below it then poses only that part.

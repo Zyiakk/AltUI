@@ -194,7 +194,7 @@ Cet onglet n'apparaît que si un tel mod est installé.
 - Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti. « Debout » choisit l'animation au repos de Jodi : celles du jeu (regarde autour, regarde ses ongles, regarde sa jambe, prudente, blessée, pose) et celles des mods de repos installés (IdleAltUI_…).
 - Menu rapide : sa touche, son opacité, ce qui figure dans la roue, les touches personnelles.
 - Thème : chaque couleur du panneau et son opacité, une image de fond (remplissage, alignement, teinte, sépia, inversion, opacité propre) et une image pour les tuiles et les onglets, schémas de couleurs enregistrés sous un nom ; la réinitialisation est dans la barre d'état. Un thème enregistré désormais garde aussi les images et leurs réglages. Images personnelles : Background_1 … Background_30 et Button_1 … Button_30 (.png, .jpg ou .jpeg) dans le dossier indiqué sur la page. « Afficher les aperçus » montre les images elles-mêmes sur leurs puces ; clic droit sur l'aperçu d'une image personnelle : « Recréer l'aperçu ».
-- Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux.
+- Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux. En dessous : « Plusieurs pièces dans un emplacement » – un emplacement activé garde ses pièces quand on en enfile une autre (par exemple des chaussettes hautes sur des collants), pour Jodi, les compagnons et les looks.
 - Onglets : texte, icônes ou les deux dans la barre d'onglets ; désactiver des onglets. « Tenter de tenir sur une ligne » : les libellés rétrécissent puis raccourcissent, pour que la barre tienne sur une ligne quand c'est possible.
 
 ## Gestion {#manage}
@@ -213,15 +213,17 @@ Des figures avec physique à placer et à poser dans le niveau : copies de Jodi,
 - « + Créer une copie de Jodi » place une copie devant elle, debout et figée dans sa pose actuelle, avec tout ce qu'elle porte. Un look devient une figure avec « Créer en ragdoll » dans son menu contextuel.
 - « Zombies et humains » : une tuile illustrée par type de zombie, plus l'infirmière et une survivante. Un clic la crée ; les liens sous une tuile créent ses variantes.
 - Le mercenaire est aussi un type de figure ; il garde son fusil en main.
-- Chaque figure a sa ligne : active (physique, elle tombe et peut être lancée) ou figée (elle garde sa pose), « articulations › », tout bloquer, tout libérer, retirer. « Tout retirer » retire toutes les figures.
-- « articulations › » déplie les 17 articulations de la figure, chacune bloquée, libre ou mobile. Une articulation bloquée reste rigide tant que la figure est active.
-- Poses (dans la ligne dépliée) : un nom et « enregistrer la pose » retiennent la position des parties du corps. Une pose se charge sur toute figure du même type, dans tous les niveaux – un clic charge, clic droit : charger / supprimer. La figure se fige et se tient sur le sol.
+- Chaque figure a sa ligne : active (physique, elle tombe et peut être lancée) ou figée (elle garde sa pose), « articulations › », tout bloquer, tout libérer, retirer. En bas à droite, dans la barre d'état : « Tout retirer » (retire toutes les figures) et « Sphères des articulations : oui/non ».
+- « articulations › » déplie les 17 articulations de la figure, chacune avec deux interrupteurs : bloquée/libre et mobile/fixe. Une articulation bloquée reste rigide tant que la figure est active ; une articulation mobile peut être posée sur la figure figée.
+- Les sphères des articulations montrent où saisir : gris, rouge = bloquée, vert = mobile, bleu = fixée. Les sphères cachées transparaissent, pâles, à travers le corps ; un clic sur une sphère saisit exactement cette articulation. Elles n'apparaissent que dans cet onglet et en mode ragdoll.
+- Poses (dans la ligne dépliée) : un nom et « enregistrer la pose » retiennent la position des parties du corps et les articulations bloquées ou mobiles. Une pose se charge sur toute figure du même type, dans tous les niveaux – un clic charge, clic droit : charger / supprimer. La figure se fige et se tient sur le sol.
 - Scènes : « Enregistrer la scène sous » retient chaque figure du niveau avec son apparence, sa place, sa pose et ses articulations ; le même nom dans le même niveau remplace l'ancienne. Seules les scènes du niveau actuel sont affichées. Un clic charge une scène et remplace les figures présentes ; clic droit : charger / supprimer.
 
 Avec la souris sur une figure, à côté du panneau et en mode ragdoll :
 
 - Glisser avec le bouton gauche une figure figée la déplace sur le sol ; la molette la lève ou l'abaisse pendant le glissement.
 - Glisser avec le bouton gauche une figure active saisit la partie du corps sous la souris ; relâchez et elle tombe.
+- Un clic droit pendant le glissement fixe la partie là où elle est ; le reste de la figure y pend. Saisissez-la de nouveau et elle est libre. « tout relâcher » dans la ligne de la figure les libère toutes.
 - Glisser avec le bouton droit tourne la figure autour de ses hanches.
 - Maj + clic gauche bloque ou libère l'articulation cliquée.
 - Maj + clic droit sur une figure figée rend l'articulation mobile. Glisser ensuite avec le bouton gauche une partie du corps sous une articulation mobile ne déplace que cette partie ; elle reste là où vous la lâchez – c'est ainsi qu'on pose une figure.

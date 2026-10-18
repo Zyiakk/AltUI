@@ -1,5 +1,36 @@
 # Changelog
 
+## 2.5.0 – 2026-10-18
+
+Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the
+same as in 2.4.0; converted bodies do not need to be converted again.
+
+Several pieces in one slot, and ragdolls you can pin in the air.
+
+* **Several pieces in one slot** (Options › Slot conflicts): a chip per slot. A slot switched on keeps what is worn
+  there when another piece of it is put on – for example knee socks over tights. Works for Jodi, looks and followers, and
+  survives saving and loading. The mirror wardrobe and its outfits still keep one piece per slot.
+* **Body Shape:** "Reset shape" is in the status bar, bottom right (where the other pages keep their actions), instead of
+  a link below the sliders.
+* **Ragdolls › joints ›:** every joint has a second switch, movable / fixed, for posing a frozen figure (before it could only
+  be set with Shift + right click on the figure).
+* **Ragdolls: pin parts in the air** (like the physics gun in Garry's Mod): while you drag a part of an active figure,
+  a right click pins it where it is, turn included, and the rest of the figure hangs on it. Grab it again and it is free;
+  "release all" in the figure's row frees every pin. Pins rest while the figure is frozen (and move with it), and scenes
+  keep them.
+* **Ragdolls: joint spheres** show where a figure can be grabbed: grey, red = locked, green = movable, blue = pinned.
+  Spheres behind the body shimmer pale through it, and a click on a sphere grabs exactly that joint – also one behind
+  the body. They show on the Ragdolls tab and in the Ragdolls mode, never in the photo mode; "Joint spheres: on/off" in
+  the status bar turns them off for good.
+* **Ragdolls:** "Remove all" moved to the status bar, bottom right.
+* **Ragdolls › poses** also keep which joints are locked or movable (poses saved before keep the joints as they are).
+
+Fixes:
+
+* **Ragdolls:** a figure held with the mouse is let go when the panel closes (B) or the Ragdolls mode ends (Esc). Before,
+  the grabbed body part stayed hanging in the air until the next grab, and then the figure dropped.
+* **Stop time** also stops the hair and cloth of ragdoll figures (before, their hair kept moving).
+
 ## 2.4.0 – 2026-10-17
 
 Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the

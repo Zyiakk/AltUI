@@ -43,8 +43,22 @@
      "type": "struct:/Script/CoreUObject.LinearColor"
     },
     {
+     "name": "LookWorn",
+     "type": "name",
+     "container": "array"
+    },
+    {
      "name": "LookMakeupTex",
      "type": "object:/Script/Engine.TextureRenderTarget2D"
+    },
+    {
+     "name": "HeldComps",
+     "type": "object:/Game/Project/Classes/Misc/Clothes_Comp",
+     "container": "array"
+    },
+    {
+     "name": "HeldType",
+     "type": "name"
     }
    ],
    "functions": [
@@ -1397,6 +1411,77 @@
         "kind": "self"
        },
        {
+        "id": "glw",
+        "kind": "get",
+        "var": "LookWorn"
+       },
+       {
+        "id": "fw",
+        "kind": "foreach",
+        "in": {
+         "Array": "@glw.LookWorn"
+        }
+       },
+       {
+        "id": "iw",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "is clothes wearing",
+        "in": {
+         "self": "@me.self",
+         "clothes name": "@fw.Array Element"
+        }
+       },
+       {
+        "id": "nw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@iw.yes"
+        }
+       },
+       {
+        "id": "ex",
+        "kind": "call",
+        "class": "/Script/Engine.DataTableFunctionLibrary",
+        "function": "DoesDataTableRowExist",
+        "in": {
+         "Table": "/Game/Project/Clothes/com_ClothesTable",
+         "RowName": "@fw.Array Element"
+        }
+       },
+       {
+        "id": "go",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@nw.ReturnValue",
+         "B": "@ex.ReturnValue"
+        }
+       },
+       {
+        "id": "bgo",
+        "kind": "branch",
+        "in": {
+         "Condition": "@go.ReturnValue"
+        }
+       },
+       {
+        "id": "wk",
+        "kind": "call_self",
+        "function": "Wear Kept",
+        "in": {
+         "char": "@me.self",
+         "name": "@fw.Array Element",
+         "check covering": "false",
+         "update mask": "false",
+         "ignore compatible": "true",
+         "keep": "true"
+        }
+       },
+       {
         "id": "cc",
         "kind": "call",
         "class": "/Game/Project/Classes/Character_Player_Base",
@@ -1419,6 +1504,16 @@
       "exec": [
        [
         "entry",
+        "fw"
+       ],
+       [
+        "fw",
+        "ex",
+        "bgo",
+        "wk"
+       ],
+       [
+        "fw:Completed",
         "cc",
         "bm"
        ]
@@ -1583,6 +1678,14 @@
         }
        },
        {
+        "id": "slw",
+        "kind": "set",
+        "var": "LookWorn",
+        "in": {
+         "LookWorn": "@entry.worn"
+        }
+       },
+       {
         "id": "gbg",
         "kind": "get",
         "var": "Bag",
@@ -1639,10 +1742,587 @@
         "sh",
         "shc",
         "spc",
+        "slw",
         "apc",
         "scc",
         "scd",
         "al"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Hold Slot",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh0",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "hc0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gh0.HeldComps"
+        }
+       },
+       {
+        "id": "sht",
+        "kind": "set",
+        "var": "HeldType",
+        "in": {
+         "HeldType": "None"
+        }
+       },
+       {
+        "id": "row",
+        "kind": "get_row",
+        "table": "/Game/Project/Clothes/com_ClothesTable",
+        "in": {
+         "RowName": "@entry.name"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "br",
+        "kind": "break",
+        "struct": "/Game/Project/Clothes/ClothesStruct",
+        "in": {
+         "ClothesStruct": "@row.OutRow"
+        }
+       },
+       {
+        "id": "sty",
+        "kind": "set",
+        "var": "HeldType",
+        "in": {
+         "HeldType": "@br.TypeName"
+        }
+       },
+       {
+        "id": "gcl",
+        "kind": "get",
+        "var": "clothes component list",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "fc",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gcl.clothes component list"
+        }
+       },
+       {
+        "id": "gty",
+        "kind": "get",
+        "var": "Type",
+        "class": "/Game/Project/Classes/Misc/Clothes_Comp"
+       },
+       {
+        "id": "ght",
+        "kind": "get",
+        "var": "HeldType"
+       },
+       {
+        "id": "eq",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gty.Type",
+         "B": "@ght.HeldType"
+        }
+       },
+       {
+        "id": "beq",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq.ReturnValue"
+        }
+       },
+       {
+        "id": "gh1",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "ha",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gh1.HeldComps",
+         "NewItem": "@fc.Array Element"
+        }
+       },
+       {
+        "id": "sh",
+        "kind": "set",
+        "var": "Type",
+        "class": "/Game/Project/Classes/Misc/Clothes_Comp",
+        "in": {
+         "self": "@fc.Array Element",
+         "Type": "AltUIHeld"
+        }
+       }
+      ],
+      "links": [
+       [
+        "entry.char",
+        "gcl.self"
+       ],
+       [
+        "fc.Array Element",
+        "gty.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "hc0",
+        "sht",
+        "row",
+        "sty",
+        "fc"
+       ],
+       [
+        "fc",
+        "beq",
+        "ha",
+        "sh"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Release Held",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "fb",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gh.HeldComps"
+        }
+       },
+       {
+        "id": "ght",
+        "kind": "get",
+        "var": "HeldType"
+       },
+       {
+        "id": "sb",
+        "kind": "set",
+        "var": "Type",
+        "class": "/Game/Project/Classes/Misc/Clothes_Comp",
+        "in": {
+         "self": "@fb.Array Element",
+         "Type": "@ght.HeldType"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "hc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gh2.HeldComps"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "fb"
+       ],
+       [
+        "fb",
+        "sb"
+       ],
+       [
+        "fb:Completed",
+        "hc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Slot For",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "row",
+        "kind": "get_row",
+        "table": "/Game/Project/Clothes/com_ClothesTable",
+        "in": {
+         "RowName": "@entry.name"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "br",
+        "kind": "break",
+        "struct": "/Game/Project/Clothes/ClothesStruct",
+        "in": {
+         "ClothesStruct": "@row.OutRow"
+        }
+       },
+       {
+        "id": "trow",
+        "kind": "get_row",
+        "table": "/Game/Project/Clothes/ClothesTypeTable",
+        "in": {
+         "RowName": "@br.TypeName"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "tbr",
+        "kind": "break",
+        "struct": "/Game/Project/Clothes/ClothesTypeStruct",
+        "in": {
+         "ClothesTypeStruct": "@trow.OutRow"
+        }
+       },
+       {
+        "id": "fa",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "And_IntInt",
+        "in": {
+         "A": "@tbr.Flag",
+         "B": "1"
+        }
+       },
+       {
+        "id": "f0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@fa.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "iw",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "is clothes wearing",
+        "in": {
+         "self": "@entry.char",
+         "clothes name": "@entry.name"
+        }
+       },
+       {
+        "id": "nw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@iw.yes"
+        }
+       },
+       {
+        "id": "one",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@f0.ReturnValue",
+         "B": "@nw.ReturnValue"
+        }
+       },
+       {
+        "id": "bone",
+        "kind": "branch",
+        "in": {
+         "Condition": "@one.ReturnValue"
+        }
+       },
+       {
+        "id": "tsa",
+        "kind": "call_self",
+        "function": "Take Off Slot All",
+        "in": {
+         "char": "@entry.char",
+         "slot": "@br.TypeName"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "row",
+        "trow",
+        "bone",
+        "tsa"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Wear Kept",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "check covering",
+       "type": "bool"
+      },
+      {
+       "name": "update mask",
+       "type": "bool"
+      },
+      {
+       "name": "ignore compatible",
+       "type": "bool"
+      },
+      {
+       "name": "keep",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "successed",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "bk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.keep"
+        }
+       },
+       {
+        "id": "hs",
+        "kind": "call_self",
+        "function": "Hold Slot",
+        "in": {
+         "char": "@entry.char",
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "csf",
+        "kind": "call_self",
+        "function": "Clear Slot For",
+        "in": {
+         "char": "@entry.char",
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "w",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Wear The Clothes",
+        "in": {
+         "self": "@entry.char",
+         "name": "@entry.name",
+         "check covering": "@entry.check covering",
+         "update mask": "@entry.update mask",
+         "ignore compatible": "@entry.ignore compatible"
+        }
+       },
+       {
+        "id": "rh",
+        "kind": "call_self",
+        "function": "Release Held"
+       },
+       {
+        "id": "bk2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.keep"
+        }
+       }
+      ],
+      "links": [
+       [
+        "w.successed",
+        "return.successed"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bk",
+        "hs",
+        "w",
+        "bk2",
+        "rh",
+        "return"
+       ],
+       [
+        "bk2:else",
+        "return"
+       ],
+       [
+        "bk:else",
+        "csf",
+        "w"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Take Off Slot All",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "slot",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gcl",
+        "kind": "get",
+        "var": "clothes component list",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "cp",
+        "kind": "set",
+        "var": "HeldComps",
+        "in": {
+         "HeldComps": "@gcl.clothes component list"
+        }
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "fc",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gh.HeldComps"
+        }
+       },
+       {
+        "id": "gty",
+        "kind": "get",
+        "var": "Type",
+        "class": "/Game/Project/Classes/Misc/Clothes_Comp"
+       },
+       {
+        "id": "eq",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gty.Type",
+         "B": "@entry.slot"
+        }
+       },
+       {
+        "id": "beq",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq.ReturnValue"
+        }
+       },
+       {
+        "id": "to",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Take Off Clothes And Remove Component",
+        "in": {
+         "self": "@entry.char",
+         "comp": "@fc.Array Element"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "hc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gh2.HeldComps"
+        }
+       }
+      ],
+      "links": [
+       [
+        "entry.char",
+        "gcl.self"
+       ],
+       [
+        "fc.Array Element",
+        "gty.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "cp",
+        "fc"
+       ],
+       [
+        "fc",
+        "beq",
+        "to"
+       ],
+       [
+        "fc:Completed",
+        "hc"
        ]
       ]
      }

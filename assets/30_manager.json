@@ -1192,6 +1192,12 @@
      "type": "struct:/Game/Mod/AltUI/S_RagPart",
      "container": "array",
      "internal_name": "Parts_20_EED923B023F213910F3EC974035E8B20"
+    },
+    {
+     "name": "Pinned",
+     "type": "name",
+     "container": "array",
+     "internal_name": "Pinned_22_5C4ADBEFEE60AC2A70A38B5BAA804EAF"
     }
    ]
   },
@@ -1252,6 +1258,23 @@
      "name": "RootHeight",
      "type": "float",
      "internal_name": "RootHeight_12_33458F91937324952E3E5E22623747CC"
+    },
+    {
+     "name": "Locked",
+     "type": "name",
+     "container": "array",
+     "internal_name": "Locked_14_B41D3C0BBF3B0798B7F586D422890C38"
+    },
+    {
+     "name": "Loose",
+     "type": "name",
+     "container": "array",
+     "internal_name": "Loose_16_850FCBE1C6552AE098F9BA45974DFAD7"
+    },
+    {
+     "name": "HasJoints",
+     "type": "bool",
+     "internal_name": "HasJoints_18_38BE18F7D69AE3C690EDD28F9E74C753"
     }
    ]
   },
@@ -2412,6 +2435,24 @@
      "es": "Conflictos de ranuras",
      "pl": "Konflikty slotów",
      "fr": "Conflits d'emplacements"
+    },
+    "Lbl_MultiSlots": {
+     "en": "Several pieces in one slot",
+     "de": "Mehrere Teile im selben Slot",
+     "zh": "同一部位多件",
+     "ru": "Несколько вещей в одном слоте",
+     "es": "Varias prendas en una ranura",
+     "pl": "Kilka rzeczy w jednym slocie",
+     "fr": "Plusieurs pièces dans un emplacement"
+    },
+    "Lbl_MultiSlotsHint": {
+     "en": "Active = putting on a piece keeps the others of that slot on (Jodi, followers, looks). The mirror wardrobe and its outfits follow the game; meshes may clip.",
+     "de": "Aktiv = Anziehen lässt die anderen Teile dieses Slots an (Jodi, Follower, Looks). Die Spiegel-Garderobe und ihre Outfits folgen dem Spiel; Meshes können sich durchdringen.",
+     "zh": "激活 = 穿上新衣物时保留该部位的其他衣物（Jodi、随从、造型）。镜子衣柜及其套装仍按游戏规则；模型可能穿模。",
+     "ru": "Активно = при надевании остальные вещи этого слота остаются (Jodi, спутники, образы). Гардероб у зеркала и его наряды следуют игре; модели могут пересекаться.",
+     "es": "Activo = al ponerse una prenda, las demás de esa ranura se quedan (Jodi, seguidores, looks). El armario del espejo y sus conjuntos siguen al juego; las mallas pueden atravesarse.",
+     "pl": "Aktywne = zakładanie zostawia pozostałe rzeczy tego slotu (Jodi, towarzysze, wyglądy). Garderoba przy lustrze i jej stroje działają jak w grze; modele mogą się przenikać.",
+     "fr": "Actif = enfiler une pièce garde les autres de cet emplacement (Jodi, compagnons, looks). La garde-robe du miroir et ses tenues suivent le jeu ; les maillages peuvent se chevaucher."
     },
     "Lbl_ConflictsHint": {
      "en": "Active = allowed in combo. The mirror wardrobe follows the game; meshes may clip.",
@@ -4770,6 +4811,51 @@
      "es": "móvil",
      "pl": "ruchomy",
      "fr": "mobile"
+    },
+    "Rag_Fixed": {
+     "en": "fixed",
+     "de": "fest",
+     "zh": "固定",
+     "ru": "неподвижный",
+     "es": "fija",
+     "pl": "nieruchomy",
+     "fr": "fixe"
+    },
+    "Rag_Pinned": {
+     "en": "pinned",
+     "de": "festgehalten",
+     "zh": "已固定",
+     "ru": "закреплено",
+     "es": "fijadas",
+     "pl": "przypięte",
+     "fr": "fixées"
+    },
+    "Rag_UnpinAll": {
+     "en": "release all",
+     "de": "alle loslassen",
+     "zh": "全部松开",
+     "ru": "отпустить все",
+     "es": "soltar todas",
+     "pl": "puść wszystkie",
+     "fr": "tout relâcher"
+    },
+    "Rag_MarkersOn": {
+     "en": "Joint spheres: on",
+     "de": "Gelenkkugeln: an",
+     "zh": "关节球：开",
+     "ru": "Шары суставов: вкл",
+     "es": "Esferas de articulación: sí",
+     "pl": "Kule stawów: wł.",
+     "fr": "Sphères des articulations : oui"
+    },
+    "Rag_MarkersOff": {
+     "en": "Joint spheres: off",
+     "de": "Gelenkkugeln: aus",
+     "zh": "关节球：关",
+     "ru": "Шары суставов: выкл",
+     "es": "Esferas de articulación: no",
+     "pl": "Kule stawów: wył.",
+     "fr": "Sphères des articulations : non"
     },
     "Rag_SaveAs": {
      "en": "Save scene as",
@@ -7877,13 +7963,13 @@
      "fr": "Paramètres"
     },
     "Man_options_B": {
-     "en": "The categories are on the left.\n\n• General: language, how much of the screen stays free for Jodi, underwear may be taken off, how items you do not own are shown, the Codex switch for the encyclopedia, the \"All items\" catalogue and \"Auto-equip weapons\" for the Inventory tab. \"No notices\" hides every notice at the bottom, AltUI's and the game's own.\n• Tiles: tile size, own sizes for outfit, look and ragdoll tiles, pieces per outfit tile, no limit on long lists, tooltip details, the tile size of the Inventory tab.\n• Groups: merge groups or mods with the same name, length of group names, height of the chip area, chip search.\n• Camera: field of view, distance, height, camera follows the chosen slot. Two switches for the free camera (also in the ragdolls mode): no collision – it flies through walls and Jodi – and any distance from Jodi.\n• Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.\n• Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. \"Slow motion on\" switches slow motion, \"Slow motion speed\" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry \"Slow motion on / off\" does the same as the switch. \"Reset to default\" sets walk, run and slow motion speed back. \"Standing\" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).\n• Quick menu: its key, its opacity, what is in the wheel, own keys.\n• Theme: every panel colour and its opacity, a background picture (fill, alignment, hue, sepia, invert, its own opacity) and a picture for tiles and tabs, colour schemes saved under a name; reset is in the status bar. A theme saved now keeps the pictures and their settings too. Your own pictures: Background_1 … Background_30 and Button_1 … Button_30 (.png, .jpg or .jpeg) in the folder the page names. \"Show previews\" shows the pictures themselves on their chips; right click on the preview of an own picture: \"Redo preview\".\n• Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn.\n• Tabs: text, icons or both in the tab bar; switch tabs off. \"Try to fit in one row\": the captions get smaller and then shorter, so the bar fits on one row where it can.",
-     "de": "Links die Kategorien.\n\n• Allgemein: Sprache, wie viel vom Bildschirm für Jodi frei bleibt, Unterwäsche darf ausgezogen werden, wie Teile ohne Besitz erscheinen, der Kodex-Schalter für die Enzyklopädie, der Katalog „Alle Items“ und „Waffen automatisch ausrüsten“ für den Reiter Inventar. „Keine Hinweise“ blendet alle Hinweise unten aus, die von AltUI und die des Spiels.\n• Kacheln: Kachelgröße, eigene Größen für Outfit-, Look- und Ragdoll-Kacheln, Teile pro Outfit-Kachel, keine Grenze bei langen Listen, Tooltip-Angaben, die Kachelgröße des Reiters Inventar.\n• Gruppen: Gruppen oder Mods gleichen Namens zusammenfassen, Länge der Gruppennamen, Höhe des Chip-Bereichs, Chip-Suche.\n• Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot. Zwei Schalter für die freie Kamera (auch im Ragdolls-Modus): keine Kollision – sie fliegt durch Wände und Jodi – und beliebig weit von Jodi weg.\n• Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.\n• Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).\n• Schnellmenü: Taste, Deckkraft, was im Rad steht, eigene Tasten.\n• Theme: jede Farbe des Panels mit ihrer Deckkraft, ein Hintergrundbild (Füllung, Ausrichtung, Farbton, Sepia, Invertieren, eigene Deckkraft) und ein Bild für Kacheln und Reiter, Farbschemata unter einem Namen gespeichert; Zurücksetzen steht in der Statusleiste. Ein jetzt gespeichertes Theme behält auch die Bilder und ihre Einstellungen. Eigene Bilder: Background_1 … Background_30 und Button_1 … Button_30 (.png, .jpg oder .jpeg) in dem Ordner, den die Seite nennt. „Vorschauen einblenden“ zeigt die Bilder selbst auf ihren Chips; Rechtsklick auf die Vorschau eines eigenen Bildes: „Vorschau neu erstellen“.\n• Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können.\n• Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten. „Möglichst in eine Zeile“: die Beschriftungen werden kleiner und dann kürzer, damit die Leiste wo möglich in eine Zeile passt.",
-     "zh": "左边是分类。\n\n• 常规：语言、屏幕留给朱蒂的空间、允许脱下内衣、未拥有物品的显示方式、百科的资料库开关、物品栏标签页的“全部物品”目录和“自动装备武器”。“不显示提示”会隐藏底部的所有提示，包括 AltUI 的和游戏自身的。\n• 图块：图块大小、搭配、造型和布娃娃图块的单独大小、每个搭配图块的物品数、长列表不设上限、提示框内容、物品栏标签页的图块大小。\n• 分组：合并同名的分组或模组、分组名称长度、标签区域高度、标签搜索。\n• 相机：视野、距离、高度、相机跟随所选部位。自由镜头的两个开关（在布娃娃模式中同样有效）：无碰撞——可穿过墙壁和朱蒂——以及可任意远离朱蒂。\n• 操作：面板按键、滚动速度、用右键调整相机高度、鼠标滚轮每格抬起布娃娃的高度。\n• 移动：朱蒂自定义的行走和奔跑速度（50 % 到 200 %）；蹲下和跳跃不受影响。“开启慢动作”开关慢动作，“慢动作速度”（5 % 到 90 %，默认 25 %）决定慢动作有多慢；快捷菜单项“慢动作 开 / 关”与该开关作用相同。“恢复默认”会重置行走、奔跑和慢动作速度。 “站立”选择朱蒂的待机动画：游戏自带的站立动画（环顾四周、看指甲、看腿、谨慎、受伤、摆姿势）以及已安装的待机模组（IdleAltUI_…）。\n• 快捷菜单：按键、不透明度、轮盘中的内容、自定义按键。\n• 主题：面板的每种颜色及其不透明度、背景图片（填充、对齐、色相、怀旧、反色、独立不透明度）和用于图块与标签的图片、以名称保存的配色方案；重置在状态栏中。现在保存的主题也会保留图片及其设置。自己的图片：Background_1 … Background_30 和 Button_1 … Button_30（.png、.jpg 或 .jpeg），放在页面所示的文件夹中。“显示预览”会在选项块上直接显示图片；右键点击自己图片的预览：“重新生成预览”。\n• 部位冲突：解除游戏的部位配对（例如胸罩和衬衫），以便两者都能穿上。\n• 标签页：标签栏显示文字、图标或两者；关闭标签页。“尽量放在一行”：标签文字先变小再缩短，使标签栏尽可能放在一行内。",
-     "ru": "Слева категории.\n\n• Общие: язык, сколько экрана остается для Джоди, можно ли снимать белье, как показываются вещи, которых нет, переключатель Кодекса для энциклопедии, каталог «Все предметы» и «Автоматически экипировать оружие» для вкладки «Инвентарь». «Без уведомлений» скрывает все уведомления внизу – и AltUI, и самой игры.\n• Плитки: размер плиток, отдельные размеры для плиток комплектов, образов и рэгдоллов, вещей на плитке комплекта, без ограничения для длинных списков, данные подсказок, размер плиток вкладки «Инвентарь».\n• Группы: объединять группы или моды с одинаковым именем, длина имен групп, высота области фишек, поиск по фишкам.\n• Камера: угол обзора, расстояние, высота, камера следует за выбранным слотом. Два переключателя для свободной камеры (и в режиме рэгдоллов): без столкновений – она пролетает сквозь стены и Джоди – и на любом расстоянии от Джоди.\n• Управление: клавиша панели, скорость прокрутки, высота камеры правой кнопкой мыши, насколько колесо мыши поднимает рэгдолл за один щелчок.\n• Движение: своя скорость ходьбы и бега Джоди (от 50 до 200 %); приседание и прыжки не меняются. «Замедление вкл.» включает замедление, «Скорость замедления» (от 5 до 90 %, по умолчанию 25 %) задает, насколько медленно идет время; пункт быстрого меню «Замедление вкл / выкл» делает то же, что и переключатель. «Сбросить по умолчанию» возвращает скорость ходьбы, бега и замедления. «Стойка» выбирает анимацию покоя Джоди: стойки игры (оглядывается, смотрит на ногти, смотрит на ногу, осторожно, раненая, позирует) и установленных модов покоя (IdleAltUI_…).\n• Быстрое меню: клавиша, непрозрачность, что стоит в колесе, свои клавиши.\n• Тема: каждый цвет панели и его непрозрачность, фоновое изображение (заполнение, выравнивание, оттенок, сепия, инверсия, своя непрозрачность) и изображение для плиток и вкладок, цветовые схемы, сохранённые под именем; сброс – в строке состояния. Тема, сохранённая теперь, хранит и изображения с их настройками. Свои изображения: Background_1 … Background_30 и Button_1 … Button_30 (.png, .jpg или .jpeg) в папке, указанной на странице. «Показывать превью» показывает сами изображения на их чипах; правый клик по превью своего изображения: «Пересоздать превью».\n• Конфликты слотов: разделить пары слотов игры (например, бюстгальтер и рубашку), чтобы можно было носить обе вещи.\n• Вкладки: текст, значки или и то и другое в строке вкладок; отключение вкладок. «По возможности в одну строку»: подписи сначала уменьшаются, затем укорачиваются, чтобы панель по возможности помещалась в одну строку.",
-     "es": "A la izquierda, las categorías.\n\n• General: idioma, cuánto de la pantalla queda libre para Jodi, permitir quitar la ropa interior, cómo se muestran las prendas que no posees, el interruptor del Códice para la enciclopedia, el catálogo «Todos los objetos» y «Equipar armas automáticamente» para la pestaña Inventario. «Sin avisos» oculta todos los avisos de abajo, los de AltUI y los del propio juego.\n• Casillas: tamaño de las casillas, tamaños propios para casillas de conjuntos, looks y ragdolls, prendas por casilla de conjunto, sin límite en listas largas, datos de las descripciones emergentes, el tamaño de las casillas de la pestaña Inventario.\n• Grupos: unir grupos o mods con el mismo nombre, longitud de los nombres de grupo, altura de la zona de fichas, búsqueda de fichas.\n• Cámara: campo de visión, distancia, altura, la cámara sigue la ranura elegida. Dos interruptores para la cámara libre (también en el modo ragdolls): sin colisión – atraviesa paredes y a Jodi – y a cualquier distancia de Jodi.\n• Controles: tecla del panel, velocidad de desplazamiento, altura de la cámara con el botón derecho, cuánto levanta la rueda del ratón un ragdoll por paso.\n• Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta. «De pie» elige la animación en reposo de Jodi: las del juego (mirando alrededor, mirando las uñas, mirando la pierna, cautelosa, herida, posando) y las de los mods de reposo instalados (IdleAltUI_…).\n• Menú rápido: su tecla, su opacidad, lo que hay en la rueda, las teclas propias.\n• Tema: cada color del panel y su opacidad, una imagen de fondo (relleno, alineación, tono, sepia, invertir, opacidad propia) y una imagen para mosaicos y pestañas, esquemas de color guardados con un nombre; restablecer está en la barra de estado. Un tema guardado ahora conserva también las imágenes y sus ajustes. Imágenes propias: Background_1 … Background_30 y Button_1 … Button_30 (.png, .jpg o .jpeg) en la carpeta que indica la página. «Mostrar vistas previas» muestra las propias imágenes en sus chips; clic derecho en la vista previa de una imagen propia: «Rehacer vista previa».\n• Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas.\n• Pestañas: texto, iconos o ambos en la barra de pestañas; desactivar pestañas. «Intentar en una fila»: los textos se hacen más pequeños y luego más cortos, para que la barra quepa en una fila donde sea posible.",
-     "pl": "Po lewej kategorie.\n\n• Ogólne: język, ile ekranu zostaje wolne dla Jodi, czy można zdjąć bieliznę, jak wyglądają elementy, których nie masz, przełącznik Kodeksu dla encyklopedii, katalog „Wszystkie przedmioty” i „Automatycznie wyposażaj broń” dla karty Ekwipunek. „Bez powiadomień” ukrywa wszystkie powiadomienia na dole, z AltUI i z samej gry.\n• Kafelki: rozmiar kafelków, osobne rozmiary dla kafelków strojów, stylizacji i ragdolli, elementy na kafelku stroju, bez limitu dla długich list, dane w podpowiedziach, rozmiar kafelków karty Ekwipunek.\n• Grupy: łączenie grup lub modów o tej samej nazwie, długość nazw grup, wysokość obszaru chipów, wyszukiwanie chipów.\n• Kamera: pole widzenia, odległość, wysokość, kamera podąża za wybranym slotem. Dwa przełączniki wolnej kamery (także w trybie ragdolli): bez kolizji – przelatuje przez ściany i Jodi – oraz dowolnie daleko od Jodi.\n• Sterowanie: klawisz panelu, prędkość przewijania, wysokość kamery prawym przyciskiem myszy, jak wysoko kółko myszy podnosi ragdolla na jeden ząbek.\n• Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %); kucanie i skakanie pozostają bez zmian. „Zwolnienie wł.” włącza zwolnienie, „Tempo zwolnienia” (od 5 do 90 %, domyślnie 25 %) ustala, jak wolno płynie czas; pozycja szybkiego menu „Zwolnienie wł / wył” działa tak samo jak przełącznik. „Przywróć domyślne” przywraca prędkość chodu, biegu i zwolnienia. „Stanie” wybiera animację bezczynności Jodi: animacje gry (rozglądanie się, oglądanie paznokci, oglądanie nogi, ostrożnie, ranna, pozowanie) i zainstalowanych modów bezczynności (IdleAltUI_…).\n• Szybkie menu: klawisz, przezroczystość, co jest w kole, własne klawisze.\n• Motyw: każdy kolor panelu i jego krycie, obraz tła (wypełnienie, wyrównanie, odcień, sepia, odwrócenie, własne krycie) i obraz dla kafelków i kart, schematy kolorów zapisane pod nazwą; reset jest na pasku stanu. Motyw zapisany teraz zachowuje także obrazy i ich ustawienia. Własne obrazy: Background_1 … Background_30 i Button_1 … Button_30 (.png, .jpg lub .jpeg) w folderze podanym na stronie. „Pokaż podglądy” pokazuje same obrazy na ich chipach; prawy klik na podglądzie własnego obrazu: „Utwórz podgląd ponownie”.\n• Konflikty slotów: rozdzielenie par slotów gry (na przykład biustonosz i koszula), aby można było nosić oba elementy.\n• Karty: tekst, ikony lub oba na pasku kart; wyłączanie kart. „Spróbuj w jednym wierszu”: podpisy najpierw się zmniejszają, potem skracają, aby pasek mieścił się w jednym wierszu, gdzie to możliwe.",
-     "fr": "À gauche, les catégories.\n\n• Général : langue, part de l'écran laissée libre pour Jodi, autoriser à retirer les sous-vêtements, affichage des objets non possédés, l'interrupteur du Codex pour l'encyclopédie, le catalogue « Tous les objets » et « Équiper automatiquement les armes » pour l'onglet Inventaire. « Aucun avis » masque tous les avis en bas, ceux d'AltUI et ceux du jeu lui-même.\n• Tuiles : taille des tuiles, tailles propres pour les tuiles de tenues, de looks et de ragdolls, objets par tuile de tenue, pas de limite pour les longues listes, détails des info-bulles, la taille des tuiles de l'onglet Inventaire.\n• Groupes : fusionner les groupes ou les mods de même nom, longueur des noms de groupe, hauteur de la zone des puces, recherche dans les puces.\n• Caméra : champ de vision, distance, hauteur, la caméra suit l'emplacement choisi. Deux interrupteurs pour la caméra libre (aussi en mode ragdolls) : sans collision – elle traverse les murs et Jodi – et à n'importe quelle distance de Jodi.\n• Commandes : touche du panneau, vitesse de défilement, hauteur de la caméra avec le bouton droit, de combien la molette soulève un ragdoll par cran.\n• Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti. « Debout » choisit l'animation au repos de Jodi : celles du jeu (regarde autour, regarde ses ongles, regarde sa jambe, prudente, blessée, pose) et celles des mods de repos installés (IdleAltUI_…).\n• Menu rapide : sa touche, son opacité, ce qui figure dans la roue, les touches personnelles.\n• Thème : chaque couleur du panneau et son opacité, une image de fond (remplissage, alignement, teinte, sépia, inversion, opacité propre) et une image pour les tuiles et les onglets, schémas de couleurs enregistrés sous un nom ; la réinitialisation est dans la barre d'état. Un thème enregistré désormais garde aussi les images et leurs réglages. Images personnelles : Background_1 … Background_30 et Button_1 … Button_30 (.png, .jpg ou .jpeg) dans le dossier indiqué sur la page. « Afficher les aperçus » montre les images elles-mêmes sur leurs puces ; clic droit sur l'aperçu d'une image personnelle : « Recréer l'aperçu ».\n• Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux.\n• Onglets : texte, icônes ou les deux dans la barre d'onglets ; désactiver des onglets. « Tenter de tenir sur une ligne » : les libellés rétrécissent puis raccourcissent, pour que la barre tienne sur une ligne quand c'est possible."
+     "en": "The categories are on the left.\n\n• General: language, how much of the screen stays free for Jodi, underwear may be taken off, how items you do not own are shown, the Codex switch for the encyclopedia, the \"All items\" catalogue and \"Auto-equip weapons\" for the Inventory tab. \"No notices\" hides every notice at the bottom, AltUI's and the game's own.\n• Tiles: tile size, own sizes for outfit, look and ragdoll tiles, pieces per outfit tile, no limit on long lists, tooltip details, the tile size of the Inventory tab.\n• Groups: merge groups or mods with the same name, length of group names, height of the chip area, chip search.\n• Camera: field of view, distance, height, camera follows the chosen slot. Two switches for the free camera (also in the ragdolls mode): no collision – it flies through walls and Jodi – and any distance from Jodi.\n• Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.\n• Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. \"Slow motion on\" switches slow motion, \"Slow motion speed\" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry \"Slow motion on / off\" does the same as the switch. \"Reset to default\" sets walk, run and slow motion speed back. \"Standing\" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).\n• Quick menu: its key, its opacity, what is in the wheel, own keys.\n• Theme: every panel colour and its opacity, a background picture (fill, alignment, hue, sepia, invert, its own opacity) and a picture for tiles and tabs, colour schemes saved under a name; reset is in the status bar. A theme saved now keeps the pictures and their settings too. Your own pictures: Background_1 … Background_30 and Button_1 … Button_30 (.png, .jpg or .jpeg) in the folder the page names. \"Show previews\" shows the pictures themselves on their chips; right click on the preview of an own picture: \"Redo preview\".\n• Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn. Below: \"Several pieces in one slot\" – a slot switched on keeps its pieces when another one is put on (for example knee socks over tights), for Jodi, followers and looks.\n• Tabs: text, icons or both in the tab bar; switch tabs off. \"Try to fit in one row\": the captions get smaller and then shorter, so the bar fits on one row where it can.",
+     "de": "Links die Kategorien.\n\n• Allgemein: Sprache, wie viel vom Bildschirm für Jodi frei bleibt, Unterwäsche darf ausgezogen werden, wie Teile ohne Besitz erscheinen, der Kodex-Schalter für die Enzyklopädie, der Katalog „Alle Items“ und „Waffen automatisch ausrüsten“ für den Reiter Inventar. „Keine Hinweise“ blendet alle Hinweise unten aus, die von AltUI und die des Spiels.\n• Kacheln: Kachelgröße, eigene Größen für Outfit-, Look- und Ragdoll-Kacheln, Teile pro Outfit-Kachel, keine Grenze bei langen Listen, Tooltip-Angaben, die Kachelgröße des Reiters Inventar.\n• Gruppen: Gruppen oder Mods gleichen Namens zusammenfassen, Länge der Gruppennamen, Höhe des Chip-Bereichs, Chip-Suche.\n• Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot. Zwei Schalter für die freie Kamera (auch im Ragdolls-Modus): keine Kollision – sie fliegt durch Wände und Jodi – und beliebig weit von Jodi weg.\n• Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.\n• Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).\n• Schnellmenü: Taste, Deckkraft, was im Rad steht, eigene Tasten.\n• Theme: jede Farbe des Panels mit ihrer Deckkraft, ein Hintergrundbild (Füllung, Ausrichtung, Farbton, Sepia, Invertieren, eigene Deckkraft) und ein Bild für Kacheln und Reiter, Farbschemata unter einem Namen gespeichert; Zurücksetzen steht in der Statusleiste. Ein jetzt gespeichertes Theme behält auch die Bilder und ihre Einstellungen. Eigene Bilder: Background_1 … Background_30 und Button_1 … Button_30 (.png, .jpg oder .jpeg) in dem Ordner, den die Seite nennt. „Vorschauen einblenden“ zeigt die Bilder selbst auf ihren Chips; Rechtsklick auf die Vorschau eines eigenen Bildes: „Vorschau neu erstellen“.\n• Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können. Darunter: „Mehrere Teile im selben Slot“ – ein eingeschalteter Slot behält seine Teile, wenn ein weiteres angezogen wird (zum Beispiel Kniestrümpfe über einer Strumpfhose), für Jodi, Follower und Looks.\n• Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten. „Möglichst in eine Zeile“: die Beschriftungen werden kleiner und dann kürzer, damit die Leiste wo möglich in eine Zeile passt.",
+     "zh": "左边是分类。\n\n• 常规：语言、屏幕留给朱蒂的空间、允许脱下内衣、未拥有物品的显示方式、百科的资料库开关、物品栏标签页的“全部物品”目录和“自动装备武器”。“不显示提示”会隐藏底部的所有提示，包括 AltUI 的和游戏自身的。\n• 图块：图块大小、搭配、造型和布娃娃图块的单独大小、每个搭配图块的物品数、长列表不设上限、提示框内容、物品栏标签页的图块大小。\n• 分组：合并同名的分组或模组、分组名称长度、标签区域高度、标签搜索。\n• 相机：视野、距离、高度、相机跟随所选部位。自由镜头的两个开关（在布娃娃模式中同样有效）：无碰撞——可穿过墙壁和朱蒂——以及可任意远离朱蒂。\n• 操作：面板按键、滚动速度、用右键调整相机高度、鼠标滚轮每格抬起布娃娃的高度。\n• 移动：朱蒂自定义的行走和奔跑速度（50 % 到 200 %）；蹲下和跳跃不受影响。“开启慢动作”开关慢动作，“慢动作速度”（5 % 到 90 %，默认 25 %）决定慢动作有多慢；快捷菜单项“慢动作 开 / 关”与该开关作用相同。“恢复默认”会重置行走、奔跑和慢动作速度。 “站立”选择朱蒂的待机动画：游戏自带的站立动画（环顾四周、看指甲、看腿、谨慎、受伤、摆姿势）以及已安装的待机模组（IdleAltUI_…）。\n• 快捷菜单：按键、不透明度、轮盘中的内容、自定义按键。\n• 主题：面板的每种颜色及其不透明度、背景图片（填充、对齐、色相、怀旧、反色、独立不透明度）和用于图块与标签的图片、以名称保存的配色方案；重置在状态栏中。现在保存的主题也会保留图片及其设置。自己的图片：Background_1 … Background_30 和 Button_1 … Button_30（.png、.jpg 或 .jpeg），放在页面所示的文件夹中。“显示预览”会在选项块上直接显示图片；右键点击自己图片的预览：“重新生成预览”。\n• 部位冲突：解除游戏的部位配对（例如胸罩和衬衫），以便两者都能穿上。 下方：“同一部位多件”——开启的部位在穿上新衣物时保留已穿的（例如在连裤袜外穿及膝袜），适用于 Jodi、随从和造型。\n• 标签页：标签栏显示文字、图标或两者；关闭标签页。“尽量放在一行”：标签文字先变小再缩短，使标签栏尽可能放在一行内。",
+     "ru": "Слева категории.\n\n• Общие: язык, сколько экрана остается для Джоди, можно ли снимать белье, как показываются вещи, которых нет, переключатель Кодекса для энциклопедии, каталог «Все предметы» и «Автоматически экипировать оружие» для вкладки «Инвентарь». «Без уведомлений» скрывает все уведомления внизу – и AltUI, и самой игры.\n• Плитки: размер плиток, отдельные размеры для плиток комплектов, образов и рэгдоллов, вещей на плитке комплекта, без ограничения для длинных списков, данные подсказок, размер плиток вкладки «Инвентарь».\n• Группы: объединять группы или моды с одинаковым именем, длина имен групп, высота области фишек, поиск по фишкам.\n• Камера: угол обзора, расстояние, высота, камера следует за выбранным слотом. Два переключателя для свободной камеры (и в режиме рэгдоллов): без столкновений – она пролетает сквозь стены и Джоди – и на любом расстоянии от Джоди.\n• Управление: клавиша панели, скорость прокрутки, высота камеры правой кнопкой мыши, насколько колесо мыши поднимает рэгдолл за один щелчок.\n• Движение: своя скорость ходьбы и бега Джоди (от 50 до 200 %); приседание и прыжки не меняются. «Замедление вкл.» включает замедление, «Скорость замедления» (от 5 до 90 %, по умолчанию 25 %) задает, насколько медленно идет время; пункт быстрого меню «Замедление вкл / выкл» делает то же, что и переключатель. «Сбросить по умолчанию» возвращает скорость ходьбы, бега и замедления. «Стойка» выбирает анимацию покоя Джоди: стойки игры (оглядывается, смотрит на ногти, смотрит на ногу, осторожно, раненая, позирует) и установленных модов покоя (IdleAltUI_…).\n• Быстрое меню: клавиша, непрозрачность, что стоит в колесе, свои клавиши.\n• Тема: каждый цвет панели и его непрозрачность, фоновое изображение (заполнение, выравнивание, оттенок, сепия, инверсия, своя непрозрачность) и изображение для плиток и вкладок, цветовые схемы, сохранённые под именем; сброс – в строке состояния. Тема, сохранённая теперь, хранит и изображения с их настройками. Свои изображения: Background_1 … Background_30 и Button_1 … Button_30 (.png, .jpg или .jpeg) в папке, указанной на странице. «Показывать превью» показывает сами изображения на их чипах; правый клик по превью своего изображения: «Пересоздать превью».\n• Конфликты слотов: разделить пары слотов игры (например, бюстгальтер и рубашку), чтобы можно было носить обе вещи. Ниже: «Несколько вещей в одном слоте» – включённый слот сохраняет свои вещи, когда надевается ещё одна (например, гольфы поверх колготок), для Jodi, спутников и образов.\n• Вкладки: текст, значки или и то и другое в строке вкладок; отключение вкладок. «По возможности в одну строку»: подписи сначала уменьшаются, затем укорачиваются, чтобы панель по возможности помещалась в одну строку.",
+     "es": "A la izquierda, las categorías.\n\n• General: idioma, cuánto de la pantalla queda libre para Jodi, permitir quitar la ropa interior, cómo se muestran las prendas que no posees, el interruptor del Códice para la enciclopedia, el catálogo «Todos los objetos» y «Equipar armas automáticamente» para la pestaña Inventario. «Sin avisos» oculta todos los avisos de abajo, los de AltUI y los del propio juego.\n• Casillas: tamaño de las casillas, tamaños propios para casillas de conjuntos, looks y ragdolls, prendas por casilla de conjunto, sin límite en listas largas, datos de las descripciones emergentes, el tamaño de las casillas de la pestaña Inventario.\n• Grupos: unir grupos o mods con el mismo nombre, longitud de los nombres de grupo, altura de la zona de fichas, búsqueda de fichas.\n• Cámara: campo de visión, distancia, altura, la cámara sigue la ranura elegida. Dos interruptores para la cámara libre (también en el modo ragdolls): sin colisión – atraviesa paredes y a Jodi – y a cualquier distancia de Jodi.\n• Controles: tecla del panel, velocidad de desplazamiento, altura de la cámara con el botón derecho, cuánto levanta la rueda del ratón un ragdoll por paso.\n• Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta. «De pie» elige la animación en reposo de Jodi: las del juego (mirando alrededor, mirando las uñas, mirando la pierna, cautelosa, herida, posando) y las de los mods de reposo instalados (IdleAltUI_…).\n• Menú rápido: su tecla, su opacidad, lo que hay en la rueda, las teclas propias.\n• Tema: cada color del panel y su opacidad, una imagen de fondo (relleno, alineación, tono, sepia, invertir, opacidad propia) y una imagen para mosaicos y pestañas, esquemas de color guardados con un nombre; restablecer está en la barra de estado. Un tema guardado ahora conserva también las imágenes y sus ajustes. Imágenes propias: Background_1 … Background_30 y Button_1 … Button_30 (.png, .jpg o .jpeg) en la carpeta que indica la página. «Mostrar vistas previas» muestra las propias imágenes en sus chips; clic derecho en la vista previa de una imagen propia: «Rehacer vista previa».\n• Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas. Debajo: «Varias prendas en una ranura»: una ranura activada conserva sus prendas al ponerse otra (por ejemplo calcetines largos sobre unas medias), para Jodi, seguidores y looks.\n• Pestañas: texto, iconos o ambos en la barra de pestañas; desactivar pestañas. «Intentar en una fila»: los textos se hacen más pequeños y luego más cortos, para que la barra quepa en una fila donde sea posible.",
+     "pl": "Po lewej kategorie.\n\n• Ogólne: język, ile ekranu zostaje wolne dla Jodi, czy można zdjąć bieliznę, jak wyglądają elementy, których nie masz, przełącznik Kodeksu dla encyklopedii, katalog „Wszystkie przedmioty” i „Automatycznie wyposażaj broń” dla karty Ekwipunek. „Bez powiadomień” ukrywa wszystkie powiadomienia na dole, z AltUI i z samej gry.\n• Kafelki: rozmiar kafelków, osobne rozmiary dla kafelków strojów, stylizacji i ragdolli, elementy na kafelku stroju, bez limitu dla długich list, dane w podpowiedziach, rozmiar kafelków karty Ekwipunek.\n• Grupy: łączenie grup lub modów o tej samej nazwie, długość nazw grup, wysokość obszaru chipów, wyszukiwanie chipów.\n• Kamera: pole widzenia, odległość, wysokość, kamera podąża za wybranym slotem. Dwa przełączniki wolnej kamery (także w trybie ragdolli): bez kolizji – przelatuje przez ściany i Jodi – oraz dowolnie daleko od Jodi.\n• Sterowanie: klawisz panelu, prędkość przewijania, wysokość kamery prawym przyciskiem myszy, jak wysoko kółko myszy podnosi ragdolla na jeden ząbek.\n• Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %); kucanie i skakanie pozostają bez zmian. „Zwolnienie wł.” włącza zwolnienie, „Tempo zwolnienia” (od 5 do 90 %, domyślnie 25 %) ustala, jak wolno płynie czas; pozycja szybkiego menu „Zwolnienie wł / wył” działa tak samo jak przełącznik. „Przywróć domyślne” przywraca prędkość chodu, biegu i zwolnienia. „Stanie” wybiera animację bezczynności Jodi: animacje gry (rozglądanie się, oglądanie paznokci, oglądanie nogi, ostrożnie, ranna, pozowanie) i zainstalowanych modów bezczynności (IdleAltUI_…).\n• Szybkie menu: klawisz, przezroczystość, co jest w kole, własne klawisze.\n• Motyw: każdy kolor panelu i jego krycie, obraz tła (wypełnienie, wyrównanie, odcień, sepia, odwrócenie, własne krycie) i obraz dla kafelków i kart, schematy kolorów zapisane pod nazwą; reset jest na pasku stanu. Motyw zapisany teraz zachowuje także obrazy i ich ustawienia. Własne obrazy: Background_1 … Background_30 i Button_1 … Button_30 (.png, .jpg lub .jpeg) w folderze podanym na stronie. „Pokaż podglądy” pokazuje same obrazy na ich chipach; prawy klik na podglądzie własnego obrazu: „Utwórz podgląd ponownie”.\n• Konflikty slotów: rozdzielenie par slotów gry (na przykład biustonosz i koszula), aby można było nosić oba elementy. Poniżej: „Kilka rzeczy w jednym slocie” – włączony slot zachowuje swoje rzeczy, gdy zakłada się kolejną (na przykład podkolanówki na rajstopy), dla Jodi, towarzyszy i wyglądów.\n• Karty: tekst, ikony lub oba na pasku kart; wyłączanie kart. „Spróbuj w jednym wierszu”: podpisy najpierw się zmniejszają, potem skracają, aby pasek mieścił się w jednym wierszu, gdzie to możliwe.",
+     "fr": "À gauche, les catégories.\n\n• Général : langue, part de l'écran laissée libre pour Jodi, autoriser à retirer les sous-vêtements, affichage des objets non possédés, l'interrupteur du Codex pour l'encyclopédie, le catalogue « Tous les objets » et « Équiper automatiquement les armes » pour l'onglet Inventaire. « Aucun avis » masque tous les avis en bas, ceux d'AltUI et ceux du jeu lui-même.\n• Tuiles : taille des tuiles, tailles propres pour les tuiles de tenues, de looks et de ragdolls, objets par tuile de tenue, pas de limite pour les longues listes, détails des info-bulles, la taille des tuiles de l'onglet Inventaire.\n• Groupes : fusionner les groupes ou les mods de même nom, longueur des noms de groupe, hauteur de la zone des puces, recherche dans les puces.\n• Caméra : champ de vision, distance, hauteur, la caméra suit l'emplacement choisi. Deux interrupteurs pour la caméra libre (aussi en mode ragdolls) : sans collision – elle traverse les murs et Jodi – et à n'importe quelle distance de Jodi.\n• Commandes : touche du panneau, vitesse de défilement, hauteur de la caméra avec le bouton droit, de combien la molette soulève un ragdoll par cran.\n• Déplacement : vitesse de marche et de course propre à Jodi (50 à 200 %) ; s'accroupir et sauter restent inchangés. « Ralenti activé » allume le ralenti, « Vitesse du ralenti » (5 à 90 %, 25 % par défaut) règle sa lenteur ; l'entrée du menu rapide « Ralenti oui / non » fait la même chose que l'interrupteur. « Valeurs par défaut » remet les vitesses de marche, de course et du ralenti. « Debout » choisit l'animation au repos de Jodi : celles du jeu (regarde autour, regarde ses ongles, regarde sa jambe, prudente, blessée, pose) et celles des mods de repos installés (IdleAltUI_…).\n• Menu rapide : sa touche, son opacité, ce qui figure dans la roue, les touches personnelles.\n• Thème : chaque couleur du panneau et son opacité, une image de fond (remplissage, alignement, teinte, sépia, inversion, opacité propre) et une image pour les tuiles et les onglets, schémas de couleurs enregistrés sous un nom ; la réinitialisation est dans la barre d'état. Un thème enregistré désormais garde aussi les images et leurs réglages. Images personnelles : Background_1 … Background_30 et Button_1 … Button_30 (.png, .jpg ou .jpeg) dans le dossier indiqué sur la page. « Afficher les aperçus » montre les images elles-mêmes sur leurs puces ; clic droit sur l'aperçu d'une image personnelle : « Recréer l'aperçu ».\n• Conflits d'emplacements : séparer les paires d'emplacements du jeu (par exemple soutien-gorge et chemise) pour pouvoir porter les deux. En dessous : « Plusieurs pièces dans un emplacement » – un emplacement activé garde ses pièces quand on en enfile une autre (par exemple des chaussettes hautes sur des collants), pour Jodi, les compagnons et les looks.\n• Onglets : texte, icônes ou les deux dans la barre d'onglets ; désactiver des onglets. « Tenter de tenir sur une ligne » : les libellés rétrécissent puis raccourcissent, pour que la barre tienne sur une ligne quand c'est possible."
     },
     "Man_manage_T": {
      "en": "Manage",
@@ -7913,13 +7999,13 @@
      "fr": "Ragdolls"
     },
     "Man_ragdolls_B": {
-     "en": "Figures with physics to place in the level and pose: copies of Jodi, zombies and people.\n\n• \"+ Spawn a copy of Jodi\" puts a copy in front of her, standing and frozen in her current pose, with everything she wears. A look becomes a figure with \"Spawn as ragdoll\" in its context menu.\n• \"Zombies and people\": one picture tile per kind of zombie, plus the nurse and a survivor. A click spawns it; the links under a tile spawn its variants.\n• The mercenary is a kind of figure too; he keeps his rifle in his hands.\n• Every figure has a row: active (physics, it falls and can be thrown) or frozen (it keeps its pose), \"joints ›\", lock all, free all, remove. \"Remove all\" removes every figure.\n• \"joints ›\" opens the 17 joints of the figure, each one locked, free or movable. A locked joint stays stiff while the figure is active.\n• Poses (in the opened row): a name and \"save pose\" keep how the body parts are placed. A pose loads onto every figure of the same kind, in every level – a click loads, right click: load / delete. The figure freezes and stands on the floor.\n• Scenes: \"Save scene as\" keeps every figure of the level with its look, place, pose and joints; the same name in the same level overwrites. Only the scenes of the current level are shown. A click loads a scene and replaces the figures that are there; right click: load / delete.\n\nWith the mouse on a figure, beside the panel and in the ragdolls mode:\n\n• Left drag on a frozen figure moves it over the floor; the mouse wheel lifts or lowers it while you drag.\n• Left drag on an active figure grabs the body part under the mouse; let go and it falls.\n• Right drag turns the figure about its hips.\n• Shift + left click locks or frees the joint you click.\n• Shift + right click on a frozen figure makes the joint movable. Left drag on a body part below a movable joint then moves only that part; it stays where you let go – that is how a figure is posed.\n\nWithout the panel, the quick menu activates or freezes figures: \"Ragdoll: activate / freeze the one in view\" takes the figure in the middle of the screen, \"Ragdolls: active / frozen\" switches all of them.",
-     "de": "Figuren mit Physik zum Aufstellen und Posieren im Level: Kopien von Jodi, Zombies und Menschen.\n\n• „+ Kopie von Jodi spawnen“ stellt eine Kopie vor sie, stehend und eingefroren in ihrer aktuellen Pose, mit allem, was sie trägt. Ein Look wird mit „Als Ragdoll spawnen“ in seinem Kontextmenü zur Figur.\n• „Zombies und Menschen“: eine Bildkachel je Zombie-Art, dazu die Krankenschwester und eine Überlebende. Ein Klick spawnt sie; die Links unter einer Kachel spawnen ihre Varianten.\n• Auch der Söldner ist eine Figurenart; er behält sein Gewehr in den Händen.\n• Jede Figur hat eine Zeile: aktiv (Physik, sie fällt und lässt sich werfen) oder eingefroren (sie hält ihre Pose), „Gelenke ›“, alle sperren, alle lösen, entfernen. „Alle entfernen“ entfernt jede Figur.\n• „Gelenke ›“ klappt die 17 Gelenke der Figur auf, jedes gesperrt, frei oder beweglich. Ein gesperrtes Gelenk bleibt steif, solange die Figur aktiv ist.\n• Posen (in der aufgeklappten Zeile): ein Name und „Pose speichern“ halten fest, wie die Körperteile stehen. Eine Pose lässt sich auf jede Figur derselben Art laden, in jedem Level – Klick lädt, Rechtsklick: Laden / Löschen. Die Figur friert dabei ein und steht auf dem Boden.\n• Szenen: „Szene speichern als“ hält jede Figur des Levels mit Aussehen, Ort, Pose und Gelenken fest; gleicher Name im selben Level überschreibt. Gezeigt werden nur die Szenen des aktuellen Levels. Ein Klick lädt eine Szene und ersetzt die vorhandenen Figuren; Rechtsklick: Laden / Löschen.\n\nMit der Maus auf einer Figur, neben dem Panel und im Ragdoll-Modus:\n\n• Links-Ziehen an einer eingefrorenen Figur verschiebt sie über den Boden; das Mausrad hebt oder senkt sie beim Ziehen.\n• Links-Ziehen an einer aktiven Figur greift das Körperteil unter der Maus; loslassen, und sie fällt.\n• Rechts-Ziehen dreht die Figur um ihre Hüfte.\n• Shift + Linksklick sperrt oder löst das angeklickte Gelenk.\n• Shift + Rechtsklick auf eine eingefrorene Figur macht das Gelenk beweglich. Links-Ziehen an einem Körperteil unter einem beweglichen Gelenk bewegt dann nur diesen Teil; er bleibt, wo du loslässt – so wird eine Figur posiert.\n\nOhne Panel aktiviert oder friert das Schnellmenü Figuren ein: „Ragdoll: anvisierte aktivieren / einfrieren“ nimmt die Figur in der Bildmitte, „Ragdolls: aktiv / eingefroren“ schaltet alle um.",
-     "zh": "带物理效果、可在关卡中摆放和摆姿势的人物：朱蒂的副本、丧尸和人类。\n\n• “+ 生成朱蒂的副本”会在她面前放一个副本，站立并冻结在她当前的姿势中，穿着她身上的一切。在造型的右键菜单中选择“生成为布娃娃”，即可把该造型变成人物。\n• “丧尸与人类”：每种丧尸一个图片图块，另有护士和一名幸存者。单击即生成；图块下方的链接生成它的变体。\n• 雇佣兵也是一种人物；他会一直握着步枪。\n• 每个人物有一行：已激活（物理生效，会倒下，可以被抛出）或已冻结（保持姿势），“关节 ›”，全部锁定，全部解锁，移除。“全部移除”移除所有人物。\n• “关节 ›”展开人物的 17 个关节，每个可设为已锁定、自由或可活动。人物激活时，已锁定的关节保持僵硬。\n• 姿势（在展开的行中）：输入名称并点“保存姿势”，即记录身体各部位的位置。姿势可加载到同类的任何人物上，在任何关卡都可以——单击加载，右键：加载 / 删除。加载时人物会冻结并站在地面上。\n• 场景：“场景另存为”保存本关卡的每个人物，包括外观、位置、姿势和关节；同一关卡中的同名场景会被覆盖。只显示当前关卡的场景。单击加载场景并替换现有人物；右键：加载 / 删除。\n\n鼠标在人物上时（面板旁和布娃娃模式中）：\n\n• 左键拖动已冻结的人物，可在地面上移动它；拖动时滚动滚轮可抬高或降低它。\n• 左键拖动已激活的人物，会抓住鼠标下的身体部位；松开后它会倒下。\n• 右键拖动可让人物绕髋部旋转。\n• Shift + 左键单击锁定或解锁所点的关节。\n• Shift + 右键单击已冻结的人物，可让该关节变为可活动。之后左键拖动可活动关节以下的身体部位，只会移动这一部分；松开后它留在原处——这样就能给人物摆姿势。\n\n不打开面板时，可用快捷菜单激活或冻结人物：“布娃娃：激活 / 冻结视野中的人物”作用于屏幕中央的人物，“布娃娃：激活 / 冻结”切换所有人物。",
-     "ru": "Фигуры с физикой, которые можно расставлять и позировать на уровне: копии Джоди, зомби и люди.\n\n• «+ Создать копию Джоди» ставит копию перед ней, стоящую и замороженную в ее текущей позе, со всем, что на ней надето. Образ становится фигурой через «Создать как рэгдолл» в его контекстном меню.\n• «Зомби и люди»: по плитке с картинкой на каждый вид зомби, плюс медсестра и выжившая. Щелчок создает фигуру; ссылки под плиткой создают ее варианты.\n• Наёмник тоже вид фигуры; он держит свою винтовку в руках.\n• У каждой фигуры своя строка: активна (физика, она падает, ее можно бросить) или заморожена (держит позу), «суставы ›», зафиксировать все, освободить все, удалить. «Удалить все» удаляет все фигуры.\n• «суставы ›» раскрывает 17 суставов фигуры, каждый зафиксирован, свободен или подвижен. Зафиксированный сустав остается жестким, пока фигура активна.\n• Позы (в раскрытой строке): имя и «сохранить позу» запоминают положение частей тела. Позу можно загрузить на любую фигуру того же вида, на любом уровне – щелчок загружает, правый щелчок: загрузить / удалить. Фигура при этом замирает и встает на пол.\n• Сцены: «Сохранить сцену как» запоминает каждую фигуру уровня с ее внешностью, местом, позой и суставами; то же имя на том же уровне перезаписывает сцену. Показываются только сцены текущего уровня. Щелчок загружает сцену и заменяет имеющиеся фигуры; правый щелчок: загрузить / удалить.\n\nС мышью на фигуре, рядом с панелью и в режиме рэгдоллов:\n\n• Перетаскивание левой кнопкой замороженной фигуры двигает ее по полу; колесо мыши во время перетаскивания поднимает или опускает ее.\n• Перетаскивание левой кнопкой активной фигуры хватает часть тела под мышью; отпустите – и она упадет.\n• Перетаскивание правой кнопкой поворачивает фигуру вокруг бедер.\n• Shift + левый щелчок фиксирует или освобождает сустав, по которому щелкнули.\n• Shift + правый щелчок по замороженной фигуре делает сустав подвижным. Тогда перетаскивание левой кнопкой части тела ниже подвижного сустава двигает только эту часть; она остается там, где ее отпустили, – так фигуру позируют.\n\nБез панели фигуры активирует или замораживает быстрое меню: «Рэгдолл: активировать / заморозить фигуру в центре» берет фигуру в центре экрана, «Рэгдоллы: активны / заморожены» переключает все.",
-     "es": "Figuras con física para colocar y posar en el nivel: copias de Jodi, zombis y personas.\n\n• «+ Crear una copia de Jodi» pone una copia delante de ella, de pie y congelada en su pose actual, con todo lo que lleva puesto. Un look se convierte en figura con «Crear como ragdoll» en su menú contextual.\n• «Zombis y personas»: una casilla con imagen por tipo de zombi, además de la enfermera y una superviviente. Un clic la crea; los enlaces bajo una casilla crean sus variantes.\n• El mercenario también es un tipo de figura; conserva su fusil en las manos.\n• Cada figura tiene una fila: activa (física, cae y se puede lanzar) o congelada (mantiene su pose), «articulaciones ›», bloquear todas, liberar todas, quitar. «Quitar todos» quita todas las figuras.\n• «articulaciones ›» despliega las 17 articulaciones de la figura, cada una bloqueada, libre o móvil. Una articulación bloqueada queda rígida mientras la figura está activa.\n• Poses (en la fila desplegada): un nombre y «guardar pose» guardan cómo están colocadas las partes del cuerpo. Una pose se carga en cualquier figura del mismo tipo, en cualquier nivel: clic carga, clic derecho: cargar / borrar. La figura se congela y queda de pie sobre el suelo.\n• Escenas: «Guardar escena como» guarda cada figura del nivel con su aspecto, su lugar, su pose y sus articulaciones; el mismo nombre en el mismo nivel la sobrescribe. Solo se muestran las escenas del nivel actual. Un clic carga una escena y sustituye las figuras presentes; clic derecho: cargar / borrar.\n\nCon el ratón sobre una figura, junto al panel y en el modo ragdoll:\n\n• Arrastrar con el botón izquierdo una figura congelada la mueve por el suelo; la rueda la sube o la baja mientras arrastras.\n• Arrastrar con el botón izquierdo una figura activa agarra la parte del cuerpo bajo el ratón; al soltarla, cae.\n• Arrastrar con el botón derecho gira la figura sobre sus caderas.\n• Mayús + clic izquierdo bloquea o libera la articulación pulsada.\n• Mayús + clic derecho en una figura congelada hace móvil la articulación. Arrastrar entonces con el botón izquierdo una parte del cuerpo bajo una articulación móvil mueve solo esa parte; se queda donde la sueltas: así se posa una figura.\n\nSin el panel, el menú rápido activa o congela figuras: «Ragdoll: activar / congelar la del centro» toma la figura del centro de la pantalla, «Ragdolls: activos / congelados» las cambia todas.",
-     "pl": "Figury z fizyką do ustawiania i pozowania na poziomie: kopie Jodi, zombie i ludzie.\n\n• „+ Utwórz kopię Jodi” stawia kopię przed nią, stojącą i zamrożoną w jej obecnej pozie, ze wszystkim, co ma na sobie. Stylizacja staje się figurą przez „Utwórz jako ragdoll” w jej menu kontekstowym.\n• „Zombie i ludzie”: jeden kafelek z obrazem na rodzaj zombie, do tego pielęgniarka i ocalała. Kliknięcie tworzy figurę; linki pod kafelkiem tworzą jej warianty.\n• Najemnik też jest rodzajem figury; trzyma karabin w rękach.\n• Każda figura ma swój wiersz: aktywna (fizyka, upada i można nią rzucać) lub zamrożona (trzyma pozę), „stawy ›”, zablokuj wszystkie, zwolnij wszystkie, usuń. „Usuń wszystkie” usuwa każdą figurę.\n• „stawy ›” rozwija 17 stawów figury, każdy zablokowany, wolny lub ruchomy. Zablokowany staw pozostaje sztywny, dopóki figura jest aktywna.\n• Pozy (w rozwiniętym wierszu): nazwa i „zapisz pozę” zapamiętują ułożenie części ciała. Pozę można wczytać na każdą figurę tego samego rodzaju, na każdym poziomie – kliknięcie wczytuje, prawy przycisk: wczytaj / usuń. Figura przy tym zamarza i staje na podłodze.\n• Sceny: „Zapisz scenę jako” zapamiętuje każdą figurę poziomu z wyglądem, miejscem, pozą i stawami; ta sama nazwa na tym samym poziomie nadpisuje scenę. Widać tylko sceny bieżącego poziomu. Kliknięcie wczytuje scenę i zastępuje obecne figury; prawy przycisk: wczytaj / usuń.\n\nZ myszą na figurze, obok panelu i w trybie ragdolli:\n\n• Przeciąganie lewym przyciskiem zamrożonej figury przesuwa ją po podłodze; kółko myszy podnosi ją lub opuszcza podczas przeciągania.\n• Przeciąganie lewym przyciskiem aktywnej figury chwyta część ciała pod myszą; puść, a figura upadnie.\n• Przeciąganie prawym przyciskiem obraca figurę wokół bioder.\n• Shift + lewy przycisk blokuje lub zwalnia kliknięty staw.\n• Shift + prawy przycisk na zamrożonej figurze czyni staw ruchomym. Przeciąganie wtedy lewym przyciskiem części ciała poniżej ruchomego stawu porusza tylko tę część; zostaje tam, gdzie ją puścisz – tak pozuje się figurę.\n\nBez panelu figury aktywuje lub zamraża szybkie menu: „Ragdoll: aktywuj / zamroź tę na środku” bierze figurę na środku ekranu, „Ragdolle: aktywne / zamrożone” przełącza wszystkie.",
-     "fr": "Des figures avec physique à placer et à poser dans le niveau : copies de Jodi, zombies et humains.\n\n• « + Créer une copie de Jodi » place une copie devant elle, debout et figée dans sa pose actuelle, avec tout ce qu'elle porte. Un look devient une figure avec « Créer en ragdoll » dans son menu contextuel.\n• « Zombies et humains » : une tuile illustrée par type de zombie, plus l'infirmière et une survivante. Un clic la crée ; les liens sous une tuile créent ses variantes.\n• Le mercenaire est aussi un type de figure ; il garde son fusil en main.\n• Chaque figure a sa ligne : active (physique, elle tombe et peut être lancée) ou figée (elle garde sa pose), « articulations › », tout bloquer, tout libérer, retirer. « Tout retirer » retire toutes les figures.\n• « articulations › » déplie les 17 articulations de la figure, chacune bloquée, libre ou mobile. Une articulation bloquée reste rigide tant que la figure est active.\n• Poses (dans la ligne dépliée) : un nom et « enregistrer la pose » retiennent la position des parties du corps. Une pose se charge sur toute figure du même type, dans tous les niveaux – un clic charge, clic droit : charger / supprimer. La figure se fige et se tient sur le sol.\n• Scènes : « Enregistrer la scène sous » retient chaque figure du niveau avec son apparence, sa place, sa pose et ses articulations ; le même nom dans le même niveau remplace l'ancienne. Seules les scènes du niveau actuel sont affichées. Un clic charge une scène et remplace les figures présentes ; clic droit : charger / supprimer.\n\nAvec la souris sur une figure, à côté du panneau et en mode ragdoll :\n\n• Glisser avec le bouton gauche une figure figée la déplace sur le sol ; la molette la lève ou l'abaisse pendant le glissement.\n• Glisser avec le bouton gauche une figure active saisit la partie du corps sous la souris ; relâchez et elle tombe.\n• Glisser avec le bouton droit tourne la figure autour de ses hanches.\n• Maj + clic gauche bloque ou libère l'articulation cliquée.\n• Maj + clic droit sur une figure figée rend l'articulation mobile. Glisser ensuite avec le bouton gauche une partie du corps sous une articulation mobile ne déplace que cette partie ; elle reste là où vous la lâchez – c'est ainsi qu'on pose une figure.\n\nSans le panneau, le menu rapide active ou fige les figures : « Ragdoll : activer / figer celle visée » prend la figure au centre de l'écran, « Ragdolls : actifs / figés » les bascule toutes."
+     "en": "Figures with physics to place in the level and pose: copies of Jodi, zombies and people.\n\n• \"+ Spawn a copy of Jodi\" puts a copy in front of her, standing and frozen in her current pose, with everything she wears. A look becomes a figure with \"Spawn as ragdoll\" in its context menu.\n• \"Zombies and people\": one picture tile per kind of zombie, plus the nurse and a survivor. A click spawns it; the links under a tile spawn its variants.\n• The mercenary is a kind of figure too; he keeps his rifle in his hands.\n• Every figure has a row: active (physics, it falls and can be thrown) or frozen (it keeps its pose), \"joints ›\", lock all, free all, remove. Bottom right in the status bar: \"Remove all\" (removes every figure) and \"Joint spheres: on/off\".\n• \"joints ›\" opens the 17 joints of the figure, each with two switches: locked/free and movable/fixed. A locked joint stays stiff while the figure is active; a movable one can be posed on the frozen figure.\n• Joint spheres show where you can grab: grey, red = locked, green = movable, blue = pinned. Hidden ones shimmer pale through the body; a click on a sphere grabs exactly that joint. They show only on this tab and in the Ragdolls mode.\n• Poses (in the opened row): a name and \"save pose\" keep how the body parts are placed and which joints are locked or movable. A pose loads onto every figure of the same kind, in every level – a click loads, right click: load / delete. The figure freezes and stands on the floor.\n• Scenes: \"Save scene as\" keeps every figure of the level with its look, place, pose and joints; the same name in the same level overwrites. Only the scenes of the current level are shown. A click loads a scene and replaces the figures that are there; right click: load / delete.\n\nWith the mouse on a figure, beside the panel and in the ragdolls mode:\n\n• Left drag on a frozen figure moves it over the floor; the mouse wheel lifts or lowers it while you drag.\n• Left drag on an active figure grabs the body part under the mouse; let go and it falls.\n• A right click while dragging pins the part where it is; the rest of the figure hangs on it. Grab it again and it is free. \"release all\" in the figure's row frees them all.\n• Right drag turns the figure about its hips.\n• Shift + left click locks or frees the joint you click.\n• Shift + right click on a frozen figure makes the joint movable. Left drag on a body part below a movable joint then moves only that part; it stays where you let go – that is how a figure is posed.\n\nWithout the panel, the quick menu activates or freezes figures: \"Ragdoll: activate / freeze the one in view\" takes the figure in the middle of the screen, \"Ragdolls: active / frozen\" switches all of them.",
+     "de": "Figuren mit Physik zum Aufstellen und Posieren im Level: Kopien von Jodi, Zombies und Menschen.\n\n• „+ Kopie von Jodi spawnen“ stellt eine Kopie vor sie, stehend und eingefroren in ihrer aktuellen Pose, mit allem, was sie trägt. Ein Look wird mit „Als Ragdoll spawnen“ in seinem Kontextmenü zur Figur.\n• „Zombies und Menschen“: eine Bildkachel je Zombie-Art, dazu die Krankenschwester und eine Überlebende. Ein Klick spawnt sie; die Links unter einer Kachel spawnen ihre Varianten.\n• Auch der Söldner ist eine Figurenart; er behält sein Gewehr in den Händen.\n• Jede Figur hat eine Zeile: aktiv (Physik, sie fällt und lässt sich werfen) oder eingefroren (sie hält ihre Pose), „Gelenke ›“, alle sperren, alle lösen, entfernen. Unten rechts in der Statusleiste: „Alle entfernen“ (entfernt jede Figur) und „Gelenkkugeln: an/aus“.\n• „Gelenke ›“ klappt die 17 Gelenke der Figur auf, jedes mit zwei Schaltern: gesperrt/frei und beweglich/fest. Ein gesperrtes Gelenk bleibt steif, solange die Figur aktiv ist; ein bewegliches lässt sich an der eingefrorenen Figur posieren.\n• Gelenkkugeln zeigen, wo man greifen kann: grau, rot = gesperrt, grün = beweglich, blau = festgehalten. Verdeckte schimmern blass durch den Körper; ein Klick auf eine Kugel greift genau dieses Gelenk. Sie erscheinen nur auf diesem Reiter und im Ragdoll-Modus.\n• Posen (in der aufgeklappten Zeile): ein Name und „Pose speichern“ halten fest, wie die Körperteile stehen und welche Gelenke gesperrt oder beweglich sind. Eine Pose lässt sich auf jede Figur derselben Art laden, in jedem Level – Klick lädt, Rechtsklick: Laden / Löschen. Die Figur friert dabei ein und steht auf dem Boden.\n• Szenen: „Szene speichern als“ hält jede Figur des Levels mit Aussehen, Ort, Pose und Gelenken fest; gleicher Name im selben Level überschreibt. Gezeigt werden nur die Szenen des aktuellen Levels. Ein Klick lädt eine Szene und ersetzt die vorhandenen Figuren; Rechtsklick: Laden / Löschen.\n\nMit der Maus auf einer Figur, neben dem Panel und im Ragdoll-Modus:\n\n• Links-Ziehen an einer eingefrorenen Figur verschiebt sie über den Boden; das Mausrad hebt oder senkt sie beim Ziehen.\n• Links-Ziehen an einer aktiven Figur greift das Körperteil unter der Maus; loslassen, und sie fällt.\n• Rechtsklick beim Ziehen hält das Teil an dieser Stelle fest; der Rest der Figur hängt daran. Greifst du es wieder, ist es gelöst. „alle loslassen“ in der Figurzeile löst alle.\n• Rechts-Ziehen dreht die Figur um ihre Hüfte.\n• Shift + Linksklick sperrt oder löst das angeklickte Gelenk.\n• Shift + Rechtsklick auf eine eingefrorene Figur macht das Gelenk beweglich. Links-Ziehen an einem Körperteil unter einem beweglichen Gelenk bewegt dann nur diesen Teil; er bleibt, wo du loslässt – so wird eine Figur posiert.\n\nOhne Panel aktiviert oder friert das Schnellmenü Figuren ein: „Ragdoll: anvisierte aktivieren / einfrieren“ nimmt die Figur in der Bildmitte, „Ragdolls: aktiv / eingefroren“ schaltet alle um.",
+     "zh": "带物理效果、可在关卡中摆放和摆姿势的人物：朱蒂的副本、丧尸和人类。\n\n• “+ 生成朱蒂的副本”会在她面前放一个副本，站立并冻结在她当前的姿势中，穿着她身上的一切。在造型的右键菜单中选择“生成为布娃娃”，即可把该造型变成人物。\n• “丧尸与人类”：每种丧尸一个图片图块，另有护士和一名幸存者。单击即生成；图块下方的链接生成它的变体。\n• 雇佣兵也是一种人物；他会一直握着步枪。\n• 每个人物有一行：已激活（物理生效，会倒下，可以被抛出）或已冻结（保持姿势），“关节 ›”，全部锁定，全部解锁，移除。右下角状态栏中：“全部移除”（移除所有人物）和“关节球：开/关”。\n• “关节 ›”展开人物的 17 个关节，每个关节有两个开关：已锁定/自由 和 可活动/固定。人物激活时，已锁定的关节保持僵硬；可活动的关节可在冻结的人物上摆姿势。\n• 关节球显示可以抓取的位置：灰色，红色 = 已锁定，绿色 = 可活动，蓝色 = 已固定。被遮住的关节球会淡淡地透过身体显示；单击关节球即抓住该关节。它们只在此标签页和布娃娃模式中显示。\n• 姿势（在展开的行中）：输入名称并点“保存姿势”，即记录身体各部位的位置以及哪些关节已锁定或可活动。姿势可加载到同类的任何人物上，在任何关卡都可以——单击加载，右键：加载 / 删除。加载时人物会冻结并站在地面上。\n• 场景：“场景另存为”保存本关卡的每个人物，包括外观、位置、姿势和关节；同一关卡中的同名场景会被覆盖。只显示当前关卡的场景。单击加载场景并替换现有人物；右键：加载 / 删除。\n\n鼠标在人物上时（面板旁和布娃娃模式中）：\n\n• 左键拖动已冻结的人物，可在地面上移动它；拖动时滚动滚轮可抬高或降低它。\n• 左键拖动已激活的人物，会抓住鼠标下的身体部位；松开后它会倒下。\n• 拖动时单击右键，会把该部位固定在当前位置；人物其余部分挂在它上面。再次抓取即可松开。人物行中的“全部松开”会松开所有固定点。\n• 右键拖动可让人物绕髋部旋转。\n• Shift + 左键单击锁定或解锁所点的关节。\n• Shift + 右键单击已冻结的人物，可让该关节变为可活动。之后左键拖动可活动关节以下的身体部位，只会移动这一部分；松开后它留在原处——这样就能给人物摆姿势。\n\n不打开面板时，可用快捷菜单激活或冻结人物：“布娃娃：激活 / 冻结视野中的人物”作用于屏幕中央的人物，“布娃娃：激活 / 冻结”切换所有人物。",
+     "ru": "Фигуры с физикой, которые можно расставлять и позировать на уровне: копии Джоди, зомби и люди.\n\n• «+ Создать копию Джоди» ставит копию перед ней, стоящую и замороженную в ее текущей позе, со всем, что на ней надето. Образ становится фигурой через «Создать как рэгдолл» в его контекстном меню.\n• «Зомби и люди»: по плитке с картинкой на каждый вид зомби, плюс медсестра и выжившая. Щелчок создает фигуру; ссылки под плиткой создают ее варианты.\n• Наёмник тоже вид фигуры; он держит свою винтовку в руках.\n• У каждой фигуры своя строка: активна (физика, она падает, ее можно бросить) или заморожена (держит позу), «суставы ›», зафиксировать все, освободить все, удалить. Внизу справа в строке состояния: «Удалить все» (удаляет все фигуры) и «Шары суставов: вкл/выкл».\n• «суставы ›» раскрывает 17 суставов фигуры, у каждого два переключателя: зафиксирован/свободен и подвижный/неподвижный. Зафиксированный сустав остается жестким, пока фигура активна; подвижный можно позировать на замороженной фигуре.\n• Шары суставов показывают, где можно схватить: серый, красный = зафиксирован, зеленый = подвижный, синий = закреплен. Скрытые бледно просвечивают сквозь тело; щелчок по шару хватает именно этот сустав. Они видны только на этой вкладке и в режиме рэгдоллов.\n• Позы (в раскрытой строке): имя и «сохранить позу» запоминают положение частей тела и то, какие суставы зафиксированы или подвижны. Позу можно загрузить на любую фигуру того же вида, на любом уровне – щелчок загружает, правый щелчок: загрузить / удалить. Фигура при этом замирает и встает на пол.\n• Сцены: «Сохранить сцену как» запоминает каждую фигуру уровня с ее внешностью, местом, позой и суставами; то же имя на том же уровне перезаписывает сцену. Показываются только сцены текущего уровня. Щелчок загружает сцену и заменяет имеющиеся фигуры; правый щелчок: загрузить / удалить.\n\nС мышью на фигуре, рядом с панелью и в режиме рэгдоллов:\n\n• Перетаскивание левой кнопкой замороженной фигуры двигает ее по полу; колесо мыши во время перетаскивания поднимает или опускает ее.\n• Перетаскивание левой кнопкой активной фигуры хватает часть тела под мышью; отпустите – и она упадет.\n• Правый щелчок во время перетаскивания закрепляет часть на месте; остальная фигура висит на ней. Схватите ее снова – и она свободна. «отпустить все» в строке фигуры освобождает все.\n• Перетаскивание правой кнопкой поворачивает фигуру вокруг бедер.\n• Shift + левый щелчок фиксирует или освобождает сустав, по которому щелкнули.\n• Shift + правый щелчок по замороженной фигуре делает сустав подвижным. Тогда перетаскивание левой кнопкой части тела ниже подвижного сустава двигает только эту часть; она остается там, где ее отпустили, – так фигуру позируют.\n\nБез панели фигуры активирует или замораживает быстрое меню: «Рэгдолл: активировать / заморозить фигуру в центре» берет фигуру в центре экрана, «Рэгдоллы: активны / заморожены» переключает все.",
+     "es": "Figuras con física para colocar y posar en el nivel: copias de Jodi, zombis y personas.\n\n• «+ Crear una copia de Jodi» pone una copia delante de ella, de pie y congelada en su pose actual, con todo lo que lleva puesto. Un look se convierte en figura con «Crear como ragdoll» en su menú contextual.\n• «Zombis y personas»: una casilla con imagen por tipo de zombi, además de la enfermera y una superviviente. Un clic la crea; los enlaces bajo una casilla crean sus variantes.\n• El mercenario también es un tipo de figura; conserva su fusil en las manos.\n• Cada figura tiene una fila: activa (física, cae y se puede lanzar) o congelada (mantiene su pose), «articulaciones ›», bloquear todas, liberar todas, quitar. Abajo a la derecha, en la barra de estado: «Quitar todos» (quita todas las figuras) y «Esferas de articulación: sí/no».\n• «articulaciones ›» despliega las 17 articulaciones de la figura, cada una con dos interruptores: bloqueada/libre y móvil/fija. Una articulación bloqueada queda rígida mientras la figura está activa; una móvil se puede posar en la figura congelada.\n• Las esferas de articulación muestran dónde se puede agarrar: gris, rojo = bloqueada, verde = móvil, azul = fijada. Las ocultas brillan pálidas a través del cuerpo; un clic en una esfera agarra justo esa articulación. Solo aparecen en esta pestaña y en el modo ragdoll.\n• Poses (en la fila desplegada): un nombre y «guardar pose» guardan cómo están colocadas las partes del cuerpo y qué articulaciones están bloqueadas o móviles. Una pose se carga en cualquier figura del mismo tipo, en cualquier nivel: clic carga, clic derecho: cargar / borrar. La figura se congela y queda de pie sobre el suelo.\n• Escenas: «Guardar escena como» guarda cada figura del nivel con su aspecto, su lugar, su pose y sus articulaciones; el mismo nombre en el mismo nivel la sobrescribe. Solo se muestran las escenas del nivel actual. Un clic carga una escena y sustituye las figuras presentes; clic derecho: cargar / borrar.\n\nCon el ratón sobre una figura, junto al panel y en el modo ragdoll:\n\n• Arrastrar con el botón izquierdo una figura congelada la mueve por el suelo; la rueda la sube o la baja mientras arrastras.\n• Arrastrar con el botón izquierdo una figura activa agarra la parte del cuerpo bajo el ratón; al soltarla, cae.\n• Un clic derecho mientras arrastras fija la parte donde está; el resto de la figura cuelga de ella. Si la vuelves a agarrar, queda libre. «soltar todas» en la fila de la figura las libera todas.\n• Arrastrar con el botón derecho gira la figura sobre sus caderas.\n• Mayús + clic izquierdo bloquea o libera la articulación pulsada.\n• Mayús + clic derecho en una figura congelada hace móvil la articulación. Arrastrar entonces con el botón izquierdo una parte del cuerpo bajo una articulación móvil mueve solo esa parte; se queda donde la sueltas: así se posa una figura.\n\nSin el panel, el menú rápido activa o congela figuras: «Ragdoll: activar / congelar la del centro» toma la figura del centro de la pantalla, «Ragdolls: activos / congelados» las cambia todas.",
+     "pl": "Figury z fizyką do ustawiania i pozowania na poziomie: kopie Jodi, zombie i ludzie.\n\n• „+ Utwórz kopię Jodi” stawia kopię przed nią, stojącą i zamrożoną w jej obecnej pozie, ze wszystkim, co ma na sobie. Stylizacja staje się figurą przez „Utwórz jako ragdoll” w jej menu kontekstowym.\n• „Zombie i ludzie”: jeden kafelek z obrazem na rodzaj zombie, do tego pielęgniarka i ocalała. Kliknięcie tworzy figurę; linki pod kafelkiem tworzą jej warianty.\n• Najemnik też jest rodzajem figury; trzyma karabin w rękach.\n• Każda figura ma swój wiersz: aktywna (fizyka, upada i można nią rzucać) lub zamrożona (trzyma pozę), „stawy ›”, zablokuj wszystkie, zwolnij wszystkie, usuń. Na dole po prawej, na pasku stanu: „Usuń wszystkie” (usuwa każdą figurę) i „Kule stawów: wł./wył.”.\n• „stawy ›” rozwija 17 stawów figury, każdy z dwoma przełącznikami: zablokowany/wolny i ruchomy/nieruchomy. Zablokowany staw pozostaje sztywny, dopóki figura jest aktywna; ruchomy można ustawiać na zamrożonej figurze.\n• Kule stawów pokazują, gdzie można chwycić: szare, czerwone = zablokowany, zielone = ruchomy, niebieskie = przypięty. Zasłonięte prześwitują blado przez ciało; kliknięcie kuli chwyta dokładnie ten staw. Pojawiają się tylko na tej karcie i w trybie ragdoll.\n• Pozy (w rozwiniętym wierszu): nazwa i „zapisz pozę” zapamiętują ułożenie części ciała oraz to, które stawy są zablokowane lub ruchome. Pozę można wczytać na każdą figurę tego samego rodzaju, na każdym poziomie – kliknięcie wczytuje, prawy przycisk: wczytaj / usuń. Figura przy tym zamarza i staje na podłodze.\n• Sceny: „Zapisz scenę jako” zapamiętuje każdą figurę poziomu z wyglądem, miejscem, pozą i stawami; ta sama nazwa na tym samym poziomie nadpisuje scenę. Widać tylko sceny bieżącego poziomu. Kliknięcie wczytuje scenę i zastępuje obecne figury; prawy przycisk: wczytaj / usuń.\n\nZ myszą na figurze, obok panelu i w trybie ragdolli:\n\n• Przeciąganie lewym przyciskiem zamrożonej figury przesuwa ją po podłodze; kółko myszy podnosi ją lub opuszcza podczas przeciągania.\n• Przeciąganie lewym przyciskiem aktywnej figury chwyta część ciała pod myszą; puść, a figura upadnie.\n• Prawy przycisk podczas przeciągania przypina część w tym miejscu; reszta figury na niej wisi. Chwyć ją ponownie, a będzie wolna. „puść wszystkie” w wierszu figury zwalnia wszystkie.\n• Przeciąganie prawym przyciskiem obraca figurę wokół bioder.\n• Shift + lewy przycisk blokuje lub zwalnia kliknięty staw.\n• Shift + prawy przycisk na zamrożonej figurze czyni staw ruchomym. Przeciąganie wtedy lewym przyciskiem części ciała poniżej ruchomego stawu porusza tylko tę część; zostaje tam, gdzie ją puścisz – tak pozuje się figurę.\n\nBez panelu figury aktywuje lub zamraża szybkie menu: „Ragdoll: aktywuj / zamroź tę na środku” bierze figurę na środku ekranu, „Ragdolle: aktywne / zamrożone” przełącza wszystkie.",
+     "fr": "Des figures avec physique à placer et à poser dans le niveau : copies de Jodi, zombies et humains.\n\n• « + Créer une copie de Jodi » place une copie devant elle, debout et figée dans sa pose actuelle, avec tout ce qu'elle porte. Un look devient une figure avec « Créer en ragdoll » dans son menu contextuel.\n• « Zombies et humains » : une tuile illustrée par type de zombie, plus l'infirmière et une survivante. Un clic la crée ; les liens sous une tuile créent ses variantes.\n• Le mercenaire est aussi un type de figure ; il garde son fusil en main.\n• Chaque figure a sa ligne : active (physique, elle tombe et peut être lancée) ou figée (elle garde sa pose), « articulations › », tout bloquer, tout libérer, retirer. En bas à droite, dans la barre d'état : « Tout retirer » (retire toutes les figures) et « Sphères des articulations : oui/non ».\n• « articulations › » déplie les 17 articulations de la figure, chacune avec deux interrupteurs : bloquée/libre et mobile/fixe. Une articulation bloquée reste rigide tant que la figure est active ; une articulation mobile peut être posée sur la figure figée.\n• Les sphères des articulations montrent où saisir : gris, rouge = bloquée, vert = mobile, bleu = fixée. Les sphères cachées transparaissent, pâles, à travers le corps ; un clic sur une sphère saisit exactement cette articulation. Elles n'apparaissent que dans cet onglet et en mode ragdoll.\n• Poses (dans la ligne dépliée) : un nom et « enregistrer la pose » retiennent la position des parties du corps et les articulations bloquées ou mobiles. Une pose se charge sur toute figure du même type, dans tous les niveaux – un clic charge, clic droit : charger / supprimer. La figure se fige et se tient sur le sol.\n• Scènes : « Enregistrer la scène sous » retient chaque figure du niveau avec son apparence, sa place, sa pose et ses articulations ; le même nom dans le même niveau remplace l'ancienne. Seules les scènes du niveau actuel sont affichées. Un clic charge une scène et remplace les figures présentes ; clic droit : charger / supprimer.\n\nAvec la souris sur une figure, à côté du panneau et en mode ragdoll :\n\n• Glisser avec le bouton gauche une figure figée la déplace sur le sol ; la molette la lève ou l'abaisse pendant le glissement.\n• Glisser avec le bouton gauche une figure active saisit la partie du corps sous la souris ; relâchez et elle tombe.\n• Un clic droit pendant le glissement fixe la partie là où elle est ; le reste de la figure y pend. Saisissez-la de nouveau et elle est libre. « tout relâcher » dans la ligne de la figure les libère toutes.\n• Glisser avec le bouton droit tourne la figure autour de ses hanches.\n• Maj + clic gauche bloque ou libère l'articulation cliquée.\n• Maj + clic droit sur une figure figée rend l'articulation mobile. Glisser ensuite avec le bouton gauche une partie du corps sous une articulation mobile ne déplace que cette partie ; elle reste là où vous la lâchez – c'est ainsi qu'on pose une figure.\n\nSans le panneau, le menu rapide active ou fige les figures : « Ragdoll : activer / figer celle visée » prend la figure au centre de l'écran, « Ragdolls : actifs / figés » les bascule toutes."
     },
     "Man_ragmode_T": {
      "en": "Ragdolls mode",
@@ -8245,6 +8331,11 @@
      "container": "array"
     },
     {
+     "name": "MultiSlots",
+     "type": "name",
+     "container": "array"
+    },
+    {
      "name": "HairSwatchesOpen",
      "type": "bool"
     },
@@ -8270,6 +8361,10 @@
     },
     {
      "name": "NoNotices",
+     "type": "bool"
+    },
+    {
+     "name": "RagMarkersOff",
      "type": "bool"
     },
     {
@@ -8802,6 +8897,15 @@
      "container": "array"
     },
     {
+     "name": "HeldComps",
+     "type": "object:/Game/Project/Classes/Misc/Clothes_Comp",
+     "container": "array"
+    },
+    {
+     "name": "HeldType",
+     "type": "name"
+    },
+    {
      "name": "TmpSubSave",
      "type": "name"
     },
@@ -8843,6 +8947,11 @@
     },
     {
      "name": "FreedConflicts",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "MultiSlots",
      "type": "name",
      "container": "array"
     },
@@ -10734,6 +10843,10 @@
      "type": "bool"
     },
     {
+     "name": "RagMarkersOff",
+     "type": "bool"
+    },
+    {
      "name": "AllowNude",
      "type": "bool"
     },
@@ -11246,6 +11359,26 @@
     {
      "name": "RagMoveActor",
      "type": "object:/Game/Mod/AltUI/BP_AltUIRagdoll"
+    },
+    {
+     "name": "RagGrabActor",
+     "type": "object:/Game/Mod/AltUI/BP_AltUIRagdoll"
+    },
+    {
+     "name": "RagGrabBone",
+     "type": "name"
+    },
+    {
+     "name": "RagPickActor",
+     "type": "object:/Game/Mod/AltUI/BP_AltUIRagdoll"
+    },
+    {
+     "name": "RagPickBone",
+     "type": "name"
+    },
+    {
+     "name": "RagPickPoint",
+     "type": "struct:/Script/CoreUObject.Vector"
     },
     {
      "name": "RagMoveZ",
@@ -18255,6 +18388,632 @@
      }
     },
     {
+     "name": "Keep In Slot",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "keep",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "isl",
+        "kind": "call_self",
+        "function": "Item Slot",
+        "in": {
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "gms",
+        "kind": "get",
+        "var": "MultiSlots"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@gms.MultiSlots",
+         "ItemToFind": "@isl.slot"
+        }
+       }
+      ],
+      "links": [
+       [
+        "c.ReturnValue",
+        "return.keep"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Hold Slot",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh0",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "hc0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gh0.HeldComps"
+        }
+       },
+       {
+        "id": "sht",
+        "kind": "set",
+        "var": "HeldType",
+        "in": {
+         "HeldType": "None"
+        }
+       },
+       {
+        "id": "row",
+        "kind": "get_row",
+        "table": "/Game/Project/Clothes/com_ClothesTable",
+        "in": {
+         "RowName": "@entry.name"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "br",
+        "kind": "break",
+        "struct": "/Game/Project/Clothes/ClothesStruct",
+        "in": {
+         "ClothesStruct": "@row.OutRow"
+        }
+       },
+       {
+        "id": "sty",
+        "kind": "set",
+        "var": "HeldType",
+        "in": {
+         "HeldType": "@br.TypeName"
+        }
+       },
+       {
+        "id": "gcl",
+        "kind": "get",
+        "var": "clothes component list",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "fc",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gcl.clothes component list"
+        }
+       },
+       {
+        "id": "gty",
+        "kind": "get",
+        "var": "Type",
+        "class": "/Game/Project/Classes/Misc/Clothes_Comp"
+       },
+       {
+        "id": "ght",
+        "kind": "get",
+        "var": "HeldType"
+       },
+       {
+        "id": "eq",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gty.Type",
+         "B": "@ght.HeldType"
+        }
+       },
+       {
+        "id": "beq",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq.ReturnValue"
+        }
+       },
+       {
+        "id": "gh1",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "ha",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gh1.HeldComps",
+         "NewItem": "@fc.Array Element"
+        }
+       },
+       {
+        "id": "sh",
+        "kind": "set",
+        "var": "Type",
+        "class": "/Game/Project/Classes/Misc/Clothes_Comp",
+        "in": {
+         "self": "@fc.Array Element",
+         "Type": "AltUIHeld"
+        }
+       }
+      ],
+      "links": [
+       [
+        "entry.char",
+        "gcl.self"
+       ],
+       [
+        "fc.Array Element",
+        "gty.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "hc0",
+        "sht",
+        "row",
+        "sty",
+        "fc"
+       ],
+       [
+        "fc",
+        "beq",
+        "ha",
+        "sh"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Release Held",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "fb",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gh.HeldComps"
+        }
+       },
+       {
+        "id": "ght",
+        "kind": "get",
+        "var": "HeldType"
+       },
+       {
+        "id": "sb",
+        "kind": "set",
+        "var": "Type",
+        "class": "/Game/Project/Classes/Misc/Clothes_Comp",
+        "in": {
+         "self": "@fb.Array Element",
+         "Type": "@ght.HeldType"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "hc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gh2.HeldComps"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "fb"
+       ],
+       [
+        "fb",
+        "sb"
+       ],
+       [
+        "fb:Completed",
+        "hc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Slot For",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "row",
+        "kind": "get_row",
+        "table": "/Game/Project/Clothes/com_ClothesTable",
+        "in": {
+         "RowName": "@entry.name"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "br",
+        "kind": "break",
+        "struct": "/Game/Project/Clothes/ClothesStruct",
+        "in": {
+         "ClothesStruct": "@row.OutRow"
+        }
+       },
+       {
+        "id": "trow",
+        "kind": "get_row",
+        "table": "/Game/Project/Clothes/ClothesTypeTable",
+        "in": {
+         "RowName": "@br.TypeName"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "tbr",
+        "kind": "break",
+        "struct": "/Game/Project/Clothes/ClothesTypeStruct",
+        "in": {
+         "ClothesTypeStruct": "@trow.OutRow"
+        }
+       },
+       {
+        "id": "fa",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "And_IntInt",
+        "in": {
+         "A": "@tbr.Flag",
+         "B": "1"
+        }
+       },
+       {
+        "id": "f0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@fa.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "iw",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "is clothes wearing",
+        "in": {
+         "self": "@entry.char",
+         "clothes name": "@entry.name"
+        }
+       },
+       {
+        "id": "nw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@iw.yes"
+        }
+       },
+       {
+        "id": "one",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@f0.ReturnValue",
+         "B": "@nw.ReturnValue"
+        }
+       },
+       {
+        "id": "bone",
+        "kind": "branch",
+        "in": {
+         "Condition": "@one.ReturnValue"
+        }
+       },
+       {
+        "id": "tsa",
+        "kind": "call_self",
+        "function": "Take Off Slot All",
+        "in": {
+         "char": "@entry.char",
+         "slot": "@br.TypeName"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "row",
+        "trow",
+        "bone",
+        "tsa"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Wear Kept",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "check covering",
+       "type": "bool"
+      },
+      {
+       "name": "update mask",
+       "type": "bool"
+      },
+      {
+       "name": "ignore compatible",
+       "type": "bool"
+      },
+      {
+       "name": "keep",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "successed",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "bk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.keep"
+        }
+       },
+       {
+        "id": "hs",
+        "kind": "call_self",
+        "function": "Hold Slot",
+        "in": {
+         "char": "@entry.char",
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "csf",
+        "kind": "call_self",
+        "function": "Clear Slot For",
+        "in": {
+         "char": "@entry.char",
+         "name": "@entry.name"
+        }
+       },
+       {
+        "id": "w",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Wear The Clothes",
+        "in": {
+         "self": "@entry.char",
+         "name": "@entry.name",
+         "check covering": "@entry.check covering",
+         "update mask": "@entry.update mask",
+         "ignore compatible": "@entry.ignore compatible"
+        }
+       },
+       {
+        "id": "rh",
+        "kind": "call_self",
+        "function": "Release Held"
+       },
+       {
+        "id": "bk2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.keep"
+        }
+       }
+      ],
+      "links": [
+       [
+        "w.successed",
+        "return.successed"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bk",
+        "hs",
+        "w",
+        "bk2",
+        "rh",
+        "return"
+       ],
+       [
+        "bk2:else",
+        "return"
+       ],
+       [
+        "bk:else",
+        "csf",
+        "w"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Take Off Slot All",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "slot",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gcl",
+        "kind": "get",
+        "var": "clothes component list",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "cp",
+        "kind": "set",
+        "var": "HeldComps",
+        "in": {
+         "HeldComps": "@gcl.clothes component list"
+        }
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "fc",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gh.HeldComps"
+        }
+       },
+       {
+        "id": "gty",
+        "kind": "get",
+        "var": "Type",
+        "class": "/Game/Project/Classes/Misc/Clothes_Comp"
+       },
+       {
+        "id": "eq",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gty.Type",
+         "B": "@entry.slot"
+        }
+       },
+       {
+        "id": "beq",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq.ReturnValue"
+        }
+       },
+       {
+        "id": "to",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Take Off Clothes And Remove Component",
+        "in": {
+         "self": "@entry.char",
+         "comp": "@fc.Array Element"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "HeldComps"
+       },
+       {
+        "id": "hc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gh2.HeldComps"
+        }
+       }
+      ],
+      "links": [
+       [
+        "entry.char",
+        "gcl.self"
+       ],
+       [
+        "fc.Array Element",
+        "gty.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "cp",
+        "fc"
+       ],
+       [
+        "fc",
+        "beq",
+        "to"
+       ],
+       [
+        "fc:Completed",
+        "hc"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Save Worn",
      "graph": {
       "nodes": [
@@ -18371,13 +19130,19 @@
        },
        {
         "id": "tc_to",
-        "kind": "call",
-        "class": "/Game/Project/Classes/Character_Player_Base",
-        "function": "take off clothes",
+        "kind": "call_self",
+        "function": "Take Off Slot All",
         "in": {
-         "self": "@tc_gp.Player",
-         "type": "@tc_fo.Array Element",
-         "update mask": "false"
+         "char": "@tc_gp.Player",
+         "slot": "@tc_fo.Array Element"
+        }
+       },
+       {
+        "id": "kis",
+        "kind": "call_self",
+        "function": "Keep In Slot",
+        "in": {
+         "name": "@entry.name"
         }
        },
        {
@@ -18387,15 +19152,15 @@
        },
        {
         "id": "w2",
-        "kind": "call",
-        "class": "/Game/Project/Classes/Character_Player_Base",
-        "function": "Wear The Clothes",
+        "kind": "call_self",
+        "function": "Wear Kept",
         "in": {
-         "self": "@gp3.Player",
+         "char": "@gp3.Player",
          "name": "@entry.name",
          "check covering": "true",
          "update mask": "true",
-         "ignore compatible": "true"
+         "ignore compatible": "true",
+         "keep": "@kis.keep"
         }
        },
        {
@@ -23501,15 +24266,15 @@
        {
         "id": "lg42",
         "kind": "get",
-        "var": "AllowNude",
+        "var": "RagMarkersOff",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls42",
         "kind": "set",
-        "var": "AllowNude",
+        "var": "RagMarkersOff",
         "in": {
-         "AllowNude": "@lg42.AllowNude"
+         "RagMarkersOff": "@lg42.RagMarkersOff"
         }
        },
        {
@@ -23520,15 +24285,15 @@
        {
         "id": "lg43",
         "kind": "get",
-        "var": "OnlyModsNames",
+        "var": "AllowNude",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls43",
         "kind": "set",
-        "var": "OnlyModsNames",
+        "var": "AllowNude",
         "in": {
-         "OnlyModsNames": "@lg43.OnlyModsNames"
+         "AllowNude": "@lg43.AllowNude"
         }
        },
        {
@@ -23539,15 +24304,15 @@
        {
         "id": "lg44",
         "kind": "get",
-        "var": "CaseSensitiveNames",
+        "var": "OnlyModsNames",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls44",
         "kind": "set",
-        "var": "CaseSensitiveNames",
+        "var": "OnlyModsNames",
         "in": {
-         "CaseSensitiveNames": "@lg44.CaseSensitiveNames"
+         "OnlyModsNames": "@lg44.OnlyModsNames"
         }
        },
        {
@@ -23558,15 +24323,15 @@
        {
         "id": "lg45",
         "kind": "get",
-        "var": "MergeGroups",
+        "var": "CaseSensitiveNames",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls45",
         "kind": "set",
-        "var": "MergeGroups",
+        "var": "CaseSensitiveNames",
         "in": {
-         "MergeGroups": "@lg45.MergeGroups"
+         "CaseSensitiveNames": "@lg45.CaseSensitiveNames"
         }
        },
        {
@@ -23577,15 +24342,15 @@
        {
         "id": "lg46",
         "kind": "get",
-        "var": "MergeMods",
+        "var": "MergeGroups",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls46",
         "kind": "set",
-        "var": "MergeMods",
+        "var": "MergeGroups",
         "in": {
-         "MergeMods": "@lg46.MergeMods"
+         "MergeGroups": "@lg46.MergeGroups"
         }
        },
        {
@@ -23596,15 +24361,15 @@
        {
         "id": "lg47",
         "kind": "get",
-        "var": "ChipSearchShown",
+        "var": "MergeMods",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls47",
         "kind": "set",
-        "var": "ChipSearchShown",
+        "var": "MergeMods",
         "in": {
-         "ChipSearchShown": "@lg47.ChipSearchShown"
+         "MergeMods": "@lg47.MergeMods"
         }
        },
        {
@@ -23615,15 +24380,15 @@
        {
         "id": "lg48",
         "kind": "get",
-        "var": "TipNoPrefix",
+        "var": "ChipSearchShown",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls48",
         "kind": "set",
-        "var": "TipNoPrefix",
+        "var": "ChipSearchShown",
         "in": {
-         "TipNoPrefix": "@lg48.TipNoPrefix"
+         "ChipSearchShown": "@lg48.ChipSearchShown"
         }
        },
        {
@@ -23634,15 +24399,15 @@
        {
         "id": "lg49",
         "kind": "get",
-        "var": "TipNoIds",
+        "var": "TipNoPrefix",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls49",
         "kind": "set",
-        "var": "TipNoIds",
+        "var": "TipNoPrefix",
         "in": {
-         "TipNoIds": "@lg49.TipNoIds"
+         "TipNoPrefix": "@lg49.TipNoPrefix"
         }
        },
        {
@@ -23653,15 +24418,15 @@
        {
         "id": "lg50",
         "kind": "get",
-        "var": "FreedConflicts",
+        "var": "TipNoIds",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls50",
         "kind": "set",
-        "var": "FreedConflicts",
+        "var": "TipNoIds",
         "in": {
-         "FreedConflicts": "@lg50.FreedConflicts"
+         "TipNoIds": "@lg50.TipNoIds"
         }
        },
        {
@@ -23672,15 +24437,15 @@
        {
         "id": "lg51",
         "kind": "get",
-        "var": "HairSwatchesOpen",
+        "var": "FreedConflicts",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls51",
         "kind": "set",
-        "var": "HairSwatchesOpen",
+        "var": "FreedConflicts",
         "in": {
-         "HairSwatchesOpen": "@lg51.HairSwatchesOpen"
+         "FreedConflicts": "@lg51.FreedConflicts"
         }
        },
        {
@@ -23691,15 +24456,15 @@
        {
         "id": "lg52",
         "kind": "get",
-        "var": "UnownedMode",
+        "var": "MultiSlots",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls52",
         "kind": "set",
-        "var": "UnownedMode",
+        "var": "MultiSlots",
         "in": {
-         "UnownedMode": "@lg52.UnownedMode"
+         "MultiSlots": "@lg52.MultiSlots"
         }
        },
        {
@@ -23710,15 +24475,15 @@
        {
         "id": "lg53",
         "kind": "get",
-        "var": "SlotColors",
+        "var": "HairSwatchesOpen",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls53",
         "kind": "set",
-        "var": "LegacySlotColors",
+        "var": "HairSwatchesOpen",
         "in": {
-         "LegacySlotColors": "@lg53.SlotColors"
+         "HairSwatchesOpen": "@lg53.HairSwatchesOpen"
         }
        },
        {
@@ -23729,15 +24494,15 @@
        {
         "id": "lg54",
         "kind": "get",
-        "var": "SlotColorsPerSave",
+        "var": "UnownedMode",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls54",
         "kind": "set",
-        "var": "SlotColorsPerSave",
+        "var": "UnownedMode",
         "in": {
-         "SlotColorsPerSave": "@lg54.SlotColorsPerSave"
+         "UnownedMode": "@lg54.UnownedMode"
         }
        },
        {
@@ -23748,15 +24513,15 @@
        {
         "id": "lg55",
         "kind": "get",
-        "var": "OutfitSlotColors",
+        "var": "SlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls55",
         "kind": "set",
-        "var": "OutfitSlotColors",
+        "var": "LegacySlotColors",
         "in": {
-         "OutfitSlotColors": "@lg55.OutfitSlotColors"
+         "LegacySlotColors": "@lg55.SlotColors"
         }
        },
        {
@@ -23767,15 +24532,15 @@
        {
         "id": "lg56",
         "kind": "get",
-        "var": "ModEntry",
+        "var": "SlotColorsPerSave",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls56",
         "kind": "set",
-        "var": "ModEntry",
+        "var": "SlotColorsPerSave",
         "in": {
-         "ModEntry": "@lg56.ModEntry"
+         "SlotColorsPerSave": "@lg56.SlotColorsPerSave"
         }
        },
        {
@@ -23786,32 +24551,15 @@
        {
         "id": "lg57",
         "kind": "get",
-        "var": "LastPage",
+        "var": "OutfitSlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls57",
         "kind": "set",
-        "var": "Page",
+        "var": "OutfitSlotColors",
         "in": {
-         "Page": "@lg57.LastPage"
-        }
-       },
-       {
-        "id": "ln57",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg57.LastPage",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb57",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln57.ReturnValue"
+         "OutfitSlotColors": "@lg57.OutfitSlotColors"
         }
        },
        {
@@ -23822,32 +24570,15 @@
        {
         "id": "lg58",
         "kind": "get",
-        "var": "LastLookCat",
+        "var": "ModEntry",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls58",
         "kind": "set",
-        "var": "LookCat",
+        "var": "ModEntry",
         "in": {
-         "LookCat": "@lg58.LastLookCat"
-        }
-       },
-       {
-        "id": "ln58",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg58.LastLookCat",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb58",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln58.ReturnValue"
+         "ModEntry": "@lg58.ModEntry"
         }
        },
        {
@@ -23858,15 +24589,15 @@
        {
         "id": "lg59",
         "kind": "get",
-        "var": "LastPoseCat",
+        "var": "LastPage",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls59",
         "kind": "set",
-        "var": "PoseCat",
+        "var": "Page",
         "in": {
-         "PoseCat": "@lg59.LastPoseCat"
+         "Page": "@lg59.LastPage"
         }
        },
        {
@@ -23875,7 +24606,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg59.LastPoseCat",
+         "A": "@lg59.LastPage",
          "B": "None"
         }
        },
@@ -23894,15 +24625,15 @@
        {
         "id": "lg60",
         "kind": "get",
-        "var": "LastWeapon",
+        "var": "LastLookCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls60",
         "kind": "set",
-        "var": "CurrentWeapon",
+        "var": "LookCat",
         "in": {
-         "CurrentWeapon": "@lg60.LastWeapon"
+         "LookCat": "@lg60.LastLookCat"
         }
        },
        {
@@ -23911,7 +24642,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg60.LastWeapon",
+         "A": "@lg60.LastLookCat",
          "B": "None"
         }
        },
@@ -23930,15 +24661,32 @@
        {
         "id": "lg61",
         "kind": "get",
-        "var": "EyeColors",
+        "var": "LastPoseCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls61",
         "kind": "set",
-        "var": "EyeColors",
+        "var": "PoseCat",
         "in": {
-         "EyeColors": "@lg61.EyeColors"
+         "PoseCat": "@lg61.LastPoseCat"
+        }
+       },
+       {
+        "id": "ln61",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg61.LastPoseCat",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb61",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln61.ReturnValue"
         }
        },
        {
@@ -23949,15 +24697,32 @@
        {
         "id": "lg62",
         "kind": "get",
-        "var": "MakeupColors",
+        "var": "LastWeapon",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls62",
         "kind": "set",
-        "var": "MakeupColors",
+        "var": "CurrentWeapon",
         "in": {
-         "MakeupColors": "@lg62.MakeupColors"
+         "CurrentWeapon": "@lg62.LastWeapon"
+        }
+       },
+       {
+        "id": "ln62",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg62.LastWeapon",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb62",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln62.ReturnValue"
         }
        },
        {
@@ -23968,15 +24733,15 @@
        {
         "id": "lg63",
         "kind": "get",
-        "var": "Face",
+        "var": "EyeColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls63",
         "kind": "set",
-        "var": "FaceValues",
+        "var": "EyeColors",
         "in": {
-         "FaceValues": "@lg63.Face"
+         "EyeColors": "@lg63.EyeColors"
         }
        },
        {
@@ -23987,32 +24752,15 @@
        {
         "id": "lg64",
         "kind": "get",
-        "var": "LastFaceGroup",
+        "var": "MakeupColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls64",
         "kind": "set",
-        "var": "FaceGroup",
+        "var": "MakeupColors",
         "in": {
-         "FaceGroup": "@lg64.LastFaceGroup"
-        }
-       },
-       {
-        "id": "ln64",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg64.LastFaceGroup",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb64",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln64.ReturnValue"
+         "MakeupColors": "@lg64.MakeupColors"
         }
        },
        {
@@ -24023,15 +24771,15 @@
        {
         "id": "lg65",
         "kind": "get",
-        "var": "FaceAdd",
+        "var": "Face",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls65",
         "kind": "set",
-        "var": "FaceAdd",
+        "var": "FaceValues",
         "in": {
-         "FaceAdd": "@lg65.FaceAdd"
+         "FaceValues": "@lg65.Face"
         }
        },
        {
@@ -24042,15 +24790,32 @@
        {
         "id": "lg66",
         "kind": "get",
-        "var": "PresetColors",
+        "var": "LastFaceGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls66",
         "kind": "set",
-        "var": "PresetColors",
+        "var": "FaceGroup",
         "in": {
-         "PresetColors": "@lg66.PresetColors"
+         "FaceGroup": "@lg66.LastFaceGroup"
+        }
+       },
+       {
+        "id": "ln66",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg66.LastFaceGroup",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb66",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln66.ReturnValue"
         }
        },
        {
@@ -24061,32 +24826,15 @@
        {
         "id": "lg67",
         "kind": "get",
-        "var": "ToggleKey",
+        "var": "FaceAdd",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls67",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "FaceAdd",
         "in": {
-         "ToggleKey": "@lg67.ToggleKey"
-        }
-       },
-       {
-        "id": "ln67",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg67.ToggleKey",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb67",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln67.ReturnValue"
+         "FaceAdd": "@lg67.FaceAdd"
         }
        },
        {
@@ -24097,32 +24845,15 @@
        {
         "id": "lg68",
         "kind": "get",
-        "var": "LastOptionsCat",
+        "var": "PresetColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls68",
         "kind": "set",
-        "var": "OptionsCat",
+        "var": "PresetColors",
         "in": {
-         "OptionsCat": "@lg68.LastOptionsCat"
-        }
-       },
-       {
-        "id": "ln68",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg68.LastOptionsCat",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb68",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln68.ReturnValue"
+         "PresetColors": "@lg68.PresetColors"
         }
        },
        {
@@ -24133,15 +24864,15 @@
        {
         "id": "lg69",
         "kind": "get",
-        "var": "LastKodex",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls69",
         "kind": "set",
-        "var": "KodexSel",
+        "var": "ToggleKey",
         "in": {
-         "KodexSel": "@lg69.LastKodex"
+         "ToggleKey": "@lg69.ToggleKey"
         }
        },
        {
@@ -24150,7 +24881,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg69.LastKodex",
+         "A": "@lg69.ToggleKey",
          "B": "None"
         }
        },
@@ -24169,15 +24900,15 @@
        {
         "id": "lg70",
         "kind": "get",
-        "var": "LastInvGroup",
+        "var": "LastOptionsCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls70",
         "kind": "set",
-        "var": "InvGroup",
+        "var": "OptionsCat",
         "in": {
-         "InvGroup": "@lg70.LastInvGroup"
+         "OptionsCat": "@lg70.LastOptionsCat"
         }
        },
        {
@@ -24186,7 +24917,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg70.LastInvGroup",
+         "A": "@lg70.LastOptionsCat",
          "B": "None"
         }
        },
@@ -24205,15 +24936,32 @@
        {
         "id": "lg71",
         "kind": "get",
-        "var": "KodexAll",
+        "var": "LastKodex",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls71",
         "kind": "set",
-        "var": "KodexAll",
+        "var": "KodexSel",
         "in": {
-         "KodexAll": "@lg71.KodexAll"
+         "KodexSel": "@lg71.LastKodex"
+        }
+       },
+       {
+        "id": "ln71",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg71.LastKodex",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb71",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln71.ReturnValue"
         }
        },
        {
@@ -24224,15 +24972,32 @@
        {
         "id": "lg72",
         "kind": "get",
-        "var": "InvCatalog",
+        "var": "LastInvGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls72",
         "kind": "set",
-        "var": "InvCatalog",
+        "var": "InvGroup",
         "in": {
-         "InvCatalog": "@lg72.InvCatalog"
+         "InvGroup": "@lg72.LastInvGroup"
+        }
+       },
+       {
+        "id": "ln72",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg72.LastInvGroup",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb72",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln72.ReturnValue"
         }
        },
        {
@@ -24243,15 +25008,15 @@
        {
         "id": "lg73",
         "kind": "get",
-        "var": "InvNoAutoEquip",
+        "var": "KodexAll",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls73",
         "kind": "set",
-        "var": "InvNoAutoEquip",
+        "var": "KodexAll",
         "in": {
-         "InvNoAutoEquip": "@lg73.InvNoAutoEquip"
+         "KodexAll": "@lg73.KodexAll"
         }
        },
        {
@@ -24262,15 +25027,15 @@
        {
         "id": "lg74",
         "kind": "get",
-        "var": "InvFoldBag",
+        "var": "InvCatalog",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls74",
         "kind": "set",
-        "var": "InvFoldBag",
+        "var": "InvCatalog",
         "in": {
-         "InvFoldBag": "@lg74.InvFoldBag"
+         "InvCatalog": "@lg74.InvCatalog"
         }
        },
        {
@@ -24281,15 +25046,15 @@
        {
         "id": "lg75",
         "kind": "get",
-        "var": "InvFoldBox",
+        "var": "InvNoAutoEquip",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls75",
         "kind": "set",
-        "var": "InvFoldBox",
+        "var": "InvNoAutoEquip",
         "in": {
-         "InvFoldBox": "@lg75.InvFoldBox"
+         "InvNoAutoEquip": "@lg75.InvNoAutoEquip"
         }
        },
        {
@@ -24300,15 +25065,15 @@
        {
         "id": "lg76",
         "kind": "get",
-        "var": "InvFoldCat",
+        "var": "InvFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls76",
         "kind": "set",
-        "var": "InvFoldCat",
+        "var": "InvFoldBag",
         "in": {
-         "InvFoldCat": "@lg76.InvFoldCat"
+         "InvFoldBag": "@lg76.InvFoldBag"
         }
        },
        {
@@ -24319,32 +25084,15 @@
        {
         "id": "lg77",
         "kind": "get",
-        "var": "InvMax",
+        "var": "InvFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls77",
         "kind": "set",
-        "var": "InvMax",
+        "var": "InvFoldBox",
         "in": {
-         "InvMax": "@lg77.InvMax"
-        }
-       },
-       {
-        "id": "ln77",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg77.InvMax",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb77",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln77.ReturnValue"
+         "InvFoldBox": "@lg77.InvFoldBox"
         }
        },
        {
@@ -24355,15 +25103,15 @@
        {
         "id": "lg78",
         "kind": "get",
-        "var": "FolFoldBag",
+        "var": "InvFoldCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls78",
         "kind": "set",
-        "var": "FolFoldBag",
+        "var": "InvFoldCat",
         "in": {
-         "FolFoldBag": "@lg78.FolFoldBag"
+         "InvFoldCat": "@lg78.InvFoldCat"
         }
        },
        {
@@ -24374,15 +25122,32 @@
        {
         "id": "lg79",
         "kind": "get",
-        "var": "FolFoldBox",
+        "var": "InvMax",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls79",
         "kind": "set",
-        "var": "FolFoldBox",
+        "var": "InvMax",
         "in": {
-         "FolFoldBox": "@lg79.FolFoldBox"
+         "InvMax": "@lg79.InvMax"
+        }
+       },
+       {
+        "id": "ln79",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg79.InvMax",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb79",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln79.ReturnValue"
         }
        },
        {
@@ -24393,32 +25158,15 @@
        {
         "id": "lg80",
         "kind": "get",
-        "var": "RagKey",
+        "var": "FolFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls80",
         "kind": "set",
-        "var": "RagKey",
+        "var": "FolFoldBag",
         "in": {
-         "RagKey": "@lg80.RagKey"
-        }
-       },
-       {
-        "id": "ln80",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg80.RagKey",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb80",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln80.ReturnValue"
+         "FolFoldBag": "@lg80.FolFoldBag"
         }
        },
        {
@@ -24429,15 +25177,15 @@
        {
         "id": "lg81",
         "kind": "get",
-        "var": "HiddenTabs",
+        "var": "FolFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls81",
         "kind": "set",
-        "var": "HiddenTabs",
+        "var": "FolFoldBox",
         "in": {
-         "HiddenTabs": "@lg81.HiddenTabs"
+         "FolFoldBox": "@lg81.FolFoldBox"
         }
        },
        {
@@ -24448,15 +25196,15 @@
        {
         "id": "lg82",
         "kind": "get",
-        "var": "QuickKey",
+        "var": "RagKey",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls82",
         "kind": "set",
-        "var": "QuickKey",
+        "var": "RagKey",
         "in": {
-         "QuickKey": "@lg82.QuickKey"
+         "RagKey": "@lg82.RagKey"
         }
        },
        {
@@ -24465,7 +25213,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg82.QuickKey",
+         "A": "@lg82.RagKey",
          "B": "None"
         }
        },
@@ -24484,15 +25232,15 @@
        {
         "id": "lg83",
         "kind": "get",
-        "var": "QuickItems",
+        "var": "HiddenTabs",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls83",
         "kind": "set",
-        "var": "QuickItems",
+        "var": "HiddenTabs",
         "in": {
-         "QuickItems": "@lg83.QuickItems"
+         "HiddenTabs": "@lg83.HiddenTabs"
         }
        },
        {
@@ -24503,15 +25251,32 @@
        {
         "id": "lg84",
         "kind": "get",
-        "var": "KeyBindKeys",
+        "var": "QuickKey",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls84",
         "kind": "set",
-        "var": "KeyBindKeys",
+        "var": "QuickKey",
         "in": {
-         "KeyBindKeys": "@lg84.KeyBindKeys"
+         "QuickKey": "@lg84.QuickKey"
+        }
+       },
+       {
+        "id": "ln84",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg84.QuickKey",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb84",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln84.ReturnValue"
         }
        },
        {
@@ -24522,15 +25287,15 @@
        {
         "id": "lg85",
         "kind": "get",
-        "var": "KeyBindItems",
+        "var": "QuickItems",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls85",
         "kind": "set",
-        "var": "KeyBindItems",
+        "var": "QuickItems",
         "in": {
-         "KeyBindItems": "@lg85.KeyBindItems"
+         "QuickItems": "@lg85.QuickItems"
         }
        },
        {
@@ -24541,15 +25306,15 @@
        {
         "id": "lg86",
         "kind": "get",
-        "var": "TabStyle",
+        "var": "KeyBindKeys",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls86",
         "kind": "set",
-        "var": "TabStyle",
+        "var": "KeyBindKeys",
         "in": {
-         "TabStyle": "@lg86.TabStyle"
+         "KeyBindKeys": "@lg86.KeyBindKeys"
         }
        },
        {
@@ -24560,15 +25325,15 @@
        {
         "id": "lg87",
         "kind": "get",
-        "var": "TabIconRight",
+        "var": "KeyBindItems",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls87",
         "kind": "set",
-        "var": "TabIconRight",
+        "var": "KeyBindItems",
         "in": {
-         "TabIconRight": "@lg87.TabIconRight"
+         "KeyBindItems": "@lg87.KeyBindItems"
         }
        },
        {
@@ -24579,15 +25344,15 @@
        {
         "id": "lg88",
         "kind": "get",
-        "var": "TabOneRow",
+        "var": "TabStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls88",
         "kind": "set",
-        "var": "TabOneRow",
+        "var": "TabStyle",
         "in": {
-         "TabOneRow": "@lg88.TabOneRow"
+         "TabStyle": "@lg88.TabStyle"
         }
        },
        {
@@ -24598,15 +25363,15 @@
        {
         "id": "lg89",
         "kind": "get",
-        "var": "BgImage",
+        "var": "TabIconRight",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls89",
         "kind": "set",
-        "var": "BgImage",
+        "var": "TabIconRight",
         "in": {
-         "BgImage": "@lg89.BgImage"
+         "TabIconRight": "@lg89.TabIconRight"
         }
        },
        {
@@ -24617,15 +25382,15 @@
        {
         "id": "lg90",
         "kind": "get",
-        "var": "BgFit",
+        "var": "TabOneRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls90",
         "kind": "set",
-        "var": "BgFit",
+        "var": "TabOneRow",
         "in": {
-         "BgFit": "@lg90.BgFit"
+         "TabOneRow": "@lg90.TabOneRow"
         }
        },
        {
@@ -24636,15 +25401,15 @@
        {
         "id": "lg91",
         "kind": "get",
-        "var": "BgHAlign",
+        "var": "BgImage",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls91",
         "kind": "set",
-        "var": "BgHAlign",
+        "var": "BgImage",
         "in": {
-         "BgHAlign": "@lg91.BgHAlign"
+         "BgImage": "@lg91.BgImage"
         }
        },
        {
@@ -24655,15 +25420,15 @@
        {
         "id": "lg92",
         "kind": "get",
-        "var": "BgVAlign",
+        "var": "BgFit",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls92",
         "kind": "set",
-        "var": "BgVAlign",
+        "var": "BgFit",
         "in": {
-         "BgVAlign": "@lg92.BgVAlign"
+         "BgFit": "@lg92.BgFit"
         }
        },
        {
@@ -24674,15 +25439,15 @@
        {
         "id": "lg93",
         "kind": "get",
-        "var": "BtnImage",
+        "var": "BgHAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls93",
         "kind": "set",
-        "var": "BtnImage",
+        "var": "BgHAlign",
         "in": {
-         "BtnImage": "@lg93.BtnImage"
+         "BgHAlign": "@lg93.BgHAlign"
         }
        },
        {
@@ -24693,15 +25458,15 @@
        {
         "id": "lg94",
         "kind": "get",
-        "var": "BgHue",
+        "var": "BgVAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls94",
         "kind": "set",
-        "var": "BgHue",
+        "var": "BgVAlign",
         "in": {
-         "BgHue": "@lg94.BgHue"
+         "BgVAlign": "@lg94.BgVAlign"
         }
        },
        {
@@ -24712,15 +25477,15 @@
        {
         "id": "lg95",
         "kind": "get",
-        "var": "BgSepia",
+        "var": "BtnImage",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls95",
         "kind": "set",
-        "var": "BgSepia",
+        "var": "BtnImage",
         "in": {
-         "BgSepia": "@lg95.BgSepia"
+         "BtnImage": "@lg95.BtnImage"
         }
        },
        {
@@ -24731,15 +25496,15 @@
        {
         "id": "lg96",
         "kind": "get",
-        "var": "BgInvert",
+        "var": "BgHue",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls96",
         "kind": "set",
-        "var": "BgInvert",
+        "var": "BgHue",
         "in": {
-         "BgInvert": "@lg96.BgInvert"
+         "BgHue": "@lg96.BgHue"
         }
        },
        {
@@ -24750,15 +25515,15 @@
        {
         "id": "lg97",
         "kind": "get",
-        "var": "ImgThumbs",
+        "var": "BgSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls97",
         "kind": "set",
-        "var": "ImgThumbs",
+        "var": "BgSepia",
         "in": {
-         "ImgThumbs": "@lg97.ImgThumbs"
+         "BgSepia": "@lg97.BgSepia"
         }
        },
        {
@@ -24769,15 +25534,15 @@
        {
         "id": "lg98",
         "kind": "get",
-        "var": "BtnHue",
+        "var": "BgInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls98",
         "kind": "set",
-        "var": "BtnHue",
+        "var": "BgInvert",
         "in": {
-         "BtnHue": "@lg98.BtnHue"
+         "BgInvert": "@lg98.BgInvert"
         }
        },
        {
@@ -24788,15 +25553,15 @@
        {
         "id": "lg99",
         "kind": "get",
-        "var": "BtnSepia",
+        "var": "ImgThumbs",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls99",
         "kind": "set",
-        "var": "BtnSepia",
+        "var": "ImgThumbs",
         "in": {
-         "BtnSepia": "@lg99.BtnSepia"
+         "ImgThumbs": "@lg99.ImgThumbs"
         }
        },
        {
@@ -24807,15 +25572,15 @@
        {
         "id": "lg100",
         "kind": "get",
-        "var": "BtnInvert",
+        "var": "BtnHue",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls100",
         "kind": "set",
-        "var": "BtnInvert",
+        "var": "BtnHue",
         "in": {
-         "BtnInvert": "@lg100.BtnInvert"
+         "BtnHue": "@lg100.BtnHue"
         }
        },
        {
@@ -24826,15 +25591,15 @@
        {
         "id": "lg101",
         "kind": "get",
-        "var": "ThemePresets",
+        "var": "BtnSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls101",
         "kind": "set",
-        "var": "ThemePresets",
+        "var": "BtnSepia",
         "in": {
-         "ThemePresets": "@lg101.ThemePresets"
+         "BtnSepia": "@lg101.BtnSepia"
         }
        },
        {
@@ -24845,15 +25610,15 @@
        {
         "id": "lg102",
         "kind": "get",
-        "var": "ManageChipsCollapsed",
+        "var": "BtnInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls102",
         "kind": "set",
-        "var": "ManageChipsCollapsed",
+        "var": "BtnInvert",
         "in": {
-         "ManageChipsCollapsed": "@lg102.ManageChipsCollapsed"
+         "BtnInvert": "@lg102.BtnInvert"
         }
        },
        {
@@ -24864,15 +25629,15 @@
        {
         "id": "lg103",
         "kind": "get",
-        "var": "QuickAlpha",
+        "var": "ThemePresets",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls103",
         "kind": "set",
-        "var": "QuickAlpha",
+        "var": "ThemePresets",
         "in": {
-         "QuickAlpha": "@lg103.QuickAlpha"
+         "ThemePresets": "@lg103.ThemePresets"
         }
        },
        {
@@ -24883,15 +25648,15 @@
        {
         "id": "lg104",
         "kind": "get",
-        "var": "MoveOn",
+        "var": "ManageChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls104",
         "kind": "set",
-        "var": "MoveOn",
+        "var": "ManageChipsCollapsed",
         "in": {
-         "MoveOn": "@lg104.MoveOn"
+         "ManageChipsCollapsed": "@lg104.ManageChipsCollapsed"
         }
        },
        {
@@ -24902,15 +25667,15 @@
        {
         "id": "lg105",
         "kind": "get",
-        "var": "WalkSpeedPct",
+        "var": "QuickAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls105",
         "kind": "set",
-        "var": "WalkSpeedPct",
+        "var": "QuickAlpha",
         "in": {
-         "WalkSpeedPct": "@lg105.WalkSpeedPct"
+         "QuickAlpha": "@lg105.QuickAlpha"
         }
        },
        {
@@ -24921,15 +25686,15 @@
        {
         "id": "lg106",
         "kind": "get",
-        "var": "RunSpeedPct",
+        "var": "MoveOn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls106",
         "kind": "set",
-        "var": "RunSpeedPct",
+        "var": "MoveOn",
         "in": {
-         "RunSpeedPct": "@lg106.RunSpeedPct"
+         "MoveOn": "@lg106.MoveOn"
         }
        },
        {
@@ -24940,32 +25705,15 @@
        {
         "id": "lg107",
         "kind": "get",
-        "var": "WalkStyle",
+        "var": "WalkSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls107",
         "kind": "set",
-        "var": "WalkStyle",
+        "var": "WalkSpeedPct",
         "in": {
-         "WalkStyle": "@lg107.WalkStyle"
-        }
-       },
-       {
-        "id": "ln107",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg107.WalkStyle",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb107",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln107.ReturnValue"
+         "WalkSpeedPct": "@lg107.WalkSpeedPct"
         }
        },
        {
@@ -24976,32 +25724,15 @@
        {
         "id": "lg108",
         "kind": "get",
-        "var": "RunStyle",
+        "var": "RunSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls108",
         "kind": "set",
-        "var": "RunStyle",
+        "var": "RunSpeedPct",
         "in": {
-         "RunStyle": "@lg108.RunStyle"
-        }
-       },
-       {
-        "id": "ln108",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg108.RunStyle",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb108",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln108.ReturnValue"
+         "RunSpeedPct": "@lg108.RunSpeedPct"
         }
        },
        {
@@ -25012,15 +25743,15 @@
        {
         "id": "lg109",
         "kind": "get",
-        "var": "IdleStyle",
+        "var": "WalkStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls109",
         "kind": "set",
-        "var": "IdleStyle",
+        "var": "WalkStyle",
         "in": {
-         "IdleStyle": "@lg109.IdleStyle"
+         "WalkStyle": "@lg109.WalkStyle"
         }
        },
        {
@@ -25029,7 +25760,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg109.IdleStyle",
+         "A": "@lg109.WalkStyle",
          "B": "None"
         }
        },
@@ -25048,15 +25779,15 @@
        {
         "id": "lg110",
         "kind": "get",
-        "var": "IdlePose",
+        "var": "RunStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls110",
         "kind": "set",
-        "var": "IdlePose",
+        "var": "RunStyle",
         "in": {
-         "IdlePose": "@lg110.IdlePose"
+         "RunStyle": "@lg110.RunStyle"
         }
        },
        {
@@ -25065,7 +25796,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg110.IdlePose",
+         "A": "@lg110.RunStyle",
          "B": "None"
         }
        },
@@ -25084,15 +25815,32 @@
        {
         "id": "lg111",
         "kind": "get",
-        "var": "PoseLoop",
+        "var": "IdleStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls111",
         "kind": "set",
-        "var": "PoseLoop",
+        "var": "IdleStyle",
         "in": {
-         "PoseLoop": "@lg111.PoseLoop"
+         "IdleStyle": "@lg111.IdleStyle"
+        }
+       },
+       {
+        "id": "ln111",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg111.IdleStyle",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb111",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln111.ReturnValue"
         }
        },
        {
@@ -25103,15 +25851,32 @@
        {
         "id": "lg112",
         "kind": "get",
-        "var": "NoRenderedIcons",
+        "var": "IdlePose",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls112",
         "kind": "set",
-        "var": "NoRenderedIcons",
+        "var": "IdlePose",
         "in": {
-         "NoRenderedIcons": "@lg112.NoRenderedIcons"
+         "IdlePose": "@lg112.IdlePose"
+        }
+       },
+       {
+        "id": "ln112",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg112.IdlePose",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb112",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln112.ReturnValue"
         }
        },
        {
@@ -25122,15 +25887,15 @@
        {
         "id": "lg113",
         "kind": "get",
-        "var": "RagWheelCm",
+        "var": "PoseLoop",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls113",
         "kind": "set",
-        "var": "RagWheelCm",
+        "var": "PoseLoop",
         "in": {
-         "RagWheelCm": "@lg113.RagWheelCm"
+         "PoseLoop": "@lg113.PoseLoop"
         }
        },
        {
@@ -25141,15 +25906,15 @@
        {
         "id": "lg114",
         "kind": "get",
-        "var": "SlowMoPct",
+        "var": "NoRenderedIcons",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls114",
         "kind": "set",
-        "var": "SlowMoPct",
+        "var": "NoRenderedIcons",
         "in": {
-         "SlowMoPct": "@lg114.SlowMoPct"
+         "NoRenderedIcons": "@lg114.NoRenderedIcons"
         }
        },
        {
@@ -25160,15 +25925,15 @@
        {
         "id": "lg115",
         "kind": "get",
-        "var": "AcceptedFingerprint",
+        "var": "RagWheelCm",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls115",
         "kind": "set",
-        "var": "AcceptedFingerprint",
+        "var": "RagWheelCm",
         "in": {
-         "AcceptedFingerprint": "@lg115.AcceptedFingerprint"
+         "RagWheelCm": "@lg115.RagWheelCm"
         }
        },
        {
@@ -25179,15 +25944,15 @@
        {
         "id": "lg116",
         "kind": "get",
-        "var": "OutfitScale",
+        "var": "SlowMoPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls116",
         "kind": "set",
-        "var": "OutfitScale",
+        "var": "SlowMoPct",
         "in": {
-         "OutfitScale": "@lg116.OutfitScale"
+         "SlowMoPct": "@lg116.SlowMoPct"
         }
        },
        {
@@ -25198,15 +25963,15 @@
        {
         "id": "lg117",
         "kind": "get",
-        "var": "LookScale",
+        "var": "AcceptedFingerprint",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls117",
         "kind": "set",
-        "var": "LookScale",
+        "var": "AcceptedFingerprint",
         "in": {
-         "LookScale": "@lg117.LookScale"
+         "AcceptedFingerprint": "@lg117.AcceptedFingerprint"
         }
        },
        {
@@ -25217,15 +25982,15 @@
        {
         "id": "lg118",
         "kind": "get",
-        "var": "RagScale",
+        "var": "OutfitScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls118",
         "kind": "set",
-        "var": "RagScale",
+        "var": "OutfitScale",
         "in": {
-         "RagScale": "@lg118.RagScale"
+         "OutfitScale": "@lg118.OutfitScale"
         }
        },
        {
@@ -25236,15 +26001,15 @@
        {
         "id": "lg119",
         "kind": "get",
-        "var": "InvScale",
+        "var": "LookScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls119",
         "kind": "set",
-        "var": "InvScale",
+        "var": "LookScale",
         "in": {
-         "InvScale": "@lg119.InvScale"
+         "LookScale": "@lg119.LookScale"
         }
        },
        {
@@ -25255,15 +26020,15 @@
        {
         "id": "lg120",
         "kind": "get",
-        "var": "OutfitCols",
+        "var": "RagScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls120",
         "kind": "set",
-        "var": "OutfitCols",
+        "var": "RagScale",
         "in": {
-         "OutfitCols": "@lg120.OutfitCols"
+         "RagScale": "@lg120.RagScale"
         }
        },
        {
@@ -25274,15 +26039,53 @@
        {
         "id": "lg121",
         "kind": "get",
-        "var": "OutfitRows",
+        "var": "InvScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls121",
         "kind": "set",
+        "var": "InvScale",
+        "in": {
+         "InvScale": "@lg121.InvScale"
+        }
+       },
+       {
+        "id": "lg122_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg122",
+        "kind": "get",
+        "var": "OutfitCols",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls122",
+        "kind": "set",
+        "var": "OutfitCols",
+        "in": {
+         "OutfitCols": "@lg122.OutfitCols"
+        }
+       },
+       {
+        "id": "lg123_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg123",
+        "kind": "get",
+        "var": "OutfitRows",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls123",
+        "kind": "set",
         "var": "OutfitRows",
         "in": {
-         "OutfitRows": "@lg121.OutfitRows"
+         "OutfitRows": "@lg123.OutfitRows"
         }
        },
        {
@@ -25304,44 +26107,6 @@
         }
        },
        {
-        "id": "lg122_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg122",
-        "kind": "get",
-        "var": "ThemeBg",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls122",
-        "kind": "set",
-        "var": "ThemeBg",
-        "in": {
-         "ThemeBg": "@lg122.ThemeBg"
-        }
-       },
-       {
-        "id": "lg123_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg123",
-        "kind": "get",
-        "var": "ThemeAccent",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "ls123",
-        "kind": "set",
-        "var": "ThemeAccent",
-        "in": {
-         "ThemeAccent": "@lg123.ThemeAccent"
-        }
-       },
-       {
         "id": "lg124_s",
         "kind": "get",
         "var": "Settings"
@@ -25349,15 +26114,15 @@
        {
         "id": "lg124",
         "kind": "get",
-        "var": "ThemeFill",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls124",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeBg",
         "in": {
-         "ThemeFill": "@lg124.ThemeFill"
+         "ThemeBg": "@lg124.ThemeBg"
         }
        },
        {
@@ -25368,15 +26133,15 @@
        {
         "id": "lg125",
         "kind": "get",
-        "var": "ThemeFrame",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls125",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeAccent",
         "in": {
-         "ThemeFrame": "@lg125.ThemeFrame"
+         "ThemeAccent": "@lg125.ThemeAccent"
         }
        },
        {
@@ -25387,15 +26152,15 @@
        {
         "id": "lg126",
         "kind": "get",
-        "var": "ThemeWorn",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls126",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFill",
         "in": {
-         "ThemeWorn": "@lg126.ThemeWorn"
+         "ThemeFill": "@lg126.ThemeFill"
         }
        },
        {
@@ -25406,15 +26171,15 @@
        {
         "id": "lg127",
         "kind": "get",
-        "var": "ThemeRow",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls127",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeFrame",
         "in": {
-         "ThemeRow": "@lg127.ThemeRow"
+         "ThemeFrame": "@lg127.ThemeFrame"
         }
        },
        {
@@ -25425,15 +26190,15 @@
        {
         "id": "lg128",
         "kind": "get",
-        "var": "ThemeText",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls128",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeWorn",
         "in": {
-         "ThemeText": "@lg128.ThemeText"
+         "ThemeWorn": "@lg128.ThemeWorn"
         }
        },
        {
@@ -25444,15 +26209,15 @@
        {
         "id": "lg129",
         "kind": "get",
-        "var": "ThemeHead",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls129",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeRow",
         "in": {
-         "ThemeHead": "@lg129.ThemeHead"
+         "ThemeRow": "@lg129.ThemeRow"
         }
        },
        {
@@ -25463,15 +26228,15 @@
        {
         "id": "lg130",
         "kind": "get",
-        "var": "ThemeLink",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls130",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeText",
         "in": {
-         "ThemeLink": "@lg130.ThemeLink"
+         "ThemeText": "@lg130.ThemeText"
         }
        },
        {
@@ -25482,15 +26247,15 @@
        {
         "id": "lg131",
         "kind": "get",
-        "var": "ThemeLine",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls131",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeHead",
         "in": {
-         "ThemeLine": "@lg131.ThemeLine"
+         "ThemeHead": "@lg131.ThemeHead"
         }
        },
        {
@@ -25501,46 +26266,15 @@
        {
         "id": "lg132",
         "kind": "get",
-        "var": "BgAlpha",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz132",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg132.BgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv132",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz132.ReturnValue"
-        }
-       },
-       {
-        "id": "ld132",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg132.BgAlpha",
-         "B": "0.88",
-         "bPickA": "@lv132.ReturnValue"
-        }
        },
        {
         "id": "ls132",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeLink",
         "in": {
-         "BgAlpha": "@ld132.ReturnValue"
+         "ThemeLink": "@lg132.ThemeLink"
         }
        },
        {
@@ -25551,46 +26285,15 @@
        {
         "id": "lg133",
         "kind": "get",
-        "var": "TileAlpha",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz133",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
-        "in": {
-         "A": "@lg133.TileAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv133",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz133.ReturnValue"
-        }
-       },
-       {
-        "id": "ld133",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
-        "in": {
-         "A": "@lg133.TileAlpha",
-         "B": "1.0",
-         "bPickA": "@lv133.ReturnValue"
-        }
        },
        {
         "id": "ls133",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "ThemeLine",
         "in": {
-         "TileAlpha": "@ld133.ReturnValue"
+         "ThemeLine": "@lg133.ThemeLine"
         }
        },
        {
@@ -25601,7 +26304,7 @@
        {
         "id": "lg134",
         "kind": "get",
-        "var": "BgImgAlpha",
+        "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -25610,7 +26313,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg134.BgImgAlpha",
+         "A": "@lg134.BgAlpha",
          "B": "0.0"
         }
        },
@@ -25630,17 +26333,117 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg134.BgImgAlpha",
-         "B": "1.0",
+         "A": "@lg134.BgAlpha",
+         "B": "0.88",
          "bPickA": "@lv134.ReturnValue"
         }
        },
        {
         "id": "ls134",
         "kind": "set",
+        "var": "BgAlpha",
+        "in": {
+         "BgAlpha": "@ld134.ReturnValue"
+        }
+       },
+       {
+        "id": "lg135_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg135",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz135",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg135.TileAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv135",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz135.ReturnValue"
+        }
+       },
+       {
+        "id": "ld135",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg135.TileAlpha",
+         "B": "1.0",
+         "bPickA": "@lv135.ReturnValue"
+        }
+       },
+       {
+        "id": "ls135",
+        "kind": "set",
+        "var": "TileAlpha",
+        "in": {
+         "TileAlpha": "@ld135.ReturnValue"
+        }
+       },
+       {
+        "id": "lg136_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg136",
+        "kind": "get",
+        "var": "BgImgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz136",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg136.BgImgAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv136",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz136.ReturnValue"
+        }
+       },
+       {
+        "id": "ld136",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg136.BgImgAlpha",
+         "B": "1.0",
+         "bPickA": "@lv136.ReturnValue"
+        }
+       },
+       {
+        "id": "ls136",
+        "kind": "set",
         "var": "BgImgAlpha",
         "in": {
-         "BgImgAlpha": "@ld134.ReturnValue"
+         "BgImgAlpha": "@ld136.ReturnValue"
         }
        },
        {
@@ -26188,16 +26991,16 @@
         "lg121.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg122_s.Settings",
         "lg122.self"
        ],
        [
         "lg123_s.Settings",
         "lg123.self"
+       ],
+       [
+        "gth_s.Settings",
+        "gth.self"
        ],
        [
         "lg124_s.Settings",
@@ -26242,6 +27045,14 @@
        [
         "lg134_s.Settings",
         "lg134.self"
+       ],
+       [
+        "lg135_s.Settings",
+        "lg135.self"
+       ],
+       [
+        "lg136_s.Settings",
+        "lg136.self"
        ],
        [
         "gls.Settings",
@@ -26650,30 +27461,20 @@
        ],
        [
         "ls56",
-        "lb57"
+        "ls57"
        ],
        [
-        "lb57",
         "ls57"
        ],
        [
         "ls57",
-        "lb58"
+        "ls58"
        ],
        [
-        "lb57:else",
-        "lb58"
-       ],
-       [
-        "lb58",
         "ls58"
        ],
        [
         "ls58",
-        "lb59"
-       ],
-       [
-        "lb58:else",
         "lb59"
        ],
        [
@@ -26694,20 +27495,26 @@
        ],
        [
         "ls60",
-        "ls61"
+        "lb61"
        ],
        [
         "lb60:else",
-        "ls61"
+        "lb61"
        ],
        [
+        "lb61",
         "ls61"
        ],
        [
         "ls61",
-        "ls62"
+        "lb62"
        ],
        [
+        "lb61:else",
+        "lb62"
+       ],
+       [
+        "lb62",
         "ls62"
        ],
        [
@@ -26715,14 +27522,17 @@
         "ls63"
        ],
        [
+        "lb62:else",
+        "ls63"
+       ],
+       [
         "ls63"
        ],
        [
         "ls63",
-        "lb64"
+        "ls64"
        ],
        [
-        "lb64",
         "ls64"
        ],
        [
@@ -26730,45 +27540,36 @@
         "ls65"
        ],
        [
-        "lb64:else",
-        "ls65"
-       ],
-       [
         "ls65"
        ],
        [
         "ls65",
-        "ls66"
+        "lb66"
        ],
        [
+        "lb66",
         "ls66"
        ],
        [
         "ls66",
-        "lb67"
+        "ls67"
        ],
        [
-        "lb67",
+        "lb66:else",
+        "ls67"
+       ],
+       [
         "ls67"
        ],
        [
         "ls67",
-        "lb68"
+        "ls68"
        ],
        [
-        "lb67:else",
-        "lb68"
-       ],
-       [
-        "lb68",
         "ls68"
        ],
        [
         "ls68",
-        "lb69"
-       ],
-       [
-        "lb68:else",
         "lb69"
        ],
        [
@@ -26789,24 +27590,34 @@
        ],
        [
         "ls70",
-        "ls71"
+        "lb71"
        ],
        [
         "lb70:else",
-        "ls71"
+        "lb71"
        ],
        [
+        "lb71",
         "ls71"
        ],
        [
         "ls71",
-        "ls72"
+        "lb72"
        ],
        [
+        "lb71:else",
+        "lb72"
+       ],
+       [
+        "lb72",
         "ls72"
        ],
        [
         "ls72",
+        "ls73"
+       ],
+       [
+        "lb72:else",
         "ls73"
        ],
        [
@@ -26835,10 +27646,9 @@
        ],
        [
         "ls76",
-        "lb77"
+        "ls77"
        ],
        [
-        "lb77",
         "ls77"
        ],
        [
@@ -26846,33 +27656,29 @@
         "ls78"
        ],
        [
-        "lb77:else",
-        "ls78"
-       ],
-       [
         "ls78"
        ],
        [
         "ls78",
-        "ls79"
+        "lb79"
        ],
        [
+        "lb79",
         "ls79"
        ],
        [
         "ls79",
-        "lb80"
+        "ls80"
        ],
        [
-        "lb80",
+        "lb79:else",
+        "ls80"
+       ],
+       [
         "ls80"
        ],
        [
         "ls80",
-        "ls81"
-       ],
-       [
-        "lb80:else",
         "ls81"
        ],
        [
@@ -26899,13 +27705,18 @@
        ],
        [
         "ls83",
-        "ls84"
+        "lb84"
        ],
        [
+        "lb84",
         "ls84"
        ],
        [
         "ls84",
+        "ls85"
+       ],
+       [
+        "lb84:else",
         "ls85"
        ],
        [
@@ -27060,30 +27871,20 @@
        ],
        [
         "ls106",
-        "lb107"
+        "ls107"
        ],
        [
-        "lb107",
         "ls107"
        ],
        [
         "ls107",
-        "lb108"
+        "ls108"
        ],
        [
-        "lb107:else",
-        "lb108"
-       ],
-       [
-        "lb108",
         "ls108"
        ],
        [
         "ls108",
-        "lb109"
-       ],
-       [
-        "lb108:else",
         "lb109"
        ],
        [
@@ -27104,24 +27905,34 @@
        ],
        [
         "ls110",
-        "ls111"
+        "lb111"
        ],
        [
         "lb110:else",
-        "ls111"
+        "lb111"
        ],
        [
+        "lb111",
         "ls111"
        ],
        [
         "ls111",
-        "ls112"
+        "lb112"
        ],
        [
+        "lb111:else",
+        "lb112"
+       ],
+       [
+        "lb112",
         "ls112"
        ],
        [
         "ls112",
+        "ls113"
+       ],
+       [
+        "lb112:else",
         "ls113"
        ],
        [
@@ -27184,6 +27995,20 @@
         "ls121"
        ],
        [
+        "ls121",
+        "ls122"
+       ],
+       [
+        "ls122"
+       ],
+       [
+        "ls122",
+        "ls123"
+       ],
+       [
+        "ls123"
+       ],
+       [
         "entry",
         "ex",
         "b",
@@ -27202,13 +28027,11 @@
         "cr"
        ],
        [
-        "ls121",
+        "ls123",
         "bth"
        ],
        [
         "bth",
-        "ls122",
-        "ls123",
         "ls124",
         "ls125",
         "ls126",
@@ -27220,6 +28043,8 @@
         "ls132",
         "ls133",
         "ls134",
+        "ls135",
+        "ls136",
         "ath"
        ],
        [
@@ -28137,16 +28962,16 @@
        {
         "id": "g42",
         "kind": "get",
-        "var": "AllowNude"
+        "var": "RagMarkersOff"
        },
        {
         "id": "w42",
         "kind": "set",
-        "var": "AllowNude",
+        "var": "RagMarkersOff",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs42.Settings",
-         "AllowNude": "@g42.AllowNude"
+         "RagMarkersOff": "@g42.RagMarkersOff"
         }
        },
        {
@@ -28157,16 +28982,16 @@
        {
         "id": "g43",
         "kind": "get",
-        "var": "OnlyModsNames"
+        "var": "AllowNude"
        },
        {
         "id": "w43",
         "kind": "set",
-        "var": "OnlyModsNames",
+        "var": "AllowNude",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs43.Settings",
-         "OnlyModsNames": "@g43.OnlyModsNames"
+         "AllowNude": "@g43.AllowNude"
         }
        },
        {
@@ -28177,16 +29002,16 @@
        {
         "id": "g44",
         "kind": "get",
-        "var": "CaseSensitiveNames"
+        "var": "OnlyModsNames"
        },
        {
         "id": "w44",
         "kind": "set",
-        "var": "CaseSensitiveNames",
+        "var": "OnlyModsNames",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs44.Settings",
-         "CaseSensitiveNames": "@g44.CaseSensitiveNames"
+         "OnlyModsNames": "@g44.OnlyModsNames"
         }
        },
        {
@@ -28197,16 +29022,16 @@
        {
         "id": "g45",
         "kind": "get",
-        "var": "MergeGroups"
+        "var": "CaseSensitiveNames"
        },
        {
         "id": "w45",
         "kind": "set",
-        "var": "MergeGroups",
+        "var": "CaseSensitiveNames",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs45.Settings",
-         "MergeGroups": "@g45.MergeGroups"
+         "CaseSensitiveNames": "@g45.CaseSensitiveNames"
         }
        },
        {
@@ -28217,16 +29042,16 @@
        {
         "id": "g46",
         "kind": "get",
-        "var": "MergeMods"
+        "var": "MergeGroups"
        },
        {
         "id": "w46",
         "kind": "set",
-        "var": "MergeMods",
+        "var": "MergeGroups",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs46.Settings",
-         "MergeMods": "@g46.MergeMods"
+         "MergeGroups": "@g46.MergeGroups"
         }
        },
        {
@@ -28237,16 +29062,16 @@
        {
         "id": "g47",
         "kind": "get",
-        "var": "ChipSearchShown"
+        "var": "MergeMods"
        },
        {
         "id": "w47",
         "kind": "set",
-        "var": "ChipSearchShown",
+        "var": "MergeMods",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs47.Settings",
-         "ChipSearchShown": "@g47.ChipSearchShown"
+         "MergeMods": "@g47.MergeMods"
         }
        },
        {
@@ -28257,16 +29082,16 @@
        {
         "id": "g48",
         "kind": "get",
-        "var": "TipNoPrefix"
+        "var": "ChipSearchShown"
        },
        {
         "id": "w48",
         "kind": "set",
-        "var": "TipNoPrefix",
+        "var": "ChipSearchShown",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs48.Settings",
-         "TipNoPrefix": "@g48.TipNoPrefix"
+         "ChipSearchShown": "@g48.ChipSearchShown"
         }
        },
        {
@@ -28277,16 +29102,16 @@
        {
         "id": "g49",
         "kind": "get",
-        "var": "TipNoIds"
+        "var": "TipNoPrefix"
        },
        {
         "id": "w49",
         "kind": "set",
-        "var": "TipNoIds",
+        "var": "TipNoPrefix",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs49.Settings",
-         "TipNoIds": "@g49.TipNoIds"
+         "TipNoPrefix": "@g49.TipNoPrefix"
         }
        },
        {
@@ -28297,16 +29122,16 @@
        {
         "id": "g50",
         "kind": "get",
-        "var": "FreedConflicts"
+        "var": "TipNoIds"
        },
        {
         "id": "w50",
         "kind": "set",
-        "var": "FreedConflicts",
+        "var": "TipNoIds",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs50.Settings",
-         "FreedConflicts": "@g50.FreedConflicts"
+         "TipNoIds": "@g50.TipNoIds"
         }
        },
        {
@@ -28317,16 +29142,16 @@
        {
         "id": "g51",
         "kind": "get",
-        "var": "HairSwatchesOpen"
+        "var": "FreedConflicts"
        },
        {
         "id": "w51",
         "kind": "set",
-        "var": "HairSwatchesOpen",
+        "var": "FreedConflicts",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs51.Settings",
-         "HairSwatchesOpen": "@g51.HairSwatchesOpen"
+         "FreedConflicts": "@g51.FreedConflicts"
         }
        },
        {
@@ -28337,16 +29162,16 @@
        {
         "id": "g52",
         "kind": "get",
-        "var": "UnownedMode"
+        "var": "MultiSlots"
        },
        {
         "id": "w52",
         "kind": "set",
-        "var": "UnownedMode",
+        "var": "MultiSlots",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs52.Settings",
-         "UnownedMode": "@g52.UnownedMode"
+         "MultiSlots": "@g52.MultiSlots"
         }
        },
        {
@@ -28357,16 +29182,16 @@
        {
         "id": "g53",
         "kind": "get",
-        "var": "LegacySlotColors"
+        "var": "HairSwatchesOpen"
        },
        {
         "id": "w53",
         "kind": "set",
-        "var": "SlotColors",
+        "var": "HairSwatchesOpen",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs53.Settings",
-         "SlotColors": "@g53.LegacySlotColors"
+         "HairSwatchesOpen": "@g53.HairSwatchesOpen"
         }
        },
        {
@@ -28377,16 +29202,16 @@
        {
         "id": "g54",
         "kind": "get",
-        "var": "SlotColorsPerSave"
+        "var": "UnownedMode"
        },
        {
         "id": "w54",
         "kind": "set",
-        "var": "SlotColorsPerSave",
+        "var": "UnownedMode",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs54.Settings",
-         "SlotColorsPerSave": "@g54.SlotColorsPerSave"
+         "UnownedMode": "@g54.UnownedMode"
         }
        },
        {
@@ -28397,16 +29222,16 @@
        {
         "id": "g55",
         "kind": "get",
-        "var": "OutfitSlotColors"
+        "var": "LegacySlotColors"
        },
        {
         "id": "w55",
         "kind": "set",
-        "var": "OutfitSlotColors",
+        "var": "SlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs55.Settings",
-         "OutfitSlotColors": "@g55.OutfitSlotColors"
+         "SlotColors": "@g55.LegacySlotColors"
         }
        },
        {
@@ -28417,16 +29242,16 @@
        {
         "id": "g56",
         "kind": "get",
-        "var": "ModEntry"
+        "var": "SlotColorsPerSave"
        },
        {
         "id": "w56",
         "kind": "set",
-        "var": "ModEntry",
+        "var": "SlotColorsPerSave",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs56.Settings",
-         "ModEntry": "@g56.ModEntry"
+         "SlotColorsPerSave": "@g56.SlotColorsPerSave"
         }
        },
        {
@@ -28437,16 +29262,16 @@
        {
         "id": "g57",
         "kind": "get",
-        "var": "Page"
+        "var": "OutfitSlotColors"
        },
        {
         "id": "w57",
         "kind": "set",
-        "var": "LastPage",
+        "var": "OutfitSlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs57.Settings",
-         "LastPage": "@g57.Page"
+         "OutfitSlotColors": "@g57.OutfitSlotColors"
         }
        },
        {
@@ -28457,16 +29282,16 @@
        {
         "id": "g58",
         "kind": "get",
-        "var": "LookCat"
+        "var": "ModEntry"
        },
        {
         "id": "w58",
         "kind": "set",
-        "var": "LastLookCat",
+        "var": "ModEntry",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs58.Settings",
-         "LastLookCat": "@g58.LookCat"
+         "ModEntry": "@g58.ModEntry"
         }
        },
        {
@@ -28477,16 +29302,16 @@
        {
         "id": "g59",
         "kind": "get",
-        "var": "PoseCat"
+        "var": "Page"
        },
        {
         "id": "w59",
         "kind": "set",
-        "var": "LastPoseCat",
+        "var": "LastPage",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs59.Settings",
-         "LastPoseCat": "@g59.PoseCat"
+         "LastPage": "@g59.Page"
         }
        },
        {
@@ -28497,16 +29322,16 @@
        {
         "id": "g60",
         "kind": "get",
-        "var": "CurrentWeapon"
+        "var": "LookCat"
        },
        {
         "id": "w60",
         "kind": "set",
-        "var": "LastWeapon",
+        "var": "LastLookCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs60.Settings",
-         "LastWeapon": "@g60.CurrentWeapon"
+         "LastLookCat": "@g60.LookCat"
         }
        },
        {
@@ -28517,16 +29342,16 @@
        {
         "id": "g61",
         "kind": "get",
-        "var": "EyeColors"
+        "var": "PoseCat"
        },
        {
         "id": "w61",
         "kind": "set",
-        "var": "EyeColors",
+        "var": "LastPoseCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs61.Settings",
-         "EyeColors": "@g61.EyeColors"
+         "LastPoseCat": "@g61.PoseCat"
         }
        },
        {
@@ -28537,16 +29362,16 @@
        {
         "id": "g62",
         "kind": "get",
-        "var": "MakeupColors"
+        "var": "CurrentWeapon"
        },
        {
         "id": "w62",
         "kind": "set",
-        "var": "MakeupColors",
+        "var": "LastWeapon",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs62.Settings",
-         "MakeupColors": "@g62.MakeupColors"
+         "LastWeapon": "@g62.CurrentWeapon"
         }
        },
        {
@@ -28557,16 +29382,16 @@
        {
         "id": "g63",
         "kind": "get",
-        "var": "FaceValues"
+        "var": "EyeColors"
        },
        {
         "id": "w63",
         "kind": "set",
-        "var": "Face",
+        "var": "EyeColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs63.Settings",
-         "Face": "@g63.FaceValues"
+         "EyeColors": "@g63.EyeColors"
         }
        },
        {
@@ -28577,16 +29402,16 @@
        {
         "id": "g64",
         "kind": "get",
-        "var": "FaceGroup"
+        "var": "MakeupColors"
        },
        {
         "id": "w64",
         "kind": "set",
-        "var": "LastFaceGroup",
+        "var": "MakeupColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs64.Settings",
-         "LastFaceGroup": "@g64.FaceGroup"
+         "MakeupColors": "@g64.MakeupColors"
         }
        },
        {
@@ -28597,16 +29422,16 @@
        {
         "id": "g65",
         "kind": "get",
-        "var": "FaceAdd"
+        "var": "FaceValues"
        },
        {
         "id": "w65",
         "kind": "set",
-        "var": "FaceAdd",
+        "var": "Face",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs65.Settings",
-         "FaceAdd": "@g65.FaceAdd"
+         "Face": "@g65.FaceValues"
         }
        },
        {
@@ -28617,16 +29442,16 @@
        {
         "id": "g66",
         "kind": "get",
-        "var": "PresetColors"
+        "var": "FaceGroup"
        },
        {
         "id": "w66",
         "kind": "set",
-        "var": "PresetColors",
+        "var": "LastFaceGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs66.Settings",
-         "PresetColors": "@g66.PresetColors"
+         "LastFaceGroup": "@g66.FaceGroup"
         }
        },
        {
@@ -28637,16 +29462,16 @@
        {
         "id": "g67",
         "kind": "get",
-        "var": "ToggleKey"
+        "var": "FaceAdd"
        },
        {
         "id": "w67",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "FaceAdd",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs67.Settings",
-         "ToggleKey": "@g67.ToggleKey"
+         "FaceAdd": "@g67.FaceAdd"
         }
        },
        {
@@ -28657,16 +29482,16 @@
        {
         "id": "g68",
         "kind": "get",
-        "var": "OptionsCat"
+        "var": "PresetColors"
        },
        {
         "id": "w68",
         "kind": "set",
-        "var": "LastOptionsCat",
+        "var": "PresetColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs68.Settings",
-         "LastOptionsCat": "@g68.OptionsCat"
+         "PresetColors": "@g68.PresetColors"
         }
        },
        {
@@ -28677,16 +29502,16 @@
        {
         "id": "g69",
         "kind": "get",
-        "var": "KodexSel"
+        "var": "ToggleKey"
        },
        {
         "id": "w69",
         "kind": "set",
-        "var": "LastKodex",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs69.Settings",
-         "LastKodex": "@g69.KodexSel"
+         "ToggleKey": "@g69.ToggleKey"
         }
        },
        {
@@ -28697,16 +29522,16 @@
        {
         "id": "g70",
         "kind": "get",
-        "var": "InvGroup"
+        "var": "OptionsCat"
        },
        {
         "id": "w70",
         "kind": "set",
-        "var": "LastInvGroup",
+        "var": "LastOptionsCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs70.Settings",
-         "LastInvGroup": "@g70.InvGroup"
+         "LastOptionsCat": "@g70.OptionsCat"
         }
        },
        {
@@ -28717,16 +29542,16 @@
        {
         "id": "g71",
         "kind": "get",
-        "var": "KodexAll"
+        "var": "KodexSel"
        },
        {
         "id": "w71",
         "kind": "set",
-        "var": "KodexAll",
+        "var": "LastKodex",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs71.Settings",
-         "KodexAll": "@g71.KodexAll"
+         "LastKodex": "@g71.KodexSel"
         }
        },
        {
@@ -28737,16 +29562,16 @@
        {
         "id": "g72",
         "kind": "get",
-        "var": "InvCatalog"
+        "var": "InvGroup"
        },
        {
         "id": "w72",
         "kind": "set",
-        "var": "InvCatalog",
+        "var": "LastInvGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs72.Settings",
-         "InvCatalog": "@g72.InvCatalog"
+         "LastInvGroup": "@g72.InvGroup"
         }
        },
        {
@@ -28757,16 +29582,16 @@
        {
         "id": "g73",
         "kind": "get",
-        "var": "InvNoAutoEquip"
+        "var": "KodexAll"
        },
        {
         "id": "w73",
         "kind": "set",
-        "var": "InvNoAutoEquip",
+        "var": "KodexAll",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs73.Settings",
-         "InvNoAutoEquip": "@g73.InvNoAutoEquip"
+         "KodexAll": "@g73.KodexAll"
         }
        },
        {
@@ -28777,16 +29602,16 @@
        {
         "id": "g74",
         "kind": "get",
-        "var": "InvFoldBag"
+        "var": "InvCatalog"
        },
        {
         "id": "w74",
         "kind": "set",
-        "var": "InvFoldBag",
+        "var": "InvCatalog",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs74.Settings",
-         "InvFoldBag": "@g74.InvFoldBag"
+         "InvCatalog": "@g74.InvCatalog"
         }
        },
        {
@@ -28797,16 +29622,16 @@
        {
         "id": "g75",
         "kind": "get",
-        "var": "InvFoldBox"
+        "var": "InvNoAutoEquip"
        },
        {
         "id": "w75",
         "kind": "set",
-        "var": "InvFoldBox",
+        "var": "InvNoAutoEquip",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs75.Settings",
-         "InvFoldBox": "@g75.InvFoldBox"
+         "InvNoAutoEquip": "@g75.InvNoAutoEquip"
         }
        },
        {
@@ -28817,16 +29642,16 @@
        {
         "id": "g76",
         "kind": "get",
-        "var": "InvFoldCat"
+        "var": "InvFoldBag"
        },
        {
         "id": "w76",
         "kind": "set",
-        "var": "InvFoldCat",
+        "var": "InvFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs76.Settings",
-         "InvFoldCat": "@g76.InvFoldCat"
+         "InvFoldBag": "@g76.InvFoldBag"
         }
        },
        {
@@ -28837,16 +29662,16 @@
        {
         "id": "g77",
         "kind": "get",
-        "var": "InvMax"
+        "var": "InvFoldBox"
        },
        {
         "id": "w77",
         "kind": "set",
-        "var": "InvMax",
+        "var": "InvFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs77.Settings",
-         "InvMax": "@g77.InvMax"
+         "InvFoldBox": "@g77.InvFoldBox"
         }
        },
        {
@@ -28857,16 +29682,16 @@
        {
         "id": "g78",
         "kind": "get",
-        "var": "FolFoldBag"
+        "var": "InvFoldCat"
        },
        {
         "id": "w78",
         "kind": "set",
-        "var": "FolFoldBag",
+        "var": "InvFoldCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs78.Settings",
-         "FolFoldBag": "@g78.FolFoldBag"
+         "InvFoldCat": "@g78.InvFoldCat"
         }
        },
        {
@@ -28877,16 +29702,16 @@
        {
         "id": "g79",
         "kind": "get",
-        "var": "FolFoldBox"
+        "var": "InvMax"
        },
        {
         "id": "w79",
         "kind": "set",
-        "var": "FolFoldBox",
+        "var": "InvMax",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs79.Settings",
-         "FolFoldBox": "@g79.FolFoldBox"
+         "InvMax": "@g79.InvMax"
         }
        },
        {
@@ -28897,16 +29722,16 @@
        {
         "id": "g80",
         "kind": "get",
-        "var": "RagKey"
+        "var": "FolFoldBag"
        },
        {
         "id": "w80",
         "kind": "set",
-        "var": "RagKey",
+        "var": "FolFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs80.Settings",
-         "RagKey": "@g80.RagKey"
+         "FolFoldBag": "@g80.FolFoldBag"
         }
        },
        {
@@ -28917,16 +29742,16 @@
        {
         "id": "g81",
         "kind": "get",
-        "var": "HiddenTabs"
+        "var": "FolFoldBox"
        },
        {
         "id": "w81",
         "kind": "set",
-        "var": "HiddenTabs",
+        "var": "FolFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs81.Settings",
-         "HiddenTabs": "@g81.HiddenTabs"
+         "FolFoldBox": "@g81.FolFoldBox"
         }
        },
        {
@@ -28937,16 +29762,16 @@
        {
         "id": "g82",
         "kind": "get",
-        "var": "QuickKey"
+        "var": "RagKey"
        },
        {
         "id": "w82",
         "kind": "set",
-        "var": "QuickKey",
+        "var": "RagKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs82.Settings",
-         "QuickKey": "@g82.QuickKey"
+         "RagKey": "@g82.RagKey"
         }
        },
        {
@@ -28957,16 +29782,16 @@
        {
         "id": "g83",
         "kind": "get",
-        "var": "QuickItems"
+        "var": "HiddenTabs"
        },
        {
         "id": "w83",
         "kind": "set",
-        "var": "QuickItems",
+        "var": "HiddenTabs",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs83.Settings",
-         "QuickItems": "@g83.QuickItems"
+         "HiddenTabs": "@g83.HiddenTabs"
         }
        },
        {
@@ -28977,16 +29802,16 @@
        {
         "id": "g84",
         "kind": "get",
-        "var": "KeyBindKeys"
+        "var": "QuickKey"
        },
        {
         "id": "w84",
         "kind": "set",
-        "var": "KeyBindKeys",
+        "var": "QuickKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs84.Settings",
-         "KeyBindKeys": "@g84.KeyBindKeys"
+         "QuickKey": "@g84.QuickKey"
         }
        },
        {
@@ -28997,16 +29822,16 @@
        {
         "id": "g85",
         "kind": "get",
-        "var": "KeyBindItems"
+        "var": "QuickItems"
        },
        {
         "id": "w85",
         "kind": "set",
-        "var": "KeyBindItems",
+        "var": "QuickItems",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs85.Settings",
-         "KeyBindItems": "@g85.KeyBindItems"
+         "QuickItems": "@g85.QuickItems"
         }
        },
        {
@@ -29017,16 +29842,16 @@
        {
         "id": "g86",
         "kind": "get",
-        "var": "TabStyle"
+        "var": "KeyBindKeys"
        },
        {
         "id": "w86",
         "kind": "set",
-        "var": "TabStyle",
+        "var": "KeyBindKeys",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs86.Settings",
-         "TabStyle": "@g86.TabStyle"
+         "KeyBindKeys": "@g86.KeyBindKeys"
         }
        },
        {
@@ -29037,16 +29862,16 @@
        {
         "id": "g87",
         "kind": "get",
-        "var": "TabIconRight"
+        "var": "KeyBindItems"
        },
        {
         "id": "w87",
         "kind": "set",
-        "var": "TabIconRight",
+        "var": "KeyBindItems",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs87.Settings",
-         "TabIconRight": "@g87.TabIconRight"
+         "KeyBindItems": "@g87.KeyBindItems"
         }
        },
        {
@@ -29057,16 +29882,16 @@
        {
         "id": "g88",
         "kind": "get",
-        "var": "TabOneRow"
+        "var": "TabStyle"
        },
        {
         "id": "w88",
         "kind": "set",
-        "var": "TabOneRow",
+        "var": "TabStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs88.Settings",
-         "TabOneRow": "@g88.TabOneRow"
+         "TabStyle": "@g88.TabStyle"
         }
        },
        {
@@ -29077,16 +29902,16 @@
        {
         "id": "g89",
         "kind": "get",
-        "var": "BgImage"
+        "var": "TabIconRight"
        },
        {
         "id": "w89",
         "kind": "set",
-        "var": "BgImage",
+        "var": "TabIconRight",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs89.Settings",
-         "BgImage": "@g89.BgImage"
+         "TabIconRight": "@g89.TabIconRight"
         }
        },
        {
@@ -29097,16 +29922,16 @@
        {
         "id": "g90",
         "kind": "get",
-        "var": "BgFit"
+        "var": "TabOneRow"
        },
        {
         "id": "w90",
         "kind": "set",
-        "var": "BgFit",
+        "var": "TabOneRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs90.Settings",
-         "BgFit": "@g90.BgFit"
+         "TabOneRow": "@g90.TabOneRow"
         }
        },
        {
@@ -29117,16 +29942,16 @@
        {
         "id": "g91",
         "kind": "get",
-        "var": "BgHAlign"
+        "var": "BgImage"
        },
        {
         "id": "w91",
         "kind": "set",
-        "var": "BgHAlign",
+        "var": "BgImage",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs91.Settings",
-         "BgHAlign": "@g91.BgHAlign"
+         "BgImage": "@g91.BgImage"
         }
        },
        {
@@ -29137,16 +29962,16 @@
        {
         "id": "g92",
         "kind": "get",
-        "var": "BgVAlign"
+        "var": "BgFit"
        },
        {
         "id": "w92",
         "kind": "set",
-        "var": "BgVAlign",
+        "var": "BgFit",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs92.Settings",
-         "BgVAlign": "@g92.BgVAlign"
+         "BgFit": "@g92.BgFit"
         }
        },
        {
@@ -29157,16 +29982,16 @@
        {
         "id": "g93",
         "kind": "get",
-        "var": "BtnImage"
+        "var": "BgHAlign"
        },
        {
         "id": "w93",
         "kind": "set",
-        "var": "BtnImage",
+        "var": "BgHAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs93.Settings",
-         "BtnImage": "@g93.BtnImage"
+         "BgHAlign": "@g93.BgHAlign"
         }
        },
        {
@@ -29177,16 +30002,16 @@
        {
         "id": "g94",
         "kind": "get",
-        "var": "BgHue"
+        "var": "BgVAlign"
        },
        {
         "id": "w94",
         "kind": "set",
-        "var": "BgHue",
+        "var": "BgVAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs94.Settings",
-         "BgHue": "@g94.BgHue"
+         "BgVAlign": "@g94.BgVAlign"
         }
        },
        {
@@ -29197,16 +30022,16 @@
        {
         "id": "g95",
         "kind": "get",
-        "var": "BgSepia"
+        "var": "BtnImage"
        },
        {
         "id": "w95",
         "kind": "set",
-        "var": "BgSepia",
+        "var": "BtnImage",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs95.Settings",
-         "BgSepia": "@g95.BgSepia"
+         "BtnImage": "@g95.BtnImage"
         }
        },
        {
@@ -29217,16 +30042,16 @@
        {
         "id": "g96",
         "kind": "get",
-        "var": "BgInvert"
+        "var": "BgHue"
        },
        {
         "id": "w96",
         "kind": "set",
-        "var": "BgInvert",
+        "var": "BgHue",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs96.Settings",
-         "BgInvert": "@g96.BgInvert"
+         "BgHue": "@g96.BgHue"
         }
        },
        {
@@ -29237,16 +30062,16 @@
        {
         "id": "g97",
         "kind": "get",
-        "var": "ImgThumbs"
+        "var": "BgSepia"
        },
        {
         "id": "w97",
         "kind": "set",
-        "var": "ImgThumbs",
+        "var": "BgSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs97.Settings",
-         "ImgThumbs": "@g97.ImgThumbs"
+         "BgSepia": "@g97.BgSepia"
         }
        },
        {
@@ -29257,16 +30082,16 @@
        {
         "id": "g98",
         "kind": "get",
-        "var": "BtnHue"
+        "var": "BgInvert"
        },
        {
         "id": "w98",
         "kind": "set",
-        "var": "BtnHue",
+        "var": "BgInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs98.Settings",
-         "BtnHue": "@g98.BtnHue"
+         "BgInvert": "@g98.BgInvert"
         }
        },
        {
@@ -29277,16 +30102,16 @@
        {
         "id": "g99",
         "kind": "get",
-        "var": "BtnSepia"
+        "var": "ImgThumbs"
        },
        {
         "id": "w99",
         "kind": "set",
-        "var": "BtnSepia",
+        "var": "ImgThumbs",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs99.Settings",
-         "BtnSepia": "@g99.BtnSepia"
+         "ImgThumbs": "@g99.ImgThumbs"
         }
        },
        {
@@ -29297,16 +30122,16 @@
        {
         "id": "g100",
         "kind": "get",
-        "var": "BtnInvert"
+        "var": "BtnHue"
        },
        {
         "id": "w100",
         "kind": "set",
-        "var": "BtnInvert",
+        "var": "BtnHue",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs100.Settings",
-         "BtnInvert": "@g100.BtnInvert"
+         "BtnHue": "@g100.BtnHue"
         }
        },
        {
@@ -29317,16 +30142,16 @@
        {
         "id": "g101",
         "kind": "get",
-        "var": "ThemePresets"
+        "var": "BtnSepia"
        },
        {
         "id": "w101",
         "kind": "set",
-        "var": "ThemePresets",
+        "var": "BtnSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs101.Settings",
-         "ThemePresets": "@g101.ThemePresets"
+         "BtnSepia": "@g101.BtnSepia"
         }
        },
        {
@@ -29337,16 +30162,16 @@
        {
         "id": "g102",
         "kind": "get",
-        "var": "ManageChipsCollapsed"
+        "var": "BtnInvert"
        },
        {
         "id": "w102",
         "kind": "set",
-        "var": "ManageChipsCollapsed",
+        "var": "BtnInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs102.Settings",
-         "ManageChipsCollapsed": "@g102.ManageChipsCollapsed"
+         "BtnInvert": "@g102.BtnInvert"
         }
        },
        {
@@ -29357,16 +30182,16 @@
        {
         "id": "g103",
         "kind": "get",
-        "var": "QuickAlpha"
+        "var": "ThemePresets"
        },
        {
         "id": "w103",
         "kind": "set",
-        "var": "QuickAlpha",
+        "var": "ThemePresets",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs103.Settings",
-         "QuickAlpha": "@g103.QuickAlpha"
+         "ThemePresets": "@g103.ThemePresets"
         }
        },
        {
@@ -29377,16 +30202,16 @@
        {
         "id": "g104",
         "kind": "get",
-        "var": "MoveOn"
+        "var": "ManageChipsCollapsed"
        },
        {
         "id": "w104",
         "kind": "set",
-        "var": "MoveOn",
+        "var": "ManageChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs104.Settings",
-         "MoveOn": "@g104.MoveOn"
+         "ManageChipsCollapsed": "@g104.ManageChipsCollapsed"
         }
        },
        {
@@ -29397,16 +30222,16 @@
        {
         "id": "g105",
         "kind": "get",
-        "var": "WalkSpeedPct"
+        "var": "QuickAlpha"
        },
        {
         "id": "w105",
         "kind": "set",
-        "var": "WalkSpeedPct",
+        "var": "QuickAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs105.Settings",
-         "WalkSpeedPct": "@g105.WalkSpeedPct"
+         "QuickAlpha": "@g105.QuickAlpha"
         }
        },
        {
@@ -29417,16 +30242,16 @@
        {
         "id": "g106",
         "kind": "get",
-        "var": "RunSpeedPct"
+        "var": "MoveOn"
        },
        {
         "id": "w106",
         "kind": "set",
-        "var": "RunSpeedPct",
+        "var": "MoveOn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs106.Settings",
-         "RunSpeedPct": "@g106.RunSpeedPct"
+         "MoveOn": "@g106.MoveOn"
         }
        },
        {
@@ -29437,16 +30262,16 @@
        {
         "id": "g107",
         "kind": "get",
-        "var": "WalkStyle"
+        "var": "WalkSpeedPct"
        },
        {
         "id": "w107",
         "kind": "set",
-        "var": "WalkStyle",
+        "var": "WalkSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs107.Settings",
-         "WalkStyle": "@g107.WalkStyle"
+         "WalkSpeedPct": "@g107.WalkSpeedPct"
         }
        },
        {
@@ -29457,16 +30282,16 @@
        {
         "id": "g108",
         "kind": "get",
-        "var": "RunStyle"
+        "var": "RunSpeedPct"
        },
        {
         "id": "w108",
         "kind": "set",
-        "var": "RunStyle",
+        "var": "RunSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs108.Settings",
-         "RunStyle": "@g108.RunStyle"
+         "RunSpeedPct": "@g108.RunSpeedPct"
         }
        },
        {
@@ -29477,16 +30302,16 @@
        {
         "id": "g109",
         "kind": "get",
-        "var": "IdleStyle"
+        "var": "WalkStyle"
        },
        {
         "id": "w109",
         "kind": "set",
-        "var": "IdleStyle",
+        "var": "WalkStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs109.Settings",
-         "IdleStyle": "@g109.IdleStyle"
+         "WalkStyle": "@g109.WalkStyle"
         }
        },
        {
@@ -29497,16 +30322,16 @@
        {
         "id": "g110",
         "kind": "get",
-        "var": "IdlePose"
+        "var": "RunStyle"
        },
        {
         "id": "w110",
         "kind": "set",
-        "var": "IdlePose",
+        "var": "RunStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs110.Settings",
-         "IdlePose": "@g110.IdlePose"
+         "RunStyle": "@g110.RunStyle"
         }
        },
        {
@@ -29517,16 +30342,16 @@
        {
         "id": "g111",
         "kind": "get",
-        "var": "PoseLoop"
+        "var": "IdleStyle"
        },
        {
         "id": "w111",
         "kind": "set",
-        "var": "PoseLoop",
+        "var": "IdleStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs111.Settings",
-         "PoseLoop": "@g111.PoseLoop"
+         "IdleStyle": "@g111.IdleStyle"
         }
        },
        {
@@ -29537,16 +30362,16 @@
        {
         "id": "g112",
         "kind": "get",
-        "var": "NoRenderedIcons"
+        "var": "IdlePose"
        },
        {
         "id": "w112",
         "kind": "set",
-        "var": "NoRenderedIcons",
+        "var": "IdlePose",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs112.Settings",
-         "NoRenderedIcons": "@g112.NoRenderedIcons"
+         "IdlePose": "@g112.IdlePose"
         }
        },
        {
@@ -29557,16 +30382,16 @@
        {
         "id": "g113",
         "kind": "get",
-        "var": "RagWheelCm"
+        "var": "PoseLoop"
        },
        {
         "id": "w113",
         "kind": "set",
-        "var": "RagWheelCm",
+        "var": "PoseLoop",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs113.Settings",
-         "RagWheelCm": "@g113.RagWheelCm"
+         "PoseLoop": "@g113.PoseLoop"
         }
        },
        {
@@ -29577,16 +30402,16 @@
        {
         "id": "g114",
         "kind": "get",
-        "var": "SlowMoPct"
+        "var": "NoRenderedIcons"
        },
        {
         "id": "w114",
         "kind": "set",
-        "var": "SlowMoPct",
+        "var": "NoRenderedIcons",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs114.Settings",
-         "SlowMoPct": "@g114.SlowMoPct"
+         "NoRenderedIcons": "@g114.NoRenderedIcons"
         }
        },
        {
@@ -29597,16 +30422,16 @@
        {
         "id": "g115",
         "kind": "get",
-        "var": "AcceptedFingerprint"
+        "var": "RagWheelCm"
        },
        {
         "id": "w115",
         "kind": "set",
-        "var": "AcceptedFingerprint",
+        "var": "RagWheelCm",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs115.Settings",
-         "AcceptedFingerprint": "@g115.AcceptedFingerprint"
+         "RagWheelCm": "@g115.RagWheelCm"
         }
        },
        {
@@ -29617,16 +30442,16 @@
        {
         "id": "g116",
         "kind": "get",
-        "var": "OutfitScale"
+        "var": "SlowMoPct"
        },
        {
         "id": "w116",
         "kind": "set",
-        "var": "OutfitScale",
+        "var": "SlowMoPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs116.Settings",
-         "OutfitScale": "@g116.OutfitScale"
+         "SlowMoPct": "@g116.SlowMoPct"
         }
        },
        {
@@ -29637,16 +30462,16 @@
        {
         "id": "g117",
         "kind": "get",
-        "var": "LookScale"
+        "var": "AcceptedFingerprint"
        },
        {
         "id": "w117",
         "kind": "set",
-        "var": "LookScale",
+        "var": "AcceptedFingerprint",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs117.Settings",
-         "LookScale": "@g117.LookScale"
+         "AcceptedFingerprint": "@g117.AcceptedFingerprint"
         }
        },
        {
@@ -29657,16 +30482,16 @@
        {
         "id": "g118",
         "kind": "get",
-        "var": "RagScale"
+        "var": "OutfitScale"
        },
        {
         "id": "w118",
         "kind": "set",
-        "var": "RagScale",
+        "var": "OutfitScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs118.Settings",
-         "RagScale": "@g118.RagScale"
+         "OutfitScale": "@g118.OutfitScale"
         }
        },
        {
@@ -29677,16 +30502,16 @@
        {
         "id": "g119",
         "kind": "get",
-        "var": "InvScale"
+        "var": "LookScale"
        },
        {
         "id": "w119",
         "kind": "set",
-        "var": "InvScale",
+        "var": "LookScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs119.Settings",
-         "InvScale": "@g119.InvScale"
+         "LookScale": "@g119.LookScale"
         }
        },
        {
@@ -29697,16 +30522,16 @@
        {
         "id": "g120",
         "kind": "get",
-        "var": "OutfitCols"
+        "var": "RagScale"
        },
        {
         "id": "w120",
         "kind": "set",
-        "var": "OutfitCols",
+        "var": "RagScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs120.Settings",
-         "OutfitCols": "@g120.OutfitCols"
+         "RagScale": "@g120.RagScale"
         }
        },
        {
@@ -29717,16 +30542,16 @@
        {
         "id": "g121",
         "kind": "get",
-        "var": "OutfitRows"
+        "var": "InvScale"
        },
        {
         "id": "w121",
         "kind": "set",
-        "var": "OutfitRows",
+        "var": "InvScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs121.Settings",
-         "OutfitRows": "@g121.OutfitRows"
+         "InvScale": "@g121.InvScale"
         }
        },
        {
@@ -29737,16 +30562,16 @@
        {
         "id": "g122",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "OutfitCols"
        },
        {
         "id": "w122",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "OutfitCols",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs122.Settings",
-         "ThemeBg": "@g122.ThemeBg"
+         "OutfitCols": "@g122.OutfitCols"
         }
        },
        {
@@ -29757,16 +30582,16 @@
        {
         "id": "g123",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "OutfitRows"
        },
        {
         "id": "w123",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "OutfitRows",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs123.Settings",
-         "ThemeAccent": "@g123.ThemeAccent"
+         "OutfitRows": "@g123.OutfitRows"
         }
        },
        {
@@ -29777,16 +30602,16 @@
        {
         "id": "g124",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "ThemeBg"
        },
        {
         "id": "w124",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs124.Settings",
-         "ThemeFill": "@g124.ThemeFill"
+         "ThemeBg": "@g124.ThemeBg"
         }
        },
        {
@@ -29797,16 +30622,16 @@
        {
         "id": "g125",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "ThemeAccent"
        },
        {
         "id": "w125",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs125.Settings",
-         "ThemeFrame": "@g125.ThemeFrame"
+         "ThemeAccent": "@g125.ThemeAccent"
         }
        },
        {
@@ -29817,16 +30642,16 @@
        {
         "id": "g126",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "ThemeFill"
        },
        {
         "id": "w126",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs126.Settings",
-         "ThemeWorn": "@g126.ThemeWorn"
+         "ThemeFill": "@g126.ThemeFill"
         }
        },
        {
@@ -29837,16 +30662,16 @@
        {
         "id": "g127",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "ThemeFrame"
        },
        {
         "id": "w127",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs127.Settings",
-         "ThemeRow": "@g127.ThemeRow"
+         "ThemeFrame": "@g127.ThemeFrame"
         }
        },
        {
@@ -29857,16 +30682,16 @@
        {
         "id": "g128",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "ThemeWorn"
        },
        {
         "id": "w128",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs128.Settings",
-         "ThemeText": "@g128.ThemeText"
+         "ThemeWorn": "@g128.ThemeWorn"
         }
        },
        {
@@ -29877,16 +30702,16 @@
        {
         "id": "g129",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "ThemeRow"
        },
        {
         "id": "w129",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs129.Settings",
-         "ThemeHead": "@g129.ThemeHead"
+         "ThemeRow": "@g129.ThemeRow"
         }
        },
        {
@@ -29897,16 +30722,16 @@
        {
         "id": "g130",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "ThemeText"
        },
        {
         "id": "w130",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs130.Settings",
-         "ThemeLink": "@g130.ThemeLink"
+         "ThemeText": "@g130.ThemeText"
         }
        },
        {
@@ -29917,16 +30742,16 @@
        {
         "id": "g131",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "ThemeHead"
        },
        {
         "id": "w131",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs131.Settings",
-         "ThemeLine": "@g131.ThemeLine"
+         "ThemeHead": "@g131.ThemeHead"
         }
        },
        {
@@ -29937,16 +30762,16 @@
        {
         "id": "g132",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "ThemeLink"
        },
        {
         "id": "w132",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs132.Settings",
-         "BgAlpha": "@g132.BgAlpha"
+         "ThemeLink": "@g132.ThemeLink"
         }
        },
        {
@@ -29957,16 +30782,16 @@
        {
         "id": "g133",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "ThemeLine"
        },
        {
         "id": "w133",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs133.Settings",
-         "TileAlpha": "@g133.TileAlpha"
+         "ThemeLine": "@g133.ThemeLine"
         }
        },
        {
@@ -29977,16 +30802,56 @@
        {
         "id": "g134",
         "kind": "get",
-        "var": "BgImgAlpha"
+        "var": "BgAlpha"
        },
        {
         "id": "w134",
         "kind": "set",
-        "var": "BgImgAlpha",
+        "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs134.Settings",
-         "BgImgAlpha": "@g134.BgImgAlpha"
+         "BgAlpha": "@g134.BgAlpha"
+        }
+       },
+       {
+        "id": "gs135",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g135",
+        "kind": "get",
+        "var": "TileAlpha"
+       },
+       {
+        "id": "w135",
+        "kind": "set",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs135.Settings",
+         "TileAlpha": "@g135.TileAlpha"
+        }
+       },
+       {
+        "id": "gs136",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g136",
+        "kind": "get",
+        "var": "BgImgAlpha"
+       },
+       {
+        "id": "w136",
+        "kind": "set",
+        "var": "BgImgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs136.Settings",
+         "BgImgAlpha": "@g136.BgImgAlpha"
         }
        },
        {
@@ -30211,6 +31076,8 @@
         "w132",
         "w133",
         "w134",
+        "w135",
+        "w136",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",
@@ -35975,6 +36842,9 @@
        "type": "float"
       }
      ]
+    },
+    {
+     "name": "Rag Pin Grab"
     },
     {
      "name": "Start Ragdoll Mode"

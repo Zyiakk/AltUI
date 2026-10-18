@@ -1472,6 +1472,11 @@
      "type": "name",
      "container": "array",
      "internal_name": "IncompatibleTypes_24_3AC6063A4AB0269D2379B6ADBE2FC2B0"
+    },
+    {
+     "name": "Flag",
+     "type": "int",
+     "internal_name": "Flag_36_5EA1ED6B4519B8872DE4848FCAB44EA7"
     }
    ]
   },
@@ -1531,7 +1536,9 @@
     "Tail": {},
     "Backpack": {},
     "Holster": {},
-    "Acc": {}
+    "Acc": {
+     "Flag": 1
+    }
    }
   },
   {
@@ -1626,6 +1633,15 @@
       {
        "name": "update mask",
        "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Take Off Clothes And Remove Component",
+     "inputs": [
+      {
+       "name": "comp",
+       "type": "object:/Game/Project/Classes/Misc/Clothes_Comp"
       }
      ]
     },

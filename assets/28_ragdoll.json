@@ -323,6 +323,45 @@
     {
      "name": "TmpZ",
      "type": "float"
+    },
+    {
+     "name": "Pins",
+     "type": "name",
+     "container": "map",
+     "value_type": "object:/Script/Engine.PhysicsConstraintComponent"
+    },
+    {
+     "name": "Pinned",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "PinLoop",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "MarkerBones",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "Markers",
+     "type": "object:/Script/Engine.StaticMeshComponent",
+     "container": "array"
+    },
+    {
+     "name": "MarkerMids",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic",
+     "container": "array"
+    },
+    {
+     "name": "MarkersBuilt",
+     "type": "bool"
+    },
+    {
+     "name": "MarkTmp",
+     "type": "object:/Script/Engine.StaticMeshComponent"
     }
    ],
    "functions": [
@@ -3498,6 +3537,39 @@
         "in": {
          "bone": "@fe.Array Element"
         }
+       },
+       {
+        "id": "gpn",
+        "kind": "get",
+        "var": "Pinned"
+       },
+       {
+        "id": "cpl",
+        "kind": "set",
+        "var": "PinLoop",
+        "in": {
+         "PinLoop": "@gpn.Pinned"
+        }
+       },
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "PinLoop"
+       },
+       {
+        "id": "fp",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gpl.PinLoop"
+        }
+       },
+       {
+        "id": "mp",
+        "kind": "call_self",
+        "function": "Make Pin",
+        "in": {
+         "bone": "@fp.Array Element"
+        }
        }
       ],
       "links": [],
@@ -3512,6 +3584,15 @@
        [
         "fe",
         "ml"
+       ],
+       [
+        "fe:Completed",
+        "cpl",
+        "fp"
+       ],
+       [
+        "fp",
+        "mp"
        ]
       ]
      }
@@ -3635,6 +3716,11 @@
          "self": "@gb3.Body",
          "bGravityEnabled": "true"
         }
+       },
+       {
+        "id": "cpn",
+        "kind": "call_self",
+        "function": "Clear Pins"
        }
       ],
       "links": [],
@@ -3653,6 +3739,7 @@
        [
         "fe:Completed",
         "cl",
+        "cpn",
         "off",
         "sa",
         "grv"
@@ -3749,6 +3836,11 @@
         "in": {
          "bone": "@entry.bone"
         }
+       },
+       {
+        "id": "rmk",
+        "kind": "call_self",
+        "function": "Refresh Markers"
        }
       ],
       "links": [],
@@ -3757,13 +3849,19 @@
         "entry",
         "bh",
         "rm",
-        "dl"
+        "dl",
+        "rmk"
        ],
        [
         "bh:else",
         "ad",
         "ba",
-        "ml"
+        "ml",
+        "rmk"
+       ],
+       [
+        "ba:else",
+        "rmk"
        ]
       ]
      }
@@ -3996,6 +4094,11 @@
          "TargetArray": "@gj3.LooseJoints",
          "NewItem": "@entry.bone"
         }
+       },
+       {
+        "id": "rmk",
+        "kind": "call_self",
+        "function": "Refresh Markers"
        }
       ],
       "links": [],
@@ -4003,11 +4106,13 @@
        [
         "entry",
         "bh",
-        "rm"
+        "rm",
+        "rmk"
        ],
        [
         "bh:else",
-        "ad"
+        "ad",
+        "rmk"
        ]
       ]
      }
@@ -10500,6 +10605,1367 @@
        [
         "bhp:else",
         "set"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Make Pin",
+     "inputs": [
+      {
+       "name": "bone",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Pins"
+       },
+       {
+        "id": "fp",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gp.Pins",
+         "Key": "@entry.bone"
+        }
+       },
+       {
+        "id": "bfp",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fp.ReturnValue"
+        }
+       },
+       {
+        "id": "idtf3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "Class": "/Script/Engine.PhysicsConstraintComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@idtf3.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "cast",
+        "class": "/Script/Engine.PhysicsConstraintComponent",
+        "pure": true,
+        "in": {
+         "Object": "@nc.ReturnValue"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "bt",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketTransform",
+        "in": {
+         "self": "@gb.Body",
+         "InSocketName": "@entry.bone",
+         "TransformSpace": "RTS_World"
+        }
+       },
+       {
+        "id": "swt",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetWorldTransform",
+        "in": {
+         "self": "@cc.AsPhysics Constraint Component",
+         "NewTransform": "@bt.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "lx",
+        "kind": "call",
+        "class": "/Script/Engine.PhysicsConstraintComponent",
+        "function": "SetLinearXLimit",
+        "in": {
+         "self": "@cc.AsPhysics Constraint Component",
+         "ConstraintType": "LCM_Locked",
+         "LimitSize": "0.0"
+        }
+       },
+       {
+        "id": "ly",
+        "kind": "call",
+        "class": "/Script/Engine.PhysicsConstraintComponent",
+        "function": "SetLinearYLimit",
+        "in": {
+         "self": "@cc.AsPhysics Constraint Component",
+         "ConstraintType": "LCM_Locked",
+         "LimitSize": "0.0"
+        }
+       },
+       {
+        "id": "lz",
+        "kind": "call",
+        "class": "/Script/Engine.PhysicsConstraintComponent",
+        "function": "SetLinearZLimit",
+        "in": {
+         "self": "@cc.AsPhysics Constraint Component",
+         "ConstraintType": "LCM_Locked",
+         "LimitSize": "0.0"
+        }
+       },
+       {
+        "id": "s1",
+        "kind": "call",
+        "class": "/Script/Engine.PhysicsConstraintComponent",
+        "function": "SetAngularSwing1Limit",
+        "in": {
+         "self": "@cc.AsPhysics Constraint Component",
+         "MotionType": "ACM_Locked",
+         "Swing1LimitAngle": "0.0"
+        }
+       },
+       {
+        "id": "s2",
+        "kind": "call",
+        "class": "/Script/Engine.PhysicsConstraintComponent",
+        "function": "SetAngularSwing2Limit",
+        "in": {
+         "self": "@cc.AsPhysics Constraint Component",
+         "MotionType": "ACM_Locked",
+         "Swing2LimitAngle": "0.0"
+        }
+       },
+       {
+        "id": "tw",
+        "kind": "call",
+        "class": "/Script/Engine.PhysicsConstraintComponent",
+        "function": "SetAngularTwistLimit",
+        "in": {
+         "self": "@cc.AsPhysics Constraint Component",
+         "ConstraintType": "ACM_Locked",
+         "TwistLimitAngle": "0.0"
+        }
+       },
+       {
+        "id": "gb2",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "scc",
+        "kind": "call",
+        "class": "/Script/Engine.PhysicsConstraintComponent",
+        "function": "SetConstrainedComponents",
+        "in": {
+         "self": "@cc.AsPhysics Constraint Component",
+         "Component1": "@gb2.Body",
+         "BoneName1": "@entry.bone",
+         "Component2": "None",
+         "BoneName2": "None"
+        }
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "Pins"
+       },
+       {
+        "id": "ad",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@gp2.Pins",
+         "Key": "@entry.bone",
+         "Value": "@cc.AsPhysics Constraint Component"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bfp"
+       ],
+       [
+        "bfp:else",
+        "nc",
+        "swt",
+        "lx",
+        "ly",
+        "lz",
+        "s1",
+        "s2",
+        "tw",
+        "scc",
+        "ad"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Pin",
+     "inputs": [
+      {
+       "name": "bone",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "Pinned"
+       },
+       {
+        "id": "au",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_AddUnique",
+        "in": {
+         "TargetArray": "@gn.Pinned",
+         "NewItem": "@entry.bone"
+        }
+       },
+       {
+        "id": "mp",
+        "kind": "call_self",
+        "function": "Make Pin",
+        "in": {
+         "bone": "@entry.bone"
+        }
+       },
+       {
+        "id": "rm",
+        "kind": "call_self",
+        "function": "Refresh Markers"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "au",
+        "mp",
+        "rm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Unpin",
+     "inputs": [
+      {
+       "name": "bone",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Pins"
+       },
+       {
+        "id": "fp",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gp.Pins",
+         "Key": "@entry.bone"
+        }
+       },
+       {
+        "id": "bfp",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fp.ReturnValue"
+        }
+       },
+       {
+        "id": "dc",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "K2_DestroyComponent",
+        "in": {
+         "self": "@fp.Value",
+         "Object": "@fp.Value"
+        }
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "Pins"
+       },
+       {
+        "id": "mr",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Remove",
+        "in": {
+         "TargetMap": "@gp2.Pins",
+         "Key": "@entry.bone"
+        }
+       },
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "Pinned"
+       },
+       {
+        "id": "ar",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_RemoveItem",
+        "in": {
+         "TargetArray": "@gn.Pinned",
+         "Item": "@entry.bone"
+        }
+       },
+       {
+        "id": "rm",
+        "kind": "call_self",
+        "function": "Refresh Markers"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bfp",
+        "dc",
+        "mr",
+        "ar"
+       ],
+       [
+        "bfp:else",
+        "ar"
+       ],
+       [
+        "ar",
+        "rm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Pins",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Pins"
+       },
+       {
+        "id": "mv",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Values",
+        "in": {
+         "TargetMap": "@gp.Pins"
+        }
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@mv.Values"
+        }
+       },
+       {
+        "id": "dc",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "K2_DestroyComponent",
+        "in": {
+         "self": "@fe.Array Element",
+         "Object": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "gp2",
+        "kind": "get",
+        "var": "Pins"
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Clear",
+        "in": {
+         "TargetMap": "@gp2.Pins"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "mv",
+        "fe"
+       ],
+       [
+        "fe",
+        "dc"
+       ],
+       [
+        "fe:Completed",
+        "cl"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Unpin All",
+     "graph": {
+      "nodes": [
+       {
+        "id": "cp",
+        "kind": "call_self",
+        "function": "Clear Pins"
+       },
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "Pinned"
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Clear",
+        "in": {
+         "TargetArray": "@gn.Pinned"
+        }
+       },
+       {
+        "id": "rm",
+        "kind": "call_self",
+        "function": "Refresh Markers"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "cp",
+        "cl",
+        "rm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Build Markers",
+     "graph": {
+      "nodes": [
+       {
+        "id": "mb0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pelvis"
+        }
+       },
+       {
+        "id": "mb1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "spine_01"
+        }
+       },
+       {
+        "id": "mb2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "spine_02"
+        }
+       },
+       {
+        "id": "mb3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "spine_03"
+        }
+       },
+       {
+        "id": "mb4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "neck_01"
+        }
+       },
+       {
+        "id": "mb5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "head"
+        }
+       },
+       {
+        "id": "mb6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "upperarm_l"
+        }
+       },
+       {
+        "id": "mb7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "upperarm_r"
+        }
+       },
+       {
+        "id": "mb8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "lowerarm_l"
+        }
+       },
+       {
+        "id": "mb9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "lowerarm_r"
+        }
+       },
+       {
+        "id": "mb10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "hand_l"
+        }
+       },
+       {
+        "id": "mb11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "hand_r"
+        }
+       },
+       {
+        "id": "mb12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thigh_l"
+        }
+       },
+       {
+        "id": "mb13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thigh_r"
+        }
+       },
+       {
+        "id": "mb14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "calf_l"
+        }
+       },
+       {
+        "id": "mb15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "calf_r"
+        }
+       },
+       {
+        "id": "mb16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "foot_l"
+        }
+       },
+       {
+        "id": "mb17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "foot_r"
+        }
+       },
+       {
+        "id": "ba",
+        "kind": "make_array",
+        "count": 18,
+        "type": "name",
+        "in": {
+         "[0]": "@mb0.ReturnValue",
+         "[1]": "@mb1.ReturnValue",
+         "[2]": "@mb2.ReturnValue",
+         "[3]": "@mb3.ReturnValue",
+         "[4]": "@mb4.ReturnValue",
+         "[5]": "@mb5.ReturnValue",
+         "[6]": "@mb6.ReturnValue",
+         "[7]": "@mb7.ReturnValue",
+         "[8]": "@mb8.ReturnValue",
+         "[9]": "@mb9.ReturnValue",
+         "[10]": "@mb10.ReturnValue",
+         "[11]": "@mb11.ReturnValue",
+         "[12]": "@mb12.ReturnValue",
+         "[13]": "@mb13.ReturnValue",
+         "[14]": "@mb14.ReturnValue",
+         "[15]": "@mb15.ReturnValue",
+         "[16]": "@mb16.ReturnValue",
+         "[17]": "@mb17.ReturnValue"
+        }
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ba.Array"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "bi",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "GetBoneIndex",
+        "in": {
+         "self": "@gb.Body",
+         "BoneName": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "hb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@bi.ReturnValue",
+         "B": "-1"
+        }
+       },
+       {
+        "id": "bh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hb.ReturnValue"
+        }
+       },
+       {
+        "id": "gmb",
+        "kind": "get",
+        "var": "MarkerBones"
+       },
+       {
+        "id": "amb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gmb.MarkerBones",
+         "NewItem": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "idtf26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "hnc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@idtf26.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "hcs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@hnc.ReturnValue"
+        }
+       },
+       {
+        "id": "hst",
+        "kind": "set",
+        "var": "MarkTmp",
+        "in": {
+         "MarkTmp": "@hcs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "hgm",
+        "kind": "get",
+        "var": "MarkTmp"
+       },
+       {
+        "id": "hgb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "hat",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "Parent": "@hgb.Body",
+         "SocketName": "@fe.Array Element",
+         "LocationRule": "SnapToTarget",
+         "RotationRule": "SnapToTarget",
+         "ScaleRule": "KeepWorld",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "hab",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetAbsolute",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "bNewAbsoluteLocation": "false",
+         "bNewAbsoluteRotation": "false",
+         "bNewAbsoluteScale": "true"
+        }
+       },
+       {
+        "id": "hsc",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetWorldScale3D",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewScale": "(X=0.035,Y=0.035,Z=0.035)"
+        }
+       },
+       {
+        "id": "hsm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewMesh": "/Engine/BasicShapes/Sphere"
+        }
+       },
+       {
+        "id": "hmt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "hmd",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "hgmi",
+        "kind": "get",
+        "var": "MarkerMids"
+       },
+       {
+        "id": "hami",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@hgmi.MarkerMids",
+         "NewItem": "@hmd.ReturnValue"
+        }
+       },
+       {
+        "id": "hce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "hco",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionObjectType",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "Channel": "ECC_Destructible"
+        }
+       },
+       {
+        "id": "hcr",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionResponseToAllChannels",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewResponse": "ECR_Ignore"
+        }
+       },
+       {
+        "id": "hsh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "hvi",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "bNewVisibility": "false",
+         "bPropagateToChildren": "false"
+        }
+       },
+       {
+        "id": "ghc",
+        "kind": "get",
+        "var": "Markers"
+       },
+       {
+        "id": "ght",
+        "kind": "get",
+        "var": "MarkTmp"
+       },
+       {
+        "id": "ahc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@ghc.Markers",
+         "NewItem": "@ght.MarkTmp"
+        }
+       },
+       {
+        "id": "na",
+        "kind": "make_array",
+        "count": 18,
+        "type": "float",
+        "in": {
+         "[0]": "13.0",
+         "[1]": "12.0",
+         "[2]": "12.0",
+         "[3]": "12.0",
+         "[4]": "6.0",
+         "[5]": "10.0",
+         "[6]": "6.0",
+         "[7]": "6.0",
+         "[8]": "5.0",
+         "[9]": "5.0",
+         "[10]": "4.0",
+         "[11]": "4.0",
+         "[12]": "9.0",
+         "[13]": "9.0",
+         "[14]": "7.0",
+         "[15]": "7.0",
+         "[16]": "5.0",
+         "[17]": "5.0"
+        }
+       },
+       {
+        "id": "ng",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@na.Array",
+         "Index": "@fe.Array Index"
+        }
+       },
+       {
+        "id": "fr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@ng.Item",
+         "B": "6.0"
+        }
+       },
+       {
+        "id": "pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@hmd.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "@ng.Item"
+        }
+       },
+       {
+        "id": "pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@hmd.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "@fr.ReturnValue"
+        }
+       },
+       {
+        "id": "pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@hmd.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.15"
+        }
+       },
+       {
+        "id": "sbt",
+        "kind": "set",
+        "var": "MarkersBuilt",
+        "in": {
+         "MarkersBuilt": "true"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "fe"
+       ],
+       [
+        "fe",
+        "bh",
+        "amb",
+        "hnc",
+        "hst",
+        "hat",
+        "hab",
+        "hsc",
+        "hsm",
+        "hmt",
+        "hmd",
+        "hami",
+        "hce",
+        "hco",
+        "hcr",
+        "hsh",
+        "hvi",
+        "ahc",
+        "pn",
+        "pf",
+        "pp"
+       ],
+       [
+        "fe:Completed",
+        "sbt"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Show Markers",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gbt",
+        "kind": "get",
+        "var": "MarkersBuilt"
+       },
+       {
+        "id": "nb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@gbt.MarkersBuilt"
+        }
+       },
+       {
+        "id": "nd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@nb.ReturnValue",
+         "B": "@entry.on"
+        }
+       },
+       {
+        "id": "bb",
+        "kind": "branch",
+        "in": {
+         "Condition": "@nd.ReturnValue"
+        }
+       },
+       {
+        "id": "bm",
+        "kind": "call_self",
+        "function": "Build Markers"
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "Markers"
+       },
+       {
+        "id": "fh",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gh.Markers"
+        }
+       },
+       {
+        "id": "vh",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@fh.Array Element",
+         "bNewVisibility": "@entry.on",
+         "bPropagateToChildren": "false"
+        }
+       },
+       {
+        "id": "bon",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.on"
+        }
+       },
+       {
+        "id": "cq",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@fh.Array Element",
+         "NewType": "QueryOnly"
+        }
+       },
+       {
+        "id": "cn",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@fh.Array Element",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "rm",
+        "kind": "call_self",
+        "function": "Refresh Markers"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bb",
+        "bm",
+        "fh"
+       ],
+       [
+        "bb:else",
+        "fh"
+       ],
+       [
+        "fh",
+        "vh",
+        "bon",
+        "cq"
+       ],
+       [
+        "bon:else",
+        "cn"
+       ],
+       [
+        "fh:Completed",
+        "rm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Refresh Markers",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gmb",
+        "kind": "get",
+        "var": "MarkerBones"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gmb.MarkerBones"
+        }
+       },
+       {
+        "id": "gpn",
+        "kind": "get",
+        "var": "Pinned"
+       },
+       {
+        "id": "ip",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@gpn.Pinned",
+         "ItemToFind": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "glk",
+        "kind": "get",
+        "var": "LockedJoints"
+       },
+       {
+        "id": "il",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@glk.LockedJoints",
+         "ItemToFind": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "glo",
+        "kind": "get",
+        "var": "LooseJoints"
+       },
+       {
+        "id": "io",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@glo.LooseJoints",
+         "ItemToFind": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "c1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=0.1,G=0.9,B=0.2,A=1.0)",
+         "B": "(R=0.2,G=0.2,B=0.2,A=1.0)",
+         "bPickA": "@io.ReturnValue"
+        }
+       },
+       {
+        "id": "c2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=1.0,G=0.12,B=0.1,A=1.0)",
+         "B": "@c1.ReturnValue",
+         "bPickA": "@il.ReturnValue"
+        }
+       },
+       {
+        "id": "c3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=0.1,G=0.35,B=1.0,A=1.0)",
+         "B": "@c2.ReturnValue",
+         "bPickA": "@ip.ReturnValue"
+        }
+       },
+       {
+        "id": "gm1",
+        "kind": "get",
+        "var": "MarkerMids"
+       },
+       {
+        "id": "m1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gm1.MarkerMids",
+         "Index": "@fe.Array Index"
+        }
+       },
+       {
+        "id": "v1",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@m1.Item",
+         "ParameterName": "Color",
+         "Value": "@c3.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "fe"
+       ],
+       [
+        "fe",
+        "v1"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Joint States",
+     "inputs": [
+      {
+       "name": "locked",
+       "type": "name",
+       "container": "array"
+      },
+      {
+       "name": "loose",
+       "type": "name",
+       "container": "array"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "sl",
+        "kind": "set",
+        "var": "LockedJoints",
+        "in": {
+         "LockedJoints": "@entry.locked"
+        }
+       },
+       {
+        "id": "so",
+        "kind": "set",
+        "var": "LooseJoints",
+        "in": {
+         "LooseJoints": "@entry.loose"
+        }
+       },
+       {
+        "id": "rm",
+        "kind": "call_self",
+        "function": "Refresh Markers"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sl",
+        "so",
+        "rm"
        ]
       ]
      }

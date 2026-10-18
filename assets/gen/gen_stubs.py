@@ -173,15 +173,18 @@ assets = [
     datatable("/Game/Mod/SomeMod/Mod_ClothesTable", P_CS, rows={"ModThing": row("Top", "SomeGroup")}),   # editor test: item origin = mod "SomeMod" (loader row in DLC_MainTable), group for the Manage tab
     datatable(P_CT, P_CS, composite=True, parent_tables=[P_CTV, "/Game/Mod/SomeMod/Mod_ClothesTable"]),
     struct(P_CTS, [param("CameraFocus", "int", internal_name="CameraFocus_17_DE98CCDE4FA8319FE550EC814F334C53"),
-                   param("IncompatibleTypes", "name", "array", internal_name="IncompatibleTypes_24_3AC6063A4AB0269D2379B6ADBE2FC2B0")]),   # slot conflicts (the game's asymmetric lists)
+                   param("IncompatibleTypes", "name", "array", internal_name="IncompatibleTypes_24_3AC6063A4AB0269D2379B6ADBE2FC2B0"),   # slot conflicts (the game's asymmetric lists)
+                   param("Flag", "int", internal_name="Flag_36_5EA1ED6B4519B8872DE4848FCAB44EA7")]),   # Flag & 1: several pieces per slot (only Acc)
     datatable(P_CTT, P_CTS, rows={s: dict(({"CameraFocus": 105} if s == "Boots" else {"CameraFocus": 365} if s == "Bra" else {}),
-                                          **({"IncompatibleTypes": {"Top": ["Bra"], "Dress": ["Bra", "Panties", "Top"], "Pants": ["Socks"]}[s]} if s in ("Top", "Dress", "Pants") else {})) for s in SLOTS}),
+                                          **({"IncompatibleTypes": {"Top": ["Bra"], "Dress": ["Bra", "Panties", "Top"], "Pants": ["Socks"]}[s]} if s in ("Top", "Dress", "Pants") else {}),
+                                          **({"Flag": 1} if s == "Acc" else {})) for s in SLOTS}),
     datatable(P_CGV, P_CGS, rows={"Lace": {"GroupName": "Spitze", "Owning": False}, "Kpop": {"GroupName": "KPOP", "Owning": False}}),
     datatable(P_CG, P_CGS, composite=True, parent_tables=[P_CGV]),
     blueprint(P_CPB, mode="augment", functions=[
         fn("Wear The Clothes", [param("name", "name"), param("check covering", "bool"), param("update mask", "bool"), param("ignore compatible", "bool")], [param("successed", "bool")]),
         fn("Take off this clothes", [param("clothes name", "name")]),
-        fn("take off clothes", [param("type", "name"), param("update mask", "bool")]),   # by slot, no covering check afterwards (the game's own forward conflict check uses it)
+        fn("take off clothes", [param("type", "name"), param("update mask", "bool")]),
+        fn("Take Off Clothes And Remove Component", [param("comp", "object:" + P_CC)]),   # one comp (multislot.Take Off Slot All)   # by slot, no covering check afterwards (the game's own forward conflict check uses it)
         fn("Get Wearing Clothes Names", outputs=[param("clothes list", "name", "array")]),
         fn("is clothes wearing", [param("clothes name", "name")], [param("yes", "bool")], pure=True),
         fn("Find Clothes Component With Name", [param("name", "name")], [param("clothes comp", "object:" + P_CC)]),

@@ -194,7 +194,7 @@ The categories are on the left.
 - Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. "Slow motion on" switches slow motion, "Slow motion speed" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry "Slow motion on / off" does the same as the switch. "Reset to default" sets walk, run and slow motion speed back. "Standing" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).
 - Quick menu: its key, its opacity, what is in the wheel, own keys.
 - Theme: every panel colour and its opacity, a background picture (fill, alignment, hue, sepia, invert, its own opacity) and a picture for tiles and tabs, colour schemes saved under a name; reset is in the status bar. A theme saved now keeps the pictures and their settings too. Your own pictures: Background_1 … Background_30 and Button_1 … Button_30 (.png, .jpg or .jpeg) in the folder the page names. "Show previews" shows the pictures themselves on their chips; right click on the preview of an own picture: "Redo preview".
-- Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn.
+- Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn. Below: "Several pieces in one slot" – a slot switched on keeps its pieces when another one is put on (for example knee socks over tights), for Jodi, followers and looks.
 - Tabs: text, icons or both in the tab bar; switch tabs off. "Try to fit in one row": the captions get smaller and then shorter, so the bar fits on one row where it can.
 
 ## Manage {#manage}
@@ -213,15 +213,17 @@ Figures with physics to place in the level and pose: copies of Jodi, zombies and
 - "+ Spawn a copy of Jodi" puts a copy in front of her, standing and frozen in her current pose, with everything she wears. A look becomes a figure with "Spawn as ragdoll" in its context menu.
 - "Zombies and people": one picture tile per kind of zombie, plus the nurse and a survivor. A click spawns it; the links under a tile spawn its variants.
 - The mercenary is a kind of figure too; he keeps his rifle in his hands.
-- Every figure has a row: active (physics, it falls and can be thrown) or frozen (it keeps its pose), "joints ›", lock all, free all, remove. "Remove all" removes every figure.
-- "joints ›" opens the 17 joints of the figure, each one locked, free or movable. A locked joint stays stiff while the figure is active.
-- Poses (in the opened row): a name and "save pose" keep how the body parts are placed. A pose loads onto every figure of the same kind, in every level – a click loads, right click: load / delete. The figure freezes and stands on the floor.
+- Every figure has a row: active (physics, it falls and can be thrown) or frozen (it keeps its pose), "joints ›", lock all, free all, remove. Bottom right in the status bar: "Remove all" (removes every figure) and "Joint spheres: on/off".
+- "joints ›" opens the 17 joints of the figure, each with two switches: locked/free and movable/fixed. A locked joint stays stiff while the figure is active; a movable one can be posed on the frozen figure.
+- Joint spheres show where you can grab: grey, red = locked, green = movable, blue = pinned. Hidden ones shimmer pale through the body; a click on a sphere grabs exactly that joint. They show only on this tab and in the Ragdolls mode.
+- Poses (in the opened row): a name and "save pose" keep how the body parts are placed and which joints are locked or movable. A pose loads onto every figure of the same kind, in every level – a click loads, right click: load / delete. The figure freezes and stands on the floor.
 - Scenes: "Save scene as" keeps every figure of the level with its look, place, pose and joints; the same name in the same level overwrites. Only the scenes of the current level are shown. A click loads a scene and replaces the figures that are there; right click: load / delete.
 
 With the mouse on a figure, beside the panel and in the ragdolls mode:
 
 - Left drag on a frozen figure moves it over the floor; the mouse wheel lifts or lowers it while you drag.
 - Left drag on an active figure grabs the body part under the mouse; let go and it falls.
+- A right click while dragging pins the part where it is; the rest of the figure hangs on it. Grab it again and it is free. "release all" in the figure's row frees them all.
 - Right drag turns the figure about its hips.
 - Shift + left click locks or frees the joint you click.
 - Shift + right click on a frozen figure makes the joint movable. Left drag on a body part below a movable joint then moves only that part; it stays where you let go – that is how a figure is posed.

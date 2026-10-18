@@ -7,6 +7,7 @@ hair are the game's (docs/specs/2026-10-12-follower-echte-kleidung-design.md): S
 its start, the game's On Begun Play puts them on (colour, damage, heels, body mask)."""
 import os, sys; sys.path.insert(0, os.path.dirname(__file__))
 from bpdsl import *
+import multislot as ms
 from gen_ragdoll import f_load_path, f_apply_mats, S_RAGPART, ident_tf, E_SKM, E_SKIN, E_STM, E_MESHC, E_SCENEC, E_ACTC, E_SKMESH, E_STMESH, E_CHAR, E_MIDC, E_PRIMC
 
 FOLLOWER = M + "/BP_AltUIFollower"
@@ -109,9 +110,14 @@ def f_check_appearence():
     """Character_Player_Base.On Begun Play: a figure without clothes components gets the game's whole default outfit (Default Clothes)
     when nudity is off - Jodi only ever gets underwear (ui-test-88 #10/#11: a look without clothes came back fully dressed). The
     game runs its underwear rule only after Wear These Clothes, which a look without clothes never reaches: run it here instead
-    (Is Nude Allowed = AltUI's option "underwear may be taken off")."""
-    g = G(); g.self_("me"); g.call("cc", P_CPB, "check clothes covering", inp={"self": "@me.self"}); g.call("bm", P_CPB, "update body mask", inp={"self": "@me.self"})
-    g.chain("entry", "cc", "bm")
+    (Is Nude Allowed = AltUI's option "underwear may be taken off").
+    Before that: Wear These Clothes kept one piece per slot - the look's other pieces of a slot go on next to it (multislot)."""
+    g = G(); g.self_("me"); g.get("glw", "LookWorn"); g.foreach("fw", "@glw.LookWorn")   # On Begun Play has cleared Save Player Clothes by now
+    g.call("iw", P_CPB, "is clothes wearing", inp={"self": "@me.self", "clothes name": "@fw.Array Element"}); g.call("nw", K_MATH, "Not_PreBool", inp={"A": "@iw.yes"})
+    g.call("ex", K_DT, "DoesDataTableRowExist", inp={"Table": P_CT, "RowName": "@fw.Array Element"}); g.call("go", K_MATH, "BooleanAND", inp={"A": "@nw.ReturnValue", "B": "@ex.ReturnValue"}); g.branch("bgo", "@go.ReturnValue")
+    g.n("wk", "call_self", function="Wear Kept", inp={"char": "@me.self", "name": "@fw.Array Element", "check covering": "false", "update mask": "false", "ignore compatible": "true", "keep": "true"})
+    g.call("cc", P_CPB, "check clothes covering", inp={"self": "@me.self"}); g.call("bm", P_CPB, "update body mask", inp={"self": "@me.self"})
+    g.chain("entry", "fw"); g.chain("fw", "ex", "bgo", "wk"); g.chain("fw:Completed", "cc", "bm")   # DoesDataTableRowExist is an exec node
     return fn("Check Appearence", graph=g, override=True)
 
 
@@ -131,26 +137,26 @@ def f_set_look():
     g = G(); g.set("sp", "LookParts", inp={"LookParts": "@entry.parts"}); g.set("sn", "LookMorphN", inp={"LookMorphN": "@entry.names"})
     g.set("sv", "LookMorphV", inp={"LookMorphV": "@entry.values"}); g.set("sh", "LookHair", inp={"LookHair": "@entry.hair"}); g.set("shc", "LookHairColor", inp={"LookHairColor": "@entry.haircolor"})
     g.self_("me")
-    g.set("spc", "Save Player Clothes", cls=P_CPB, inp={"self": "@me.self", "Save Player Clothes": "@entry.worn"})
+    g.set("spc", "Save Player Clothes", cls=P_CPB, inp={"self": "@me.self", "Save Player Clothes": "@entry.worn"}); g.set("slw", "LookWorn", inp={"LookWorn": "@entry.worn"})
     g.get("gbg", "Bag", cls=P_CPB); g.link("me.self", "gbg.self"); g.call("apc", P_BAG, "Append Clothes", inp={"self": "@gbg.Bag", "Clothes": "@entry.clothes"})
     g.set("scc", "Clothes Colors", cls=P_CPB, inp={"self": "@me.self", "Clothes Colors": "@entry.colors"})
     g.set("scd", "Save Clothes Damaged", cls=P_CPB, inp={"self": "@me.self", "Save Clothes Damaged": "@entry.damage"})
     g.n("al", "call_self", function="Apply Look")
-    g.chain("entry", "sp", "sn", "sv", "sh", "shc", "spc", "apc", "scc", "scd", "al")
+    g.chain("entry", "sp", "sn", "sv", "sh", "shc", "spc", "slw", "apc", "scc", "scd", "al")
     return fn("Set Look", [param("parts", "struct:" + S_RAGPART, "array"), param("names", "name", "array"), param("values", "float", "array"),
                            param("clothes", "name", "array"), param("worn", "name", "array"), param("colors", "name", "map", value_type=S_LINCOLOR),
                            param("damage", "name", "map", value_type="float"), param("hair", "name"), param("haircolor", S_LINCOLOR)], graph=g)
 
 
 VARS = [var("FollowerId", "name"), var("LookParts", "struct:" + S_RAGPART, "array"), var("LookMorphN", "name", "array"), var("LookMorphV", "float", "array"),
-        var("LookComps", "object:" + E_SCENEC, "array"), var("TmpMid", "object:" + E_MIDC), var("LookHair", "name"), var("LookHairColor", S_LINCOLOR),
-        var("LookMakeupTex", "object:/Script/Engine.TextureRenderTarget2D")]
+        var("LookComps", "object:" + E_SCENEC, "array"), var("TmpMid", "object:" + E_MIDC), var("LookHair", "name"), var("LookHairColor", S_LINCOLOR), var("LookWorn", "name", "array"),
+        var("LookMakeupTex", "object:/Script/Engine.TextureRenderTarget2D")] + ms.held_vars()
 
 
 def build():
     return [blueprint(FOLLOWER, P_NPCF, variables=VARS,
                       functions=[f_need_to_save(), fn("Mutate", graph=G(), override=True), fn("delay to mutant", graph=G(), override=True),
-                                 f_load_path(), f_apply_mats(), f_apply_makeup_tex(), f_apply_look(), f_init_npc_appearance(), f_check_appearence(), f_apply_npc_appearance(), f_set_look()])]
+                                 f_load_path(), f_apply_mats(), f_apply_makeup_tex(), f_apply_look(), f_init_npc_appearance(), f_check_appearence(), f_apply_npc_appearance(), f_set_look()] + ms.functions())]
 
 
 if __name__ == "__main__":

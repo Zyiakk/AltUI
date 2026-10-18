@@ -53402,6 +53402,29 @@
         }
        },
        {
+        "id": "t_LblMultiSlots_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColHead.ColHead"
+        }
+       },
+       {
+        "id": "t_LblMultiSlots_w",
+        "kind": "get",
+        "var": "LblMultiSlots"
+       },
+       {
+        "id": "t_LblMultiSlots",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblMultiSlots_w.LblMultiSlots",
+         "InColorAndOpacity": "@t_LblMultiSlots_sc.SlateColor"
+        }
+       },
+       {
         "id": "c_ColTextDim_m",
         "kind": "get",
         "var": "Manager"
@@ -53985,6 +54008,29 @@
         "in": {
          "self": "@t_LblConflictsHint_w.LblConflictsHint",
          "InColorAndOpacity": "@t_LblConflictsHint_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblMultiSlotsHint_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_LblMultiSlotsHint_w",
+        "kind": "get",
+        "var": "LblMultiSlotsHint"
+       },
+       {
+        "id": "t_LblMultiSlotsHint",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblMultiSlotsHint_w.LblMultiSlotsHint",
+         "InColorAndOpacity": "@t_LblMultiSlotsHint_sc.SlateColor"
         }
        },
        {
@@ -58658,7 +58704,7 @@
        {
         "id": "rg22",
         "kind": "get",
-        "var": "BodyScLinks"
+        "var": "MultiSlotChips"
        },
        {
         "id": "rc22",
@@ -58666,7 +58712,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg22.BodyScLinks"
+         "self": "@rg22.MultiSlotChips"
         }
        },
        {
@@ -58679,7 +58725,7 @@
        {
         "id": "rx22",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf22.Array Element"
@@ -58691,7 +58737,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx22.AsW_TextButton"
+         "Object": "@rx22.AsW_SubTab"
         }
        },
        {
@@ -58704,10 +58750,10 @@
        {
         "id": "rr22",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx22.AsW_TextButton"
+         "self": "@rx22.AsW_SubTab"
         }
        },
        {
@@ -59231,6 +59277,7 @@
         "t_LblTheme",
         "t_ContentTitle",
         "t_LblConflicts",
+        "t_LblMultiSlots",
         "t_FolHint",
         "t_FolBagNote",
         "t_InvBagNote",
@@ -59256,6 +59303,7 @@
         "t_HdrDisplay",
         "t_HdrOrigin",
         "t_LblConflictsHint",
+        "t_LblMultiSlotsHint",
         "t_LblScaleHint",
         "t_ValScroll",
         "t_ValScale",
@@ -74778,6 +74826,69 @@
      }
     },
     {
+     "name": "Clear Multi Slot Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "MultiSlotChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.MultiSlotChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Multi Slot Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "MultiSlotChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.MultiSlotChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Clear Move Links",
      "graph": {
       "nodes": [
@@ -75079,69 +75190,6 @@
         "function": "AddChildToWrapBox",
         "in": {
          "self": "@g.BodyChips",
-         "Content": "@entry.widget"
-        }
-       }
-      ],
-      "links": [],
-      "exec": [
-       [
-        "entry",
-        "a"
-       ]
-      ]
-     }
-    },
-    {
-     "name": "Clear Body Links",
-     "graph": {
-      "nodes": [
-       {
-        "id": "g",
-        "kind": "get",
-        "var": "BodyScLinks"
-       },
-       {
-        "id": "c",
-        "kind": "call",
-        "class": "/Script/UMG.PanelWidget",
-        "function": "ClearChildren",
-        "in": {
-         "self": "@g.BodyScLinks"
-        }
-       }
-      ],
-      "links": [],
-      "exec": [
-       [
-        "entry",
-        "c"
-       ]
-      ]
-     }
-    },
-    {
-     "name": "Add Body Link",
-     "inputs": [
-      {
-       "name": "widget",
-       "type": "object:/Script/UMG.Widget"
-      }
-     ],
-     "graph": {
-      "nodes": [
-       {
-        "id": "g",
-        "kind": "get",
-        "var": "BodyScLinks"
-       },
-       {
-        "id": "a",
-        "kind": "call",
-        "class": "/Script/UMG.HorizontalBox",
-        "function": "AddChildToHorizontalBox",
-        "in": {
-         "self": "@g.BodyScLinks",
          "Content": "@entry.widget"
         }
        }
@@ -75530,6 +75578,14 @@
       },
       {
        "name": "conflictshint",
+       "type": "text"
+      },
+      {
+       "name": "multislots",
+       "type": "text"
+      },
+      {
+       "name": "multislotshint",
        "type": "text"
       },
       {
@@ -76783,6 +76839,36 @@
         "in": {
          "self": "@gconflictshint.LblConflictsHint",
          "InText": "@entry.conflictshint"
+        }
+       },
+       {
+        "id": "gmultislots",
+        "kind": "get",
+        "var": "LblMultiSlots"
+       },
+       {
+        "id": "smultislots",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gmultislots.LblMultiSlots",
+         "InText": "@entry.multislots"
+        }
+       },
+       {
+        "id": "gmultislotshint",
+        "kind": "get",
+        "var": "LblMultiSlotsHint"
+       },
+       {
+        "id": "smultislotshint",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gmultislotshint.LblMultiSlotsHint",
+         "InText": "@entry.multislotshint"
         }
        },
        {
@@ -78052,6 +78138,8 @@
         "sidlestyle",
         "sconflicts",
         "sconflictshint",
+        "smultislots",
+        "smultislotshint",
         "sunowned",
         "sscalehint",
         "stheme",
@@ -85094,6 +85182,58 @@
         }
        },
        {
+        "id": "gm4",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "grgp",
+        "kind": "get",
+        "var": "RagGrab",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pgr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@isr.ReturnValue",
+         "B": "@grgp.RagGrab"
+        }
+       },
+       {
+        "id": "bpg",
+        "kind": "branch",
+        "in": {
+         "Condition": "@pgr.ReturnValue"
+        }
+       },
+       {
+        "id": "gm5",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "rpg",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Rag Pin Grab",
+        "in": {
+         "self": "@gm5.Manager"
+        }
+       },
+       {
+        "id": "h2",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Handled"
+       },
+       {
+        "id": "r3",
+        "kind": "return_new"
+       },
+       {
         "id": "h",
         "kind": "call",
         "class": "/Script/UMG.WidgetBlueprintLibrary",
@@ -85126,6 +85266,14 @@
       ],
       "links": [
        [
+        "gm4.Manager",
+        "grgp.self"
+       ],
+       [
+        "h2.ReturnValue",
+        "r3.ReturnValue"
+       ],
+       [
         "cap.ReturnValue",
         "return.ReturnValue"
        ],
@@ -85138,6 +85286,12 @@
        [
         "entry",
         "cm",
+        "bpg",
+        "rpg",
+        "r3"
+       ],
+       [
+        "bpg:else",
         "bh",
         "bd",
         "bj",
@@ -92155,13 +92309,6 @@
               ]
              }
             ]
-           },
-           {
-            "class": "/Script/UMG.HorizontalBox",
-            "name": "BodyScLinks",
-            "slot": {
-             "Padding": "(Left=0,Top=30,Right=0,Bottom=0)"
-            }
            }
           ]
          },
@@ -96407,6 +96554,38 @@
                  {
                   "class": "/Script/UMG.VerticalBox",
                   "name": "ConflictRows"
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "LblMultiSlots",
+                  "props": {
+                   "Text": "Several pieces in one slot",
+                   "Font": "(Size=27)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))"
+                  },
+                  "slot": {
+                   "Padding": "(Left=0,Top=46,Right=0,Bottom=8)"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "LblMultiSlotsHint",
+                  "props": {
+                   "Text": "",
+                   "Font": "(Size=21)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+                   "AutoWrapText": true
+                  },
+                  "slot": {
+                   "Padding": "(Left=0,Top=0,Right=0,Bottom=11)"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.WrapBox",
+                  "name": "MultiSlotChips",
+                  "props": {
+                   "InnerSlotPadding": "(X=9,Y=9)"
+                  }
                  }
                 ]
                },

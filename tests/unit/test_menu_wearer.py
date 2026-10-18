@@ -39,14 +39,14 @@ class MenuWearer(unittest.TestCase):
 
     def test_level_applies_the_look_at_once(self):
         """No level-load timers any more: the game dresses Jodi in her own BeginPlay (and on possession), before the
-        manager exists - the look goes on at the end of BeginPlay, in the order body, underwear, colours, face (then the walk
+        manager exists - the look goes on at the end of BeginPlay, in the order body, underwear, several pieces per slot, colours, face (then the walk
         speed / style, which needs no look)."""
         nodes = {n["id"]: n for n in self.eg["nodes"]}
         timers = {n["in"].get("FunctionName") for n in self.eg["nodes"] if n.get("function") == "K2_SetTimer"}
         self.assertFalse(timers & {"Apply Saved Body", "Fix Loaded Underwear", "Apply Saved Colors", "Apply Face"})
         chain = next(c for c in self.eg["exec"] if c and c[0] == "bvg")   # BeginPlay goes on after the Version Gate
         order = [nodes[i].get("function") for i in chain if nodes.get(i, {}).get("kind") == "call_self"]
-        self.assertEqual(order[-5:], ["Apply Saved Body", "Fix Loaded Underwear", "Apply Saved Colors", "Apply Face", "Apply Move"])
+        self.assertEqual(order[-6:], ["Apply Saved Body", "Fix Loaded Underwear", "Restore Multi Worn", "Apply Saved Colors", "Apply Face", "Apply Move"])
         self.assertLess(order.index("Build Catalog"), order.index("Fix Loaded Underwear"))   # Worn In Slot needs the catalog
 
     def test_find_menu_wearer_searches_jodi_base_and_retries(self):
@@ -56,7 +56,7 @@ class MenuWearer(unittest.TestCase):
         self.assertEqual(timers, {"Find Menu Wearer"})   # only the retry: the loading scene can be over in two seconds
         chain = next(c for c in g["exec"] if c and c[0] == "entry")
         order = [nodes[i].get("function") for i in chain if nodes.get(i, {}).get("kind") == "call_self"]
-        self.assertEqual(order, ["Apply Saved Body", "Apply Saved Colors", "Apply Face"])   # body first: Apply Body re-applies the game's make-up
+        self.assertEqual(order, ["Apply Saved Body", "Restore Multi Worn", "Apply Saved Colors", "Apply Face"])   # body first: Apply Body re-applies the game's make-up
 
     def test_look_functions_do_not_read_player(self):
         for name in LOOK_FNS:

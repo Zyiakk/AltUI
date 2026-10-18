@@ -30,6 +30,20 @@ S_ROT = "struct:/Script/CoreUObject.Rotator"; S_VEC = "struct:/Script/CoreUObjec
 # scenes with zombie figures (their clothes are random): every mesh of the figure with its materials, rebuilt from that on load
 S_RAGMAT = "/Game/Mod/AltUI/S_RagMat"; S_RAGPART = "/Game/Mod/AltUI/S_RagPart"
 PART_UP = 4   # Collect Parts: steps up from a mesh to the component that hangs on the body (crystal mesh -> crystal root -> body)
+# joint markers (spec 2026-10-17): a sphere on every grabbable body - the pelvis and the 17 joints of the Ragdolls page
+MARKER_BONES = ["pelvis", "spine_01", "spine_02", "spine_03", "neck_01", "head", "upperarm_l", "upperarm_r", "lowerarm_l", "lowerarm_r", "hand_l", "hand_r",
+                "thigh_l", "thigh_r", "calf_l", "calf_r", "foot_l", "foot_r"]
+MARK_MESH = "/Engine/BasicShapes/Sphere"   # 100 cm across
+MARK_MAT = "/Game/Mod/AltUI/Mat/M_JointMarker"   # scripts/quickmenu/material.py: no depth test, full in front / inside its limb, pale behind the body
+MARK_SCALE = 0.035   # scale of the sphere mesh: 3.5 cm
+# how deep (cm) a sphere may lie behind the nearest surface and still count as "in its own body part" (about that part's thickness);
+# up to MARK_BAND more it fades to MARK_PALE - one band for all made the torso's spheres never pale and the far ones barely (ui-test-116)
+MARK_NEAR = {"pelvis": 13, "spine_01": 12, "spine_02": 12, "spine_03": 12, "neck_01": 6, "head": 10, "upperarm_l": 6, "upperarm_r": 6, "lowerarm_l": 5,
+             "lowerarm_r": 5, "hand_l": 4, "hand_r": 4, "thigh_l": 9, "thigh_r": 9, "calf_l": 7, "calf_r": 7, "foot_l": 5, "foot_r": 5}
+MARK_BAND, MARK_PALE = 6.0, 0.15
+# (ui-test-116: a pair of opaque core + pale hull showed only the hull - the core sits at the bone, inside its own limb, so it was always hidden)
+MARK_COLORS = {"pinned": "(R=0.1,G=0.35,B=1.0,A=1.0)", "locked": "(R=1.0,G=0.12,B=0.1,A=1.0)", "loose": "(R=0.1,G=0.9,B=0.2,A=1.0)", "plain": "(R=0.2,G=0.2,B=0.2,A=1.0)"}
+E_SMC = "/Script/Engine.StaticMeshComponent"
 
 
 def ident_tf(g):
@@ -252,7 +266,10 @@ def f_activate():
     g = G(); g.get("gb", "Body"); g.call("sp", E_PRIMC, "SetSimulatePhysics", inp={"self": "@gb.Body", "bSimulate": "true"}); g.set("sa", "Active", inp={"Active": "true"})
     g.get("gj", "LockedJoints"); g.set("cj", "JointsLoop", inp={"JointsLoop": "@gj.LockedJoints"}); g.get("gjl", "JointsLoop"); g.foreach("fe", "@gjl.JointsLoop")
     g.n("ml", "call_self", function="Make Lock", inp={"bone": "@fe.Array Element"})
-    g.chain("entry", "sp", "sa", "cj", "fe"); g.chain("fe", "ml"); return fn("Activate", graph=g)
+    # pinned parts (spec 2026-10-17): their constraints again, where the bones are now - a frozen figure moved took its pins along
+    g.get("gpn", "Pinned"); g.set("cpl", "PinLoop", inp={"PinLoop": "@gpn.Pinned"}); g.get("gpl", "PinLoop"); g.foreach("fp", "@gpl.PinLoop")
+    g.n("mp", "call_self", function="Make Pin", inp={"bone": "@fp.Array Element"})
+    g.chain("entry", "sp", "sa", "cj", "fe"); g.chain("fe", "ml"); g.chain("fe:Completed", "cpl", "fp"); g.chain("fp", "mp"); return fn("Activate", graph=g)
 
 
 def f_freeze():
@@ -265,7 +282,7 @@ def f_freeze():
     g.get("gl2", "Locks"); g.call("cl", K_MAP, "Map_Clear", inp={"TargetMap": "@gl2.Locks"})
     g.get("gb2", "Body"); g.call("off", E_PRIMC, "SetSimulatePhysics", inp={"self": "@gb2.Body", "bSimulate": "false"}); g.set("sa", "Active", inp={"Active": "false"})
     g.get("gb3", "Body"); g.call("grv", E_PRIMC, "SetEnableGravity", inp={"self": "@gb3.Body", "bGravityEnabled": "true"})   # a posed limb ran without it
-    g.chain("entry", "sn", "sp", "lv", "fe"); g.chain("fe", "dc"); g.chain("fe:Completed", "cl", "off", "sa", "grv")
+    g.chain("entry", "sn", "sp", "lv", "fe"); g.chain("fe", "dc"); g.n("cpn", "call_self", function="Clear Pins"); g.chain("fe:Completed", "cl", "cpn", "off", "sa", "grv")
     return fn("Freeze", graph=g)
 
 
@@ -275,7 +292,8 @@ def f_toggle_joint():
     g.get("gj2", "LockedJoints"); g.call("rm", K_ARR, "Array_RemoveItem", inp={"TargetArray": "@gj2.LockedJoints", "Item": "@entry.bone"}); g.n("dl", "call_self", function="Drop Lock", inp={"bone": "@entry.bone"})
     g.get("gj3", "LockedJoints"); g.call("ad", K_ARR, "Array_Add", inp={"TargetArray": "@gj3.LockedJoints", "NewItem": "@entry.bone"})
     g.get("ga", "Active"); g.branch("ba", "@ga.Active"); g.n("ml", "call_self", function="Make Lock", inp={"bone": "@entry.bone"})
-    g.chain("entry", "bh", "rm", "dl"); g.chain("bh:else", "ad", "ba", "ml"); return fn("Toggle Joint", [param("bone", "name")], graph=g)
+    g.n("rmk", "call_self", function="Refresh Markers")
+    g.chain("entry", "bh", "rm", "dl", "rmk"); g.chain("bh:else", "ad", "ba", "ml", "rmk"); g.chain("ba:else", "rmk"); return fn("Toggle Joint", [param("bone", "name")], graph=g)
 
 
 def f_lock_all():
@@ -299,7 +317,8 @@ def f_toggle_loose():
     g = G(); g.get("gj", "LooseJoints"); g.call("has", K_ARR, "Array_Contains", inp={"TargetArray": "@gj.LooseJoints", "ItemToFind": "@entry.bone"}); g.branch("bh", "@has.ReturnValue")
     g.get("gj2", "LooseJoints"); g.call("rm", K_ARR, "Array_RemoveItem", inp={"TargetArray": "@gj2.LooseJoints", "Item": "@entry.bone"})
     g.get("gj3", "LooseJoints"); g.call("ad", K_ARR, "Array_Add", inp={"TargetArray": "@gj3.LooseJoints", "NewItem": "@entry.bone"})
-    g.chain("entry", "bh", "rm"); g.chain("bh:else", "ad"); return fn("Toggle Loose", [param("bone", "name")], graph=g)
+    g.n("rmk", "call_self", function="Refresh Markers")
+    g.chain("entry", "bh", "rm", "rmk"); g.chain("bh:else", "ad", "rmk"); return fn("Toggle Loose", [param("bone", "name")], graph=g)
 
 
 def f_loose_root():
@@ -371,6 +390,132 @@ def f_make_lock():
     g.get("gl3", "Locks"); g.call("ad", K_MAP, "Map_Add", inp={"TargetMap": "@gl3.Locks", "Key": "@entry.bone", "Value": c})
     g.chain("entry", "sp0"); g.chain("bhp", "bfl"); g.chain("bfl:else", "nc", "swl", "scc", "s1", "s2", "tw", "ad")
     return fn("Make Lock", [param("bone", "name")], graph=g)
+
+
+# ---- pinned in the air (spec 2026-10-17-ragdoll-festhalten-design): a bone held by a constraint against the world ----
+def f_make_pin():
+    """The constraint for a pinned bone: at the bone's place now, against the world (no second component), all six axes locked.
+    An existing one stays."""
+    g = G(); g.get("gp", "Pins"); g.call("fp", K_MAP, "Map_Find", inp={"TargetMap": "@gp.Pins", "Key": "@entry.bone"}); g.branch("bfp", "@fp.ReturnValue")
+    g.call("nc", E_ACTOR, "AddComponentByClass", inp={"Class": E_CONSTR, "bManualAttachment": "true", "RelativeTransform": ident_tf(g), "bDeferredFinish": "false"})
+    g.cast("cc", E_CONSTR, "@nc.ReturnValue"); c = "@cc.AsPhysics Constraint Component"
+    g.get("gb", "Body"); g.call("bt", E_SCENEC, "GetSocketTransform", inp={"self": "@gb.Body", "InSocketName": "@entry.bone", "TransformSpace": "RTS_World"})
+    g.call("swt", E_SCENEC, "K2_SetWorldTransform", inp={"self": c, "NewTransform": "@bt.ReturnValue", "bSweep": "false", "bTeleport": "true"})
+    g.call("lx", E_CONSTR, "SetLinearXLimit", inp={"self": c, "ConstraintType": "LCM_Locked", "LimitSize": "0.0"})
+    g.call("ly", E_CONSTR, "SetLinearYLimit", inp={"self": c, "ConstraintType": "LCM_Locked", "LimitSize": "0.0"})
+    g.call("lz", E_CONSTR, "SetLinearZLimit", inp={"self": c, "ConstraintType": "LCM_Locked", "LimitSize": "0.0"})
+    g.call("s1", E_CONSTR, "SetAngularSwing1Limit", inp={"self": c, "MotionType": "ACM_Locked", "Swing1LimitAngle": "0.0"})
+    g.call("s2", E_CONSTR, "SetAngularSwing2Limit", inp={"self": c, "MotionType": "ACM_Locked", "Swing2LimitAngle": "0.0"})
+    g.call("tw", E_CONSTR, "SetAngularTwistLimit", inp={"self": c, "ConstraintType": "ACM_Locked", "TwistLimitAngle": "0.0"})
+    g.get("gb2", "Body"); g.call("scc", E_CONSTR, "SetConstrainedComponents", inp={"self": c, "Component1": "@gb2.Body", "BoneName1": "@entry.bone", "Component2": "None", "BoneName2": "None"})
+    g.get("gp2", "Pins"); g.call("ad", K_MAP, "Map_Add", inp={"TargetMap": "@gp2.Pins", "Key": "@entry.bone", "Value": c})
+    g.chain("entry", "bfp"); g.chain("bfp:else", "nc", "swt", "lx", "ly", "lz", "s1", "s2", "tw", "scc", "ad")
+    return fn("Make Pin", [param("bone", "name")], graph=g)
+
+
+def f_pin():
+    """Pin a bone of the active figure where it is now (Rag Pin Grab, after letting go of the handle)."""
+    g = G(); g.get("gn", "Pinned"); g.call("au", K_ARR, "Array_AddUnique", inp={"TargetArray": "@gn.Pinned", "NewItem": "@entry.bone"})
+    g.n("mp", "call_self", function="Make Pin", inp={"bone": "@entry.bone"}); g.n("rm", "call_self", function="Refresh Markers")
+    g.chain("entry", "au", "mp", "rm"); return fn("Pin", [param("bone", "name")], graph=g)
+
+
+def f_unpin():
+    """A pinned bone is free again (grabbing it does this)."""
+    g = G(); g.get("gp", "Pins"); g.call("fp", K_MAP, "Map_Find", inp={"TargetMap": "@gp.Pins", "Key": "@entry.bone"}); g.branch("bfp", "@fp.ReturnValue")
+    g.call("dc", E_ACTC, "K2_DestroyComponent", inp={"self": "@fp.Value", "Object": "@fp.Value"})
+    g.get("gp2", "Pins"); g.call("mr", K_MAP, "Map_Remove", inp={"TargetMap": "@gp2.Pins", "Key": "@entry.bone"})
+    g.get("gn", "Pinned"); g.call("ar", K_ARR, "Array_RemoveItem", inp={"TargetArray": "@gn.Pinned", "Item": "@entry.bone"}); g.n("rm", "call_self", function="Refresh Markers")
+    g.chain("entry", "bfp", "dc", "mr", "ar"); g.chain("bfp:else", "ar"); g.chain("ar", "rm")
+    return fn("Unpin", [param("bone", "name")], graph=g)
+
+
+def f_clear_pins():
+    """Every pin constraint goes; the names in Pinned stay (Freeze; Activate makes them again)."""
+    g = G(); g.get("gp", "Pins"); g.call("mv", K_MAP, "Map_Values", inp={"TargetMap": "@gp.Pins"}); g.foreach("fe", "@mv.Values")
+    g.call("dc", E_ACTC, "K2_DestroyComponent", inp={"self": "@fe.Array Element", "Object": "@fe.Array Element"})
+    g.get("gp2", "Pins"); g.call("cl", K_MAP, "Map_Clear", inp={"TargetMap": "@gp2.Pins"})
+    g.chain("entry", "mv", "fe"); g.chain("fe", "dc"); g.chain("fe:Completed", "cl"); return fn("Clear Pins", graph=g)
+
+
+def f_unpin_all():
+    """Link "release all": no pins any more."""
+    g = G(); g.n("cp", "call_self", function="Clear Pins"); g.get("gn", "Pinned"); g.call("cl", K_ARR, "Array_Clear", inp={"TargetArray": "@gn.Pinned"})
+    g.n("rm", "call_self", function="Refresh Markers"); g.chain("entry", "cp", "cl", "rm"); return fn("Unpin All", graph=g)
+
+
+def mark_sphere(g, p, mat, scale, bone_pin):
+    """One sphere component on bone `bone_pin`: attached, fixed size, mesh + own MID, query-only as Destructible, hidden, no shadow.
+    Leaves it in MarkTmp; returns the exec ids."""
+    g.call(p + "nc", E_ACTOR, "AddComponentByClass", inp={"Class": E_SMC, "bManualAttachment": "true", "RelativeTransform": ident_tf(g), "bDeferredFinish": "false"})
+    g.cast(p + "cs", E_SMC, "@%snc.ReturnValue" % p); g.set(p + "st", "MarkTmp", inp={"MarkTmp": "@%scs.AsStatic Mesh Component" % p}); m = "@%sgm.MarkTmp" % p
+    g.get(p + "gm", "MarkTmp"); g.get(p + "gb", "Body")
+    g.call(p + "at", E_SCENEC, "K2_AttachToComponent", inp={"self": m, "Parent": "@%sgb.Body" % p, "SocketName": bone_pin, "LocationRule": "SnapToTarget", "RotationRule": "SnapToTarget", "ScaleRule": "KeepWorld", "bWeldSimulatedBodies": "false"})
+    g.call(p + "ab", E_SCENEC, "SetAbsolute", inp={"self": m, "bNewAbsoluteLocation": "false", "bNewAbsoluteRotation": "false", "bNewAbsoluteScale": "true"})
+    g.call(p + "sc", E_SCENEC, "SetWorldScale3D", inp={"self": m, "NewScale": "(X=%s,Y=%s,Z=%s)" % (scale, scale, scale)})
+    g.call(p + "sm", E_SMC, "SetStaticMesh", inp={"self": m, "NewMesh": MARK_MESH}); g.call(p + "mt", E_PRIMC, "SetMaterial", inp={"self": m, "ElementIndex": "0", "Material": mat})
+    g.call(p + "md", E_PRIMC, "CreateDynamicMaterialInstance", inp={"self": m, "ElementIndex": "0", "SourceMaterial": "None", "OptionalName": "None"})
+    g.get(p + "gmi", "MarkerMids"); g.call(p + "ami", K_ARR, "Array_Add", inp={"TargetArray": "@%sgmi.MarkerMids" % p, "NewItem": "@%smd.ReturnValue" % p})
+    g.call(p + "ce", E_PRIMC, "SetCollisionEnabled", inp={"self": m, "NewType": "NoCollision"})
+    g.call(p + "co", E_PRIMC, "SetCollisionObjectType", inp={"self": m, "Channel": "ECC_Destructible"})
+    g.call(p + "cr", E_PRIMC, "SetCollisionResponseToAllChannels", inp={"self": m, "NewResponse": "ECR_Ignore"})
+    g.call(p + "sh", E_PRIMC, "SetCastShadow", inp={"self": m, "NewCastShadow": "false"})
+    g.call(p + "vi", E_SCENEC, "SetVisibility", inp={"self": m, "bNewVisibility": "false", "bPropagateToChildren": "false"})
+    return [p + "nc", p + "st", p + "at", p + "ab", p + "sc", p + "sm", p + "mt", p + "md", p + "ami", p + "ce", p + "co", p + "cr", p + "sh", p + "vi"]
+
+
+def f_build_markers():
+    """Once per figure (Show Markers builds on first use): a sphere per MARKER_BONES bone this skeleton has (M_JointMarker decides how
+    strong it shows); it also takes the clicks (Rag Pick). Arrays in step: MarkerBones[i], Markers[i], MarkerMids[i]."""
+    g = G(); g.n("ba", "make_array", count=len(MARKER_BONES), type="name", inp={"[%d]" % i: g.lit_name("mb%d" % i, b) for i, b in enumerate(MARKER_BONES)})
+    g.foreach("fe", "@ba.Array"); g.get("gb", "Body"); g.call("bi", E_SKIN, "GetBoneIndex", inp={"self": "@gb.Body", "BoneName": "@fe.Array Element"})
+    g.call("hb", K_MATH, "NotEqual_IntInt", inp={"A": "@bi.ReturnValue", "B": "-1"}); g.branch("bh", "@hb.ReturnValue")
+    g.get("gmb", "MarkerBones"); g.call("amb", K_ARR, "Array_Add", inp={"TargetArray": "@gmb.MarkerBones", "NewItem": "@fe.Array Element"})
+    sph = mark_sphere(g, "h", MARK_MAT, MARK_SCALE, "@fe.Array Element")
+    g.get("ghc", "Markers"); g.get("ght", "MarkTmp"); g.call("ahc", K_ARR, "Array_Add", inp={"TargetArray": "@ghc.Markers", "NewItem": "@ght.MarkTmp"})
+    g.n("na", "make_array", count=len(MARKER_BONES), type="float", inp={"[%d]" % i: str(float(MARK_NEAR[b])) for i, b in enumerate(MARKER_BONES)})
+    g.call("ng", K_ARR, "Array_Get", inp={"TargetArray": "@na.Array", "Index": "@fe.Array Index"}); g.call("fr", K_MATH, "Add_FloatFloat", inp={"A": "@ng.Item", "B": str(MARK_BAND)})
+    g.call("pn", E_MIDC, "SetScalarParameterValue", inp={"self": "@hmd.ReturnValue", "ParameterName": "Near", "Value": "@ng.Item"})
+    g.call("pf", E_MIDC, "SetScalarParameterValue", inp={"self": "@hmd.ReturnValue", "ParameterName": "Far", "Value": "@fr.ReturnValue"})
+    g.call("pp", E_MIDC, "SetScalarParameterValue", inp={"self": "@hmd.ReturnValue", "ParameterName": "Pale", "Value": str(MARK_PALE)})
+    g.set("sbt", "MarkersBuilt", inp={"MarkersBuilt": "true"})
+    g.chain("entry", "fe"); g.chain("fe", "bh", "amb", *sph, "ahc", "pn", "pf", "pp"); g.chain("fe:Completed", "sbt")
+    return fn("Build Markers", graph=g)
+
+
+def f_show_markers():
+    """Markers on / off (Apply Rag Markers): built on first use; hidden ones take no clicks. Colours follow the state (Refresh Markers)."""
+    g = G(); g.get("gbt", "MarkersBuilt"); g.call("nb", K_MATH, "Not_PreBool", inp={"A": "@gbt.MarkersBuilt"}); g.call("nd", K_MATH, "BooleanAND", inp={"A": "@nb.ReturnValue", "B": "@entry.on"})
+    g.branch("bb", "@nd.ReturnValue"); g.n("bm", "call_self", function="Build Markers")
+    g.get("gh", "Markers"); g.foreach("fh", "@gh.Markers")
+    g.call("vh", E_SCENEC, "SetVisibility", inp={"self": "@fh.Array Element", "bNewVisibility": "@entry.on", "bPropagateToChildren": "false"})
+    g.branch("bon", "@entry.on")
+    g.call("cq", E_PRIMC, "SetCollisionEnabled", inp={"self": "@fh.Array Element", "NewType": "QueryOnly"})
+    g.call("cn", E_PRIMC, "SetCollisionEnabled", inp={"self": "@fh.Array Element", "NewType": "NoCollision"})
+    g.n("rm", "call_self", function="Refresh Markers")
+    g.chain("entry", "bb", "bm", "fh"); g.chain("bb:else", "fh"); g.chain("fh", "vh", "bon", "cq"); g.chain("bon:else", "cn"); g.chain("fh:Completed", "rm")
+    return fn("Show Markers", [param("on", "bool")], graph=g)
+
+
+def f_refresh_markers():
+    """Every marker in the colour of its bone's state: pinned blue, locked red, loose green, else grey."""
+    g = G(); g.get("gmb", "MarkerBones"); g.foreach("fe", "@gmb.MarkerBones"); b = "@fe.Array Element"
+    g.get("gpn", "Pinned"); g.call("ip", K_ARR, "Array_Contains", inp={"TargetArray": "@gpn.Pinned", "ItemToFind": b})
+    g.get("glk", "LockedJoints"); g.call("il", K_ARR, "Array_Contains", inp={"TargetArray": "@glk.LockedJoints", "ItemToFind": b})
+    g.get("glo", "LooseJoints"); g.call("io", K_ARR, "Array_Contains", inp={"TargetArray": "@glo.LooseJoints", "ItemToFind": b})
+    g.call("c1", K_MATH, "SelectColor", inp={"A": MARK_COLORS["loose"], "B": MARK_COLORS["plain"], "bPickA": "@io.ReturnValue"})
+    g.call("c2", K_MATH, "SelectColor", inp={"A": MARK_COLORS["locked"], "B": "@c1.ReturnValue", "bPickA": "@il.ReturnValue"})
+    g.call("c3", K_MATH, "SelectColor", inp={"A": MARK_COLORS["pinned"], "B": "@c2.ReturnValue", "bPickA": "@ip.ReturnValue"})
+    g.get("gm1", "MarkerMids"); g.call("m1", K_ARR, "Array_Get", inp={"TargetArray": "@gm1.MarkerMids", "Index": "@fe.Array Index"})
+    g.call("v1", E_MIDC, "SetVectorParameterValue", inp={"self": "@m1.Item", "ParameterName": "Color", "Value": "@c3.ReturnValue"})
+    g.chain("entry", "fe"); g.chain("fe", "v1"); return fn("Refresh Markers", graph=g)
+
+
+def f_set_joint_states():
+    """Locked / loose joints as a saved pose has them (Load Rag Pose; the figure is frozen then, locks act once it is active)."""
+    g = G(); g.set("sl", "LockedJoints", inp={"LockedJoints": "@entry.locked"}); g.set("so", "LooseJoints", inp={"LooseJoints": "@entry.loose"})
+    g.n("rm", "call_self", function="Refresh Markers"); g.chain("entry", "sl", "so", "rm")
+    return fn("Set Joint States", [param("locked", "name", "array"), param("loose", "name", "array")], graph=g)
 
 
 # ---- poses of their own (docs/specs/2026-10-07-ragdoll-poses-design.md): rotations per bone + the pelvis' tilt and height ----
@@ -525,9 +670,13 @@ def build():
                                  var("Kind", "string"), var("TmpParts", "struct:" + S_RAGPART, "array"), var("TmpMats", "struct:" + S_RAGMAT, "array"), var("TmpRoot", "object:" + E_SCENEC),
                                  var("TmpMid", "object:" + E_MIDC), var("TmpSN", "name", "array"), var("TmpSV", "float", "array"), var("TmpVN", "name", "array"), var("TmpVV", S_LIN, "array"),
                                  var("TmpTN", "name", "array"), var("TmpTP", "string", "array"),
-                                 var("TmpRots", S_ROT, "array"), var("TmpLocal", S_TF, "array"), var("TmpRootLocal", S_TF), var("TmpZ", "float")],
+                                 var("TmpRots", S_ROT, "array"), var("TmpLocal", S_TF, "array"), var("TmpRootLocal", S_TF), var("TmpZ", "float"),
+                                 var("Pins", "name", "map", value_type="object:" + E_CONSTR), var("Pinned", "name", "array"), var("PinLoop", "name", "array"),
+                                 var("MarkerBones", "name", "array"), var("Markers", "object:" + E_SMC, "array"),
+                                 var("MarkerMids", "object:" + E_MIDC, "array"), var("MarkersBuilt", "bool"), var("MarkTmp", "object:" + E_SMC)],
                       functions=[f_setup_body(), f_load_path(), f_collect_mats(), f_apply_mats(), f_collect_parts(), f_build_from_parts(), f_copy_from(), f_set_pose(), f_activate(), f_freeze(), f_toggle_joint(), f_lock_all(), f_free_all(), f_toggle_loose(), f_loose_root(), f_loosen_below(), f_drop_lock(), f_make_lock(),
-                                 f_floor_below(), f_lowest_bone(), f_pose_data(), f_merge_rotations(), f_root_local(), f_apply_pose_data()],
+                                 f_floor_below(), f_lowest_bone(), f_pose_data(), f_merge_rotations(), f_root_local(), f_apply_pose_data(),
+                                 f_make_pin(), f_pin(), f_unpin(), f_clear_pins(), f_unpin_all(), f_build_markers(), f_show_markers(), f_refresh_markers(), f_set_joint_states()],
                       event_graph=test_events())]
 
 

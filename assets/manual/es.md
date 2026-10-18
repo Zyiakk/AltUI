@@ -194,7 +194,7 @@ A la izquierda, las categorías.
 - Movimiento: velocidad propia de Jodi al andar y al correr (del 50 al 200 %); agacharse y saltar no cambian. «Cámara lenta activada» enciende la cámara lenta, «Velocidad de la cámara lenta» (del 5 al 90 %, 25 % por defecto) fija lo lenta que va; la entrada del menú rápido «Cámara lenta sí / no» hace lo mismo que el interruptor. «Restablecer valores predeterminados» devuelve las velocidades de andar, correr y cámara lenta. «De pie» elige la animación en reposo de Jodi: las del juego (mirando alrededor, mirando las uñas, mirando la pierna, cautelosa, herida, posando) y las de los mods de reposo instalados (IdleAltUI_…).
 - Menú rápido: su tecla, su opacidad, lo que hay en la rueda, las teclas propias.
 - Tema: cada color del panel y su opacidad, una imagen de fondo (relleno, alineación, tono, sepia, invertir, opacidad propia) y una imagen para mosaicos y pestañas, esquemas de color guardados con un nombre; restablecer está en la barra de estado. Un tema guardado ahora conserva también las imágenes y sus ajustes. Imágenes propias: Background_1 … Background_30 y Button_1 … Button_30 (.png, .jpg o .jpeg) en la carpeta que indica la página. «Mostrar vistas previas» muestra las propias imágenes en sus chips; clic derecho en la vista previa de una imagen propia: «Rehacer vista previa».
-- Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas.
+- Conflictos de ranuras: separar los pares de ranuras del juego (por ejemplo sujetador y camisa) para poder llevar ambas prendas. Debajo: «Varias prendas en una ranura»: una ranura activada conserva sus prendas al ponerse otra (por ejemplo calcetines largos sobre unas medias), para Jodi, seguidores y looks.
 - Pestañas: texto, iconos o ambos en la barra de pestañas; desactivar pestañas. «Intentar en una fila»: los textos se hacen más pequeños y luego más cortos, para que la barra quepa en una fila donde sea posible.
 
 ## Gestión {#manage}
@@ -213,15 +213,17 @@ Figuras con física para colocar y posar en el nivel: copias de Jodi, zombis y p
 - «+ Crear una copia de Jodi» pone una copia delante de ella, de pie y congelada en su pose actual, con todo lo que lleva puesto. Un look se convierte en figura con «Crear como ragdoll» en su menú contextual.
 - «Zombis y personas»: una casilla con imagen por tipo de zombi, además de la enfermera y una superviviente. Un clic la crea; los enlaces bajo una casilla crean sus variantes.
 - El mercenario también es un tipo de figura; conserva su fusil en las manos.
-- Cada figura tiene una fila: activa (física, cae y se puede lanzar) o congelada (mantiene su pose), «articulaciones ›», bloquear todas, liberar todas, quitar. «Quitar todos» quita todas las figuras.
-- «articulaciones ›» despliega las 17 articulaciones de la figura, cada una bloqueada, libre o móvil. Una articulación bloqueada queda rígida mientras la figura está activa.
-- Poses (en la fila desplegada): un nombre y «guardar pose» guardan cómo están colocadas las partes del cuerpo. Una pose se carga en cualquier figura del mismo tipo, en cualquier nivel: clic carga, clic derecho: cargar / borrar. La figura se congela y queda de pie sobre el suelo.
+- Cada figura tiene una fila: activa (física, cae y se puede lanzar) o congelada (mantiene su pose), «articulaciones ›», bloquear todas, liberar todas, quitar. Abajo a la derecha, en la barra de estado: «Quitar todos» (quita todas las figuras) y «Esferas de articulación: sí/no».
+- «articulaciones ›» despliega las 17 articulaciones de la figura, cada una con dos interruptores: bloqueada/libre y móvil/fija. Una articulación bloqueada queda rígida mientras la figura está activa; una móvil se puede posar en la figura congelada.
+- Las esferas de articulación muestran dónde se puede agarrar: gris, rojo = bloqueada, verde = móvil, azul = fijada. Las ocultas brillan pálidas a través del cuerpo; un clic en una esfera agarra justo esa articulación. Solo aparecen en esta pestaña y en el modo ragdoll.
+- Poses (en la fila desplegada): un nombre y «guardar pose» guardan cómo están colocadas las partes del cuerpo y qué articulaciones están bloqueadas o móviles. Una pose se carga en cualquier figura del mismo tipo, en cualquier nivel: clic carga, clic derecho: cargar / borrar. La figura se congela y queda de pie sobre el suelo.
 - Escenas: «Guardar escena como» guarda cada figura del nivel con su aspecto, su lugar, su pose y sus articulaciones; el mismo nombre en el mismo nivel la sobrescribe. Solo se muestran las escenas del nivel actual. Un clic carga una escena y sustituye las figuras presentes; clic derecho: cargar / borrar.
 
 Con el ratón sobre una figura, junto al panel y en el modo ragdoll:
 
 - Arrastrar con el botón izquierdo una figura congelada la mueve por el suelo; la rueda la sube o la baja mientras arrastras.
 - Arrastrar con el botón izquierdo una figura activa agarra la parte del cuerpo bajo el ratón; al soltarla, cae.
+- Un clic derecho mientras arrastras fija la parte donde está; el resto de la figura cuelga de ella. Si la vuelves a agarrar, queda libre. «soltar todas» en la fila de la figura las libera todas.
 - Arrastrar con el botón derecho gira la figura sobre sus caderas.
 - Mayús + clic izquierdo bloquea o libera la articulación pulsada.
 - Mayús + clic derecho en una figura congelada hace móvil la articulación. Arrastrar entonces con el botón izquierdo una parte del cuerpo bajo una articulación móvil mueve solo esa parte; se queda donde la sueltas: así se posa una figura.

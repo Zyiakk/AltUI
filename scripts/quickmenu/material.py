@@ -2,7 +2,7 @@
 # /Game/Mod/AltUI/Mat/M_QuickSector - UI domain, translucent. One instance per sector (W_QuickWheel): Count sectors, this one
 # is Index (0 centred at the top, clockwise); a ring from Inner to the edge (radius 1 = half the image), a gap of 2*Gap between
 # neighbours, soft edges of width Soft; Color = fill (alpha = opacity). Cooked for Windows under Wine (D3D SM5 shaders).
-# Also /Game/Mod/AltUI/Mat/M_ImageBox (button image, Options > Theme): the picture Tex over the whole element, corners rounded
+# Also /Game/Mod/AltUI/Mat/M_JointMarker (ragdoll joint spheres, see joint_marker) and /Game/Mod/AltUI/Mat/M_ImageBox (button image, Options > Theme): the picture Tex over the whole element, corners rounded
 # like T_RoundBox (computed in the shader; Radius 0 = none, the background), filters Invert / Sepia / Hue, tinted by the vertex
 # colour (= BrushColor / ColorAndOpacity: hover, opacity).
 import unreal
@@ -51,6 +51,7 @@ def main():
     MEL.connect_material_property(op, "", unreal.MaterialProperty.MP_OPACITY)
     MEL.recompile_material(m); EAL.save_asset(PATH)
     image_box()
+    joint_marker()
     unreal.log_warning("EDTEST PASS quick sector material saved")
 
 
@@ -122,6 +123,40 @@ def image_box():
     MEL.connect_material_property(rgb, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     MEL.connect_material_property(a2, "", unreal.MaterialProperty.MP_OPACITY)
     MEL.recompile_material(m); EAL.save_asset(IMG)
+
+
+JM = "/Game/Mod/AltUI/Mat/M_JointMarker"
+JM_CODE = """float d = PD - SD;   // how far the sphere lies behind the nearest opaque surface at this pixel (cm); < 0: in front of it
+return lerp(1, Pale, smoothstep(Near, Far, d));"""
+
+
+def joint_marker():
+    """Ragdoll joint spheres (spec 2026-10-17): unlit, drawn over everything (no depth test), full where the sphere is in front or
+    only just inside a limb (its own bone sits inside it), pale where something lies well in front of it - a joint behind the body.
+    Color = state colour; Near / Far = the depth band (cm) of the fade; Pale = the opacity behind the body."""
+    if EAL.does_asset_exist(JM): EAL.delete_asset(JM)
+    m = AT.create_asset(JM.rsplit("/", 1)[1], JM.rsplit("/", 1)[0], unreal.Material, unreal.MaterialFactoryNew())
+    m.set_editor_property("blend_mode", unreal.BlendMode.BLEND_TRANSLUCENT)
+    m.set_editor_property("shading_model", unreal.MaterialShadingModel.MSM_UNLIT)
+    m.set_editor_property("disable_depth_test", True)
+    col = MEL.create_material_expression(m, unreal.MaterialExpressionVectorParameter, -700, -200)
+    col.set_editor_property("parameter_name", "Color"); col.set_editor_property("default_value", unreal.LinearColor(0.55, 0.55, 0.55, 1.0))
+    sp = {}
+    for i, (n, v) in enumerate((("Near", 12.0), ("Far", 22.0), ("Pale", 0.25))):
+        q = MEL.create_material_expression(m, unreal.MaterialExpressionScalarParameter, -900, 100 + i * 120)
+        q.set_editor_property("parameter_name", n); q.set_editor_property("default_value", v); sp[n] = q
+    pd = MEL.create_material_expression(m, unreal.MaterialExpressionPixelDepth, -900, 500)
+    sd = MEL.create_material_expression(m, unreal.MaterialExpressionSceneDepth, -900, 600)
+    cu = MEL.create_material_expression(m, unreal.MaterialExpressionCustom, -500, 200)
+    ins = []
+    for n in ("PD", "SD", "Near", "Far", "Pale"):
+        ci = unreal.CustomInput(); ci.set_editor_property("input_name", n); ins.append(ci)
+    cu.set_editor_property("inputs", ins); cu.set_editor_property("output_type", unreal.CustomMaterialOutputType.CMOT_FLOAT1); cu.set_editor_property("code", JM_CODE)
+    MEL.connect_material_expressions(pd, "", cu, "PD"); MEL.connect_material_expressions(sd, "", cu, "SD")
+    for n in ("Near", "Far", "Pale"): MEL.connect_material_expressions(sp[n], "", cu, n)
+    MEL.connect_material_property(col, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    MEL.connect_material_property(cu, "", unreal.MaterialProperty.MP_OPACITY)
+    MEL.recompile_material(m); EAL.save_asset(JM)
 
 
 try:

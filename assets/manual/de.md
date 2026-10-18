@@ -194,7 +194,7 @@ Links die Kategorien.
 - Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).
 - Schnellmenü: Taste, Deckkraft, was im Rad steht, eigene Tasten.
 - Theme: jede Farbe des Panels mit ihrer Deckkraft, ein Hintergrundbild (Füllung, Ausrichtung, Farbton, Sepia, Invertieren, eigene Deckkraft) und ein Bild für Kacheln und Reiter, Farbschemata unter einem Namen gespeichert; Zurücksetzen steht in der Statusleiste. Ein jetzt gespeichertes Theme behält auch die Bilder und ihre Einstellungen. Eigene Bilder: Background_1 … Background_30 und Button_1 … Button_30 (.png, .jpg oder .jpeg) in dem Ordner, den die Seite nennt. „Vorschauen einblenden“ zeigt die Bilder selbst auf ihren Chips; Rechtsklick auf die Vorschau eines eigenen Bildes: „Vorschau neu erstellen“.
-- Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können.
+- Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können. Darunter: „Mehrere Teile im selben Slot“ – ein eingeschalteter Slot behält seine Teile, wenn ein weiteres angezogen wird (zum Beispiel Kniestrümpfe über einer Strumpfhose), für Jodi, Follower und Looks.
 - Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten. „Möglichst in eine Zeile“: die Beschriftungen werden kleiner und dann kürzer, damit die Leiste wo möglich in eine Zeile passt.
 
 ## Verwaltung {#manage}
@@ -213,15 +213,17 @@ Figuren mit Physik zum Aufstellen und Posieren im Level: Kopien von Jodi, Zombie
 - „+ Kopie von Jodi spawnen“ stellt eine Kopie vor sie, stehend und eingefroren in ihrer aktuellen Pose, mit allem, was sie trägt. Ein Look wird mit „Als Ragdoll spawnen“ in seinem Kontextmenü zur Figur.
 - „Zombies und Menschen“: eine Bildkachel je Zombie-Art, dazu die Krankenschwester und eine Überlebende. Ein Klick spawnt sie; die Links unter einer Kachel spawnen ihre Varianten.
 - Auch der Söldner ist eine Figurenart; er behält sein Gewehr in den Händen.
-- Jede Figur hat eine Zeile: aktiv (Physik, sie fällt und lässt sich werfen) oder eingefroren (sie hält ihre Pose), „Gelenke ›“, alle sperren, alle lösen, entfernen. „Alle entfernen“ entfernt jede Figur.
-- „Gelenke ›“ klappt die 17 Gelenke der Figur auf, jedes gesperrt, frei oder beweglich. Ein gesperrtes Gelenk bleibt steif, solange die Figur aktiv ist.
-- Posen (in der aufgeklappten Zeile): ein Name und „Pose speichern“ halten fest, wie die Körperteile stehen. Eine Pose lässt sich auf jede Figur derselben Art laden, in jedem Level – Klick lädt, Rechtsklick: Laden / Löschen. Die Figur friert dabei ein und steht auf dem Boden.
+- Jede Figur hat eine Zeile: aktiv (Physik, sie fällt und lässt sich werfen) oder eingefroren (sie hält ihre Pose), „Gelenke ›“, alle sperren, alle lösen, entfernen. Unten rechts in der Statusleiste: „Alle entfernen“ (entfernt jede Figur) und „Gelenkkugeln: an/aus“.
+- „Gelenke ›“ klappt die 17 Gelenke der Figur auf, jedes mit zwei Schaltern: gesperrt/frei und beweglich/fest. Ein gesperrtes Gelenk bleibt steif, solange die Figur aktiv ist; ein bewegliches lässt sich an der eingefrorenen Figur posieren.
+- Gelenkkugeln zeigen, wo man greifen kann: grau, rot = gesperrt, grün = beweglich, blau = festgehalten. Verdeckte schimmern blass durch den Körper; ein Klick auf eine Kugel greift genau dieses Gelenk. Sie erscheinen nur auf diesem Reiter und im Ragdoll-Modus.
+- Posen (in der aufgeklappten Zeile): ein Name und „Pose speichern“ halten fest, wie die Körperteile stehen und welche Gelenke gesperrt oder beweglich sind. Eine Pose lässt sich auf jede Figur derselben Art laden, in jedem Level – Klick lädt, Rechtsklick: Laden / Löschen. Die Figur friert dabei ein und steht auf dem Boden.
 - Szenen: „Szene speichern als“ hält jede Figur des Levels mit Aussehen, Ort, Pose und Gelenken fest; gleicher Name im selben Level überschreibt. Gezeigt werden nur die Szenen des aktuellen Levels. Ein Klick lädt eine Szene und ersetzt die vorhandenen Figuren; Rechtsklick: Laden / Löschen.
 
 Mit der Maus auf einer Figur, neben dem Panel und im Ragdoll-Modus:
 
 - Links-Ziehen an einer eingefrorenen Figur verschiebt sie über den Boden; das Mausrad hebt oder senkt sie beim Ziehen.
 - Links-Ziehen an einer aktiven Figur greift das Körperteil unter der Maus; loslassen, und sie fällt.
+- Rechtsklick beim Ziehen hält das Teil an dieser Stelle fest; der Rest der Figur hängt daran. Greifst du es wieder, ist es gelöst. „alle loslassen“ in der Figurzeile löst alle.
 - Rechts-Ziehen dreht die Figur um ihre Hüfte.
 - Shift + Linksklick sperrt oder löst das angeklickte Gelenk.
 - Shift + Rechtsklick auf eine eingefrorene Figur macht das Gelenk beweglich. Links-Ziehen an einem Körperteil unter einem beweglichen Gelenk bewegt dann nur diesen Teil; er bleibt, wo du loslässt – so wird eine Figur posiert.
