@@ -177,6 +177,13 @@ class Page(unittest.TestCase):
         self.assertEqual(len(calls(g, "Set Switch")), len([r for r in mutn.ROWS if not r[2]]))
         self.assertIn('"MutReset"', json.dumps(g)); self.assertTrue(calls(g, "Clear Look Rows"))
 
+    def test_no_search_on_the_page(self):
+        # 2026-10-19: the search / "only favourites" / "only worn" row filters tiles - the mutation page has none
+        g = mgr_graph("Rebuild Look"); b = by_id(g); s = calls(g, "Set Look Filters Visible")
+        self.assertEqual(len(s), 1); self.assertEqual(b[s[0]["in"]["visible"].split(".")[0][1:]]["function"], "Not_PreBool")
+        self.assertTrue(any(ch[ch.index("slfv") + 1:ch.index("slfv") + 2] == ["lcp"] for ch in g["exec"] if "slfv" in ch))   # every category
+        p = asset("/Game/Mod/AltUI/W_AltUI"); self.assertIn("Set Look Filters Visible", [f["name"] for f in p["functions"]])
+
     def test_dispatch(self):
         g = mgr_graph("Face Row Changed"); self.assertTrue(calls(g, "Mutation Row Changed"))
         h = mgr_graph("Mutation Row Changed")

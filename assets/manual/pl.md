@@ -33,6 +33,7 @@ AltUI trzyma własne dane w folderze zapisów gry, w Windows %LOCALAPPDATA%\TheK
 - AltUI_Names.sav – własne nazwy
 - AltUI_Ragdolls.sav – sceny i pozy ragdolli
 - AltUI_Followers.sav – towarzysze i NPC
+- AltUI_Drawers.sav – szuflady z ubraniami
 - folder AltUI – zdjęcia stylizacji, twarzy i presetów wyglądu
 - folder WeaponIcons – obrazy broni
 
@@ -47,7 +48,8 @@ Po aktualizacji gry albo z modem, który zastępuje tabele gry, AltUI może traf
 - Kółko myszy przewija; prędkość ustawia się w Opcje › Sterowanie.
 - Gdy panel jest otwarty, Jodi nie może chodzić. Przeciąganie po tle obraca kamerę; kliknięcie na Jodi i przeciąganie obraca ją – po zamknięciu panelu wraca do poprzedniej pozycji.
 - + i − zmieniają odległość kamery co 5 %, kółko myszy nad Jodi co 4 %.
-- Trzy okrągłe przyciski nad + i − otwierają swobodną kamerę (mysz obraca, W A S D i Q E przesuwają, Shift szybciej, kółko ustawia prędkość, Esc wraca), tryb fotograficzny gry (Esc wraca) i tryb ragdolli (zob. „Tryb ragdolli”).
+- Okrągłe przyciski nad + i − otwierają swobodną kamerę (mysz obraca, W A S D i Q E przesuwają, Shift szybciej, kółko ustawia prędkość, Esc wraca), tryb fotograficzny gry (Esc wraca) i tryb ragdolli (zob. „Tryb ragdolli”).
+- Najwyższy okrągły przycisk (żarówka) to światło kamery: rozjaśnia to, co widzi kamera – obok panelu, w swobodnej kamerze i w trybie zdjęć. Kliknięcie otwiera małe menu: wł. / wył., kolor światła (paleta) i suwak jasności. Tylko rozjaśnia (bez odblasków, bez snopu we mgle), w czasie gry jest wyłączone i wraca takie, jak je zostawiono, gdy panel się otworzy.
 - Cofnij i Ponów (pięć kroków) są na pasku stanu na dole.
 - Przytrzymaj 4, aby otworzyć szybkie menu (zob. „Szybkie menu”).
 - W menu głównym B otwiera małe menu: trzy sceny menu i scenę ładowania, następną kamerę oraz ukrywanie menu i tekstów gry (Esc je przywraca).
@@ -60,6 +62,7 @@ Po lewej sloty, po prawej elementy wybranego slotu.
 - Chipy nad listą filtrują według moda lub grupy; „...” zwija rzędy chipów. Pole wyszukiwania zawęża chipy, a wyszukiwanie nad listą znajduje elementy po nazwie, modzie lub grupie.
 - Filtry: tylko posiadane, tylko ulubione, tylko vanilla, tylko założone.
 - Prawy przycisk na elemencie: ulubione, ukryj, kolor z palety gry, przywróć kolor, do plecaka, zmień nazwę, tylko ta grupa, pokaż zawartość moda, pokaż w zakładce.
+- Szuflady: własne kolekcje ubrań, na pasku nad listą. „Domyślny” pokazuje wszystko; „+” tworzy nową szufladę („Szuflada 1”, „Szuflada 2” …). Szuflada pokazuje tę samą stronę – sloty, przyciski, wyszukiwanie, filtry, ulubione – tylko z jej rzeczami, a sloty liczą tylko je. Prawy przycisk na rzeczy › „Szuflada ›” otwiera obok menu listę szuflad: znacznik oznacza, że rzecz w niej jest; kliknięcie wkłada ją lub wyjmuje, „+ Nowa szuflada” tworzy szufladę z tą rzeczą. Rzecz może być w dowolnej liczbie szuflad; w szufladzie menu ma też „Usuń z tej szuflady”. Prawy przycisk na szufladzie: zmień nazwę (Enter zatwierdza, Esc anuluje), w lewo / w prawo, usuń (najpierw pyta – rzeczy zostają). Pokazana szuflada zostaje po ponownym uruchomieniu.
 - Podpowiedź pokazuje, z którego moda pochodzi element.
 - Uszkodzenie (w menu kontekstowym): od 0 do 100 %, od razu na noszonym elemencie; przy każdym innym zostaje zapamiętane, aż element zostanie założony. Noszone elementy bez tekstur uszkodzeń nie mają suwaka.
 - Pod paletą kolorów gry pole pokazuje kolor jako #RRGGBB; wpisz kod i naciśnij Enter, aby go ustawić. „Zapamiętaj” zachowuje kolor w AltUI, „Użyj” nakłada go na inny element lub slot.
@@ -117,6 +120,7 @@ Przedmioty Jodi i hiperskrzynia, jedna lista pod drugą.
 Wszystkie fryzury z gry i z modów.
 
 - Kliknięcie fryzury ją zakłada.
+- Pole wyszukiwania nad kafelkami znajduje fryzury po wyświetlanej nazwie, identyfikatorze, nazwie moda i pliku pak; × je czyści.
 - „Kolor włosów...” otwiera paletę gry; „Naturalne kolory włosów” daje 14 gotowych kolorów.
 - Prawy przycisk: dodaj do / usuń z ulubionych, przywróć kolor włosów, zmień nazwę, pokaż zawartość moda.
 - Ulubione są na górze, nad wszystkimi fryzurami.
@@ -141,6 +145,8 @@ Po lewej jeden wpis na broń, także broń do walki wręcz. Dla każdej broni mo
 
 - U góry modele – model gry i każdy zainstalowany mod modelu.
 - Na dole skórki – malowania broni z gry (bez puszki ze sprayem) i każdy zainstalowany mod skórki.
+- Jeśli mod modelu ma własne wersje malowań z gry (zrobione dla jego modelu), pojawiają się jako dodatkowe skórki obok tych z gry, dopóki ten model jest wybrany.
+- Kafelki modeli pokazują każdy model z wybraną skórką; własne malowanie modelu tylko na tym modelu – na każdym innym broń zostaje taka, jaka jest, i jej kafelek też. Kafelek moda skórki jest przygaszony, gdy skórka nic nie zmienia na wybranym modelu; wiadomo to, gdy broń choć raz była w ręce Jodi z tym modelem. „Zrób zdjęcia ponownie” na pasku stanu robi od nowa zdjęcia wszystkich kafelków broni.
 - Dźwięk: własny dźwięk strzału broni („Oryginalny”) i każdy zainstalowany dla niej dźwięk strzału. Kliknięcie wybiera dźwięk i go odtwarza; każda inna broń zachowuje swój. Zamontowany tłumik z własnym dźwiękiem nadal ma pierwszeństwo.
 - Chipy powyżej filtrują wszystkie trzy sekcje naraz. Prawy przycisk na kafelku: ulubione, ukryj, tylko ten mod.
 - Wybór jest zapamiętywany i nakładany ponownie, gdy broń zostanie podniesiona lub wyjęta ze skrzyni.
@@ -207,6 +213,7 @@ Własne nazwy wyświetlane dla modów, grup, ubrań, fryzur, skór, makijażu, p
 - Chipy i wyszukiwanie filtrują listę; „tylko mody” ukrywa wpisy gry; ↺ przywraca nazwę domyślną.
 - Za pomocą altui_names.pyz nazwy można wyeksportować do pliku tekstowego i zaimportować z powrotem.
 - Mody broni są na liście razem z innymi modami.
+- „Użycie” pokazuje, które mody są teraz używane: dla każdego moda używane elementy i miejsca, w których są (Jodi teraz, stroje, stylizacje, presety, ulubione, towarzysze, sceny ragdolli, stanie, broń). Nieużywane mody są niżej na szaro, tak samo mody, których użycia AltUI nie potrafi ustalić (mapy, mody skryptowe). „Pokaż zawartość” otwiera każdy z nich. To, co leży tylko w szafie, nie liczy się jako użycie. Każdy mod to kafelek z nazwą wyświetlaną i plikiem pak; miejsca elementu są zebrane według rodzaju (np. „Stroje 4–6, 8”). Lista jest zbierana przy otwarciu „Użycie”; gdzie indziej liczba po lewej jest z ostatniego razu (przed pierwszym razem brak).
 
 ## Ragdolle {#ragdolls}
 
@@ -229,6 +236,7 @@ Z myszą na figurze, obok panelu i w trybie ragdolli:
 - Przeciąganie prawym przyciskiem obraca figurę wokół bioder.
 - Shift + lewy przycisk blokuje lub zwalnia kliknięty staw.
 - Shift + prawy przycisk na zamrożonej figurze czyni staw ruchomym. Przeciąganie wtedy lewym przyciskiem części ciała poniżej ruchomego stawu porusza tylko tę część; zostaje tam, gdzie ją puścisz – tak pozuje się figurę.
+- Przeciąganie prawym przyciskiem części ciała pod ruchomym stawem zamrożonej figury obraca tę kończynę wokół stawu: chwycony punkt podąża za myszą, dłoń i palce obracają się razem z nią. Kółko myszy skręca przy tym kończynę wokół jej własnej osi. Obrót zostaje w pozie i zapisuje się z pozami i scenami; ograniczenia stawów działają dopiero, gdy figura stanie się aktywna.
 
 Bez panelu figury aktywuje lub zamraża szybkie menu: „Ragdoll: aktywuj / zamroź tę na środku” bierze figurę na środku ekranu, „Ragdolle: aktywne / zamrożone” przełącza wszystkie.
 
@@ -246,7 +254,8 @@ Przesuwanie i pozowanie figur bez panelu, z kamerą poruszającą się swobodnie
 Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkazów; NPC zostaje na miejscu i się broni.
 
 - W zakładce Stylizacje prawy klik na stylizację: „Utwórz jako towarzysza” albo „Utwórz jako NPC”. Postać pojawia się przed Jodi w tej stylizacji.
-- Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, „Nieśmiertelny”, „Amunicja bez końca” i „...” (zmień nazwę, zmień stylizację, ożyw, usuń).
+- Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, ∞ z sercem (nieśmiertelny), ∞ z nabojami (amunicja bez końca) i zębatka (zmień nazwę, zmień stylizację, ożyw, usuń). „...” zwija i rozwija kafelki postaci (ubrania i plecak); zostaje tak dla każdej postaci, także po ponownym uruchomieniu.
+- Towarzysze są nad NPC, linia oddziela obie grupy. Przyciski nad wierszami pokazują wszystkich, tylko towarzyszy albo tylko NPC (zostaje po ponownym uruchomieniu).
 - Kliknięcie wiersza wybiera postać. Na górze są plecak (po lewej) i skrzynia (po prawej): kliknięcie daje przedmiot wybranej postaci, broń razem z malowaniem i akcesoriami. Kliknięcie kafelka postaci oddaje go do plecaka; prawy klik: wszystko albo do skrzyni. „...” nad listą zwija ją.
 - Menu kontekstowe stosu – Jodi lub postaci – ma wiersz ilości jak w karcie Ekwipunek: „Daj 5”, „Weź 5”, do skrzyni.
 - Ubrania to prawdziwe rzeczy postaci, jak u NPC w grze: niszczą się, mogą zostać zerwane i widać je w ekwipunku NPC samej gry, gdzie można je też wymieniać. Pod postacią jej rzeczy są kafelkami (uszkodzone mają znacznik): kliknięcie zdejmuje rzecz i wkłada ją do plecaka Jodi; prawy klik: napraw zestawem do szycia z plecaka Jodi albo napraw wszystko. W kolumnie plecaka „Ubrania” pokazuje rzeczy Jodi: kliknięcie daje jedną wybranej postaci, która ją zakłada (uszkodzenia i kolory idą razem z nią).

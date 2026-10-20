@@ -638,6 +638,85 @@ def f_apply_pose_data():
     return fn("Apply Pose Data", [param("bones", "name", "array"), param("rots", S_ROT, "array"), param("rootRot", S_ROT), param("rootHeight", "float")], graph=g)
 
 
+# ---- turning a limb about its joint (spec 2026-10-20-ragdoll-glied-drehen-design): the held pose is turned directly, no physics ----
+def f_turn_delta():
+    """The rotation (world) that turns direction `from` onto direction `to`: about their cross product by the angle between them;
+    the identity when they are (anti)parallel or one is zero."""
+    g = G(); g.call("nf", K_MATH, "Normal", inp={"A": "@entry.from", "Tolerance": "0.0001"}); g.call("nt", K_MATH, "Normal", inp={"A": "@entry.to", "Tolerance": "0.0001"})
+    g.call("cr", K_MATH, "Cross_VectorVector", inp={"A": "@nf.ReturnValue", "B": "@nt.ReturnValue"}); g.call("cl", K_MATH, "VSize", inp={"A": "@cr.ReturnValue"})
+    g.call("ok", K_MATH, "Greater_FloatFloat", inp={"A": "@cl.ReturnValue", "B": "0.0001"}); g.call("ax", K_MATH, "Normal", inp={"A": "@cr.ReturnValue", "Tolerance": "0.0001"})
+    g.call("ax2", K_MATH, "SelectVector", inp={"A": "@ax.ReturnValue", "B": "(X=0,Y=0,Z=1)", "bPickA": "@ok.ReturnValue"})
+    g.call("dt", K_MATH, "Dot_VectorVector", inp={"A": "@nf.ReturnValue", "B": "@nt.ReturnValue"}); g.call("dc", K_MATH, "FClamp", inp={"Value": "@dt.ReturnValue", "Min": "-1.0", "Max": "1.0"})
+    g.call("an", K_MATH, "DegAcos", inp={"A": "@dc.ReturnValue"}); g.call("an2", K_MATH, "SelectFloat", inp={"A": "@an.ReturnValue", "B": "0.0", "bPickA": "@ok.ReturnValue"})
+    g.call("r", K_MATH, "RotatorFromAxisAndAngle", inp={"Axis": "@ax2.ReturnValue", "Angle": "@an2.ReturnValue"}); g.link("r.ReturnValue", "return.delta"); g.chain("entry", "return")
+    return fn("Turn Delta", [param("from", S_VEC), param("to", S_VEC)], [param("delta", S_ROT)], graph=g, pure=True)
+
+
+def f_turn_local():
+    """A bone's world rotation `rot` turned by `delta` (world), and that as its rotation relative to its parent (world transform `parent`)."""
+    g = G(); g.call("cr", K_MATH, "ComposeRotators", inp={"A": "@entry.rot", "B": "@entry.delta"})
+    g.call("lr", K_MATH, "InverseTransformRotation", inp={"T": "@entry.parent", "Rotation": "@cr.ReturnValue"})
+    g.link("cr.ReturnValue", "return.world"); g.link("lr.ReturnValue", "return.local"); g.chain("entry", "return")
+    return fn("Turn Local", [param("parent", S_TF), param("rot", S_ROT), param("delta", S_ROT)], [param("world", S_ROT), param("local", S_ROT)], graph=g, pure=True)
+
+
+def f_begin_turn():
+    """Start turning `bone` (frozen figure), grabbed at world `point`: the held pose, the bone's place in it, its world rotation, its
+    parent's world transform (stays put while turning), and - in the bone's own rotation - the grabbed point and the limb's long axis
+    (towards the child joint farthest away; none: towards the grabbed point). ok = the bone is in the pose and has a parent."""
+    g = G(); g.get("gb", "Body"); g.get("gtp", "TurnPose"); g.call("sn", E_SKM, "SnapshotPose", inp={"self": "@gb.Body", "Snapshot": "@gtp.TurnPose"})
+    g.get("gtp2", "TurnPose"); g.brk("bp", S_POSE, "@gtp2.TurnPose"); g.call("fi", K_ARR, "Array_Find", inp={"TargetArray": "@bp.BoneNames", "ItemToFind": "@entry.bone"})
+    g.set("si", "TurnIdx", inp={"TurnIdx": "@fi.ReturnValue"})
+    g.get("gb2", "Body"); g.call("wr", E_SCENEC, "GetSocketRotation", inp={"self": "@gb2.Body", "InSocketName": "@entry.bone"}); g.set("sr", "TurnRot", inp={"TurnRot": "@wr.ReturnValue"})
+    g.call("wl", E_SCENEC, "GetSocketLocation", inp={"self": "@gb2.Body", "InSocketName": "@entry.bone"}); g.set("sj", "TurnJoint", inp={"TurnJoint": "@wl.ReturnValue"})
+    g.call("pb", E_SKIN, "GetParentBone", inp={"self": "@gb2.Body", "BoneName": "@entry.bone"})
+    g.call("pt", E_SCENEC, "GetSocketTransform", inp={"self": "@gb2.Body", "InSocketName": "@pb.ReturnValue", "TransformSpace": "RTS_World"}); g.set("sp", "TurnParent", inp={"TurnParent": "@pt.ReturnValue"})
+    g.call("pv", K_MATH, "Subtract_VectorVector", inp={"A": "@entry.point", "B": "@wl.ReturnValue"})
+    g.get("gr1", "TurnRot"); g.call("pu", K_MATH, "LessLess_VectorRotator", inp={"A": "@pv.ReturnValue", "B": "@gr1.TurnRot"}); g.set("spl", "TurnPointLocal", inp={"TurnPointLocal": "@pu.ReturnValue"})
+    # long axis: the child joint farthest from this one
+    g.set("fa0", "TurnFar", inp={"TurnFar": "@pv.ReturnValue"}); g.set("fd0", "TurnFarDist", inp={"TurnFarDist": "0.0"})
+    g.foreach("fe", "@bp.BoneNames"); g.get("gb3", "Body"); g.call("cp", E_SKIN, "GetParentBone", inp={"self": "@gb3.Body", "BoneName": "@fe.Array Element"})
+    g.call("ic", K_MATH, "EqualEqual_NameName", inp={"A": "@cp.ReturnValue", "B": "@entry.bone"}); g.branch("bic", "@ic.ReturnValue")
+    g.call("cl", E_SCENEC, "GetSocketLocation", inp={"self": "@gb3.Body", "InSocketName": "@fe.Array Element"}); g.get("gj", "TurnJoint")
+    g.call("cv", K_MATH, "Subtract_VectorVector", inp={"A": "@cl.ReturnValue", "B": "@gj.TurnJoint"}); g.call("cd", K_MATH, "VSize", inp={"A": "@cv.ReturnValue"})
+    g.get("gfd", "TurnFarDist"); g.call("fr", K_MATH, "Greater_FloatFloat", inp={"A": "@cd.ReturnValue", "B": "@gfd.TurnFarDist"}); g.branch("bfr", "@fr.ReturnValue")
+    g.set("fa1", "TurnFar", inp={"TurnFar": "@cv.ReturnValue"}); g.set("fd1", "TurnFarDist", inp={"TurnFarDist": "@cd.ReturnValue"})
+    g.get("gfa", "TurnFar"); g.call("fn", K_MATH, "Normal", inp={"A": "@gfa.TurnFar", "Tolerance": "0.0001"}); g.get("gr2", "TurnRot")
+    g.call("au", K_MATH, "LessLess_VectorRotator", inp={"A": "@fn.ReturnValue", "B": "@gr2.TurnRot"}); g.set("sal", "TurnAxisLocal", inp={"TurnAxisLocal": "@au.ReturnValue"})
+    g.call("hi", K_MATH, "GreaterEqual_IntInt", inp={"A": "@fi.ReturnValue", "B": "0"}); g.call("hp", K_MATH, "NotEqual_NameName", inp={"A": "@pb.ReturnValue", "B": "None"})
+    g.call("ok", K_MATH, "BooleanAND", inp={"A": "@hi.ReturnValue", "B": "@hp.ReturnValue"}); g.link("ok.ReturnValue", "return.ok")
+    g.chain("entry", "sn", "si", "sr", "sj", "sp", "spl", "fa0", "fd0", "fe"); g.chain("fe", "bic", "bfr", "fa1", "fd1"); g.chain("fe:Completed", "sal", "return")
+    return fn("Begin Turn", [param("bone", "name"), param("point", S_VEC)], [param("ok", "bool")], graph=g)
+
+
+def f_apply_turn():
+    """Turn the bone being turned by `delta` (world): its new rotation relative to the parent goes into the held pose."""
+    g = G(); g.get("gp", "TurnParent"); g.get("gr", "TurnRot"); g.n("tl", "call_self", function="Turn Local", inp={"parent": "@gp.TurnParent", "rot": "@gr.TurnRot", "delta": "@entry.delta"})
+    g.set("sr", "TurnRot", inp={"TurnRot": "@tl.world"})
+    g.get("gtp", "TurnPose"); g.brk("bp", S_POSE, "@gtp.TurnPose"); g.set("stl", "TmpLocal", inp={"TmpLocal": "@bp.LocalTransforms"})
+    g.get("gi", "TurnIdx"); g.get("gl", "TmpLocal"); g.call("ot", K_ARR, "Array_Get", inp={"TargetArray": "@gl.TmpLocal", "Index": "@gi.TurnIdx"}); g.call("bt", K_MATH, "BreakTransform", inp={"InTransform": "@ot.Item"})
+    g.call("mt", K_MATH, "MakeTransform", inp={"Location": "@bt.Location", "Rotation": "@tl.local", "Scale": "@bt.Scale"})
+    g.get("gl2", "TmpLocal"); g.call("st", K_ARR, "Array_Set", inp={"TargetArray": "@gl2.TmpLocal", "Index": "@gi.TurnIdx", "Item": "@mt.ReturnValue", "bSizeToFit": "false"})
+    g.get("gl3", "TmpLocal"); g.make("ms", S_POSE, LocalTransforms="@gl3.TmpLocal", BoneNames="@bp.BoneNames", SkeletalMeshName="@bp.SkeletalMeshName", bIsValid="true")
+    g.set("stp", "TurnPose", inp={"TurnPose": "@ms.PoseSnapshot"}); g.get("gtp2", "TurnPose"); g.n("set", "call_self", function="Set Pose", inp={"snap": "@gtp2.TurnPose"})
+    g.chain("entry", "sr", "stl", "st", "stp", "set"); return fn("Apply Turn", [param("delta", S_ROT)], graph=g)
+
+
+def f_turn_toward():
+    """The grabbed point of the limb turns towards world `target` about the joint."""
+    g = G(); g.get("gpl", "TurnPointLocal"); g.get("gr", "TurnRot"); g.call("pv", K_MATH, "GreaterGreater_VectorRotator", inp={"A": "@gpl.TurnPointLocal", "B": "@gr.TurnRot"})
+    g.get("gj", "TurnJoint"); g.call("tv", K_MATH, "Subtract_VectorVector", inp={"A": "@entry.target", "B": "@gj.TurnJoint"})
+    g.n("td", "call_self", function="Turn Delta", inp={"from": "@pv.ReturnValue", "to": "@tv.ReturnValue"}); g.n("ap", "call_self", function="Apply Turn", inp={"delta": "@td.delta"})
+    g.chain("entry", "ap"); return fn("Turn Toward", [param("target", S_VEC)], graph=g)
+
+
+def f_twist():
+    """The limb turns `deg` about its own long axis."""
+    g = G(); g.get("gal", "TurnAxisLocal"); g.get("gr", "TurnRot"); g.call("ax", K_MATH, "GreaterGreater_VectorRotator", inp={"A": "@gal.TurnAxisLocal", "B": "@gr.TurnRot"})
+    g.call("d", K_MATH, "RotatorFromAxisAndAngle", inp={"Axis": "@ax.ReturnValue", "Angle": "@entry.deg"}); g.n("ap", "call_self", function="Apply Turn", inp={"delta": "@d.ReturnValue"})
+    g.chain("entry", "ap"); return fn("Twist", [param("deg", "float")], graph=g)
+
+
 def test_events():
     """Editor tests (tests/editor/test_ragdoll.py): Python cannot call the functions directly (locals), events can."""
     g = G()
@@ -654,6 +733,11 @@ def test_events():
     g.n("trl_c", "call_self", function="Root Local", inp={"comp": "@trl.comp", "yaw": "@trl.yaw", "rootRot": "@trl.rootRot", "xy": "@trl.xy", "z": "@trl.z", "scale": "@trl.scale"})
     g.set("trl_s", "TmpRootLocal", inp={"TmpRootLocal": "@trl_c.local"}); g.chain("trl", "trl_s")
     g.custom("tlr", "Test Loose Root", [param("bone", "name")]); g.n("tlr_c", "call_self", function="Loose Root", inp={"bone": "@tlr.bone"}); g.chain("tlr", "tlr_c")
+    g.custom("ttd", "Test Turn", [param("from", S_VEC), param("to", S_VEC), param("parent", S_TF), param("rot", S_ROT)])
+    g.n("ttd_d", "call_self", function="Turn Delta", inp={"from": "@ttd.from", "to": "@ttd.to"})
+    g.n("ttd_l", "call_self", function="Turn Local", inp={"parent": "@ttd.parent", "rot": "@ttd.rot", "delta": "@ttd_d.delta"})
+    g.set("ttd_s1", "TmpTurnDelta", inp={"TmpTurnDelta": "@ttd_d.delta"}); g.set("ttd_s2", "TmpTurnWorld", inp={"TmpTurnWorld": "@ttd_l.world"}); g.set("ttd_s3", "TmpTurnLocal", inp={"TmpTurnLocal": "@ttd_l.local"})
+    g.chain("ttd", "ttd_s1", "ttd_s2", "ttd_s3")
     return g
 
 
@@ -673,10 +757,14 @@ def build():
                                  var("TmpRots", S_ROT, "array"), var("TmpLocal", S_TF, "array"), var("TmpRootLocal", S_TF), var("TmpZ", "float"),
                                  var("Pins", "name", "map", value_type="object:" + E_CONSTR), var("Pinned", "name", "array"), var("PinLoop", "name", "array"),
                                  var("MarkerBones", "name", "array"), var("Markers", "object:" + E_SMC, "array"),
-                                 var("MarkerMids", "object:" + E_MIDC, "array"), var("MarkersBuilt", "bool"), var("MarkTmp", "object:" + E_SMC)],
+                                 var("MarkerMids", "object:" + E_MIDC, "array"), var("MarkersBuilt", "bool"), var("MarkTmp", "object:" + E_SMC),
+                                 var("TurnPose", "struct:" + S_POSE), var("TurnIdx", "int"), var("TurnRot", S_ROT), var("TurnJoint", S_VEC), var("TurnParent", S_TF),
+                                 var("TurnPointLocal", S_VEC), var("TurnAxisLocal", S_VEC), var("TurnFar", S_VEC), var("TurnFarDist", "float"),
+                                 var("TmpTurnDelta", S_ROT), var("TmpTurnWorld", S_ROT), var("TmpTurnLocal", S_ROT)],
                       functions=[f_setup_body(), f_load_path(), f_collect_mats(), f_apply_mats(), f_collect_parts(), f_build_from_parts(), f_copy_from(), f_set_pose(), f_activate(), f_freeze(), f_toggle_joint(), f_lock_all(), f_free_all(), f_toggle_loose(), f_loose_root(), f_loosen_below(), f_drop_lock(), f_make_lock(),
                                  f_floor_below(), f_lowest_bone(), f_pose_data(), f_merge_rotations(), f_root_local(), f_apply_pose_data(),
-                                 f_make_pin(), f_pin(), f_unpin(), f_clear_pins(), f_unpin_all(), f_build_markers(), f_show_markers(), f_refresh_markers(), f_set_joint_states()],
+                                 f_make_pin(), f_pin(), f_unpin(), f_clear_pins(), f_unpin_all(), f_build_markers(), f_show_markers(), f_refresh_markers(), f_set_joint_states(),
+                                 f_turn_delta(), f_turn_local(), f_begin_turn(), f_apply_turn(), f_turn_toward(), f_twist()],
                       event_graph=test_events())]
 
 

@@ -10,12 +10,15 @@ python3 -c "
 import json; d=json.load(open('$UPROJECT')); d['Plugins']=[p for p in d['Plugins'] if p['Name']!='TKA_BPGen']
 json.dump(d, open('$C/TheKillingAntidote.uproject','w'), indent=1)"
 rm -rf "$C/Config"; cp -r "$KIT/Config" "$C/Config"; ln -sfn "$KIT/Content" "$C/Content"
-ARGS=(); for a in "$@"; do case "$a" in -cookdir=*) ARGS+=("-cookdir=Z:$C/Content/${a#-cookdir=}");; *) ARGS+=("$a");; esac; done
+# the project as drive W: - Windows paths end at 260 characters, and Z:<long path>/Saved/Cooked/WindowsNoEditor/<game>/Content
+# plus the deep folders of some mods (P&P: Mod/PiercedAndPoised/PiercedAndPoised4/PiercedAndPoised3/MatPath/Main/…) did not fit
+ln -sfn "$C" "$WINE_UE_PREFIX/dosdevices/w:"
+ARGS=(); for a in "$@"; do case "$a" in -cookdir=*) ARGS+=("-cookdir=W:/Content/${a#-cookdir=}");; *) ARGS+=("$a");; esac; done
 # mshtml off: no Wine-Gecko install dialog. mscoree must stay: UE4Editor-SwarmInterface.dll imports it (without it the
 # editor quits silently); the Wine-Mono dialog came from creating the prefix, not from cooking
 export WINEPREFIX="$WINE_UE_PREFIX" WINEDEBUG=-all WINEDLLOVERRIDES="d3dcompiler_47=n,b;mshtml="
 cd "$UE_WIN/Engine/Binaries/Win64"
-timeout 3600 systemd-run --user --scope -q -E WINEPREFIX -E WINEDEBUG -E WINEDLLOVERRIDES wine UE4Editor-Cmd.exe "Z:$C/TheKillingAntidote.uproject" -run=cook -targetplatform=WindowsNoEditor \
+timeout 3600 systemd-run --user --scope -q -E WINEPREFIX -E WINEDEBUG -E WINEDLLOVERRIDES wine UE4Editor-Cmd.exe "W:/TheKillingAntidote.uproject" -run=cook -targetplatform=WindowsNoEditor \
   "${ARGS[@]}" -unattended -nullrhi -nosplash -stdout -NoLogTimes > "$BUILD/wincook.log" 2>&1 || true
 if grep -qE "E50[0-9][0-9]:|Failed to compile Material" "$BUILD/wincook.log"; then
   grep -E "Failed to compile Material" "$BUILD/wincook.log" | sort -u | head; echo "WINCOOK: shader errors" >&2; exit 1; fi

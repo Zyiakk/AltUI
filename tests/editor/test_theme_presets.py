@@ -28,6 +28,12 @@ def main():
     mgr.call_method("Test Apply Theme Preset", args=("ThemeP:Nope",)); expect("unknown scheme changes nothing", col(mgr, "Accent"), (0.4, 0.4, 0.4))
     mgr.call_method("Test Save Settings"); mgr.set_editor_property("ThemePresets", {}); mgr.call_method("Test Load Settings"); expect("settings keep them", len(keys()), 2)
     mgr.call_method("Test Delete Theme Preset", args=("ThemeP:Hell",)); expect("delete", len(keys()), 1)
+    # a theme saved before the colours from Input on existed (10 colours): those come back as their defaults
+    mgr.set_editor_property("ThemeInput", unreal.LinearColor(0.5, 0.0, 0.0, 1)); mgr.call_method("Test Save Theme Preset", args=("Alt",))
+    mgr.call_method("Test Trim Theme Preset", args=("Alt", 10))
+    mgr.set_editor_property("ThemeInput", unreal.LinearColor(0.9, 0.9, 0.0, 1)); mgr.call_method("Test Apply Theme Preset", args=("ThemeP:Alt",))
+    expect("old theme: missing colour -> default", col(mgr, "Input"), (0.1, 0.1, 0.12))
+    expect("old theme: its own colours", col(mgr, "Accent"), (0.4, 0.4, 0.4))
     mgr.set_editor_property("ThemePresets", {})
     mgr.call_method("Test Save Settings")   # leave a sane save behind
 run(main)

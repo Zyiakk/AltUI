@@ -54,6 +54,84 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_CheckFill",
+   "file": "tex/check_fill.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_CheckOnHover",
+   "file": "tex/check_on_hover.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_CheckInner",
+   "file": "tex/check_inner.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_ScrollThumb",
+   "file": "tex/scroll_thumb.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_ScrollTrackV",
+   "file": "tex/scroll_track_v.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_ScrollTrackH",
+   "file": "tex/scroll_track_h.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_Undo",
    "file": "tex/undo.png",
    "props": {
@@ -171,8 +249,73 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_Light",
+   "file": "tex/light.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_Power",
+   "file": "tex/power.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_Swatch",
+   "file": "tex/swatch.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_Pose",
    "file": "tex/pose.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_InfLife",
+   "file": "tex/inf_life.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_InfAmmo",
+   "file": "tex/inf_ammo.png",
    "props": {
     "CompressionSettings": "TC_EditorIcon",
     "LODGroup": "TEXTUREGROUP_UI",

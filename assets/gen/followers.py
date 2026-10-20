@@ -70,7 +70,9 @@ STATE_FOLLOWS, STATE_WAITS, STATE_NPC, STATE_INACTIVE, STATE_FALLEN = "Fol_Follo
 # Followers tab rows are a table: name, status, then one column per chip in this order. A chip a state does not have leaves its
 # column empty, so the chips of all rows stay in line. Widths (layout units) from the longest caption over all languages.
 FOL_COLS = [("Follow", ["Fol_Follow"]), ("Wait", ["Fol_Wait"]), ("Here", ["Fol_Here"]), ("Mode", ["Fol_ToNpc", "Fol_ToFollower"]),
-            ("Active", ["Fol_Active"]), ("Invuln", ["Fol_Invulnerable"]), ("Ammo", ["Fol_InfAmmo"]), ("More", ["Chip_More"])]
+            ("Active", ["Fol_Active"]), ("Invuln", ["Fol_Invulnerable"]), ("Ammo", ["Fol_InfAmmo"]), ("Fold", ["Chip_More"]), ("More", ["Chip_More"])]   # Fold: "..." folds the row's tiles; More: gear icon, the menu
+FOL_ICON_COLS = ("Invuln", "Ammo")   # chips with a 2:1 symbol instead of the caption (infinity + heart / cartridges), caption as tooltip
+FOL_ICON_W = 2 * 18                  # the symbol's width: twice W_SubTab's SUB_ICON
 FOL_NAME_W = 150          # name column, the status below it (longer names are cut at its edge; the status sets the minimum)
 FOL_ROW_GAP = 12          # space between two rows (and above the first) = the gap between backpack and box (6 + 6)
 CHIP_CHAR, CHIP_PAD = 7.5, 24   # chip text (12 pt): units per character; padding + frame of a chip
@@ -85,6 +87,29 @@ def _longest(keys):
 def col_width(keys):
     """Width of a chip column: its longest caption (any language) plus the chip's padding."""
     return int(round(_longest(keys) * CHIP_CHAR + CHIP_PAD))
+
+
+def _units(t):
+    """Text length in characters, a wide (CJK) character counting two."""
+    import unicodedata
+    return sum(2 if unicodedata.east_asian_width(c) in "WF" else 1 for c in t)
+
+
+def column_widths(k, keys):
+    """Per language (strings.LANGS order) - a symbol column is as wide as its symbol in every language."""
+    return [int(FOL_ICON_W + CHIP_PAD)] * 7 if k in FOL_ICON_COLS else col_widths(keys)
+
+
+def col_widths(keys):
+    """Width of a chip column per language (strings.LANGS order): the longest caption in that language (empty -> English, as
+    the panel shows it). Sized for every language at once, the columns no longer fitted one line in the half view once
+    the "..." column came (2026-10-20)."""
+    import strings
+    out = []
+    for i, _ in enumerate(strings.LANGS):
+        n = max(_units(strings.STRINGS[k][i] or strings.STRINGS[k][0]) for k in keys)
+        out.append(int(round(n * CHIP_CHAR + CHIP_PAD)))
+    return out
 
 
 def state_width():

@@ -1,5 +1,78 @@
 # Changelog
 
+## 2.7.0 – 2026-10-21
+
+Replace `AltUI.pak`; `weaponpak.pyz`, `bodypak.pyz` and `idlepak.pyz` are new. `AltUI_Hook_P.pak` and `altui_names.pyz`
+are the same as in 2.6.0. A body converted with `bodypak.pyz` on Windows that lacked bones (the left hand off the gun)
+should be converted again; weapon sound mods for the HK416 and the SA58 too, and model mods that bring their own Camo / Pink (`--force`).
+
+* **Clothes: drawers.** Your own collections of clothes – a bar above the list holds "Default" (everything), your drawers
+  and "+" (a new one, "Drawer 1", "Drawer 2" …); it wraps into more rows when it is full. A drawer shows the same page –
+  slots, chips, search, filters, favourites – with only its pieces, and the slots count only those. Right click on a piece ›
+  "Drawer ›" opens the drawers next to the menu: a tick shows where the piece is, a click puts it in or takes it out, "+ New
+  drawer" makes one with the piece in it; inside a drawer the menu also has "Remove from this drawer". A piece can be in any
+  number of drawers. Right click on a drawer: rename, move left / right, delete (asks first; the pieces stay). Drawers are
+  kept in `AltUI_Drawers.sav`, for every save game; the shown drawer stays after a restart.
+* **Ragdolls: turn a limb.** Right drag on a body part below a movable (green) joint of a frozen figure turns that limb
+  about the joint – the grabbed point follows the mouse, hand and fingers turn with it; the mouse wheel twists it about its
+  own axis meanwhile. Right drag anywhere else still turns the whole figure. The turn stays in the pose, so poses and
+  scenes keep it; joint limits apply again once the figure is active.
+* **Weapons: a model's own gun paints.** Some model mods also replace the game's Camo and Pink paints with versions made
+  for their model (Samurai Edge for the Glock). `weaponpak.pyz` now keeps them: they appear as extra skins next to the
+  game's paints while that model is chosen, and go on the weapon the way the game puts its paints on. Convert such mods
+  again (`--force`) to get them.
+* **Weapons tab: the tile pictures.** They are lit more evenly and with less gloss, so the colours of grips and paints
+  come through and the corners no longer fall off into the dark. "Take pictures again" now takes the "Original" tiles
+  anew as well (skin and model); before, those were only taken when clicked. While a model's own paint is chosen, the
+  tiles of the other models show them without it – the way they look in the hand. A model whose mesh carries a long part
+  of its own, such as the beam of a laser pistol, is framed to the weapon; its tile showed a dot before. Press "Take
+  pictures again" once per weapon to get the new pictures.
+* **Weapons tab: dimmed skin tiles.** For a weapon Jodi had not held yet, the skin mod tiles were dimmed – or not –
+  according to whichever weapon had been put on last. Whether a skin does something now belongs to the weapon and its
+  model, and a tile is only dimmed once that is known.
+* **Converters on Windows:** `weaponpak.pyz` stopped with "No module named 'cryptography'" when it had to read the
+  game's sound cue (for example a sound mod for the HK416); it now decrypts the game's pak on its own. `bodypak.pyz`
+  could not add missing bones on Windows ("missing bones not checked", the left hand did not reach the gun) because the
+  pak it was replacing was still open; it now closes it first. A converter error on a pak is now shown as it is instead
+  of a misleading "struct.error".
+* **Weapon sounds: the mod's shot instead of the game's.** Sound mods converted for the HK416 and the SA58 played the
+  game's own shot (both chips sounded like "Original"): the copied sound cue still named the game's recording a second
+  time, and the game loaded that one. Convert such mods again with the new `weaponpak.pyz` (`--force`).
+* **`weaponpak.pyz` converts more sound mods:** mods that replace only the recordings behind the game's sound cue – the
+  Glock, revolver, shotgun, UMP45 and grenade launcher pick from several – and mods that bring a cue of their own
+  together with its recordings. A sound in its own pak next to the model becomes a sound mod of its own. Suppressor
+  sounds are not converted (they belong to the part, not to a weapon); the converter says so.
+* **`weaponpak.pyz`: names with spaces, hyphens or dots** (from the file name or `--name`) are turned into a valid name
+  instead of stopping with "invalid name"; the converter prints the name it used, and a `--name` typed with spaces
+  becomes the chip's title.
+* **Coiffure tab: search.** A search box above the hairstyles (it stays in place while the tiles scroll) finds them by
+  shown name, identifier, mod name and pak file, in the favourites block and in the full list; × clears it. "Show in
+  tab" clears it before jumping to a hairstyle.
+* **Manage › Usage** (new category): which mods are in use right now. Each mod in use lists its pieces and where they
+  are used – Jodi now, outfits, looks, presets, favourites (clothes, hairstyles, appearance, poses, weapons), followers
+  (worn and backpack), ragdoll scenes, the standing idle and the active weapon skins, models and sounds. Unused mods follow
+  in grey, then the mods whose use AltUI cannot detect (maps, script mods). Every mod has "View content". The search
+  finds mods by name and by the names of their pieces. Pieces only kept in the wardrobe do not count. Each mod is a tile
+  with its shown name and its pak file, its pieces in a table (piece, kind, places), the places summed up per kind
+  ("Outfits 4–6, 8 · Follower “Lea”"); long names wrap inside their column. The list is collected only when Usage is
+  open, so the other Manage pages cost nothing extra; the number on the left is the one from the last time.
+* **Followers tab:** each figure's row has a "…" chip that folds its tiles (clothes and backpack) away and back; it stays
+  folded per figure, also after a restart. The row's menu chip now shows a gear.
+* **Followers tab: symbols instead of long captions.** "Invulnerable" is now ∞ with a heart, "Infinite ammo" ∞ with
+  cartridges (their names as tooltips), so a figure's chips fit one line in the half view.
+* **Followers tab:** followers are listed above NPCs, with a line between the two groups. Chips above the rows show all,
+  only followers or only NPCs (kept after a restart).
+* **Appearance > Mutation:** no search row above the switches (there are no tiles to search).
+* **Camera light** (new round button beside the panel, at the top): lights up what the camera sees – beside the panel, in
+  the free camera and in photo mode. A click opens a small menu: on / off, the light's colour (palette) and a brightness
+  slider. The light only brightens: no shine spots on skin or floor, no visible beam in fog. It is off while you play and
+  comes back as you left it when the panel opens again.
+* **Options › Theme: every surface follows the theme.** Text fields (Manage › display names, the rename fields of
+  tiles, Mods tab, amount and hex fields), check boxes, scroll bars, the light areas of Inventory and Followers, the
+  striped rows (slot conflicts, quick menu, Kodex locks), the buttons of the Mods tab, the warning window, the weight bar
+  and a few labels kept fixed colours until now. Four new colours: **Text fields**, **Areas / stripes**, **Warnings**,
+  **Scroll bars**. Saved themes and settings from before keep working; the new colours start at their defaults there.
+
 ## 2.6.0 – 2026-10-18
 
 Replace `AltUI.pak`. `AltUI_Hook_P.pak`, `bodypak.pyz`, `weaponpak.pyz`, `idlepak.pyz` and `altui_names.pyz` are the

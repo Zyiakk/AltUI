@@ -33,6 +33,7 @@ AltUI legt eigene Daten im Spielstand-Ordner des Spiels ab, unter Windows %LOCAL
 - AltUI_Names.sav – eigene Namen
 - AltUI_Ragdolls.sav – Ragdoll-Szenen und -Posen
 - AltUI_Followers.sav – Follower und NPCs
+- AltUI_Drawers.sav – Kleidungs-Schubladen
 - der Ordner AltUI – Fotos von Looks, Gesichtern und Aussehen-Presets
 - der Ordner WeaponIcons – Waffenbilder
 
@@ -47,7 +48,8 @@ Nach einem Spiel-Update oder mit einer Mod, die Tabellen des Spiels ersetzt, kan
 - Das Mausrad scrollt; die Geschwindigkeit steht unter Optionen › Steuerung.
 - Solange das Panel offen ist, kann Jodi nicht laufen. Ziehen auf dem Hintergrund dreht die Kamera; Klick auf Jodi und Ziehen dreht sie – beim Schließen dreht sie sich zurück.
 - + und − ändern den Kameraabstand in 5-%-Schritten, das Mausrad über Jodi in 4-%-Schritten.
-- Die drei runden Knöpfe über + und − öffnen eine freie Kamera (Maus dreht, W A S D und Q E bewegen, Shift ist schneller, das Mausrad stellt die Geschwindigkeit, Esc zurück), den Fotomodus des Spiels (Esc zurück) und den Ragdoll-Modus (siehe „Ragdoll-Modus“).
+- Die runden Knöpfe über + und − öffnen eine freie Kamera (Maus dreht, W A S D und Q E bewegen, Shift ist schneller, das Mausrad stellt die Geschwindigkeit, Esc zurück), den Fotomodus des Spiels (Esc zurück) und den Ragdoll-Modus (siehe „Ragdoll-Modus“).
+- Der oberste runde Knopf (die Glühbirne) ist das Kameralicht: Es hellt auf, was die Kamera sieht – neben dem Panel, in der freien Kamera und im Fotomodus. Ein Klick öffnet ein kleines Menü: an / aus, die Lichtfarbe (Palette) und ein Helligkeitsregler. Es hellt nur auf (keine Glanzpunkte, kein Lichtkegel im Nebel), ist beim Spielen aus und kommt wieder, wie du es verlassen hast, wenn das Panel aufgeht.
 - Rückgängig und Wiederherstellen (fünf Schritte) stehen in der Statusleiste unten.
 - 4 gedrückt halten öffnet das Schnellmenü (siehe „Schnellmenü“).
 - Im Hauptmenü öffnet B ein kleines Menü: die drei Menü-Szenen und die Lade-Szene, die nächste Kamera, Menü und Texte des Spiels ausblenden (Esc holt sie zurück).
@@ -60,6 +62,7 @@ Links die Slots, rechts die Teile des gewählten Slots.
 - Die Chips über der Liste filtern nach Mod oder Gruppe; „...“ klappt die Chip-Zeilen ein. Ein Suchfeld engt die Chips ein, die Suche über der Liste findet Teile nach Name, Mod oder Gruppe.
 - Filter: nur Besitz, nur Favoriten, nur Vanilla, nur getragen.
 - Rechtsklick auf ein Teil: Favorit, Ausblenden, Farbe über die Palette des Spiels, Farbe zurücksetzen, in den Rucksack, umbenennen, nur diese Gruppe, Mod-Inhalt anzeigen, im Reiter anzeigen.
+- Schubladen: eigene Sammlungen von Kleidung, in einer Leiste über der Liste. „Standard“ zeigt alles; „+“ legt eine neue Schublade an („Schublade 1“, „Schublade 2“ …). Eine Schublade zeigt dieselbe Seite – Slots, Chips, Suche, Filter, Favoriten – nur mit ihren Teilen, und die Slots zählen nur diese. Rechtsklick auf ein Teil › „Schublade ›“ öffnet neben dem Menü die Liste der Schubladen: Ein Haken heißt, das Teil liegt darin; ein Klick legt es hinein oder nimmt es heraus, „+ Neue Schublade“ legt eine mit dem Teil darin an. Ein Teil kann in beliebig vielen Schubladen liegen; in einer Schublade hat das Menü zusätzlich „Aus dieser Schublade entfernen“. Rechtsklick auf eine Schublade: umbenennen (Enter übernimmt, Esc bricht ab), nach links / rechts, löschen (fragt nach – die Teile bleiben). Die gezeigte Schublade bleibt nach einem Neustart.
 - Der Tooltip zeigt, aus welchem Mod ein Teil stammt.
 - Schaden (im Kontextmenü): 0 bis 100 %, an einem getragenen Teil sofort; bei jedem anderen Teil wird er gemerkt, bis es getragen wird. Getragene Teile ohne Schadens-Texturen haben keinen Regler.
 - Unter der Farbpalette des Spiels zeigt ein Feld die Farbe als #RRGGBB; einen Code eintippen und mit Enter bestätigen setzt ihn. „Merken“ behält die Farbe in AltUI, „Einsetzen“ legt sie auf ein anderes Teil oder einen anderen Slot.
@@ -117,6 +120,7 @@ Jodis Gegenstände und die Hyper Item-Box, eine Liste unter der anderen.
 Alle Frisuren aus dem Spiel und aus Mods.
 
 - Klick auf eine Frisur setzt sie auf.
+- Das Suchfeld über den Kacheln findet Frisuren nach angezeigtem Namen, Kennung, Mod-Namen und Pak-Datei; × leert es.
 - „Haarfarbe...“ öffnet die Palette des Spiels; „Natürliche Haarfarben“ zeigt 14 fertige Farben.
 - Rechtsklick: Favorit hinzufügen / entfernen, Haarfarbe zurücksetzen, umbenennen, Mod-Inhalt anzeigen.
 - Favoriten stehen oben, über allen Frisuren.
@@ -141,6 +145,8 @@ Links ein Eintrag pro Waffe, Nahkampfwaffen eingeschlossen. Für jede Waffe werd
 
 - Oben die Modelle – das des Spiels und jeder installierte Modell-Mod.
 - Unten die Skins – die Lackierungen des Spiels (ohne Sprühdose) und jeder installierte Skin-Mod.
+- Bringt ein Modell-Mod eigene Fassungen der Spiel-Lackierungen mit (für sein Modell gemacht), stehen sie als weitere Skins neben denen des Spiels, solange dieses Modell gewählt ist.
+- Die Modell-Kacheln zeigen jedes Modell mit dem gewählten Skin; die eigene Lackierung eines Modells nur auf diesem Modell – auf jedem anderen bleibt die Waffe, wie sie ist, und ihre Kachel auch. Die Kachel eines Skin-Mods ist abgeblendet, wenn der Skin auf dem gewählten Modell nichts bewirkt; das steht fest, sobald die Waffe mit diesem Modell einmal in Jodis Hand war. „Bilder neu aufnehmen“ in der Statusleiste nimmt alle Kacheln der Waffe neu auf.
 - Sound: das eigene Schussgeräusch der Waffe („Original“) und jedes installierte Schussgeräusch für sie. Ein Klick wählt den Sound und spielt ihn ab; jede andere Waffe behält ihren. Ein montierter Schalldämpfer mit eigenem Sound hat weiter Vorrang.
 - Die Chips darüber filtern alle drei Abschnitte zugleich. Rechtsklick auf eine Kachel: Favorit, Ausblenden, nur dieser Mod.
 - Die Wahl bleibt erhalten und wird wieder aufgelegt, wenn die Waffe aufgehoben oder aus der Lagerkiste geholt wird.
@@ -207,6 +213,7 @@ Eigene Anzeigenamen für Mods, Gruppen, Kleidung, Frisuren, Haut, Make-up, Posen
 - Chips und eine Suche filtern die Liste; „nur Mods“ blendet die Einträge des Spiels aus; ↺ kehrt zum Standardnamen zurück.
 - Mit altui_names.pyz lassen sich die Namen in eine Textdatei exportieren und wieder importieren.
 - Waffen-Mods stehen bei den anderen Mods.
+- „Nutzung“ zeigt, welche Mods gerade in Gebrauch sind: je Mod die genutzten Teile und wo sie stecken (Jodi jetzt, Outfits, Looks, Presets, Favoriten, Follower, Ragdoll-Szenen, Stehen, Waffen). Ungenutzte Mods stehen grau darunter, ebenso Mods, deren Nutzung AltUI nicht erkennen kann (Maps, Script-Mods). „Inhalt anzeigen“ öffnet jede Mod. Was nur im Kleiderschrank liegt, zählt nicht als Nutzung. Jede Mod ist eine Kachel mit Anzeigename und Pak-Datei; die Fundorte eines Teils stehen zusammengefasst je Art (z. B. „Outfits 4–6, 8“). Die Liste wird gesammelt, wenn du „Nutzung“ öffnest; sonst steht links die Zahl vom letzten Mal (vor dem ersten Mal keine).
 
 ## Ragdolls {#ragdolls}
 
@@ -229,6 +236,7 @@ Mit der Maus auf einer Figur, neben dem Panel und im Ragdoll-Modus:
 - Rechts-Ziehen dreht die Figur um ihre Hüfte.
 - Shift + Linksklick sperrt oder löst das angeklickte Gelenk.
 - Shift + Rechtsklick auf eine eingefrorene Figur macht das Gelenk beweglich. Links-Ziehen an einem Körperteil unter einem beweglichen Gelenk bewegt dann nur diesen Teil; er bleibt, wo du loslässt – so wird eine Figur posiert.
+- Rechts-Ziehen an einem Körperteil unter einem beweglichen Gelenk einer eingefrorenen Figur dreht dieses Glied um das Gelenk: Der gegriffene Punkt folgt der Maus, Hand und Finger drehen mit. Das Mausrad verdreht das Glied dabei um seine eigene Achse. Die Drehung bleibt in der Pose und wird mit Posen und Szenen gespeichert; Gelenkgrenzen gelten erst, wenn die Figur aktiv wird.
 
 Ohne Panel aktiviert oder friert das Schnellmenü Figuren ein: „Ragdoll: anvisierte aktivieren / einfrieren“ nimmt die Figur in der Bildmitte, „Ragdolls: aktiv / eingefroren“ schaltet alle um.
 
@@ -246,7 +254,8 @@ Figuren ohne Panel bewegen und posieren, die Kamera frei im Raum. Start mit dem 
 Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befehle an; ein NPC bleibt, wo er ist, und verteidigt sich.
 
 - Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.
-- Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, „Unverwundbar“, „Endlosmunition“ und „...“ (umbenennen, Look ändern, wiederbeleben, entfernen).
+- Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, ∞ mit Herz (unverwundbar), ∞ mit Patronen (Endlosmunition) und das Zahnrad (umbenennen, Look ändern, wiederbeleben, entfernen). „...“ klappt die Kacheln der Figur (Kleidung und Rucksack) weg und wieder auf; das bleibt je Figur, auch nach einem Neustart.
+- Follower stehen über den NPCs, eine Linie trennt die beiden Gruppen. Die Chips über den Zeilen zeigen alle, nur Follower oder nur NPCs (bleibt nach einem Neustart).
 - Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.
 - Das Kontextmenü eines Stapels – bei Jodi oder der Figur – hat die Anzahl-Zeile wie im Reiter Inventar: „5 geben“, „5 nehmen“, in die Box.
 - Die Kleidung besteht aus echten Stücken der Figur wie bei den NPCs des Spiels: Sie bekommt Schaden, kann abreißen und steht im Inventar-Dialog des Spiels, wo man sie auch tauschen kann. Unter einer Figur stehen ihre Stücke als Kacheln (beschädigte mit Markierung): Ein Klick zieht eines aus und legt es in Jodis Rucksack; Rechtsklick: mit einem Nähset aus Jodis Rucksack reparieren oder alle reparieren. In der Rucksack-Spalte listet „Kleidung“ Jodis Stücke: Ein Klick gibt eines an die ausgewählte Figur, die es anzieht (Schaden und Farben gehen mit).

@@ -149,7 +149,7 @@ class MenuClosesOnOtherTile(unittest.TestCase):
         """2026-10-16: a click on another tile closes an open context menu - the panel's preview (tunnel) handler, before the tile."""
         a = next(x for x in json.load(open(os.path.join(H, "..", "..", "assets", "40_widgets.json")))["assets"] if x["path"].endswith("/W_AltUI"))
         g = next(f for f in a["functions"] if f["name"] == "OnPreviewMouseButtonDown")["graph"]
-        self.assertIn(["entry", "cm", "bc", "cn", "return"], g["exec"])
+        self.assertIn(["entry", "cm", "blh", "bc", "cn", "return"], g["exec"])   # blh: a click beside the light submenu closes it
         self.assertEqual(next(n for n in g["nodes"] if n["id"] == "cm")["function"], "Close Menu")
         self.assertEqual(next(n for n in g["nodes"] if n["id"] == "u")["function"], "Unhandled")   # the tile still gets the click
 
@@ -167,7 +167,7 @@ class OwnKeysCam(unittest.TestCase):
         g = graph("50_manager_ui.json", "Time Tick"); cpm = next(n for n in g["nodes"] if n["id"] == "cpm")
         self.assertEqual((cpm["var"], cpm["in"]["CustomTimeDilation"]), ("CustomTimeDilation", "@comp.ReturnValue"))
         eg = next(x for x in json.load(open(os.path.join(H, "..", "..", "assets", "50_manager_ui.json")))["assets"] if x["path"].endswith("/BP_AltUIManager"))["event_graph"]
-        self.assertIn(["tick", "tbpz", "tpzt"], eg["exec"]); self.assertEqual(next(n for n in eg["nodes"] if n["id"] == "tpzt")["function"], "Time Tick")
+        self.assertIn(["tick", "tbpz", "tpzt", "tls0"], eg["exec"]); self.assertEqual(next(n for n in eg["nodes"] if n["id"] == "tpzt")["function"], "Time Tick")
         self.assertIn("tkwp", next(c for c in eg["exec"] if c[0] == "bvg"))
 
 

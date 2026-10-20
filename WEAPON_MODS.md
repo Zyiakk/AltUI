@@ -22,10 +22,18 @@ mesh needs from the same pak – materials, physics assets – travels with it.
 
 A mod that replaces a weapon's **shot sound** (often a separate `…-SFX.pak` next to the model) is converted the same
 way. The sound then has its own section in the panel: you pick it per weapon, independent of the model, and every
-other weapon keeps its sound. For the HK416 and the SA58 the game plays the shot through a sound cue, and a replacer
-changes only the wave behind it; the converter then copies the game's cue into the mod so the shot keeps fading with
-distance. It reads that cue from the game's `pakchunk0-WindowsNoEditor.pak` and looks for it at the usual Steam place –
-pass `--game <…/Content/Paks/pakchunk0-WindowsNoEditor.pak>` when the game is installed elsewhere.
+other weapon keeps its sound. Most guns fire through a sound cue that picks one of a few recordings at random (the
+Glock from two, the shotgun from three), and many sound mods replace only those recordings. The converter then copies
+the game's cue into the mod and points it at the mod's recordings, so the shot keeps its random pick and keeps fading
+with distance. It reads that cue from the game's `pakchunk0-WindowsNoEditor.pak` and looks for it at the usual Steam
+place – pass `--game <…/Content/Paks/pakchunk0-WindowsNoEditor.pak>` when the game is installed elsewhere.
+
+When a mod comes as two paks – the model in one, the sound in the other – convert both. They become two mods, and you
+pick the model in one section and the sound in the other. A model pak that carries its sound is converted to a single
+mod with both.
+
+Not converted are sounds of a **suppressor** (`Sounds/Weapons/Suppressed/…`). With a suppressor on, the game fires
+every gun with that part's sound, so the sound does not belong to one weapon; such a pak stays installed as it is.
 
 ## 2. What you need
 
@@ -53,8 +61,8 @@ more:
 
 * A mod may ship **variants** – "choose one to install" folders with a pak each. Convert the one you want; convert
   several under different `--name`s if you want to switch between them in the panel.
-* A mod may ship a separate **sound pak** (`…_SFX.pak`). That one is not a weapon model or skin; leave it where it
-  is and install it the normal way if you want it.
+* A mod may ship a separate **sound pak** (`…_SFX.pak`). Convert it as well; it becomes a sound mod of its own (see
+  above).
 * An **update archive** may contain only the changed pak. Use the newest one.
 
 **Steam Workshop**: the pak sits under
@@ -69,12 +77,12 @@ python3 weaponpak.pyz <Original.pak> [--name <Name>] [--title "Display name"] [-
 
 | Option | What it does | Default |
 |---|---|---|
-| `--name` | The part after the prefix. The pak becomes `WeaponAltUI_<Name>.pak` and the mod folder inside carries the same name. Letters, digits and `_` only – no spaces, no hyphens, no dots. | Taken from the input file name, with every other character turned into `_`. |
-| `--title` | The text on the mod's chip and in the game's "Installed DLC" list. Any text, spaces allowed. | The name. |
+| `--name` | The part after the prefix. The pak becomes `WeaponAltUI_<Name>.pak` and the mod folder inside carries the same name. Letters, digits and `_` only: spaces, hyphens, dots and other characters become `_`, and the converter prints the name it used. | Taken from the input file name the same way. |
+| `--title` | The text on the mod's chip and in the game's "Installed DLC" list. Any text, spaces allowed. | What you typed as `--name`, else the name. |
 | `--weapon` | Which of the game's weapons this mod is for. Only needed when the converter cannot tell – see below. | Read from the folder the mod replaces. |
 | `--out` | Where to write the converted pak. | Next to the input file. |
 | `--force` | Overwrite an existing output pak. | Off; the converter stops instead. |
-| `--game` | The game's `pakchunk0-WindowsNoEditor.pak`. Only needed for a shot sound of the HK416 or SA58, and only when the game is not at the usual Steam place. | The usual Steam install path. |
+| `--game` | The game's `pakchunk0-WindowsNoEditor.pak`. Only needed for a sound mod that replaces the recordings behind a sound cue, and only when the game is not at the usual Steam place. | The usual Steam install path. |
 
 ### When `--weapon` is needed
 
@@ -138,6 +146,15 @@ WeaponAltUI_MyPistol.pak  (Glock, 9786337 bytes)
   skipped: Models/Weapon/Glock/Materials/Cartridge_Mat_009.uasset
 ```
 
+A model mod that also replaces the game's gun paints (Camo, Pink) with versions made for its own model keeps them,
+as extra skins for that model:
+
+```
+WeaponAltUI_SamuraiEdge.pak  (Glock, 23983431 bytes)
+  meshes: Glock, Glock_Static
+  paints of the model: Camo, Pink
+```
+
 A **sound** mod names the sound the weapon will fire with:
 
 ```
@@ -166,7 +183,9 @@ Repeat for every weapon mod you want. Each needs its own `--name`.
 The Weapons tab lists one entry per weapon of the game. Pick a weapon, and you get two rows of tiles:
 
 * **Models** – the game's own, plus one tile per installed model mod for that weapon.
-* **Skins** – the game's gun paints, plus one tile per installed skin mod.
+* **Skins** – the game's gun paints, plus one tile per installed skin mod. A model mod's own versions of the gun
+  paints appear here too, next to the game's, while that model is chosen. They are made for that model only: with
+  another model on the weapon they do nothing, and that model's tile shows it without them.
 
 Model and skin are chosen independently, so a modded model can wear any skin. The choice is remembered per weapon
 (in `Saved/SaveGames/AltUI.sav`, AltUI's own save – nothing is written into the game's saves) and re-applied when
@@ -176,7 +195,15 @@ One thing to expect: **a skin will often do nothing on a modded model.** A skin 
 parameters `MainTex`, `NormalTex` and `MetallicTex` on the weapon's material. The game's own weapon materials have
 those parameters; the materials that come with a model mod usually bring their own and do not. The tile's context
 menu has **"Force skins onto this model"** for exactly this case – it puts the game's material on the modded mesh so
-skins and gun paints bite again, at the cost of the mod's own look.
+skins and gun paints bite again, at the cost of the mod's own look. A model mod's own paints need no forcing; they
+are made for its mesh.
+
+A skin mod's tile is shown dimmed when the skin does nothing on the chosen model. AltUI learns that when the weapon is in
+Jodi's hand with that model; until then the tile is not dimmed.
+
+The tiles are rendered pictures of the weapon with that model and skin, kept in `Saved/SaveGames/WeaponIcons`.
+"Take pictures again" in the status bar renders those of the shown weapon anew – after converting a mod again, for
+example.
 
 ## 7. Walk-throughs
 
@@ -251,12 +278,14 @@ panel. Only the original replacers have to go.
 
 | Message | What it means |
 |---|---|
-| `no weapon textures or meshes in this pak (expected Models/Weapon/<weapon>/…)` | Not a weapon mod, or it replaces something else. Check that you picked the right pak – a sound pak (`…_SFX.pak`) gives this too. |
+| `no weapon textures, meshes or shot sound in this pak (…)` | Not a weapon mod, or it replaces something else (a reload or hit sound, for example). |
 | `cannot tell which weapon this is (folders: …)` | A melee mod (`folders: meelee` – all melee weapons share that folder), or the mod's folder name is not one the converter knows. Pass `--weapon <Weapon>`; see [When `--weapon` is needed](#when---weapon-is-needed). |
 | `unknown weapon '…' (known: …)` | The `--weapon` you passed is not one of the game's weapon names. |
 | `the pak has skin textures but no base colour texture (…_BaseColor / _BC / _D)` | A skin needs a base colour texture; this pak has only extras. Nothing to convert. |
 | `the pak brings its own skeleton (…)` | The mod ships a skeleton of its own. Converting it would leave the weapon standing still in the game, because the animations are made for the original skeleton – so the converter stops instead. |
-| `invalid name (allowed: A-Z a-z 0-9 _)` | `--name` contains a space, hyphen, dot or other character. Put the pretty text into `--title`. |
+| `error: unrecognized arguments: …` | The pak's file name (or the folder) has a space, and the path was not in quotes, so the command line split it. Write `"My Gun.pak"`. |
+| `name: 'My Gun' -> My_Gun` | Not an error: the name had characters a mod folder cannot have, and this is the name the converter used. |
+| `this pak replaces the shot sound of a suppressor (…)` | A suppressor sound, see section 1. Keep the pak installed as it is. |
 | `target already exists (--force to overwrite)` | There is already a pak of that name in the output folder. Add `--force`. |
 | `verify failed: …` | The converter checked its own output and found a problem. Please report it with the message and the mod. |
 

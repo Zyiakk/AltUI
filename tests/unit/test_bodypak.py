@@ -1,4 +1,5 @@
 import unittest, os, sys, tempfile, shutil, struct, hashlib, subprocess, json
+from unittest import mock
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "scripts"))
 import bodypak
 import bodyscale_groups as bg
@@ -89,6 +90,23 @@ class Convert(unittest.TestCase):
         """Mesh without its own ABP: the export data grew by the 29-byte PostProcessAnimBlueprint tag (+ 66 bytes per bone bodybones
         added: info 12, pose 40, name map 12, RequiredBones 2), the mesh data behind it is unchanged."""
         self.assertEqual(len(out_uexp), len(src_uexp) + 29 + 66 * bones); self.assertEqual(out_uexp[-4096:], src_uexp[-4096:])
+
+    @unittest.skipUnless(os.path.isdir("/proc/self/fd"), "needs /proc")
+    def test_bones_patch_replaces_no_open_file(self):
+        """bodybones.patch_pak puts its .tmp over the converted pak; Windows refuses that while the pak is still open
+        (WinError 5 in the AltUI Mod Converter: the body kept its missing bones)."""
+        import bodybones
+        real, held = os.replace, []
+
+        def replace(src, dst):
+            fds = os.listdir("/proc/self/fd")
+            held.extend(os.readlink("/proc/self/fd/" + fd) for fd in fds if os.path.exists("/proc/self/fd/" + fd)
+                        and os.path.realpath("/proc/self/fd/" + fd) in (os.path.realpath(src), os.path.realpath(dst)))
+            real(src, dst)
+        with mock.patch.object(bodybones.os, "replace", replace):
+            out, log = bodypak.convert(DV1, name="Body_Dv1", out_dir=self.d)
+        self.assertEqual(log["bones_added"], ["Cam", "Prop_R2"]); self.assertEqual(held, [])
+        self.assertFalse(os.path.exists(out + ".tmp"))
 
     def test_derive_name(self):
         self.assertEqual(bodypak.derive_name("/x/TKA-UN_Dv1-fix1.3d.pak"), bg.MOD_PREFIX + "TKA_UN_Dv1_fix1_3d")

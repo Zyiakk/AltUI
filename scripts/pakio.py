@@ -53,6 +53,15 @@ class PakV3:
             s.f.seek(a if a >= eoff else eoff + a); parts.append(zlib.decompress(s.f.read(b - a)))  # offsets absolute or entry-relative
         return b"".join(parts)
 
+    def close(s):
+        s.f.close()
+
+    def __enter__(s):
+        return s
+
+    def __exit__(s, *exc):
+        s.close()
+
 
 def rstr3(b, pos):
     l = struct.unpack("<i", b[pos:pos + 4])[0]; pos += 4
@@ -62,10 +71,13 @@ def rstr3(b, pos):
 
 
 def open_pak(path):
-    try:
+    """Pak for a v11 footer - its errors pass through (a missing AES once surfaced as PakV3's struct.error) -, else PakV3."""
+    with open(path, "rb") as f:
+        f.seek(0, 2); size = f.tell()
+        f.seek(max(size - 221, 0)); d = f.read(221)
+    if len(d) == 221 and d[17:21] == b"\xe1\x12\x6f\x5a":
         return Pak(path)
-    except Exception:
-        return PakV3(path)
+    return PakV3(path)
 
 
 def norm_key(mount, key):

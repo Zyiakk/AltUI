@@ -4,8 +4,8 @@ palette closes (Close Color) enables them again, and a drag ends with the keyboa
 import unittest, os, json
 
 ASSETS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets")
-PALETTE_OPENERS = ["Open Slot Color", "Open Mod Color", "Open Theme Color", "Open Eye Color", "Open Makeup Color", "Open Hair Color"]
-LOCKED = ["Bg", "BtnPlus", "BtnMinus", "BtnCam", "BtnPhoto", "BtnRag"]
+PALETTE_OPENERS = ["Open Slot Color", "Open Mod Color", "Open Theme Color", "Open Eye Color", "Open Makeup Color", "Open Hair Color", "Open Light Color"]
+LOCKED = ["Bg", "BtnPlus", "BtnMinus", "BtnCam", "BtnPhoto", "BtnRag", "BtnLight", "LightMenu"]
 
 
 def walk(o):

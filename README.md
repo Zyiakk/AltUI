@@ -83,6 +83,9 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Slot colours are kept per save game.
 * Into the backpack and out of it.
 * Right click: only this group, view the mod's content and a damage slider (0–100 %).
+* **Drawers:** your own collections of clothes in a bar above the list ("Default" = everything, "+" = a new one). A drawer shows
+  the same page with only its pieces; right click on a piece › "Drawer ›" puts it in or takes it out, a piece can be in any
+  number of drawers. Drawers can be renamed, moved and deleted (`AltUI_Drawers.sav`).
 
 ### Outfits
 
@@ -129,6 +132,7 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * All hairstyles and the hair colour.
 * 14 natural hair colours as presets; factory reset.
 * Favourite hairstyles at the top (right click, "Add to favourites").
+* Search for hairstyles (name, identifier, mod, pak file).
 
 ### Poses
 
@@ -145,7 +149,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * One entry per weapon, melee weapons included; it counts the models and skins available for it.
 * For each weapon a model, a skin and a shot sound, chosen separately:
   * models: the game's own and those from mods;
-  * skins: the game's gun paints (no spray can needed) and every installed skin mod;
+  * skins: the game's gun paints (no spray can needed) and every installed skin mod; a model mod's own versions of the
+    gun paints too, next to the game's, while that model is chosen;
   * shot sounds: the weapon's own and every installed sound made for it. A click plays it; a mounted suppressor with a
     sound of its own still wins.
 * Chips filter by mod.
@@ -235,6 +240,9 @@ In categories, chosen in a list on the left:
   chips.
 * Revert per row.
 * Export and import as JSON with `altui_names.pyz` – see [Custom names](#custom-names).
+* **Usage:** which mods are in use right now – per mod (shown name and pak file) its pieces in use and where they are:
+  Jodi now, outfits, looks, presets, favourites, followers, ragdoll scenes, standing idle, weapons. Below, the unused
+  mods and those whose use AltUI cannot detect (maps, script mods), each with "View content" – to see which mods can go.
 
 ### Ragdolls
 
@@ -251,6 +259,8 @@ In categories, chosen in a list on the left:
   * right drag turns a figure;
   * Shift + click locks or frees a joint;
   * Shift + right click makes a joint movable – dragging a body part below it then poses only that part.
+  * right drag on a body part below a movable joint turns that limb about the joint (the grabbed point follows the mouse);
+    the wheel twists it about its own axis.
 * Poses are saved per kind of figure, scenes per level (`AltUI_Ragdolls.sav`).
 
 ### Followers
@@ -259,7 +269,9 @@ In categories, chosen in a list on the left:
   sliders and weapon looks.
 * A follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
 * The tab lists every figure with its status, and chips: follow me, wait here, bring here (also from another level),
-  → NPC / → follower, active, invulnerable, and "..." for rename, change look, revive and remove.
+  → NPC / → follower, active, invulnerable, and a gear for rename, change look, revive and remove; "..." folds a
+  figure's tiles away.
+* Followers above NPCs; chips show all, only followers or only NPCs.
 * Jodi's backpack and the storage box sit at the top: a click gives an item or a gun to the selected figure; a stack's
   menu has the amount row as in the Inventory tab.
 * A figure's clothes are real pieces, as with the game's own NPCs: they take damage, tear off and show up in the game's
@@ -267,7 +279,8 @@ In categories, chosen in a list on the left:
 * Each figure wears the make-up of its look and has one of the game's NPC voices.
 * Quick menu: "Follower: follow me / wait here" for the one in view, "All followers: follow / wait" and "All followers:
   come to me" – every active follower to the places in front of Jodi, also one waiting in another level.
-* "Infinite ammo" (chip per figure): it keeps reloading without ammo in its bag.
+* Infinite ammo (chip per figure, ∞ with cartridges): it keeps reloading without ammo in its bag. Invulnerable is the
+  chip with ∞ and a heart; both show their name as a tooltip.
 * "+ Jason" (bottom right) adds Jason from the story as a follower with his Glock – orders, bag, saving and level changes
   as for every figure. He fights with his own Glock only, has no look, and his death does not end the game.
 * Figures are kept in `AltUI_Followers.sav`, never in the game's save.
@@ -295,7 +308,9 @@ In categories, chosen in a list on the left:
   * drag on the background to turn the camera;
   * click on Jodi and drag to turn her – she turns back when the panel closes;
   * +/− changes the distance in 5 % steps, the mouse wheel over Jodi in 4 % steps.
-* The three round buttons above +/−:
+* The round buttons above +/−:
+  * **camera light** (the bulb) – lights up what the camera sees beside the panel, in the free camera and in photo mode;
+    on / off, colour and brightness in its menu; only brightens, no shine spots;
   * **free camera** – the mouse turns, W A S D / Q E move, Shift is faster, the wheel sets the speed; within 6 m of Jodi,
     stops at walls; Esc goes back;
   * **photo mode** of the game – Esc goes back;

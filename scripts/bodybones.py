@@ -200,23 +200,24 @@ def patch_pak(path, ref=None, check=False, backup=True):
     """Rewrite a converted body pak (BodyAltUI_X / Body_X) with the missing bones in its Female mesh. Returns the added bones."""
     from pakio import open_pak
     from bodypak import write_pak, raw_entry, plain_entry, verify
-    pk = open_pak(path)
-    mk = next(k for k in pk.files if k.lstrip("/") == "Female.uasset")
-    pkg = Package.from_bytes(pk.read(mk), pk.read(mk[:-len(".uasset")] + ".uexp"))
-    added = fill(pkg, ref)
-    if not added or check: return added
-    ua, ux = pkg.write()
-    entries = []
-    for k in sorted(pk.files):
-        rel = k.lstrip("/")
-        if rel == "Female.uasset": entries.append((rel,) + plain_entry(ua))
-        elif rel == "Female.uexp": entries.append((rel,) + plain_entry(ux))
-        else: entries.append((rel,) + raw_entry(pk, k))
-    name = pk.mount.rstrip("/").rsplit("/", 1)[-1]
+    with open_pak(path) as pk:   # closed before os.replace below: Windows refuses to replace a file that is still open
+        mk = next(k for k in pk.files if k.lstrip("/") == "Female.uasset")
+        pkg = Package.from_bytes(pk.read(mk), pk.read(mk[:-len(".uasset")] + ".uexp"))
+        added = fill(pkg, ref)
+        if not added or check: return added
+        ua, ux = pkg.write()
+        entries = []
+        for k in sorted(pk.files):
+            rel = k.lstrip("/")
+            if rel == "Female.uasset": entries.append((rel,) + plain_entry(ua))
+            elif rel == "Female.uexp": entries.append((rel,) + plain_entry(ux))
+            else: entries.append((rel,) + raw_entry(pk, k))
+        mount, comps = pk.mount, list(pk.comps)
+    name = mount.rstrip("/").rsplit("/", 1)[-1]
     bak = path + ".bak"
     if backup and not os.path.exists(bak): shutil.copy2(path, bak)
     tmp = path + ".tmp"
-    write_pak(tmp, pk.mount, list(pk.comps), entries, zlib.crc32(name.lower().encode()))
+    write_pak(tmp, mount, comps, entries, zlib.crc32(name.lower().encode()))
     errs = verify(tmp, name, entries)
     if errs:
         os.remove(tmp); raise SystemExit("verify failed: " + "; ".join(errs))

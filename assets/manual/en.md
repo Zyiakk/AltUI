@@ -33,6 +33,7 @@ AltUI keeps its own data in the game's save folder, on Windows %LOCALAPPDATA%\Th
 - AltUI_Names.sav – your own names
 - AltUI_Ragdolls.sav – ragdoll scenes and poses
 - AltUI_Followers.sav – followers and NPCs
+- AltUI_Drawers.sav – clothes drawers
 - the folder AltUI – photos of looks, faces and appearance presets
 - the folder WeaponIcons – weapon pictures
 
@@ -47,7 +48,8 @@ After a game update, or with a mod that replaces tables of the game, AltUI may m
 - The mouse wheel scrolls; the scroll speed is set under Options › Controls.
 - While the panel is open Jodi cannot walk. Drag on the background to turn the camera; click on Jodi and drag to turn her – she turns back when the panel closes.
 - + and − change the camera distance in 5 % steps, the mouse wheel over Jodi in 4 % steps.
-- The three round buttons above + and − open a free camera (mouse turns, W A S D and Q E move, Shift is faster, the wheel sets the speed, Esc returns), the game's photo mode (Esc returns) and the ragdolls mode (see "Ragdolls mode").
+- The round buttons above + and − open a free camera (mouse turns, W A S D and Q E move, Shift is faster, the wheel sets the speed, Esc returns), the game's photo mode (Esc returns) and the ragdolls mode (see "Ragdolls mode").
+- The topmost round button (the bulb) is the camera light: it lights up what the camera sees – beside the panel, in the free camera and in photo mode. A click opens a small menu: on / off, the light's colour (palette) and a brightness slider. It only brightens (no shine spots, no beam in fog), is off while you play and comes back as you left it when the panel opens again.
 - Undo and redo (five steps) are in the status bar at the bottom.
 - Hold 4 for the quick menu (see "Quick menu").
 - In the main menu, B opens a small menu: the three menu scenes and the loading scene, the next camera, and hiding the game's menu and texts (Esc brings them back).
@@ -60,6 +62,7 @@ The slots are on the left, the items of the chosen slot on the right.
 - The chips above the list filter by mod or group; "..." folds the chip rows. A search field narrows down the chips, the search above the list finds items by name, mod or group.
 - Filters: only owned, only favourites, only vanilla, only worn.
 - Right click on an item: favourite, hide, colour via the game's palette, reset colour, put in backpack, rename, only this group, view mod content, show in tab.
+- Drawers: your own collections of clothes, in a bar above the list. "Default" shows everything; "+" makes a new drawer ("Drawer 1", "Drawer 2" …). A drawer shows the same page – slots, chips, search, filters, favourites – with only its pieces, and the slots count only those. Right click on an item › "Drawer ›" opens the list of drawers next to the menu: a tick means the piece is in it, a click puts it in or takes it out, "+ New drawer" makes one with the piece in it. A piece can be in any number of drawers; inside a drawer the menu also has "Remove from this drawer". Right click on a drawer: rename (Enter keeps the name, Esc cancels), move left / right, delete (asks first – the pieces stay). The shown drawer is kept after a restart.
 - Tooltips show which mod an item comes from.
 - Damage (in the context menu): 0 to 100 %, live on a worn piece; on any other piece it is kept until the piece is worn. Worn pieces without damage textures have no slider.
 - Under the game's colour palette a field shows the colour as #RRGGBB; type a code and press Enter to set it. "Remember" keeps the colour in AltUI, "Use" puts it on another piece or slot.
@@ -117,6 +120,7 @@ Jodi's items and the Hyper Storage Box, one list under the other.
 All hairstyles from the game and from mods.
 
 - Click a hairstyle to wear it.
+- The search box above the tiles finds hairstyles by shown name, identifier, mod name and pak file; × clears it.
 - "Hair colour..." opens the game's palette; "Natural hair colours" shows 14 ready-made colours.
 - Right click: add to / remove from favourites, reset hair colour, rename, view mod content.
 - Favourites stand at the top, above all hairstyles.
@@ -141,6 +145,8 @@ One entry per weapon on the left, melee weapons included. For each weapon, its m
 
 - Above: the models – the game's own and every installed weapon model mod.
 - Below: the skins – the game's gun paints (no spray can needed) and every installed skin mod.
+- If a model mod brings its own versions of the game's gun paints (made for its model), they appear as extra skins next to the game's while that model is chosen.
+- The model tiles show each model with the chosen skin; a model's own paint only on its own model – on any other the weapon stays as it is, and so does its tile. A skin mod's tile is dimmed when the skin does nothing on the chosen model; that is known once the weapon has been in Jodi's hand with that model. "Take pictures again" in the status bar renders every tile of the weapon anew.
 - Sound: the weapon's own shot sound ("Original") and every installed shot sound made for it. A click picks the sound and plays it; every other weapon keeps its own. A mounted suppressor with a sound of its own still wins.
 - The chips above filter all three sections at once. Right click on a tile: favourite, hide, only this mod.
 - The choice is kept and put on again when the weapon is picked up or taken out of the storage box.
@@ -207,6 +213,7 @@ Your own display names for mods, groups, clothes, hairstyles, skins, make-up, po
 - Chips and a search filter the list; "only mods" hides the game's own entries; ↺ goes back to the default name.
 - With altui_names.pyz the names can be exported to a text file and imported again.
 - Weapon mods are listed with the other mods.
+- "Usage" shows which mods are in use right now: per mod the pieces in use and where they are (Jodi now, outfits, looks, presets, favourites, followers, ragdoll scenes, standing idle, weapons). Unused mods are listed below in grey, as are mods whose use AltUI cannot detect (maps, script mods). "View content" opens any of them. Pieces that are only in the wardrobe do not count as in use. Each mod is a tile with its shown name and its pak file; the places of a piece are summed up per kind (e.g. "Outfits 4–6, 8"). The list is collected when you open "Usage"; elsewhere the number on the left is the one from the last time (none before the first time).
 
 ## Ragdolls {#ragdolls}
 
@@ -229,6 +236,7 @@ With the mouse on a figure, beside the panel and in the ragdolls mode:
 - Right drag turns the figure about its hips.
 - Shift + left click locks or frees the joint you click.
 - Shift + right click on a frozen figure makes the joint movable. Left drag on a body part below a movable joint then moves only that part; it stays where you let go – that is how a figure is posed.
+- Right drag on a body part below a movable joint of a frozen figure turns that limb about the joint: the point you grabbed follows the mouse, hand and fingers turn with it. The mouse wheel twists the limb about its own axis meanwhile. The turn stays in the pose and is saved with poses and scenes; joint limits do not apply until the figure becomes active.
 
 Without the panel, the quick menu activates or freezes figures: "Ragdoll: activate / freeze the one in view" takes the figure in the middle of the screen, "Ragdolls: active / frozen" switches all of them.
 
@@ -246,7 +254,8 @@ Moves and poses the figures without the panel, with the camera free in the room.
 Looks as people in the game: a follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
 
 - In the Looks tab, right click a look: "Spawn as follower" or "Spawn as NPC". The figure appears in front of Jodi wearing that look.
-- The tab "Followers" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: "Follow me", "Wait here", "Bring here", → NPC / → Follower, "Active", "Invulnerable", "Infinite ammo" and "..." (rename, change look, revive, remove).
+- The tab "Followers" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: "Follow me", "Wait here", "Bring here", → NPC / → Follower, "Active", ∞ with a heart (invulnerable), ∞ with cartridges (infinite ammo) and the gear (rename, change look, revive, remove). "..." folds the figure's tiles (clothes and backpack) away and back; it stays folded per figure, also after a restart.
+- Followers are listed above NPCs, with a line between the two groups. The chips above the rows show all, only followers or only NPCs (kept after a restart).
 - Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. "..." above a list folds it.
 - The context menu of a stack – Jodi's or the figure's – has the amount row as in the Inventory tab: "Give 5", "Take 5", into the box.
 - Clothes are real pieces of the figure, as with the game's NPCs: they take damage, can tear off and show up in the game's own NPC inventory, where you can swap them too. Under a figure, its pieces are tiles (a badge marks damaged ones): a click takes one off into Jodi's backpack; right click: repair with a sewing kit from Jodi's backpack, or repair all. In the backpack column, "Clothes" lists Jodi's pieces: a click gives one to the selected figure, which puts it on (her damage and colours go along).

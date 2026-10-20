@@ -59,7 +59,7 @@ class MenuScene(unittest.TestCase):
 
     def test_menu_actions_reach_scene_action(self):
         g = self.fns["On Menu Action"]["graph"]
-        self.assertIn(["entry", "cm", "bscn", "scn_a"], g["exec"])
+        self.assertIn(["bdrw:else", "cm", "blmp", "bscn"], g["exec"]); self.assertIn(["bscn", "scn_a"], g["exec"])   # blmp: other actions close the light submenu; drawer rows (Drw:) go first
 
     def test_close_menu_gives_the_loading_scene_its_cursor_back(self):
         self.assertEqual(self.nodes("Close Menu")["scu"]["in"]["show"], "false")

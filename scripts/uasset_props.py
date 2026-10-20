@@ -258,12 +258,14 @@ def clsname(i, imps, exps):
 
 
 def dump(path, export_filter=None):
-    d, names, imps, exps, total_hdr = read_summary(path)
     uexp = path[:-7] + ".uexp"
-    if os.path.exists(uexp):
-        data = d + open(uexp, "rb").read()
-    else:
-        data = d
+    return dump_bytes(open(path, "rb").read(), open(uexp, "rb").read() if os.path.exists(uexp) else b"", export_filter)
+
+
+def dump_bytes(ua, ue, export_filter=None):
+    """dump() for a package already in memory (.uasset bytes, .uexp bytes - e.g. read from a pak)."""
+    d, names, imps, exps, total_hdr = read_summary_bytes(ua)
+    data = d + ue
     result = {}
     for (on, cls, sup, outer, ssz, soff) in exps:
         cn = clsname(cls, imps, exps)

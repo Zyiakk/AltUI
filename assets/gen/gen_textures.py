@@ -7,7 +7,11 @@ T_ROUNDBOX = M + "/T_RoundBox"
 T_ROUNDFRAME = M + "/T_RoundFrame"   # the round box's outline only (frame over a see-through surface: a filled frame would tint it)
 T_CHECK_ON = M + "/T_CheckOn"
 T_UNDO = M + "/T_Undo"; T_REDO = M + "/T_Redo"
+T_LIGHT = M + "/T_Light"; T_POWER = M + "/T_Power"; T_SWATCH = M + "/T_Swatch"   # camera light: button, on/off, colour
+T_INF_LIFE = M + "/T_InfLife"; T_INF_AMMO = M + "/T_InfAmmo"   # followers' chips: invulnerable, infinite ammo (2:1)
 T_CHECK_OFF = M + "/T_CheckOff"
+T_CHECK_FILL = M + "/T_CheckFill"; T_CHECK_INNER = M + "/T_CheckInner"; T_CHECK_ON_HOVER = M + "/T_CheckOnHover"   # 2026-10-19: the check box in layers, each tinted by the theme
+T_SCROLL_THUMB = M + "/T_ScrollThumb"; T_SCROLL_TRACK_V = M + "/T_ScrollTrackV"; T_SCROLL_TRACK_H = M + "/T_ScrollTrackH"
 T_PLUS = M + "/T_Plus"; T_MINUS = M + "/T_Minus"; T_CAM = M + "/T_Cam"; T_PHOTO = M + "/T_Photo"; T_POSE = M + "/T_Pose"
 T_COLORIZE = M + "/T_Colorize"
 T_SOUND = M + "/T_Sound"
@@ -51,6 +55,37 @@ def check_box(path, checked, size=48, radius=8, ss=4):
     big.resize((size, size), Image.LANCZOS).save(path)
 
 
+def check_layer(path, inset=0, tick=False, size=48, radius=8, ss=4, glow=0):
+    """The check box in theme layers (2026-10-19), white so a tint colours it: the whole round box (inset 0; tinted like the
+    search fields' frame layer), the box inset by the frame width (their fill layer) or the tick alone (tinted with the check colour).
+    Same geometry as check_box(). glow: the whole box at this alpha under the tick (hovered)."""
+    S = size * ss; big = Image.new("L", (S, S), 0); d = ImageDraw.Draw(big)
+    if glow: d.rounded_rectangle((0, 0, S - 1, S - 1), radius=radius * ss, fill=glow)   # under the mouse: the box lights up a little
+    if tick:
+        w = int(S * 0.09); d.line([(S * 0.24, S * 0.52), (S * 0.43, S * 0.71), (S * 0.77, S * 0.30)], fill=255, width=w, joint="curve")
+    else:
+        e = inset * ss; d.rounded_rectangle((e, e, S - 1 - e, S - 1 - e), radius=max(1, (radius - inset) * ss), fill=255)
+    im = Image.new("RGBA", (size, size), (255, 255, 255, 0)); im.putalpha(big.resize((size, size), Image.LANCZOS)); im.save(path)
+
+
+def scroll_thumb(path, size=16):
+    """Scroll bar thumb (drawn as a box, margin 1/4): white with a half-transparent dark 1-texel rim and softened corners -
+    white so the theme's scroll bar colour tints it; the look of the engine's default thumb."""
+    im = Image.new("RGBA", (size, size), (255, 255, 255, 255)); px = im.load()
+    for i in range(size):
+        for e in ((i, 0), (i, size - 1), (0, i), (size - 1, i)): px[e] = (0, 0, 0, 128)
+    for x, y in ((0, 0), (size - 1, 0), (0, size - 1), (size - 1, size - 1)): px[x, y] = (0, 0, 0, 40)
+    for x, y in ((1, 1), (size - 2, 1), (1, size - 2), (size - 2, size - 2)): px[x, y] = (216, 216, 216, 220)
+    im.save(path)
+
+
+def scroll_track(path, vertical, size=16):
+    """Scroll bar track: a 1-texel half-transparent white line through the middle (vertical or horizontal), else transparent."""
+    im = Image.new("RGBA", (size, size), (255, 255, 255, 0)); px = im.load()
+    for i in range(size): px[(size // 2, i) if vertical else (i, size // 2)] = (255, 255, 255, 128)
+    im.save(path)
+
+
 def circle_arrow(path, clockwise, size=48, ss=4):
     """Circular arrow (undo/redo), white on transparent: arc 20..290 degrees, arrowhead at the end of the arc."""
     import math
@@ -88,6 +123,77 @@ def circle_cam(path, size=64, ss=4):
     d.rounded_rectangle((S * 0.40, S * 0.33, S * 0.60, S * 0.42), radius=int(S * 0.03), fill=W)   # hump
     d.ellipse((S * 0.42, S * 0.46, S * 0.58, S * 0.62), fill=(255, 255, 255, 0))                    # lens hole
     d.ellipse((S * 0.455, S * 0.495, S * 0.545, S * 0.585), fill=W)                                 # lens
+    big.resize((size, size), Image.LANCZOS).save(path)
+
+
+def circle_light(path, size=64, ss=4):
+    """Light bulb in a white ring: glass (disc), neck and screw base, three short rays above (camera light button)."""
+    import math
+    S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 255)
+    w = int(S * 0.08); m = w // 2; d.ellipse((m, m, S - 1 - m, S - 1 - m), outline=W, width=w)
+    d.ellipse((S * 0.37, S * 0.33, S * 0.63, S * 0.59), fill=W)                                       # glass
+    d.polygon([(S * 0.41, S * 0.53), (S * 0.59, S * 0.53), (S * 0.555, S * 0.65), (S * 0.445, S * 0.65)], fill=W)   # neck
+    d.rounded_rectangle((S * 0.44, S * 0.665, S * 0.56, S * 0.72), radius=int(S * 0.015), fill=W)   # base
+    rw = int(S * 0.045); cx, cy = S * 0.5, S * 0.46
+    for a in (-90, -140, -40):
+        r = math.radians(a); d.line([(cx + math.cos(r) * S * 0.19, cy + math.sin(r) * S * 0.19), (cx + math.cos(r) * S * 0.26, cy + math.sin(r) * S * 0.26)], fill=W, width=rw)
+    big.resize((size, size), Image.LANCZOS).save(path)
+
+
+def circle_power(path, size=64, ss=4):
+    """Power symbol in a white ring: open arc with a bar through the gap (light on/off)."""
+    S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 255)
+    w = int(S * 0.08); m = w // 2; d.ellipse((m, m, S - 1 - m, S - 1 - m), outline=W, width=w)
+    lw = int(S * 0.075); r = S * 0.20; c = S * 0.52
+    d.arc((S / 2 - r, c - r, S / 2 + r, c + r), start=-50, end=230, fill=W, width=lw)
+    d.line([(S / 2, S * 0.24), (S / 2, S * 0.50)], fill=W, width=lw)
+    big.resize((size, size), Image.LANCZOS).save(path)
+
+
+def _infinity(d, x0, x1, cy, h, w):
+    """Lying eight (lemniscate of Gerono) between x0 and x1, height h, line width w: round stamps along the curve (a
+    polyline of that width frays at the joints)."""
+    import math
+    cx, a, r = (x0 + x1) / 2, (x1 - x0 - w) / 2, w / 2
+    for i in range(1200):
+        t = i * 2 * math.pi / 1200; x, y = cx + a * math.sin(t), cy + h * math.sin(t) * math.cos(t)
+        d.ellipse((x - r, y - r, x + r, y + r), fill=(255, 255, 255, 255))
+
+
+def inf_heart(path, size=64, ss=4):
+    """Infinity beside a heart, twice as wide as high: the followers' "Invulnerable" chip (infinite life)."""
+    import math
+    S = size * ss; big = Image.new("RGBA", (2 * S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big)
+    _infinity(d, S * 0.06, S * 0.94, S * 0.5, S * 0.62, int(S * 0.09))
+    hx, hy, r = S * 1.5, S * 0.52, S * 0.40   # heart curve, filled
+    pts = [(hx + r * 16 * math.sin(t) ** 3 / 16, hy - r * (13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t)) / 16)
+           for t in [i * 2 * math.pi / 240 for i in range(240)]]
+    d.polygon(pts, fill=(255, 255, 255, 255))
+    big.resize((2 * size, size), Image.LANCZOS).save(path)
+
+
+def inf_ammo(path, size=64, ss=4):
+    """Infinity beside two cartridges, twice as wide as high: the followers' "Infinite ammo" chip."""
+    S = size * ss; big = Image.new("RGBA", (2 * S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 255)
+    _infinity(d, S * 0.06, S * 0.94, S * 0.5, S * 0.62, int(S * 0.09))
+    for x in (S * 1.20, S * 1.58):   # one cartridge: rim, case, a pointed bullet a little narrower than the case
+        cw, ins = S * 0.22, S * 0.035
+        d.rectangle((x - S * 0.02, S * 0.88, x + cw + S * 0.02, S * 0.95), fill=W)            # rim
+        d.rectangle((x, S * 0.47, x + cw, S * 0.86), fill=W)                                   # case (a dark line at the rim)
+        pts = [(x + ins, S * 0.44), (x + ins, S * 0.30)]                                       # bullet: ogive to a point
+        import math
+        for i in range(21):   # x straight to the middle, y on a quarter sine: a convex ogive with a rounded point
+            t = i / 20; pts.append((x + ins + (cw / 2 - ins) * t, S * 0.30 - S * 0.25 * math.sin(t * math.pi / 2)))
+        pts += [(2 * x + cw - px, py) for px, py in reversed(pts[2:])] + [(x + cw - ins, S * 0.30), (x + cw - ins, S * 0.44)]
+        d.polygon(pts, fill=W)
+    big.resize((2 * size, size), Image.LANCZOS).save(path)
+
+
+def circle_swatch(path, size=64, ss=4):
+    """Filled white disc inside a white ring with a transparent gap: tinted with the light colour (colour button)."""
+    S = size * ss; big = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(big); W = (255, 255, 255, 255)
+    w = int(S * 0.08); m = w // 2; d.ellipse((m, m, S - 1 - m, S - 1 - m), outline=W, width=w)
+    d.ellipse((S * 0.2, S * 0.2, S * 0.8, S * 0.8), fill=W)
     big.resize((size, size), Image.LANCZOS).save(path)
 
 
@@ -345,19 +451,30 @@ def build(assets_dir):
     """Writes the PNGs under <assets_dir>/tex and returns the asset list (file relative to assets_dir)."""
     os.makedirs(os.path.join(assets_dir, "tex"), exist_ok=True)
     round_box(os.path.join(assets_dir, "tex", "roundbox.png")); round_frame(os.path.join(assets_dir, "tex", "roundframe.png"))
-    check_box(os.path.join(assets_dir, "tex", "check_on.png"), True); check_box(os.path.join(assets_dir, "tex", "check_off.png"), False)
+    check_layer(os.path.join(assets_dir, "tex", "check_on.png"), tick=True); check_box(os.path.join(assets_dir, "tex", "check_off.png"), False)   # check_off: no longer used
+    check_layer(os.path.join(assets_dir, "tex", "check_on_hover.png"), tick=True, glow=26); check_layer(os.path.join(assets_dir, "tex", "check_fill.png")); check_layer(os.path.join(assets_dir, "tex", "check_inner.png"), inset=2)
+    scroll_thumb(os.path.join(assets_dir, "tex", "scroll_thumb.png"))
+    scroll_track(os.path.join(assets_dir, "tex", "scroll_track_v.png"), True); scroll_track(os.path.join(assets_dir, "tex", "scroll_track_h.png"), False)
     circle_arrow(os.path.join(assets_dir, "tex", "undo.png"), False); circle_arrow(os.path.join(assets_dir, "tex", "redo.png"), True)
     circle_glyph(os.path.join(assets_dir, "tex", "plus.png"), True); circle_glyph(os.path.join(assets_dir, "tex", "minus.png"), False)
     color_glyph(os.path.join(assets_dir, "tex", "colorize.png"))
     speaker_glyph(os.path.join(assets_dir, "tex", "sound.png"))
     circle_cam(os.path.join(assets_dir, "tex", "cam.png")); circle_photo(os.path.join(assets_dir, "tex", "photo.png")); circle_ragdoll(os.path.join(assets_dir, "tex", "ragmode.png"))
+    circle_light(os.path.join(assets_dir, "tex", "light.png")); circle_power(os.path.join(assets_dir, "tex", "power.png")); circle_swatch(os.path.join(assets_dir, "tex", "swatch.png"))
     stick_figure(os.path.join(assets_dir, "tex", "pose.png"))
+    inf_heart(os.path.join(assets_dir, "tex", "inf_life.png")); inf_ammo(os.path.join(assets_dir, "tex", "inf_ammo.png"))
     for k, f in TAB_ICON_DRAW.items(): _glyph(os.path.join(assets_dir, "tex", "tab_%s.png" % k.lower()), f)
     _glyph(os.path.join(assets_dir, "tex", "altui.png"), altui_panel)
     return [{"type": "texture", "path": T_ROUNDBOX, "file": "tex/roundbox.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_ROUNDFRAME, "file": "tex/roundframe.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_ON, "file": "tex/check_on.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_OFF, "file": "tex/check_off.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_CHECK_FILL, "file": "tex/check_fill.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_CHECK_ON_HOVER, "file": "tex/check_on_hover.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_CHECK_INNER, "file": "tex/check_inner.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_SCROLL_THUMB, "file": "tex/scroll_thumb.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_SCROLL_TRACK_V, "file": "tex/scroll_track_v.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_SCROLL_TRACK_H, "file": "tex/scroll_track_h.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_UNDO, "file": "tex/undo.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_REDO, "file": "tex/redo.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_PLUS, "file": "tex/plus.png", "props": TEX_PROPS},
@@ -367,7 +484,12 @@ def build(assets_dir):
             {"type": "texture", "path": T_CAM, "file": "tex/cam.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_PHOTO, "file": "tex/photo.png", "props": TEX_PROPS},
             {"type": "texture", "path": M + "/T_RagMode", "file": "tex/ragmode.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_LIGHT, "file": "tex/light.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_POWER, "file": "tex/power.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_SWATCH, "file": "tex/swatch.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_POSE, "file": "tex/pose.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_INF_LIFE, "file": "tex/inf_life.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_INF_AMMO, "file": "tex/inf_ammo.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_ALTUI, "file": "tex/altui.png", "props": TEX_PROPS}] + \
            [{"type": "texture", "path": M + "/T_Tab" + k, "file": "tex/tab_%s.png" % k.lower(), "props": TEX_PROPS} for k in TAB_ICON_DRAW]
 

@@ -44,7 +44,7 @@ class QuickWins(unittest.TestCase):
         self.assertEqual(n["bo"]["in"]["Condition"], "@own.ReturnValue")
         eg = next(o for o in walk(json.load(open(os.path.join(ASSETS, "50_manager_ui.json")))) if str(o.get("path", "")).endswith("BP_AltUIManager"))["event_graph"]
         self.assertTrue(any(c[:2] == ["tbpz:else", "ttik"] for c in eg["exec"]))   # unpaused: everything
-        self.assertIn(["tick", "tbpz", "tpzt"], eg["exec"])   # paused (photo mode): Time Tick only
+        self.assertIn(["tick", "tbpz", "tpzt", "tls0"], eg["exec"])   # paused (photo mode): Time Tick + the camera light
 
     def test_quick_items_run(self):
         g = self.u["Run Quick Item"]["graph"]; n = {x["id"]: x for x in g["nodes"]}

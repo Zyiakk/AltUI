@@ -22,7 +22,7 @@ class RoundBox(unittest.TestCase):
         self.assertEqual(assets[0]["path"], "/Game/Mod/AltUI/T_RoundBox")
         self.assertTrue(os.path.isfile(os.path.join(d, assets[0]["file"])))
         self.assertEqual(assets[0]["props"]["CompressionSettings"], "TC_EditorIcon")
-        self.assertEqual([a["path"].rsplit("/", 1)[-1] for a in assets], ["T_RoundBox", "T_RoundFrame", "T_CheckOn", "T_CheckOff", "T_Undo", "T_Redo", "T_Plus", "T_Minus", "T_Colorize", "T_Sound", "T_Cam", "T_Photo", "T_RagMode", "T_Pose", "T_AltUI"] +
+        self.assertEqual([a["path"].rsplit("/", 1)[-1] for a in assets], ["T_RoundBox", "T_RoundFrame", "T_CheckOn", "T_CheckOff", "T_CheckFill", "T_CheckOnHover", "T_CheckInner", "T_ScrollThumb", "T_ScrollTrackV", "T_ScrollTrackH", "T_Undo", "T_Redo", "T_Plus", "T_Minus", "T_Colorize", "T_Sound", "T_Cam", "T_Photo", "T_RagMode", "T_Light", "T_Power", "T_Swatch", "T_Pose", "T_InfLife", "T_InfAmmo", "T_AltUI"] +
                          ["T_Tab" + k for k in gen_textures.TAB_ICON_DRAW])
         # tab icons + panel icon: a texture for every tab (Poses reuses the stick figure), white glyph without ring - transparent corners
         self.assertEqual(set(gen_textures.TAB_ICONS), {"Clothes", "Outfits", "Looks", "Bag", "Inventory", "Hair", "Poses", "Weapons", "Look", "Body", "Face", "Mods", "Options", "Manage", "Ragdolls", "Followers", "Kodex"})
@@ -33,7 +33,7 @@ class RoundBox(unittest.TestCase):
             self.assertGreater(sum(px[x, y][3] > 200 for x in range(128) for y in range(128)), 1500, f)   # a solid glyph, not a hairline
             x0, y0, x1, y1 = im.split()[3].point(lambda v: 255 if v > 20 else 0).getbbox()   # centred: icons of any height share the centre line next to the text
             self.assertLessEqual(abs((y0 + y1) / 2 - 64), 1, f); self.assertLessEqual(abs((x0 + x1) / 2 - 64), 1, f)
-        for f in ("cam.png", "photo.png"):   # camera / aperture glyph: white ring (edge centre opaque), transparent corner, something white in the middle third
+        for f in ("cam.png", "photo.png", "light.png", "power.png"):   # camera / aperture glyph: white ring (edge centre opaque), transparent corner, something white in the middle third
             px = Image.open(os.path.join(d, "tex", f)).load()
             self.assertEqual(px[0, 0][3], 0); self.assertGreater(px[32, 4][3], 200)
             self.assertTrue(any(px[x, y][3] > 200 for x in range(22, 42) for y in range(22, 42)), f)
@@ -47,3 +47,14 @@ class RoundBox(unittest.TestCase):
 
 
 if __name__ == "__main__": unittest.main()
+
+
+class FollowerSymbols(unittest.TestCase):
+    """Infinity + heart / cartridges: twice as wide as high, white on transparent (tinted like the gear)."""
+    def test_two_to_one(self):
+        from PIL import Image
+        d = tempfile.mkdtemp()
+        for f in (gen_textures.inf_heart, gen_textures.inf_ammo):
+            p = os.path.join(d, "x.png"); f(p); im = Image.open(p)
+            self.assertEqual(im.size, (128, 64)); self.assertEqual(im.getpixel((0, 0))[3], 0)
+            self.assertGreater(sum(1 for px in im.getdata() if px[3] > 128), 600)

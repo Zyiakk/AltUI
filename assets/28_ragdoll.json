@@ -362,6 +362,54 @@
     {
      "name": "MarkTmp",
      "type": "object:/Script/Engine.StaticMeshComponent"
+    },
+    {
+     "name": "TurnPose",
+     "type": "struct:/Script/Engine.PoseSnapshot"
+    },
+    {
+     "name": "TurnIdx",
+     "type": "int"
+    },
+    {
+     "name": "TurnRot",
+     "type": "struct:/Script/CoreUObject.Rotator"
+    },
+    {
+     "name": "TurnJoint",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "TurnParent",
+     "type": "struct:/Script/CoreUObject.Transform"
+    },
+    {
+     "name": "TurnPointLocal",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "TurnAxisLocal",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "TurnFar",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "TurnFarDist",
+     "type": "float"
+    },
+    {
+     "name": "TmpTurnDelta",
+     "type": "struct:/Script/CoreUObject.Rotator"
+    },
+    {
+     "name": "TmpTurnWorld",
+     "type": "struct:/Script/CoreUObject.Rotator"
+    },
+    {
+     "name": "TmpTurnLocal",
+     "type": "struct:/Script/CoreUObject.Rotator"
     }
    ],
    "functions": [
@@ -11969,6 +12017,932 @@
        ]
       ]
      }
+    },
+    {
+     "name": "Turn Delta",
+     "inputs": [
+      {
+       "name": "from",
+       "type": "struct:/Script/CoreUObject.Vector"
+      },
+      {
+       "name": "to",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "delta",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "nf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Normal",
+        "in": {
+         "A": "@entry.from",
+         "Tolerance": "0.0001"
+        }
+       },
+       {
+        "id": "nt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Normal",
+        "in": {
+         "A": "@entry.to",
+         "Tolerance": "0.0001"
+        }
+       },
+       {
+        "id": "cr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Cross_VectorVector",
+        "in": {
+         "A": "@nf.ReturnValue",
+         "B": "@nt.ReturnValue"
+        }
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "VSize",
+        "in": {
+         "A": "@cr.ReturnValue"
+        }
+       },
+       {
+        "id": "ok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@cl.ReturnValue",
+         "B": "0.0001"
+        }
+       },
+       {
+        "id": "ax",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Normal",
+        "in": {
+         "A": "@cr.ReturnValue",
+         "Tolerance": "0.0001"
+        }
+       },
+       {
+        "id": "ax2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectVector",
+        "in": {
+         "A": "@ax.ReturnValue",
+         "B": "(X=0,Y=0,Z=1)",
+         "bPickA": "@ok.ReturnValue"
+        }
+       },
+       {
+        "id": "dt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Dot_VectorVector",
+        "in": {
+         "A": "@nf.ReturnValue",
+         "B": "@nt.ReturnValue"
+        }
+       },
+       {
+        "id": "dc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@dt.ReturnValue",
+         "Min": "-1.0",
+         "Max": "1.0"
+        }
+       },
+       {
+        "id": "an",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "DegAcos",
+        "in": {
+         "A": "@dc.ReturnValue"
+        }
+       },
+       {
+        "id": "an2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@an.ReturnValue",
+         "B": "0.0",
+         "bPickA": "@ok.ReturnValue"
+        }
+       },
+       {
+        "id": "r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "RotatorFromAxisAndAngle",
+        "in": {
+         "Axis": "@ax2.ReturnValue",
+         "Angle": "@an2.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "r.ReturnValue",
+        "return.delta"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Turn Local",
+     "inputs": [
+      {
+       "name": "parent",
+       "type": "struct:/Script/CoreUObject.Transform"
+      },
+      {
+       "name": "rot",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      },
+      {
+       "name": "delta",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "world",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      },
+      {
+       "name": "local",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "cr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "ComposeRotators",
+        "in": {
+         "A": "@entry.rot",
+         "B": "@entry.delta"
+        }
+       },
+       {
+        "id": "lr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "InverseTransformRotation",
+        "in": {
+         "T": "@entry.parent",
+         "Rotation": "@cr.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "cr.ReturnValue",
+        "return.world"
+       ],
+       [
+        "lr.ReturnValue",
+        "return.local"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Begin Turn",
+     "inputs": [
+      {
+       "name": "bone",
+       "type": "name"
+      },
+      {
+       "name": "point",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "ok",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "gtp",
+        "kind": "get",
+        "var": "TurnPose"
+       },
+       {
+        "id": "sn",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "SnapshotPose",
+        "in": {
+         "self": "@gb.Body",
+         "Snapshot": "@gtp.TurnPose"
+        }
+       },
+       {
+        "id": "gtp2",
+        "kind": "get",
+        "var": "TurnPose"
+       },
+       {
+        "id": "bp",
+        "kind": "break",
+        "struct": "/Script/Engine.PoseSnapshot",
+        "in": {
+         "PoseSnapshot": "@gtp2.TurnPose"
+        }
+       },
+       {
+        "id": "fi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Find",
+        "in": {
+         "TargetArray": "@bp.BoneNames",
+         "ItemToFind": "@entry.bone"
+        }
+       },
+       {
+        "id": "si",
+        "kind": "set",
+        "var": "TurnIdx",
+        "in": {
+         "TurnIdx": "@fi.ReturnValue"
+        }
+       },
+       {
+        "id": "gb2",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "wr",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketRotation",
+        "in": {
+         "self": "@gb2.Body",
+         "InSocketName": "@entry.bone"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "set",
+        "var": "TurnRot",
+        "in": {
+         "TurnRot": "@wr.ReturnValue"
+        }
+       },
+       {
+        "id": "wl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketLocation",
+        "in": {
+         "self": "@gb2.Body",
+         "InSocketName": "@entry.bone"
+        }
+       },
+       {
+        "id": "sj",
+        "kind": "set",
+        "var": "TurnJoint",
+        "in": {
+         "TurnJoint": "@wl.ReturnValue"
+        }
+       },
+       {
+        "id": "pb",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "GetParentBone",
+        "in": {
+         "self": "@gb2.Body",
+         "BoneName": "@entry.bone"
+        }
+       },
+       {
+        "id": "pt",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketTransform",
+        "in": {
+         "self": "@gb2.Body",
+         "InSocketName": "@pb.ReturnValue",
+         "TransformSpace": "RTS_World"
+        }
+       },
+       {
+        "id": "sp",
+        "kind": "set",
+        "var": "TurnParent",
+        "in": {
+         "TurnParent": "@pt.ReturnValue"
+        }
+       },
+       {
+        "id": "pv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_VectorVector",
+        "in": {
+         "A": "@entry.point",
+         "B": "@wl.ReturnValue"
+        }
+       },
+       {
+        "id": "gr1",
+        "kind": "get",
+        "var": "TurnRot"
+       },
+       {
+        "id": "pu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LessLess_VectorRotator",
+        "in": {
+         "A": "@pv.ReturnValue",
+         "B": "@gr1.TurnRot"
+        }
+       },
+       {
+        "id": "spl",
+        "kind": "set",
+        "var": "TurnPointLocal",
+        "in": {
+         "TurnPointLocal": "@pu.ReturnValue"
+        }
+       },
+       {
+        "id": "fa0",
+        "kind": "set",
+        "var": "TurnFar",
+        "in": {
+         "TurnFar": "@pv.ReturnValue"
+        }
+       },
+       {
+        "id": "fd0",
+        "kind": "set",
+        "var": "TurnFarDist",
+        "in": {
+         "TurnFarDist": "0.0"
+        }
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@bp.BoneNames"
+        }
+       },
+       {
+        "id": "gb3",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "cp",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "GetParentBone",
+        "in": {
+         "self": "@gb3.Body",
+         "BoneName": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "ic",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@cp.ReturnValue",
+         "B": "@entry.bone"
+        }
+       },
+       {
+        "id": "bic",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ic.ReturnValue"
+        }
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketLocation",
+        "in": {
+         "self": "@gb3.Body",
+         "InSocketName": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "gj",
+        "kind": "get",
+        "var": "TurnJoint"
+       },
+       {
+        "id": "cv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_VectorVector",
+        "in": {
+         "A": "@cl.ReturnValue",
+         "B": "@gj.TurnJoint"
+        }
+       },
+       {
+        "id": "cd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "VSize",
+        "in": {
+         "A": "@cv.ReturnValue"
+        }
+       },
+       {
+        "id": "gfd",
+        "kind": "get",
+        "var": "TurnFarDist"
+       },
+       {
+        "id": "fr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@cd.ReturnValue",
+         "B": "@gfd.TurnFarDist"
+        }
+       },
+       {
+        "id": "bfr",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fr.ReturnValue"
+        }
+       },
+       {
+        "id": "fa1",
+        "kind": "set",
+        "var": "TurnFar",
+        "in": {
+         "TurnFar": "@cv.ReturnValue"
+        }
+       },
+       {
+        "id": "fd1",
+        "kind": "set",
+        "var": "TurnFarDist",
+        "in": {
+         "TurnFarDist": "@cd.ReturnValue"
+        }
+       },
+       {
+        "id": "gfa",
+        "kind": "get",
+        "var": "TurnFar"
+       },
+       {
+        "id": "fn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Normal",
+        "in": {
+         "A": "@gfa.TurnFar",
+         "Tolerance": "0.0001"
+        }
+       },
+       {
+        "id": "gr2",
+        "kind": "get",
+        "var": "TurnRot"
+       },
+       {
+        "id": "au",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LessLess_VectorRotator",
+        "in": {
+         "A": "@fn.ReturnValue",
+         "B": "@gr2.TurnRot"
+        }
+       },
+       {
+        "id": "sal",
+        "kind": "set",
+        "var": "TurnAxisLocal",
+        "in": {
+         "TurnAxisLocal": "@au.ReturnValue"
+        }
+       },
+       {
+        "id": "hi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@fi.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "hp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@pb.ReturnValue",
+         "B": "None"
+        }
+       },
+       {
+        "id": "ok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@hi.ReturnValue",
+         "B": "@hp.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "ok.ReturnValue",
+        "return.ok"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "sn",
+        "si",
+        "sr",
+        "sj",
+        "sp",
+        "spl",
+        "fa0",
+        "fd0",
+        "fe"
+       ],
+       [
+        "fe",
+        "bic",
+        "bfr",
+        "fa1",
+        "fd1"
+       ],
+       [
+        "fe:Completed",
+        "sal",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Turn",
+     "inputs": [
+      {
+       "name": "delta",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "TurnParent"
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "TurnRot"
+       },
+       {
+        "id": "tl",
+        "kind": "call_self",
+        "function": "Turn Local",
+        "in": {
+         "parent": "@gp.TurnParent",
+         "rot": "@gr.TurnRot",
+         "delta": "@entry.delta"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "set",
+        "var": "TurnRot",
+        "in": {
+         "TurnRot": "@tl.world"
+        }
+       },
+       {
+        "id": "gtp",
+        "kind": "get",
+        "var": "TurnPose"
+       },
+       {
+        "id": "bp",
+        "kind": "break",
+        "struct": "/Script/Engine.PoseSnapshot",
+        "in": {
+         "PoseSnapshot": "@gtp.TurnPose"
+        }
+       },
+       {
+        "id": "stl",
+        "kind": "set",
+        "var": "TmpLocal",
+        "in": {
+         "TmpLocal": "@bp.LocalTransforms"
+        }
+       },
+       {
+        "id": "gi",
+        "kind": "get",
+        "var": "TurnIdx"
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "TmpLocal"
+       },
+       {
+        "id": "ot",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gl.TmpLocal",
+         "Index": "@gi.TurnIdx"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakTransform",
+        "in": {
+         "InTransform": "@ot.Item"
+        }
+       },
+       {
+        "id": "mt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "@bt.Location",
+         "Rotation": "@tl.local",
+         "Scale": "@bt.Scale"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "TmpLocal"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Set",
+        "in": {
+         "TargetArray": "@gl2.TmpLocal",
+         "Index": "@gi.TurnIdx",
+         "Item": "@mt.ReturnValue",
+         "bSizeToFit": "false"
+        }
+       },
+       {
+        "id": "gl3",
+        "kind": "get",
+        "var": "TmpLocal"
+       },
+       {
+        "id": "ms",
+        "kind": "make",
+        "struct": "/Script/Engine.PoseSnapshot",
+        "in": {
+         "LocalTransforms": "@gl3.TmpLocal",
+         "BoneNames": "@bp.BoneNames",
+         "SkeletalMeshName": "@bp.SkeletalMeshName",
+         "bIsValid": "true"
+        }
+       },
+       {
+        "id": "stp",
+        "kind": "set",
+        "var": "TurnPose",
+        "in": {
+         "TurnPose": "@ms.PoseSnapshot"
+        }
+       },
+       {
+        "id": "gtp2",
+        "kind": "get",
+        "var": "TurnPose"
+       },
+       {
+        "id": "set",
+        "kind": "call_self",
+        "function": "Set Pose",
+        "in": {
+         "snap": "@gtp2.TurnPose"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sr",
+        "stl",
+        "st",
+        "stp",
+        "set"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Turn Toward",
+     "inputs": [
+      {
+       "name": "target",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "TurnPointLocal"
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "TurnRot"
+       },
+       {
+        "id": "pv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterGreater_VectorRotator",
+        "in": {
+         "A": "@gpl.TurnPointLocal",
+         "B": "@gr.TurnRot"
+        }
+       },
+       {
+        "id": "gj",
+        "kind": "get",
+        "var": "TurnJoint"
+       },
+       {
+        "id": "tv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_VectorVector",
+        "in": {
+         "A": "@entry.target",
+         "B": "@gj.TurnJoint"
+        }
+       },
+       {
+        "id": "td",
+        "kind": "call_self",
+        "function": "Turn Delta",
+        "in": {
+         "from": "@pv.ReturnValue",
+         "to": "@tv.ReturnValue"
+        }
+       },
+       {
+        "id": "ap",
+        "kind": "call_self",
+        "function": "Apply Turn",
+        "in": {
+         "delta": "@td.delta"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ap"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Twist",
+     "inputs": [
+      {
+       "name": "deg",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gal",
+        "kind": "get",
+        "var": "TurnAxisLocal"
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "TurnRot"
+       },
+       {
+        "id": "ax",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterGreater_VectorRotator",
+        "in": {
+         "A": "@gal.TurnAxisLocal",
+         "B": "@gr.TurnRot"
+        }
+       },
+       {
+        "id": "d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "RotatorFromAxisAndAngle",
+        "in": {
+         "Axis": "@ax.ReturnValue",
+         "Angle": "@entry.deg"
+        }
+       },
+       {
+        "id": "ap",
+        "kind": "call_self",
+        "function": "Apply Turn",
+        "in": {
+         "delta": "@d.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ap"
+       ]
+      ]
+     }
     }
    ],
    "event_graph": {
@@ -12186,6 +13160,72 @@
       "in": {
        "bone": "@tlr.bone"
       }
+     },
+     {
+      "id": "ttd",
+      "kind": "custom_event",
+      "name": "Test Turn",
+      "inputs": [
+       {
+        "name": "from",
+        "type": "struct:/Script/CoreUObject.Vector"
+       },
+       {
+        "name": "to",
+        "type": "struct:/Script/CoreUObject.Vector"
+       },
+       {
+        "name": "parent",
+        "type": "struct:/Script/CoreUObject.Transform"
+       },
+       {
+        "name": "rot",
+        "type": "struct:/Script/CoreUObject.Rotator"
+       }
+      ]
+     },
+     {
+      "id": "ttd_d",
+      "kind": "call_self",
+      "function": "Turn Delta",
+      "in": {
+       "from": "@ttd.from",
+       "to": "@ttd.to"
+      }
+     },
+     {
+      "id": "ttd_l",
+      "kind": "call_self",
+      "function": "Turn Local",
+      "in": {
+       "parent": "@ttd.parent",
+       "rot": "@ttd.rot",
+       "delta": "@ttd_d.delta"
+      }
+     },
+     {
+      "id": "ttd_s1",
+      "kind": "set",
+      "var": "TmpTurnDelta",
+      "in": {
+       "TmpTurnDelta": "@ttd_d.delta"
+      }
+     },
+     {
+      "id": "ttd_s2",
+      "kind": "set",
+      "var": "TmpTurnWorld",
+      "in": {
+       "TmpTurnWorld": "@ttd_l.world"
+      }
+     },
+     {
+      "id": "ttd_s3",
+      "kind": "set",
+      "var": "TmpTurnLocal",
+      "in": {
+       "TmpTurnLocal": "@ttd_l.local"
+      }
      }
     ],
     "links": [],
@@ -12225,6 +13265,12 @@
      [
       "tlr",
       "tlr_c"
+     ],
+     [
+      "ttd",
+      "ttd_s1",
+      "ttd_s2",
+      "ttd_s3"
      ]
     ]
    }

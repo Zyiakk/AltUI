@@ -33,6 +33,7 @@ AltUI garde ses propres données dans le dossier de sauvegarde du jeu, sous Wind
 - AltUI_Names.sav – vos propres noms
 - AltUI_Ragdolls.sav – scènes et poses des ragdolls
 - AltUI_Followers.sav – compagnons et PNJ
+- AltUI_Drawers.sav – tiroirs de vêtements
 - le dossier AltUI – photos des looks, des visages et des préréglages d'apparence
 - le dossier WeaponIcons – images des armes
 
@@ -47,7 +48,8 @@ Après une mise à jour du jeu, ou avec un mod qui remplace des tables du jeu, A
 - La molette fait défiler ; la vitesse se règle dans Paramètres › Commandes.
 - Tant que le panneau est ouvert, Jodi ne peut pas marcher. Faire glisser sur le fond tourne la caméra ; cliquer sur Jodi et faire glisser la tourne – elle revient à sa position à la fermeture du panneau.
 - + et − changent la distance de la caméra par pas de 5 %, la molette au-dessus de Jodi par pas de 4 %.
-- Les trois boutons ronds au-dessus de + et − ouvrent une caméra libre (la souris tourne, W A S D et Q E déplacent, Maj plus vite, la molette règle la vitesse, Échap revient), le mode photo du jeu (Échap revient) et le mode ragdoll (voir « Mode ragdoll »).
+- Les boutons ronds au-dessus de + et − ouvrent une caméra libre (la souris tourne, W A S D et Q E déplacent, Maj plus vite, la molette règle la vitesse, Échap revient), le mode photo du jeu (Échap revient) et le mode ragdoll (voir « Mode ragdoll »).
+- Le bouton rond du haut (l'ampoule) est la lumière de caméra : elle éclaire ce que voit la caméra – à côté du panneau, dans la caméra libre et en mode photo. Un clic ouvre un petit menu : allumer / éteindre, la couleur de la lumière (palette) et un curseur de luminosité. Elle ne fait qu'éclaircir (pas de reflets, pas de faisceau dans le brouillard), s'éteint pendant le jeu et revient comme vous l'avez laissée quand le panneau s'ouvre.
 - Annuler et Rétablir (cinq étapes) sont dans la barre d'état en bas.
 - Maintenez 4 pour le menu rapide (voir « Menu rapide »).
 - Dans le menu principal, B ouvre un petit menu : les trois scènes du menu et la scène de chargement, la caméra suivante, et masquer le menu et les textes du jeu (Échap les rétablit).
@@ -60,6 +62,7 @@ Après une mise à jour du jeu, ou avec un mod qui remplace des tables du jeu, A
 - Les puces au-dessus de la liste filtrent par mod ou par groupe ; « ... » replie les rangées de puces. Un champ de recherche réduit les puces, la recherche au-dessus de la liste trouve les objets par nom, mod ou groupe.
 - Filtres : possédés seulement, favoris seulement, vanilla seulement, portés seulement.
 - Clic droit sur un objet : favori, masquer, couleur via la palette du jeu, réinitialiser la couleur, mettre dans le sac à dos, renommer, seulement ce groupe, voir le contenu du mod, afficher dans l'onglet.
+- Tiroirs : vos propres collections de vêtements, dans une barre au-dessus de la liste. « Par défaut » montre tout ; « + » crée un nouveau tiroir (« Tiroir 1 », « Tiroir 2 » …). Un tiroir montre la même page – emplacements, puces, recherche, filtres, favoris – avec seulement ses pièces, et les emplacements ne comptent que celles-ci. Clic droit sur une pièce › « Tiroir › » ouvre à côté du menu la liste des tiroirs : une coche indique que la pièce y est ; un clic l'y met ou l'en retire, « + Nouveau tiroir » en crée un avec la pièce dedans. Une pièce peut être dans autant de tiroirs que vous voulez ; dans un tiroir, le menu a en plus « Retirer de ce tiroir ». Clic droit sur un tiroir : renommer (Entrée valide, Échap annule), déplacer à gauche / à droite, supprimer (demande d'abord – les pièces restent). Le tiroir affiché est conservé après un redémarrage.
 - L'info-bulle indique de quel mod vient un objet.
 - Dégâts (dans le menu contextuel) : de 0 à 100 %, en direct sur un vêtement porté ; sur tout autre vêtement, ils sont gardés jusqu'à ce qu'il soit porté. Les vêtements portés sans textures de dégâts n'ont pas de curseur.
 - Sous la palette de couleurs du jeu, un champ affiche la couleur en #RRGGBB ; tapez un code et appuyez sur Entrée pour l'appliquer. « Mémoriser » garde la couleur dans AltUI, « Utiliser » la pose sur un autre vêtement ou emplacement.
@@ -117,6 +120,7 @@ Les objets de Jodi et l'hyper coffre de stockage, une liste sous l'autre.
 Toutes les coiffures du jeu et des mods.
 
 - Un clic sur une coiffure la met.
+- Le champ de recherche au-dessus des vignettes trouve les coiffures par nom affiché, identifiant, nom du mod et fichier pak ; × le vide.
 - « Couleur des cheveux... » ouvre la palette du jeu ; « Couleurs naturelles » propose 14 couleurs prêtes.
 - Clic droit : ajouter aux / retirer des favoris, réinitialiser la couleur des cheveux, renommer, voir le contenu du mod.
 - Les favoris sont en haut, au-dessus de toutes les coiffures.
@@ -141,6 +145,8 @@ Chaque animation d'action que connaissent le jeu et vos mods de poses – la lis
 
 - En haut les modèles – celui du jeu et chaque mod de modèle installé.
 - En bas les skins – les peintures d'armes du jeu (sans bombe de peinture) et chaque mod de skin installé.
+- Si un mod de modèle apporte ses propres versions des peintures du jeu (faites pour son modèle), elles apparaissent comme skins supplémentaires à côté de celles du jeu tant que ce modèle est choisi.
+- Les tuiles de modèle montrent chaque modèle avec le skin choisi ; la peinture propre d'un modèle, seulement sur ce modèle – sur tout autre, l'arme reste telle quelle, et sa tuile aussi. La tuile d'un mod de skin est atténuée quand le skin n'a aucun effet sur le modèle choisi ; on le sait dès que l'arme a été dans la main de Jodi avec ce modèle. « Reprendre les images » dans la barre d'état reprend toutes les tuiles de l'arme.
 - Son : le son de tir propre à l'arme (« Original ») et chaque son de tir installé pour elle. Un clic choisit le son et le joue ; toutes les autres armes gardent le leur. Un silencieux monté avec son propre son reste prioritaire.
 - Les puces au-dessus filtrent les trois sections à la fois. Clic droit sur une tuile : favori, masquer, seulement ce mod.
 - Le choix est conservé et réappliqué quand l'arme est ramassée ou sortie de la caisse de rangement.
@@ -207,6 +213,7 @@ Vos propres noms d'affichage pour les mods, groupes, vêtements, coiffures, peau
 - Des puces et une recherche filtrent la liste ; « seulement les mods » masque les entrées du jeu ; ↺ revient au nom par défaut.
 - Avec altui_names.pyz, les noms peuvent être exportés dans un fichier texte puis réimportés.
 - Les mods d'armes figurent avec les autres mods.
+- « Utilisation » montre quels mods sont utilisés en ce moment : pour chaque mod, les pièces utilisées et où elles se trouvent (Jodi maintenant, tenues, looks, préréglages, favoris, compagnons, scènes de ragdolls, position debout, armes). Les mods inutilisés sont listés en gris en dessous, ainsi que les mods dont AltUI ne peut pas détecter l'utilisation (cartes, mods de script). « Voir le contenu » ouvre chacun d'eux. Ce qui se trouve seulement dans la garde-robe ne compte pas comme utilisé. Chaque mod est une tuile avec son nom affiché et son fichier pak ; les emplacements d'une pièce sont résumés par type (p. ex. « Tenues 4–6, 8 »). La liste est établie à l'ouverture de « Utilisation » ; ailleurs, le nombre à gauche est celui de la dernière fois (aucun avant la première).
 
 ## Ragdolls {#ragdolls}
 
@@ -229,6 +236,7 @@ Avec la souris sur une figure, à côté du panneau et en mode ragdoll :
 - Glisser avec le bouton droit tourne la figure autour de ses hanches.
 - Maj + clic gauche bloque ou libère l'articulation cliquée.
 - Maj + clic droit sur une figure figée rend l'articulation mobile. Glisser ensuite avec le bouton gauche une partie du corps sous une articulation mobile ne déplace que cette partie ; elle reste là où vous la lâchez – c'est ainsi qu'on pose une figure.
+- Glisser avec le bouton droit sur une partie du corps sous une articulation mobile d'une figure figée tourne ce membre autour de l'articulation : le point saisi suit la souris, la main et les doigts tournent avec. La molette tord pendant ce temps le membre autour de son propre axe. La rotation reste dans la pose et est enregistrée avec les poses et les scènes ; les limites des articulations ne s'appliquent que lorsque la figure devient active.
 
 Sans le panneau, le menu rapide active ou fige les figures : « Ragdoll : activer / figer celle visée » prend la figure au centre de l'écran, « Ragdolls : actifs / figés » les bascule toutes.
 
@@ -246,7 +254,8 @@ Déplacer et poser les figures sans le panneau, la caméra libre dans la pièce.
 Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et obéit aux ordres ; un PNJ reste où il est et se défend.
 
 - Dans l'onglet Looks, clic droit sur un look : « Créer en compagnon » ou « Créer en PNJ ». La figure apparaît devant Jodi avec ce look.
-- L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », « Invulnérable », « Munitions infinies » et « ... » (renommer, changer de look, ranimer, retirer).
+- L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », ∞ avec un cœur (invulnérable), ∞ avec des cartouches (munitions infinies) et l'engrenage (renommer, changer de look, ranimer, retirer). « ... » replie et déplie les tuiles de la figure (vêtements et sac) ; cela reste par figure, même après un redémarrage.
+- Les compagnons sont listés au-dessus des PNJ, une ligne sépare les deux groupes. Les puces au-dessus des lignes montrent tout, seulement les compagnons ou seulement les PNJ (conservé après un redémarrage).
 - Un clic sur une ligne sélectionne la figure. En haut se trouvent le sac à dos (à gauche) et la caisse (à droite) : un clic donne un objet à la figure sélectionnée, une arme avec sa peinture et ses accessoires. Un clic sur une tuile de la figure le rend au sac à dos ; clic droit : tout, ou dans la caisse. « ... » au-dessus d'une liste la replie.
 - Le menu contextuel d'une pile – de Jodi ou de la figure – a la ligne de quantité comme dans l'onglet Inventaire : « En donner 5 », « En prendre 5 », dans le coffre.
 - Les vêtements sont de vraies pièces de la figure, comme pour les PNJ du jeu : ils s'abîment, peuvent se déchirer et apparaissent dans l'inventaire PNJ du jeu, où l'on peut aussi les échanger. Sous une figure, ses pièces sont des tuiles (celles abîmées sont marquées) : un clic en enlève une et la met dans le sac à dos de Jodi ; clic droit : réparer avec un kit de couture du sac à dos de Jodi, ou tout réparer. Dans la colonne du sac à dos, « Vêtements » liste les pièces de Jodi : un clic en donne une à la figure sélectionnée, qui l'enfile (dégâts et couleurs suivent).

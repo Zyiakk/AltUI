@@ -44,10 +44,35 @@ class FoldColumns(unittest.TestCase):
     def test_folding_one_unfolds_the_other(self):
         g = mgr_graph("Fol Chip"); by = {n["id"]: n for n in g["nodes"]}
         self.assertEqual(by["soBag"].get("var"), "FolFoldBox"); self.assertEqual(by["soBox"].get("var"), "FolFoldBag")
-        self.assertIn(["entry", "bfBag", "sfBag", "soBag", "svs"], g["exec"])
+        self.assertIn(["bsh:else", "bfBag", "sfBag", "soBag", "svs"], g["exec"])
 
     def test_a_saved_double_fold_is_undone(self):
         g = mgr_graph("Rebuild Followers"); self.assertTrue(any(n["id"] == "snx" and n.get("var") == "FolFoldBox" for n in g["nodes"]))
+
+
+class FoldRows(unittest.TestCase):
+    """2026-10-19: "..." in a row folds the figure's tiles (saved per id); the menu chip shows a gear."""
+    def test_fold_chip_and_gear(self):
+        g = mgr_graph("Rebuild Followers"); by = {n["id"]: n for n in g["nodes"]}
+        self.assertIn("FolC:Fold:", by["cfdc"]["in"]["A"]); self.assertEqual(by["cmmic"]["in"]["icon"], "/Game/Mod/AltUI/T_TabOptions")
+        self.assertTrue(any(c[c.index("bffr") + 1:c.index("bffr") + 3] == ["fdt", "ar"] for c in g["exec"] if "bffr" in c))   # folded: no tiles
+        self.assertIn(["bffr:else", "bold", "onote", "ik", "fi"], g["exec"])
+
+    def test_fold_toggles_and_saves(self):
+        g = mgr_graph("Fol Chip"); self.assertIn(["bFold", "bfr", "rfr", "svfr"], g["exec"]); self.assertIn(["bfr:else", "afr", "svfr"], g["exec"])
+        sg = asset("/Game/Mod/AltUI/SG_AltUI"); self.assertIn("FolFoldRows", [v["name"] for v in sg["variables"]])
+
+    def test_followers_above_npcs(self):
+        # 2026-10-19: followers in FolRows, NPCs in FolNpcRows, a line between them while both have rows; chips FolShow0..2 filter
+        g = mgr_graph("Rebuild Followers"); fs = {n.get("function") for n in g["nodes"]}
+        for f in ("Add Fol Row", "Add Fol Npc Row", "Set Fol Sep Visible", "Add Fol Show Chip"): self.assertIn(f, fs)
+        self.assertIn(["ar", "arf", "srf"], g["exec"]); self.assertIn(["ar:else", "arn", "srn"], g["exec"])
+        self.assertTrue(any(c[:3] == ["fe", "bshw", "rw_cr"] for c in g["exec"]))
+        c = mgr_graph("Fol Chip"); self.assertIn(["entry", "bsh", "ssh", "svs"], c["exec"])
+        sg = asset("/Game/Mod/AltUI/SG_AltUI"); self.assertIn("FolShow", [v["name"] for v in sg["variables"]])
+
+    def test_sub_tab_icon(self):
+        names = {f["name"] for f in asset("/Game/Mod/AltUI/W_SubTab")["functions"]}; self.assertIn("Set Icon", names)
 
 
 class TableRows(unittest.TestCase):
@@ -245,3 +270,18 @@ class BringAll(unittest.TestCase):
     def test_here_at_falls_back_to_the_front_place(self):
         g = mgr_graph("Fol Here At"); self.assertIn(["btp:else", "fr", "tp2", "bst"], g["exec"])
         self.assertEqual([n["function"] for n in mgr_graph("Fol Here")["nodes"] if n.get("function") == "Fol Here At"], ["Fol Here At"])
+
+
+class ColumnWidths(unittest.TestCase):
+    """The chip columns take the width of the panel's language (half view: one line again after the "..." column came)."""
+    def test_per_language(self):
+        import strings
+        for k, keys in fol.FOL_COLS:
+            ws = fol.col_widths(keys)
+            self.assertEqual(len(ws), len(strings.LANGS))
+            for w in ws: self.assertGreater(w, fol.CHIP_PAD)
+        en = sum(fol.col_widths(keys)[0] for _, keys in fol.FOL_COLS)
+        self.assertLess(en, sum(fol.col_width(keys) for _, keys in fol.FOL_COLS))
+
+    def test_wide_characters_count_double(self):
+        self.assertEqual(fol._units("无限"), 4); self.assertEqual(fol._units("ab"), 2)

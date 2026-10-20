@@ -1278,6 +1278,34 @@
      }
     }
    ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BP_AltUILight",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "components": [
+    {
+     "name": "Spot",
+     "class": "/Script/Engine.SpotLightComponent",
+     "properties": {
+      "Mobility": "Movable",
+      "Intensity": "1.5",
+      "bUseInverseSquaredFalloff": "false",
+      "LightFalloffExponent": "2.0",
+      "AttenuationRadius": "2000.0",
+      "InnerConeAngle": "30.0",
+      "OuterConeAngle": "70.0",
+      "SpecularScale": "0.0",
+      "VolumetricScatteringIntensity": "0.0",
+      "CastShadows": "false",
+      "CastStaticShadows": "false",
+      "CastDynamicShadows": "false",
+      "bAffectTranslucentLighting": "true",
+      "bVisible": "false"
+     }
+    }
+   ]
   }
  ]
 }

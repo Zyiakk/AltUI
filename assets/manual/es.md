@@ -33,6 +33,7 @@ AltUI guarda sus propios datos en la carpeta de partidas del juego, en Windows %
 - AltUI_Names.sav – tus propios nombres
 - AltUI_Ragdolls.sav – escenas y poses de ragdolls
 - AltUI_Followers.sav – seguidores y PNJ
+- AltUI_Drawers.sav – cajones de ropa
 - la carpeta AltUI – fotos de looks, rostros y presets de apariencia
 - la carpeta WeaponIcons – imágenes de armas
 
@@ -47,7 +48,8 @@ Tras una actualización del juego, o con un mod que reemplaza tablas del juego, 
 - La rueda del ratón desplaza; la velocidad se ajusta en Opciones › Controles.
 - Mientras el panel está abierto, Jodi no puede caminar. Arrastrar sobre el fondo gira la cámara; hacer clic en Jodi y arrastrar la gira a ella, y al cerrar el panel vuelve a su posición.
 - + y − cambian la distancia de la cámara en pasos del 5 %, la rueda sobre Jodi en pasos del 4 %.
-- Los tres botones redondos sobre + y − abren una cámara libre (el ratón gira, W A S D y Q E mueven, Mayús más rápido, la rueda ajusta la velocidad, Esc vuelve), el modo foto del juego (Esc vuelve) y el modo ragdoll (ver «Modo ragdoll»).
+- Los botones redondos sobre + y − abren una cámara libre (el ratón gira, W A S D y Q E mueven, Mayús más rápido, la rueda ajusta la velocidad, Esc vuelve), el modo foto del juego (Esc vuelve) y el modo ragdoll (ver «Modo ragdoll»).
+- El botón redondo de arriba (la bombilla) es la luz de cámara: ilumina lo que ve la cámara – junto al panel, en la cámara libre y en el modo foto. Un clic abre un pequeño menú: encender / apagar, el color de la luz (paleta) y un control de brillo. Solo aclara (sin brillos, sin haz en la niebla), está apagada mientras juegas y vuelve como la dejaste cuando se abre el panel.
 - Deshacer y Rehacer (cinco pasos) están en la barra de estado de abajo.
 - Mantén pulsado 4 para el menú rápido (ver «Menú rápido»).
 - En el menú principal, B abre un pequeño menú: las tres escenas del menú y la escena de carga, la cámara siguiente, y ocultar el menú y los textos del juego (Esc los recupera).
@@ -60,6 +62,7 @@ A la izquierda las ranuras, a la derecha las prendas de la ranura elegida.
 - Las fichas sobre la lista filtran por mod o grupo; «...» pliega las filas de fichas. Un campo de búsqueda reduce las fichas, y la búsqueda sobre la lista encuentra prendas por nombre, mod o grupo.
 - Filtros: solo poseídos, solo favoritos, solo vanilla, solo puestos.
 - Clic derecho en una prenda: favorito, ocultar, color con la paleta del juego, restablecer color, meter en la mochila, renombrar, solo este grupo, ver contenido del mod, mostrar en la pestaña.
+- Cajones: colecciones propias de ropa, en una barra sobre la lista. «Predeterminado» lo muestra todo; «+» crea un cajón nuevo («Cajón 1», «Cajón 2» …). Un cajón muestra la misma página – ranuras, fichas, búsqueda, filtros, favoritos – solo con sus prendas, y las ranuras cuentan solo esas. Clic derecho en una prenda › «Cajón ›» abre junto al menú la lista de cajones: una marca indica que la prenda está dentro; un clic la mete o la saca, «+ Nuevo cajón» crea uno con la prenda dentro. Una prenda puede estar en cualquier número de cajones; dentro de un cajón el menú tiene además «Quitar de este cajón». Clic derecho en un cajón: renombrar (Intro acepta, Esc cancela), mover a la izquierda / derecha, borrar (pregunta antes; las prendas se quedan). El cajón mostrado se mantiene tras reiniciar.
 - La descripción emergente indica de qué mod viene una prenda.
 - Daño (en el menú contextual): de 0 a 100 %, al instante en una prenda puesta; en cualquier otra se guarda hasta que se la ponga. Las prendas puestas sin texturas de daño no tienen control.
 - Bajo la paleta de colores del juego, un campo muestra el color como #RRGGBB; escribe un código y pulsa Intro para aplicarlo. «Recordar» guarda el color en AltUI, «Usar» lo pone en otra prenda o ranura.
@@ -117,6 +120,7 @@ Los objetos de Jodi y la hipercaja de almacenamiento, una lista bajo la otra.
 Todos los peinados del juego y de los mods.
 
 - Un clic en un peinado lo pone.
+- El cuadro de búsqueda sobre las fichas encuentra peinados por nombre mostrado, identificador, nombre del mod y archivo pak; × lo vacía.
 - «Color de pelo...» abre la paleta del juego; «Colores de pelo naturales» ofrece 14 colores listos.
 - Clic derecho: añadir a / quitar de favoritos, restablecer color de pelo, renombrar, ver contenido del mod.
 - Los favoritos están arriba, encima de todos los peinados.
@@ -141,6 +145,8 @@ A la izquierda, una entrada por arma, incluidas las armas cuerpo a cuerpo. Para 
 
 - Arriba los modelos: el del juego y cada mod de modelo instalado.
 - Abajo las skins: las pinturas de armas del juego (sin bote de pintura) y cada mod de skin instalado.
+- Si un mod de modelo trae sus propias versiones de las pinturas del juego (hechas para su modelo), aparecen como skins adicionales junto a las del juego mientras ese modelo está elegido.
+- Las casillas de modelo muestran cada modelo con el skin elegido; la pintura propia de un modelo, solo en ese modelo: en cualquier otro el arma se queda como está, y su casilla también. La casilla de un mod de skin aparece atenuada cuando el skin no hace nada en el modelo elegido; se sabe en cuanto el arma ha estado en la mano de Jodi con ese modelo. «Volver a tomar» en la barra de estado vuelve a tomar las imágenes de todas las casillas del arma.
 - Sonido: el sonido de disparo propio del arma («Original») y cada sonido de disparo instalado para ella. Un clic elige el sonido y lo reproduce; las demás armas conservan el suyo. Un silenciador montado con sonido propio sigue teniendo prioridad.
 - Las fichas de arriba filtran las tres secciones a la vez. Clic derecho en una casilla: favorito, ocultar, solo este mod.
 - La elección se guarda y se vuelve a aplicar cuando se recoge el arma o se saca de la caja de almacenamiento.
@@ -207,6 +213,7 @@ Nombres propios para mods, grupos, ropa, peinados, pieles, maquillaje, poses y p
 - Fichas y una búsqueda filtran la lista; «solo mods» oculta las entradas del juego; ↺ vuelve al nombre predeterminado.
 - Con altui_names.pyz los nombres se pueden exportar a un archivo de texto e importar de nuevo.
 - Los mods de armas aparecen con los demás mods.
+- «Uso» muestra qué mods están en uso ahora mismo: por mod, las piezas en uso y dónde están (Jodi ahora, conjuntos, looks, presets, favoritos, seguidores, escenas de ragdolls, de pie, armas). Los mods sin usar aparecen debajo en gris, igual que los mods cuyo uso AltUI no puede detectar (mapas, mods de script). «Ver contenido» abre cualquiera de ellos. Lo que solo está en el armario no cuenta como uso. Cada mod es una ficha con su nombre visible y su archivo pak; los lugares de una pieza se resumen por tipo (p. ej. «Conjuntos 4–6, 8»). La lista se recopila al abrir «Uso»; en otros lugares el número de la izquierda es el de la última vez (ninguno antes de la primera).
 
 ## Ragdolls {#ragdolls}
 
@@ -229,6 +236,7 @@ Con el ratón sobre una figura, junto al panel y en el modo ragdoll:
 - Arrastrar con el botón derecho gira la figura sobre sus caderas.
 - Mayús + clic izquierdo bloquea o libera la articulación pulsada.
 - Mayús + clic derecho en una figura congelada hace móvil la articulación. Arrastrar entonces con el botón izquierdo una parte del cuerpo bajo una articulación móvil mueve solo esa parte; se queda donde la sueltas: así se posa una figura.
+- Arrastrar con el botón derecho una parte del cuerpo bajo una articulación móvil de una figura congelada gira ese miembro sobre la articulación: el punto agarrado sigue al ratón y la mano y los dedos giran con él. Mientras tanto, la rueda del ratón lo tuerce sobre su propio eje. El giro queda en la pose y se guarda con poses y escenas; los límites de las articulaciones solo cuentan cuando la figura se activa.
 
 Sin el panel, el menú rápido activa o congela figuras: «Ragdoll: activar / congelar la del centro» toma la figura del centro de la pantalla, «Ragdolls: activos / congelados» las cambia todas.
 
@@ -246,7 +254,8 @@ Mover y posar las figuras sin el panel, con la cámara libre en la sala. Se inic
 Looks convertidos en personas del juego: un seguidor acompaña a Jodi, lucha y obedece órdenes; un PNJ se queda donde está y se defiende.
 
 - En la pestaña Looks, clic derecho en un look: «Crear como seguidor» o «Crear como PNJ». La figura aparece delante de Jodi con ese look.
-- La pestaña «Seguidores» muestra todas las figuras con su estado (sigue, espera, PNJ, inactivo, caído) y chips: «Sígueme», «Espera aquí», «Traer aquí», → PNJ / → Seguidor, «Activo», «Invulnerable», «Munición infinita» y «...» (renombrar, cambiar look, revivir, eliminar).
+- La pestaña «Seguidores» muestra todas las figuras con su estado (sigue, espera, PNJ, inactivo, caído) y chips: «Sígueme», «Espera aquí», «Traer aquí», → PNJ / → Seguidor, «Activo», ∞ con un corazón (invulnerable), ∞ con cartuchos (munición infinita) y el engranaje (renombrar, cambiar look, revivir, eliminar). «...» pliega y despliega las fichas de la figura (ropa y mochila); se queda así por figura, también tras reiniciar.
+- Los seguidores aparecen encima de los PNJ, con una línea entre los dos grupos. Los chips sobre las filas muestran todos, solo seguidores o solo PNJ (se mantiene tras reiniciar).
 - Un clic en una fila selecciona la figura. Arriba están la mochila (izquierda) y la caja (derecha): un clic da un objeto a la figura seleccionada, un arma con su pintura y accesorios. Un clic en una casilla de la figura la devuelve a la mochila; clic derecho: todo, o a la caja. «...» sobre una lista la pliega.
 - El menú contextual de una pila – de Jodi o de la figura – tiene la fila de cantidad como en la pestaña Inventario: «Dar 5», «Coger 5», a la caja.
 - La ropa son prendas reales de la figura, como con los PNJ del juego: se daña, puede romperse y aparece en el inventario de PNJ del propio juego, donde también se puede intercambiar. Bajo una figura, sus prendas son casillas (las dañadas, marcadas): un clic se quita una y la deja en la mochila de Jodi; clic derecho: reparar con un kit de costura de la mochila de Jodi, o reparar todo. En la columna de la mochila, «Ropa» muestra las prendas de Jodi: un clic da una a la figura seleccionada, que se la pone (el daño y los colores van con ella).

@@ -9,7 +9,7 @@ On top of that the modifier carries the dragged camera height (UserZ) and a wall
 import os, sys; sys.path.insert(0, os.path.dirname(__file__))
 from bpdsl import *
 
-CAMMOD = M + "/CM_AltUICam"
+CAMMOD = M + "/CM_AltUICam"; CAMLIGHT = M + "/BP_AltUILight"; E_SPOT = "/Script/Engine.SpotLightComponent"
 E_CAMMOD = "/Script/Engine.CameraModifier"; E_PCM = "/Script/Engine.PlayerCameraManager"
 CAM_TRACE_R = 15.0      # sphere radius of the wall probe: the camera keeps that much clearance from the surface
 CAM_MIN_F = 0.05        # smallest fraction of the set distance the probe may leave over
@@ -131,5 +131,13 @@ assets = [blueprint(CAMMOD, E_CAMMOD,
                                var("ShiftWorld", "float"), var("ShiftInit", "bool"),
                                var("FocusOn", "bool"), var("FocusZ", "float"), var("FocusZoom", "float", default="1.0"), var("UserZ", "float"),
                                var("CurZ", "float"), var("CurZoom", "float", default="1.0"), var("ShiftUp", "float"), var("CurDistF", "float", default="1.0"), var("CurDist", "float", default="1.0")],
-                    functions=[f_modify_camera()])]
+                    functions=[f_modify_camera()]),
+          # camera light of the Jodi view (spec 2026-10-19-kameralicht): placed on the game camera every frame by the manager (Light Step).
+          # Brightens only: no specular (no glint on skin / latex / floor), no volumetric scattering (no visible cone in fog), no shadows,
+          # wide soft cone, the game lamps' legacy falloff (Intensity = brightness, exponent 2) so near surfaces do not burn out
+          blueprint(CAMLIGHT, E_ACTOR, components=[
+              component("Spot", E_SPOT, Mobility="Movable", Intensity="1.5", bUseInverseSquaredFalloff="false", LightFalloffExponent="2.0",
+                        AttenuationRadius="2000.0", InnerConeAngle="30.0", OuterConeAngle="70.0", SpecularScale="0.0",
+                        VolumetricScatteringIntensity="0.0", CastShadows="false", CastStaticShadows="false", CastDynamicShadows="false",
+                        bAffectTranslucentLighting="true", bVisible="false")])]
 write(os.path.join(os.path.dirname(__file__), "..", "27_cammod.json"), assets)

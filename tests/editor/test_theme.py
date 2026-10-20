@@ -38,6 +38,21 @@ def main():
     expect("frame alpha fixed", rgba(mgr.get_editor_property("ColFrame"))[3], 0.35)
     mgr.call_method("Test Reset Theme")
     expect("reset restores fill", rgba(mgr.get_editor_property("ColFill")), (0.02, 0.02, 0.03, 0.8))
+    # 2026-10-19: surfaces that had fixed colours - defaults = those colours
+    for name, val in (("ColInput", (0.1, 0.1, 0.12, 1.0)), ("ColArea", (1.0, 1.0, 1.0, 0.05)), ("ColAreaFrame", (1.0, 1.0, 1.0, 0.16)),
+                      ("ColWarn", (1.0, 0.6, 0.3, 1.0)), ("ColScroll", (1.0, 1.0, 1.0, 1.0)), ("ColBtn", (1.0, 1.0, 1.0, 0.08)),
+                      ("ColBtnHover", (1.0, 1.0, 1.0, 0.18)), ("ColIcon", (1.0, 1.0, 1.0, 0.75)), ("ColCheck", (1.0, 1.0, 1.0, 1.0))):
+        expect("default " + name, rgba(mgr.get_editor_property(name)), val)
+    expect("ColDim alpha", rgba(mgr.get_editor_property("ColDim"))[3], 0.6)
+    mgr.call_method("Test Set Theme Color", args=("Input", unreal.LinearColor(0.3, 0.1, 0.2, 1.0)))
+    expect("input follows its base colour", rgba(mgr.get_editor_property("ColInput")), (0.3, 0.1, 0.2, 1.0))
+    # a settings file from before the new colours (zero there) -> their defaults; a stored colour stays
+    mgr.set_editor_property("ThemeArea", unreal.LinearColor(0, 0, 0, 0)); mgr.set_editor_property("ThemeScroll", unreal.LinearColor(0, 0, 0, 0))
+    mgr.call_method("Test Save Settings"); mgr.call_method("Test Load Settings")
+    expect("missing Area -> default", rgba(mgr.get_editor_property("ThemeArea")), (1.0, 1.0, 1.0, 1.0))
+    expect("missing Scroll -> default", rgba(mgr.get_editor_property("ColScroll")), (1.0, 1.0, 1.0, 1.0))
+    expect("stored Input kept", rgba(mgr.get_editor_property("ThemeInput")), (0.3, 0.1, 0.2, 1.0))
+    mgr.call_method("Test Reset Theme"); mgr.call_method("Test Save Settings")   # leave a sane save behind
     # layout fractions (stable indices: 1 third, 2 half, 3 quarter, 4 fifth)
     for idx, frac in ((0, 0.0), (1, 0.3333), (2, 0.5), (3, 0.25), (4, 0.2)):
         mgr.call_method("Test Layout Fraction", args=(idx,))

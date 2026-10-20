@@ -173,6 +173,7 @@ member names, and AltUI cannot read a table written against it.
 | `NormalTex` | your normal map |
 | `MetallicTex` | your metallic texture |
 | `Icon` | optional; shown on the tile until AltUI has rendered a picture of its own |
+| `Material` | leave empty for a skin. Set only for your **model's own version of a game paint**: a material made for your model, put on slot 0 like the game puts its paints. The row then needs no textures, and its tile only appears while your model (from the same mod folder) is chosen |
 
 Leave out what you do not replace - an empty slot keeps the game's texture.
 

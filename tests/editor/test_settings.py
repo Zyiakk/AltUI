@@ -77,5 +77,18 @@ def main():
     expect("idle style round trip", str(mgr.get_editor_property("IdleStyle")), "Afk1")
     mgr.set_editor_property("IdleStyle", "None"); mgr.call_method("Test Save Settings")
     mgr.call_method("Test Idle Mods"); expect("idle mods scanned, none in the kit", len(mgr.get_editor_property("IdleMods")), 0)
+    # camera light: a settings file without the fields loads off / warm white / 0.5 (SG_AltUI defaults); on / colour / brightness round trip
+    sgc = cdo(M + "/SG_AltUI.SG_AltUI_C")
+    expect("light default off", sgc.get_editor_property("LightOn"), False)
+    expect("light default power", round(sgc.get_editor_property("LightPower"), 3), 0.5)
+    lc = sgc.get_editor_property("LightColor"); expect("light default warm white", (round(lc.r, 3), round(lc.g, 3), round(lc.b, 3)), (1.0, 0.76, 0.515))
+    mgr.set_editor_property("LightOn", True); mgr.set_editor_property("LightPower", 0.8); mgr.set_editor_property("LightColor", unreal.LinearColor(0.2, 0.4, 1.0, 1.0))
+    mgr.call_method("Test Save Settings")
+    mgr.set_editor_property("LightOn", False); mgr.set_editor_property("LightPower", 0.5); mgr.set_editor_property("LightColor", unreal.LinearColor(1, 1, 1, 1))
+    mgr.call_method("Test Load Settings")
+    expect("light on round trip", mgr.get_editor_property("LightOn"), True)
+    expect("light power round trip", round(mgr.get_editor_property("LightPower"), 3), 0.8)
+    expect("light colour round trip", round(mgr.get_editor_property("LightColor").b, 3), 1.0)
+    mgr.set_editor_property("LightOn", False); mgr.set_editor_property("LightPower", 0.5); mgr.set_editor_property("LightColor", unreal.LinearColor(1, 0.76, 0.515, 1))
     mgr.set_editor_property("LeftFree", 0); mgr.set_editor_property("LangChoice", 0); mgr.set_editor_property("GroupLen", 0); mgr.set_editor_property("ChipH", 0); mgr.set_editor_property("RagKey", "G"); mgr.call_method("Test Save Settings")   # leave a sane save behind
 run(main)

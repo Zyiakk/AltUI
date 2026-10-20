@@ -51,7 +51,7 @@ class FocusGuard(unittest.TestCase):
 
     def test_panel_esc_closes_only_the_palette(self):
         g = self.fns["Panel Key Close"]["graph"]; nodes = {n["id"]: n for n in g["nodes"]}
-        self.assertIn(["bdw:else", "b", "cc"], g["exec"]); self.assertIn(["b:else", "cp"], g["exec"])   # after the drop warning (test_drop_warning)
+        self.assertIn(["bdw:else", "b", "cc"], g["exec"]); self.assertIn(["b:else", "bl", "clm"], g["exec"]); self.assertIn(["bl:else", "cp"], g["exec"])   # Esc with the light submenu up closes only that   # after the drop warning (test_drop_warning)
         self.assertEqual(nodes["cc"]["function"], "Close Color"); self.assertEqual(nodes["cp"]["function"], "Close Panel")
         self.assertIn("ColorOpen", json.dumps(g))
 

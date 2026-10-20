@@ -142,6 +142,16 @@ def load_pkg(pk, key):
     return Package.from_bytes(pk.read(key), pk.read(ux_key) if ux_key in pk.files else b"")
 
 
+def fname_split(name):
+    """(name, number) as UE stores a name: a trailing _<digits> (no leading zero, below 2^31-1) becomes the number + 1.
+    A package path written as one string with number 0 is a different FName than the one UE makes from the same text -
+    the import then does not find its package (a relocated material instance came up without its parent, 2026-10-20)."""
+    base, _, tail = name.rpartition("_")
+    if base and tail.isdigit() and (tail == "0" or tail[0] != "0") and int(tail) < 0x7FFFFFFF:
+        return base, int(tail) + 1
+    return name, 0
+
+
 def import_name(im):
     """Full package name of an import. UE keeps a trailing number out of the name: "Foo_1" is stored as the name "Foo"
     with number 2. Comparing only the name makes every numbered package look like its unnumbered sibling - and a mod
@@ -179,7 +189,7 @@ def package_entries(pk, key, rel, relocate):
     hits = [im for im in pkg.imports if im.class_name == "Package" and import_name(im) in relocate]
     if hits:
         for im in hits:
-            im.object_name = relocate[import_name(im)][1]; im.object_number = 0   # the new name carries the number, so the stored one goes
+            im.object_name, im.object_number = fname_split(relocate[import_name(im)][1])   # stored the way UE splits it
         ua, ux = pkg.write()
         if ux != pk.read(key[:-len(".uasset")] + ".uexp"):
             raise SystemExit("rewriting %s changed its export data" % key)
@@ -195,20 +205,20 @@ def package_entries(pk, key, rel, relocate):
 
 def verify(out_pak, name, entries):
     errs = []
-    pk = Pak(out_pak)
-    if pk.mount != MOUNT_PREFIX + name + "/":
-        errs.append("mount point: " + pk.mount)
-    for rel, region, e in entries:
-        key = rel if "/" in rel else "/" + rel     # Pak keys: root files "/X", subdirectory files "A/B/X"
-        if key not in pk.files:
-            errs.append("missing: " + rel); continue
-        en = pk.entry(pk.files[key]); pk.f.seek(en["off"])
-        if pk.f.read(len(region)) != region:
-            errs.append("data differs: " + rel)
-        if (en["usz"], en["sz"], en["comp"]) != (e["usz"], e["sz"], e["comp"]):
-            errs.append("entry differs: " + rel)
-    if len(pk.files) != len(entries):
-        errs.append("file count %d != %d" % (len(pk.files), len(entries)))
+    with Pak(out_pak) as pk:   # closed again: the caller may replace the file (Windows refuses that while it is open)
+        if pk.mount != MOUNT_PREFIX + name + "/":
+            errs.append("mount point: " + pk.mount)
+        for rel, region, e in entries:
+            key = rel if "/" in rel else "/" + rel     # Pak keys: root files "/X", subdirectory files "A/B/X"
+            if key not in pk.files:
+                errs.append("missing: " + rel); continue
+            en = pk.entry(pk.files[key]); pk.f.seek(en["off"])
+            if pk.f.read(len(region)) != region:
+                errs.append("data differs: " + rel)
+            if (en["usz"], en["sz"], en["comp"]) != (e["usz"], e["sz"], e["comp"]):
+                errs.append("entry differs: " + rel)
+        if len(pk.files) != len(entries):
+            errs.append("file count %d != %d" % (len(pk.files), len(entries)))
     return errs
 
 
