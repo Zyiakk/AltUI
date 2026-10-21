@@ -28353,6 +28353,21 @@
         }
        },
        {
+        "id": "gplmd",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "omd",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jodi/Jodi",
+        "function": "on Menu Displayed",
+        "in": {
+         "self": "@gplmd.Player",
+         "show": "true"
+        }
+       },
+       {
         "id": "gpc2",
         "kind": "get",
         "var": "PC"
@@ -29171,6 +29186,7 @@
        [
         "atv",
         "so",
+        "omd",
         "slm0",
         "rlm0",
         "smr",
@@ -29405,6 +29421,21 @@
         "in": {
          "self": "@gpl.Player",
          "PlayerController": "@gpc4.PC"
+        }
+       },
+       {
+        "id": "gplmd",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "omd",
+        "kind": "call",
+        "class": "/Game/Project/Character/Jodi/Jodi",
+        "function": "on Menu Displayed",
+        "in": {
+         "self": "@gplmd.Player",
+         "show": "false"
         }
        },
        {
@@ -29800,6 +29831,7 @@
        ],
        [
         "svc0",
+        "omd",
         "arm"
        ]
       ]
@@ -218536,7 +218568,7 @@
      }
     },
     {
-     "name": "Apply Weapon Look",
+     "name": "Dress Weapon",
      "inputs": [
       {
        "name": "weapon",
@@ -222952,6 +222984,216 @@
         "qfc",
         "qcc",
         "qp0"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Weapon Look",
+     "inputs": [
+      {
+       "name": "weapon",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "dw",
+        "kind": "call_self",
+        "function": "Dress Weapon",
+        "in": {
+         "weapon": "@entry.weapon"
+        }
+       },
+       {
+        "id": "ksl",
+        "kind": "call_self",
+        "function": "Keep Scope Look",
+        "in": {
+         "weapon": "@entry.weapon"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "dw",
+        "ksl"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Keep Scope Look",
+     "inputs": [
+      {
+       "name": "weapon",
+       "type": "name"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "gws",
+        "kind": "get",
+        "var": "Weapons",
+        "class": "/Game/Project/Character/Jodi/Jodi"
+       },
+       {
+        "id": "fw",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gws.Weapons",
+         "Key": "@entry.weapon"
+        }
+       },
+       {
+        "id": "bw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@fw.ReturnValue"
+        }
+       },
+       {
+        "id": "cmp",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_GetComponentsByClass",
+        "in": {
+         "self": "@fw.Value",
+         "ComponentClass": "/Script/Engine.PrimitiveComponent"
+        }
+       },
+       {
+        "id": "scp",
+        "kind": "set",
+        "var": "ScopeComps",
+        "in": {
+         "ScopeComps": "@cmp.ReturnValue"
+        }
+       },
+       {
+        "id": "gcp",
+        "kind": "get",
+        "var": "ScopeComps"
+       },
+       {
+        "id": "fc",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gcp.ScopeComps"
+        }
+       },
+       {
+        "id": "co",
+        "kind": "cast",
+        "class": "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp",
+        "pure": false,
+        "in": {
+         "Object": "@fc.Array Element"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "gsm",
+        "kind": "get",
+        "var": "Scope Material",
+        "class": "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp"
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gsm.Scope Material"
+        }
+       },
+       {
+        "id": "bv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "old",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "K2_GetVectorParameterValue",
+        "in": {
+         "self": "@gsm.Scope Material",
+         "ParameterName": "Params"
+        }
+       },
+       {
+        "id": "dm",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@co.AsGun_Optics_Comp",
+         "ElementIndex": "1",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "ssm",
+        "kind": "set",
+        "var": "Scope Material",
+        "class": "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp",
+        "in": {
+         "self": "@co.AsGun_Optics_Comp",
+         "Scope Material": "@dm.ReturnValue"
+        }
+       },
+       {
+        "id": "sp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@dm.ReturnValue",
+         "ParameterName": "Params",
+         "Value": "@old.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gpl.Player",
+        "gws.self"
+       ],
+       [
+        "co.AsGun_Optics_Comp",
+        "gsm.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bw",
+        "scp",
+        "fc"
+       ],
+       [
+        "fc",
+        "co",
+        "bv",
+        "old",
+        "dm",
+        "ssm",
+        "sp"
        ]
       ]
      }

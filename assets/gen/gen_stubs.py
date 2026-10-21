@@ -106,7 +106,9 @@ assets = [
     # Gun_Equipment_Base_C derives from StaticMeshComponent, so the magazine is a component of the weapon - Mount Mag hangs
     # one of the given class on it. A freshly spawned weapon actor has none; only the game's own equip flow puts it there.
     blueprint(P_EQUIPBASE, "/Script/Engine.StaticMeshComponent"),   # magazine, optics, suppressor, grip all derive from this
-    blueprint(P_MAGCOMP, P_EQUIPBASE), blueprint(P_OPTICSCOMP, P_EQUIPBASE), blueprint(P_GRIPCOMP, P_EQUIPBASE),
+    blueprint(P_MAGCOMP, P_EQUIPBASE), blueprint(P_GRIPCOMP, P_EQUIPBASE),
+    # Scope Material: the dynamic instance on slot 1 the scope writes its aiming progress into (Keep Scope Look hands it back)
+    blueprint(P_OPTICSCOMP, P_EQUIPBASE, variables=[var("Scope Material", "object:/Script/Engine.MaterialInstanceDynamic")]),
     blueprint(P_BARRELCOMP, P_EQUIPBASE, variables=[var("Shot Sound", "object:/Script/Engine.SoundBase")]),   # the suppressor's own shot sound (Apply Influence sets it on the gun)
     # Gun Data: only the member AltUI reads (the game's paint, written by Change Gun Paint); the internal name must match the game
     struct(P_GUN_S, [param("PaintName", "name", internal_name="PaintName_29_FA1F96D44E7CE9841245EC85AD208267"),
@@ -217,7 +219,8 @@ assets = [
     # the invisible hand (catalog item): Jodi.Put Item to Bag sets its power from the hands in the bag, nothing else does - Hand Watch keeps it in step
     blueprint(P_IHC, "/Script/Engine.SceneComponent", variables=[var("Number", "int")], functions=[fn("Update Power", [param("Number", "int")])]),
     blueprint(P_JODI, mode="augment", variables=[var("InvisibleHand_Comp", "object:" + P_IHC), var("previous weapon", "object:" + P_WEAPON), var("wanna toggle weapon", "bool"),   # inventory tab: Got A Gun's equip request (Inv Got Gun)
-                                                var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Wanna Use This Item", [param("item name", "name")]), fn("Add Item to Shortcut", [param("item name", "name"), param("group", "int"), param("gun", "object:" + P_WEAPON)]),   # inventory tab
+                                                var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Wanna Use This Item", [param("item name", "name")]), fn("on Menu Displayed", [param("show", "bool")]),   # panel open/close: what PlayingHud does for the game's menus (aim ends, Wanna Aim reset)
+                                                fn("Add Item to Shortcut", [param("item name", "name"), param("group", "int"), param("gun", "object:" + P_WEAPON)]),   # inventory tab
                                                 fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True), fn("Wanna Running"),
                                                 fn("Use Clothes from Bag", [param("clothes name", "name"), param("is wear", "bool")]),
                                                 fn("Got Clothes", [param("clothes name", "name"), param("wear", "bool")]),

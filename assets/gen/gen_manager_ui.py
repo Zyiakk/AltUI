@@ -213,6 +213,9 @@ def f_open():
     g.get("gp2", "Panel"); g.call("atv", E_USERWIDGET, "AddToViewport", inp={"self": "@gp2.Panel", "ZOrder": "100"})
     g.set("so", "PanelOpen", inp={"PanelOpen": "true"})
     g.get("gpc", "PC"); g.call("cur", P_PC, "ShowMouseCursor", inp={"self": "@gpc.PC", "show": "true"})
+    # aiming ends the way the game's own menus end it (PlayingHud.show menu -> on Menu Displayed(true): out of the scope view);
+    # without it a held aim button stayed held - its release went to the locked input - and the view kept the scope, unzoomed
+    g.get("gplmd", "Player"); g.call("omd", P_JODI, "on Menu Displayed", inp={"self": "@gplmd.Player", "show": "true"})
     g.get("gpc2", "PC"); g.get("gp3", "Panel")
     g.call("im", K_WBL, "SetInputMode_GameAndUIEx", inp={"PlayerController": "@gpc2.PC", "InWidgetToFocus": "@gp3.Panel", "InMouseLockMode": "DoNotLock", "bHideCursorDuringCapture": "false"})
     # movement lock according to strategy
@@ -256,7 +259,7 @@ def f_open():
     g.chain("entry", "b", "atv"); g.n("abi0", "call_self", function="Apply Button Image", inp={"rebuild": "false"})   # before any tile or tab is made
     g.chain("b:else", "abi0", "cw_cr", "sp", "sm", "sft", "slof", "slow", "ibt", "aps", "ath", "atv")
     g.set("slm0", "LightMenuOpen", inp={"LightMenuOpen": "false"}); g.n("rlm0", "call_self", function="Refresh Light Menu")   # camera light: submenu shut, button state
-    g.chain("atv", "so", "slm0", "rlm0", "smr", "sjd", "cur", "im", "bl", "epc", "rs"); g.chain("bl:else", "di", "rs")
+    g.chain("atv", "so", "omd", "slm0", "rlm0", "smr", "sjd", "cur", "im", "bl", "epc", "rs"); g.chain("bl:else", "di", "rs")
     g.n("rst", "call_self", function="Rebuild Status")
     g.n("uf", "call_self", function="Update Focus")
     # the tab it was left on (kept in the settings): read before Page goes to Clothes, switched to once the clothes page is built;
@@ -295,6 +298,7 @@ def f_close():
     g.get("gls", "LockStrategy"); g.call("eq0", K_MATH, "EqualEqual_IntInt", inp={"A": "@gls.LockStrategy", "B": "0"}); g.branch("bl", "@eq0.ReturnValue")
     g.get("gpc3", "PC"); g.call("epc", P_PC, "Enable Player Control", inp={"self": "@gpc3.PC", "Base": "true", "Playing": "true"})
     g.get("gpl", "Player"); g.get("gpc4", "PC"); g.call("ei", E_ACTOR, "EnableInput", inp={"self": "@gpl.Player", "PlayerController": "@gpc4.PC"})
+    g.get("gplmd", "Player"); g.call("omd", P_JODI, "on Menu Displayed", inp={"self": "@gplmd.Player", "show": "false"})   # Wanna Aim = false, as after the game's menus (Try to Hide Mouse Cursor)
     g.n("cmn", "call_self", function="Close Menu"); g.n("cdw", "call_self", function="Close Drop Warning"); g.n("svs", "call_self", function="Save Settings"); g.n("ccl", "call_self", function="Close Color")
     g.n("sad", "call_self", function="Save Appearance Data"); g.set("svs0", "ViewShift", inp={"ViewShift": "0.0"}); g.n("svc0", "call_self", function="Set View Shift")
     # camera modes end with the panel: free cam / Ragdolls mode -> Stop Free Cam; photo mode -> Try Exit Photo Mode + End Photo Mode (PanelOpen false first: no panel part)
@@ -321,7 +325,7 @@ def f_close():
     g.chain("cmn", "cdw", "ccl", "b", "rm", "so"); g.chain("b:else", "so"); g.chain("so", "cgo", "bgo", "cur5", "im6", "svs"); g.chain("cgo:CastFailed", "cur"); g.chain("bgo:else", "cur", "im", "bl", "epc", "svs"); g.chain("bl:else", "ei", "svs"); g.chain("svs", "sad", "svs0", "svc0")
     perf_marks(g)
     g.n("arm", "call_self", function="Apply Rag Markers");    # joint spheres follow (spec 2026-10-17)
-    g.chain("svc0", "arm")
+    g.chain("svc0", "omd", "arm")
     return fn("Close Panel", graph=g)
 
 
@@ -11210,7 +11214,43 @@ def f_apply_weapon_look(on=False):
     g.chain("qfc", "qcc", "qp0")
     if on:
         return fn("Apply Weapon Look On", [param("weapon", "name"), param("actor", "object:" + E_ACTOR)], graph=g)
+    return fn("Dress Weapon", [param("weapon", "name")], graph=g)
+
+
+def f_apply_weapon_look_main():
+    """Apply Weapon Look = Dress Weapon, then Keep Scope Look: one call for everyone who dresses Jodi's weapon, and the
+    scope always gets its own instance back, whichever of Dress Weapon's many ends it left through."""
+    g = G()
+    g.n("dw", "call_self", function="Dress Weapon", inp={"weapon": "@entry.weapon"})
+    g.n("ksl", "call_self", function="Keep Scope Look", inp={"weapon": "@entry.weapon"})
+    g.chain("entry", "dw", "ksl")
     return fn("Apply Weapon Look", [param("weapon", "name")], graph=g)
+
+
+def f_keep_scope_look():
+    """A magnifying scope (Gun_Optics_Comp_C) draws its aiming through a dynamic instance of its own on slot 1: Check Scope
+    Material makes it once and keeps it in Scope Material, Update Glass Material Params writes Params = (radius, 0, 0, 1)
+    into it while the aim view comes in. Dress Weapon empties every slot and fills them again with what it remembered, and
+    that is the plain MI_scope_* when it was remembered before the first aim. The scope's instance is then off the mesh, the
+    aim keeps writing into it, and the mesh shows ShaderScope's default Params (0, 1, 0, 0): a black ring around a small
+    lens, until the scope is taken off and put on again (Discord 2026-10-21, base game scopes).
+    So: a scope that already has its instance gets one on slot 1 again (CreateDynamicMaterialInstance keeps a dynamic
+    instance that is there - a forced skin on the optics - and makes one of the material otherwise), with the Params the old
+    one carried, so a scope that is aimed right now looks as it did. A scope never aimed has none and makes its own."""
+    g = G()
+    g.get("gpl", "Player"); g.get("gws", "Weapons", cls=P_JODI); g.link("gpl.Player", "gws.self")
+    g.call("fw", K_MAP, "Map_Find", inp={"TargetMap": "@gws.Weapons", "Key": "@entry.weapon"}); g.branch("bw", "@fw.ReturnValue")
+    g.call("cmp", E_ACTOR, "K2_GetComponentsByClass", inp={"self": "@fw.Value", "ComponentClass": E_PRIM}); g.set("scp", "ScopeComps", inp={"ScopeComps": "@cmp.ReturnValue"})
+    g.get("gcp", "ScopeComps"); g.foreach("fc", "@gcp.ScopeComps")
+    g.cast("co", P_OPTICSCOMP, "@fc.Array Element", pure=False, miss="ignore")   # barrel, magazine, grip, the gun's own meshes: nothing to do
+    g.get("gsm", "Scope Material", cls=P_OPTICSCOMP); g.link("co.AsGun_Optics_Comp", "gsm.self")
+    g.call("iv", K_SYS, "IsValid", inp={"Object": "@gsm.Scope Material"}); g.branch("bv", "@iv.ReturnValue")
+    g.call("old", E_MID, "K2_GetVectorParameterValue", inp={"self": "@gsm.Scope Material", "ParameterName": "Params"})
+    g.call("dm", E_PRIM, "CreateDynamicMaterialInstance", inp={"self": "@co.AsGun_Optics_Comp", "ElementIndex": "1", "SourceMaterial": "None", "OptionalName": "None"})
+    g.set("ssm", "Scope Material", cls=P_OPTICSCOMP, inp={"self": "@co.AsGun_Optics_Comp", "Scope Material": "@dm.ReturnValue"})
+    g.call("sp", E_MID, "SetVectorParameterValue", inp={"self": "@dm.ReturnValue", "ParameterName": "Params", "Value": "@old.ReturnValue"})
+    g.chain("entry", "bw", "scp", "fc"); g.chain("fc", "co", "bv", "old", "dm", "ssm", "sp")   # K2_GetVectorParameterValue is not pure: read before the instance is replaced
+    return fn("Keep Scope Look", [param("weapon", "name")], graph=g)
 
 
 def f_sync_weapon_paint():
@@ -18328,7 +18368,7 @@ assets = [bp_cam_input(), blueprint(MGR, mode="augment", variables=DRAWER_VARS +
                                photo_mode_wrapper("Update Face Front", "Update Face", False), photo_mode_wrapper("Update Face View", "Update Face", True),
                                f_update_preset(), f_store_preset_colors(), photo_mode_wrapper("Update Preset Front", "Update Preset", False), photo_mode_wrapper("Update Preset View", "Update Preset", True), f_delete_look(), f_look_name(), f_set_look_name(), f_apply_look(), f_rebuild_looks(), f_on_look_clicked(), f_on_look_context(), f_start_look_rename(),
                                f_select_layout(), f_rebuild_conflicts(), f_rebuild_multi_slots(), f_toggle_multi_slot(), f_toggle_conflict(), f_free_slot(), f_free_all(), f_ensure_cam_mod(), f_set_view_shift(), f_start_free_cam(), f_stop_free_cam(), f_free_cam_look(), f_free_cam_wheel(), f_free_cam_step(), f_start_photo_mode(), f_end_photo_mode(), f_cam_tick(), f_wheel_dist(), f_begin_jodi_drag(), f_jodi_drag(), f_end_jodi_drag(), f_rag_pick(), f_rag_pin_grab(), f_apply_rag_markers(), f_toggle_rag_markers(), f_collect_pose_rows(), f_pose_section_caption(), f_pose_section_count(), f_pose_title(), f_pose_name(), f_pose_actors(), f_pose_kind(), f_is_pose_moving(), f_is_pose_manual(), f_set_pose_kind(), f_pelvis_height(), f_measure_tick(), f_start_pose_scan(), f_stop_pose_scan(), f_scan_tick(), f_pose_set_stand(), f_pose_set_sit(), f_pose_set_lie(), f_reset_pose_measurement(), f_set_pose_measurement(), f_toggle_pose_moving(), f_pose_cat_count(), f_rebuild_pose_cats(), f_select_pose_cat(), f_pose_key(), f_is_pose_favorite(), f_is_pose_hidden(), f_pose_matches(), f_pose_row_shown(), f_pose_row_passes(), f_bump_pose_count(), f_count_pose_cats(), f_pose_groups(), f_rebuild_pose_chips(), f_select_pose_group(), f_rebuild_poses(), f_pose_has_sound(), f_pose_clicked(), f_stop_pose(), f_toggle_idle_pose(), f_end_idle_pose(), f_idle_pose_tick(), f_pose_loop_tick(), f_toggle_pose_loop(), f_top_fit_tick(), f_notice_tick(), f_image_tex(), f_scan_user_images(), f_apply_bg_image(), f_apply_button_image(), f_thumb_rts(), f_write_user_thumb(), f_thumb_tex(), f_chip_thumb(), f_redo_user_thumb(), f_rebuild_image_chips(), f_select_image_chip(), f_anim_log_tick(), f_rebuild_pose_links(), f_toggle_pose_favorite(), f_toggle_pose_hidden(), f_pose_only_mod(), f_on_pose_context(), f_on_pose_search_changed(), f_mod_field_valid(), f_mod_entry_pos(), f_add_mod_field(), f_scan_mod_entries(), f_mod_field_changed(), mod_forward("Mod Color Changed", mu.ON_COLOR, "color", S_LINCOLOR),
-                               mod_forward("Mod Key Changed", mu.ON_KEY, "pressed", mu.KEY_TYPE), f_begin_key_capture(), f_key_captured(), f_cancel_key_capture(), f_capturing_key(), mod_forward("Mod Text Changed", mu.ON_TEXT, "text", "string"), f_open_mod_color(), f_rebuild_mod_entries(), f_rebuild_mod_fields(), f_poll_mods(), f_select_mod_entry(), f_rebuild_mod_page(), f_scan_weapon_skins(), f_scan_weapon_models(), f_scan_weapon_sounds(), f_sound_mod(), f_sounds_for_weapon(), f_weapon_rows(), f_skins_for_weapon(), f_skin_mod(), f_skin_paint(), f_skin_paint_fits(), f_skin_takes_key(), f_tile_skin(), f_skin_row(), f_model_mod(), f_models_for_weapon(), f_model_mesh(), f_material_takes_color(), f_item_color_slots(), f_apply_weapon_model(), f_apply_weapon_sound(), f_apply_weapon_look(), f_apply_weapon_look(on=True), f_sync_weapon_paint(), f_apply_all_weapon_looks(), f_kodex_valid(), f_rebuild_kodex_cats(), f_select_kodex(), f_rebuild_kodex(), f_kodex_unlocked_rows(), f_kodex_archive_rows(), f_kodex_tile_clicked(), f_kodex_back(), f_kodex_noop_rename(), f_kodex_place_text(), f_collect_kodex_locks(), f_kodex_toggle_code(), f_spawn_ragdoll_copy(), f_rag_refresh(), f_rebuild_ragdolls(), f_ragdoll_action(), f_rag_move_update(), f_rag_lift(), f_rag_turn_update(), f_start_ragdoll_mode(), f_ragdoll_mode_step(), f_toggle_aimed_ragdoll(), f_toggle_ragdolls_active(), f_remove_ragdolls(), f_ragdoll_grab_update(), f_spawn_look_ragdoll(), f_look_ragdoll_poll(), f_finish_look_ragdoll(), f_spawn_zombie_ragdoll(), f_finish_zombie_ragdoll(), f_rag_kind_name(), f_rag_kind_clicked(), f_load_rag_save(), f_save_rag_preset(), f_load_rag_preset(), f_rag_load_next(), f_rag_load_place(), f_rag_load_apply(), f_rag_load_zombie(), f_delete_rag_preset(), f_rag_save_click(), f_rag_pose_type(), f_store_rag_pose(), f_save_rag_pose(), f_load_rag_pose(), f_delete_rag_pose(),
+                               mod_forward("Mod Key Changed", mu.ON_KEY, "pressed", mu.KEY_TYPE), f_begin_key_capture(), f_key_captured(), f_cancel_key_capture(), f_capturing_key(), mod_forward("Mod Text Changed", mu.ON_TEXT, "text", "string"), f_open_mod_color(), f_rebuild_mod_entries(), f_rebuild_mod_fields(), f_poll_mods(), f_select_mod_entry(), f_rebuild_mod_page(), f_scan_weapon_skins(), f_scan_weapon_models(), f_scan_weapon_sounds(), f_sound_mod(), f_sounds_for_weapon(), f_weapon_rows(), f_skins_for_weapon(), f_skin_mod(), f_skin_paint(), f_skin_paint_fits(), f_skin_takes_key(), f_tile_skin(), f_skin_row(), f_model_mod(), f_models_for_weapon(), f_model_mesh(), f_material_takes_color(), f_item_color_slots(), f_apply_weapon_model(), f_apply_weapon_sound(), f_apply_weapon_look(), f_apply_weapon_look_main(), f_keep_scope_look(), f_apply_weapon_look(on=True), f_sync_weapon_paint(), f_apply_all_weapon_looks(), f_kodex_valid(), f_rebuild_kodex_cats(), f_select_kodex(), f_rebuild_kodex(), f_kodex_unlocked_rows(), f_kodex_archive_rows(), f_kodex_tile_clicked(), f_kodex_back(), f_kodex_noop_rename(), f_kodex_place_text(), f_collect_kodex_locks(), f_kodex_toggle_code(), f_spawn_ragdoll_copy(), f_rag_refresh(), f_rebuild_ragdolls(), f_ragdoll_action(), f_rag_move_update(), f_rag_lift(), f_rag_turn_update(), f_start_ragdoll_mode(), f_ragdoll_mode_step(), f_toggle_aimed_ragdoll(), f_toggle_ragdolls_active(), f_remove_ragdolls(), f_ragdoll_grab_update(), f_spawn_look_ragdoll(), f_look_ragdoll_poll(), f_finish_look_ragdoll(), f_spawn_zombie_ragdoll(), f_finish_zombie_ragdoll(), f_rag_kind_name(), f_rag_kind_clicked(), f_load_rag_save(), f_save_rag_preset(), f_load_rag_preset(), f_rag_load_next(), f_rag_load_place(), f_rag_load_apply(), f_rag_load_zombie(), f_delete_rag_preset(), f_rag_save_click(), f_rag_pose_type(), f_store_rag_pose(), f_save_rag_pose(), f_load_rag_pose(), f_delete_rag_pose(),
                                chip_dispatch("Context Chip Apply", "Load Rag Preset", "Apply Theme Preset", "Load Rag Pose"), chip_dispatch("Context Chip Delete", "Delete Rag Preset", "Delete Theme Preset", "Delete Rag Pose"), f_poll_weapons(), f_select_weapon(), f_weapon_skin_clicked(), f_rebuild_weapons(), f_rebuild_weapon_skins(), f_skin_caption(), f_skin_icon(), f_is_skin_favorite(), f_skin_key(), f_skin_row_passes(), f_current_model(), f_current_skin(), f_model_row(), f_model_caption(), f_model_icon(), f_model_key(), f_is_model_favorite(), f_model_row_passes(), f_rebuild_weapon_models(), f_sound_row_passes(), f_sound_key(), f_is_sound_favorite(), f_current_sound(), f_sound_caption(), f_vanilla_shot_sound(), f_rebuild_weapon_sounds(), f_weapon_sound_clicked(), f_toggle_sound_favorite(), f_toggle_sound_hidden(), f_sound_only_mod(), f_on_sound_context(), f_weapon_model_clicked(), f_toggle_model_favorite(), f_toggle_model_hidden(), f_model_has_icon(), f_toggle_model_own_icon(), f_model_forced(), *[f_toggle_model_skip(p, a) for p, _, a, _, _, _ in WEAPON_PARTS], f_toggle_model_force_skin(), f_model_only_mod(), f_on_model_context(), f_weapon_tile_row(), f_weapon_tile_clicked(), f_on_weapon_context(), f_weapon_icon_key(), f_weapon_icon(), f_capture_weapon_icon(), f_capture_weapon_icon_step(), f_skin_groups(), f_rebuild_weapon_chips(), f_select_skin_group(), f_rebuild_weapon_links(), f_on_weapon_search_changed(), f_toggle_skin_favorite(), f_toggle_skin_hidden(), f_skin_only_mod(), f_on_skin_context(), f_select_unowned(), f_redo_weapon_icons(), f_toggle_rendered_icons(), f_rebuild_status(), f_take_snapshot(), f_push_history(), f_apply_snapshot(), f_wear_queue_step(), f_finish_apply_snapshot(), history_step("Undo", "UndoStack", "RedoStack"), history_step("Redo", "RedoStack", "UndoStack"),
                                f_content_open(), f_open_content(), f_content_snapshot(), open_content_wrapper("Open Outfit Content", "Outfit"), open_content_wrapper("Open Look Content", "Look"), open_content_wrapper("Open Preset Content", "Preset"), open_content_wrapper("Open Face Content", "Face"), f_close_content(),
                                *fol_functions(), *drawer_functions(), *menuscene.functions(simple_menu, ts), f_inv_box_count(), f_weapon_gun(), f_att_matches(), f_mounted_part(), f_att_section(), f_attach_fill(), f_att_note(), f_rebuild_weapon_attach(), f_weapon_attach_clicked(), f_rebuild_inventory(), f_inv_box_data(), f_inv_row(), f_inv_tile_caption(), f_rebuild_inv_chips(), f_select_inv_group(), f_inv_head_chips(), f_inv_head_clicked(), f_inv_layout(), f_on_inv_search_changed(), f_rebuild_inv_cat(), f_inv_got_gun(), f_inv_section(), f_inv_empty(), f_inv_fill(), f_inv_gun_tip(), f_inv_fill_cat(), f_inv_cat_bag(), f_inv_cat_box(), f_inv_bag_sig(), f_poll_inventory(), f_inv_tile_parse(), f_inv_set_ctx(), f_inv_store(), f_inv_clamp(), f_inv_take(), f_inv_take_gun(), f_inv_drop_all(), f_inv_action(), f_on_inv_clicked(), f_on_inv_context(), f_rebuild_content(), f_on_content_item_context(), f_content_kind(), f_content_item_clicked(), f_content_use(), f_go_to_item(), f_scroll_to_highlight()],

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.7.1 – 2026-10-21
+
+Replace `AltUI.pak` – nothing else. `AltUI_Hook_P.pak`, `weaponpak.pyz`, `bodypak.pyz`, `idlepak.pyz` and `altui_names.pyz`
+are the same as in 2.7.0.
+
+* **Scopes stay clear after AltUI.** A magnifying scope (4x, 8x …) aimed after AltUI had been open showed its lens behind a
+  black ring, until the scope was taken off and put on again. Opening AltUI no longer touches what the scope shows while aiming.
+* **Opening AltUI while aiming ends the aim**, the way the game's own menus do. Before, Jodi went on looking through the
+  sight after the panel closed, without the aim button held and without the zoom, until the button was pressed again.
+
 ## 2.7.0 – 2026-10-21
 
 Replace `AltUI.pak`; `weaponpak.pyz`, `bodypak.pyz` and `idlepak.pyz` are new. `AltUI_Hook_P.pak` and `altui_names.pyz`

@@ -1,4 +1,4 @@
-"""Apply Weapon Look must dress melee weapons too.
+"""Apply Weapon Look (its body: Dress Weapon) must dress melee weapons too.
 
 A knife or a hatchet is no Weapon_Gun_Base: the impure cast to it fails. From 2026-09-22 to 2026-10-07 its CastFailed
 exit was unwired (waived with miss="ignore"), so the function ended right there for every melee weapon - their models
@@ -40,7 +40,7 @@ def reachable_without(g, cut):
 
 class MeleeWeaponLook(unittest.TestCase):
     def setUp(self):
-        self.g = function("Apply Weapon Look")
+        self.g = function("Dress Weapon")
         self.nodes = {n["id"]: n for n in self.g["nodes"]}
 
     def gun_cast(self):

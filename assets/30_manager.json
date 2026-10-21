@@ -10567,6 +10567,11 @@
      "container": "array"
     },
     {
+     "name": "ScopeComps",
+     "type": "object:/Script/Engine.ActorComponent",
+     "container": "array"
+    },
+    {
      "name": "TmpComps2",
      "type": "object:/Script/Engine.ActorComponent",
      "container": "array"

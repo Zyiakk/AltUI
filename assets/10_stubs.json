@@ -655,15 +655,21 @@
   },
   {
    "type": "blueprint",
-   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp",
+   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Grip_Comp",
    "mode": "create",
    "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"
   },
   {
    "type": "blueprint",
-   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Grip_Comp",
+   "path": "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp",
    "mode": "create",
-   "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"
+   "parent": "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base",
+   "variables": [
+    {
+     "name": "Scope Material",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    }
+   ]
   },
   {
    "type": "blueprint",
@@ -2089,6 +2095,15 @@
       {
        "name": "item name",
        "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "on Menu Displayed",
+     "inputs": [
+      {
+       "name": "show",
+       "type": "bool"
       }
      ]
     },
