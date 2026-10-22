@@ -428,6 +428,17 @@ def tab_kodex(d, S, W, C):
     d.rectangle((S * 0.485, S * 0.20, S * 0.515, S * 0.90), fill=C)                                   # spine gap
 
 
+def tab_tv(d, S, W, C):
+    """Television: a wide screen in a frame on a small foot, two antennas on top."""
+    lw = int(S * 0.06)
+    d.line(_pts(S, [(0.36, 0.06), (0.50, 0.24), (0.66, 0.04)]), fill=W, width=lw, joint="curve")   # antennas
+    d.rounded_rectangle((S * 0.06, S * 0.24, S * 0.94, S * 0.82), radius=int(S * 0.08), fill=W)     # frame
+    d.rounded_rectangle((S * 0.15, S * 0.33, S * 0.85, S * 0.73), radius=int(S * 0.04), fill=C)     # screen
+    d.polygon([(S * 0.42, S * 0.43), (S * 0.42, S * 0.63), (S * 0.60, S * 0.53)], fill=W)           # play mark on the screen
+    d.rectangle((S * 0.40, S * 0.82, S * 0.60, S * 0.90), fill=W)                                    # foot
+    d.rectangle((S * 0.28, S * 0.90, S * 0.72, S * 0.96), fill=W)
+
+
 def altui_panel(d, S, W, C):
     """The AltUI panel, stylised: frame, tab bar with the chosen tab underlined, category list on the left, tile grid on the right."""
     d.rounded_rectangle((S * 0.04, S * 0.10, S * 0.96, S * 0.90), radius=int(S * 0.08), outline=W, width=int(S * 0.06))
@@ -442,7 +453,7 @@ def altui_panel(d, S, W, C):
 
 
 TAB_ICON_DRAW = {"Clothes": tab_clothes, "Outfits": tab_outfits, "Looks": tab_looks, "Bag": tab_bag, "Inventory": tab_inventory, "Hair": tab_hair, "Weapons": tab_weapons,
-                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Manage": tab_manage, "Ragdolls": tab_ragdolls, "Followers": tab_followers, "Kodex": tab_kodex}
+                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Manage": tab_manage, "Ragdolls": tab_ragdolls, "Followers": tab_followers, "Kodex": tab_kodex, "TV": tab_tv}
 T_ALTUI = M + "/T_AltUI"
 TAB_ICONS = dict({k: M + "/T_Tab" + k for k in TAB_ICON_DRAW}, Poses=T_POSE)   # page -> texture; Poses uses the pose tiles' stick figure
 

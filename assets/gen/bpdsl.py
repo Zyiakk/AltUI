@@ -64,6 +64,7 @@ P_ITEMCLASS_E = "/Game/Project/Classes/Enum/ItemClass"   # ItemStruct.ItemClass:
 P_GEQ_T = "/Game/Project/Tables/GunEquipment"; P_GEQ_S = "/Game/Project/Tables/GunEquipmentStruct"   # weapon attachments (type 0 optics, 1 barrel, 2 grip, 3 magazine)
 P_HBSAVE = "/Game/Project/Classes/Save/HyperBox_Save"; P_HBDATA = "/Game/Project/Classes/Misc/HyperBoxData"   # storage box (inventory tab)
 P_PAINT_T = "/Game/Project/Tables/GunPaint"; P_PAINT_S = "/Game/Project/Tables/GunPaintStruct"; P_GUN_S = "/Game/Project/Classes/Struct/Gun_Struct"
+P_TV = "/Game/Project/Maps/JodisOffice/TV/TV_Actor"   # TV tab: the office TV (videos = the .mp4 files in <game>/Videos/TV/)
 P_ARCH_T = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Archives"; P_ARCH_S = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Mail_Struct"   # Kodex: encyclopedia (Jodi's office PC)
 P_NOTE_SAVE = "/Game/Project/Classes/Save/Note_Save"; P_SETTINGS_SAVE = "/Game/Project/Classes/Save/Settings_Save"; P_PWCOMP = "/Game/Project/Classes/Items/ItemComp_Password"; P_ZOMBIE = "/Game/Project/Zombie/Zombie_Base"; P_SHATTERER = "/Game/Project/Zombie/Shatterer"
 P_INTERACTIVE = "/Game/Project/Classes/InteractiveActor/InteractiveActor_Base"; P_ITEMCOMP = "/Game/Project/Classes/Items/ItemComponent"

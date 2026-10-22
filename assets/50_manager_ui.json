@@ -32400,6 +32400,54 @@
         }
        },
        {
+        "id": "gpg9",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "istv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpg9.Page",
+         "B": "TV"
+        }
+       },
+       {
+        "id": "bptv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@istv.ReturnValue"
+        }
+       },
+       {
+        "id": "tvns",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@entry.name"
+        }
+       },
+       {
+        "id": "tvni",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToInt",
+        "in": {
+         "InString": "@tvns.ReturnValue"
+        }
+       },
+       {
+        "id": "stv",
+        "kind": "call_self",
+        "function": "Tv Play",
+        "in": {
+         "index": "@tvni.ReturnValue"
+        }
+       },
+       {
         "id": "uf",
         "kind": "call_self",
         "function": "Update Focus"
@@ -32457,6 +32505,11 @@
        ],
        [
         "bpkx:else",
+        "bptv",
+        "stv"
+       ],
+       [
+        "bptv:else",
         "hlc",
         "s",
         "gr",
@@ -39793,7 +39846,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookRagdoll"
+         "B": "TvOn"
         }
        },
        {
@@ -39804,17 +39857,9 @@
         }
        },
        {
-        "id": "gc135",
-        "kind": "get",
-        "var": "ContextLook"
-       },
-       {
         "id": "fa135",
         "kind": "call_self",
-        "function": "Spawn Look Ragdoll",
-        "in": {
-         "index": "@gc135.ContextLook"
-        }
+        "function": "Tv On"
        },
        {
         "id": "ia136",
@@ -39823,7 +39868,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookFollower"
+         "B": "TvOff"
         }
        },
        {
@@ -39834,17 +39879,9 @@
         }
        },
        {
-        "id": "gc136",
-        "kind": "get",
-        "var": "ContextLook"
-       },
-       {
         "id": "fa136",
         "kind": "call_self",
-        "function": "Spawn Look As Follower",
-        "in": {
-         "index": "@gc136.ContextLook"
-        }
+        "function": "Tv Off"
        },
        {
         "id": "ia137",
@@ -39853,7 +39890,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookNpc"
+         "B": "LookRagdoll"
         }
        },
        {
@@ -39871,7 +39908,7 @@
        {
         "id": "fa137",
         "kind": "call_self",
-        "function": "Spawn Look As Npc",
+        "function": "Spawn Look Ragdoll",
         "in": {
          "index": "@gc137.ContextLook"
         }
@@ -39883,7 +39920,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "LookClean"
+         "B": "LookFollower"
         }
        },
        {
@@ -39901,9 +39938,69 @@
        {
         "id": "fa138",
         "kind": "call_self",
-        "function": "Look Clean Copy",
+        "function": "Spawn Look As Follower",
         "in": {
          "index": "@gc138.ContextLook"
+        }
+       },
+       {
+        "id": "ia139",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "LookNpc"
+        }
+       },
+       {
+        "id": "ba139",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ia139.ReturnValue"
+        }
+       },
+       {
+        "id": "gc139",
+        "kind": "get",
+        "var": "ContextLook"
+       },
+       {
+        "id": "fa139",
+        "kind": "call_self",
+        "function": "Spawn Look As Npc",
+        "in": {
+         "index": "@gc139.ContextLook"
+        }
+       },
+       {
+        "id": "ia140",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "LookClean"
+        }
+       },
+       {
+        "id": "ba140",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ia140.ReturnValue"
+        }
+       },
+       {
+        "id": "gc140",
+        "kind": "get",
+        "var": "ContextLook"
+       },
+       {
+        "id": "fa140",
+        "kind": "call_self",
+        "function": "Look Clean Copy",
+        "in": {
+         "index": "@gc140.ContextLook"
         }
        }
       ],
@@ -40721,6 +40818,16 @@
         "ba137:else",
         "ba138",
         "fa138"
+       ],
+       [
+        "ba138:else",
+        "ba139",
+        "fa139"
+       ],
+       [
+        "ba139:else",
+        "ba140",
+        "fa140"
        ]
       ]
      }
@@ -44116,6 +44223,163 @@
         "in": {
          "Condition": "@sh16.yes"
         }
+       },
+       {
+        "id": "ct17_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "ct17_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_TopTab",
+         "OwningPlayer": "@ct17_pc.PC"
+        }
+       },
+       {
+        "id": "ct17",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TopTab",
+        "pure": true,
+        "in": {
+         "Object": "@ct17_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "sm17_me",
+        "kind": "self"
+       },
+       {
+        "id": "sm17",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_TopTab",
+        "in": {
+         "self": "@ct17.AsW_TopTab",
+         "Manager": "@sm17_me.self"
+        }
+       },
+       {
+        "id": "gpo17",
+        "kind": "get",
+        "var": "Page"
+       },
+       {
+        "id": "eq17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@gpo17.Page",
+         "B": "TV"
+        }
+       },
+       {
+        "id": "gts17",
+        "kind": "get",
+        "var": "TabStyle"
+       },
+       {
+        "id": "gtr17",
+        "kind": "get",
+        "var": "TabIconRight"
+       },
+       {
+        "id": "tt17",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tab_TV"
+        }
+       },
+       {
+        "id": "ti17",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TopTab",
+        "function": "Init",
+        "in": {
+         "self": "@ct17.AsW_TopTab",
+         "page": "TV",
+         "caption": "@tt17.text",
+         "selected": "@eq17.ReturnValue",
+         "icon": "/Game/Mod/AltUI/T_TabTV",
+         "style": "@gts17.TabStyle",
+         "right": "@gtr17.TabIconRight"
+        }
+       },
+       {
+        "id": "gp17",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "at17",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add TopTab",
+        "in": {
+         "self": "@gp17.Panel",
+         "widget": "@ct17.AsW_TopTab"
+        }
+       },
+       {
+        "id": "sh17",
+        "kind": "call_self",
+        "function": "Tab Shown",
+        "in": {
+         "page": "TV"
+        }
+       },
+       {
+        "id": "bs17",
+        "kind": "branch",
+        "in": {
+         "Condition": "@sh17.yes"
+        }
+       },
+       {
+        "id": "ftv",
+        "kind": "call_self",
+        "function": "Find TV"
+       },
+       {
+        "id": "gtva",
+        "kind": "get",
+        "var": "TvActor"
+       },
+       {
+        "id": "tvv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gtva.TvActor"
+        }
+       },
+       {
+        "id": "gtal",
+        "kind": "get",
+        "var": "TvAlways"
+       },
+       {
+        "id": "tvo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@tvv.ReturnValue",
+         "B": "@gtal.TvAlways"
+        }
+       },
+       {
+        "id": "btv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@tvo.ReturnValue"
+        }
        }
       ],
       "links": [],
@@ -44376,6 +44640,23 @@
        [
         "bs15:else",
         "bs16"
+       ],
+       [
+        "bs17",
+        "ftv",
+        "btv",
+        "ct17_cr",
+        "sm17",
+        "ti17",
+        "at17"
+       ],
+       [
+        "at16",
+        "bs17"
+       ],
+       [
+        "bs16:else",
+        "bs17"
        ]
       ]
      }
@@ -44964,6 +45245,28 @@
         "function": "Rebuild Followers"
        },
        {
+        "id": "isTv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "TV"
+        }
+       },
+       {
+        "id": "bTv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isTv.ReturnValue"
+        }
+       },
+       {
+        "id": "rtv",
+        "kind": "call_self",
+        "function": "Rebuild Tv"
+       },
+       {
         "id": "gpm",
         "kind": "get",
         "var": "Panel"
@@ -45211,6 +45514,11 @@
         "bInv:else",
         "bFol",
         "rfol"
+       ],
+       [
+        "bFol:else",
+        "bTv",
+        "rtv"
        ]
       ]
      }
@@ -85918,6 +86226,41 @@
      "graph": {
       "nodes": [
        {
+        "id": "gh17",
+        "kind": "get",
+        "var": "HiddenTabs"
+       },
+       {
+        "id": "ln17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "TV"
+        }
+       },
+       {
+        "id": "c17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@gh17.HiddenTabs",
+         "ItemToFind": "@ln17.ReturnValue"
+        }
+       },
+       {
+        "id": "s17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Options",
+         "B": "TV",
+         "bPickA": "@c17.ReturnValue"
+        }
+       },
+       {
         "id": "gh16",
         "kind": "get",
         "var": "HiddenTabs"
@@ -85947,7 +86290,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectString",
         "in": {
-         "A": "Options",
+         "A": "@s17.ReturnValue",
          "B": "Kodex",
          "bPickA": "@c16.ReturnValue"
         }
@@ -87861,11 +88204,31 @@
         }
        },
        {
+        "id": "te17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.id",
+         "B": "TV"
+        }
+       },
+       {
+        "id": "to17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@to16.ReturnValue",
+         "B": "@te17.ReturnValue"
+        }
+       },
+       {
         "id": "tok",
         "kind": "set",
         "var": "QOk",
         "in": {
-         "QOk": "@to16.ReturnValue"
+         "QOk": "@to17.ReturnValue"
         }
        },
        {
@@ -91556,6 +91919,23 @@
         }
        },
        {
+        "id": "tpe_TV",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StrStr",
+        "in": {
+         "A": "@k.id",
+         "B": "TV"
+        }
+       },
+       {
+        "id": "tpb_TV",
+        "kind": "branch",
+        "in": {
+         "Condition": "@tpe_TV.ReturnValue"
+        }
+       },
+       {
         "id": "st_Clothes",
         "kind": "set",
         "var": "QTex",
@@ -91689,6 +92069,14 @@
         "var": "QTex",
         "in": {
          "QTex": "/Game/Mod/AltUI/T_TabKodex"
+        }
+       },
+       {
+        "id": "st_TV",
+        "kind": "set",
+        "var": "QTex",
+        "in": {
+         "QTex": "/Game/Mod/AltUI/T_TabTV"
         }
        },
        {
@@ -92232,11 +92620,15 @@
         "tpb_Kodex"
        ],
        [
+        "tpb_Kodex:else",
+        "tpb_TV"
+       ],
+       [
         "qb_tab",
         "tpb_Clothes"
        ],
        [
-        "tpb_Kodex:else",
+        "tpb_TV:else",
         "return"
        ],
        [
@@ -92322,6 +92714,11 @@
        [
         "tpb_Kodex",
         "st_Kodex",
+        "return"
+       ],
+       [
+        "tpb_TV",
+        "st_TV",
         "return"
        ],
        [
@@ -114766,6 +115163,137 @@
         }
        },
        {
+        "id": "tb17lit",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralString",
+        "in": {
+         "Value": "tab:TV"
+        }
+       },
+       {
+        "id": "tb17gi",
+        "kind": "get",
+        "var": "QaItems"
+       },
+       {
+        "id": "tb17ai",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@tb17gi.QaItems",
+         "NewItem": "@tb17lit.ReturnValue"
+        }
+       },
+       {
+        "id": "tb17gs",
+        "kind": "get",
+        "var": "QStripe"
+       },
+       {
+        "id": "tb17row",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_IntInt",
+        "in": {
+         "A": "@tb17gs.QStripe",
+         "B": "3"
+        }
+       },
+       {
+        "id": "tb17rm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Percent_IntInt",
+        "in": {
+         "A": "@tb17row.ReturnValue",
+         "B": "2"
+        }
+       },
+       {
+        "id": "tb17ev",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@tb17rm.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "tb17gt",
+        "kind": "get",
+        "var": "QaTint"
+       },
+       {
+        "id": "tb17at",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@tb17gt.QaTint",
+         "NewItem": "@tb17ev.ReturnValue"
+        }
+       },
+       {
+        "id": "tb17si",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@tb17gs.QStripe",
+         "B": "1"
+        }
+       },
+       {
+        "id": "tb17ss",
+        "kind": "set",
+        "var": "QStripe",
+        "in": {
+         "QStripe": "@tb17si.ReturnValue"
+        }
+       },
+       {
+        "id": "tb17gk",
+        "kind": "get",
+        "var": "QaKind"
+       },
+       {
+        "id": "tb17lki",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralInt",
+        "in": {
+         "Value": "2"
+        }
+       },
+       {
+        "id": "tb17ak",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@tb17gk.QaKind",
+         "NewItem": "@tb17lki.ReturnValue"
+        }
+       },
+       {
+        "id": "tb17gr",
+        "kind": "get",
+        "var": "QaRef"
+       },
+       {
+        "id": "tb17ar",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@tb17gr.QaRef",
+         "NewItem": "@tb17ai.ReturnValue"
+        }
+       },
+       {
         "id": "sme",
         "kind": "call_self",
         "function": "Scan Mod Entries"
@@ -116644,6 +117172,14 @@
        ],
        [
         "tb16ar",
+        "tb17ai",
+        "tb17at",
+        "tb17ss",
+        "tb17ak",
+        "tb17ar"
+       ],
+       [
+        "tb17ar",
         "sme",
         "bmk"
        ],
@@ -121735,6 +122271,112 @@
          "self": "@t15gp.Panel",
          "widget": "@t15w.AsW_SubTab"
         }
+       },
+       {
+        "id": "t16w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "t16w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_SubTab",
+         "OwningPlayer": "@t16w_pc.PC"
+        }
+       },
+       {
+        "id": "t16w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_SubTab",
+        "pure": true,
+        "in": {
+         "Object": "@t16w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "t16sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "t16sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_SubTab",
+        "in": {
+         "self": "@t16w.AsW_SubTab",
+         "Manager": "@t16sm_me.self"
+        }
+       },
+       {
+        "id": "t16gh",
+        "kind": "get",
+        "var": "HiddenTabs"
+       },
+       {
+        "id": "t16ln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "TV"
+        }
+       },
+       {
+        "id": "t16h",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@t16gh.HiddenTabs",
+         "ItemToFind": "@t16ln.ReturnValue"
+        }
+       },
+       {
+        "id": "t16on",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@t16h.ReturnValue"
+        }
+       },
+       {
+        "id": "t16t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tab_TV"
+        }
+       },
+       {
+        "id": "t16ci",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_SubTab",
+        "function": "Init",
+        "in": {
+         "self": "@t16w.AsW_SubTab",
+         "group": "Tab:TV",
+         "caption": "@t16t.text",
+         "selected": "@t16on.ReturnValue"
+        }
+       },
+       {
+        "id": "t16gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "t16ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Tab Chip",
+        "in": {
+         "self": "@t16gp.Panel",
+         "widget": "@t16w.AsW_SubTab"
+        }
        }
       ],
       "links": [],
@@ -121836,7 +122478,11 @@
         "t15w_cr",
         "t15sm",
         "t15ci",
-        "t15ad"
+        "t15ad",
+        "t16w_cr",
+        "t16sm",
+        "t16ci",
+        "t16ad"
        ]
       ]
      }
@@ -142102,6 +142748,14 @@
         }
        },
        {
+        "id": "t_tvalways",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Lbl_TvAlways"
+        }
+       },
+       {
         "id": "t_hairfavorites",
         "kind": "call_self",
         "function": "T",
@@ -142281,6 +142935,7 @@
          "freenocollide": "@t_freenocollide.text",
          "freenolimit": "@t_freenolimit.text",
          "nonotices": "@t_nonotices.text",
+         "tvalways": "@t_tvalways.text",
          "hairfavorites": "@t_hairfavorites.text",
          "hairall": "@t_hairall.text",
          "keybinds": "@t_keybinds.text",
@@ -150855,6 +151510,11 @@
         "var": "NoNotices"
        },
        {
+        "id": "gtvaw",
+        "kind": "get",
+        "var": "TvAlways"
+       },
+       {
         "id": "su",
         "kind": "call",
         "class": "/Game/Mod/AltUI/W_AltUI",
@@ -150877,7 +151537,8 @@
          "slowmoon": "@gsmon.SlowMoOn",
          "freenocollide": "@gfnc.FreeNoCollide",
          "freenolimit": "@gfnl.FreeNoLimit",
-         "nonotices": "@gnnt.NoNotices"
+         "nonotices": "@gnnt.NoNotices",
+         "tvalways": "@gtvaw.TvAlways"
         }
        },
        {
@@ -160670,6 +161331,46 @@
          "ragwheel text": "@ox_rw_t.ReturnValue",
          "slowmo text": "@ox_sm_t.ReturnValue"
         }
+       },
+       {
+        "id": "gtvw",
+        "kind": "get",
+        "var": "TvAlways"
+       },
+       {
+        "id": "tvwne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_BoolBool",
+        "in": {
+         "A": "@gv.tvalways",
+         "B": "@gtvw.TvAlways"
+        }
+       },
+       {
+        "id": "btvw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@tvwne.ReturnValue"
+        }
+       },
+       {
+        "id": "stvw",
+        "kind": "set",
+        "var": "TvAlways",
+        "in": {
+         "TvAlways": "@gv.tvalways"
+        }
+       },
+       {
+        "id": "svtvw",
+        "kind": "call_self",
+        "function": "Save Settings"
+       },
+       {
+        "id": "rttvw",
+        "kind": "call_self",
+        "function": "Rebuild TopTabs"
        }
       ],
       "links": [],
@@ -160843,10 +161544,21 @@
         "bnnt",
         "snnt",
         "svnnt",
-        "bsame"
+        "btvw"
        ],
        [
         "bnnt:else",
+        "btvw"
+       ],
+       [
+        "btvw",
+        "stvw",
+        "svtvw",
+        "rttvw",
+        "bsame"
+       ],
+       [
+        "btvw:else",
         "bsame"
        ],
        [
@@ -218606,6 +219318,39 @@
         }
        },
        {
+        "id": "gwa0",
+        "kind": "get",
+        "var": "WeaponActors"
+       },
+       {
+        "id": "fwa0",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gwa0.WeaponActors",
+         "Key": "@entry.weapon"
+        }
+       },
+       {
+        "id": "same0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_ObjectObject",
+        "in": {
+         "A": "@fwa0.Value",
+         "B": "@fw.Value"
+        }
+       },
+       {
+        "id": "pss",
+        "kind": "set",
+        "var": "PaintSameActor",
+        "in": {
+         "PaintSameActor": "@same0.ReturnValue"
+        }
+       },
+       {
         "id": "gwa",
         "kind": "get",
         "var": "WeaponActors"
@@ -218680,12 +219425,18 @@
         }
        },
        {
+        "id": "gpss",
+        "kind": "get",
+        "var": "PaintSameActor"
+       },
+       {
         "id": "swp",
         "kind": "call_self",
         "function": "Sync Weapon Paint",
         "in": {
          "weapon": "@entry.weapon",
-         "paint": "@bgd.PaintName"
+         "paint": "@bgd.PaintName",
+         "same": "@gpss.PaintSameActor"
         }
        },
        {
@@ -222810,6 +223561,7 @@
        [
         "entry",
         "bw",
+        "pss",
         "wsa",
         "asd",
         "cg",
@@ -227542,6 +228294,10 @@
       {
        "name": "paint",
        "type": "name"
+      },
+      {
+       "name": "same",
+       "type": "bool"
       }
      ],
      "graph": {
@@ -227587,7 +228343,7 @@
         }
        },
        {
-        "id": "kch",
+        "id": "kch0",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanAND",
@@ -227597,12 +228353,13 @@
         }
        },
        {
-        "id": "nfa",
+        "id": "kch",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Not_PreBool",
+        "function": "BooleanAND",
         "in": {
-         "A": "@fa.ReturnValue"
+         "A": "@kch0.ReturnValue",
+         "B": "@entry.same"
         }
        },
        {
@@ -227625,22 +228382,12 @@
         }
        },
        {
-        "id": "u1",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanAND",
-        "in": {
-         "A": "@nfa.ReturnValue",
-         "B": "@nfs.ReturnValue"
-        }
-       },
-       {
         "id": "u2",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanAND",
         "in": {
-         "A": "@u1.ReturnValue",
+         "A": "@nfs.ReturnValue",
          "B": "@pn.ReturnValue"
         }
        },
@@ -228352,7 +229099,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "Man:quick"
+         "B": "Man:tv"
         }
        },
        {
@@ -228372,7 +229119,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.name",
-         "B": "Man:modding"
+         "B": "Man:quick"
         }
        },
        {
@@ -228384,11 +229131,31 @@
          "A": "@o23.ReturnValue",
          "B": "@e24.ReturnValue"
         }
+       },
+       {
+        "id": "e25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.name",
+         "B": "Man:modding"
+        }
+       },
+       {
+        "id": "o25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@o24.ReturnValue",
+         "B": "@e25.ReturnValue"
+        }
        }
       ],
       "links": [
        [
-        "o24.ReturnValue",
+        "o25.ReturnValue",
         "return.yes"
        ]
       ],
@@ -230901,7 +231668,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@k24gs.KodexSel",
-         "B": "Man:quick"
+         "B": "Man:tv"
         }
        },
        {
@@ -230909,7 +231676,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Man_quick_T"
+         "key": "Man_tv_T"
         }
        },
        {
@@ -230919,7 +231686,7 @@
         "function": "Init",
         "in": {
          "self": "@k24w.AsW_SlotTab",
-         "slot": "Man:quick",
+         "slot": "Man:tv",
          "caption": "@k24t.text",
          "count": "0",
          "worn icon": "None",
@@ -231003,7 +231770,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@k25gs.KodexSel",
-         "B": "Man:modding"
+         "B": "Man:quick"
         }
        },
        {
@@ -231011,7 +231778,7 @@
         "kind": "call_self",
         "function": "T",
         "in": {
-         "key": "Man_modding_T"
+         "key": "Man_quick_T"
         }
        },
        {
@@ -231021,7 +231788,7 @@
         "function": "Init",
         "in": {
          "self": "@k25w.AsW_SlotTab",
-         "slot": "Man:modding",
+         "slot": "Man:quick",
          "caption": "@k25t.text",
          "count": "0",
          "worn icon": "None",
@@ -231053,6 +231820,108 @@
         "in": {
          "self": "@k25gp.Panel",
          "widget": "@k25w.AsW_SlotTab"
+        }
+       },
+       {
+        "id": "k26w_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "k26w_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_SlotTab",
+         "OwningPlayer": "@k26w_pc.PC"
+        }
+       },
+       {
+        "id": "k26w",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "pure": true,
+        "in": {
+         "Object": "@k26w_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "k26sm_me",
+        "kind": "self"
+       },
+       {
+        "id": "k26sm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "in": {
+         "self": "@k26w.AsW_SlotTab",
+         "Manager": "@k26sm_me.self"
+        }
+       },
+       {
+        "id": "k26gs",
+        "kind": "get",
+        "var": "KodexSel"
+       },
+       {
+        "id": "k26sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@k26gs.KodexSel",
+         "B": "Man:modding"
+        }
+       },
+       {
+        "id": "k26t",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Man_modding_T"
+        }
+       },
+       {
+        "id": "k26ti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "function": "Init",
+        "in": {
+         "self": "@k26w.AsW_SlotTab",
+         "slot": "Man:modding",
+         "caption": "@k26t.text",
+         "count": "0",
+         "worn icon": "None",
+         "selected": "@k26sel.ReturnValue",
+         "has items": "true",
+         "filtered": "-1",
+         "indent": "true"
+        }
+       },
+       {
+        "id": "k26hc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "function": "Hide Count",
+        "in": {
+         "self": "@k26w.AsW_SlotTab"
+        }
+       },
+       {
+        "id": "k26gp",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "k26ad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Kodex Cat",
+        "in": {
+         "self": "@k26gp.Panel",
+         "widget": "@k26w.AsW_SlotTab"
         }
        }
       ],
@@ -231190,7 +232059,12 @@
         "k25sm",
         "k25ti",
         "k25hc",
-        "k25ad"
+        "k25ad",
+        "k26w_cr",
+        "k26sm",
+        "k26ti",
+        "k26hc",
+        "k26ad"
        ]
       ]
      }
@@ -233755,6 +234629,1083 @@
         "b:else",
         "ad",
         "rk"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Find TV",
+     "graph": {
+      "nodes": [
+       {
+        "id": "s0",
+        "kind": "set",
+        "var": "TvActor",
+        "in": {
+         "TvActor": "None"
+        }
+       },
+       {
+        "id": "d0",
+        "kind": "set",
+        "var": "TvDist",
+        "in": {
+         "TvDist": "1e12"
+        }
+       },
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "pv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gpl.Player"
+        }
+       },
+       {
+        "id": "bpv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@pv.ReturnValue"
+        }
+       },
+       {
+        "id": "gpl2",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "ploc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_GetActorLocation",
+        "in": {
+         "self": "@gpl2.Player"
+        }
+       },
+       {
+        "id": "all",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetAllActorsOfClass",
+        "in": {
+         "ActorClass": "/Game/Project/Maps/JodisOffice/TV/TV_Actor"
+        }
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@all.OutActors"
+        }
+       },
+       {
+        "id": "aloc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_GetActorLocation",
+        "in": {
+         "self": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "dst",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Vector_Distance",
+        "in": {
+         "V1": "@aloc.ReturnValue",
+         "V2": "@ploc.ReturnValue"
+        }
+       },
+       {
+        "id": "gd",
+        "kind": "get",
+        "var": "TvDist"
+       },
+       {
+        "id": "lt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_FloatFloat",
+        "in": {
+         "A": "@dst.ReturnValue",
+         "B": "@gd.TvDist"
+        }
+       },
+       {
+        "id": "bl",
+        "kind": "branch",
+        "in": {
+         "Condition": "@lt.ReturnValue"
+        }
+       },
+       {
+        "id": "ct",
+        "kind": "cast",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor",
+        "pure": true,
+        "in": {
+         "Object": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "s1",
+        "kind": "set",
+        "var": "TvActor",
+        "in": {
+         "TvActor": "@ct.AsTV Actor"
+        }
+       },
+       {
+        "id": "d1",
+        "kind": "set",
+        "var": "TvDist",
+        "in": {
+         "TvDist": "@dst.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s0",
+        "d0",
+        "bpv",
+        "all",
+        "fe"
+       ],
+       [
+        "fe",
+        "bl",
+        "s1",
+        "d1"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Rebuild Tv",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ftv",
+        "kind": "call_self",
+        "function": "Find TV"
+       },
+       {
+        "id": "gp0",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "cll",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Tv Links",
+        "in": {
+         "self": "@gp0.Panel"
+        }
+       },
+       {
+        "id": "gp1",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "clr",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Clear Tv List",
+        "in": {
+         "self": "@gp1.Panel"
+        }
+       },
+       {
+        "id": "gta",
+        "kind": "get",
+        "var": "TvActor"
+       },
+       {
+        "id": "tv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gta.TvActor"
+        }
+       },
+       {
+        "id": "bv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@tv.ReturnValue"
+        }
+       },
+       {
+        "id": "gpn",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "tnn",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tv_None"
+        }
+       },
+       {
+        "id": "stn",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Tv Text",
+        "in": {
+         "self": "@gpn.Panel",
+         "status": "@tnn.text",
+         "hint": ""
+        }
+       },
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "is working",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor"
+       },
+       {
+        "id": "gvs",
+        "kind": "get",
+        "var": "Videos",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor"
+       },
+       {
+        "id": "gci",
+        "kind": "get",
+        "var": "current video index",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor"
+       },
+       {
+        "id": "civ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_IsValidIndex",
+        "in": {
+         "TargetArray": "@gvs.Videos",
+         "IndexToTest": "@gci.current video index"
+        }
+       },
+       {
+        "id": "bci",
+        "kind": "branch",
+        "in": {
+         "Condition": "@civ.ReturnValue"
+        }
+       },
+       {
+        "id": "snm0",
+        "kind": "set",
+        "var": "TmpStr",
+        "in": {
+         "TmpStr": ""
+        }
+       },
+       {
+        "id": "cget",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gvs.Videos",
+         "Index": "@gci.current video index"
+        }
+       },
+       {
+        "id": "cchp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "LeftChop",
+        "in": {
+         "SourceString": "@cget.Item",
+         "Count": "4"
+        }
+       },
+       {
+        "id": "snm1",
+        "kind": "set",
+        "var": "TmpStr",
+        "in": {
+         "TmpStr": "@cchp.ReturnValue"
+        }
+       },
+       {
+        "id": "gnm",
+        "kind": "get",
+        "var": "TmpStr"
+       },
+       {
+        "id": "ton",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tv_On"
+        }
+       },
+       {
+        "id": "ton_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@ton.text"
+        }
+       },
+       {
+        "id": "ron",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Replace",
+        "in": {
+         "SourceString": "@ton_2s.ReturnValue",
+         "From": "%s",
+         "To": "@gnm.TmpStr",
+         "SearchCase": "CaseSensitive"
+        }
+       },
+       {
+        "id": "tof",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tv_Off"
+        }
+       },
+       {
+        "id": "tof_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@tof.text"
+        }
+       },
+       {
+        "id": "sst",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@ron.ReturnValue",
+         "B": "@tof_2s.ReturnValue",
+         "bPickA": "@gw.is working"
+        }
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@sst.ReturnValue"
+        }
+       },
+       {
+        "id": "vln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@gvs.Videos"
+        }
+       },
+       {
+        "id": "emp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@vln.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "tem",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Tv_Empty"
+        }
+       },
+       {
+        "id": "tem_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@tem.text"
+        }
+       },
+       {
+        "id": "shs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@tem_2s.ReturnValue",
+         "B": "",
+         "bPickA": "@emp.ReturnValue"
+        }
+       },
+       {
+        "id": "sht",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@shs.ReturnValue"
+        }
+       },
+       {
+        "id": "gps",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "sts",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Set Tv Text",
+        "in": {
+         "self": "@gps.Panel",
+         "status": "@stt.ReturnValue",
+         "hint": "@sht.ReturnValue"
+        }
+       },
+       {
+        "id": "lw_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "lw_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_TextButton",
+         "OwningPlayer": "@lw_pc.PC"
+        }
+       },
+       {
+        "id": "lw",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "pure": true,
+        "in": {
+         "Object": "@lw_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "lsm_me",
+        "kind": "self"
+       },
+       {
+        "id": "lsm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "in": {
+         "self": "@lw.AsW_TextButton",
+         "Manager": "@lsm_me.self"
+        }
+       },
+       {
+        "id": "lac",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "TvOff",
+         "B": "TvOn",
+         "bPickA": "@gw.is working"
+        }
+       },
+       {
+        "id": "lan",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@lac.ReturnValue"
+        }
+       },
+       {
+        "id": "tbf",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Btn_TvOff"
+        }
+       },
+       {
+        "id": "tbf_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@tbf.text"
+        }
+       },
+       {
+        "id": "tbn",
+        "kind": "call_self",
+        "function": "T",
+        "in": {
+         "key": "Btn_TvOn"
+        }
+       },
+       {
+        "id": "tbn_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@tbn.text"
+        }
+       },
+       {
+        "id": "lcs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "@tbf_2s.ReturnValue",
+         "B": "@tbn_2s.ReturnValue",
+         "bPickA": "@gw.is working"
+        }
+       },
+       {
+        "id": "lct",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@lcs.ReturnValue"
+        }
+       },
+       {
+        "id": "lin",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_TextButton",
+        "function": "Init",
+        "in": {
+         "self": "@lw.AsW_TextButton",
+         "action": "@lan.ReturnValue",
+         "caption": "@lct.ReturnValue"
+        }
+       },
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "lad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Tv Link",
+        "in": {
+         "self": "@gpl.Panel",
+         "widget": "@lw.AsW_TextButton"
+        }
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gvs.Videos"
+        }
+       },
+       {
+        "id": "rw_pc",
+        "kind": "get",
+        "var": "PC"
+       },
+       {
+        "id": "rw_cr",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_SlotTab",
+         "OwningPlayer": "@rw_pc.PC"
+        }
+       },
+       {
+        "id": "rw",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "pure": true,
+        "in": {
+         "Object": "@rw_cr.ReturnValue"
+        }
+       },
+       {
+        "id": "rsm_me",
+        "kind": "self"
+       },
+       {
+        "id": "rsm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "in": {
+         "self": "@rw.AsW_SlotTab",
+         "Manager": "@rsm_me.self"
+        }
+       },
+       {
+        "id": "ris",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_IntToString",
+        "in": {
+         "InInt": "@fe.Array Index"
+        }
+       },
+       {
+        "id": "rin",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@ris.ReturnValue"
+        }
+       },
+       {
+        "id": "rch",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "LeftChop",
+        "in": {
+         "SourceString": "@fe.Array Element",
+         "Count": "4"
+        }
+       },
+       {
+        "id": "rct",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@rch.ReturnValue"
+        }
+       },
+       {
+        "id": "req",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@fe.Array Index",
+         "B": "@gci.current video index"
+        }
+       },
+       {
+        "id": "rsel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@req.ReturnValue",
+         "B": "@gw.is working"
+        }
+       },
+       {
+        "id": "rti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "function": "Init",
+        "in": {
+         "self": "@rw.AsW_SlotTab",
+         "slot": "@rin.ReturnValue",
+         "caption": "@rct.ReturnValue",
+         "count": "0",
+         "worn icon": "None",
+         "selected": "@rsel.ReturnValue",
+         "has items": "true",
+         "filtered": "-1",
+         "indent": "false"
+        }
+       },
+       {
+        "id": "rhc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_SlotTab",
+        "function": "Hide Count",
+        "in": {
+         "self": "@rw.AsW_SlotTab"
+        }
+       },
+       {
+        "id": "gpr",
+        "kind": "get",
+        "var": "Panel"
+       },
+       {
+        "id": "rad",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_AltUI",
+        "function": "Add Tv Row",
+        "in": {
+         "self": "@gpr.Panel",
+         "widget": "@rw.AsW_SlotTab"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gta.TvActor",
+        "gw.self"
+       ],
+       [
+        "gta.TvActor",
+        "gvs.self"
+       ],
+       [
+        "gta.TvActor",
+        "gci.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "ftv",
+        "cll",
+        "clr",
+        "bv",
+        "bci",
+        "snm1",
+        "sts",
+        "lw_cr",
+        "lsm",
+        "lin",
+        "lad",
+        "fe"
+       ],
+       [
+        "bv:else",
+        "stn"
+       ],
+       [
+        "bci:else",
+        "snm0",
+        "sts"
+       ],
+       [
+        "fe",
+        "rw_cr",
+        "rsm",
+        "rti",
+        "rhc",
+        "rad"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Tv Play",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ftv",
+        "kind": "call_self",
+        "function": "Find TV"
+       },
+       {
+        "id": "gta",
+        "kind": "get",
+        "var": "TvActor"
+       },
+       {
+        "id": "tv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gta.TvActor"
+        }
+       },
+       {
+        "id": "bv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@tv.ReturnValue"
+        }
+       },
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "is working",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor"
+       },
+       {
+        "id": "bw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gw.is working"
+        }
+       },
+       {
+        "id": "pv",
+        "kind": "call",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor",
+        "function": "Play Video",
+        "in": {
+         "self": "@gta.TvActor",
+         "index": "@entry.index"
+        }
+       },
+       {
+        "id": "sci",
+        "kind": "set",
+        "var": "current video index",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor",
+        "in": {
+         "self": "@gta.TvActor",
+         "current video index": "@entry.index"
+        }
+       },
+       {
+        "id": "on",
+        "kind": "call_self",
+        "function": "Tv On"
+       },
+       {
+        "id": "rb",
+        "kind": "call_self",
+        "function": "Rebuild Tv"
+       }
+      ],
+      "links": [
+       [
+        "gta.TvActor",
+        "gw.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "ftv",
+        "bv",
+        "bw",
+        "pv",
+        "rb"
+       ],
+       [
+        "bw:else",
+        "sci",
+        "on"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Tv On",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ftv",
+        "kind": "call_self",
+        "function": "Find TV"
+       },
+       {
+        "id": "gta",
+        "kind": "get",
+        "var": "TvActor"
+       },
+       {
+        "id": "tv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gta.TvActor"
+        }
+       },
+       {
+        "id": "bv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@tv.ReturnValue"
+        }
+       },
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "is working",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor"
+       },
+       {
+        "id": "bw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gw.is working"
+        }
+       },
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "Player"
+       },
+       {
+        "id": "use",
+        "kind": "call",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor",
+        "function": "On Use This",
+        "in": {
+         "self": "@gta.TvActor",
+         "Player": "@gpl.Player"
+        }
+       },
+       {
+        "id": "rb",
+        "kind": "call_self",
+        "function": "Rebuild Tv"
+       }
+      ],
+      "links": [
+       [
+        "gta.TvActor",
+        "gw.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "ftv",
+        "bv",
+        "bw"
+       ],
+       [
+        "bw:else",
+        "use",
+        "rb"
+       ],
+       [
+        "bw",
+        "rb"
+       ],
+       [
+        "bv:else",
+        "rb"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Tv Off",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ftv",
+        "kind": "call_self",
+        "function": "Find TV"
+       },
+       {
+        "id": "gta",
+        "kind": "get",
+        "var": "TvActor"
+       },
+       {
+        "id": "tv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gta.TvActor"
+        }
+       },
+       {
+        "id": "bv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@tv.ReturnValue"
+        }
+       },
+       {
+        "id": "gw",
+        "kind": "get",
+        "var": "is working",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor"
+       },
+       {
+        "id": "bw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gw.is working"
+        }
+       },
+       {
+        "id": "sa",
+        "kind": "call",
+        "class": "/Game/Project/Maps/JodisOffice/TV/TV_Actor",
+        "function": "Start Animation",
+        "in": {
+         "self": "@gta.TvActor",
+         "working": "false"
+        }
+       },
+       {
+        "id": "te",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "SetActorTickEnabled",
+        "in": {
+         "self": "@gta.TvActor",
+         "bEnabled": "true"
+        }
+       },
+       {
+        "id": "rb",
+        "kind": "call_self",
+        "function": "Rebuild Tv"
+       }
+      ],
+      "links": [
+       [
+        "gta.TvActor",
+        "gw.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "ftv",
+        "bv",
+        "bw",
+        "sa",
+        "te",
+        "rb"
+       ],
+       [
+        "bw:else",
+        "rb"
+       ],
+       [
+        "bv:else",
+        "rb"
        ]
       ]
      }
@@ -255444,6 +257395,70 @@
          "actor": "@fa.Value",
          "weapon": "@fe.Array Element"
         }
+       },
+       {
+        "id": "pcg",
+        "kind": "cast",
+        "class": "/Game/Project/Actors/Weapons/Weapon_Gun_Base",
+        "pure": false,
+        "in": {
+         "Object": "@fa.Value"
+        },
+        "miss": "ignore"
+       },
+       {
+        "id": "pgd",
+        "kind": "get",
+        "var": "Gun Data",
+        "class": "/Game/Project/Actors/Weapons/Weapon_Gun_Base"
+       },
+       {
+        "id": "pbd",
+        "kind": "break",
+        "struct": "/Game/Project/Classes/Struct/Gun_Struct",
+        "in": {
+         "Gun_Struct": "@pgd.Gun Data"
+        }
+       },
+       {
+        "id": "pgap",
+        "kind": "get",
+        "var": "AppliedPaint"
+       },
+       {
+        "id": "pfa",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@pgap.AppliedPaint",
+         "Key": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "pne",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@pbd.PaintName",
+         "B": "@pfa.Value"
+        }
+       },
+       {
+        "id": "pb",
+        "kind": "branch",
+        "in": {
+         "Condition": "@pne.ReturnValue"
+        }
+       },
+       {
+        "id": "pap",
+        "kind": "call_self",
+        "function": "Apply Weapon Look",
+        "in": {
+         "weapon": "@fe.Array Element"
+        }
        }
       ],
       "links": [
@@ -255454,6 +257469,10 @@
        [
         "gpl2.Player",
         "gws2.self"
+       ],
+       [
+        "pcg.AsWeapon_Gun_Base",
+        "pgd.self"
        ]
       ],
       "exec": [
@@ -255470,7 +257489,10 @@
        ],
        [
         "b:else",
-        "snd"
+        "snd",
+        "pcg",
+        "pb",
+        "pap"
        ]
       ]
      }
@@ -352700,6 +354722,10 @@
        {
         "name": "paint",
         "type": "name"
+       },
+       {
+        "name": "same",
+        "type": "bool"
        }
       ]
      },
@@ -352709,7 +354735,8 @@
       "function": "Sync Weapon Paint",
       "in": {
        "weapon": "@tswp.weapon",
-       "paint": "@tswp.paint"
+       "paint": "@tswp.paint",
+       "same": "@tswp.same"
       }
      },
      {

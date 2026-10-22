@@ -59602,6 +59602,29 @@
         }
        },
        {
+        "id": "t_TvHint_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_TvHint_w",
+        "kind": "get",
+        "var": "TvHint"
+       },
+       {
+        "id": "t_TvHint",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_TvHint_w.TvHint",
+         "InColorAndOpacity": "@t_TvHint_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_LblImgHint_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -61499,6 +61522,52 @@
         }
        },
        {
+        "id": "t_LblTvAlways_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblTvAlways_w",
+        "kind": "get",
+        "var": "LblTvAlways"
+       },
+       {
+        "id": "t_LblTvAlways",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblTvAlways_w.LblTvAlways",
+         "InColorAndOpacity": "@t_LblTvAlways_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_TvStatus_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_TvStatus_w",
+        "kind": "get",
+        "var": "TvStatus"
+       },
+       {
+        "id": "t_TvStatus",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_TvStatus_w.TvStatus",
+         "InColorAndOpacity": "@t_TvStatus_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_LblInvCatalog_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -63145,6 +63214,78 @@
         "in": {
          "self": "@pckOptNoNoticesm.Manager",
          "box": "@pckOptNoNoticesw.OptNoNotices"
+        }
+       },
+       {
+        "id": "pckOptTvAlwaysUnderw",
+        "kind": "get",
+        "var": "OptTvAlwaysUnder"
+       },
+       {
+        "id": "pckOptTvAlwaysUnderc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptTvAlwaysUnderc",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptTvAlwaysUnder",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptTvAlwaysUnderw.OptTvAlwaysUnder",
+         "InColorAndOpacity": "@pckOptTvAlwaysUnderc.ColChipFrame"
+        }
+       },
+       {
+        "id": "pckOptTvAlwaysFillw",
+        "kind": "get",
+        "var": "OptTvAlwaysFill"
+       },
+       {
+        "id": "pckOptTvAlwaysFillc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptTvAlwaysFillc",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptTvAlwaysFill",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptTvAlwaysFillw.OptTvAlwaysFill",
+         "InColorAndOpacity": "@pckOptTvAlwaysFillc.ColChip"
+        }
+       },
+       {
+        "id": "pckOptTvAlwaysw",
+        "kind": "get",
+        "var": "OptTvAlways"
+       },
+       {
+        "id": "pckOptTvAlwaysm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptTvAlways",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Check Box",
+        "in": {
+         "self": "@pckOptTvAlwaysm.Manager",
+         "box": "@pckOptTvAlwaysw.OptTvAlways"
         }
        },
        {
@@ -65051,6 +65192,26 @@
         "in": {
          "self": "@tsmKodexScroll.Manager",
          "box": "@tswKodexScroll.KodexScroll"
+        }
+       },
+       {
+        "id": "tswTvScroll",
+        "kind": "get",
+        "var": "TvScroll"
+       },
+       {
+        "id": "tsmTvScroll",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "tsTvScroll",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Scroll Box",
+        "in": {
+         "self": "@tsmTvScroll.Manager",
+         "box": "@tswTvScroll.TvScroll"
         }
        },
        {
@@ -67764,6 +67925,14 @@
         "pckOptNoNoticesFillc.self"
        ],
        [
+        "pckOptTvAlwaysUnderc_m.Manager",
+        "pckOptTvAlwaysUnderc.self"
+       ],
+       [
+        "pckOptTvAlwaysFillc_m.Manager",
+        "pckOptTvAlwaysFillc.self"
+       ],
+       [
         "pckOptUnlimitedUnderc_m.Manager",
         "pckOptUnlimitedUnderc.self"
        ],
@@ -68079,6 +68248,7 @@
         "t_ValScPelvis",
         "t_ValScGlutesAngle",
         "t_ValScGlutesJiggle",
+        "t_TvHint",
         "t_LblImgHint",
         "t_WeaponAttachHeader",
         "t_WeaponSoundHeader",
@@ -68161,6 +68331,8 @@
         "t_LblScGlutesJiggle",
         "t_LblScGrpBreast",
         "t_LblScGrpGlutes",
+        "t_LblTvAlways",
+        "t_TvStatus",
         "t_LblInvCatalog",
         "t_LblInvAutoEquip",
         "t_LblNoNotices",
@@ -68246,6 +68418,9 @@
         "pckOptNoNoticesUnder",
         "pckOptNoNoticesFill",
         "pckOptNoNotices",
+        "pckOptTvAlwaysUnder",
+        "pckOptTvAlwaysFill",
+        "pckOptTvAlways",
         "pckOptUnlimitedUnder",
         "pckOptUnlimitedFill",
         "pckOptUnlimited",
@@ -68330,6 +68505,7 @@
         "tsRagScroll",
         "tsKodexCatScroll",
         "tsKodexScroll",
+        "tsTvScroll",
         "tsBodyChipsScroll",
         "tsOptionsCatScroll",
         "tsOptionsScroll",
@@ -70632,6 +70808,61 @@
         }
        },
        {
+        "id": "eq18",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "TV"
+        }
+       },
+       {
+        "id": "b18",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq18.ReturnValue"
+        }
+       },
+       {
+        "id": "g18",
+        "kind": "get",
+        "var": "TvBox"
+       },
+       {
+        "id": "v18",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g18.TvBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "k18",
+        "kind": "set",
+        "var": "TmpKnown",
+        "in": {
+         "TmpKnown": "true"
+        }
+       },
+       {
+        "id": "h18",
+        "kind": "get",
+        "var": "TvBox"
+       },
+       {
+        "id": "c18",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@h18.TvBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
         "id": "gk",
         "kind": "get",
         "var": "TmpKnown"
@@ -70976,10 +71207,27 @@
        ],
        [
         "k17",
-        "bk"
+        "b18"
        ],
        [
         "c17",
+        "b18"
+       ],
+       [
+        "b18",
+        "v18",
+        "k18"
+       ],
+       [
+        "b18:else",
+        "c18"
+       ],
+       [
+        "k18",
+        "bk"
+       ],
+       [
+        "c18",
         "bk"
        ],
        [
@@ -75335,6 +75583,239 @@
         "entry",
         "csm",
         "s"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Tv Links",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "TvLinks"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.TvLinks"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Tv Link",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "TvLinks"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@g.TvLinks",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Tv List",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "TvList"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.TvList"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Tv Row",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "TvList"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.VerticalBox",
+        "function": "AddChildToVerticalBox",
+        "in": {
+         "self": "@g.TvList",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Tv Text",
+     "inputs": [
+      {
+       "name": "status",
+       "type": "text"
+      },
+      {
+       "name": "hint",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "TvStatus"
+       },
+       {
+        "id": "ss",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gs.TvStatus",
+         "InText": "@entry.status"
+        }
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "TvHint"
+       },
+       {
+        "id": "sh",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gh.TvHint",
+         "InText": "@entry.hint"
+        }
+       },
+       {
+        "id": "emp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.hint"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@emp.ReturnValue"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "TvHint"
+       },
+       {
+        "id": "hh",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh2.TvHint",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gh3",
+        "kind": "get",
+        "var": "TvHint"
+       },
+       {
+        "id": "vh",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh3.TvHint",
+         "InVisibility": "Visible"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ss",
+        "sh",
+        "be",
+        "hh"
+       ],
+       [
+        "be:else",
+        "vh"
        ]
       ]
      }
@@ -82084,6 +82565,10 @@
       {
        "name": "nonotices",
        "type": "bool"
+      },
+      {
+       "name": "tvalways",
+       "type": "bool"
       }
      ],
      "graph": {
@@ -82675,6 +83160,20 @@
         "in": {
          "self": "@gNoNotices.OptNoNotices"
         }
+       },
+       {
+        "id": "gTvAlways",
+        "kind": "get",
+        "var": "OptTvAlways"
+       },
+       {
+        "id": "vTvAlways",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gTvAlways.OptTvAlways"
+        }
        }
       ],
       "links": [
@@ -82845,6 +83344,10 @@
        [
         "vNoNotices.ReturnValue",
         "return.nonotices"
+       ],
+       [
+        "vTvAlways.ReturnValue",
+        "return.tvalways"
        ]
       ],
       "exec": [
@@ -82924,6 +83427,10 @@
       },
       {
        "name": "nonotices",
+       "type": "bool"
+      },
+      {
+       "name": "tvalways",
        "type": "bool"
       }
      ],
@@ -83183,6 +83690,21 @@
          "self": "@gNoNotices.OptNoNotices",
          "InIsChecked": "@entry.nonotices"
         }
+       },
+       {
+        "id": "gTvAlways",
+        "kind": "get",
+        "var": "OptTvAlways"
+       },
+       {
+        "id": "sTvAlways",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gTvAlways.OptTvAlways",
+         "InIsChecked": "@entry.tvalways"
+        }
        }
       ],
       "links": [],
@@ -83205,7 +83727,8 @@
         "s14",
         "sFreeNoCollide",
         "sFreeNoLimit",
-        "sNoNotices"
+        "sNoNotices",
+        "sTvAlways"
        ]
       ]
      }
@@ -85527,6 +86050,10 @@
        "type": "text"
       },
       {
+       "name": "tvalways",
+       "type": "text"
+      },
+      {
        "name": "hairfavorites",
        "type": "text"
       },
@@ -87661,6 +88188,21 @@
         }
        },
        {
+        "id": "gtvalways",
+        "kind": "get",
+        "var": "LblTvAlways"
+       },
+       {
+        "id": "stvalways",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gtvalways.LblTvAlways",
+         "InText": "@entry.tvalways"
+        }
+       },
+       {
         "id": "ghairfavorites",
         "kind": "get",
         "var": "HairFavHeader"
@@ -87866,6 +88408,7 @@
         "sfreenocollide",
         "sfreenolimit",
         "snonotices",
+        "stvalways",
         "shairfavorites",
         "shairall",
         "skeybinds",
@@ -90137,6 +90680,21 @@
          "self": "@g32.FolScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
+       },
+       {
+        "id": "g33",
+        "kind": "get",
+        "var": "TvScroll"
+       },
+       {
+        "id": "s33",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetWheelScrollMultiplier",
+        "in": {
+         "self": "@g33.TvScroll",
+         "NewWheelScrollMultiplier": "@entry.mult"
+        }
        }
       ],
       "links": [],
@@ -90175,7 +90733,8 @@
         "s29",
         "s30",
         "s31",
-        "s32"
+        "s32",
+        "s33"
        ]
       ]
      }
@@ -91154,6 +91713,35 @@
          "TargetArray": "@m32.ScrollMem",
          "NewItem": "@o32.ReturnValue"
         }
+       },
+       {
+        "id": "g33",
+        "kind": "get",
+        "var": "TvScroll"
+       },
+       {
+        "id": "o33",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "GetScrollOffset",
+        "in": {
+         "self": "@g33.TvScroll"
+        }
+       },
+       {
+        "id": "m33",
+        "kind": "get",
+        "var": "ScrollMem"
+       },
+       {
+        "id": "a33",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@m33.ScrollMem",
+         "NewItem": "@o33.ReturnValue"
+        }
        }
       ],
       "links": [],
@@ -91193,7 +91781,8 @@
         "a29",
         "a30",
         "a31",
-        "a32"
+        "a32",
+        "a33"
        ]
       ]
      }
@@ -91223,7 +91812,7 @@
         "function": "EqualEqual_IntInt",
         "in": {
          "A": "@ln.ReturnValue",
-         "B": "33"
+         "B": "34"
         }
        },
        {
@@ -92222,6 +92811,36 @@
          "self": "@g32.FolScroll",
          "NewScrollOffset": "@v32.Item"
         }
+       },
+       {
+        "id": "m33",
+        "kind": "get",
+        "var": "ScrollMem"
+       },
+       {
+        "id": "v33",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@m33.ScrollMem",
+         "Index": "33"
+        }
+       },
+       {
+        "id": "g33",
+        "kind": "get",
+        "var": "TvScroll"
+       },
+       {
+        "id": "s33",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetScrollOffset",
+        "in": {
+         "self": "@g33.TvScroll",
+         "NewScrollOffset": "@v33.Item"
+        }
        }
       ],
       "links": [],
@@ -92261,7 +92880,8 @@
         "s29",
         "s30",
         "s31",
-        "s32"
+        "s32",
+        "s33"
        ]
       ]
      }
@@ -101150,6 +101770,82 @@
          },
          {
           "class": "/Script/UMG.VerticalBox",
+          "name": "TvBox",
+          "props": {
+           "Visibility": "Collapsed"
+          },
+          "slot": {
+           "Size": "(SizeRule=Fill,Value=1)"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "TvStatus",
+            "props": {
+             "Text": "",
+             "Font": "(Size=30)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+            },
+            "slot": {
+             "Padding": "(Left=0,Top=0,Right=0,Bottom=15)"
+            }
+           },
+           {
+            "class": "/Script/UMG.HorizontalBox",
+            "name": "TvLinks",
+            "slot": {
+             "Padding": "(Left=0,Top=0,Right=0,Bottom=19)"
+            }
+           },
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "TvHint",
+            "props": {
+             "Text": "",
+             "Font": "(Size=25)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+             "AutoWrapText": true
+            },
+            "slot": {
+             "Padding": "(Left=0,Top=0,Right=0,Bottom=19)"
+            }
+           },
+           {
+            "class": "/Script/UMG.ScrollBox",
+            "name": "TvScroll",
+            "props": {
+             "WheelScrollMultiplier": 2.0,
+             "WidgetBarStyle": "(VerticalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),VerticalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),NormalThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),HoveredThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),DraggedThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)))"
+            },
+            "slot": {
+             "Size": "(SizeRule=Fill,Value=1)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.SizeBox",
+              "name": "TvListSize",
+              "props": {
+               "bOverride_WidthOverride": true,
+               "WidthOverride": 798,
+               "bOverride_HeightOverride": true,
+               "HeightOverride": 190
+              },
+              "slot": {
+               "HorizontalAlignment": "HAlign_Left"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.VerticalBox",
+                "name": "TvList"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "class": "/Script/UMG.VerticalBox",
           "name": "BodyBox",
           "props": {
            "Visibility": "Collapsed"
@@ -103309,6 +104005,74 @@
                     "name": "LblNoNotices",
                     "props": {
                      "Text": "No notices",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowTvAlways",
+                  "slot": {
+                   "Padding": "(Left=0,Top=19,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.Overlay",
+                    "name": "OptTvAlwaysOv",
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptTvAlwaysUnder",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=1,G=1,B=1,A=0.25)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptTvAlwaysFill",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckInner.T_CheckInner',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=0,G=0,B=0,A=0.55)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.CheckBox",
+                      "name": "OptTvAlways",
+                      "props": {
+                       "WidgetStyle": "(UncheckedImage=(ImageSize=(X=66,Y=66),DrawAs=NoDrawType),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "LblTvAlways",
+                    "props": {
+                     "Text": "Always show the TV tab",
                      "Font": "(Size=25)",
                      "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
                     },

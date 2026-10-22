@@ -2393,26 +2393,26 @@ PANEL_TEXTS += [("ragwheel", "LblRagWheel"), ("slowmo", "LblSlowMo")]   # 2026-1
 PANEL_TEXTS += [("hdr" + k.lower(), "Hdr" + k) for k in ("ThemeColors", "BgPic", "BtnPic", "ThemeSchemes")]   # 2026-10-16 Options > Theme sections
 PANEL_TEXTS += [("slowmoon", "LblSlowMoOn")]
 PANEL_TEXTS += [("freenocollide", "LblFreeNoCollide"), ("freenolimit", "LblFreeNoLimit")]   # 2026-10-16 free camera options
-PANEL_TEXTS += [("nonotices", "LblNoNotices")]   # 2026-10-16 no notices at all   # 2026-10-16 free camera options   # 2026-10-12 slow motion on / off next to its slider
+PANEL_TEXTS += [("nonotices", "LblNoNotices"), ("tvalways", "LblTvAlways")]   # 2026-10-16 no notices at all   # 2026-10-16 free camera options   # 2026-10-12 slow motion on / off next to its slider
 PANEL_TEXTS += [("hairfavorites", "HairFavHeader"), ("hairall", "HairAllHeader")]   # 2026-10-15 favourites block of the Coiffure tab
 PANEL_TEXTS += [("keybinds", "LblKeyBinds")]   # 2026-10-15 own keys (Options › Quick menu)
 PANEL_TEXTS += [("hairsearch", "HairSearch")]   # 2026-10-20 search on the Coiffure tab
 THEME_COLS = 5   # theme grid: fixed columns (entries fill column-wise), the wrap box wraps whole columns on narrow panels
 THEME_REFRESH = [("TopTabs", W_TOP), ("TabChips", W_SUB), ("QuickKeyLinks", W_TXT), ("LayoutChips", W_SUB), ("UnownedChips", W_SUB), ("ThemePresetChips", W_SUB), ("ManageChips", W_SUB), ("ManageChipSearchLinks", W_TXT), ("ThemeSaveLinks", W_TXT), ("TabStyleChips", W_SUB), ("TabIconPosChips", W_SUB), ("TabRowChips", W_SUB), ("BgImageChips", W_SUB), ("BgFitChips", W_SUB), ("BgHAlignChips", W_SUB), ("BgVAlignChips", W_SUB), ("BtnImageChips", W_SUB), ("BgInvChips", W_SUB), ("ImgThumbsChips", W_SUB), ("BtnInvChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("MultiSlotChips", W_SUB), ("StatusLinks", W_TXT), ("StatusRight", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
 SUBTABS_MAX_H, SUBTABS_MAX_H_MAX = 112, 500   # default ~3.5 chip rows (80 showed 2.5); option range (unscaled units, x SC at runtime)
-SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "BodyChipsScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll", "KodexCatScroll", "KodexScroll", "RagScroll", "InvBagScroll", "InvBoxScroll", "InvCatScroll", "FolBagScroll", "FolBoxScroll", "FolScroll"]
+SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "BodyChipsScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll", "KodexCatScroll", "KodexScroll", "RagScroll", "InvBagScroll", "InvBoxScroll", "InvCatScroll", "FolBagScroll", "FolBoxScroll", "FolScroll", "TvScroll"]
 # panel-owned texts coloured by Apply Theme: widget -> derived colour
 PANEL_TEXT_COLORS = {"ColHead": ["HdrThemeColors", "HdrBgPic", "HdrBtnPic", "HdrThemeSchemes", "FolBagTitle", "FolBoxTitle", "InvBagTitle", "InvBoxTitle", "InvCatTitle", "KodexTitle", "LblQuickControl", "LblQuickInWheel", "LblKeyBinds", "LblQuickAvailable", "BagWornHeader", "BagListHeader", "FavHeader", "LookFavHeader", "HairFavHeader", "PoseFavHeader", "WeaponFavHeader", "LblTheme", "ContentTitle", "LblConflicts", "LblMultiSlots"],
                      "ColTextDim": ["FolHint", "FolBagNote", "InvBagNote", "InvWeightText", "RagHint", "RagPresetsHint", "ModHint", "FaceHint", "LblTabsHint", "ThemePresetsHint", "LblQuickKeyHint", "KeyBindHint", "AllHeader", "LookAllHeader", "HairAllHeader", "PoseAllHeader", "WeaponAllHeader", "WeaponModelHeader", "ListHint", "BagEmpty", "PlaceholderText", "HdrName", "HdrDisplay", "HdrOrigin", "LblConflictsHint", "LblMultiSlotsHint", "LblScaleHint"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS] + ["Val" + k for k, _ in SCALE_ROWS],
                      "ColText": ["KodexBody", "LblRagKinds", "LblRagSave", "LblRagPresets", "LblQuickKey", "LblOwned", "LblFav", "LblVanilla", "LblOnlyWorn", "LblLookFav", "LblLookWorn", "LblOnlyMods", "LblCaseSens", "LblUnlimited", "LblPan", "LblCamRight", "LblNude", "LblMerge", "LblMergeMods", "LblChipSearch", "LblTipNoPrefix", "LblTipNoIds", "LblKodexAll", "LblMoveOn", "LblWalkStyle", "LblRunStyle", "LblIdleStyle", "LblUnowned", "LblTabStyle", "LblTabIconPos", "LblThemeSave", "LblThemePresets", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS] + ["Lbl" + k for k, _ in SCALE_ROWS] + ["LblScGrp" + h[len("Lbl_ScGrp"):] for h in bg.GROUP_HEADS.values()]}
 # 2026-10-19: labels that kept their colour from the widget tree (found by checking every text without a runtime colour)
-PANEL_TEXT_COLORS["ColText"] += ["LblInvCatalog", "LblInvAutoEquip", "LblNoNotices", "LblFreeNoCollide", "LblFreeNoLimit", "LblSlowMoOn",
+PANEL_TEXT_COLORS["ColText"] += ["LblTvAlways", "TvStatus", "LblInvCatalog", "LblInvAutoEquip", "LblNoNotices", "LblFreeNoCollide", "LblFreeNoLimit", "LblSlowMoOn",
                                  "LblImgThumbs", "LblBgImage", "LblBgFit", "LblBgHAlign", "LblBgVAlign", "LblBgInv", "LblBtnImage", "LblBtnInv", "LblTabRow"]
-PANEL_TEXT_COLORS["ColTextDim"] += ["LblImgHint", "WeaponAttachHeader", "WeaponSoundHeader"]
+PANEL_TEXT_COLORS["ColTextDim"] += ["TvHint", "LblImgHint", "WeaponAttachHeader", "WeaponSoundHeader"]
 
 
 # Options page: which category block (OptCat_<key>) every row of the former single options list belongs to
-OPT_CAT_ROWS = {"General": ["RowLanguage", "RowLayout", "RowNude", "RowUnowned", "RowKodexAll", "RowInvCatalog", "RowInvAutoEquip", "RowNoNotices"],
+OPT_CAT_ROWS = {"General": ["RowLanguage", "RowLayout", "RowNude", "RowUnowned", "RowKodexAll", "RowInvCatalog", "RowInvAutoEquip", "RowNoNotices", "RowTvAlways"],
                 "Tiles": ["RowScale", "RowOutfitScale", "RowLookScale", "RowRagScale", "RowInvScale", "RowOutfitCols", "RowOutfitRows", "RowUnlimited", "RowTipNoPrefix", "RowTipNoIds"],
                 "Groups": ["RowMerge", "RowMergeMods", "RowGroupLen", "RowChipH", "RowChipSearch"],
                 "Camera": ["RowFov", "RowDist", "RowHeight", "RowPan", "RowFreeNoCollide", "RowFreeNoLimit"],
@@ -2748,6 +2748,12 @@ def w_panel():
                     text("KodexBody", "", 13, wrap=True, props_extra={"LineHeightPercentage": 1.5}, slot={"Padding": "(Left=0,Top=0,Right=%d,Bottom=%d)" % (sz(12), sz(12))}),
                     w(U_WRAP, "KodexTiles", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)}),
                     w(U_VBOX, "KodexLinks")])])]),
+            # TV: state of the nearest TV, the on / off link, a hint while its list is unknown, one row per video
+            w(U_VBOX, "TvBox", props={"Visibility": "Collapsed"}, slot=FILL, children=[
+                text("TvStatus", "", 16, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(8)}),
+                w(U_HBOX, "TvLinks", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(10)}),
+                text("TvHint", "", 13, wrap=True, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(10)}),
+                w(U_SCROLL, "TvScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[sizebox("TvListSize", 420, 100, [w(U_VBOX, "TvList")], slot={"HorizontalAlignment": "HAlign_Left"})])]),
             # Body Shape: body chips (Standard + body mods) above the sliders
             w(U_VBOX, "BodyBox", props={"Visibility": "Collapsed"}, slot=FILL, children=[
                 # body chips: at most the chip area height (Options › Groups, like the clothes groups), then the box scrolls (many body mods)
@@ -2801,6 +2807,9 @@ def w_panel():
                 w(U_HBOX, "RowTipNoPrefix", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptTipNoPrefix", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblTipNoPrefix", "Tooltips without prefixes", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
+                w(U_HBOX, "RowTvAlways", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
+                    w(E_CHECK, "OptTvAlways", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
+                    text("LblTvAlways", "Always show the TV tab", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
                 w(U_HBOX, "RowNoNotices", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptNoNotices", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblNoNotices", "No notices", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
@@ -3319,7 +3328,7 @@ def w_panel():
     mu.n("r2", "return_new"); mu.call("u", K_WBL, "Unhandled"); mu.link("u.ReturnValue", "r2.ReturnValue")
     mu.chain("entry", "b", "ed", "fp", "return"); mu.chain("b:else", "r2")
     # Set Page(page): exactly one page visible (Clothes = HB, Outfits = OutfitScroll, Bag = BagScroll)
-    sp = G(); pages = [("HB", "Clothes"), ("OutfitScroll", "Outfits"), ("LooksScroll", "Looks"), ("BagScroll", "Bag"), ("InventoryVB", "Inventory"), ("FollowersVB", "Followers"), ("HairPage", "Hair"), ("PoseHB", "Poses"), ("WeaponHB", "Weapons"), ("ModsHB", "Mods"), ("FaceHB", "Face"), ("LookHB", "Look"), ("BodyBox", "Body"), ("OptionsHB", "Options"), ("ContentBox", "Content"), ("ManageHB", "Manage"), ("RagScroll", "Ragdolls"), ("KodexHB", "Kodex")]
+    sp = G(); pages = [("HB", "Clothes"), ("OutfitScroll", "Outfits"), ("LooksScroll", "Looks"), ("BagScroll", "Bag"), ("InventoryVB", "Inventory"), ("FollowersVB", "Followers"), ("HairPage", "Hair"), ("PoseHB", "Poses"), ("WeaponHB", "Weapons"), ("ModsHB", "Mods"), ("FaceHB", "Face"), ("LookHB", "Look"), ("BodyBox", "Body"), ("OptionsHB", "Options"), ("ContentBox", "Content"), ("ManageHB", "Manage"), ("RagScroll", "Ragdolls"), ("KodexHB", "Kodex"), ("TvBox", "TV")]
     sp.set("sk", "TmpKnown", inp={"TmpKnown": "false"})
     for i, (wn, page) in enumerate(pages):
         sp.call("eq%d" % i, K_MATH, "EqualEqual_NameName", inp={"A": "@entry.page", "B": page}); sp.branch("b%d" % i, "@eq%d.ReturnValue" % i)
@@ -3407,7 +3416,7 @@ def w_panel():
     gov.get("gia", "OptInvAutoEquip"); gov.call("via", E_CHECK, "IsChecked", inp={"self": "@gia.OptInvAutoEquip"}); gov.link("via.ReturnValue", "return.invautoequip")
     gov.get("gmo", "OptMoveOn"); gov.call("vmo", E_CHECK, "IsChecked", inp={"self": "@gmo.OptMoveOn"}); gov.link("vmo.ReturnValue", "return.moveon")
     gov.get("gsmo", "OptSlowMoOn"); gov.call("vsmo", E_CHECK, "IsChecked", inp={"self": "@gsmo.OptSlowMoOn"}); gov.link("vsmo.ReturnValue", "return.slowmoon")
-    for k in ("FreeNoCollide", "FreeNoLimit", "NoNotices"):
+    for k in ("FreeNoCollide", "FreeNoLimit", "NoNotices", "TvAlways"):
         gov.get("g" + k, "Opt" + k); gov.call("v" + k, E_CHECK, "IsChecked", inp={"self": "@g%s.Opt%s" % (k, k)}); gov.link("v%s.ReturnValue" % k, "return." + k.lower())
     gov.chain("entry", "return")
     # static texts (language): search field hint + labels
@@ -3433,9 +3442,9 @@ def w_panel():
     su.get("g12", "OptInvCatalog"); su.call("s12", E_CHECK, "SetIsChecked", inp={"self": "@g12.OptInvCatalog", "InIsChecked": "@entry.invcatalog"})
     su.get("g13", "OptInvAutoEquip"); su.call("s13", E_CHECK, "SetIsChecked", inp={"self": "@g13.OptInvAutoEquip", "InIsChecked": "@entry.invautoequip"})
     su.get("g14", "OptSlowMoOn"); su.call("s14", E_CHECK, "SetIsChecked", inp={"self": "@g14.OptSlowMoOn", "InIsChecked": "@entry.slowmoon"})
-    for k in ("FreeNoCollide", "FreeNoLimit", "NoNotices"):
+    for k in ("FreeNoCollide", "FreeNoLimit", "NoNotices", "TvAlways"):
         su.get("g" + k, "Opt" + k); su.call("s" + k, E_CHECK, "SetIsChecked", inp={"self": "@g%s.Opt%s" % (k, k), "InIsChecked": "@entry." + k.lower()})
-    su.chain("entry", "s", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13", "s14", "sFreeNoCollide", "sFreeNoLimit", "sNoNotices")
+    su.chain("entry", "s", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13", "s14", "sFreeNoCollide", "sFreeNoLimit", "sNoNotices", "sTvAlways")
     # keep the left side of the panel free: anchor of the background border (Minimum.X = fraction)
     la = G(); la.get("g", "Bg"); la.call("sl", "/Script/UMG.WidgetLayoutLibrary", "SlotAsCanvasSlot", inp={"Widget": "@g.Bg"})
     la.call("mk", K_MATH, "MakeVector2D", inp={"X": "@entry.fraction", "Y": "0.0"})
@@ -3649,6 +3658,13 @@ def w_panel():
     iw.chain("entry", "sp", "sf", "st")
     ks = G(); ks.get("g", "KodexScroll"); ks.call("s", U_SCROLL, "ScrollToStart", inp={"self": "@g.KodexScroll"})
     ks.get("gsm", "ScrollMem"); ks.call("csm", K_ARR, "Array_Clear", inp={"TargetArray": "@gsm.ScrollMem"}); ks.chain("entry", "csm", "s")   # see Set Option Cat
+    # TV: state line, hint (an empty hint is hidden)
+    tvt = G(); tvt.get("gs", "TvStatus"); tvt.call("ss", E_TEXT, "SetText", inp={"self": "@gs.TvStatus", "InText": "@entry.status"})
+    tvt.get("gh", "TvHint"); tvt.call("sh", E_TEXT, "SetText", inp={"self": "@gh.TvHint", "InText": "@entry.hint"})
+    tvt.call("emp", K_TXT, "TextIsEmpty", inp={"InText": "@entry.hint"}); tvt.branch("be", "@emp.ReturnValue")
+    tvt.get("gh2", "TvHint"); tvt.call("hh", E_WIDGET, "SetVisibility", inp={"self": "@gh2.TvHint", "InVisibility": "Collapsed"})
+    tvt.get("gh3", "TvHint"); tvt.call("vh", E_WIDGET, "SetVisibility", inp={"self": "@gh3.TvHint", "InVisibility": "Visible"})
+    tvt.chain("entry", "ss", "sh", "be", "hh"); tvt.chain("be:else", "vh")
     ct = G(); ct.get("g", "ContentTitle"); ct.call("s", E_TEXT, "SetText", inp={"self": "@g.ContentTitle", "InText": "@entry.text"}); ct.chain("entry", "s")
     si = G(); prev = "entry"
     for i, (page, box) in enumerate([("Clothes", "ListScroll"), ("Hair", "HairScroll"), ("Look", "LookScroll"), ("Manage", "ManageScroll")]):
@@ -3803,6 +3819,9 @@ def w_panel():
              clear("Clear Kodex Back", "KodexBack"), add("Add Kodex Back", "KodexBack", U_HBOX, "AddChildToHorizontalBox"),
              fn("Set Kodex Text", [param("title", "text"), param("body", "text")], graph=kt), fn("Set Kodex Image", [param("tex", "object:" + E_TEX2D)], graph=ki),
              fn("Kodex Scroll Top", graph=ks),
+             clear("Clear Tv Links", "TvLinks"), add("Add Tv Link", "TvLinks", U_HBOX, "AddChildToHorizontalBox"),
+             clear("Clear Tv List", "TvList"), add("Add Tv Row", "TvList", U_VBOX, "AddChildToVerticalBox"),
+             fn("Set Tv Text", [param("status", "text"), param("hint", "text")], graph=tvt),
              clear("Clear Option Cats", "OptionCats"), add("Add Option Cat", "OptionCats", U_VBOX, "AddChildToVerticalBox"), fn("Set Option Cat", [param("cat", "name")], graph=soc),
              clear("Clear Tab Chips", "TabChips"), add("Add Tab Chip", "TabChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Tab Style Chips", "TabStyleChips"), add("Add Tab Style Chip", "TabStyleChips", U_WRAP, "AddChildToWrapBox"),
@@ -3852,8 +3871,8 @@ def w_panel():
              fn("Get Pose Search", outputs=[param("text", "text")], graph=gps, pure=True), fn("Clear Pose Search", graph=cps), fn("Clear Hair Search", graph=chs),
              fn("Get Look Only Fav", outputs=[param("yes", "bool")], graph=glf, pure=True), fn("Set Look Only Fav", [param("yes", "bool")], graph=slf),
              fn("Get Look Only Worn", outputs=[param("yes", "bool")], graph=glw, pure=True), fn("Set Look Only Worn", [param("yes", "bool")], graph=slw),
-             fn("Get Option Values", outputs=[param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool"), param("freenocollide", "bool"), param("freenolimit", "bool"), param("nonotices", "bool")], graph=gov),
-             fn("Set Option Checks", [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool"), param("freenocollide", "bool"), param("freenolimit", "bool"), param("nonotices", "bool")], graph=su), fn("Set Left Free", [param("fraction", "float")], graph=la), fn("Set Cam Mode", [param("on", "bool")], graph=scm), fn("Set Palette Lock", [param("on", "bool")], graph=spl),
+             fn("Get Option Values", outputs=[param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool"), param("freenocollide", "bool"), param("freenolimit", "bool"), param("nonotices", "bool"), param("tvalways", "bool")], graph=gov),
+             fn("Set Option Checks", [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool"), param("freenocollide", "bool"), param("freenolimit", "bool"), param("nonotices", "bool"), param("tvalways", "bool")], graph=su), fn("Set Left Free", [param("fraction", "float")], graph=la), fn("Set Cam Mode", [param("on", "bool")], graph=scm), fn("Set Palette Lock", [param("on", "bool")], graph=spl),
              clear("Clear Layout Chips", "LayoutChips"), add("Add Layout Chip", "LayoutChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Unowned Chips", "UnownedChips"), add("Add Unowned Chip", "UnownedChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Conflict Rows", "ConflictRows"), add("Add Conflict Row", "ConflictRows", U_VBOX, "AddChildToVerticalBox"),

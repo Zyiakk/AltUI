@@ -27,7 +27,8 @@ STUBS = {  # cooked stub -> (API dump, checked functions)
     "Project/Classes/Misc/Hair_Comp": ("Hair_Comp", ["Change Color"]),
     "Project/Classes/Misc/InvisibleHand_Comp": ("InvisibleHand_Comp", ["Update Power"]),
     "Project/Classes/GameMode/TKA_GameState": ("TKA_GameState", ["Get Note Save", "Get Hyper Box Data", "Is Game Over ?"]),   # Kodex: the encyclopedia's unlock list
-    "Project/Classes/Items/ItemComponent": ("ItemComponent", ["Is Locked"]),   # Kodex: lock state of a code lock
+    "Project/Classes/Items/ItemComponent": ("ItemComponent", ["Is Locked"]),
+    "Project/Maps/JodisOffice/TV/TV_Actor": ("TV_Actor", ["On Use This", "Play Video", "Start Animation"]),   # TV tab   # Kodex: lock state of a code lock
     # inventory tab: backpack, storage box, weapon, item detail
     "Project/Classes/Misc/Bag_Comp": ("Bag_Comp", ["Count Items", "Can I Pickup This Item ?", "Add Clothes To Bag", "Remove Clothes", "Append Clothes"]),
     "Project/Classes/Misc/HyperBoxData": ("HyperBoxData", ["Add Item", "Consume Item Count", "Save", "Count Items", "Add a Gun", "Remove a Gun"]),

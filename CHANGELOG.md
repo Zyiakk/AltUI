@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.7.2 – 2026-10-22
+
+Replace `AltUI.pak` – nothing else. `AltUI_Hook_P.pak`, `weaponpak.pyz`, `bodypak.pyz`, `idlepak.pyz` and `altui_names.pyz`
+are the same as in 2.7.0. 2.7.1 came out on GitHub only, so on Steam and Nexus this version also brings its two fixes:
+magnifying scopes no longer show a black ring after AltUI was open, and opening AltUI while aiming ends the aim.
+
+* **New TV tab.** In Jodi's office the TV's videos are listed in AltUI: click one to play it, switch the TV on or off from
+  there. The tab only appears in a level with a TV (with several, the one nearest to Jodi); Options › General can show it
+  always. Your own videos: put .mp4 files into `TheKillingAntidote/Videos/TV/` – they appear after the level is loaded
+  again. The TV reads its list the first time it is switched on, so until then the tab asks to switch it on once.
+* **A chosen game paint stays on new weapons.** A paint picked in the Weapons tab (for example `GunPaint_Pink`) was
+  removed again when Jodi picked up a new, unpainted copy of that weapon – in the shooting range after every restart – and
+  the tab showed Original. Picking up a weapon now keeps the choice; only a paint put on in the game (spray can) on the
+  weapon Jodi carries replaces it.
+* **A spray paint survives the storage box.** A weapon painted with a spray can and put into the box before AltUI was
+  opened came back out with AltUI's earlier choice. The spray paint is now taken over the moment it is put on.
+
 ## 2.7.1 – 2026-10-21
 
 Replace `AltUI.pak` – nothing else. `AltUI_Hook_P.pak`, `weaponpak.pyz`, `bodypak.pyz`, `idlepak.pyz` and `altui_names.pyz`

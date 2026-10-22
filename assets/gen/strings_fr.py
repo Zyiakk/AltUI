@@ -145,4 +145,7 @@ FR = {
     "Look_Mutation": "Mutation", "Mut_Color": "Couleur de peau", "Mut_Glow": "Lueur", "Mut_Veins": "Veines", "Mut_Eyes": "Yeux", "Btn_MutReset": "Réinitialiser", "Mut_Story": "Look de l'histoire (sans maquillage ni cicatrices)",
     "Drawer_Default": "Par défaut", "Drawer_Word": "Tiroir", "Menu_Drawer": "Tiroir ›", "Menu_DrawerNew": "+ Nouveau tiroir",
     "Menu_DrawerRemoveHere": "Retirer de ce tiroir", "Drawer_DeleteYes": "Supprimer « %s »",
+    "Tab_TV": "Télé", "Tv_On": "Télé allumée – en cours : %s", "Tv_Off": "Télé éteinte", "Tv_None": "Pas de télé dans ce niveau.",
+    "Tv_Empty": "Allumez la télé une fois, ses vidéos apparaîtront ici.", "Btn_TvOn": "Allumer", "Btn_TvOff": "Éteindre",
+    "Lbl_TvAlways": "Toujours afficher l'onglet Télé (même dans les niveaux sans télé)",
 }

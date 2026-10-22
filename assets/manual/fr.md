@@ -277,6 +277,13 @@ Menu rapide : « Compagnon : suis-moi / attends ici » s'adresse au compagnon en
 - Mots de passe : les serrures à code du niveau actuel, la plus proche d'abord, avec leur distance et si elles sont verrouillées. Chaque code reste caché jusqu'à ce que vous cliquiez dessus.
 - Manuel d'AltUI : ce texte.
 
+## Télé {#tv}
+
+- Visible seulement quand le niveau actuel a une télé (le bureau de Jodi), ou toujours avec l'interrupteur dans Paramètres › Général. S'il y a plusieurs télés, c'est la plus proche de Jodi qui est commandée.
+- Allumer / Éteindre agissent comme la touche E devant la télé. La télé lit sa liste de vidéos la première fois qu'elle est allumée – jusque-là, l'onglet vous demande de l'allumer une fois.
+- Cliquez sur une vidéo pour la lancer. Une vidéo déjà commencée reprend là où elle s'était arrêtée, comme sur la télé elle-même.
+- Vos propres vidéos : placez des fichiers .mp4 dans le dossier du jeu TheKillingAntidote/Videos/TV/. Elles apparaissent après le rechargement du niveau.
+
 ## Menu rapide {#quick}
 
 Maintenez 4 (autre touche dans Paramètres › Menu rapide) et une roue s'ouvre autour de la souris. Relâchez sur une entrée pour l'exécuter ; relâchez au centre pour ne rien faire.

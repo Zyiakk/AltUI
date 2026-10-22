@@ -277,6 +277,13 @@ Schnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im B
 - Passwörter: die Code-Schlösser des aktuellen Levels, das nächste zuerst, mit Entfernung und ob sie gesperrt sind. Jeder Code bleibt verdeckt, bis du ihn anklickst.
 - AltUI-Handbuch: dieser Text.
 
+## TV {#tv}
+
+- Nur sichtbar, wenn im aktuellen Level ein Fernseher steht (Jodis Büro), oder immer mit dem Schalter unter Optionen › Allgemein. Bei mehreren Fernsehern gilt der, der Jodi am nächsten ist.
+- Einschalten / Ausschalten wirken wie die Taste E am Fernseher. Seine Videoliste liest der Fernseher beim ersten Einschalten – bis dahin bittet der Reiter, ihn einmal einzuschalten.
+- Ein Klick auf ein Video spielt es ab. Ein schon begonnenes Video läuft dort weiter, wo es aufgehört hat, wie am Fernseher selbst.
+- Eigene Videos: .mp4-Dateien in den Spielordner TheKillingAntidote/Videos/TV/ legen. Sie erscheinen, nachdem das Level neu geladen wurde.
+
 ## Schnellmenü {#quick}
 
 4 gedrückt halten (andere Taste unter Optionen › Schnellmenü), und um die Maus öffnet sich ein Rad. Über einem Eintrag loslassen führt ihn aus; in der Mitte loslassen tut nichts.

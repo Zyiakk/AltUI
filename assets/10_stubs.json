@@ -529,6 +529,62 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/Maps/JodisOffice/TV/TV_Actor",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/InteractiveActor/InteractiveActor_Base",
+   "variables": [
+    {
+     "name": "is working",
+     "type": "bool"
+    },
+    {
+     "name": "Videos",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "current video index",
+     "type": "int"
+    }
+   ],
+   "functions": [
+    {
+     "name": "On Use This",
+     "inputs": [
+      {
+       "name": "Player",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "finish",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Play Video",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Start Animation",
+     "inputs": [
+      {
+       "name": "working",
+       "type": "bool"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/Classes/Items/ItemComponent",
    "mode": "augment",
    "functions": [

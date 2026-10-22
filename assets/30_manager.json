@@ -8222,6 +8222,78 @@
      "pl": "Wygląd z fabuły (bez makijażu i blizn)",
      "fr": "Look de l'histoire (sans maquillage ni cicatrices)"
     },
+    "Tab_TV": {
+     "en": "TV",
+     "de": "TV",
+     "zh": "电视",
+     "ru": "ТВ",
+     "es": "TV",
+     "pl": "TV",
+     "fr": "Télé"
+    },
+    "Tv_On": {
+     "en": "TV on – playing: %s",
+     "de": "Fernseher an – läuft: %s",
+     "zh": "电视已开启 – 正在播放：%s",
+     "ru": "Телевизор включён – идёт: %s",
+     "es": "Televisor encendido – reproduciendo: %s",
+     "pl": "Telewizor włączony – odtwarzane: %s",
+     "fr": "Télé allumée – en cours : %s"
+    },
+    "Tv_Off": {
+     "en": "TV off",
+     "de": "Fernseher aus",
+     "zh": "电视已关闭",
+     "ru": "Телевизор выключен",
+     "es": "Televisor apagado",
+     "pl": "Telewizor wyłączony",
+     "fr": "Télé éteinte"
+    },
+    "Tv_None": {
+     "en": "No TV in this level.",
+     "de": "Kein Fernseher in diesem Level.",
+     "zh": "此关卡中没有电视。",
+     "ru": "На этом уровне нет телевизора.",
+     "es": "No hay televisor en este nivel.",
+     "pl": "Na tym poziomie nie ma telewizora.",
+     "fr": "Pas de télé dans ce niveau."
+    },
+    "Tv_Empty": {
+     "en": "Switch the TV on once, then its videos appear here.",
+     "de": "Einmal einschalten, dann erscheinen hier die Videos.",
+     "zh": "先打开一次电视，视频就会显示在这里。",
+     "ru": "Включите телевизор один раз — тогда здесь появятся видео.",
+     "es": "Enciende el televisor una vez y aquí aparecerán los vídeos.",
+     "pl": "Włącz telewizor raz, a filmy pojawią się tutaj.",
+     "fr": "Allumez la télé une fois, ses vidéos apparaîtront ici."
+    },
+    "Btn_TvOn": {
+     "en": "Switch on",
+     "de": "Einschalten",
+     "zh": "打开",
+     "ru": "Включить",
+     "es": "Encender",
+     "pl": "Włącz",
+     "fr": "Allumer"
+    },
+    "Btn_TvOff": {
+     "en": "Switch off",
+     "de": "Ausschalten",
+     "zh": "关闭",
+     "ru": "Выключить",
+     "es": "Apagar",
+     "pl": "Wyłącz",
+     "fr": "Éteindre"
+    },
+    "Lbl_TvAlways": {
+     "en": "Always show the TV tab (also in levels without a TV)",
+     "de": "TV-Reiter immer zeigen (auch in Levels ohne Fernseher)",
+     "zh": "始终显示电视标签页（包括没有电视的关卡）",
+     "ru": "Всегда показывать вкладку «ТВ» (и на уровнях без телевизора)",
+     "es": "Mostrar siempre la pestaña TV (también en niveles sin televisor)",
+     "pl": "Zawsze pokazuj kartę TV (także na poziomach bez telewizora)",
+     "fr": "Toujours afficher l'onglet Télé (même dans les niveaux sans télé)"
+    },
     "Hair_Black": {
      "en": "Black",
      "de": "Schwarz",
@@ -8726,6 +8798,24 @@
      "pl": "• Encyklopedia: wpisy z archiwum na komputerze w biurze Jodi, z obrazem i tekstem. Pokazywane są tylko te odblokowane w grze – albo wszystkie po włączeniu przełącznika w Opcje › Ogólne.\n• Hasła: zamki szyfrowe bieżącego poziomu, najbliższy pierwszy, z odległością i informacją, czy są zamknięte. Każdy kod pozostaje ukryty, dopóki go nie klikniesz.\n• Podręcznik AltUI: ten tekst.",
      "fr": "• Encyclopédie : les entrées des archives de l'ordinateur du bureau de Jodi, avec image et texte. Seules celles que le jeu a débloquées sont affichées – ou toutes avec l'interrupteur dans Paramètres › Général.\n• Mots de passe : les serrures à code du niveau actuel, la plus proche d'abord, avec leur distance et si elles sont verrouillées. Chaque code reste caché jusqu'à ce que vous cliquiez dessus.\n• Manuel d'AltUI : ce texte."
     },
+    "Man_tv_T": {
+     "en": "TV",
+     "de": "TV",
+     "zh": "电视",
+     "ru": "ТВ",
+     "es": "TV",
+     "pl": "TV",
+     "fr": "Télé"
+    },
+    "Man_tv_B": {
+     "en": "• Only shown when the current level has a TV (Jodi's office), or always with the switch under Options › General. With several TVs it controls the one nearest to Jodi.\n• Switch on / Switch off work like the E key on the TV. The TV reads its video list the first time it is switched on – until then the tab asks you to switch it on once.\n• Click a video to play it. A video started earlier carries on where it was left, as on the TV itself.\n• Your own videos: put .mp4 files into the game folder TheKillingAntidote/Videos/TV/. They appear after the level is loaded again.",
+     "de": "• Nur sichtbar, wenn im aktuellen Level ein Fernseher steht (Jodis Büro), oder immer mit dem Schalter unter Optionen › Allgemein. Bei mehreren Fernsehern gilt der, der Jodi am nächsten ist.\n• Einschalten / Ausschalten wirken wie die Taste E am Fernseher. Seine Videoliste liest der Fernseher beim ersten Einschalten – bis dahin bittet der Reiter, ihn einmal einzuschalten.\n• Ein Klick auf ein Video spielt es ab. Ein schon begonnenes Video läuft dort weiter, wo es aufgehört hat, wie am Fernseher selbst.\n• Eigene Videos: .mp4-Dateien in den Spielordner TheKillingAntidote/Videos/TV/ legen. Sie erscheinen, nachdem das Level neu geladen wurde.",
+     "zh": "• 仅当当前关卡中有电视（朱蒂的办公室）时显示，或在“选项 › 常规”中打开开关后始终显示。有多台电视时，控制离朱蒂最近的那台。\n• “打开 / 关闭”与在电视前按 E 键的效果相同。电视在第一次打开时读取视频列表——在此之前，标签页会提示你先打开一次。\n• 点击视频即可播放。已经开始过的视频会从上次停下的地方继续播放，与电视本身一样。\n• 自己的视频：把 .mp4 文件放进游戏目录 TheKillingAntidote/Videos/TV/，重新加载关卡后就会出现。",
+     "ru": "• Видна, только если на текущем уровне есть телевизор (офис Джоди), или всегда — с переключателем в «Настройки › Общие». Если телевизоров несколько, управляется ближайший к Джоди.\n• «Включить / Выключить» работают как клавиша E у телевизора. Список видео телевизор читает при первом включении — до этого вкладка просит включить его один раз.\n• Щелчок по видео запускает его. Начатое ранее видео продолжается с того места, где остановилось, как и на самом телевизоре.\n• Свои видео: положите файлы .mp4 в папку игры TheKillingAntidote/Videos/TV/. Они появятся после повторной загрузки уровня.",
+     "es": "• Solo aparece cuando el nivel actual tiene un televisor (la oficina de Jodi), o siempre con el interruptor de Opciones › General. Con varios televisores se controla el más cercano a Jodi.\n• Encender / Apagar funcionan como la tecla E en el televisor. El televisor lee su lista de vídeos la primera vez que se enciende; hasta entonces la pestaña pide encenderlo una vez.\n• Haz clic en un vídeo para reproducirlo. Un vídeo ya empezado continúa donde se quedó, como en el propio televisor.\n• Tus propios vídeos: pon archivos .mp4 en la carpeta del juego TheKillingAntidote/Videos/TV/. Aparecen después de volver a cargar el nivel.",
+     "pl": "• Widoczna tylko wtedy, gdy na bieżącym poziomie jest telewizor (biuro Jodi), albo zawsze – z przełącznikiem w Opcje › Ogólne. Przy kilku telewizorach sterowany jest ten najbliżej Jodi.\n• Włącz / Wyłącz działają jak klawisz E przy telewizorze. Listę filmów telewizor odczytuje przy pierwszym włączeniu – do tego czasu karta prosi, aby włączyć go raz.\n• Kliknięcie filmu odtwarza go. Film już rozpoczęty jest kontynuowany od miejsca, w którym został przerwany, tak jak na samym telewizorze.\n• Własne filmy: włóż pliki .mp4 do folderu gry TheKillingAntidote/Videos/TV/. Pojawią się po ponownym wczytaniu poziomu.",
+     "fr": "• Visible seulement quand le niveau actuel a une télé (le bureau de Jodi), ou toujours avec l'interrupteur dans Paramètres › Général. S'il y a plusieurs télés, c'est la plus proche de Jodi qui est commandée.\n• Allumer / Éteindre agissent comme la touche E devant la télé. La télé lit sa liste de vidéos la première fois qu'elle est allumée – jusque-là, l'onglet vous demande de l'allumer une fois.\n• Cliquez sur une vidéo pour la lancer. Une vidéo déjà commencée reprend là où elle s'était arrêtée, comme sur la télé elle-même.\n• Vos propres vidéos : placez des fichiers .mp4 dans le dossier du jeu TheKillingAntidote/Videos/TV/. Elles apparaissent après le rechargement du niveau."
+    },
     "Man_quick_T": {
      "en": "Quick menu",
      "de": "Schnellmenü",
@@ -9026,6 +9116,10 @@
     },
     {
      "name": "NoNotices",
+     "type": "bool"
+    },
+    {
+     "name": "TvAlways",
      "type": "bool"
     },
     {
@@ -10971,6 +11065,18 @@
      "value_type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
     },
     {
+     "name": "PaintSameActor",
+     "type": "bool"
+    },
+    {
+     "name": "TvActor",
+     "type": "object:/Game/Project/Maps/JodisOffice/TV/TV_Actor"
+    },
+    {
+     "name": "TvDist",
+     "type": "float"
+    },
+    {
      "name": "WeaponPollKeys",
      "type": "name",
      "container": "array"
@@ -11727,6 +11833,10 @@
     },
     {
      "name": "NoNotices",
+     "type": "bool"
+    },
+    {
+     "name": "TvAlways",
      "type": "bool"
     },
     {
@@ -25483,15 +25593,15 @@
        {
         "id": "lg42",
         "kind": "get",
-        "var": "RagMarkersOff",
+        "var": "TvAlways",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls42",
         "kind": "set",
-        "var": "RagMarkersOff",
+        "var": "TvAlways",
         "in": {
-         "RagMarkersOff": "@lg42.RagMarkersOff"
+         "TvAlways": "@lg42.TvAlways"
         }
        },
        {
@@ -25502,15 +25612,15 @@
        {
         "id": "lg43",
         "kind": "get",
-        "var": "AllowNude",
+        "var": "RagMarkersOff",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls43",
         "kind": "set",
-        "var": "AllowNude",
+        "var": "RagMarkersOff",
         "in": {
-         "AllowNude": "@lg43.AllowNude"
+         "RagMarkersOff": "@lg43.RagMarkersOff"
         }
        },
        {
@@ -25521,15 +25631,15 @@
        {
         "id": "lg44",
         "kind": "get",
-        "var": "OnlyModsNames",
+        "var": "AllowNude",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls44",
         "kind": "set",
-        "var": "OnlyModsNames",
+        "var": "AllowNude",
         "in": {
-         "OnlyModsNames": "@lg44.OnlyModsNames"
+         "AllowNude": "@lg44.AllowNude"
         }
        },
        {
@@ -25540,15 +25650,15 @@
        {
         "id": "lg45",
         "kind": "get",
-        "var": "CaseSensitiveNames",
+        "var": "OnlyModsNames",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls45",
         "kind": "set",
-        "var": "CaseSensitiveNames",
+        "var": "OnlyModsNames",
         "in": {
-         "CaseSensitiveNames": "@lg45.CaseSensitiveNames"
+         "OnlyModsNames": "@lg45.OnlyModsNames"
         }
        },
        {
@@ -25559,15 +25669,15 @@
        {
         "id": "lg46",
         "kind": "get",
-        "var": "MergeGroups",
+        "var": "CaseSensitiveNames",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls46",
         "kind": "set",
-        "var": "MergeGroups",
+        "var": "CaseSensitiveNames",
         "in": {
-         "MergeGroups": "@lg46.MergeGroups"
+         "CaseSensitiveNames": "@lg46.CaseSensitiveNames"
         }
        },
        {
@@ -25578,15 +25688,15 @@
        {
         "id": "lg47",
         "kind": "get",
-        "var": "MergeMods",
+        "var": "MergeGroups",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls47",
         "kind": "set",
-        "var": "MergeMods",
+        "var": "MergeGroups",
         "in": {
-         "MergeMods": "@lg47.MergeMods"
+         "MergeGroups": "@lg47.MergeGroups"
         }
        },
        {
@@ -25597,15 +25707,15 @@
        {
         "id": "lg48",
         "kind": "get",
-        "var": "ChipSearchShown",
+        "var": "MergeMods",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls48",
         "kind": "set",
-        "var": "ChipSearchShown",
+        "var": "MergeMods",
         "in": {
-         "ChipSearchShown": "@lg48.ChipSearchShown"
+         "MergeMods": "@lg48.MergeMods"
         }
        },
        {
@@ -25616,15 +25726,15 @@
        {
         "id": "lg49",
         "kind": "get",
-        "var": "TipNoPrefix",
+        "var": "ChipSearchShown",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls49",
         "kind": "set",
-        "var": "TipNoPrefix",
+        "var": "ChipSearchShown",
         "in": {
-         "TipNoPrefix": "@lg49.TipNoPrefix"
+         "ChipSearchShown": "@lg49.ChipSearchShown"
         }
        },
        {
@@ -25635,15 +25745,15 @@
        {
         "id": "lg50",
         "kind": "get",
-        "var": "TipNoIds",
+        "var": "TipNoPrefix",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls50",
         "kind": "set",
-        "var": "TipNoIds",
+        "var": "TipNoPrefix",
         "in": {
-         "TipNoIds": "@lg50.TipNoIds"
+         "TipNoPrefix": "@lg50.TipNoPrefix"
         }
        },
        {
@@ -25654,15 +25764,15 @@
        {
         "id": "lg51",
         "kind": "get",
-        "var": "FreedConflicts",
+        "var": "TipNoIds",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls51",
         "kind": "set",
-        "var": "FreedConflicts",
+        "var": "TipNoIds",
         "in": {
-         "FreedConflicts": "@lg51.FreedConflicts"
+         "TipNoIds": "@lg51.TipNoIds"
         }
        },
        {
@@ -25673,15 +25783,15 @@
        {
         "id": "lg52",
         "kind": "get",
-        "var": "MultiSlots",
+        "var": "FreedConflicts",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls52",
         "kind": "set",
-        "var": "MultiSlots",
+        "var": "FreedConflicts",
         "in": {
-         "MultiSlots": "@lg52.MultiSlots"
+         "FreedConflicts": "@lg52.FreedConflicts"
         }
        },
        {
@@ -25692,15 +25802,15 @@
        {
         "id": "lg53",
         "kind": "get",
-        "var": "HairSwatchesOpen",
+        "var": "MultiSlots",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls53",
         "kind": "set",
-        "var": "HairSwatchesOpen",
+        "var": "MultiSlots",
         "in": {
-         "HairSwatchesOpen": "@lg53.HairSwatchesOpen"
+         "MultiSlots": "@lg53.MultiSlots"
         }
        },
        {
@@ -25711,15 +25821,15 @@
        {
         "id": "lg54",
         "kind": "get",
-        "var": "UnownedMode",
+        "var": "HairSwatchesOpen",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls54",
         "kind": "set",
-        "var": "UnownedMode",
+        "var": "HairSwatchesOpen",
         "in": {
-         "UnownedMode": "@lg54.UnownedMode"
+         "HairSwatchesOpen": "@lg54.HairSwatchesOpen"
         }
        },
        {
@@ -25730,15 +25840,15 @@
        {
         "id": "lg55",
         "kind": "get",
-        "var": "SlotColors",
+        "var": "UnownedMode",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls55",
         "kind": "set",
-        "var": "LegacySlotColors",
+        "var": "UnownedMode",
         "in": {
-         "LegacySlotColors": "@lg55.SlotColors"
+         "UnownedMode": "@lg55.UnownedMode"
         }
        },
        {
@@ -25749,15 +25859,15 @@
        {
         "id": "lg56",
         "kind": "get",
-        "var": "SlotColorsPerSave",
+        "var": "SlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls56",
         "kind": "set",
-        "var": "SlotColorsPerSave",
+        "var": "LegacySlotColors",
         "in": {
-         "SlotColorsPerSave": "@lg56.SlotColorsPerSave"
+         "LegacySlotColors": "@lg56.SlotColors"
         }
        },
        {
@@ -25768,15 +25878,15 @@
        {
         "id": "lg57",
         "kind": "get",
-        "var": "OutfitSlotColors",
+        "var": "SlotColorsPerSave",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls57",
         "kind": "set",
-        "var": "OutfitSlotColors",
+        "var": "SlotColorsPerSave",
         "in": {
-         "OutfitSlotColors": "@lg57.OutfitSlotColors"
+         "SlotColorsPerSave": "@lg57.SlotColorsPerSave"
         }
        },
        {
@@ -25787,15 +25897,15 @@
        {
         "id": "lg58",
         "kind": "get",
-        "var": "ModEntry",
+        "var": "OutfitSlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls58",
         "kind": "set",
-        "var": "ModEntry",
+        "var": "OutfitSlotColors",
         "in": {
-         "ModEntry": "@lg58.ModEntry"
+         "OutfitSlotColors": "@lg58.OutfitSlotColors"
         }
        },
        {
@@ -25806,32 +25916,15 @@
        {
         "id": "lg59",
         "kind": "get",
-        "var": "LastPage",
+        "var": "ModEntry",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls59",
         "kind": "set",
-        "var": "Page",
+        "var": "ModEntry",
         "in": {
-         "Page": "@lg59.LastPage"
-        }
-       },
-       {
-        "id": "ln59",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg59.LastPage",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb59",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln59.ReturnValue"
+         "ModEntry": "@lg59.ModEntry"
         }
        },
        {
@@ -25842,15 +25935,15 @@
        {
         "id": "lg60",
         "kind": "get",
-        "var": "LastLookCat",
+        "var": "LastPage",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls60",
         "kind": "set",
-        "var": "LookCat",
+        "var": "Page",
         "in": {
-         "LookCat": "@lg60.LastLookCat"
+         "Page": "@lg60.LastPage"
         }
        },
        {
@@ -25859,7 +25952,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg60.LastLookCat",
+         "A": "@lg60.LastPage",
          "B": "None"
         }
        },
@@ -25878,15 +25971,15 @@
        {
         "id": "lg61",
         "kind": "get",
-        "var": "LastPoseCat",
+        "var": "LastLookCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls61",
         "kind": "set",
-        "var": "PoseCat",
+        "var": "LookCat",
         "in": {
-         "PoseCat": "@lg61.LastPoseCat"
+         "LookCat": "@lg61.LastLookCat"
         }
        },
        {
@@ -25895,7 +25988,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg61.LastPoseCat",
+         "A": "@lg61.LastLookCat",
          "B": "None"
         }
        },
@@ -25914,15 +26007,15 @@
        {
         "id": "lg62",
         "kind": "get",
-        "var": "LastWeapon",
+        "var": "LastPoseCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls62",
         "kind": "set",
-        "var": "CurrentWeapon",
+        "var": "PoseCat",
         "in": {
-         "CurrentWeapon": "@lg62.LastWeapon"
+         "PoseCat": "@lg62.LastPoseCat"
         }
        },
        {
@@ -25931,7 +26024,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg62.LastWeapon",
+         "A": "@lg62.LastPoseCat",
          "B": "None"
         }
        },
@@ -25950,15 +26043,32 @@
        {
         "id": "lg63",
         "kind": "get",
-        "var": "EyeColors",
+        "var": "LastWeapon",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls63",
         "kind": "set",
-        "var": "EyeColors",
+        "var": "CurrentWeapon",
         "in": {
-         "EyeColors": "@lg63.EyeColors"
+         "CurrentWeapon": "@lg63.LastWeapon"
+        }
+       },
+       {
+        "id": "ln63",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg63.LastWeapon",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb63",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln63.ReturnValue"
         }
        },
        {
@@ -25969,15 +26079,15 @@
        {
         "id": "lg64",
         "kind": "get",
-        "var": "MakeupColors",
+        "var": "EyeColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls64",
         "kind": "set",
-        "var": "MakeupColors",
+        "var": "EyeColors",
         "in": {
-         "MakeupColors": "@lg64.MakeupColors"
+         "EyeColors": "@lg64.EyeColors"
         }
        },
        {
@@ -25988,15 +26098,15 @@
        {
         "id": "lg65",
         "kind": "get",
-        "var": "Face",
+        "var": "MakeupColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls65",
         "kind": "set",
-        "var": "FaceValues",
+        "var": "MakeupColors",
         "in": {
-         "FaceValues": "@lg65.Face"
+         "MakeupColors": "@lg65.MakeupColors"
         }
        },
        {
@@ -26007,32 +26117,15 @@
        {
         "id": "lg66",
         "kind": "get",
-        "var": "LastFaceGroup",
+        "var": "Face",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls66",
         "kind": "set",
-        "var": "FaceGroup",
+        "var": "FaceValues",
         "in": {
-         "FaceGroup": "@lg66.LastFaceGroup"
-        }
-       },
-       {
-        "id": "ln66",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg66.LastFaceGroup",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb66",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln66.ReturnValue"
+         "FaceValues": "@lg66.Face"
         }
        },
        {
@@ -26043,15 +26136,32 @@
        {
         "id": "lg67",
         "kind": "get",
-        "var": "FaceAdd",
+        "var": "LastFaceGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls67",
         "kind": "set",
-        "var": "FaceAdd",
+        "var": "FaceGroup",
         "in": {
-         "FaceAdd": "@lg67.FaceAdd"
+         "FaceGroup": "@lg67.LastFaceGroup"
+        }
+       },
+       {
+        "id": "ln67",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg67.LastFaceGroup",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb67",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln67.ReturnValue"
         }
        },
        {
@@ -26062,15 +26172,15 @@
        {
         "id": "lg68",
         "kind": "get",
-        "var": "Mutation",
+        "var": "FaceAdd",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls68",
         "kind": "set",
-        "var": "Mutation",
+        "var": "FaceAdd",
         "in": {
-         "Mutation": "@lg68.Mutation"
+         "FaceAdd": "@lg68.FaceAdd"
         }
        },
        {
@@ -26081,15 +26191,15 @@
        {
         "id": "lg69",
         "kind": "get",
-        "var": "PresetColors",
+        "var": "Mutation",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls69",
         "kind": "set",
-        "var": "PresetColors",
+        "var": "Mutation",
         "in": {
-         "PresetColors": "@lg69.PresetColors"
+         "Mutation": "@lg69.Mutation"
         }
        },
        {
@@ -26100,32 +26210,15 @@
        {
         "id": "lg70",
         "kind": "get",
-        "var": "ToggleKey",
+        "var": "PresetColors",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls70",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "PresetColors",
         "in": {
-         "ToggleKey": "@lg70.ToggleKey"
-        }
-       },
-       {
-        "id": "ln70",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg70.ToggleKey",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb70",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln70.ReturnValue"
+         "PresetColors": "@lg70.PresetColors"
         }
        },
        {
@@ -26136,15 +26229,15 @@
        {
         "id": "lg71",
         "kind": "get",
-        "var": "LastOptionsCat",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls71",
         "kind": "set",
-        "var": "OptionsCat",
+        "var": "ToggleKey",
         "in": {
-         "OptionsCat": "@lg71.LastOptionsCat"
+         "ToggleKey": "@lg71.ToggleKey"
         }
        },
        {
@@ -26153,7 +26246,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg71.LastOptionsCat",
+         "A": "@lg71.ToggleKey",
          "B": "None"
         }
        },
@@ -26172,15 +26265,15 @@
        {
         "id": "lg72",
         "kind": "get",
-        "var": "LastKodex",
+        "var": "LastOptionsCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls72",
         "kind": "set",
-        "var": "KodexSel",
+        "var": "OptionsCat",
         "in": {
-         "KodexSel": "@lg72.LastKodex"
+         "OptionsCat": "@lg72.LastOptionsCat"
         }
        },
        {
@@ -26189,7 +26282,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg72.LastKodex",
+         "A": "@lg72.LastOptionsCat",
          "B": "None"
         }
        },
@@ -26208,15 +26301,15 @@
        {
         "id": "lg73",
         "kind": "get",
-        "var": "LastInvGroup",
+        "var": "LastKodex",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls73",
         "kind": "set",
-        "var": "InvGroup",
+        "var": "KodexSel",
         "in": {
-         "InvGroup": "@lg73.LastInvGroup"
+         "KodexSel": "@lg73.LastKodex"
         }
        },
        {
@@ -26225,7 +26318,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg73.LastInvGroup",
+         "A": "@lg73.LastKodex",
          "B": "None"
         }
        },
@@ -26244,15 +26337,32 @@
        {
         "id": "lg74",
         "kind": "get",
-        "var": "KodexAll",
+        "var": "LastInvGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls74",
         "kind": "set",
-        "var": "KodexAll",
+        "var": "InvGroup",
         "in": {
-         "KodexAll": "@lg74.KodexAll"
+         "InvGroup": "@lg74.LastInvGroup"
+        }
+       },
+       {
+        "id": "ln74",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg74.LastInvGroup",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb74",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln74.ReturnValue"
         }
        },
        {
@@ -26263,15 +26373,15 @@
        {
         "id": "lg75",
         "kind": "get",
-        "var": "InvCatalog",
+        "var": "KodexAll",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls75",
         "kind": "set",
-        "var": "InvCatalog",
+        "var": "KodexAll",
         "in": {
-         "InvCatalog": "@lg75.InvCatalog"
+         "KodexAll": "@lg75.KodexAll"
         }
        },
        {
@@ -26282,15 +26392,15 @@
        {
         "id": "lg76",
         "kind": "get",
-        "var": "InvNoAutoEquip",
+        "var": "InvCatalog",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls76",
         "kind": "set",
-        "var": "InvNoAutoEquip",
+        "var": "InvCatalog",
         "in": {
-         "InvNoAutoEquip": "@lg76.InvNoAutoEquip"
+         "InvCatalog": "@lg76.InvCatalog"
         }
        },
        {
@@ -26301,15 +26411,15 @@
        {
         "id": "lg77",
         "kind": "get",
-        "var": "InvFoldBag",
+        "var": "InvNoAutoEquip",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls77",
         "kind": "set",
-        "var": "InvFoldBag",
+        "var": "InvNoAutoEquip",
         "in": {
-         "InvFoldBag": "@lg77.InvFoldBag"
+         "InvNoAutoEquip": "@lg77.InvNoAutoEquip"
         }
        },
        {
@@ -26320,15 +26430,15 @@
        {
         "id": "lg78",
         "kind": "get",
-        "var": "InvFoldBox",
+        "var": "InvFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls78",
         "kind": "set",
-        "var": "InvFoldBox",
+        "var": "InvFoldBag",
         "in": {
-         "InvFoldBox": "@lg78.InvFoldBox"
+         "InvFoldBag": "@lg78.InvFoldBag"
         }
        },
        {
@@ -26339,15 +26449,15 @@
        {
         "id": "lg79",
         "kind": "get",
-        "var": "InvFoldCat",
+        "var": "InvFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls79",
         "kind": "set",
-        "var": "InvFoldCat",
+        "var": "InvFoldBox",
         "in": {
-         "InvFoldCat": "@lg79.InvFoldCat"
+         "InvFoldBox": "@lg79.InvFoldBox"
         }
        },
        {
@@ -26358,32 +26468,15 @@
        {
         "id": "lg80",
         "kind": "get",
-        "var": "InvMax",
+        "var": "InvFoldCat",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls80",
         "kind": "set",
-        "var": "InvMax",
+        "var": "InvFoldCat",
         "in": {
-         "InvMax": "@lg80.InvMax"
-        }
-       },
-       {
-        "id": "ln80",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg80.InvMax",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb80",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln80.ReturnValue"
+         "InvFoldCat": "@lg80.InvFoldCat"
         }
        },
        {
@@ -26394,15 +26487,32 @@
        {
         "id": "lg81",
         "kind": "get",
-        "var": "FolFoldBag",
+        "var": "InvMax",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls81",
         "kind": "set",
-        "var": "FolFoldBag",
+        "var": "InvMax",
         "in": {
-         "FolFoldBag": "@lg81.FolFoldBag"
+         "InvMax": "@lg81.InvMax"
+        }
+       },
+       {
+        "id": "ln81",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg81.InvMax",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb81",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln81.ReturnValue"
         }
        },
        {
@@ -26413,15 +26523,15 @@
        {
         "id": "lg82",
         "kind": "get",
-        "var": "FolFoldBox",
+        "var": "FolFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls82",
         "kind": "set",
-        "var": "FolFoldBox",
+        "var": "FolFoldBag",
         "in": {
-         "FolFoldBox": "@lg82.FolFoldBox"
+         "FolFoldBag": "@lg82.FolFoldBag"
         }
        },
        {
@@ -26432,15 +26542,15 @@
        {
         "id": "lg83",
         "kind": "get",
-        "var": "FolFoldRows",
+        "var": "FolFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls83",
         "kind": "set",
-        "var": "FolFoldRows",
+        "var": "FolFoldBox",
         "in": {
-         "FolFoldRows": "@lg83.FolFoldRows"
+         "FolFoldBox": "@lg83.FolFoldBox"
         }
        },
        {
@@ -26451,15 +26561,15 @@
        {
         "id": "lg84",
         "kind": "get",
-        "var": "FolShow",
+        "var": "FolFoldRows",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls84",
         "kind": "set",
-        "var": "FolShow",
+        "var": "FolFoldRows",
         "in": {
-         "FolShow": "@lg84.FolShow"
+         "FolFoldRows": "@lg84.FolFoldRows"
         }
        },
        {
@@ -26470,32 +26580,15 @@
        {
         "id": "lg85",
         "kind": "get",
-        "var": "RagKey",
+        "var": "FolShow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls85",
         "kind": "set",
-        "var": "RagKey",
+        "var": "FolShow",
         "in": {
-         "RagKey": "@lg85.RagKey"
-        }
-       },
-       {
-        "id": "ln85",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg85.RagKey",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb85",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln85.ReturnValue"
+         "FolShow": "@lg85.FolShow"
         }
        },
        {
@@ -26506,15 +26599,32 @@
        {
         "id": "lg86",
         "kind": "get",
-        "var": "HiddenTabs",
+        "var": "RagKey",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls86",
         "kind": "set",
-        "var": "HiddenTabs",
+        "var": "RagKey",
         "in": {
-         "HiddenTabs": "@lg86.HiddenTabs"
+         "RagKey": "@lg86.RagKey"
+        }
+       },
+       {
+        "id": "ln86",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg86.RagKey",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb86",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln86.ReturnValue"
         }
        },
        {
@@ -26525,32 +26635,15 @@
        {
         "id": "lg87",
         "kind": "get",
-        "var": "QuickKey",
+        "var": "HiddenTabs",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls87",
         "kind": "set",
-        "var": "QuickKey",
+        "var": "HiddenTabs",
         "in": {
-         "QuickKey": "@lg87.QuickKey"
-        }
-       },
-       {
-        "id": "ln87",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg87.QuickKey",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb87",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln87.ReturnValue"
+         "HiddenTabs": "@lg87.HiddenTabs"
         }
        },
        {
@@ -26561,15 +26654,32 @@
        {
         "id": "lg88",
         "kind": "get",
-        "var": "QuickItems",
+        "var": "QuickKey",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls88",
         "kind": "set",
-        "var": "QuickItems",
+        "var": "QuickKey",
         "in": {
-         "QuickItems": "@lg88.QuickItems"
+         "QuickKey": "@lg88.QuickKey"
+        }
+       },
+       {
+        "id": "ln88",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg88.QuickKey",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb88",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln88.ReturnValue"
         }
        },
        {
@@ -26580,15 +26690,15 @@
        {
         "id": "lg89",
         "kind": "get",
-        "var": "KeyBindKeys",
+        "var": "QuickItems",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls89",
         "kind": "set",
-        "var": "KeyBindKeys",
+        "var": "QuickItems",
         "in": {
-         "KeyBindKeys": "@lg89.KeyBindKeys"
+         "QuickItems": "@lg89.QuickItems"
         }
        },
        {
@@ -26599,15 +26709,15 @@
        {
         "id": "lg90",
         "kind": "get",
-        "var": "KeyBindItems",
+        "var": "KeyBindKeys",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls90",
         "kind": "set",
-        "var": "KeyBindItems",
+        "var": "KeyBindKeys",
         "in": {
-         "KeyBindItems": "@lg90.KeyBindItems"
+         "KeyBindKeys": "@lg90.KeyBindKeys"
         }
        },
        {
@@ -26618,15 +26728,15 @@
        {
         "id": "lg91",
         "kind": "get",
-        "var": "TabStyle",
+        "var": "KeyBindItems",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls91",
         "kind": "set",
-        "var": "TabStyle",
+        "var": "KeyBindItems",
         "in": {
-         "TabStyle": "@lg91.TabStyle"
+         "KeyBindItems": "@lg91.KeyBindItems"
         }
        },
        {
@@ -26637,15 +26747,15 @@
        {
         "id": "lg92",
         "kind": "get",
-        "var": "TabIconRight",
+        "var": "TabStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls92",
         "kind": "set",
-        "var": "TabIconRight",
+        "var": "TabStyle",
         "in": {
-         "TabIconRight": "@lg92.TabIconRight"
+         "TabStyle": "@lg92.TabStyle"
         }
        },
        {
@@ -26656,15 +26766,15 @@
        {
         "id": "lg93",
         "kind": "get",
-        "var": "TabOneRow",
+        "var": "TabIconRight",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls93",
         "kind": "set",
-        "var": "TabOneRow",
+        "var": "TabIconRight",
         "in": {
-         "TabOneRow": "@lg93.TabOneRow"
+         "TabIconRight": "@lg93.TabIconRight"
         }
        },
        {
@@ -26675,15 +26785,15 @@
        {
         "id": "lg94",
         "kind": "get",
-        "var": "BgImage",
+        "var": "TabOneRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls94",
         "kind": "set",
-        "var": "BgImage",
+        "var": "TabOneRow",
         "in": {
-         "BgImage": "@lg94.BgImage"
+         "TabOneRow": "@lg94.TabOneRow"
         }
        },
        {
@@ -26694,15 +26804,15 @@
        {
         "id": "lg95",
         "kind": "get",
-        "var": "BgFit",
+        "var": "BgImage",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls95",
         "kind": "set",
-        "var": "BgFit",
+        "var": "BgImage",
         "in": {
-         "BgFit": "@lg95.BgFit"
+         "BgImage": "@lg95.BgImage"
         }
        },
        {
@@ -26713,15 +26823,15 @@
        {
         "id": "lg96",
         "kind": "get",
-        "var": "BgHAlign",
+        "var": "BgFit",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls96",
         "kind": "set",
-        "var": "BgHAlign",
+        "var": "BgFit",
         "in": {
-         "BgHAlign": "@lg96.BgHAlign"
+         "BgFit": "@lg96.BgFit"
         }
        },
        {
@@ -26732,15 +26842,15 @@
        {
         "id": "lg97",
         "kind": "get",
-        "var": "BgVAlign",
+        "var": "BgHAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls97",
         "kind": "set",
-        "var": "BgVAlign",
+        "var": "BgHAlign",
         "in": {
-         "BgVAlign": "@lg97.BgVAlign"
+         "BgHAlign": "@lg97.BgHAlign"
         }
        },
        {
@@ -26751,15 +26861,15 @@
        {
         "id": "lg98",
         "kind": "get",
-        "var": "BtnImage",
+        "var": "BgVAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls98",
         "kind": "set",
-        "var": "BtnImage",
+        "var": "BgVAlign",
         "in": {
-         "BtnImage": "@lg98.BtnImage"
+         "BgVAlign": "@lg98.BgVAlign"
         }
        },
        {
@@ -26770,15 +26880,15 @@
        {
         "id": "lg99",
         "kind": "get",
-        "var": "BgHue",
+        "var": "BtnImage",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls99",
         "kind": "set",
-        "var": "BgHue",
+        "var": "BtnImage",
         "in": {
-         "BgHue": "@lg99.BgHue"
+         "BtnImage": "@lg99.BtnImage"
         }
        },
        {
@@ -26789,15 +26899,15 @@
        {
         "id": "lg100",
         "kind": "get",
-        "var": "BgSepia",
+        "var": "BgHue",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls100",
         "kind": "set",
-        "var": "BgSepia",
+        "var": "BgHue",
         "in": {
-         "BgSepia": "@lg100.BgSepia"
+         "BgHue": "@lg100.BgHue"
         }
        },
        {
@@ -26808,15 +26918,15 @@
        {
         "id": "lg101",
         "kind": "get",
-        "var": "BgInvert",
+        "var": "BgSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls101",
         "kind": "set",
-        "var": "BgInvert",
+        "var": "BgSepia",
         "in": {
-         "BgInvert": "@lg101.BgInvert"
+         "BgSepia": "@lg101.BgSepia"
         }
        },
        {
@@ -26827,15 +26937,15 @@
        {
         "id": "lg102",
         "kind": "get",
-        "var": "ImgThumbs",
+        "var": "BgInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls102",
         "kind": "set",
-        "var": "ImgThumbs",
+        "var": "BgInvert",
         "in": {
-         "ImgThumbs": "@lg102.ImgThumbs"
+         "BgInvert": "@lg102.BgInvert"
         }
        },
        {
@@ -26846,15 +26956,15 @@
        {
         "id": "lg103",
         "kind": "get",
-        "var": "BtnHue",
+        "var": "ImgThumbs",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls103",
         "kind": "set",
-        "var": "BtnHue",
+        "var": "ImgThumbs",
         "in": {
-         "BtnHue": "@lg103.BtnHue"
+         "ImgThumbs": "@lg103.ImgThumbs"
         }
        },
        {
@@ -26865,15 +26975,15 @@
        {
         "id": "lg104",
         "kind": "get",
-        "var": "BtnSepia",
+        "var": "BtnHue",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls104",
         "kind": "set",
-        "var": "BtnSepia",
+        "var": "BtnHue",
         "in": {
-         "BtnSepia": "@lg104.BtnSepia"
+         "BtnHue": "@lg104.BtnHue"
         }
        },
        {
@@ -26884,15 +26994,15 @@
        {
         "id": "lg105",
         "kind": "get",
-        "var": "BtnInvert",
+        "var": "BtnSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls105",
         "kind": "set",
-        "var": "BtnInvert",
+        "var": "BtnSepia",
         "in": {
-         "BtnInvert": "@lg105.BtnInvert"
+         "BtnSepia": "@lg105.BtnSepia"
         }
        },
        {
@@ -26903,15 +27013,15 @@
        {
         "id": "lg106",
         "kind": "get",
-        "var": "ThemePresets",
+        "var": "BtnInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls106",
         "kind": "set",
-        "var": "ThemePresets",
+        "var": "BtnInvert",
         "in": {
-         "ThemePresets": "@lg106.ThemePresets"
+         "BtnInvert": "@lg106.BtnInvert"
         }
        },
        {
@@ -26922,15 +27032,15 @@
        {
         "id": "lg107",
         "kind": "get",
-        "var": "ManageChipsCollapsed",
+        "var": "ThemePresets",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls107",
         "kind": "set",
-        "var": "ManageChipsCollapsed",
+        "var": "ThemePresets",
         "in": {
-         "ManageChipsCollapsed": "@lg107.ManageChipsCollapsed"
+         "ThemePresets": "@lg107.ThemePresets"
         }
        },
        {
@@ -26941,15 +27051,15 @@
        {
         "id": "lg108",
         "kind": "get",
-        "var": "QuickAlpha",
+        "var": "ManageChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls108",
         "kind": "set",
-        "var": "QuickAlpha",
+        "var": "ManageChipsCollapsed",
         "in": {
-         "QuickAlpha": "@lg108.QuickAlpha"
+         "ManageChipsCollapsed": "@lg108.ManageChipsCollapsed"
         }
        },
        {
@@ -26960,15 +27070,15 @@
        {
         "id": "lg109",
         "kind": "get",
-        "var": "MoveOn",
+        "var": "QuickAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls109",
         "kind": "set",
-        "var": "MoveOn",
+        "var": "QuickAlpha",
         "in": {
-         "MoveOn": "@lg109.MoveOn"
+         "QuickAlpha": "@lg109.QuickAlpha"
         }
        },
        {
@@ -26979,15 +27089,15 @@
        {
         "id": "lg110",
         "kind": "get",
-        "var": "WalkSpeedPct",
+        "var": "MoveOn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls110",
         "kind": "set",
-        "var": "WalkSpeedPct",
+        "var": "MoveOn",
         "in": {
-         "WalkSpeedPct": "@lg110.WalkSpeedPct"
+         "MoveOn": "@lg110.MoveOn"
         }
        },
        {
@@ -26998,15 +27108,15 @@
        {
         "id": "lg111",
         "kind": "get",
-        "var": "RunSpeedPct",
+        "var": "WalkSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls111",
         "kind": "set",
-        "var": "RunSpeedPct",
+        "var": "WalkSpeedPct",
         "in": {
-         "RunSpeedPct": "@lg111.RunSpeedPct"
+         "WalkSpeedPct": "@lg111.WalkSpeedPct"
         }
        },
        {
@@ -27017,32 +27127,15 @@
        {
         "id": "lg112",
         "kind": "get",
-        "var": "WalkStyle",
+        "var": "RunSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls112",
         "kind": "set",
-        "var": "WalkStyle",
+        "var": "RunSpeedPct",
         "in": {
-         "WalkStyle": "@lg112.WalkStyle"
-        }
-       },
-       {
-        "id": "ln112",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "NotEqual_NameName",
-        "in": {
-         "A": "@lg112.WalkStyle",
-         "B": "None"
-        }
-       },
-       {
-        "id": "lb112",
-        "kind": "branch",
-        "in": {
-         "Condition": "@ln112.ReturnValue"
+         "RunSpeedPct": "@lg112.RunSpeedPct"
         }
        },
        {
@@ -27053,15 +27146,15 @@
        {
         "id": "lg113",
         "kind": "get",
-        "var": "RunStyle",
+        "var": "WalkStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls113",
         "kind": "set",
-        "var": "RunStyle",
+        "var": "WalkStyle",
         "in": {
-         "RunStyle": "@lg113.RunStyle"
+         "WalkStyle": "@lg113.WalkStyle"
         }
        },
        {
@@ -27070,7 +27163,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg113.RunStyle",
+         "A": "@lg113.WalkStyle",
          "B": "None"
         }
        },
@@ -27089,15 +27182,15 @@
        {
         "id": "lg114",
         "kind": "get",
-        "var": "IdleStyle",
+        "var": "RunStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls114",
         "kind": "set",
-        "var": "IdleStyle",
+        "var": "RunStyle",
         "in": {
-         "IdleStyle": "@lg114.IdleStyle"
+         "RunStyle": "@lg114.RunStyle"
         }
        },
        {
@@ -27106,7 +27199,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg114.IdleStyle",
+         "A": "@lg114.RunStyle",
          "B": "None"
         }
        },
@@ -27125,15 +27218,15 @@
        {
         "id": "lg115",
         "kind": "get",
-        "var": "IdlePose",
+        "var": "IdleStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls115",
         "kind": "set",
-        "var": "IdlePose",
+        "var": "IdleStyle",
         "in": {
-         "IdlePose": "@lg115.IdlePose"
+         "IdleStyle": "@lg115.IdleStyle"
         }
        },
        {
@@ -27142,7 +27235,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "NotEqual_NameName",
         "in": {
-         "A": "@lg115.IdlePose",
+         "A": "@lg115.IdleStyle",
          "B": "None"
         }
        },
@@ -27161,15 +27254,32 @@
        {
         "id": "lg116",
         "kind": "get",
-        "var": "PoseLoop",
+        "var": "IdlePose",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls116",
         "kind": "set",
-        "var": "PoseLoop",
+        "var": "IdlePose",
         "in": {
-         "PoseLoop": "@lg116.PoseLoop"
+         "IdlePose": "@lg116.IdlePose"
+        }
+       },
+       {
+        "id": "ln116",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_NameName",
+        "in": {
+         "A": "@lg116.IdlePose",
+         "B": "None"
+        }
+       },
+       {
+        "id": "lb116",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ln116.ReturnValue"
         }
        },
        {
@@ -27180,15 +27290,15 @@
        {
         "id": "lg117",
         "kind": "get",
-        "var": "NoRenderedIcons",
+        "var": "PoseLoop",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls117",
         "kind": "set",
-        "var": "NoRenderedIcons",
+        "var": "PoseLoop",
         "in": {
-         "NoRenderedIcons": "@lg117.NoRenderedIcons"
+         "PoseLoop": "@lg117.PoseLoop"
         }
        },
        {
@@ -27199,15 +27309,15 @@
        {
         "id": "lg118",
         "kind": "get",
-        "var": "RagWheelCm",
+        "var": "NoRenderedIcons",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls118",
         "kind": "set",
-        "var": "RagWheelCm",
+        "var": "NoRenderedIcons",
         "in": {
-         "RagWheelCm": "@lg118.RagWheelCm"
+         "NoRenderedIcons": "@lg118.NoRenderedIcons"
         }
        },
        {
@@ -27218,15 +27328,15 @@
        {
         "id": "lg119",
         "kind": "get",
-        "var": "SlowMoPct",
+        "var": "RagWheelCm",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls119",
         "kind": "set",
-        "var": "SlowMoPct",
+        "var": "RagWheelCm",
         "in": {
-         "SlowMoPct": "@lg119.SlowMoPct"
+         "RagWheelCm": "@lg119.RagWheelCm"
         }
        },
        {
@@ -27237,15 +27347,15 @@
        {
         "id": "lg120",
         "kind": "get",
-        "var": "AcceptedFingerprint",
+        "var": "SlowMoPct",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls120",
         "kind": "set",
-        "var": "AcceptedFingerprint",
+        "var": "SlowMoPct",
         "in": {
-         "AcceptedFingerprint": "@lg120.AcceptedFingerprint"
+         "SlowMoPct": "@lg120.SlowMoPct"
         }
        },
        {
@@ -27256,15 +27366,15 @@
        {
         "id": "lg121",
         "kind": "get",
-        "var": "OutfitScale",
+        "var": "AcceptedFingerprint",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls121",
         "kind": "set",
-        "var": "OutfitScale",
+        "var": "AcceptedFingerprint",
         "in": {
-         "OutfitScale": "@lg121.OutfitScale"
+         "AcceptedFingerprint": "@lg121.AcceptedFingerprint"
         }
        },
        {
@@ -27275,15 +27385,15 @@
        {
         "id": "lg122",
         "kind": "get",
-        "var": "LookScale",
+        "var": "OutfitScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls122",
         "kind": "set",
-        "var": "LookScale",
+        "var": "OutfitScale",
         "in": {
-         "LookScale": "@lg122.LookScale"
+         "OutfitScale": "@lg122.OutfitScale"
         }
        },
        {
@@ -27294,15 +27404,15 @@
        {
         "id": "lg123",
         "kind": "get",
-        "var": "RagScale",
+        "var": "LookScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls123",
         "kind": "set",
-        "var": "RagScale",
+        "var": "LookScale",
         "in": {
-         "RagScale": "@lg123.RagScale"
+         "LookScale": "@lg123.LookScale"
         }
        },
        {
@@ -27313,15 +27423,15 @@
        {
         "id": "lg124",
         "kind": "get",
-        "var": "InvScale",
+        "var": "RagScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls124",
         "kind": "set",
-        "var": "InvScale",
+        "var": "RagScale",
         "in": {
-         "InvScale": "@lg124.InvScale"
+         "RagScale": "@lg124.RagScale"
         }
        },
        {
@@ -27332,15 +27442,15 @@
        {
         "id": "lg125",
         "kind": "get",
-        "var": "OutfitCols",
+        "var": "InvScale",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls125",
         "kind": "set",
-        "var": "OutfitCols",
+        "var": "InvScale",
         "in": {
-         "OutfitCols": "@lg125.OutfitCols"
+         "InvScale": "@lg125.InvScale"
         }
        },
        {
@@ -27351,15 +27461,15 @@
        {
         "id": "lg126",
         "kind": "get",
-        "var": "OutfitRows",
+        "var": "OutfitCols",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls126",
         "kind": "set",
-        "var": "OutfitRows",
+        "var": "OutfitCols",
         "in": {
-         "OutfitRows": "@lg126.OutfitRows"
+         "OutfitCols": "@lg126.OutfitCols"
         }
        },
        {
@@ -27370,15 +27480,15 @@
        {
         "id": "lg127",
         "kind": "get",
-        "var": "LightOn",
+        "var": "OutfitRows",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls127",
         "kind": "set",
-        "var": "LightOn",
+        "var": "OutfitRows",
         "in": {
-         "LightOn": "@lg127.LightOn"
+         "OutfitRows": "@lg127.OutfitRows"
         }
        },
        {
@@ -27389,15 +27499,15 @@
        {
         "id": "lg128",
         "kind": "get",
-        "var": "LightColor",
+        "var": "LightOn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls128",
         "kind": "set",
-        "var": "LightColor",
+        "var": "LightOn",
         "in": {
-         "LightColor": "@lg128.LightColor"
+         "LightOn": "@lg128.LightOn"
         }
        },
        {
@@ -27408,15 +27518,15 @@
        {
         "id": "lg129",
         "kind": "get",
-        "var": "LightPower",
+        "var": "LightColor",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls129",
         "kind": "set",
-        "var": "LightPower",
+        "var": "LightColor",
         "in": {
-         "LightPower": "@lg129.LightPower"
+         "LightColor": "@lg129.LightColor"
         }
        },
        {
@@ -27427,15 +27537,34 @@
        {
         "id": "lg130",
         "kind": "get",
-        "var": "CurrentDrawer",
+        "var": "LightPower",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "ls130",
         "kind": "set",
+        "var": "LightPower",
+        "in": {
+         "LightPower": "@lg130.LightPower"
+        }
+       },
+       {
+        "id": "lg131_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg131",
+        "kind": "get",
+        "var": "CurrentDrawer",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls131",
+        "kind": "set",
         "var": "CurrentDrawer",
         "in": {
-         "CurrentDrawer": "@lg130.CurrentDrawer"
+         "CurrentDrawer": "@lg131.CurrentDrawer"
         }
        },
        {
@@ -27457,46 +27586,6 @@
         }
        },
        {
-        "id": "lg131_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg131",
-        "kind": "get",
-        "var": "ThemeBg",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz131",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg131.ThemeBg",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld131",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=0.02,G=0.02,B=0.03,A=1)",
-         "B": "@lg131.ThemeBg",
-         "bPickA": "@lz131.ReturnValue"
-        }
-       },
-       {
-        "id": "ls131",
-        "kind": "set",
-        "var": "ThemeBg",
-        "in": {
-         "ThemeBg": "@ld131.ReturnValue"
-        }
-       },
-       {
         "id": "lg132_s",
         "kind": "get",
         "var": "Settings"
@@ -27504,7 +27593,7 @@
        {
         "id": "lg132",
         "kind": "get",
-        "var": "ThemeAccent",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27513,7 +27602,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg132.ThemeAccent",
+         "A": "@lg132.ThemeBg",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27523,17 +27612,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=0.75,G=0.1,B=0.1,A=1)",
-         "B": "@lg132.ThemeAccent",
+         "A": "(R=0.02,G=0.02,B=0.03,A=1)",
+         "B": "@lg132.ThemeBg",
          "bPickA": "@lz132.ReturnValue"
         }
        },
        {
         "id": "ls132",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "ThemeBg",
         "in": {
-         "ThemeAccent": "@ld132.ReturnValue"
+         "ThemeBg": "@ld132.ReturnValue"
         }
        },
        {
@@ -27544,7 +27633,7 @@
        {
         "id": "lg133",
         "kind": "get",
-        "var": "ThemeFill",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27553,7 +27642,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg133.ThemeFill",
+         "A": "@lg133.ThemeAccent",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27563,17 +27652,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=0.02,G=0.02,B=0.03,A=1)",
-         "B": "@lg133.ThemeFill",
+         "A": "(R=0.75,G=0.1,B=0.1,A=1)",
+         "B": "@lg133.ThemeAccent",
          "bPickA": "@lz133.ReturnValue"
         }
        },
        {
         "id": "ls133",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeAccent",
         "in": {
-         "ThemeFill": "@ld133.ReturnValue"
+         "ThemeAccent": "@ld133.ReturnValue"
         }
        },
        {
@@ -27584,7 +27673,7 @@
        {
         "id": "lg134",
         "kind": "get",
-        "var": "ThemeFrame",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27593,7 +27682,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg134.ThemeFrame",
+         "A": "@lg134.ThemeFill",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27603,17 +27692,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg134.ThemeFrame",
+         "A": "(R=0.02,G=0.02,B=0.03,A=1)",
+         "B": "@lg134.ThemeFill",
          "bPickA": "@lz134.ReturnValue"
         }
        },
        {
         "id": "ls134",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeFill",
         "in": {
-         "ThemeFrame": "@ld134.ReturnValue"
+         "ThemeFill": "@ld134.ReturnValue"
         }
        },
        {
@@ -27624,7 +27713,7 @@
        {
         "id": "lg135",
         "kind": "get",
-        "var": "ThemeWorn",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27633,7 +27722,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg135.ThemeWorn",
+         "A": "@lg135.ThemeFrame",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27643,17 +27732,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=0.2,G=0.8,B=0.3,A=1)",
-         "B": "@lg135.ThemeWorn",
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg135.ThemeFrame",
          "bPickA": "@lz135.ReturnValue"
         }
        },
        {
         "id": "ls135",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFrame",
         "in": {
-         "ThemeWorn": "@ld135.ReturnValue"
+         "ThemeFrame": "@ld135.ReturnValue"
         }
        },
        {
@@ -27664,7 +27753,7 @@
        {
         "id": "lg136",
         "kind": "get",
-        "var": "ThemeRow",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27673,7 +27762,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg136.ThemeRow",
+         "A": "@lg136.ThemeWorn",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27683,17 +27772,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=0,G=0,B=0,A=1)",
-         "B": "@lg136.ThemeRow",
+         "A": "(R=0.2,G=0.8,B=0.3,A=1)",
+         "B": "@lg136.ThemeWorn",
          "bPickA": "@lz136.ReturnValue"
         }
        },
        {
         "id": "ls136",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeWorn",
         "in": {
-         "ThemeRow": "@ld136.ReturnValue"
+         "ThemeWorn": "@ld136.ReturnValue"
         }
        },
        {
@@ -27704,7 +27793,7 @@
        {
         "id": "lg137",
         "kind": "get",
-        "var": "ThemeText",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27713,7 +27802,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg137.ThemeText",
+         "A": "@lg137.ThemeRow",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27723,17 +27812,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg137.ThemeText",
+         "A": "(R=0,G=0,B=0,A=1)",
+         "B": "@lg137.ThemeRow",
          "bPickA": "@lz137.ReturnValue"
         }
        },
        {
         "id": "ls137",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeRow",
         "in": {
-         "ThemeText": "@ld137.ReturnValue"
+         "ThemeRow": "@ld137.ReturnValue"
         }
        },
        {
@@ -27744,7 +27833,7 @@
        {
         "id": "lg138",
         "kind": "get",
-        "var": "ThemeHead",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27753,7 +27842,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg138.ThemeHead",
+         "A": "@lg138.ThemeText",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27763,17 +27852,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=0.85,G=0.75,B=0.4,A=1)",
-         "B": "@lg138.ThemeHead",
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg138.ThemeText",
          "bPickA": "@lz138.ReturnValue"
         }
        },
        {
         "id": "ls138",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeText",
         "in": {
-         "ThemeHead": "@ld138.ReturnValue"
+         "ThemeText": "@ld138.ReturnValue"
         }
        },
        {
@@ -27784,7 +27873,7 @@
        {
         "id": "lg139",
         "kind": "get",
-        "var": "ThemeLink",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27793,7 +27882,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg139.ThemeLink",
+         "A": "@lg139.ThemeHead",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27803,17 +27892,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=0.62,G=0.76,B=1,A=1)",
-         "B": "@lg139.ThemeLink",
+         "A": "(R=0.85,G=0.75,B=0.4,A=1)",
+         "B": "@lg139.ThemeHead",
          "bPickA": "@lz139.ReturnValue"
         }
        },
        {
         "id": "ls139",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeHead",
         "in": {
-         "ThemeLink": "@ld139.ReturnValue"
+         "ThemeHead": "@ld139.ReturnValue"
         }
        },
        {
@@ -27824,7 +27913,7 @@
        {
         "id": "lg140",
         "kind": "get",
-        "var": "ThemeLine",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27833,7 +27922,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg140.ThemeLine",
+         "A": "@lg140.ThemeLink",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27843,17 +27932,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg140.ThemeLine",
+         "A": "(R=0.62,G=0.76,B=1,A=1)",
+         "B": "@lg140.ThemeLink",
          "bPickA": "@lz140.ReturnValue"
         }
        },
        {
         "id": "ls140",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeLink",
         "in": {
-         "ThemeLine": "@ld140.ReturnValue"
+         "ThemeLink": "@ld140.ReturnValue"
         }
        },
        {
@@ -27864,7 +27953,7 @@
        {
         "id": "lg141",
         "kind": "get",
-        "var": "ThemeInput",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27873,7 +27962,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg141.ThemeInput",
+         "A": "@lg141.ThemeLine",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27883,17 +27972,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=0.1,G=0.1,B=0.12,A=1)",
-         "B": "@lg141.ThemeInput",
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg141.ThemeLine",
          "bPickA": "@lz141.ReturnValue"
         }
        },
        {
         "id": "ls141",
         "kind": "set",
-        "var": "ThemeInput",
+        "var": "ThemeLine",
         "in": {
-         "ThemeInput": "@ld141.ReturnValue"
+         "ThemeLine": "@ld141.ReturnValue"
         }
        },
        {
@@ -27904,7 +27993,7 @@
        {
         "id": "lg142",
         "kind": "get",
-        "var": "ThemeArea",
+        "var": "ThemeInput",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27913,7 +28002,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg142.ThemeArea",
+         "A": "@lg142.ThemeInput",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27923,17 +28012,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg142.ThemeArea",
+         "A": "(R=0.1,G=0.1,B=0.12,A=1)",
+         "B": "@lg142.ThemeInput",
          "bPickA": "@lz142.ReturnValue"
         }
        },
        {
         "id": "ls142",
         "kind": "set",
-        "var": "ThemeArea",
+        "var": "ThemeInput",
         "in": {
-         "ThemeArea": "@ld142.ReturnValue"
+         "ThemeInput": "@ld142.ReturnValue"
         }
        },
        {
@@ -27944,7 +28033,7 @@
        {
         "id": "lg143",
         "kind": "get",
-        "var": "ThemeWarn",
+        "var": "ThemeArea",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27953,7 +28042,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg143.ThemeWarn",
+         "A": "@lg143.ThemeArea",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -27963,17 +28052,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=1,G=0.6,B=0.3,A=1)",
-         "B": "@lg143.ThemeWarn",
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg143.ThemeArea",
          "bPickA": "@lz143.ReturnValue"
         }
        },
        {
         "id": "ls143",
         "kind": "set",
-        "var": "ThemeWarn",
+        "var": "ThemeArea",
         "in": {
-         "ThemeWarn": "@ld143.ReturnValue"
+         "ThemeArea": "@ld143.ReturnValue"
         }
        },
        {
@@ -27984,7 +28073,7 @@
        {
         "id": "lg144",
         "kind": "get",
-        "var": "ThemeScroll",
+        "var": "ThemeWarn",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -27993,7 +28082,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg144.ThemeScroll",
+         "A": "@lg144.ThemeWarn",
          "B": "(R=0,G=0,B=0,A=0)"
         }
        },
@@ -28003,17 +28092,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectColor",
         "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg144.ThemeScroll",
+         "A": "(R=1,G=0.6,B=0.3,A=1)",
+         "B": "@lg144.ThemeWarn",
          "bPickA": "@lz144.ReturnValue"
         }
        },
        {
         "id": "ls144",
         "kind": "set",
-        "var": "ThemeScroll",
+        "var": "ThemeWarn",
         "in": {
-         "ThemeScroll": "@ld144.ReturnValue"
+         "ThemeWarn": "@ld144.ReturnValue"
         }
        },
        {
@@ -28024,46 +28113,36 @@
        {
         "id": "lg145",
         "kind": "get",
-        "var": "BgAlpha",
+        "var": "ThemeScroll",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "lz145",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
+        "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg145.BgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv145",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz145.ReturnValue"
+         "A": "@lg145.ThemeScroll",
+         "B": "(R=0,G=0,B=0,A=0)"
         }
        },
        {
         "id": "ld145",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
+        "function": "SelectColor",
         "in": {
-         "A": "@lg145.BgAlpha",
-         "B": "0.88",
-         "bPickA": "@lv145.ReturnValue"
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg145.ThemeScroll",
+         "bPickA": "@lz145.ReturnValue"
         }
        },
        {
         "id": "ls145",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeScroll",
         "in": {
-         "BgAlpha": "@ld145.ReturnValue"
+         "ThemeScroll": "@ld145.ReturnValue"
         }
        },
        {
@@ -28074,7 +28153,7 @@
        {
         "id": "lg146",
         "kind": "get",
-        "var": "TileAlpha",
+        "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -28083,7 +28162,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg146.TileAlpha",
+         "A": "@lg146.BgAlpha",
          "B": "0.0"
         }
        },
@@ -28103,17 +28182,17 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg146.TileAlpha",
-         "B": "1.0",
+         "A": "@lg146.BgAlpha",
+         "B": "0.88",
          "bPickA": "@lv146.ReturnValue"
         }
        },
        {
         "id": "ls146",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "BgAlpha",
         "in": {
-         "TileAlpha": "@ld146.ReturnValue"
+         "BgAlpha": "@ld146.ReturnValue"
         }
        },
        {
@@ -28124,7 +28203,7 @@
        {
         "id": "lg147",
         "kind": "get",
-        "var": "BgImgAlpha",
+        "var": "TileAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
@@ -28133,7 +28212,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "Greater_FloatFloat",
         "in": {
-         "A": "@lg147.BgImgAlpha",
+         "A": "@lg147.TileAlpha",
          "B": "0.0"
         }
        },
@@ -28153,7 +28232,7 @@
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectFloat",
         "in": {
-         "A": "@lg147.BgImgAlpha",
+         "A": "@lg147.TileAlpha",
          "B": "1.0",
          "bPickA": "@lv147.ReturnValue"
         }
@@ -28161,9 +28240,59 @@
        {
         "id": "ls147",
         "kind": "set",
+        "var": "TileAlpha",
+        "in": {
+         "TileAlpha": "@ld147.ReturnValue"
+        }
+       },
+       {
+        "id": "lg148_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg148",
+        "kind": "get",
+        "var": "BgImgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz148",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg148.BgImgAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv148",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz148.ReturnValue"
+        }
+       },
+       {
+        "id": "ld148",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg148.BgImgAlpha",
+         "B": "1.0",
+         "bPickA": "@lv148.ReturnValue"
+        }
+       },
+       {
+        "id": "ls148",
+        "kind": "set",
         "var": "BgImgAlpha",
         "in": {
-         "BgImgAlpha": "@ld147.ReturnValue"
+         "BgImgAlpha": "@ld148.ReturnValue"
         }
        },
        {
@@ -28747,12 +28876,12 @@
         "lg130.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg131_s.Settings",
         "lg131.self"
+       ],
+       [
+        "gth_s.Settings",
+        "gth.self"
        ],
        [
         "lg132_s.Settings",
@@ -28817,6 +28946,10 @@
        [
         "lg147_s.Settings",
         "lg147.self"
+       ],
+       [
+        "lg148_s.Settings",
+        "lg148.self"
        ],
        [
         "gls.Settings",
@@ -29239,18 +29372,13 @@
        ],
        [
         "ls58",
-        "lb59"
+        "ls59"
        ],
        [
-        "lb59",
         "ls59"
        ],
        [
         "ls59",
-        "lb60"
-       ],
-       [
-        "lb59:else",
         "lb60"
        ],
        [
@@ -29283,17 +29411,22 @@
        ],
        [
         "ls62",
-        "ls63"
+        "lb63"
        ],
        [
         "lb62:else",
-        "ls63"
+        "lb63"
        ],
        [
+        "lb63",
         "ls63"
        ],
        [
         "ls63",
+        "ls64"
+       ],
+       [
+        "lb63:else",
         "ls64"
        ],
        [
@@ -29308,25 +29441,25 @@
        ],
        [
         "ls65",
-        "lb66"
+        "ls66"
        ],
        [
-        "lb66",
         "ls66"
        ],
        [
         "ls66",
-        "ls67"
+        "lb67"
        ],
        [
-        "lb66:else",
-        "ls67"
-       ],
-       [
+        "lb67",
         "ls67"
        ],
        [
         "ls67",
+        "ls68"
+       ],
+       [
+        "lb67:else",
         "ls68"
        ],
        [
@@ -29341,18 +29474,13 @@
        ],
        [
         "ls69",
-        "lb70"
+        "ls70"
        ],
        [
-        "lb70",
         "ls70"
        ],
        [
         "ls70",
-        "lb71"
-       ],
-       [
-        "lb70:else",
         "lb71"
        ],
        [
@@ -29385,17 +29513,22 @@
        ],
        [
         "ls73",
-        "ls74"
+        "lb74"
        ],
        [
         "lb73:else",
-        "ls74"
+        "lb74"
        ],
        [
+        "lb74",
         "ls74"
        ],
        [
         "ls74",
+        "ls75"
+       ],
+       [
+        "lb74:else",
         "ls75"
        ],
        [
@@ -29431,25 +29564,25 @@
        ],
        [
         "ls79",
-        "lb80"
+        "ls80"
        ],
        [
-        "lb80",
         "ls80"
        ],
        [
         "ls80",
-        "ls81"
+        "lb81"
        ],
        [
-        "lb80:else",
-        "ls81"
-       ],
-       [
+        "lb81",
         "ls81"
        ],
        [
         "ls81",
+        "ls82"
+       ],
+       [
+        "lb81:else",
         "ls82"
        ],
        [
@@ -29471,44 +29604,44 @@
        ],
        [
         "ls84",
-        "lb85"
+        "ls85"
        ],
        [
-        "lb85",
         "ls85"
        ],
        [
         "ls85",
-        "ls86"
+        "lb86"
        ],
        [
-        "lb85:else",
-        "ls86"
-       ],
-       [
+        "lb86",
         "ls86"
        ],
        [
         "ls86",
-        "lb87"
+        "ls87"
        ],
        [
-        "lb87",
+        "lb86:else",
+        "ls87"
+       ],
+       [
         "ls87"
        ],
        [
         "ls87",
-        "ls88"
+        "lb88"
        ],
        [
-        "lb87:else",
-        "ls88"
-       ],
-       [
+        "lb88",
         "ls88"
        ],
        [
         "ls88",
+        "ls89"
+       ],
+       [
+        "lb88:else",
         "ls89"
        ],
        [
@@ -29670,18 +29803,13 @@
        ],
        [
         "ls111",
-        "lb112"
+        "ls112"
        ],
        [
-        "lb112",
         "ls112"
        ],
        [
         "ls112",
-        "lb113"
-       ],
-       [
-        "lb112:else",
         "lb113"
        ],
        [
@@ -29714,17 +29842,22 @@
        ],
        [
         "ls115",
-        "ls116"
+        "lb116"
        ],
        [
         "lb115:else",
-        "ls116"
+        "lb116"
        ],
        [
+        "lb116",
         "ls116"
        ],
        [
         "ls116",
+        "ls117"
+       ],
+       [
+        "lb116:else",
         "ls117"
        ],
        [
@@ -29822,6 +29955,13 @@
         "ls130"
        ],
        [
+        "ls130",
+        "ls131"
+       ],
+       [
+        "ls131"
+       ],
+       [
         "entry",
         "ex",
         "b",
@@ -29840,12 +29980,11 @@
         "cr"
        ],
        [
-        "ls130",
+        "ls131",
         "bth"
        ],
        [
         "bth",
-        "ls131",
         "ls132",
         "ls133",
         "ls134",
@@ -29862,6 +30001,7 @@
         "ls145",
         "ls146",
         "ls147",
+        "ls148",
         "ath"
        ],
        [
@@ -30779,16 +30919,16 @@
        {
         "id": "g42",
         "kind": "get",
-        "var": "RagMarkersOff"
+        "var": "TvAlways"
        },
        {
         "id": "w42",
         "kind": "set",
-        "var": "RagMarkersOff",
+        "var": "TvAlways",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs42.Settings",
-         "RagMarkersOff": "@g42.RagMarkersOff"
+         "TvAlways": "@g42.TvAlways"
         }
        },
        {
@@ -30799,16 +30939,16 @@
        {
         "id": "g43",
         "kind": "get",
-        "var": "AllowNude"
+        "var": "RagMarkersOff"
        },
        {
         "id": "w43",
         "kind": "set",
-        "var": "AllowNude",
+        "var": "RagMarkersOff",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs43.Settings",
-         "AllowNude": "@g43.AllowNude"
+         "RagMarkersOff": "@g43.RagMarkersOff"
         }
        },
        {
@@ -30819,16 +30959,16 @@
        {
         "id": "g44",
         "kind": "get",
-        "var": "OnlyModsNames"
+        "var": "AllowNude"
        },
        {
         "id": "w44",
         "kind": "set",
-        "var": "OnlyModsNames",
+        "var": "AllowNude",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs44.Settings",
-         "OnlyModsNames": "@g44.OnlyModsNames"
+         "AllowNude": "@g44.AllowNude"
         }
        },
        {
@@ -30839,16 +30979,16 @@
        {
         "id": "g45",
         "kind": "get",
-        "var": "CaseSensitiveNames"
+        "var": "OnlyModsNames"
        },
        {
         "id": "w45",
         "kind": "set",
-        "var": "CaseSensitiveNames",
+        "var": "OnlyModsNames",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs45.Settings",
-         "CaseSensitiveNames": "@g45.CaseSensitiveNames"
+         "OnlyModsNames": "@g45.OnlyModsNames"
         }
        },
        {
@@ -30859,16 +30999,16 @@
        {
         "id": "g46",
         "kind": "get",
-        "var": "MergeGroups"
+        "var": "CaseSensitiveNames"
        },
        {
         "id": "w46",
         "kind": "set",
-        "var": "MergeGroups",
+        "var": "CaseSensitiveNames",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs46.Settings",
-         "MergeGroups": "@g46.MergeGroups"
+         "CaseSensitiveNames": "@g46.CaseSensitiveNames"
         }
        },
        {
@@ -30879,16 +31019,16 @@
        {
         "id": "g47",
         "kind": "get",
-        "var": "MergeMods"
+        "var": "MergeGroups"
        },
        {
         "id": "w47",
         "kind": "set",
-        "var": "MergeMods",
+        "var": "MergeGroups",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs47.Settings",
-         "MergeMods": "@g47.MergeMods"
+         "MergeGroups": "@g47.MergeGroups"
         }
        },
        {
@@ -30899,16 +31039,16 @@
        {
         "id": "g48",
         "kind": "get",
-        "var": "ChipSearchShown"
+        "var": "MergeMods"
        },
        {
         "id": "w48",
         "kind": "set",
-        "var": "ChipSearchShown",
+        "var": "MergeMods",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs48.Settings",
-         "ChipSearchShown": "@g48.ChipSearchShown"
+         "MergeMods": "@g48.MergeMods"
         }
        },
        {
@@ -30919,16 +31059,16 @@
        {
         "id": "g49",
         "kind": "get",
-        "var": "TipNoPrefix"
+        "var": "ChipSearchShown"
        },
        {
         "id": "w49",
         "kind": "set",
-        "var": "TipNoPrefix",
+        "var": "ChipSearchShown",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs49.Settings",
-         "TipNoPrefix": "@g49.TipNoPrefix"
+         "ChipSearchShown": "@g49.ChipSearchShown"
         }
        },
        {
@@ -30939,16 +31079,16 @@
        {
         "id": "g50",
         "kind": "get",
-        "var": "TipNoIds"
+        "var": "TipNoPrefix"
        },
        {
         "id": "w50",
         "kind": "set",
-        "var": "TipNoIds",
+        "var": "TipNoPrefix",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs50.Settings",
-         "TipNoIds": "@g50.TipNoIds"
+         "TipNoPrefix": "@g50.TipNoPrefix"
         }
        },
        {
@@ -30959,16 +31099,16 @@
        {
         "id": "g51",
         "kind": "get",
-        "var": "FreedConflicts"
+        "var": "TipNoIds"
        },
        {
         "id": "w51",
         "kind": "set",
-        "var": "FreedConflicts",
+        "var": "TipNoIds",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs51.Settings",
-         "FreedConflicts": "@g51.FreedConflicts"
+         "TipNoIds": "@g51.TipNoIds"
         }
        },
        {
@@ -30979,16 +31119,16 @@
        {
         "id": "g52",
         "kind": "get",
-        "var": "MultiSlots"
+        "var": "FreedConflicts"
        },
        {
         "id": "w52",
         "kind": "set",
-        "var": "MultiSlots",
+        "var": "FreedConflicts",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs52.Settings",
-         "MultiSlots": "@g52.MultiSlots"
+         "FreedConflicts": "@g52.FreedConflicts"
         }
        },
        {
@@ -30999,16 +31139,16 @@
        {
         "id": "g53",
         "kind": "get",
-        "var": "HairSwatchesOpen"
+        "var": "MultiSlots"
        },
        {
         "id": "w53",
         "kind": "set",
-        "var": "HairSwatchesOpen",
+        "var": "MultiSlots",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs53.Settings",
-         "HairSwatchesOpen": "@g53.HairSwatchesOpen"
+         "MultiSlots": "@g53.MultiSlots"
         }
        },
        {
@@ -31019,16 +31159,16 @@
        {
         "id": "g54",
         "kind": "get",
-        "var": "UnownedMode"
+        "var": "HairSwatchesOpen"
        },
        {
         "id": "w54",
         "kind": "set",
-        "var": "UnownedMode",
+        "var": "HairSwatchesOpen",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs54.Settings",
-         "UnownedMode": "@g54.UnownedMode"
+         "HairSwatchesOpen": "@g54.HairSwatchesOpen"
         }
        },
        {
@@ -31039,16 +31179,16 @@
        {
         "id": "g55",
         "kind": "get",
-        "var": "LegacySlotColors"
+        "var": "UnownedMode"
        },
        {
         "id": "w55",
         "kind": "set",
-        "var": "SlotColors",
+        "var": "UnownedMode",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs55.Settings",
-         "SlotColors": "@g55.LegacySlotColors"
+         "UnownedMode": "@g55.UnownedMode"
         }
        },
        {
@@ -31059,16 +31199,16 @@
        {
         "id": "g56",
         "kind": "get",
-        "var": "SlotColorsPerSave"
+        "var": "LegacySlotColors"
        },
        {
         "id": "w56",
         "kind": "set",
-        "var": "SlotColorsPerSave",
+        "var": "SlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs56.Settings",
-         "SlotColorsPerSave": "@g56.SlotColorsPerSave"
+         "SlotColors": "@g56.LegacySlotColors"
         }
        },
        {
@@ -31079,16 +31219,16 @@
        {
         "id": "g57",
         "kind": "get",
-        "var": "OutfitSlotColors"
+        "var": "SlotColorsPerSave"
        },
        {
         "id": "w57",
         "kind": "set",
-        "var": "OutfitSlotColors",
+        "var": "SlotColorsPerSave",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs57.Settings",
-         "OutfitSlotColors": "@g57.OutfitSlotColors"
+         "SlotColorsPerSave": "@g57.SlotColorsPerSave"
         }
        },
        {
@@ -31099,16 +31239,16 @@
        {
         "id": "g58",
         "kind": "get",
-        "var": "ModEntry"
+        "var": "OutfitSlotColors"
        },
        {
         "id": "w58",
         "kind": "set",
-        "var": "ModEntry",
+        "var": "OutfitSlotColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs58.Settings",
-         "ModEntry": "@g58.ModEntry"
+         "OutfitSlotColors": "@g58.OutfitSlotColors"
         }
        },
        {
@@ -31119,16 +31259,16 @@
        {
         "id": "g59",
         "kind": "get",
-        "var": "Page"
+        "var": "ModEntry"
        },
        {
         "id": "w59",
         "kind": "set",
-        "var": "LastPage",
+        "var": "ModEntry",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs59.Settings",
-         "LastPage": "@g59.Page"
+         "ModEntry": "@g59.ModEntry"
         }
        },
        {
@@ -31139,16 +31279,16 @@
        {
         "id": "g60",
         "kind": "get",
-        "var": "LookCat"
+        "var": "Page"
        },
        {
         "id": "w60",
         "kind": "set",
-        "var": "LastLookCat",
+        "var": "LastPage",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs60.Settings",
-         "LastLookCat": "@g60.LookCat"
+         "LastPage": "@g60.Page"
         }
        },
        {
@@ -31159,16 +31299,16 @@
        {
         "id": "g61",
         "kind": "get",
-        "var": "PoseCat"
+        "var": "LookCat"
        },
        {
         "id": "w61",
         "kind": "set",
-        "var": "LastPoseCat",
+        "var": "LastLookCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs61.Settings",
-         "LastPoseCat": "@g61.PoseCat"
+         "LastLookCat": "@g61.LookCat"
         }
        },
        {
@@ -31179,16 +31319,16 @@
        {
         "id": "g62",
         "kind": "get",
-        "var": "CurrentWeapon"
+        "var": "PoseCat"
        },
        {
         "id": "w62",
         "kind": "set",
-        "var": "LastWeapon",
+        "var": "LastPoseCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs62.Settings",
-         "LastWeapon": "@g62.CurrentWeapon"
+         "LastPoseCat": "@g62.PoseCat"
         }
        },
        {
@@ -31199,16 +31339,16 @@
        {
         "id": "g63",
         "kind": "get",
-        "var": "EyeColors"
+        "var": "CurrentWeapon"
        },
        {
         "id": "w63",
         "kind": "set",
-        "var": "EyeColors",
+        "var": "LastWeapon",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs63.Settings",
-         "EyeColors": "@g63.EyeColors"
+         "LastWeapon": "@g63.CurrentWeapon"
         }
        },
        {
@@ -31219,16 +31359,16 @@
        {
         "id": "g64",
         "kind": "get",
-        "var": "MakeupColors"
+        "var": "EyeColors"
        },
        {
         "id": "w64",
         "kind": "set",
-        "var": "MakeupColors",
+        "var": "EyeColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs64.Settings",
-         "MakeupColors": "@g64.MakeupColors"
+         "EyeColors": "@g64.EyeColors"
         }
        },
        {
@@ -31239,16 +31379,16 @@
        {
         "id": "g65",
         "kind": "get",
-        "var": "FaceValues"
+        "var": "MakeupColors"
        },
        {
         "id": "w65",
         "kind": "set",
-        "var": "Face",
+        "var": "MakeupColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs65.Settings",
-         "Face": "@g65.FaceValues"
+         "MakeupColors": "@g65.MakeupColors"
         }
        },
        {
@@ -31259,16 +31399,16 @@
        {
         "id": "g66",
         "kind": "get",
-        "var": "FaceGroup"
+        "var": "FaceValues"
        },
        {
         "id": "w66",
         "kind": "set",
-        "var": "LastFaceGroup",
+        "var": "Face",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs66.Settings",
-         "LastFaceGroup": "@g66.FaceGroup"
+         "Face": "@g66.FaceValues"
         }
        },
        {
@@ -31279,16 +31419,16 @@
        {
         "id": "g67",
         "kind": "get",
-        "var": "FaceAdd"
+        "var": "FaceGroup"
        },
        {
         "id": "w67",
         "kind": "set",
-        "var": "FaceAdd",
+        "var": "LastFaceGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs67.Settings",
-         "FaceAdd": "@g67.FaceAdd"
+         "LastFaceGroup": "@g67.FaceGroup"
         }
        },
        {
@@ -31299,16 +31439,16 @@
        {
         "id": "g68",
         "kind": "get",
-        "var": "Mutation"
+        "var": "FaceAdd"
        },
        {
         "id": "w68",
         "kind": "set",
-        "var": "Mutation",
+        "var": "FaceAdd",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs68.Settings",
-         "Mutation": "@g68.Mutation"
+         "FaceAdd": "@g68.FaceAdd"
         }
        },
        {
@@ -31319,16 +31459,16 @@
        {
         "id": "g69",
         "kind": "get",
-        "var": "PresetColors"
+        "var": "Mutation"
        },
        {
         "id": "w69",
         "kind": "set",
-        "var": "PresetColors",
+        "var": "Mutation",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs69.Settings",
-         "PresetColors": "@g69.PresetColors"
+         "Mutation": "@g69.Mutation"
         }
        },
        {
@@ -31339,16 +31479,16 @@
        {
         "id": "g70",
         "kind": "get",
-        "var": "ToggleKey"
+        "var": "PresetColors"
        },
        {
         "id": "w70",
         "kind": "set",
-        "var": "ToggleKey",
+        "var": "PresetColors",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs70.Settings",
-         "ToggleKey": "@g70.ToggleKey"
+         "PresetColors": "@g70.PresetColors"
         }
        },
        {
@@ -31359,16 +31499,16 @@
        {
         "id": "g71",
         "kind": "get",
-        "var": "OptionsCat"
+        "var": "ToggleKey"
        },
        {
         "id": "w71",
         "kind": "set",
-        "var": "LastOptionsCat",
+        "var": "ToggleKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs71.Settings",
-         "LastOptionsCat": "@g71.OptionsCat"
+         "ToggleKey": "@g71.ToggleKey"
         }
        },
        {
@@ -31379,16 +31519,16 @@
        {
         "id": "g72",
         "kind": "get",
-        "var": "KodexSel"
+        "var": "OptionsCat"
        },
        {
         "id": "w72",
         "kind": "set",
-        "var": "LastKodex",
+        "var": "LastOptionsCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs72.Settings",
-         "LastKodex": "@g72.KodexSel"
+         "LastOptionsCat": "@g72.OptionsCat"
         }
        },
        {
@@ -31399,16 +31539,16 @@
        {
         "id": "g73",
         "kind": "get",
-        "var": "InvGroup"
+        "var": "KodexSel"
        },
        {
         "id": "w73",
         "kind": "set",
-        "var": "LastInvGroup",
+        "var": "LastKodex",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs73.Settings",
-         "LastInvGroup": "@g73.InvGroup"
+         "LastKodex": "@g73.KodexSel"
         }
        },
        {
@@ -31419,16 +31559,16 @@
        {
         "id": "g74",
         "kind": "get",
-        "var": "KodexAll"
+        "var": "InvGroup"
        },
        {
         "id": "w74",
         "kind": "set",
-        "var": "KodexAll",
+        "var": "LastInvGroup",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs74.Settings",
-         "KodexAll": "@g74.KodexAll"
+         "LastInvGroup": "@g74.InvGroup"
         }
        },
        {
@@ -31439,16 +31579,16 @@
        {
         "id": "g75",
         "kind": "get",
-        "var": "InvCatalog"
+        "var": "KodexAll"
        },
        {
         "id": "w75",
         "kind": "set",
-        "var": "InvCatalog",
+        "var": "KodexAll",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs75.Settings",
-         "InvCatalog": "@g75.InvCatalog"
+         "KodexAll": "@g75.KodexAll"
         }
        },
        {
@@ -31459,16 +31599,16 @@
        {
         "id": "g76",
         "kind": "get",
-        "var": "InvNoAutoEquip"
+        "var": "InvCatalog"
        },
        {
         "id": "w76",
         "kind": "set",
-        "var": "InvNoAutoEquip",
+        "var": "InvCatalog",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs76.Settings",
-         "InvNoAutoEquip": "@g76.InvNoAutoEquip"
+         "InvCatalog": "@g76.InvCatalog"
         }
        },
        {
@@ -31479,16 +31619,16 @@
        {
         "id": "g77",
         "kind": "get",
-        "var": "InvFoldBag"
+        "var": "InvNoAutoEquip"
        },
        {
         "id": "w77",
         "kind": "set",
-        "var": "InvFoldBag",
+        "var": "InvNoAutoEquip",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs77.Settings",
-         "InvFoldBag": "@g77.InvFoldBag"
+         "InvNoAutoEquip": "@g77.InvNoAutoEquip"
         }
        },
        {
@@ -31499,16 +31639,16 @@
        {
         "id": "g78",
         "kind": "get",
-        "var": "InvFoldBox"
+        "var": "InvFoldBag"
        },
        {
         "id": "w78",
         "kind": "set",
-        "var": "InvFoldBox",
+        "var": "InvFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs78.Settings",
-         "InvFoldBox": "@g78.InvFoldBox"
+         "InvFoldBag": "@g78.InvFoldBag"
         }
        },
        {
@@ -31519,16 +31659,16 @@
        {
         "id": "g79",
         "kind": "get",
-        "var": "InvFoldCat"
+        "var": "InvFoldBox"
        },
        {
         "id": "w79",
         "kind": "set",
-        "var": "InvFoldCat",
+        "var": "InvFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs79.Settings",
-         "InvFoldCat": "@g79.InvFoldCat"
+         "InvFoldBox": "@g79.InvFoldBox"
         }
        },
        {
@@ -31539,16 +31679,16 @@
        {
         "id": "g80",
         "kind": "get",
-        "var": "InvMax"
+        "var": "InvFoldCat"
        },
        {
         "id": "w80",
         "kind": "set",
-        "var": "InvMax",
+        "var": "InvFoldCat",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs80.Settings",
-         "InvMax": "@g80.InvMax"
+         "InvFoldCat": "@g80.InvFoldCat"
         }
        },
        {
@@ -31559,16 +31699,16 @@
        {
         "id": "g81",
         "kind": "get",
-        "var": "FolFoldBag"
+        "var": "InvMax"
        },
        {
         "id": "w81",
         "kind": "set",
-        "var": "FolFoldBag",
+        "var": "InvMax",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs81.Settings",
-         "FolFoldBag": "@g81.FolFoldBag"
+         "InvMax": "@g81.InvMax"
         }
        },
        {
@@ -31579,16 +31719,16 @@
        {
         "id": "g82",
         "kind": "get",
-        "var": "FolFoldBox"
+        "var": "FolFoldBag"
        },
        {
         "id": "w82",
         "kind": "set",
-        "var": "FolFoldBox",
+        "var": "FolFoldBag",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs82.Settings",
-         "FolFoldBox": "@g82.FolFoldBox"
+         "FolFoldBag": "@g82.FolFoldBag"
         }
        },
        {
@@ -31599,16 +31739,16 @@
        {
         "id": "g83",
         "kind": "get",
-        "var": "FolFoldRows"
+        "var": "FolFoldBox"
        },
        {
         "id": "w83",
         "kind": "set",
-        "var": "FolFoldRows",
+        "var": "FolFoldBox",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs83.Settings",
-         "FolFoldRows": "@g83.FolFoldRows"
+         "FolFoldBox": "@g83.FolFoldBox"
         }
        },
        {
@@ -31619,16 +31759,16 @@
        {
         "id": "g84",
         "kind": "get",
-        "var": "FolShow"
+        "var": "FolFoldRows"
        },
        {
         "id": "w84",
         "kind": "set",
-        "var": "FolShow",
+        "var": "FolFoldRows",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs84.Settings",
-         "FolShow": "@g84.FolShow"
+         "FolFoldRows": "@g84.FolFoldRows"
         }
        },
        {
@@ -31639,16 +31779,16 @@
        {
         "id": "g85",
         "kind": "get",
-        "var": "RagKey"
+        "var": "FolShow"
        },
        {
         "id": "w85",
         "kind": "set",
-        "var": "RagKey",
+        "var": "FolShow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs85.Settings",
-         "RagKey": "@g85.RagKey"
+         "FolShow": "@g85.FolShow"
         }
        },
        {
@@ -31659,16 +31799,16 @@
        {
         "id": "g86",
         "kind": "get",
-        "var": "HiddenTabs"
+        "var": "RagKey"
        },
        {
         "id": "w86",
         "kind": "set",
-        "var": "HiddenTabs",
+        "var": "RagKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs86.Settings",
-         "HiddenTabs": "@g86.HiddenTabs"
+         "RagKey": "@g86.RagKey"
         }
        },
        {
@@ -31679,16 +31819,16 @@
        {
         "id": "g87",
         "kind": "get",
-        "var": "QuickKey"
+        "var": "HiddenTabs"
        },
        {
         "id": "w87",
         "kind": "set",
-        "var": "QuickKey",
+        "var": "HiddenTabs",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs87.Settings",
-         "QuickKey": "@g87.QuickKey"
+         "HiddenTabs": "@g87.HiddenTabs"
         }
        },
        {
@@ -31699,16 +31839,16 @@
        {
         "id": "g88",
         "kind": "get",
-        "var": "QuickItems"
+        "var": "QuickKey"
        },
        {
         "id": "w88",
         "kind": "set",
-        "var": "QuickItems",
+        "var": "QuickKey",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs88.Settings",
-         "QuickItems": "@g88.QuickItems"
+         "QuickKey": "@g88.QuickKey"
         }
        },
        {
@@ -31719,16 +31859,16 @@
        {
         "id": "g89",
         "kind": "get",
-        "var": "KeyBindKeys"
+        "var": "QuickItems"
        },
        {
         "id": "w89",
         "kind": "set",
-        "var": "KeyBindKeys",
+        "var": "QuickItems",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs89.Settings",
-         "KeyBindKeys": "@g89.KeyBindKeys"
+         "QuickItems": "@g89.QuickItems"
         }
        },
        {
@@ -31739,16 +31879,16 @@
        {
         "id": "g90",
         "kind": "get",
-        "var": "KeyBindItems"
+        "var": "KeyBindKeys"
        },
        {
         "id": "w90",
         "kind": "set",
-        "var": "KeyBindItems",
+        "var": "KeyBindKeys",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs90.Settings",
-         "KeyBindItems": "@g90.KeyBindItems"
+         "KeyBindKeys": "@g90.KeyBindKeys"
         }
        },
        {
@@ -31759,16 +31899,16 @@
        {
         "id": "g91",
         "kind": "get",
-        "var": "TabStyle"
+        "var": "KeyBindItems"
        },
        {
         "id": "w91",
         "kind": "set",
-        "var": "TabStyle",
+        "var": "KeyBindItems",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs91.Settings",
-         "TabStyle": "@g91.TabStyle"
+         "KeyBindItems": "@g91.KeyBindItems"
         }
        },
        {
@@ -31779,16 +31919,16 @@
        {
         "id": "g92",
         "kind": "get",
-        "var": "TabIconRight"
+        "var": "TabStyle"
        },
        {
         "id": "w92",
         "kind": "set",
-        "var": "TabIconRight",
+        "var": "TabStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs92.Settings",
-         "TabIconRight": "@g92.TabIconRight"
+         "TabStyle": "@g92.TabStyle"
         }
        },
        {
@@ -31799,16 +31939,16 @@
        {
         "id": "g93",
         "kind": "get",
-        "var": "TabOneRow"
+        "var": "TabIconRight"
        },
        {
         "id": "w93",
         "kind": "set",
-        "var": "TabOneRow",
+        "var": "TabIconRight",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs93.Settings",
-         "TabOneRow": "@g93.TabOneRow"
+         "TabIconRight": "@g93.TabIconRight"
         }
        },
        {
@@ -31819,16 +31959,16 @@
        {
         "id": "g94",
         "kind": "get",
-        "var": "BgImage"
+        "var": "TabOneRow"
        },
        {
         "id": "w94",
         "kind": "set",
-        "var": "BgImage",
+        "var": "TabOneRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs94.Settings",
-         "BgImage": "@g94.BgImage"
+         "TabOneRow": "@g94.TabOneRow"
         }
        },
        {
@@ -31839,16 +31979,16 @@
        {
         "id": "g95",
         "kind": "get",
-        "var": "BgFit"
+        "var": "BgImage"
        },
        {
         "id": "w95",
         "kind": "set",
-        "var": "BgFit",
+        "var": "BgImage",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs95.Settings",
-         "BgFit": "@g95.BgFit"
+         "BgImage": "@g95.BgImage"
         }
        },
        {
@@ -31859,16 +31999,16 @@
        {
         "id": "g96",
         "kind": "get",
-        "var": "BgHAlign"
+        "var": "BgFit"
        },
        {
         "id": "w96",
         "kind": "set",
-        "var": "BgHAlign",
+        "var": "BgFit",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs96.Settings",
-         "BgHAlign": "@g96.BgHAlign"
+         "BgFit": "@g96.BgFit"
         }
        },
        {
@@ -31879,16 +32019,16 @@
        {
         "id": "g97",
         "kind": "get",
-        "var": "BgVAlign"
+        "var": "BgHAlign"
        },
        {
         "id": "w97",
         "kind": "set",
-        "var": "BgVAlign",
+        "var": "BgHAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs97.Settings",
-         "BgVAlign": "@g97.BgVAlign"
+         "BgHAlign": "@g97.BgHAlign"
         }
        },
        {
@@ -31899,16 +32039,16 @@
        {
         "id": "g98",
         "kind": "get",
-        "var": "BtnImage"
+        "var": "BgVAlign"
        },
        {
         "id": "w98",
         "kind": "set",
-        "var": "BtnImage",
+        "var": "BgVAlign",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs98.Settings",
-         "BtnImage": "@g98.BtnImage"
+         "BgVAlign": "@g98.BgVAlign"
         }
        },
        {
@@ -31919,16 +32059,16 @@
        {
         "id": "g99",
         "kind": "get",
-        "var": "BgHue"
+        "var": "BtnImage"
        },
        {
         "id": "w99",
         "kind": "set",
-        "var": "BgHue",
+        "var": "BtnImage",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs99.Settings",
-         "BgHue": "@g99.BgHue"
+         "BtnImage": "@g99.BtnImage"
         }
        },
        {
@@ -31939,16 +32079,16 @@
        {
         "id": "g100",
         "kind": "get",
-        "var": "BgSepia"
+        "var": "BgHue"
        },
        {
         "id": "w100",
         "kind": "set",
-        "var": "BgSepia",
+        "var": "BgHue",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs100.Settings",
-         "BgSepia": "@g100.BgSepia"
+         "BgHue": "@g100.BgHue"
         }
        },
        {
@@ -31959,16 +32099,16 @@
        {
         "id": "g101",
         "kind": "get",
-        "var": "BgInvert"
+        "var": "BgSepia"
        },
        {
         "id": "w101",
         "kind": "set",
-        "var": "BgInvert",
+        "var": "BgSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs101.Settings",
-         "BgInvert": "@g101.BgInvert"
+         "BgSepia": "@g101.BgSepia"
         }
        },
        {
@@ -31979,16 +32119,16 @@
        {
         "id": "g102",
         "kind": "get",
-        "var": "ImgThumbs"
+        "var": "BgInvert"
        },
        {
         "id": "w102",
         "kind": "set",
-        "var": "ImgThumbs",
+        "var": "BgInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs102.Settings",
-         "ImgThumbs": "@g102.ImgThumbs"
+         "BgInvert": "@g102.BgInvert"
         }
        },
        {
@@ -31999,16 +32139,16 @@
        {
         "id": "g103",
         "kind": "get",
-        "var": "BtnHue"
+        "var": "ImgThumbs"
        },
        {
         "id": "w103",
         "kind": "set",
-        "var": "BtnHue",
+        "var": "ImgThumbs",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs103.Settings",
-         "BtnHue": "@g103.BtnHue"
+         "ImgThumbs": "@g103.ImgThumbs"
         }
        },
        {
@@ -32019,16 +32159,16 @@
        {
         "id": "g104",
         "kind": "get",
-        "var": "BtnSepia"
+        "var": "BtnHue"
        },
        {
         "id": "w104",
         "kind": "set",
-        "var": "BtnSepia",
+        "var": "BtnHue",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs104.Settings",
-         "BtnSepia": "@g104.BtnSepia"
+         "BtnHue": "@g104.BtnHue"
         }
        },
        {
@@ -32039,16 +32179,16 @@
        {
         "id": "g105",
         "kind": "get",
-        "var": "BtnInvert"
+        "var": "BtnSepia"
        },
        {
         "id": "w105",
         "kind": "set",
-        "var": "BtnInvert",
+        "var": "BtnSepia",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs105.Settings",
-         "BtnInvert": "@g105.BtnInvert"
+         "BtnSepia": "@g105.BtnSepia"
         }
        },
        {
@@ -32059,16 +32199,16 @@
        {
         "id": "g106",
         "kind": "get",
-        "var": "ThemePresets"
+        "var": "BtnInvert"
        },
        {
         "id": "w106",
         "kind": "set",
-        "var": "ThemePresets",
+        "var": "BtnInvert",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs106.Settings",
-         "ThemePresets": "@g106.ThemePresets"
+         "BtnInvert": "@g106.BtnInvert"
         }
        },
        {
@@ -32079,16 +32219,16 @@
        {
         "id": "g107",
         "kind": "get",
-        "var": "ManageChipsCollapsed"
+        "var": "ThemePresets"
        },
        {
         "id": "w107",
         "kind": "set",
-        "var": "ManageChipsCollapsed",
+        "var": "ThemePresets",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs107.Settings",
-         "ManageChipsCollapsed": "@g107.ManageChipsCollapsed"
+         "ThemePresets": "@g107.ThemePresets"
         }
        },
        {
@@ -32099,16 +32239,16 @@
        {
         "id": "g108",
         "kind": "get",
-        "var": "QuickAlpha"
+        "var": "ManageChipsCollapsed"
        },
        {
         "id": "w108",
         "kind": "set",
-        "var": "QuickAlpha",
+        "var": "ManageChipsCollapsed",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs108.Settings",
-         "QuickAlpha": "@g108.QuickAlpha"
+         "ManageChipsCollapsed": "@g108.ManageChipsCollapsed"
         }
        },
        {
@@ -32119,16 +32259,16 @@
        {
         "id": "g109",
         "kind": "get",
-        "var": "MoveOn"
+        "var": "QuickAlpha"
        },
        {
         "id": "w109",
         "kind": "set",
-        "var": "MoveOn",
+        "var": "QuickAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs109.Settings",
-         "MoveOn": "@g109.MoveOn"
+         "QuickAlpha": "@g109.QuickAlpha"
         }
        },
        {
@@ -32139,16 +32279,16 @@
        {
         "id": "g110",
         "kind": "get",
-        "var": "WalkSpeedPct"
+        "var": "MoveOn"
        },
        {
         "id": "w110",
         "kind": "set",
-        "var": "WalkSpeedPct",
+        "var": "MoveOn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs110.Settings",
-         "WalkSpeedPct": "@g110.WalkSpeedPct"
+         "MoveOn": "@g110.MoveOn"
         }
        },
        {
@@ -32159,16 +32299,16 @@
        {
         "id": "g111",
         "kind": "get",
-        "var": "RunSpeedPct"
+        "var": "WalkSpeedPct"
        },
        {
         "id": "w111",
         "kind": "set",
-        "var": "RunSpeedPct",
+        "var": "WalkSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs111.Settings",
-         "RunSpeedPct": "@g111.RunSpeedPct"
+         "WalkSpeedPct": "@g111.WalkSpeedPct"
         }
        },
        {
@@ -32179,16 +32319,16 @@
        {
         "id": "g112",
         "kind": "get",
-        "var": "WalkStyle"
+        "var": "RunSpeedPct"
        },
        {
         "id": "w112",
         "kind": "set",
-        "var": "WalkStyle",
+        "var": "RunSpeedPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs112.Settings",
-         "WalkStyle": "@g112.WalkStyle"
+         "RunSpeedPct": "@g112.RunSpeedPct"
         }
        },
        {
@@ -32199,16 +32339,16 @@
        {
         "id": "g113",
         "kind": "get",
-        "var": "RunStyle"
+        "var": "WalkStyle"
        },
        {
         "id": "w113",
         "kind": "set",
-        "var": "RunStyle",
+        "var": "WalkStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs113.Settings",
-         "RunStyle": "@g113.RunStyle"
+         "WalkStyle": "@g113.WalkStyle"
         }
        },
        {
@@ -32219,16 +32359,16 @@
        {
         "id": "g114",
         "kind": "get",
-        "var": "IdleStyle"
+        "var": "RunStyle"
        },
        {
         "id": "w114",
         "kind": "set",
-        "var": "IdleStyle",
+        "var": "RunStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs114.Settings",
-         "IdleStyle": "@g114.IdleStyle"
+         "RunStyle": "@g114.RunStyle"
         }
        },
        {
@@ -32239,16 +32379,16 @@
        {
         "id": "g115",
         "kind": "get",
-        "var": "IdlePose"
+        "var": "IdleStyle"
        },
        {
         "id": "w115",
         "kind": "set",
-        "var": "IdlePose",
+        "var": "IdleStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs115.Settings",
-         "IdlePose": "@g115.IdlePose"
+         "IdleStyle": "@g115.IdleStyle"
         }
        },
        {
@@ -32259,16 +32399,16 @@
        {
         "id": "g116",
         "kind": "get",
-        "var": "PoseLoop"
+        "var": "IdlePose"
        },
        {
         "id": "w116",
         "kind": "set",
-        "var": "PoseLoop",
+        "var": "IdlePose",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs116.Settings",
-         "PoseLoop": "@g116.PoseLoop"
+         "IdlePose": "@g116.IdlePose"
         }
        },
        {
@@ -32279,16 +32419,16 @@
        {
         "id": "g117",
         "kind": "get",
-        "var": "NoRenderedIcons"
+        "var": "PoseLoop"
        },
        {
         "id": "w117",
         "kind": "set",
-        "var": "NoRenderedIcons",
+        "var": "PoseLoop",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs117.Settings",
-         "NoRenderedIcons": "@g117.NoRenderedIcons"
+         "PoseLoop": "@g117.PoseLoop"
         }
        },
        {
@@ -32299,16 +32439,16 @@
        {
         "id": "g118",
         "kind": "get",
-        "var": "RagWheelCm"
+        "var": "NoRenderedIcons"
        },
        {
         "id": "w118",
         "kind": "set",
-        "var": "RagWheelCm",
+        "var": "NoRenderedIcons",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs118.Settings",
-         "RagWheelCm": "@g118.RagWheelCm"
+         "NoRenderedIcons": "@g118.NoRenderedIcons"
         }
        },
        {
@@ -32319,16 +32459,16 @@
        {
         "id": "g119",
         "kind": "get",
-        "var": "SlowMoPct"
+        "var": "RagWheelCm"
        },
        {
         "id": "w119",
         "kind": "set",
-        "var": "SlowMoPct",
+        "var": "RagWheelCm",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs119.Settings",
-         "SlowMoPct": "@g119.SlowMoPct"
+         "RagWheelCm": "@g119.RagWheelCm"
         }
        },
        {
@@ -32339,16 +32479,16 @@
        {
         "id": "g120",
         "kind": "get",
-        "var": "AcceptedFingerprint"
+        "var": "SlowMoPct"
        },
        {
         "id": "w120",
         "kind": "set",
-        "var": "AcceptedFingerprint",
+        "var": "SlowMoPct",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs120.Settings",
-         "AcceptedFingerprint": "@g120.AcceptedFingerprint"
+         "SlowMoPct": "@g120.SlowMoPct"
         }
        },
        {
@@ -32359,16 +32499,16 @@
        {
         "id": "g121",
         "kind": "get",
-        "var": "OutfitScale"
+        "var": "AcceptedFingerprint"
        },
        {
         "id": "w121",
         "kind": "set",
-        "var": "OutfitScale",
+        "var": "AcceptedFingerprint",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs121.Settings",
-         "OutfitScale": "@g121.OutfitScale"
+         "AcceptedFingerprint": "@g121.AcceptedFingerprint"
         }
        },
        {
@@ -32379,16 +32519,16 @@
        {
         "id": "g122",
         "kind": "get",
-        "var": "LookScale"
+        "var": "OutfitScale"
        },
        {
         "id": "w122",
         "kind": "set",
-        "var": "LookScale",
+        "var": "OutfitScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs122.Settings",
-         "LookScale": "@g122.LookScale"
+         "OutfitScale": "@g122.OutfitScale"
         }
        },
        {
@@ -32399,16 +32539,16 @@
        {
         "id": "g123",
         "kind": "get",
-        "var": "RagScale"
+        "var": "LookScale"
        },
        {
         "id": "w123",
         "kind": "set",
-        "var": "RagScale",
+        "var": "LookScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs123.Settings",
-         "RagScale": "@g123.RagScale"
+         "LookScale": "@g123.LookScale"
         }
        },
        {
@@ -32419,16 +32559,16 @@
        {
         "id": "g124",
         "kind": "get",
-        "var": "InvScale"
+        "var": "RagScale"
        },
        {
         "id": "w124",
         "kind": "set",
-        "var": "InvScale",
+        "var": "RagScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs124.Settings",
-         "InvScale": "@g124.InvScale"
+         "RagScale": "@g124.RagScale"
         }
        },
        {
@@ -32439,16 +32579,16 @@
        {
         "id": "g125",
         "kind": "get",
-        "var": "OutfitCols"
+        "var": "InvScale"
        },
        {
         "id": "w125",
         "kind": "set",
-        "var": "OutfitCols",
+        "var": "InvScale",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs125.Settings",
-         "OutfitCols": "@g125.OutfitCols"
+         "InvScale": "@g125.InvScale"
         }
        },
        {
@@ -32459,16 +32599,16 @@
        {
         "id": "g126",
         "kind": "get",
-        "var": "OutfitRows"
+        "var": "OutfitCols"
        },
        {
         "id": "w126",
         "kind": "set",
-        "var": "OutfitRows",
+        "var": "OutfitCols",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs126.Settings",
-         "OutfitRows": "@g126.OutfitRows"
+         "OutfitCols": "@g126.OutfitCols"
         }
        },
        {
@@ -32479,16 +32619,16 @@
        {
         "id": "g127",
         "kind": "get",
-        "var": "LightOn"
+        "var": "OutfitRows"
        },
        {
         "id": "w127",
         "kind": "set",
-        "var": "LightOn",
+        "var": "OutfitRows",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs127.Settings",
-         "LightOn": "@g127.LightOn"
+         "OutfitRows": "@g127.OutfitRows"
         }
        },
        {
@@ -32499,16 +32639,16 @@
        {
         "id": "g128",
         "kind": "get",
-        "var": "LightColor"
+        "var": "LightOn"
        },
        {
         "id": "w128",
         "kind": "set",
-        "var": "LightColor",
+        "var": "LightOn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs128.Settings",
-         "LightColor": "@g128.LightColor"
+         "LightOn": "@g128.LightOn"
         }
        },
        {
@@ -32519,16 +32659,16 @@
        {
         "id": "g129",
         "kind": "get",
-        "var": "LightPower"
+        "var": "LightColor"
        },
        {
         "id": "w129",
         "kind": "set",
-        "var": "LightPower",
+        "var": "LightColor",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs129.Settings",
-         "LightPower": "@g129.LightPower"
+         "LightColor": "@g129.LightColor"
         }
        },
        {
@@ -32539,16 +32679,16 @@
        {
         "id": "g130",
         "kind": "get",
-        "var": "CurrentDrawer"
+        "var": "LightPower"
        },
        {
         "id": "w130",
         "kind": "set",
-        "var": "CurrentDrawer",
+        "var": "LightPower",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs130.Settings",
-         "CurrentDrawer": "@g130.CurrentDrawer"
+         "LightPower": "@g130.LightPower"
         }
        },
        {
@@ -32559,16 +32699,16 @@
        {
         "id": "g131",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "CurrentDrawer"
        },
        {
         "id": "w131",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "CurrentDrawer",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs131.Settings",
-         "ThemeBg": "@g131.ThemeBg"
+         "CurrentDrawer": "@g131.CurrentDrawer"
         }
        },
        {
@@ -32579,16 +32719,16 @@
        {
         "id": "g132",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "ThemeBg"
        },
        {
         "id": "w132",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs132.Settings",
-         "ThemeAccent": "@g132.ThemeAccent"
+         "ThemeBg": "@g132.ThemeBg"
         }
        },
        {
@@ -32599,16 +32739,16 @@
        {
         "id": "g133",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "ThemeAccent"
        },
        {
         "id": "w133",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs133.Settings",
-         "ThemeFill": "@g133.ThemeFill"
+         "ThemeAccent": "@g133.ThemeAccent"
         }
        },
        {
@@ -32619,16 +32759,16 @@
        {
         "id": "g134",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "ThemeFill"
        },
        {
         "id": "w134",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs134.Settings",
-         "ThemeFrame": "@g134.ThemeFrame"
+         "ThemeFill": "@g134.ThemeFill"
         }
        },
        {
@@ -32639,16 +32779,16 @@
        {
         "id": "g135",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "ThemeFrame"
        },
        {
         "id": "w135",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "ThemeFrame",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs135.Settings",
-         "ThemeWorn": "@g135.ThemeWorn"
+         "ThemeFrame": "@g135.ThemeFrame"
         }
        },
        {
@@ -32659,16 +32799,16 @@
        {
         "id": "g136",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "ThemeWorn"
        },
        {
         "id": "w136",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "ThemeWorn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs136.Settings",
-         "ThemeRow": "@g136.ThemeRow"
+         "ThemeWorn": "@g136.ThemeWorn"
         }
        },
        {
@@ -32679,16 +32819,16 @@
        {
         "id": "g137",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "ThemeRow"
        },
        {
         "id": "w137",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "ThemeRow",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs137.Settings",
-         "ThemeText": "@g137.ThemeText"
+         "ThemeRow": "@g137.ThemeRow"
         }
        },
        {
@@ -32699,16 +32839,16 @@
        {
         "id": "g138",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "ThemeText"
        },
        {
         "id": "w138",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "ThemeText",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs138.Settings",
-         "ThemeHead": "@g138.ThemeHead"
+         "ThemeText": "@g138.ThemeText"
         }
        },
        {
@@ -32719,16 +32859,16 @@
        {
         "id": "g139",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "ThemeHead"
        },
        {
         "id": "w139",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "ThemeHead",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs139.Settings",
-         "ThemeLink": "@g139.ThemeLink"
+         "ThemeHead": "@g139.ThemeHead"
         }
        },
        {
@@ -32739,16 +32879,16 @@
        {
         "id": "g140",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "ThemeLink"
        },
        {
         "id": "w140",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "ThemeLink",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs140.Settings",
-         "ThemeLine": "@g140.ThemeLine"
+         "ThemeLink": "@g140.ThemeLink"
         }
        },
        {
@@ -32759,16 +32899,16 @@
        {
         "id": "g141",
         "kind": "get",
-        "var": "ThemeInput"
+        "var": "ThemeLine"
        },
        {
         "id": "w141",
         "kind": "set",
-        "var": "ThemeInput",
+        "var": "ThemeLine",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs141.Settings",
-         "ThemeInput": "@g141.ThemeInput"
+         "ThemeLine": "@g141.ThemeLine"
         }
        },
        {
@@ -32779,16 +32919,16 @@
        {
         "id": "g142",
         "kind": "get",
-        "var": "ThemeArea"
+        "var": "ThemeInput"
        },
        {
         "id": "w142",
         "kind": "set",
-        "var": "ThemeArea",
+        "var": "ThemeInput",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs142.Settings",
-         "ThemeArea": "@g142.ThemeArea"
+         "ThemeInput": "@g142.ThemeInput"
         }
        },
        {
@@ -32799,16 +32939,16 @@
        {
         "id": "g143",
         "kind": "get",
-        "var": "ThemeWarn"
+        "var": "ThemeArea"
        },
        {
         "id": "w143",
         "kind": "set",
-        "var": "ThemeWarn",
+        "var": "ThemeArea",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs143.Settings",
-         "ThemeWarn": "@g143.ThemeWarn"
+         "ThemeArea": "@g143.ThemeArea"
         }
        },
        {
@@ -32819,16 +32959,16 @@
        {
         "id": "g144",
         "kind": "get",
-        "var": "ThemeScroll"
+        "var": "ThemeWarn"
        },
        {
         "id": "w144",
         "kind": "set",
-        "var": "ThemeScroll",
+        "var": "ThemeWarn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs144.Settings",
-         "ThemeScroll": "@g144.ThemeScroll"
+         "ThemeWarn": "@g144.ThemeWarn"
         }
        },
        {
@@ -32839,16 +32979,16 @@
        {
         "id": "g145",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "ThemeScroll"
        },
        {
         "id": "w145",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeScroll",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs145.Settings",
-         "BgAlpha": "@g145.BgAlpha"
+         "ThemeScroll": "@g145.ThemeScroll"
         }
        },
        {
@@ -32859,16 +32999,16 @@
        {
         "id": "g146",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "BgAlpha"
        },
        {
         "id": "w146",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "BgAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs146.Settings",
-         "TileAlpha": "@g146.TileAlpha"
+         "BgAlpha": "@g146.BgAlpha"
         }
        },
        {
@@ -32879,16 +33019,36 @@
        {
         "id": "g147",
         "kind": "get",
-        "var": "BgImgAlpha"
+        "var": "TileAlpha"
        },
        {
         "id": "w147",
         "kind": "set",
-        "var": "BgImgAlpha",
+        "var": "TileAlpha",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs147.Settings",
-         "BgImgAlpha": "@g147.BgImgAlpha"
+         "TileAlpha": "@g147.TileAlpha"
+        }
+       },
+       {
+        "id": "gs148",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g148",
+        "kind": "get",
+        "var": "BgImgAlpha"
+       },
+       {
+        "id": "w148",
+        "kind": "set",
+        "var": "BgImgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs148.Settings",
+         "BgImgAlpha": "@g148.BgImgAlpha"
         }
        },
        {
@@ -33126,6 +33286,7 @@
         "w145",
         "w146",
         "w147",
+        "w148",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",

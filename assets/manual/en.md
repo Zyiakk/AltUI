@@ -277,6 +277,13 @@ Quick menu: "Follower: follow me / wait here" orders the follower in view, "All 
 - Passwords: the code locks of the current level, nearest first, with how far away they are and whether they are locked. Each code stays hidden until you click it.
 - AltUI manual: this text.
 
+## TV {#tv}
+
+- Only shown when the current level has a TV (Jodi's office), or always with the switch under Options › General. With several TVs it controls the one nearest to Jodi.
+- Switch on / Switch off work like the E key on the TV. The TV reads its video list the first time it is switched on – until then the tab asks you to switch it on once.
+- Click a video to play it. A video started earlier carries on where it was left, as on the TV itself.
+- Your own videos: put .mp4 files into the game folder TheKillingAntidote/Videos/TV/. They appear after the level is loaded again.
+
 ## Quick menu {#quick}
 
 Hold 4 (another key under Options › Quick menu) and a wheel opens around the mouse. Let go on an item to run it; let go in the middle to do nothing.

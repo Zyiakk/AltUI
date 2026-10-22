@@ -598,9 +598,12 @@ def f_select_slot():
     g.n("soc", "call_self", function="Select Option Cat", inp={"name": "@entry.name"})
     g.get("gpg8", "Page"); g.call("iskx", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg8.Page", "B": "Kodex"}); g.branch("bpkx", "@iskx.ReturnValue")
     g.n("skx", "call_self", function="Select Kodex", inp={"name": "@entry.name"})
+    g.get("gpg9", "Page"); g.call("istv", K_MATH, "EqualEqual_NameName", inp={"A": "@gpg9.Page", "B": "TV"}); g.branch("bptv", "@istv.ReturnValue")
+    g.call("tvns", K_STR, "Conv_NameToString", inp={"InName": "@entry.name"}); g.call("tvni", K_STR, "Conv_StringToInt", inp={"InString": "@tvns.ReturnValue"})
+    g.n("stv", "call_self", function="Tv Play", inp={"index": "@tvni.ReturnValue"})   # TV rows carry their index as slot name
     g.n("uf", "call_self", function="Update Focus")
     g.set("hlc", "HighlightItem", inp={"HighlightItem": "None"})
-    g.chain("entry", "bpl", "slc"); g.chain("bpl:else", "bpm", "smc"); g.chain("bpm:else", "bpw", "swp"); g.chain("bpw:else", "bpps2", "spc"); g.chain("bpps2:else", "bpmd", "smd"); g.chain("bpmd:else", "bpfg", "sfg"); g.chain("bpfg:else", "bpop", "soc"); g.chain("bpop:else", "bpkx", "skx"); g.chain("bpkx:else", "hlc", "s", "gr", "bk", "rl", "rt", "rli", "uf"); g.chain("bk:else", "sg", "rl"); return fn("Select Slot", [param("name", "name")], graph=g)
+    g.chain("entry", "bpl", "slc"); g.chain("bpl:else", "bpm", "smc"); g.chain("bpm:else", "bpw", "swp"); g.chain("bpw:else", "bpps2", "spc"); g.chain("bpps2:else", "bpmd", "smd"); g.chain("bpmd:else", "bpfg", "sfg"); g.chain("bpfg:else", "bpop", "soc"); g.chain("bpop:else", "bpkx", "skx"); g.chain("bpkx:else", "bptv", "stv"); g.chain("bptv:else", "hlc", "s", "gr", "bk", "rl", "rt", "rli", "uf"); g.chain("bk:else", "sg", "rl"); return fn("Select Slot", [param("name", "name")], graph=g)
 
 
 def f_take_off_slot():
@@ -1129,8 +1132,8 @@ def f_rebuild_options():
                                                                             "outfitscale text": t10, "lookscale text": t11, "outfitcols text": t12, "outfitrows text": t13, "quickalpha text": t14, "ragscale text": t15, "walkspeed text": t16, "runspeed text": t17, "invscale text": t18, "ragwheel": pos["RagWheel"], "bgimgalpha": pos["BgImgAlpha"], "bgimgalpha text": var_pct_text(g, "BgImgAlpha", "ox_bia"), "bghue": pos["BgHue"], "bghue text": hue_text(g, "BgHue", "ox_bhu"), "bgsepia": pos["BgSepia"], "bgsepia text": var_pct_text(g, "BgSepia", "ox_bse"),
                                                                             "btnhue": pos["BtnHue"], "btnhue text": hue_text(g, "BtnHue", "ox_nhu"), "btnsepia": pos["BtnSepia"], "btnsepia text": var_pct_text(g, "BtnSepia", "ox_nse"), "slowmo": pos["SlowMo"], "ragwheel text": t19, "slowmo text": t20})
     g.get("gp2", "Panel"); g.get("gun", "Unlimited"); g.get("gpn", "PanToSlot"); g.get("gan", "AllowNude"); g.get("gmg", "MergeGroups"); g.get("gmm", "MergeMods"); g.get("gtp", "TipNoPrefix"); g.get("gtn", "TipNoIds"); g.get("gcrh", "CamRightHeight")
-    g.get("gcsh", "ChipSearchShown"); g.get("gkxa", "KodexAll"); g.get("gmvo", "MoveOn"); g.get("gicata", "InvCatalog"); g.get("gnae", "InvNoAutoEquip"); g.call("nae", K_MATH, "Not_PreBool", inp={"A": "@gnae.InvNoAutoEquip"}); g.get("gsmon", "SlowMoOn"); g.get("gfnc", "FreeNoCollide"); g.get("gfnl", "FreeNoLimit"); g.get("gnnt", "NoNotices")
-    g.call("su", W_PANEL, "Set Option Checks", inp={"self": "@gp2.Panel", "unlimited": "@gun.Unlimited", "pan": "@gpn.PanToSlot", "nude": "@gan.AllowNude", "merge": "@gmg.MergeGroups", "mergemods": "@gmm.MergeMods", "chipsearch": "@gcsh.ChipSearchShown", "tipnoprefix": "@gtp.TipNoPrefix", "tipnoids": "@gtn.TipNoIds", "camright": "@gcrh.CamRightHeight", "kodexall": "@gkxa.KodexAll", "moveon": "@gmvo.MoveOn", "invcatalog": "@gicata.InvCatalog", "invautoequip": "@nae.ReturnValue", "slowmoon": "@gsmon.SlowMoOn", "freenocollide": "@gfnc.FreeNoCollide", "freenolimit": "@gfnl.FreeNoLimit", "nonotices": "@gnnt.NoNotices"})
+    g.get("gcsh", "ChipSearchShown"); g.get("gkxa", "KodexAll"); g.get("gmvo", "MoveOn"); g.get("gicata", "InvCatalog"); g.get("gnae", "InvNoAutoEquip"); g.call("nae", K_MATH, "Not_PreBool", inp={"A": "@gnae.InvNoAutoEquip"}); g.get("gsmon", "SlowMoOn"); g.get("gfnc", "FreeNoCollide"); g.get("gfnl", "FreeNoLimit"); g.get("gnnt", "NoNotices"); g.get("gtvaw", "TvAlways")
+    g.call("su", W_PANEL, "Set Option Checks", inp={"self": "@gp2.Panel", "unlimited": "@gun.Unlimited", "pan": "@gpn.PanToSlot", "nude": "@gan.AllowNude", "merge": "@gmg.MergeGroups", "mergemods": "@gmm.MergeMods", "chipsearch": "@gcsh.ChipSearchShown", "tipnoprefix": "@gtp.TipNoPrefix", "tipnoids": "@gtn.TipNoIds", "camright": "@gcrh.CamRightHeight", "kodexall": "@gkxa.KodexAll", "moveon": "@gmvo.MoveOn", "invcatalog": "@gicata.InvCatalog", "invautoequip": "@nae.ReturnValue", "slowmoon": "@gsmon.SlowMoOn", "freenocollide": "@gfnc.FreeNoCollide", "freenolimit": "@gfnl.FreeNoLimit", "nonotices": "@gnnt.NoNotices", "tvalways": "@gtvaw.TvAlways"})
     # layout chips (W_SubTab: click -> Select SubTab -> Select Layout), display order by size, stable indices
     g.get("gp3", "Panel"); g.call("cl", W_PANEL, "Clear Layout Chips", inp={"self": "@gp3.Panel"}); tail = ["entry", "os", "oc", "of", "od", "ohg", "oba", "ota", "ogl", "och", "soOutfitScale", "soLookScale", "soRagScale", "soInvScale", "soOutfitCols", "soOutfitRows", "soQuickAlpha", "soWalkSpeed", "soRunSpeed", "soRagWheel", "soBgImgAlpha", "soBgHue", "soBgSepia", "soBtnHue", "soBtnSepia", "soSlowMo", "sv", "su", "cl"]
     for i, (idx, key) in enumerate(LAYOUTS):
@@ -2769,6 +2772,100 @@ def f_collect_kodex_locks():
     g.get("gd3", "KodexLockDist"); g.get("gtf2", "KodexDistTmp"); g.call("idd", K_ARR, "Array_Insert", inp={"TargetArray": "@gd3.KodexLockDist", "NewItem": "@gtf2.KodexDistTmp", "Index": "@gki2.KodexIdx"})
     g.chain("entry", "cKodexLocks", "cKodexLockDist", "bpv", "all", "fe"); g.chain("fe", "bcv", "sd", "si", "fd"); g.chain("fd", "bb", "si2"); g.chain("fd:Completed", "il", "idd")   # GetComponentByClass and the cast are pure
     return fn("Collect Kodex Locks", graph=g)
+
+
+# ---------------- TV tab: the office TV (TV_Actor), nearest to Jodi ----------------
+def f_find_tv():
+    """TvActor = the TV_Actor nearest to Jodi, None without one in the level (TvDist: the distance while searching)."""
+    g = G(); g.set("s0", "TvActor", inp={"TvActor": "None"}); g.set("d0", "TvDist", inp={"TvDist": "1e12"})
+    g.get("gpl", "Player"); g.call("pv", K_SYS, "IsValid", inp={"Object": "@gpl.Player"}); g.branch("bpv", "@pv.ReturnValue")
+    g.get("gpl2", "Player"); g.call("ploc", E_ACTOR, "K2_GetActorLocation", inp={"self": "@gpl2.Player"})
+    g.call("all", K_GS, "GetAllActorsOfClass", inp={"ActorClass": P_TV}); g.foreach("fe", "@all.OutActors")
+    g.call("aloc", E_ACTOR, "K2_GetActorLocation", inp={"self": "@fe.Array Element"}); g.call("dst", K_MATH, "Vector_Distance", inp={"V1": "@aloc.ReturnValue", "V2": "@ploc.ReturnValue"})
+    g.get("gd", "TvDist"); g.call("lt", K_MATH, "Less_FloatFloat", inp={"A": "@dst.ReturnValue", "B": "@gd.TvDist"}); g.branch("bl", "@lt.ReturnValue")
+    g.cast("ct", P_TV, "@fe.Array Element")
+    g.set("s1", "TvActor", inp={"TvActor": "@ct.AsTV Actor"}); g.set("d1", "TvDist", inp={"TvDist": "@dst.ReturnValue"})
+    g.chain("entry", "s0", "d0", "bpv", "all", "fe"); g.chain("fe", "bl", "s1", "d1")
+    return fn("Find TV", graph=g)
+
+
+def f_rebuild_tv():
+    """TV tab: state line (playing: the file without .mp4 / off / no TV), one link (switch on / off), a hint while the TV never
+    read its list (it does that on its first switch-on), one row per video - the slot name is its index, the playing one selected."""
+    g = G(); g.n("ftv", "call_self", function="Find TV")
+    g.get("gp0", "Panel"); g.call("cll", W_PANEL, "Clear Tv Links", inp={"self": "@gp0.Panel"}); g.get("gp1", "Panel"); g.call("clr", W_PANEL, "Clear Tv List", inp={"self": "@gp1.Panel"})
+    g.get("gta", "TvActor"); g.call("tv", K_SYS, "IsValid", inp={"Object": "@gta.TvActor"}); g.branch("bv", "@tv.ReturnValue")
+    g.get("gpn", "Panel"); g.call("stn", W_PANEL, "Set Tv Text", inp={"self": "@gpn.Panel", "status": tt(g, "tnn", "Tv_None"), "hint": ""})
+    TV = "@gta.TvActor"
+    g.get("gw", "is working", cls=P_TV); g.link("gta.TvActor", "gw.self")
+    g.get("gvs", "Videos", cls=P_TV); g.link("gta.TvActor", "gvs.self"); g.get("gci", "current video index", cls=P_TV); g.link("gta.TvActor", "gci.self")
+    # state: "on - playing: <name>" / "off"
+    g.call("civ", K_ARR, "Array_IsValidIndex", inp={"TargetArray": "@gvs.Videos", "IndexToTest": "@gci.current video index"}); g.branch("bci", "@civ.ReturnValue")
+    g.set("snm0", "TmpStr", inp={"TmpStr": ""})
+    g.call("cget", K_ARR, "Array_Get", inp={"TargetArray": "@gvs.Videos", "Index": "@gci.current video index"})
+    g.call("cchp", K_STR, "LeftChop", inp={"SourceString": "@cget.Item", "Count": "4"}); g.set("snm1", "TmpStr", inp={"TmpStr": "@cchp.ReturnValue"})
+    g.get("gnm", "TmpStr"); g.call("ron", K_STR, "Replace", inp={"SourceString": ts(g, "ton", "Tv_On"), "From": "%s", "To": "@gnm.TmpStr", "SearchCase": "CaseSensitive"})
+    g.call("sst", K_MATH, "SelectString", inp={"A": "@ron.ReturnValue", "B": ts(g, "tof", "Tv_Off"), "bPickA": "@gw.is working"})
+    g.call("stt", K_TXT, "Conv_StringToText", inp={"InString": "@sst.ReturnValue"})
+    g.call("vln", K_ARR, "Array_Length", inp={"TargetArray": "@gvs.Videos"}); g.call("emp", K_MATH, "EqualEqual_IntInt", inp={"A": "@vln.ReturnValue", "B": "0"})
+    g.call("shs", K_MATH, "SelectString", inp={"A": ts(g, "tem", "Tv_Empty"), "B": "", "bPickA": "@emp.ReturnValue"}); g.call("sht", K_TXT, "Conv_StringToText", inp={"InString": "@shs.ReturnValue"})
+    g.get("gps", "Panel"); g.call("sts", W_PANEL, "Set Tv Text", inp={"self": "@gps.Panel", "status": "@stt.ReturnValue", "hint": "@sht.ReturnValue"})
+    # the one link: off while on, on while off (4.27 has no SelectName / SelectText: strings, converted)
+    lw = create_widget(g, "lw", W_TXT); set_manager(g, "lsm", W_TXT, lw)
+    g.call("lac", K_MATH, "SelectString", inp={"A": "TvOff", "B": "TvOn", "bPickA": "@gw.is working"}); g.call("lan", K_STR, "Conv_StringToName", inp={"InString": "@lac.ReturnValue"})
+    g.call("lcs", K_MATH, "SelectString", inp={"A": ts(g, "tbf", "Btn_TvOff"), "B": ts(g, "tbn", "Btn_TvOn"), "bPickA": "@gw.is working"}); g.call("lct", K_TXT, "Conv_StringToText", inp={"InString": "@lcs.ReturnValue"})
+    g.call("lin", W_TXT, "Init", inp={"self": lw, "action": "@lan.ReturnValue", "caption": "@lct.ReturnValue"})
+    g.get("gpl", "Panel"); g.call("lad", W_PANEL, "Add Tv Link", inp={"self": "@gpl.Panel", "widget": lw})
+    # rows
+    g.foreach("fe", "@gvs.Videos")
+    rw = create_widget(g, "rw", W_TAB); set_manager(g, "rsm", W_TAB, rw)
+    g.call("ris", K_STR, "Conv_IntToString", inp={"InInt": "@fe.Array Index"}); g.call("rin", K_STR, "Conv_StringToName", inp={"InString": "@ris.ReturnValue"})
+    g.call("rch", K_STR, "LeftChop", inp={"SourceString": "@fe.Array Element", "Count": "4"}); g.call("rct", K_TXT, "Conv_StringToText", inp={"InString": "@rch.ReturnValue"})
+    g.call("req", K_MATH, "EqualEqual_IntInt", inp={"A": "@fe.Array Index", "B": "@gci.current video index"}); g.call("rsel", K_MATH, "BooleanAND", inp={"A": "@req.ReturnValue", "B": "@gw.is working"})
+    g.call("rti", W_TAB, "Init", inp={"self": rw, "slot": "@rin.ReturnValue", "caption": "@rct.ReturnValue", "count": "0", "worn icon": "None",
+                                      "selected": "@rsel.ReturnValue", "has items": "true", "filtered": "-1", "indent": "false"})
+    g.call("rhc", W_TAB, "Hide Count", inp={"self": rw}); g.get("gpr", "Panel"); g.call("rad", W_PANEL, "Add Tv Row", inp={"self": "@gpr.Panel", "widget": rw})
+    g.chain("entry", "ftv", "cll", "clr", "bv", "bci", "snm1", "sts", "lw_cr", "lsm", "lin", "lad", "fe"); g.chain("bv:else", "stn"); g.chain("bci:else", "snm0", "sts")
+    g.chain("fe", "rw_cr", "rsm", "rti", "rhc", "rad")
+    return fn("Rebuild Tv", graph=g)
+
+
+def f_tv_play():
+    """Video row: on -> the TV's own Play Video (it keeps where the last one was and resumes this one where it was left);
+    off -> that index becomes current and the TV is switched on: its switch-on animation ends with Play Video(current)."""
+    g = G(); g.n("ftv", "call_self", function="Find TV")
+    g.get("gta", "TvActor"); g.call("tv", K_SYS, "IsValid", inp={"Object": "@gta.TvActor"}); g.branch("bv", "@tv.ReturnValue")
+    g.get("gw", "is working", cls=P_TV); g.link("gta.TvActor", "gw.self"); g.branch("bw", "@gw.is working")
+    g.call("pv", P_TV, "Play Video", inp={"self": "@gta.TvActor", "index": "@entry.index"})
+    g.n("sci", "set", var="current video index", cls=P_TV, inp={"self": "@gta.TvActor", "current video index": "@entry.index"})
+    g.n("on", "call_self", function="Tv On"); g.n("rb", "call_self", function="Rebuild Tv")
+    g.chain("entry", "ftv", "bv", "bw", "pv", "rb"); g.chain("bw:else", "sci", "on")
+    return fn("Tv Play", [param("index", "int")], graph=g)
+
+
+def f_tv_on():
+    """Switch on as the E key does (On Use This with Jodi): animation, and on the first time the TV reads its file list."""
+    g = G(); g.n("ftv", "call_self", function="Find TV")
+    g.get("gta", "TvActor"); g.call("tv", K_SYS, "IsValid", inp={"Object": "@gta.TvActor"})
+    g.branch("bv", "@tv.ReturnValue")   # first: no TV, nothing to read
+    g.get("gw", "is working", cls=P_TV); g.link("gta.TvActor", "gw.self"); g.branch("bw", "@gw.is working")
+    g.get("gpl", "Player"); g.call("use", P_TV, "On Use This", inp={"self": "@gta.TvActor", "Player": "@gpl.Player"})
+    g.n("rb", "call_self", function="Rebuild Tv")
+    g.chain("entry", "ftv", "bv", "bw"); g.chain("bw:else", "use", "rb"); g.chain("bw", "rb"); g.chain("bv:else", "rb")
+    return fn("Tv On", graph=g)
+
+
+def f_tv_off():
+    """Switch off as holding E does: Start Animation(false) stops the video (keeping its place), the tick runs the animation back."""
+    g = G(); g.n("ftv", "call_self", function="Find TV")
+    g.get("gta", "TvActor"); g.call("tv", K_SYS, "IsValid", inp={"Object": "@gta.TvActor"})
+    g.branch("bv", "@tv.ReturnValue")
+    g.get("gw", "is working", cls=P_TV); g.link("gta.TvActor", "gw.self"); g.branch("bw", "@gw.is working")
+    g.call("sa", P_TV, "Start Animation", inp={"self": "@gta.TvActor", "working": "false"})
+    g.call("te", E_ACTOR, "SetActorTickEnabled", inp={"self": "@gta.TvActor", "bEnabled": "true"})
+    g.n("rb", "call_self", function="Rebuild Tv")
+    g.chain("entry", "ftv", "bv", "bw", "sa", "te", "rb"); g.chain("bw:else", "rb"); g.chain("bv:else", "rb")
+    return fn("Tv Off", graph=g)
 
 
 def f_kodex_toggle_code():
@@ -4583,7 +4680,10 @@ def f_poll_options():
     g.chain("bcs", "scsh", "rst2", "rlch2", "svcs", "btp"); g.chain("bcs:else", "btp")
     g.chain("btp", "stp", "svtp", "btn"); g.chain("btp:else", "btn"); g.chain("btn", "stn", "svtn", "bcr"); g.chain("btn:else", "bcr"); g.chain("bcr", "scr", "svcr", "bkx"); g.chain("bcr:else", "bkx"); g.chain("bkx", "skx", "svkx", "bicat"); g.chain("bkx:else", "bicat"); g.chain("bicat", "sicat", "svicat", "xaeb"); g.chain("bicat:else", "xaeb"); g.chain("xaeb", "xaes", "xaev", "bmvo"); g.chain("xaeb:else", "bmvo"); g.chain("bmvo", "smvo", "amvo", "svmvo", "bsmn"); g.chain("bmvo:else", "bsmn"); g.chain("bsmn", "ssmn", "tsmn", "bfnc"); g.chain("bsmn:else", "bfnc")
     g.chain("bfnc", "sfnc", "svfnc", "bfnl"); g.chain("bfnc:else", "bfnl"); g.chain("bfnl", "sfnl", "svfnl", "bnnt"); g.chain("bfnl:else", "bnnt")
-    g.chain("bnnt", "snnt", "svnnt", "bsame"); g.chain("bnnt:else", "bsame")
+    # TV tab always shown: the tab bar follows at once
+    g.get("gtvw", "TvAlways"); g.call("tvwne", K_MATH, "NotEqual_BoolBool", inp={"A": "@gv.tvalways", "B": "@gtvw.TvAlways"}); g.branch("btvw", "@tvwne.ReturnValue")
+    g.set("stvw", "TvAlways", inp={"TvAlways": "@gv.tvalways"}); g.n("svtvw", "call_self", function="Save Settings"); g.n("rttvw", "call_self", function="Rebuild TopTabs")
+    g.chain("bnnt", "snnt", "svnnt", "btvw"); g.chain("bnnt:else", "btvw"); g.chain("btvw", "stvw", "svtvw", "rttvw", "bsame"); g.chain("btvw:else", "bsame")
     g.chain("bsame:else", "os", "oc", "of", "od", "ohg", "oba", "ota", "ogl", "och", "poOutfitScale", "poLookScale", "poRagScale", "poInvScale", "poOutfitCols", "poOutfitRows", "poQuickAlpha", "poWalkSpeed", "poRunSpeed", "poRagWheel", "poSlowMo", "poBgImgAlpha", "poBgHue", "poBgSepia", "poBtnHue", "poBtnSepia", "sqa", "sbia", "sbhu", "sbse", "snhu", "snse", "ssm", "sts", "sos", "sls", "srs", "sis", "sOutfitCols", "sOutfitRows",
             "scf", "scd", "schg", "swsp", "srsp", "amvs", "srwc", "ssmp", "tmtk", "sba", "sta", "sgl", "sch", "ap", "ath", "sv")
     return fn("Poll Options", graph=g)
@@ -5317,7 +5417,7 @@ MENU_ACTIONS = [
     ("HairNatural", "Toggle Hair Swatches", None), ("FaceAllFixed", "Face All Fixed", None), ("FaceAllGame", "Face All Game", None), ("FaceAddToggle", "Toggle Face Add", None), ("MutReset", "Mutation Reset", None),
     ("FaceApply", "Apply Saved Face", "ContextFace"), ("FaceRename", "Start Face Rename", "ContextFace"), ("FaceUpdate", "Update Face Front", "ContextFace"), ("FaceUpdateView", "Update Face View", "ContextFace"), ("FaceDelete", "Delete Face", "ContextFace"), ("FaceView", "Open Face Content", "ContextFace"),
     ("FreeCam", "Start Free Cam", None), ("PhotoMode", "Start Photo Mode", None), ("ModeRagdoll", "Start Ragdoll Mode", None), ("LightMenu", "Toggle Light Menu", None), ("LightPower", "Toggle Light", None), ("LightColor", "Open Light Color", None), ("SpeedReset", "Reset Move Speeds", None),   # not "Rag...": that prefix goes to Ragdoll Action
-    ("Undo", "Undo", None), ("Redo", "Redo", None), ("KodexBack", "Kodex Back", None), ("KodexRefresh", "Rebuild Kodex", None), ("LookRagdoll", "Spawn Look Ragdoll", "ContextLook"),
+    ("Undo", "Undo", None), ("Redo", "Redo", None), ("KodexBack", "Kodex Back", None), ("KodexRefresh", "Rebuild Kodex", None), ("TvOn", "Tv On", None), ("TvOff", "Tv Off", None), ("LookRagdoll", "Spawn Look Ragdoll", "ContextLook"),
     ("LookFollower", "Spawn Look As Follower", "ContextLook"), ("LookNpc", "Spawn Look As Npc", "ContextLook"), ("LookClean", "Look Clean Copy", "ContextLook")]
 
 
@@ -6893,7 +6993,7 @@ def f_save_outfits():
     g.chain("entry", "sv"); return fn("Save Outfits", graph=g)
 
 
-TOP_TABS = ["Clothes", "Outfits", "Looks", "Bag", "Inventory", "Hair", "Poses", "Weapons", "Look", "Body", "Face", "Mods", "Options", "Manage", "Ragdolls", "Followers", "Kodex"]   # tab bar order; Options can not be hidden
+TOP_TABS = ["Clothes", "Outfits", "Looks", "Bag", "Inventory", "Hair", "Poses", "Weapons", "Look", "Body", "Face", "Mods", "Options", "Manage", "Ragdolls", "Followers", "Kodex", "TV"]   # tab bar order; Options can not be hidden
 
 
 def f_tab_shown():
@@ -6955,6 +7055,10 @@ def f_rebuild_top_tabs():
                 g.n("msc", "call_self", function="Scan Mod Entries"); g.get("gmk", "ModEntryKeys")
                 g.call("mln", K_ARR, "Array_Length", inp={"TargetArray": "@gmk.ModEntryKeys"}); g.call("many", K_MATH, "Greater_IntInt", inp={"A": "@mln.ReturnValue", "B": "0"}); g.branch("bmods", "@many.ReturnValue")
                 g.chain("bs%d" % i, "msc", "bmods", *make); nxt.append("bmods:else")
+            elif page == "TV":   # only with a TV in the level, or "always show the TV tab"
+                g.n("ftv", "call_self", function="Find TV"); g.get("gtva", "TvActor"); g.call("tvv", K_SYS, "IsValid", inp={"Object": "@gtva.TvActor"})
+                g.get("gtal", "TvAlways"); g.call("tvo", K_MATH, "BooleanOR", inp={"A": "@tvv.ReturnValue", "B": "@gtal.TvAlways"}); g.branch("btv", "@tvo.ReturnValue")
+                g.chain("bs%d" % i, "ftv", "btv", *make); nxt.append("btv:else")
             else:
                 g.chain("bs%d" % i, *make)
         if page == "Options": g.chain(*make)
@@ -8395,6 +8499,7 @@ def f_select_page():
     g.call("isK", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.name", "B": "Kodex"}); g.branch("bK", "@isK.ReturnValue"); g.n("rkc", "call_self", function="Rebuild Kodex Cats"); g.n("rkx", "call_self", function="Rebuild Kodex"); g.set("skxo", "KodexOpen", inp={"KodexOpen": "-1"})
     g.call("isInv", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.name", "B": "Inventory"}); g.branch("bInv", "@isInv.ReturnValue"); g.n("rinv", "call_self", function="Rebuild Inventory")
     g.call("isFol", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.name", "B": "Followers"}); g.branch("bFol", "@isFol.ReturnValue"); g.n("rfol", "call_self", function="Rebuild Followers")
+    g.call("isTv", K_MATH, "EqualEqual_NameName", inp={"A": "@entry.name", "B": "TV"}); g.branch("bTv", "@isTv.ReturnValue"); g.n("rtv", "call_self", function="Rebuild Tv")
     g.get("gpm", "Panel"); g.get("gom", "OnlyModsNames"); g.call("som", W_PANEL, "Set Only Mods", inp={"self": "@gpm.Panel", "on": "@gom.OnlyModsNames"})
     g.get("gpcs", "Panel"); g.get("gcsn", "CaseSensitiveNames"); g.call("scs", W_PANEL, "Set Case Sens", inp={"self": "@gpcs.Panel", "on": "@gcsn.CaseSensitiveNames"})
     g.n("rmc", "call_self", function="Rebuild Manage Cats"); g.n("rml", "call_self", function="Rebuild Manage Links"); g.n("rmr", "call_self", function="Rebuild Manage"); g.n("rmch", "call_self", function="Rebuild Manage Chips")
@@ -8405,7 +8510,7 @@ def f_select_page():
     g.n("rstp", "call_self", function="Rebuild Status")   # the right-hand zone belongs to the page: it has to follow the switch
     g.chain("cmn", "bpn", "svm0", "sp"); g.chain("bpn:else", "sp"); g.n("arm", "call_self", function="Apply Rag Markers"); g.chain("sp", "rstp", "arm", "spg", "rtt", "uf", "co", "bco", "spc", "rcn")
     g.chain("bco:else", "bo", "ro"); g.chain("bo:else", "blk", "rlk2"); g.chain("blk:else", "bb", "rb"); g.chain("bb:else", "bc", "rcd", "rl", "rt", "rli")
-    g.chain("bc:else", "bh", "rh"); g.chain("bh:else", "bps", "rpl", "rpcat", "rpc", "rps"); g.chain("bps:else", "bw", "rwl", "rwp", "rwmo", "rws", "rwc"); g.chain("bw:else", "bl", "rcdl", "rll", "rlch", "rlc", "rlk"); g.chain("bl:else", "by", "rby"); g.chain("by:else", "bfc", "rfc"); g.chain("bfc:else", "bmd", "rmd"); g.chain("bmd:else", "bop", "soc", "roc", "rop"); g.chain("bop:else", "bM", "som", "scs", "rmch", "rmc", "rml", "rmr"); g.chain("bM:else", "bRg", "rrg"); g.chain("bRg:else", "bK", "skxo", "rkc", "rkx"); g.chain("bK:else", "bInv", "rinv"); g.chain("bInv:else", "bFol", "rfol")   # weapons: chips last, as in Select Weapon - Skin Groups reads the model / sound rows the rebuilds fill
+    g.chain("bc:else", "bh", "rh"); g.chain("bh:else", "bps", "rpl", "rpcat", "rpc", "rps"); g.chain("bps:else", "bw", "rwl", "rwp", "rwmo", "rws", "rwc"); g.chain("bw:else", "bl", "rcdl", "rll", "rlch", "rlc", "rlk"); g.chain("bl:else", "by", "rby"); g.chain("by:else", "bfc", "rfc"); g.chain("bfc:else", "bmd", "rmd"); g.chain("bmd:else", "bop", "soc", "roc", "rop"); g.chain("bop:else", "bM", "som", "scs", "rmch", "rmc", "rml", "rmr"); g.chain("bM:else", "bRg", "rrg"); g.chain("bRg:else", "bK", "skxo", "rkc", "rkx"); g.chain("bK:else", "bInv", "rinv"); g.chain("bInv:else", "bFol", "rfol"); g.chain("bFol:else", "bTv", "rtv")   # weapons: chips last, as in Select Weapon - Skin Groups reads the model / sound rows the rebuilds fill
     return fn("Select Page Inner" if TABLOG else "Select Page", [param("name", "name")], graph=g)
 
 
@@ -11048,6 +11153,11 @@ def f_apply_weapon_look(on=False):
     if not on:
         g.get("gpl", "Player"); g.get("gws", "Weapons", cls=P_JODI); g.link("gpl.Player", "gws.self")
         g.call("fw", K_MAP, "Map_Find", inp={"TargetMap": "@gws.Weapons", "Key": "@entry.weapon"}); g.branch("bw", "@fw.ReturnValue")
+        # the actor dressed last time, read before the entry below overwrites it: only on that one can a paint differing from
+        # AppliedPaint be the game's doing (spray can). A new actor brings the Gun Data it was made from - the wall gun in the
+        # shooting range, mostly unpainted - and that wiped the stored paint on every new match (Discord 2026-10-21)
+        g.get("gwa0", "WeaponActors"); g.call("fwa0", K_MAP, "Map_Find", inp={"TargetMap": "@gwa0.WeaponActors", "Key": "@entry.weapon"})
+        g.call("same0", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@fwa0.Value", "B": "@fw.Value"}); g.set("pss", "PaintSameActor", inp={"PaintSameActor": "@same0.ReturnValue"})
         g.get("gwa", "WeaponActors"); g.call("wsa", K_MAP, "Map_Add", inp={"TargetMap": "@gwa.WeaponActors", "Key": "@entry.weapon", "Value": "@fw.Value"})   # Poll Weapons: this actor is dressed
     g.n("asd", "call_self", function="Apply Weapon Sound", inp={"actor": W, "weapon": "@entry.weapon"})   # independent of meshes and materials
     # melee weapons are no guns: the cast fails and goes on (cg:CastFailed below) - only the paint calls need a gun and sit
@@ -11060,7 +11170,7 @@ def f_apply_weapon_look(on=False):
     if not on:
         g.branch("bgv", "@gvl.ReturnValue")
         g.get("ggd", "Gun Data", cls=P_GUN); g.link("cg.AsWeapon_Gun_Base", "ggd.self"); g.brk("bgd", P_GUN_S, "@ggd.Gun Data")
-        g.n("swp", "call_self", function="Sync Weapon Paint", inp={"weapon": "@entry.weapon", "paint": "@bgd.PaintName"})
+        g.get("gpss", "PaintSameActor"); g.n("swp", "call_self", function="Sync Weapon Paint", inp={"weapon": "@entry.weapon", "paint": "@bgd.PaintName", "same": "@gpss.PaintSameActor"})
     g.get("gmd", "WeaponModels"); g.call("fm", K_MAP, "Map_Find", inp={"TargetMap": "@gmd.WeaponModels", "Key": "@entry.weapon"})
     g.n("am", "call_self", function="Apply Weapon Model", inp={"actor": W, "weapon": "@entry.weapon", "model": "@fm.Value"})   # no entry -> None -> the meshes it started with
     g.get("gsel", "WeaponSkins"); g.call("fs", K_MAP, "Map_Find", inp={"TargetMap": "@gsel.WeaponSkins", "Key": "@entry.weapon"})
@@ -11184,10 +11294,10 @@ def f_apply_weapon_look(on=False):
     elif WEAPONLOG:
         log(g, "w", ["look ", nstr(g, "w", "@entry.weapon"), " stored model=", nstr(g, "wm", "@fm.Value"),
                      " found=", boolstr(g, "w", "@fm.ReturnValue")])
-        g.chain("entry", "bw", "wsa", "asd", "cg", "cw", "lgw", "bgv", "swp", "am", "pst0", "rscp", "rfc")
+        g.chain("entry", "bw", "pss", "wsa", "asd", "cg", "cw", "lgw", "bgv", "swp", "am", "pst0", "rscp", "rfc")
         log(g, "nw", ["look ", nstr(g, "nw", "@entry.weapon"), " NO ACTOR in Jodi.Weapons"]); g.chain("bw:else", "lgnw")
     else:
-        g.chain("entry", "bw", "wsa", "asd", "cg", "cw", "bgv", "swp", "am", "pst0", "rscp", "rfc")
+        g.chain("entry", "bw", "pss", "wsa", "asd", "cg", "cw", "bgv", "swp", "am", "pst0", "rscp", "rfc")
     g.chain("cg:CastFailed", "cw")
     if not on: g.chain("bgv:else", "am")   # Skin Mod and K2_GetComponentsByClass are pure: not in the chain
     # remembered per weapon and model: the skin tiles of a weapon Jodi does not carry (no Apply ran for it) asked the global
@@ -11256,17 +11366,19 @@ def f_keep_scope_look():
 def f_sync_weapon_paint():
     """Keep a paint the game put on (spray can: Change Gun Paint writes Gun Data.PaintName) instead of resetting it.
     AppliedPaint = the paint AltUI itself left on the weapon last time (a paint row, or None for original and skin mods).
-    The weapon's paint differs from that -> the game painted it since: that paint becomes the stored choice (None ->
-    no entry = original). Nothing remembered yet: taken over only when AltUI has no choice of its own for the weapon.
+    The weapon's paint differs from that on the same actor (same) -> the game painted it since: that paint becomes the stored
+    choice (None -> no entry = original). A new actor (picked up, out of the box) is no repaint: it brings the Gun Data it was
+    made from, so its paint is taken over only when AltUI has no choice of its own for the weapon - as when nothing is known yet.
     Then AppliedPaint = what Apply Weapon Look is about to put on, so AltUI's own changes never count as the game's."""
     g = G()
     g.get("gap", "AppliedPaint"); g.call("fa", K_MAP, "Map_Find", inp={"TargetMap": "@gap.AppliedPaint", "Key": "@entry.weapon"})
     g.get("gws", "WeaponSkins"); g.call("fs", K_MAP, "Map_Find", inp={"TargetMap": "@gws.WeaponSkins", "Key": "@entry.weapon"})
     g.call("ne", K_MATH, "NotEqual_NameName", inp={"A": "@entry.paint", "B": "@fa.Value"})
-    g.call("kch", K_MATH, "BooleanAND", inp={"A": "@fa.ReturnValue", "B": "@ne.ReturnValue"})            # known, and the game changed it
-    g.call("nfa", K_MATH, "Not_PreBool", inp={"A": "@fa.ReturnValue"}); g.call("nfs", K_MATH, "Not_PreBool", inp={"A": "@fs.ReturnValue"})
+    g.call("kch0", K_MATH, "BooleanAND", inp={"A": "@fa.ReturnValue", "B": "@ne.ReturnValue"})
+    g.call("kch", K_MATH, "BooleanAND", inp={"A": "@kch0.ReturnValue", "B": "@entry.same"})            # known, and the game changed it on this actor
+    g.call("nfs", K_MATH, "Not_PreBool", inp={"A": "@fs.ReturnValue"})
     g.call("pn", K_MATH, "NotEqual_NameName", inp={"A": "@entry.paint", "B": "None"})
-    g.call("u1", K_MATH, "BooleanAND", inp={"A": "@nfa.ReturnValue", "B": "@nfs.ReturnValue"}); g.call("u2", K_MATH, "BooleanAND", inp={"A": "@u1.ReturnValue", "B": "@pn.ReturnValue"})   # unknown, no own choice, painted
+    g.call("u2", K_MATH, "BooleanAND", inp={"A": "@nfs.ReturnValue", "B": "@pn.ReturnValue"})   # no own choice, painted
     g.call("ad", K_MATH, "BooleanOR", inp={"A": "@kch.ReturnValue", "B": "@u2.ReturnValue"}); g.branch("bad", "@ad.ReturnValue")
     g.branch("bpn", "@pn.ReturnValue")
     g.get("gws2", "WeaponSkins"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gws2.WeaponSkins", "Key": "@entry.weapon", "Value": "@entry.paint"})
@@ -11280,7 +11392,7 @@ def f_sync_weapon_paint():
     g.get("gap2", "AppliedPaint"); g.call("recp", K_MAP, "Map_Add", inp={"TargetMap": "@gap2.AppliedPaint", "Key": "@entry.weapon", "Value": "@fs2.Value"})
     g.get("gap3", "AppliedPaint"); g.call("recn", K_MAP, "Map_Add", inp={"TargetMap": "@gap3.AppliedPaint", "Key": "@entry.weapon", "Value": g.lit_name("recl", "None")})
     g.chain("entry", "bad", "bpn", "add", "sv", "rec"); g.chain("bpn:else", "rem", "sv"); g.chain("bad:else", "rec"); g.chain("rec", "recp"); g.chain("rec:else", "recn")
-    return fn("Sync Weapon Paint", [param("weapon", "name"), param("paint", "name")], graph=g)
+    return fn("Sync Weapon Paint", [param("weapon", "name"), param("paint", "name"), param("same", "bool")], graph=g)
 
 
 def f_apply_all_weapon_looks():
@@ -11296,7 +11408,10 @@ def f_poll_weapons():
     box (Got A Gun -> Create a Gun builds it from the stored Gun Data: the game's paint is in there, AltUI's skin and model are not).
     Compared per weapon with the actor Apply Weapon Look last dressed (WeaponActors): counting the map missed a weapon put in and
     taken out again while the box was open - same count, new actor. A dressed actor gets its shot sound checked every tick: the
-    game puts the class's own back whenever the equipment changes."""
+    game puts the class's own back whenever the equipment changes. And its paint: one that differs from what AltUI left on it
+    (AppliedPaint) was put on by the game - spray can, or a second gun of the kind picked up (Merge Equipment) - and is taken
+    over right away. Waiting for the panel lost it when the weapon went into the box first: out of the box it is a new actor,
+    and on a new actor AltUI's own choice wins."""
     g = G(); g.get("gpl", "Player"); g.get("gws", "Weapons", cls=P_JODI); g.link("gpl.Player", "gws.self")
     g.call("keys", K_MAP, "Map_Keys", inp={"TargetMap": "@gws.Weapons"}); g.set("sk", "WeaponPollKeys", inp={"WeaponPollKeys": "@keys.Keys"})   # own loop array: Apply Weapon Look fills TmpNames-style arrays
     g.get("gk", "WeaponPollKeys"); g.foreach("fe", "@gk.WeaponPollKeys")
@@ -11306,7 +11421,12 @@ def f_poll_weapons():
     g.call("eq", K_MATH, "EqualEqual_ObjectObject", inp={"A": "@fa.Value", "B": "@fs.Value"}); g.call("ne", K_MATH, "Not_PreBool", inp={"A": "@eq.ReturnValue"}); g.branch("b", "@ne.ReturnValue")
     g.n("ap", "call_self", function="Apply Weapon Look", inp={"weapon": "@fe.Array Element"})
     g.n("snd", "call_self", function="Apply Weapon Sound", inp={"actor": "@fa.Value", "weapon": "@fe.Array Element"})   # the game resets Shot Sound on every Init Gun with Data
-    g.chain("entry", "keys", "sk", "fe"); g.chain("fe", "b", "ap"); g.chain("b:else", "snd")
+    g.cast("pcg", P_GUN, "@fa.Value", pure=False, miss="ignore")   # melee weapons carry no paint
+    g.get("pgd", "Gun Data", cls=P_GUN); g.link("pcg.AsWeapon_Gun_Base", "pgd.self"); g.brk("pbd", P_GUN_S, "@pgd.Gun Data")
+    g.get("pgap", "AppliedPaint"); g.call("pfa", K_MAP, "Map_Find", inp={"TargetMap": "@pgap.AppliedPaint", "Key": "@fe.Array Element"})   # none known -> None
+    g.call("pne", K_MATH, "NotEqual_NameName", inp={"A": "@pbd.PaintName", "B": "@pfa.Value"}); g.branch("pb", "@pne.ReturnValue")
+    g.n("pap", "call_self", function="Apply Weapon Look", inp={"weapon": "@fe.Array Element"})   # same actor: Sync Weapon Paint takes the paint over, then it is dressed with it
+    g.chain("entry", "keys", "sk", "fe"); g.chain("fe", "b", "ap"); g.chain("b:else", "snd", "pcg", "pb", "pap")
     return fn("Poll Weapons", graph=g)
 
 
@@ -16162,7 +16282,7 @@ PANEL_STRINGS += [("ragwheel", "Lbl_RagWheel"), ("slowmo", "Lbl_SlowMo")]
 PANEL_STRINGS += [("hdr" + k.lower(), "Hdr_" + k) for k in ("ThemeColors", "BgPic", "BtnPic", "ThemeSchemes")]   # 2026-10-11 sliders (after the body rows, like PANEL_TEXTS)
 PANEL_STRINGS += [("slowmoon", "Lbl_SlowMoOn")]
 PANEL_STRINGS += [("freenocollide", "Lbl_FreeNoCollide"), ("freenolimit", "Lbl_FreeNoLimit")]
-PANEL_STRINGS += [("nonotices", "Lbl_NoNotices")]   # 2026-10-12 slow motion on / off (like PANEL_TEXTS)
+PANEL_STRINGS += [("nonotices", "Lbl_NoNotices"), ("tvalways", "Lbl_TvAlways")]   # 2026-10-12 slow motion on / off (like PANEL_TEXTS)
 PANEL_STRINGS += [("hairfavorites", "Lbl_Favorites"), ("hairall", "Lbl_All")]   # 2026-10-15 Coiffure favourites block (like PANEL_TEXTS)
 PANEL_STRINGS += [("keybinds", "Lbl_KeyBinds")]   # 2026-10-15 own keys (like PANEL_TEXTS)
 PANEL_STRINGS += [("hairsearch", "Lbl_Search")]   # 2026-10-20 Coiffure search (like PANEL_TEXTS)
@@ -17098,7 +17218,7 @@ def event_graph():
     g.chain("titp", "titp_b", "titp_i", "titp_x")
     g.custom("tkv", "Test Kodex Valid", [param("name", "name")]); g.n("tkv_c", "call_self", function="Kodex Valid", inp={"name": "@tkv.name"})
     g.set("tkv_s", "TmpBool", inp={"TmpBool": "@tkv_c.yes"}); g.chain("tkv", "tkv_s")
-    g.custom("tswp", "Test Sync Weapon Paint", [param("weapon", "name"), param("paint", "name")]); g.n("tswp_c", "call_self", function="Sync Weapon Paint", inp={"weapon": "@tswp.weapon", "paint": "@tswp.paint"}); g.chain("tswp", "tswp_c")
+    g.custom("tswp", "Test Sync Weapon Paint", [param("weapon", "name"), param("paint", "name"), param("same", "bool")]); g.n("tswp_c", "call_self", function="Sync Weapon Paint", inp={"weapon": "@tswp.weapon", "paint": "@tswp.paint", "same": "@tswp.same"}); g.chain("tswp", "tswp_c")
     g.custom("tmok", "Test Migrate Outfit Keys", [param("again", "bool")]); g.branch("tmok_b", "@tmok.again")
     g.get("tmok_g", "Settings"); g.n("tmok_s", "set", var="OutfitKeysColor", cls=SG, inp={"self": "@tmok_g.Settings", "OutfitKeysColor": "false"})
     g.n("tmok_m", "call_self", function="Migrate Outfit Keys"); g.chain("tmok", "tmok_b", "tmok_s", "tmok_m"); g.chain("tmok_b:else", "tmok_m")
@@ -18368,7 +18488,7 @@ assets = [bp_cam_input(), blueprint(MGR, mode="augment", variables=DRAWER_VARS +
                                photo_mode_wrapper("Update Face Front", "Update Face", False), photo_mode_wrapper("Update Face View", "Update Face", True),
                                f_update_preset(), f_store_preset_colors(), photo_mode_wrapper("Update Preset Front", "Update Preset", False), photo_mode_wrapper("Update Preset View", "Update Preset", True), f_delete_look(), f_look_name(), f_set_look_name(), f_apply_look(), f_rebuild_looks(), f_on_look_clicked(), f_on_look_context(), f_start_look_rename(),
                                f_select_layout(), f_rebuild_conflicts(), f_rebuild_multi_slots(), f_toggle_multi_slot(), f_toggle_conflict(), f_free_slot(), f_free_all(), f_ensure_cam_mod(), f_set_view_shift(), f_start_free_cam(), f_stop_free_cam(), f_free_cam_look(), f_free_cam_wheel(), f_free_cam_step(), f_start_photo_mode(), f_end_photo_mode(), f_cam_tick(), f_wheel_dist(), f_begin_jodi_drag(), f_jodi_drag(), f_end_jodi_drag(), f_rag_pick(), f_rag_pin_grab(), f_apply_rag_markers(), f_toggle_rag_markers(), f_collect_pose_rows(), f_pose_section_caption(), f_pose_section_count(), f_pose_title(), f_pose_name(), f_pose_actors(), f_pose_kind(), f_is_pose_moving(), f_is_pose_manual(), f_set_pose_kind(), f_pelvis_height(), f_measure_tick(), f_start_pose_scan(), f_stop_pose_scan(), f_scan_tick(), f_pose_set_stand(), f_pose_set_sit(), f_pose_set_lie(), f_reset_pose_measurement(), f_set_pose_measurement(), f_toggle_pose_moving(), f_pose_cat_count(), f_rebuild_pose_cats(), f_select_pose_cat(), f_pose_key(), f_is_pose_favorite(), f_is_pose_hidden(), f_pose_matches(), f_pose_row_shown(), f_pose_row_passes(), f_bump_pose_count(), f_count_pose_cats(), f_pose_groups(), f_rebuild_pose_chips(), f_select_pose_group(), f_rebuild_poses(), f_pose_has_sound(), f_pose_clicked(), f_stop_pose(), f_toggle_idle_pose(), f_end_idle_pose(), f_idle_pose_tick(), f_pose_loop_tick(), f_toggle_pose_loop(), f_top_fit_tick(), f_notice_tick(), f_image_tex(), f_scan_user_images(), f_apply_bg_image(), f_apply_button_image(), f_thumb_rts(), f_write_user_thumb(), f_thumb_tex(), f_chip_thumb(), f_redo_user_thumb(), f_rebuild_image_chips(), f_select_image_chip(), f_anim_log_tick(), f_rebuild_pose_links(), f_toggle_pose_favorite(), f_toggle_pose_hidden(), f_pose_only_mod(), f_on_pose_context(), f_on_pose_search_changed(), f_mod_field_valid(), f_mod_entry_pos(), f_add_mod_field(), f_scan_mod_entries(), f_mod_field_changed(), mod_forward("Mod Color Changed", mu.ON_COLOR, "color", S_LINCOLOR),
-                               mod_forward("Mod Key Changed", mu.ON_KEY, "pressed", mu.KEY_TYPE), f_begin_key_capture(), f_key_captured(), f_cancel_key_capture(), f_capturing_key(), mod_forward("Mod Text Changed", mu.ON_TEXT, "text", "string"), f_open_mod_color(), f_rebuild_mod_entries(), f_rebuild_mod_fields(), f_poll_mods(), f_select_mod_entry(), f_rebuild_mod_page(), f_scan_weapon_skins(), f_scan_weapon_models(), f_scan_weapon_sounds(), f_sound_mod(), f_sounds_for_weapon(), f_weapon_rows(), f_skins_for_weapon(), f_skin_mod(), f_skin_paint(), f_skin_paint_fits(), f_skin_takes_key(), f_tile_skin(), f_skin_row(), f_model_mod(), f_models_for_weapon(), f_model_mesh(), f_material_takes_color(), f_item_color_slots(), f_apply_weapon_model(), f_apply_weapon_sound(), f_apply_weapon_look(), f_apply_weapon_look_main(), f_keep_scope_look(), f_apply_weapon_look(on=True), f_sync_weapon_paint(), f_apply_all_weapon_looks(), f_kodex_valid(), f_rebuild_kodex_cats(), f_select_kodex(), f_rebuild_kodex(), f_kodex_unlocked_rows(), f_kodex_archive_rows(), f_kodex_tile_clicked(), f_kodex_back(), f_kodex_noop_rename(), f_kodex_place_text(), f_collect_kodex_locks(), f_kodex_toggle_code(), f_spawn_ragdoll_copy(), f_rag_refresh(), f_rebuild_ragdolls(), f_ragdoll_action(), f_rag_move_update(), f_rag_lift(), f_rag_turn_update(), f_start_ragdoll_mode(), f_ragdoll_mode_step(), f_toggle_aimed_ragdoll(), f_toggle_ragdolls_active(), f_remove_ragdolls(), f_ragdoll_grab_update(), f_spawn_look_ragdoll(), f_look_ragdoll_poll(), f_finish_look_ragdoll(), f_spawn_zombie_ragdoll(), f_finish_zombie_ragdoll(), f_rag_kind_name(), f_rag_kind_clicked(), f_load_rag_save(), f_save_rag_preset(), f_load_rag_preset(), f_rag_load_next(), f_rag_load_place(), f_rag_load_apply(), f_rag_load_zombie(), f_delete_rag_preset(), f_rag_save_click(), f_rag_pose_type(), f_store_rag_pose(), f_save_rag_pose(), f_load_rag_pose(), f_delete_rag_pose(),
+                               mod_forward("Mod Key Changed", mu.ON_KEY, "pressed", mu.KEY_TYPE), f_begin_key_capture(), f_key_captured(), f_cancel_key_capture(), f_capturing_key(), mod_forward("Mod Text Changed", mu.ON_TEXT, "text", "string"), f_open_mod_color(), f_rebuild_mod_entries(), f_rebuild_mod_fields(), f_poll_mods(), f_select_mod_entry(), f_rebuild_mod_page(), f_scan_weapon_skins(), f_scan_weapon_models(), f_scan_weapon_sounds(), f_sound_mod(), f_sounds_for_weapon(), f_weapon_rows(), f_skins_for_weapon(), f_skin_mod(), f_skin_paint(), f_skin_paint_fits(), f_skin_takes_key(), f_tile_skin(), f_skin_row(), f_model_mod(), f_models_for_weapon(), f_model_mesh(), f_material_takes_color(), f_item_color_slots(), f_apply_weapon_model(), f_apply_weapon_sound(), f_apply_weapon_look(), f_apply_weapon_look_main(), f_keep_scope_look(), f_apply_weapon_look(on=True), f_sync_weapon_paint(), f_apply_all_weapon_looks(), f_kodex_valid(), f_rebuild_kodex_cats(), f_select_kodex(), f_rebuild_kodex(), f_kodex_unlocked_rows(), f_kodex_archive_rows(), f_kodex_tile_clicked(), f_kodex_back(), f_kodex_noop_rename(), f_kodex_place_text(), f_collect_kodex_locks(), f_kodex_toggle_code(), f_find_tv(), f_rebuild_tv(), f_tv_play(), f_tv_on(), f_tv_off(), f_spawn_ragdoll_copy(), f_rag_refresh(), f_rebuild_ragdolls(), f_ragdoll_action(), f_rag_move_update(), f_rag_lift(), f_rag_turn_update(), f_start_ragdoll_mode(), f_ragdoll_mode_step(), f_toggle_aimed_ragdoll(), f_toggle_ragdolls_active(), f_remove_ragdolls(), f_ragdoll_grab_update(), f_spawn_look_ragdoll(), f_look_ragdoll_poll(), f_finish_look_ragdoll(), f_spawn_zombie_ragdoll(), f_finish_zombie_ragdoll(), f_rag_kind_name(), f_rag_kind_clicked(), f_load_rag_save(), f_save_rag_preset(), f_load_rag_preset(), f_rag_load_next(), f_rag_load_place(), f_rag_load_apply(), f_rag_load_zombie(), f_delete_rag_preset(), f_rag_save_click(), f_rag_pose_type(), f_store_rag_pose(), f_save_rag_pose(), f_load_rag_pose(), f_delete_rag_pose(),
                                chip_dispatch("Context Chip Apply", "Load Rag Preset", "Apply Theme Preset", "Load Rag Pose"), chip_dispatch("Context Chip Delete", "Delete Rag Preset", "Delete Theme Preset", "Delete Rag Pose"), f_poll_weapons(), f_select_weapon(), f_weapon_skin_clicked(), f_rebuild_weapons(), f_rebuild_weapon_skins(), f_skin_caption(), f_skin_icon(), f_is_skin_favorite(), f_skin_key(), f_skin_row_passes(), f_current_model(), f_current_skin(), f_model_row(), f_model_caption(), f_model_icon(), f_model_key(), f_is_model_favorite(), f_model_row_passes(), f_rebuild_weapon_models(), f_sound_row_passes(), f_sound_key(), f_is_sound_favorite(), f_current_sound(), f_sound_caption(), f_vanilla_shot_sound(), f_rebuild_weapon_sounds(), f_weapon_sound_clicked(), f_toggle_sound_favorite(), f_toggle_sound_hidden(), f_sound_only_mod(), f_on_sound_context(), f_weapon_model_clicked(), f_toggle_model_favorite(), f_toggle_model_hidden(), f_model_has_icon(), f_toggle_model_own_icon(), f_model_forced(), *[f_toggle_model_skip(p, a) for p, _, a, _, _, _ in WEAPON_PARTS], f_toggle_model_force_skin(), f_model_only_mod(), f_on_model_context(), f_weapon_tile_row(), f_weapon_tile_clicked(), f_on_weapon_context(), f_weapon_icon_key(), f_weapon_icon(), f_capture_weapon_icon(), f_capture_weapon_icon_step(), f_skin_groups(), f_rebuild_weapon_chips(), f_select_skin_group(), f_rebuild_weapon_links(), f_on_weapon_search_changed(), f_toggle_skin_favorite(), f_toggle_skin_hidden(), f_skin_only_mod(), f_on_skin_context(), f_select_unowned(), f_redo_weapon_icons(), f_toggle_rendered_icons(), f_rebuild_status(), f_take_snapshot(), f_push_history(), f_apply_snapshot(), f_wear_queue_step(), f_finish_apply_snapshot(), history_step("Undo", "UndoStack", "RedoStack"), history_step("Redo", "RedoStack", "UndoStack"),
                                f_content_open(), f_open_content(), f_content_snapshot(), open_content_wrapper("Open Outfit Content", "Outfit"), open_content_wrapper("Open Look Content", "Look"), open_content_wrapper("Open Preset Content", "Preset"), open_content_wrapper("Open Face Content", "Face"), f_close_content(),
                                *fol_functions(), *drawer_functions(), *menuscene.functions(simple_menu, ts), f_inv_box_count(), f_weapon_gun(), f_att_matches(), f_mounted_part(), f_att_section(), f_attach_fill(), f_att_note(), f_rebuild_weapon_attach(), f_weapon_attach_clicked(), f_rebuild_inventory(), f_inv_box_data(), f_inv_row(), f_inv_tile_caption(), f_rebuild_inv_chips(), f_select_inv_group(), f_inv_head_chips(), f_inv_head_clicked(), f_inv_layout(), f_on_inv_search_changed(), f_rebuild_inv_cat(), f_inv_got_gun(), f_inv_section(), f_inv_empty(), f_inv_fill(), f_inv_gun_tip(), f_inv_fill_cat(), f_inv_cat_bag(), f_inv_cat_box(), f_inv_bag_sig(), f_poll_inventory(), f_inv_tile_parse(), f_inv_set_ctx(), f_inv_store(), f_inv_clamp(), f_inv_take(), f_inv_take_gun(), f_inv_drop_all(), f_inv_action(), f_on_inv_clicked(), f_on_inv_context(), f_rebuild_content(), f_on_content_item_context(), f_content_kind(), f_content_item_clicked(), f_content_use(), f_go_to_item(), f_scroll_to_highlight()],

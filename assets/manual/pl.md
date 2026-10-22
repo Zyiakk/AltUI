@@ -277,6 +277,13 @@ Szybkie menu: „Towarzysz: za mną / czekaj tutaj” dotyczy towarzysza w polu 
 - Hasła: zamki szyfrowe bieżącego poziomu, najbliższy pierwszy, z odległością i informacją, czy są zamknięte. Każdy kod pozostaje ukryty, dopóki go nie klikniesz.
 - Podręcznik AltUI: ten tekst.
 
+## TV {#tv}
+
+- Widoczna tylko wtedy, gdy na bieżącym poziomie jest telewizor (biuro Jodi), albo zawsze – z przełącznikiem w Opcje › Ogólne. Przy kilku telewizorach sterowany jest ten najbliżej Jodi.
+- Włącz / Wyłącz działają jak klawisz E przy telewizorze. Listę filmów telewizor odczytuje przy pierwszym włączeniu – do tego czasu karta prosi, aby włączyć go raz.
+- Kliknięcie filmu odtwarza go. Film już rozpoczęty jest kontynuowany od miejsca, w którym został przerwany, tak jak na samym telewizorze.
+- Własne filmy: włóż pliki .mp4 do folderu gry TheKillingAntidote/Videos/TV/. Pojawią się po ponownym wczytaniu poziomu.
+
 ## Szybkie menu {#quick}
 
 Przytrzymaj 4 (inny klawisz w Opcje › Szybkie menu), a wokół myszy otworzy się koło. Puść nad wpisem, aby go wykonać; puść na środku, aby nic nie robić.

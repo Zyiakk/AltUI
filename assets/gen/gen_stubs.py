@@ -93,6 +93,10 @@ assets = [
     blueprint(P_NOTE_SAVE, "/Script/Engine.SaveGame", variables=[var("Notes", "string", "array")]),
     blueprint(P_SETTINGS_SAVE, "/Script/Engine.SaveGame", variables=[var("RunMode", "int")]),   # Jodi.Settings: RunMode 2 = run key toggles by speed (BP_AltUIMove)
     # Kodex passwords: code locks carry an ItemComp_Password (Password is in the kit already); locked = Item State 1
+    # TV tab: the office TV - the file list (filled by its first On Use This), the playing index, on/off; play / switch on / off
+    blueprint(P_TV, P_INTERACTIVE, variables=[var("is working", "bool"), var("Videos", "string", "array"), var("current video index", "int")],
+              functions=[fn("On Use This", [param("Player", "object:" + P_CPB)], [param("finish", "bool")]), fn("Play Video", [param("index", "int")]),
+                         fn("Start Animation", [param("working", "bool")])]),
     blueprint(P_ITEMCOMP, mode="augment", functions=[fn("Is Locked", outputs=[param("Yes", "bool")], pure=True)]),
     blueprint(P_PWCOMP, mode="augment", variables=[var("Password", "string")]),
     blueprint(P_SHATTERER, mode="augment", variables=[var("gas tank", "object:/Script/Engine.Actor")]),   # Ragdolls: its tank moves to the copy, then cleared

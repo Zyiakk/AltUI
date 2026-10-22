@@ -277,6 +277,13 @@ Menú rápido: «Seguidor: sígueme / espera aquí» se dirige al seguidor que t
 - Contraseñas: las cerraduras con código del nivel actual, la más cercana primero, con su distancia y si están cerradas. Cada código queda oculto hasta que haces clic en él.
 - Manual de AltUI: este texto.
 
+## TV {#tv}
+
+- Solo aparece cuando el nivel actual tiene un televisor (la oficina de Jodi), o siempre con el interruptor de Opciones › General. Con varios televisores se controla el más cercano a Jodi.
+- Encender / Apagar funcionan como la tecla E en el televisor. El televisor lee su lista de vídeos la primera vez que se enciende; hasta entonces la pestaña pide encenderlo una vez.
+- Haz clic en un vídeo para reproducirlo. Un vídeo ya empezado continúa donde se quedó, como en el propio televisor.
+- Tus propios vídeos: pon archivos .mp4 en la carpeta del juego TheKillingAntidote/Videos/TV/. Aparecen después de volver a cargar el nivel.
+
 ## Menú rápido {#quick}
 
 Mantén pulsado 4 (otra tecla en Opciones › Menú rápido) y se abre una rueda alrededor del ratón. Suelta sobre una entrada para ejecutarla; suelta en el centro para no hacer nada.

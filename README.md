@@ -1,6 +1,6 @@
 # AltUI
 
-An alternative wardrobe and appearance UI for *The Killing Antidote* (game version 0.6.x), usable next to the game's own wardrobe and mirror. The vanilla wardrobe gives every mod author their own tab, so with a few clothing mods installed the same kind of item is scattered across a dozen tabs and there is no way to search. AltUI sorts every item from the game and from all installed mods into **one list per slot** (tops, skirts, shoes, …), with search, filters, favourites and hiding – and puts hair, makeup, body and outfits into the same panel. It opens anywhere in a level with **B**; no trips to the wardrobe or the mirror. Next to that: an Inventory tab for Jodi's backpack and the Hyper Storage Box, followers and NPCs made from your looks, ragdolls to place and pose (copies of Jodi, zombies, people), a Codex with the manual, the game's encyclopedia and the code locks of the level, Jodi's own walk and run speed, slow motion, and per weapon a model, a skin, a shot sound and its accessories. Hold **4** for the quick menu: a wheel of what you use most – poses, outfits, looks, slow motion, orders for followers – one flick away without opening the panel.
+An alternative wardrobe and appearance UI for *The Killing Antidote* (game version 0.6.x), usable next to the game's own wardrobe and mirror. The vanilla wardrobe gives every mod author their own tab, so with a few clothing mods installed the same kind of item is scattered across a dozen tabs and there is no way to search. AltUI sorts every item from the game and from all installed mods into **one list per slot** (tops, skirts, shoes, …), with search, filters, favourites and hiding – and puts hair, makeup, body and outfits into the same panel. It opens anywhere in a level with **B**; no trips to the wardrobe or the mirror. Next to that: an Inventory tab for Jodi's backpack and the Hyper Storage Box, followers and NPCs made from your looks, ragdolls to place and pose (copies of Jodi, zombies, people), a Codex with the manual, the game's encyclopedia and the code locks of the level, a TV tab that plays the videos of the TV in Jodi's office with a click, Jodi's own walk and run speed, slow motion, and per weapon a model, a skin, a shot sound and its accessories. Hold **4** for the quick menu: a wheel of what you use most – poses, outfits, looks, slow motion, orders for followers – one flick away without opening the panel.
 
 ![Quick menu – hold 4 for a wheel of what you use most](versions/2.0.0/screenshots/01-quick-menu.jpg)
 
@@ -205,7 +205,7 @@ In categories, chosen in a list on the left:
 
 * **General:** language, the share of the screen kept free for Jodi, "underwear may be taken off", pieces you do not own
   locked / greyed / like owned, all encyclopedia entries in the Codex, the "All items" catalogue and auto-equip for the
-  Inventory tab, and "No notices" – neither AltUI's notices nor the game's own.
+  Inventory tab, "No notices" – neither AltUI's notices nor the game's own – and "Always show the TV tab".
 * **Tiles:** tile size, and an own size for outfit, look, ragdoll and inventory tiles; how many pieces an outfit tile
   shows; tooltip options.
 * **Groups:** merge groups / mods with the same name, length of group names, height of the chip area and chip search.
@@ -290,6 +290,15 @@ In categories, chosen in a list on the left:
 * The AltUI manual in all seven languages.
 * The encyclopedia from Jodi's office computer: the entries unlocked in the game, or all of them (*Options › General*).
 * The code locks of the current level, nearest first; each code stays hidden until clicked.
+
+### TV
+
+* The videos of the TV in Jodi's office as a list: click one to play it; switch the TV on and off. A video started earlier
+  goes on where it was left, as on the TV itself.
+* The tab is there only in a level with a TV (with several: the one nearest to Jodi), or always with *Options › General*.
+* The TV reads its list the first time it is switched on – until then the tab asks to switch it on once.
+* Your own videos: put `.mp4` files into `TheKillingAntidote/Videos/TV/` in the game folder; they show up after the level
+  is loaded again.
 
 ### Everywhere
 

@@ -16,7 +16,7 @@ def main():
         return sk.get(w), ap.get(w)
     def setup(skins, applied):
         mgr.set_editor_property("WeaponSkins", skins); mgr.set_editor_property("AppliedPaint", applied)
-    sync = lambda w, p: mgr.call_method("Test Sync Weapon Paint", args=(w, p))
+    sync = lambda w, p, same=True: mgr.call_method("Test Sync Weapon Paint", args=(w, p, same))
 
     setup({}, {}); sync("UMP", "GunPaint_Red")
     expect("no choice, nothing known: game paint taken over", state("UMP"), ("GunPaint_Red", "GunPaint_Red"))
@@ -32,6 +32,15 @@ def main():
     expect("sprayed an original weapon: spray wins", state("UMP"), ("GunPaint_Red", "GunPaint_Red"))
     setup({"UMP": "GunPaint_Blue"}, {"UMP": "GunPaint_Blue"}); sync("UMP", "None")
     expect("paint removed in the game: original", state("UMP"), (None, "None"))
+    # a new actor (picked up, out of the box) brings its own Gun Data: no repaint, the own choice stays
+    setup({"UMP": "GunPaint_Blue"}, {"UMP": "GunPaint_Blue"}); sync("UMP", "None", False)
+    expect("new unpainted actor: own paint stays", state("UMP"), ("GunPaint_Blue", "GunPaint_Blue"))
+    setup({"UMP": "GunPaint_Blue"}, {"UMP": "GunPaint_Blue"}); sync("UMP", "GunPaint_Red", False)
+    expect("new painted actor: own paint stays", state("UMP"), ("GunPaint_Blue", "GunPaint_Blue"))
+    setup({}, {"UMP": "None"}); sync("UMP", "GunPaint_Red", False)
+    expect("new painted actor, no own choice: its paint taken over", state("UMP"), ("GunPaint_Red", "GunPaint_Red"))
+    setup({}, {"UMP": "GunPaint_Blue"}); sync("UMP", "None", False)
+    expect("new unpainted actor, no own choice: stays original", state("UMP"), (None, "None"))
     setup({"UMP": "GunPaint_Blue"}, {"UMP": "GunPaint_Blue"}); sync("Glock", "GunPaint_Red")
     expect("other weapons untouched", state("UMP"), ("GunPaint_Blue", "GunPaint_Blue"))
     setup(keep_skins, keep_applied); mgr.call_method("Test Save Settings")   # Sync saved the test entries

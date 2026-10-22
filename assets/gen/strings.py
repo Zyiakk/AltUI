@@ -853,6 +853,15 @@ STRINGS.update({   # Appearance > Mutation (assets/gen/mutation.py): the story's
     "Mut_Eyes": ("Eyes", "Augen", "眼睛", "Глаза", "Ojos", "Oczy"),
     "Btn_MutReset": ("Reset", "Zurücksetzen", "重置", "Сбросить", "Restablecer", "Resetuj"),
     "Mut_Story": ("Story look (no make-up, no scars)", "Story-Look (ohne Make-up, Narben)", "剧情外观（无妆容、疤痕）", "Облик из сюжета (без макияжа и шрамов)", "Look de la historia (sin maquillaje ni cicatrices)", "Wygląd z fabuły (bez makijażu i blizn)"),
+    # TV tab (2026-10-22): the office TV's videos
+    "Tab_TV": ("TV", "TV", "电视", "ТВ", "TV", "TV"),
+    "Tv_On": ("TV on – playing: %s", "Fernseher an – läuft: %s", "电视已开启 – 正在播放：%s", "Телевизор включён – идёт: %s", "Televisor encendido – reproduciendo: %s", "Telewizor włączony – odtwarzane: %s"),
+    "Tv_Off": ("TV off", "Fernseher aus", "电视已关闭", "Телевизор выключен", "Televisor apagado", "Telewizor wyłączony"),
+    "Tv_None": ("No TV in this level.", "Kein Fernseher in diesem Level.", "此关卡中没有电视。", "На этом уровне нет телевизора.", "No hay televisor en este nivel.", "Na tym poziomie nie ma telewizora."),
+    "Tv_Empty": ("Switch the TV on once, then its videos appear here.", "Einmal einschalten, dann erscheinen hier die Videos.", "先打开一次电视，视频就会显示在这里。", "Включите телевизор один раз — тогда здесь появятся видео.", "Enciende el televisor una vez y aquí aparecerán los vídeos.", "Włącz telewizor raz, a filmy pojawią się tutaj."),
+    "Btn_TvOn": ("Switch on", "Einschalten", "打开", "Включить", "Encender", "Włącz"),
+    "Btn_TvOff": ("Switch off", "Ausschalten", "关闭", "Выключить", "Apagar", "Wyłącz"),
+    "Lbl_TvAlways": ("Always show the TV tab (also in levels without a TV)", "TV-Reiter immer zeigen (auch in Levels ohne Fernseher)", "始终显示电视标签页（包括没有电视的关卡）", "Всегда показывать вкладку «ТВ» (и на уровнях без телевизора)", "Mostrar siempre la pestaña TV (también en niveles sin televisor)", "Zawsze pokazuj kartę TV (także na poziomach bez telewizora)"),
 })
 STRINGS.update(hair_colors.string_rows())   # tooltips of the natural hair colour swatches
 from strings_fr import FR
