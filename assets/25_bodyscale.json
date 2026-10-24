@@ -97,7 +97,12 @@
      "default": "(P=0,Y=0,R=0)"
     },
     {
-     "name": "EyesClosed",
+     "name": "EyeClosedL",
+     "type": "float",
+     "default": "0.0"
+    },
+    {
+     "name": "EyeClosedR",
      "type": "float",
      "default": "0.0"
     }
@@ -257,8 +262,19 @@
    "additive": [
     {
      "asset": "/Game/Project/Character/Jodi/Animations/Female_EyeClosed",
-     "alpha": "EyesClosed",
-     "time": 1.0
+     "alpha": "EyeClosedL",
+     "time": 1.0,
+     "bones": [
+      "Eye_L"
+     ]
+    },
+    {
+     "asset": "/Game/Project/Character/Jodi/Animations/Female_EyeClosed",
+     "alpha": "EyeClosedR",
+     "time": 1.0,
+     "bones": [
+      "Eye_R"
+     ]
     }
    ]
   }

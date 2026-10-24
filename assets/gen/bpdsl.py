@@ -51,6 +51,9 @@ P_INV = "/Game/Project/UserInterface/Widgets/InventoryPanel"
 P_GI = "/Game/Project/Classes/TKA_GameInstance"
 P_HAIR_SAVE = "/Game/Project/Classes/Save/Hairstyle_Save"
 P_PSAVE = "/Game/Project/Classes/Save/Player_Save"   # slot "TKAPlayer" (Functions.Get Player Save Slot Name)
+P_PSAVE_LE = "/Game/Project/Classes/Save/Player_Save_LevelEnd"   # a chapter's end state: the next story level starts from it (Plots_GameState.Prev Level End Save)
+P_TKASAVE = "/Game/Project/Classes/Save/TKA_Save"; S_ACTORSAVE = "struct:/Script/TheKillingAntidote.ActorSaveData"   # a story save (Level_<n>_<m>); the struct is native (kit stand-in: bpgen/Source/TheKillingAntidote)
+P_PLOTS = "/Game/Project/Classes/GameMode/Plots_GameState"; P_JODI_SM = "/Game/Project/Character/Jodi/Jodi_StoryMode"   # story levels: their game state and player
 P_MAKEUP_SAVE = "/Game/Project/Classes/Save/Makeup_Save"
 P_HAIR_T = "/Game/Project/Hairstyle/HairstyleTable"; P_HAIR_S = "/Game/Project/Hairstyle/HairstyleStruct"
 P_SKIN_T = "/Game/Project/Tables/SkinTable"; P_SKIN_S = "/Game/Project/Tables/SkinStruct"
@@ -237,10 +240,10 @@ def enum(path, values): return {"type": "enum", "path": path, "values": list(val
 def animblueprint(path, skeleton, variables, nodes, snapshot_var=None, additive=()):
     """AnimBlueprint: variables + a chain of ModifyBone nodes (component space), see BPGenAssets MakeAnimBlueprint. Without snapshot_var a
     post-process ABP (Input Pose first); with it a standalone ABP whose pose comes from that PoseSnapshot variable (Pose Snapshot node).
-    additive = [(animation path, float variable, time)]: Apply Additive nodes before the bone nodes, the animation held at `time`
-    (sequence evaluator), alpha = the variable."""
+    additive = [(animation path, float variable, time[, bones])]: Apply Additive nodes before the bone nodes, the animation held at `time`
+    (sequence evaluator), alpha = the variable; with bones only on those bones (Layered Blend per Bone against its identity frame)."""
     d = {"type": "animblueprint", "path": path, "skeleton": skeleton, "variables": list(variables), "nodes": list(nodes)}
-    if additive: d["additive"] = [{"asset": a, "alpha": v, "time": t} for a, v, t in additive]
+    if additive: d["additive"] = [dict({"asset": a[0], "alpha": a[1], "time": a[2]}, **({"bones": list(a[3])} if len(a) > 3 else {})) for a in additive]
     if snapshot_var: d.update(source="snapshot", snapshot_var=snapshot_var)
     return d
 

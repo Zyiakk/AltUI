@@ -77,6 +77,7 @@
 #include "AnimGraphNode_TwoWayBlend.h"
 #include "AnimGraphNode_ApplyAdditive.h"
 #include "AnimGraphNode_SequenceEvaluator.h"
+#include "AnimGraphNode_LayeredBoneBlend.h"
 #include "Animation/AnimSequence.h"
 #include "AnimationBlueprintLibrary.h"
 #include "Factories/FbxAnimSequenceImportData.h"
@@ -438,7 +439,7 @@ static bool MakeAnimBlueprint(const TSharedPtr<FJsonObject>& A, FString& Err) {
   }
   // "additive": [{asset, alpha, time}] - in local space before the bone nodes, each an Apply Additive of a sequence evaluator held
   // at `time` (the game's additive animation, by path; e.g. eyes closed: Female_EyeClosed at 1.0 = its last, closed frame, as
-  // Jodi_Anim does - a player looped it: blinking) with its Alpha pin bound to a float variable
+  // Jodi_Anim does - a player looped it: blinking) with its Alpha pin bound to a float variable; optional "bones" limits it to those bones
   UEdGraphNode* LocalPrev = In;
   if (const auto* Adds = JArr(A, TEXT("additive"))) for (const auto& AV : *Adds) {
     const TSharedPtr<FJsonObject> D = AV->AsObject(); X += 300;
@@ -451,7 +452,24 @@ static bool MakeAnimBlueprint(const TSharedPtr<FJsonObject>& A, FString& Err) {
     UEdGraphPin* BasePin = AA->FindPin(TEXT("Base")); UEdGraphPin* AddPin = AA->FindPin(TEXT("Additive")); UEdGraphPin* AlphaPin = AA->FindPin(TEXT("Alpha"));
     if (!BasePin || !AddPin || !AlphaPin) { Err = TEXT("animblueprint: Apply Additive has no Base / Additive / Alpha pin"); return false; }
     if (!Schema->TryCreateConnection(PosePin(LocalPrev, EGPD_Output), BasePin)) { Err = TEXT("animblueprint: link ->Apply Additive Base failed"); return false; }
-    if (!Schema->TryCreateConnection(PosePin(SP, EGPD_Output), AddPin)) { Err = TEXT("animblueprint: link sequence->Apply Additive failed"); return false; }
+    UEdGraphNode* AddSrc = SP;
+    // "bones": the additive only on these bones (e.g. one eyelid) - a Layered Blend per Bone of the same animation at 0 s (identity,
+    // the base) and at `time` (blend, filtered to the bones, depth 0) is the additive pose; no fork of the input pose needed
+    if (const auto* Bones = JArr(D, TEXT("bones"))) {
+      FGraphNodeCreator<UAnimGraphNode_SequenceEvaluator> CZ(*G); UAnimGraphNode_SequenceEvaluator* SZ = CZ.CreateNode(); SZ->NodePosX = X - 150; SZ->NodePosY = 450;
+      SZ->Node.Sequence = Seq; SZ->Node.ExplicitTime = 0.f; SZ->Node.bShouldLoop = false; SZ->Node.bTeleportToExplicitTime = true; CZ.Finalize();
+      FGraphNodeCreator<UAnimGraphNode_LayeredBoneBlend> CB(*G); UAnimGraphNode_LayeredBoneBlend* LB = CB.CreateNode(); LB->NodePosX = X + 75; LB->NodePosY = 300;
+      if (LB->Node.LayerSetup.Num() == 0) LB->Node.AddPose();
+      for (const auto& BV : *Bones) { FBranchFilter F; F.BoneName = FName(*BV->AsString()); F.BlendDepth = 0; LB->Node.LayerSetup[0].BranchFilters.Add(F); }
+      CB.Finalize();
+      UEdGraphPin* LBase = LB->FindPin(TEXT("BasePose")); UEdGraphPin* LBlend = LB->FindPin(TEXT("BlendPoses_0")); UEdGraphPin* LW = LB->FindPin(TEXT("BlendWeights_0"));
+      if (!LBase || !LBlend) { Err = TEXT("animblueprint: Layered Blend per Bone has no BasePose / BlendPoses_0 pin"); return false; }
+      if (LW) LW->DefaultValue = TEXT("1.0");
+      if (!Schema->TryCreateConnection(PosePin(SZ, EGPD_Output), LBase) || !Schema->TryCreateConnection(PosePin(SP, EGPD_Output), LBlend)) {
+        Err = TEXT("animblueprint: link sequences->Layered Blend failed"); return false; }
+      AddSrc = LB;
+    }
+    if (!Schema->TryCreateConnection(PosePin(AddSrc, EGPD_Output), AddPin)) { Err = TEXT("animblueprint: link sequence->Apply Additive failed"); return false; }
     FGraphNodeCreator<UK2Node_VariableGet> CG(*G); UK2Node_VariableGet* GetV = CG.CreateNode(); GetV->NodePosX = X; GetV->NodePosY = 400;
     GetV->VariableReference.SetSelfMember(FName(*JStr(D, TEXT("alpha")))); CG.Finalize();
     UEdGraphPin* Out = nullptr; for (UEdGraphPin* P : GetV->Pins) if (P->Direction == EGPD_Output) Out = P;

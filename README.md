@@ -1,6 +1,6 @@
 # AltUI
 
-An alternative wardrobe and appearance UI for *The Killing Antidote* (game version 0.6.x), usable next to the game's own wardrobe and mirror. The vanilla wardrobe gives every mod author their own tab, so with a few clothing mods installed the same kind of item is scattered across a dozen tabs and there is no way to search. AltUI sorts every item from the game and from all installed mods into **one list per slot** (tops, skirts, shoes, …), with search, filters, favourites and hiding – and puts hair, makeup, body and outfits into the same panel. It opens anywhere in a level with **B**; no trips to the wardrobe or the mirror. Next to that: an Inventory tab for Jodi's backpack and the Hyper Storage Box, followers and NPCs made from your looks, ragdolls to place and pose (copies of Jodi, zombies, people), a Codex with the manual, the game's encyclopedia and the code locks of the level, a TV tab that plays the videos of the TV in Jodi's office with a click, Jodi's own walk and run speed, slow motion, and per weapon a model, a skin, a shot sound and its accessories. Hold **4** for the quick menu: a wheel of what you use most – poses, outfits, looks, slow motion, orders for followers – one flick away without opening the panel.
+An alternative wardrobe and appearance UI for *The Killing Antidote* (game version 0.6.x), usable next to the game's own wardrobe and mirror. The vanilla wardrobe gives every mod author their own tab, so with a few clothing mods installed the same kind of item is scattered across a dozen tabs and there is no way to search. AltUI sorts every item from the game and from all installed mods into **one list per slot** (tops, skirts, shoes, …), with search, filters, favourites and hiding – and puts hair, makeup, body and outfits into the same panel. It opens anywhere in a level with **B**; no trips to the wardrobe or the mirror. Next to that: an Inventory tab for Jodi's backpack and the Hyper Storage Box, followers and NPCs made from your looks, ragdolls to place and pose (copies of Jodi, zombies, people), an Objects tab that puts models of the game and of mods into the world, a Codex with the manual, the game's encyclopedia and the code locks of the level, a TV tab that plays the videos of the TV in Jodi's office with a click, Jodi's own walk and run speed, slow motion, and per weapon a model, a skin, a shot sound and its accessories. Hold **4** for the quick menu: a wheel of what you use most – poses, outfits, looks, slow motion, orders for followers – one flick away without opening the panel.
 
 ![Quick menu – hold 4 for a wheel of what you use most](versions/2.0.0/screenshots/01-quick-menu.jpg)
 
@@ -163,6 +163,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 ### Appearance
 
 * Skin, every kind of make-up and eyes.
+* "Oiled skin" (above the skins): Jodi's skin glossy through the game's own wet-skin effect; ticked, the value holds,
+  also against the story. Looks and appearance presets keep it.
 * Make-up and eyes can be tinted, each entry on its own (right click, "Tint…"); "Reset tint" brings back the game's
   look.
 * Appearance presets with a photo: save, update, rename and delete.
@@ -189,7 +191,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   gaze and mouth shapes.
 * A ticked entry keeps its value, also during poses; an unticked one is left to the game's animation.
 * Expressions blended (at most 100 % together) or added up; "Close mouth".
-* "Eyes closed": from open to fully shut, on converted bodies (like the body sliders).
+* "Eyes closed": from open to fully shut, on converted bodies (like the body sliders); "Left eye closed" and "Right eye
+  closed" for one eye, e.g. a wink in a pose.
 * Saved faces with a photo; "View content" lists their values.
 * Your own order: right click moves a saved face left, right, to the start or to the end.
 
@@ -241,7 +244,8 @@ In categories, chosen in a list on the left:
 * Revert per row.
 * Export and import as JSON with `altui_names.pyz` – see [Custom names](#custom-names).
 * **Usage:** which mods are in use right now – per mod (shown name and pak file) its pieces in use and where they are:
-  Jodi now, outfits, looks, presets, favourites, followers, ragdoll scenes, standing idle, weapons. Below, the unused
+  Jodi now, outfits, looks, presets, favourites, followers, ragdoll scenes, standing idle, weapons, object scenes and
+  positions, clothes drawers. Below, the unused
   mods and those whose use AltUI cannot detect (maps, script mods), each with "View content" – to see which mods can go.
 
 ### Ragdolls
@@ -299,6 +303,20 @@ In categories, chosen in a list on the left:
 * The TV reads its list the first time it is switched on – until then the tab asks to switch it on once.
 * Your own videos: put `.mp4` files into `TheKillingAntidote/Videos/TV/` in the game folder; they show up after the level
   is loaded again.
+
+### Objects
+
+* Models of the game (its folders and levels), its weapons and the models of mods – props of pose mods, for example – as
+  a catalogue: all, favourites, per folder, level and mod, with a search. AltUI takes the tiles' pictures itself.
+* A click puts the model in front of Jodi, a right click spawns it with physics.
+* With the mouse beside the panel, like the ragdolls: left drag slides an object (with physics: grab and throw), right
+  drag turns it (Shift: freely), the wheel lifts it, Ctrl + wheel scales it.
+* The selected object has a frame; the "Selected" block shows it with fields for position, turn and size and links for
+  physics, to the floor, copy and remove.
+* WORLD › In the world lists the objects in the level and keeps positions per model; WORLD › Scenes saves all objects of
+  a level under a name and loads them back (replacing them). The search box filters these lists too.
+* Mod models are found by searching the installed mods once in the background; the result is kept, so later starts only
+  search new mods.
 
 ### Everywhere
 

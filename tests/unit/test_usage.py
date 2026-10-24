@@ -54,9 +54,9 @@ class Tiles(unittest.TestCase):
 class Scan(unittest.TestCase):
     def test_sources(self):
         g = mgr_graph("Scan Usage"); fns = {n.get("function") for n in g["nodes"]}
-        for f in ("Take Snapshot", "Content Snapshot", "Usage Add Snap", "Usage Add", "Load Fol Save", "Load Rag Save", "Usage Mod Of", "Usage Place"): self.assertIn(f, fns, f)
+        for f in ("Take Snapshot", "Content Snapshot", "Usage Add Snap", "Usage Add", "Load Fol Save", "Load Rag Save", "Load Drawers", "Usage Mod Of", "Usage Place"): self.assertIn(f, fns, f)
         cats = {n["in"]["cat"] for n in calls(g, "Usage Place")}
-        self.assertEqual(cats, {"Usage_Outfit", "Usage_Look", "Usage_Preset", "Usage_Follower", "Usage_RagPreset"})
+        self.assertEqual(cats, {"Usage_Outfit", "Usage_Look", "Usage_Preset", "Usage_Follower", "Usage_RagPreset", "Usage_PropScene", "Usage_PropPlace", "Usage_Drawer"})   # drawers: 2026-10-24
         gets = {n.get("var") for n in g["nodes"] if n.get("kind") == "get"}
         for v in ("Favorites", "WeaponSkins", "WeaponModels", "WeaponSounds", "IdleStyle", "IdlePose", "FolSave", "RagSave", "UsageWhere", "UsageMods", "ViewSnap", "ViewTitle"): self.assertIn(v, gets, v)
         self.assertEqual({n["in"]["kind"] for n in calls(g, "Content Snapshot")}, {"Outfit", "Look", "Preset"})

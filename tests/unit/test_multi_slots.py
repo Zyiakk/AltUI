@@ -62,7 +62,9 @@ class Jodi(unittest.TestCase):
     def test_load_puts_the_others_on_again(self):
         g = mgr_graph("Restore Multi Worn"); b = by_id(g)
         self.assertEqual(b["wk"]["function"], "Wear Kept"); self.assertEqual(b["wk"]["in"]["keep"], "true")
-        self.assertEqual(b["ld"]["in"]["SlotName"], "TKAPlayer"); self.assertEqual(b["wk"]["in"]["char"], "@gpl3.Wearer")
+        self.assertEqual(b["lw"]["function"], "Loaded Worn"); self.assertEqual(b["lw"]["in"]["char"], "@gpl0.Wearer")   # 2026-10-24: not TKAPlayer
+        self.assertIn(["entry", "b", "lw", "bcs", "fw"], g["exec"]); self.assertEqual(b["bcs"]["in"]["Condition"], "@lw.ok")
+        self.assertEqual(b["wk"]["in"]["char"], "@gpl3.Wearer")
         self.assertEqual(b["kis"]["in"]["ItemToFind"], "@br.TypeName")   # the menu has no catalog
 
     def test_menu_and_loading_scene_too(self):

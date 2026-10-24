@@ -55,6 +55,7 @@ Der Hook ersetzt *TKA_PlayerCameraManager* und startet von dort das Panel. Jeder
 * **Follower** – Looks werden zu Followern, die mit Jodi gehen und kämpfen, oder zu NPCs, die an ihrem Platz bleiben: Befehle, Gegenstände und Waffen zum Übergeben, Kleidung, die Schaden nimmt wie bei den NPCs des Spiels. In einer eigenen Speicherdatei, nie im Spielstand. Jede Figur trägt das Make-up ihres Looks und hat eine Stimme. „Alle Follower: zu mir“ aus dem Schnellmenü. Endlosmunition je Figur; Jason aus der Story kommt als Follower mit seiner Glock dazu.
 * **Kodex** – das AltUI-Handbuch in allen sieben Sprachen, die Enzyklopädie des Spiels und die Code-Schlösser des aktuellen Levels; jeder Code bleibt verdeckt, bis du ihn anklickst.
 * **TV** – in Jodis Büro die Videos des Fernsehers als Liste: ein Klick spielt eines ab, Ein- und Ausschalten inklusive; eigene .mp4-Dateien in `Videos/TV/` erscheinen mit.
+* **Objekte** – Modelle des Spiels, Waffen und Requisiten aus Mods in die Welt stellen, mit Bildern, die AltUI selbst aufnimmt: schieben, drehen, heben, skalieren, mit oder ohne Physik; Positionen je Modell und ganze Szenen je Level werden gespeichert.
 * **Bewegung** – Jodis eigenes Geh- und Renntempo (50–200 %), unter Optionen. Zeitlupe mit eigenem Tempo. Wie Jodi steht: sechs weitere Idle-Animationen des Spiels, Idle-Mods oder eine Pose als Idle.
 * Rückgängig / Wiederholen (5 Schritte), Tooltips mit dem Mod, aus dem ein Teil stammt.
 

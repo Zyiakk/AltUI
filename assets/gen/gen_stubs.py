@@ -160,6 +160,13 @@ assets = [
     blueprint(P_HAIR_SAVE, "/Script/Engine.SaveGame", variables=[var("Hairstyles", "name", "set"), var("Hair Colors", "name", "map", value_type=S_COLOR)]),
     blueprint(P_PSAVE, "/Script/Engine.SaveGame", variables=[var("Wear Clothes", "name", "array")],
               functions=[fn("Collect Player Data", [param("player", "object:" + P_JODI)])]),   # player save game: pieces worn at save time; slot "TKAPlayer"
+    # what a level was loaded from (Restore Multi Worn, Fix Loaded Underwear): a story save (Loading State > 0: Load Game Ex put its
+    # Player Save Data on Jodi, TKAPlayer is not read) or a chapter's end state (Jodi_StoryMode starts from it instead of TKAPlayer).
+    # TKA_Save's parent in the game is the native JodiSaveGame - for the one member read here SaveGame does.
+    blueprint(P_TKASAVE, "/Script/Engine.SaveGame", variables=[var("Player Save Data", S_ACTORSAVE)]),
+    blueprint(P_PSAVE_LE, P_PSAVE),
+    blueprint(P_PLOTS, P_GS2, variables=[var("Story Mode Save Game Data", "object:" + P_TKASAVE), var("Prev Level End Save", "object:" + P_PSAVE_LE)]),
+    blueprint(P_JODI_SM, P_JODI),
     blueprint(P_GI, "/Script/Engine.GameInstance", variables=[var("Hairstyles Save", "object:" + P_HAIR_SAVE), var("Level Name", "name")],   # Level Name: what Loading opens (menuscene.py)
               functions=[fn("Save Hair Color Data", [param("player", "object:" + P_JODI)]), fn("Add Hairstyles", [param("hairstyle name", "name")])]),
     blueprint(P_PALR, E_USERWIDGET, variables=[var("Image_Color", "object:" + E_IMAGE)],
@@ -219,10 +226,11 @@ assets = [
                          # chain has no AI_Controller, the pointer is the same)
                          fn("Change Controller", [param("Class", "class:/Script/AIModule.AIController")]),
                                                fn("Is Crouching", outputs=[param("yes", "bool")], pure=True),
-                                               ], variables=[var("Health", "float"), var("Speed 2d", "float"), var("Anim Blueprint", "object:/Script/Engine.AnimInstance")]),   # BP_AltUIMove (Anim Blueprint: set once in Begin Play Ex - reset after a style switch)
+                                               ], variables=[var("Health", "float"), var("Speed 2d", "float"), var("Anim Blueprint", "object:/Script/Engine.AnimInstance"),
+                                                                    var("Loading State", "int")]),   # > 0: loaded from a story save (Plots_GameState.Load Game Ex)   # BP_AltUIMove (Anim Blueprint: set once in Begin Play Ex - reset after a style switch)
     # the invisible hand (catalog item): Jodi.Put Item to Bag sets its power from the hands in the bag, nothing else does - Hand Watch keeps it in step
     blueprint(P_IHC, "/Script/Engine.SceneComponent", variables=[var("Number", "int")], functions=[fn("Update Power", [param("Number", "int")])]),
-    blueprint(P_JODI, mode="augment", variables=[var("InvisibleHand_Comp", "object:" + P_IHC), var("previous weapon", "object:" + P_WEAPON), var("wanna toggle weapon", "bool"),   # inventory tab: Got A Gun's equip request (Inv Got Gun)
+    blueprint(P_JODI, mode="augment", variables=[var("InvisibleHand_Comp", "object:" + P_IHC), var("Skin Wet Alpha Target", "float"), var("previous weapon", "object:" + P_WEAPON), var("wanna toggle weapon", "bool"),   # inventory tab: Got A Gun's equip request (Inv Got Gun)
                                                 var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Wanna Use This Item", [param("item name", "name")]), fn("on Menu Displayed", [param("show", "bool")]),   # panel open/close: what PlayingHud does for the game's menus (aim ends, Wanna Aim reset)
                                                 fn("Add Item to Shortcut", [param("item name", "name"), param("group", "int"), param("gun", "object:" + P_WEAPON)]),   # inventory tab
                                                 fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True), fn("Wanna Running"),

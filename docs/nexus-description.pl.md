@@ -69,6 +69,7 @@ Poza tym nic nie jest ruszane – ubrania, stroje, makijaż i fryzura idą przez
 * **Towarzysze** – looki stają się towarzyszami, którzy chodzą i walczą razem z Jodi, albo NPC, którzy zostają na miejscu: rozkazy, przedmioty i broń do przekazania, ubrania niszczą się jak u NPC gry. Zapisywani w osobnym pliku, nigdy w zapisie gry. Każda postać nosi makijaż swojej stylizacji i ma głos. „Wszyscy towarzysze: do mnie” z szybkiego menu. Nieskończona amunicja dla każdej figury; Jason z fabuły dołącza jako towarzysz ze swoim Glockiem.
 * **Kodeks** – podręcznik AltUI we wszystkich siedmiu językach, encyklopedia gry i zamki szyfrowe bieżącego poziomu; każdy kod pozostaje ukryty, dopóki go nie klikniesz.
 * **TV** – w biurze Jodi filmy telewizora jako lista: kliknięcie odtwarza film, telewizor można włączyć i wyłączyć; własne pliki .mp4 w `Videos/TV/` też się pojawiają.
+* **Obiekty** – modele z gry, broń i rekwizyty z modów w świecie, z obrazkami robionymi przez AltUI: przesuwanie, obracanie, podnoszenie, skalowanie, z fizyką lub bez; zapisywane są pozycje każdego modelu i całe sceny poziomu.
 * **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach. Zwolnienie z własną prędkością. Jak stoi Jodi: sześć kolejnych animacji bezczynności z gry, mody bezczynności albo poza jako bezczynność.
 * Cofnij / ponów (5 kroków), podpowiedzi pokazują, z którego moda pochodzi dana rzecz.
 

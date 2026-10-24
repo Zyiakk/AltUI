@@ -61,7 +61,7 @@ class FaceCore(unittest.TestCase):
         names = {n["in"]["Value"] for n in nodes(g, function="MakeLiteralName")}
         self.assertTrue(set(fc.MORPHS) <= names)
         self.assertTrue(nodes(g, kind="call_self", function="Apply Face"))
-        self.assertEqual({n["in"]["B"] for n in nodes(g, function="EqualEqual_NameName")}, {e[0] for e in fc.ENTRIES})
+        self.assertEqual({n["in"]["B"] for n in nodes(g, function="EqualEqual_NameName")}, {e[0] for e in fc.ENTRIES} | {"SkinOil"})   # + the oiled-skin row, dispatched first
 
     def test_hooks_apply_the_face(self):
         for f in ("Apply Body", "Finish Apply Snapshot", "Face All Fixed", "Face All Game"):

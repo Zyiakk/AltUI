@@ -439,6 +439,19 @@ def tab_tv(d, S, W, C):
     d.rectangle((S * 0.28, S * 0.90, S * 0.72, S * 0.96), fill=W)
 
 
+def tab_objects(d, S, W, C):
+    """Objects: a crate seen from above at an angle - top, front and side faces, the faces' edges in the background colour."""
+    top = [(0.50, 0.08), (0.92, 0.28), (0.50, 0.48), (0.08, 0.28)]
+    left = [(0.08, 0.28), (0.50, 0.48), (0.50, 0.94), (0.08, 0.74)]
+    right = [(0.50, 0.48), (0.92, 0.28), (0.92, 0.74), (0.50, 0.94)]
+    for face in (top, left, right): d.polygon(_pts(S, face), fill=W)
+    lw = int(S * 0.045)
+    d.line(_pts(S, [(0.08, 0.28), (0.50, 0.48), (0.92, 0.28)]), fill=C, width=lw, joint="curve")   # edges between the faces
+    d.line(_pts(S, [(0.50, 0.48), (0.50, 0.94)]), fill=C, width=lw)
+    d.line(_pts(S, [(0.29, 0.38), (0.29, 0.84)]), fill=C, width=int(S * 0.03))                      # a plank on the front
+    d.line(_pts(S, [(0.71, 0.38), (0.71, 0.84)]), fill=C, width=int(S * 0.03))                      # and on the side
+
+
 def altui_panel(d, S, W, C):
     """The AltUI panel, stylised: frame, tab bar with the chosen tab underlined, category list on the left, tile grid on the right."""
     d.rounded_rectangle((S * 0.04, S * 0.10, S * 0.96, S * 0.90), radius=int(S * 0.08), outline=W, width=int(S * 0.06))
@@ -453,7 +466,7 @@ def altui_panel(d, S, W, C):
 
 
 TAB_ICON_DRAW = {"Clothes": tab_clothes, "Outfits": tab_outfits, "Looks": tab_looks, "Bag": tab_bag, "Inventory": tab_inventory, "Hair": tab_hair, "Weapons": tab_weapons,
-                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Manage": tab_manage, "Ragdolls": tab_ragdolls, "Followers": tab_followers, "Kodex": tab_kodex, "TV": tab_tv}
+                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Manage": tab_manage, "Ragdolls": tab_ragdolls, "Followers": tab_followers, "Kodex": tab_kodex, "TV": tab_tv, "Objects": tab_objects}
 T_ALTUI = M + "/T_AltUI"
 TAB_ICONS = dict({k: M + "/T_Tab" + k for k in TAB_ICON_DRAW}, Poses=T_POSE)   # page -> texture; Poses uses the pose tiles' stick figure
 

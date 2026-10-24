@@ -163,6 +163,7 @@ Piel, cada tipo de maquillaje, ojos y los presets de apariencia del juego.
 
 - Un clic en una entrada la aplica. Clic derecho en el maquillaje: teñir con la paleta del juego, restablecer el teñido.
 - Ojos: color del iris y de las pestañas en el menú contextual.
+- Piel: «Piel aceitada» encima de las pieles hace brillar la piel, como la piel mojada del juego (la piel mojada del juego = 50 %). Casilla marcada = tu valor, también frente a la historia; desmarcada = vuelve a decidir el juego. Solo en Jodi. Los looks y los presets de apariencia guardan este ajuste; los anteriores vuelven a «decide el juego».
 - Mutación: el aspecto mutado de Jodi de la historia, por partes – color de piel y brillo como controles (casilla marcada = activo), venas y ojos como interruptores, «Restablecer» lo apaga todo. El maquillaje sigue visible sobre la piel descolorida y tu propio color de iris tiñe el ojo mutado. «Look de la historia» pone el aspecto de la cinemática: material de piel de la historia, todas las filas al máximo; después se puede bajar cada fila. Con él no se ven ni el maquillaje ni las cicatrices. Mientras la historia muta a la propia Jodi, se aplica su aspecto.
 - Presets: la casilla «+» guarda la apariencia actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar, menú rápido.
 
@@ -179,7 +180,7 @@ Piel, cada tipo de maquillaje, ojos y los presets de apariencia del juego.
 La expresión facial de Jodi.
 
 - Controles para las expresiones del juego (relajada, concentrada, sonrisa, dolor, susto, cansada, sufrimiento), la mirada y las formas de la boca.
-- «Ojos cerrados» (en Mirada) cierra los ojos, de abiertos a del todo cerrados; el parpadeo propio del juego sigue como siempre. Solo con cuerpos convertidos, como los controles del cuerpo.
+- «Ojos cerrados» (en Mirada) cierra los ojos, de abiertos a del todo cerrados; el parpadeo propio del juego sigue como siempre. Solo con cuerpos convertidos, como los controles del cuerpo. «Ojo izquierdo cerrado» y «Ojo derecho cerrado» cierran un solo ojo (izquierdo / derecho de Jodi), por ejemplo para guiñar; cada ojo se cierra tanto como el mayor valor entre su fila y «Ojos cerrados».
 - Una entrada marcada conserva su valor, también en las poses; una sin marcar la decide la animación del juego. «Fijar todo» y «Todo al juego» cambian todas a la vez.
 - Las expresiones se mezclan (juntas como máximo 100 %) o se suman.
 - La casilla «+» guarda el rostro actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar.
@@ -213,7 +214,8 @@ Nombres propios para mods, grupos, ropa, peinados, pieles, maquillaje, poses y p
 - Fichas y una búsqueda filtran la lista; «solo mods» oculta las entradas del juego; ↺ vuelve al nombre predeterminado.
 - Con altui_names.pyz los nombres se pueden exportar a un archivo de texto e importar de nuevo.
 - Los mods de armas aparecen con los demás mods.
-- «Uso» muestra qué mods están en uso ahora mismo: por mod, las piezas en uso y dónde están (Jodi ahora, conjuntos, looks, presets, favoritos, seguidores, escenas de ragdolls, de pie, armas). Los mods sin usar aparecen debajo en gris, igual que los mods cuyo uso AltUI no puede detectar (mapas, mods de script). «Ver contenido» abre cualquiera de ellos. Lo que solo está en el armario no cuenta como uso. Cada mod es una ficha con su nombre visible y su archivo pak; los lugares de una pieza se resumen por tipo (p. ej. «Conjuntos 4–6, 8»). La lista se recopila al abrir «Uso»; en otros lugares el número de la izquierda es el de la última vez (ninguno antes de la primera).
+- «Uso» muestra qué mods están en uso ahora mismo: por mod, las piezas en uso y dónde están (Jodi ahora, conjuntos, looks, presets, favoritos, seguidores, escenas de ragdolls, de pie, armas, escenas y posiciones de objetos, cajones de ropa). Los mods sin usar aparecen debajo en gris, igual que los mods cuyo uso AltUI no puede detectar (mapas, mods de script). «Ver contenido» abre cualquiera de ellos. Lo que solo está en el armario no cuenta como uso. Cada mod es una ficha con su nombre visible y su archivo pak; los lugares de una pieza se resumen por tipo (p. ej. «Conjuntos 4–6, 8»). La lista se recopila al abrir «Uso»; en otros lugares el número de la izquierda es el de la última vez (ninguno antes de la primera).
+- Las escenas de objetos y las posiciones de objetos guardadas también cuentan como uso (modelos de mods).
 
 ## Ragdolls {#ragdolls}
 
@@ -231,7 +233,7 @@ Figuras con física para colocar y posar en el nivel: copias de Jodi, zombis y p
 Con el ratón sobre una figura, junto al panel y en el modo ragdoll:
 
 - Arrastrar con el botón izquierdo una figura congelada la mueve por el suelo; la rueda la sube o la baja mientras arrastras.
-- Arrastrar con el botón izquierdo una figura activa agarra la parte del cuerpo bajo el ratón; al soltarla, cae.
+- Arrastrar con el botón izquierdo una figura activa agarra la parte del cuerpo bajo el ratón; al soltarla, cae. La rueda sube o baja entretanto el punto agarrado.
 - Un clic derecho mientras arrastras fija la parte donde está; el resto de la figura cuelga de ella. Si la vuelves a agarrar, queda libre. «soltar todas» en la fila de la figura las libera todas.
 - Arrastrar con el botón derecho gira la figura sobre sus caderas.
 - Mayús + clic izquierdo bloquea o libera la articulación pulsada.
@@ -248,6 +250,25 @@ Mover y posar las figuras sin el panel, con la cámara libre en la sala. Se inic
 - W A S D y Q E mueven la cámara, Mayús más rápido; Mayús + rueda ajusta la velocidad.
 - Arrastrar en el vacío gira la cámara.
 - Esc o B termina el modo.
+
+## Objetos {#objects}
+
+Colocar en el mundo modelos del juego, armas y modelos de mods (p. ej. accesorios de mods de poses), moverlos y guardarlos como escena.
+
+- A la izquierda, CATÁLOGO: Todos, ★ Favoritos, las carpetas del juego, «Del nivel: …», Armas y Mods (+ despliega cada mod). A la derecha una búsqueda y los modelos en mosaicos, ordenados por nombre; «Mostrar más» carga más. AltUI toma las imágenes y las guarda.
+- Un clic en un mosaico pone el modelo en el suelo delante de Jodi, fijo. Clic derecho: favorito, «Aparecer con física».
+- AltUI encuentra los modelos de mods recorriendo los mods una vez, carpeta por carpeta (el contador se ve arriba), y guarda el resultado; después solo se recorren los mods nuevos. «Volver a buscar en los mods» empieza de nuevo. Algunos mods guardan modelos en carpetas que no se llaman como su pak; «Buscar en todas las carpetas de mods» los encuentra (el juego se detiene unos treinta segundos).
+- Abajo el bloque «Seleccionado»: imagen, nombre, fijo o con física, activar/desactivar física, al suelo, copiar, quitar; campos para posición, giro (guiñada, cabeceo, alabeo) y tamaño – Intro aplica. El objeto seleccionado tiene un marco amarillo.
+- MUNDO › En el mundo: una fila por objeto con seleccionar, física sí/no, copiar, quitar. «Posiciones» abre un bloque: un nombre y «Guardar posición» guardan lugar, giro, tamaño y física. La posición aparece en cada objeto del mismo modelo en el mismo nivel – un clic lo coloca allí, clic derecho: aplicar / borrar.
+- MUNDO › Escenas: un nombre y «Guardar escena» guardan todos los objetos del nivel; el mismo nombre en el mismo nivel sobrescribe. Solo se muestran las escenas del nivel actual. Un clic carga una escena y reemplaza los objetos; clic derecho: cargar / borrar. Un modelo que falta (mod no instalado) se omite y se avisa.
+- Los objetos desaparecen con el nivel; una escena los trae de vuelta.
+
+Con el ratón sobre un objeto, junto al panel y en el modo ragdoll:
+
+- Clic lo selecciona.
+- Arrastrar con el izquierdo desliza un objeto fijo a su altura; un objeto con física se agarra y al soltarlo se lanza.
+- Arrastrar con el derecho lo gira sobre su eje vertical, Shift + arrastrar con el derecho lo gira libremente. Un objeto con física se queda quieto mientras tanto y luego vuelve a caer.
+- La rueda al arrastrar lo sube o baja (también agarrado con física); Ctrl + rueda cambia su tamaño.
 
 ## Seguidores {#followers}
 

@@ -1188,6 +1188,46 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/TKA_Save",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Player Save Data",
+     "type": "struct:/Script/TheKillingAntidote.ActorSaveData"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Save/Player_Save_LevelEnd",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/Save/Player_Save"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/GameMode/Plots_GameState",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/GameMode/TKA_GameState",
+   "variables": [
+    {
+     "name": "Story Mode Save Game Data",
+     "type": "object:/Game/Project/Classes/Save/TKA_Save"
+    },
+    {
+     "name": "Prev Level End Save",
+     "type": "object:/Game/Project/Classes/Save/Player_Save_LevelEnd"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Character/Jodi/Jodi_StoryMode",
+   "mode": "create",
+   "parent": "/Game/Project/Character/Jodi/Jodi"
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/Classes/TKA_GameInstance",
    "mode": "create",
    "parent": "/Script/Engine.GameInstance",
@@ -2038,6 +2078,10 @@
     {
      "name": "Anim Blueprint",
      "type": "object:/Script/Engine.AnimInstance"
+    },
+    {
+     "name": "Loading State",
+     "type": "int"
     }
    ],
    "functions": [
@@ -2102,6 +2146,10 @@
     {
      "name": "InvisibleHand_Comp",
      "type": "object:/Game/Project/Classes/Misc/InvisibleHand_Comp"
+    },
+    {
+     "name": "Skin Wet Alpha Target",
+     "type": "float"
     },
     {
      "name": "previous weapon",

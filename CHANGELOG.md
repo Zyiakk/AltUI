@@ -1,5 +1,41 @@
 # Changelog
 
+## Unreleased
+
+## 2.8.0 – 2026-10-24
+
+Replace `AltUI.pak`. `weaponpak.pyz`, `bodypak.pyz` and `idlepak.pyz` are new too. When weaponpak reads the game's own pak
+(for a sound behind one of the game's sound cues), `--game` now has to point into the installed game folder, not to a copy
+of the pak. Paks converted with older versions keep working. `AltUI_Hook_P.pak` and `altui_names.pyz` are the same as in
+2.7.0.
+
+* **New Objects tab.** Put models from the game, weapons and models from mods (for example props from pose mods) into
+  the world. On the left the catalogue (all, favourites, the game's folders, levels, weapons, every mod) with a search and
+  pictures AltUI takes itself; a click puts the model in front of Jodi, right click spawns it with physics. Objects move
+  like the ragdolls: left drag slides them (with physics: grab and throw), right drag turns them (Shift: freely), the
+  wheel lifts them, Ctrl + wheel scales them. The selected one has a frame; the "Selected" block below shows it with
+  fields for position, turn and size and links for physics, to the floor, copy and remove. WORLD › In the world (at the top of
+  the left column) lists the objects and keeps positions per model, WORLD › Scenes saves all objects of a level and
+  loads them back (replacing); the search box filters these lists too.
+  Mod models are found by searching the mods once in the background; the result is kept, so later starts only search new
+  mods.
+* **Oiled skin.** Appearance › Skin has a row "Oiled skin" above the skins: it makes Jodi's skin glossy through the game's
+  own wet-skin effect (the game's wet skin is 50 %). Ticked, the value holds, also against the story; unticked, the game
+  decides again. Only on Jodi. Looks and appearance presets keep it; looks and presets saved before bring "the game
+  decides".
+* **Close one eye.** Face › Gaze has "Left eye closed" and "Right eye closed" next to "Eyes closed", e.g. for a wink in a
+  pose. Like "Eyes closed", only on converted bodies.
+* **Ragdolls: the wheel lifts a held part.** Holding a part of an active figure, the mouse wheel now lifts or lowers the
+  held point (as with objects); before, the camera zoomed.
+* **Fix: the game froze after many quick pose changes.** Every click on a pose rebuilt the whole poses list (twice),
+  and with many pose mods the game's memory grew with every click until it froze. A click now only moves the marking.
+* **Fix: a second click on the running pose ends it.** It started the pose again instead.
+* **Fix: loading a story save with "Several pieces in one slot".** Jodi wore the save's outfit plus pieces of the one worn
+  before. On load, AltUI now puts the extra pieces of a multi-piece slot on from the list of the loaded save (before: from the
+  last clothes the game had stored outside the saves). "Underwear may be taken off" checks against the same list.
+* **Fix: Manage › Usage counts the clothes drawers.** A mod whose pieces were only in a drawer was listed as unused;
+  drawers now count like favourites, shown as "Drawer “name”".
+
 ## 2.7.2 – 2026-10-22
 
 Replace `AltUI.pak` – nothing else. `AltUI_Hook_P.pak`, `weaponpak.pyz`, `bodypak.pyz`, `idlepak.pyz` and `altui_names.pyz`

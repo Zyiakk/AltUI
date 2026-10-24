@@ -54,7 +54,7 @@ def declared_purity():
 
 # engine functions that are impure although they look like getters - each was once left outside a chain and pruned
 # (2026-10-05: LoadClassAsset_Blocking in Spawn Zombie Ragdoll; earlier Map_Keys, DoesSaveGameExist)
-ENGINE_IMPURE = {"LoadClassAsset_Blocking", "LoadAsset_Blocking", "DoesSaveGameExist", "Map_Keys", "Map_Values", "K2_GetTextureParameterValue"}   # the last: 2026-10-15 follower make-up
+ENGINE_IMPURE = {"LoadClassAsset_Blocking", "LoadAsset_Blocking", "DoesSaveGameExist", "Map_Keys", "Map_Values", "K2_GetTextureParameterValue", "GetDataTableRowNames"}   # 2026-10-15 follower make-up; 2026-10-23 row names (pruned unchained: Obj Scan Mods)
 
 
 def impure_self_calls(path):
@@ -91,9 +91,28 @@ def dead_calls():
     return out
 
 
+def pure_calls_in_chain():
+    """A function declared pure (only by AltUI or a stub, never also impure) hung into an exec chain: bpgen fails with "no exec pin"
+    (2026-10-23: BP_AltUIProp.Body in Obj Begin Drag)."""
+    kinds, out = {}, []
+    for f in sorted(glob.glob(os.path.join(ASSETS, "*.json"))):
+        for a in json.load(open(f)).get("assets", []):
+            for fn in a.get("functions", []): kinds.setdefault(fn["name"], set()).add(bool(fn.get("pure")))
+    for f in sorted(glob.glob(os.path.join(ASSETS, "*.json"))):
+        for name, g in graphs(json.load(open(f))):
+            inchain = {s.split(":")[0] for c in g.get("exec", []) for s in c}
+            for n in g["nodes"]:
+                if n.get("kind") in ("call", "call_self") and kinds.get(n.get("function")) == {True} and n["id"] in inchain:
+                    out.append("%s %s -> %s (%s)" % (os.path.basename(f), name, n.get("function"), n["id"]))
+    return out
+
+
 class ImpureCalls(unittest.TestCase):
     def test_impure_calls_are_in_a_chain(self):
         self.assertEqual(impure_self_calls(ASSETS), [])
+
+    def test_pure_calls_not_in_a_chain(self):
+        self.assertEqual(pure_calls_in_chain(), [])
 
     def test_no_dead_call_nodes(self):
         self.assertEqual(dead_calls(), [])

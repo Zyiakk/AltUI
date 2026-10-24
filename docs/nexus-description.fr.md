@@ -69,6 +69,7 @@ Rien d'autre n'est touché – vêtements, tenues, maquillage et coiffure passen
 * **Compagnons** – les looks deviennent des compagnons qui marchent et combattent avec Jodi, ou des PNJ qui restent sur place : ordres, objets et armes à donner, vêtements qui s'abîment comme ceux des PNJ du jeu. Gardés dans leur propre fichier, jamais dans la sauvegarde du jeu. Chaque figure porte le maquillage de son look et a une voix. « Tous les compagnons : venez ici » depuis le menu rapide. Munitions infinies par figure ; Jason, de l'histoire, rejoint les compagnons avec son Glock.
 * **Codex** – le manuel d'AltUI dans les sept langues, l'encyclopédie du jeu et les serrures à code du niveau actuel ; chaque code reste caché jusqu'au clic.
 * **Télé** – dans le bureau de Jodi, les vidéos de la télé sous forme de liste : un clic en lance une, et on peut l'allumer ou l'éteindre ; vos propres .mp4 dans `Videos/TV/` apparaissent aussi.
+* **Objets** – modèles du jeu, armes et accessoires de mods placés dans le monde, avec des images prises par AltUI : glisser, tourner, soulever, redimensionner, avec ou sans physique ; les positions par modèle et les scènes entières par niveau sont enregistrées.
 * **Déplacement** – vitesse de marche et de course propre à Jodi (50–200 %), dans Paramètres. Ralenti avec sa propre vitesse. Comment Jodi se tient : six autres animations d'attente du jeu, des mods d'attente ou une pose comme attente.
 * Annuler / rétablir (5 étapes), les infobulles indiquent de quel mod vient une pièce.
 

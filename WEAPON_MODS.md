@@ -26,7 +26,8 @@ other weapon keeps its sound. Most guns fire through a sound cue that picks one 
 Glock from two, the shotgun from three), and many sound mods replace only those recordings. The converter then copies
 the game's cue into the mod and points it at the mod's recordings, so the shot keeps its random pick and keeps fading
 with distance. It reads that cue from the game's `pakchunk0-WindowsNoEditor.pak` and looks for it at the usual Steam
-place – pass `--game <…/Content/Paks/pakchunk0-WindowsNoEditor.pak>` when the game is installed elsewhere.
+place – pass `--game <…/Content/Paks/pakchunk0-WindowsNoEditor.pak>` when the game is installed elsewhere. `--game`
+has to point into the installed game folder, not to a copy of the pak.
 
 When a mod comes as two paks – the model in one, the sound in the other – convert both. They become two mods, and you
 pick the model in one section and the sound in the other. A model pak that carries its sound is converted to a single
@@ -82,7 +83,7 @@ python3 weaponpak.pyz <Original.pak> [--name <Name>] [--title "Display name"] [-
 | `--weapon` | Which of the game's weapons this mod is for. Only needed when the converter cannot tell – see below. | Read from the folder the mod replaces. |
 | `--out` | Where to write the converted pak. | Next to the input file. |
 | `--force` | Overwrite an existing output pak. | Off; the converter stops instead. |
-| `--game` | The game's `pakchunk0-WindowsNoEditor.pak`. Only needed for a sound mod that replaces the recordings behind a sound cue, and only when the game is not at the usual Steam place. | The usual Steam install path. |
+| `--game` | The game's `pakchunk0-WindowsNoEditor.pak`. Only needed for a sound mod that replaces the recordings behind a sound cue, and only when the game is not at the usual Steam place. It must be the pak inside the game folder, not a copy. | The usual Steam install path. |
 
 ### When `--weapon` is needed
 

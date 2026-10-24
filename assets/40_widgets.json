@@ -4537,6 +4537,35 @@
      }
     },
     {
+     "name": "No Thumb",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "ThumbBox"
+       },
+       {
+        "id": "w0",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetWidthOverride",
+        "in": {
+         "self": "@gt.ThumbBox",
+         "InWidthOverride": "0.0"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "w0"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Compute Colors",
      "graph": {
       "nodes": [
@@ -7239,6 +7268,55 @@
        [
         "b:else",
         "sc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Worn",
+     "inputs": [
+      {
+       "name": "worn",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "sw",
+        "kind": "set",
+        "var": "Worn",
+        "in": {
+         "Worn": "@entry.worn"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call_self",
+        "function": "Compute Colors"
+       },
+       {
+        "id": "hov",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "IsHovered"
+       },
+       {
+        "id": "ap",
+        "kind": "call_self",
+        "function": "Apply Colors",
+        "in": {
+         "hover": "@hov.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sw",
+        "cc",
+        "ap"
        ]
       ]
      }
@@ -57418,6 +57496,58 @@
         }
        },
        {
+        "id": "cf9_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cf9",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "sf9_w",
+        "kind": "get",
+        "var": "OSearchFrame"
+       },
+       {
+        "id": "sf9",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@sf9_w.OSearchFrame",
+         "InBrushColor": "@cf9.ColChipFrame"
+        }
+       },
+       {
+        "id": "ci9_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ci9",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "si9_w",
+        "kind": "get",
+        "var": "OSearchFill"
+       },
+       {
+        "id": "si9",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@si9_w.OSearchFill",
+         "InBrushColor": "@ci9.ColChip"
+        }
+       },
+       {
         "id": "c_ColHead_m",
         "kind": "get",
         "var": "Manager"
@@ -61568,6 +61698,29 @@
         }
        },
        {
+        "id": "t_ObjStatus_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_ObjStatus_w",
+        "kind": "get",
+        "var": "ObjStatus"
+       },
+       {
+        "id": "t_ObjStatus",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ObjStatus_w.ObjStatus",
+         "InColorAndOpacity": "@t_ObjStatus_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_LblInvCatalog_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -64620,6 +64773,174 @@
         }
        },
        {
+        "id": "pteObjSearchw",
+        "kind": "get",
+        "var": "ObjSearch"
+       },
+       {
+        "id": "pteObjSearchm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pteObjSearch",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Edit Box",
+        "in": {
+         "self": "@pteObjSearchm.Manager",
+         "box": "@pteObjSearchw.ObjSearch",
+         "bg": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "pteObjFXw",
+        "kind": "get",
+        "var": "ObjFX"
+       },
+       {
+        "id": "pteObjFXm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pteObjFX",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Edit Box",
+        "in": {
+         "self": "@pteObjFXm.Manager",
+         "box": "@pteObjFXw.ObjFX",
+         "bg": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "pteObjFYw",
+        "kind": "get",
+        "var": "ObjFY"
+       },
+       {
+        "id": "pteObjFYm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pteObjFY",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Edit Box",
+        "in": {
+         "self": "@pteObjFYm.Manager",
+         "box": "@pteObjFYw.ObjFY",
+         "bg": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "pteObjFZw",
+        "kind": "get",
+        "var": "ObjFZ"
+       },
+       {
+        "id": "pteObjFZm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pteObjFZ",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Edit Box",
+        "in": {
+         "self": "@pteObjFZm.Manager",
+         "box": "@pteObjFZw.ObjFZ",
+         "bg": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "pteObjFYaww",
+        "kind": "get",
+        "var": "ObjFYaw"
+       },
+       {
+        "id": "pteObjFYawm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pteObjFYaw",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Edit Box",
+        "in": {
+         "self": "@pteObjFYawm.Manager",
+         "box": "@pteObjFYaww.ObjFYaw",
+         "bg": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "pteObjFPitchw",
+        "kind": "get",
+        "var": "ObjFPitch"
+       },
+       {
+        "id": "pteObjFPitchm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pteObjFPitch",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Edit Box",
+        "in": {
+         "self": "@pteObjFPitchm.Manager",
+         "box": "@pteObjFPitchw.ObjFPitch",
+         "bg": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "pteObjFRollw",
+        "kind": "get",
+        "var": "ObjFRoll"
+       },
+       {
+        "id": "pteObjFRollm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pteObjFRoll",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Edit Box",
+        "in": {
+         "self": "@pteObjFRollm.Manager",
+         "box": "@pteObjFRollw.ObjFRoll",
+         "bg": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "pteObjFScalew",
+        "kind": "get",
+        "var": "ObjFScale"
+       },
+       {
+        "id": "pteObjFScalem",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pteObjFScale",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Edit Box",
+        "in": {
+         "self": "@pteObjFScalem.Manager",
+         "box": "@pteObjFScalew.ObjFScale",
+         "bg": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
         "id": "pteThemeNameEditw",
         "kind": "get",
         "var": "ThemeNameEdit"
@@ -65192,6 +65513,46 @@
         "in": {
          "self": "@tsmKodexScroll.Manager",
          "box": "@tswKodexScroll.KodexScroll"
+        }
+       },
+       {
+        "id": "tswObjCatScroll",
+        "kind": "get",
+        "var": "ObjCatScroll"
+       },
+       {
+        "id": "tsmObjCatScroll",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "tsObjCatScroll",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Scroll Box",
+        "in": {
+         "self": "@tsmObjCatScroll.Manager",
+         "box": "@tswObjCatScroll.ObjCatScroll"
+        }
+       },
+       {
+        "id": "tswObjScroll",
+        "kind": "get",
+        "var": "ObjScroll"
+       },
+       {
+        "id": "tsmObjScroll",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "tsObjScroll",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Scroll Box",
+        "in": {
+         "self": "@tsmObjScroll.Manager",
+         "box": "@tswObjScroll.ObjScroll"
         }
        },
        {
@@ -67837,6 +68198,14 @@
         "ci8.self"
        ],
        [
+        "cf9_m.Manager",
+        "cf9.self"
+       ],
+       [
+        "ci9_m.Manager",
+        "ci9.self"
+       ],
+       [
         "c_ColHead_m.Manager",
         "c_ColHead.self"
        ],
@@ -68154,6 +68523,8 @@
         "si7",
         "sf8",
         "si8",
+        "sf9",
+        "si9",
         "t_HdrThemeColors",
         "t_HdrBgPic",
         "t_HdrBtnPic",
@@ -68333,6 +68704,7 @@
         "t_LblScGrpGlutes",
         "t_LblTvAlways",
         "t_TvStatus",
+        "t_ObjStatus",
         "t_LblInvCatalog",
         "t_LblInvAutoEquip",
         "t_LblNoNotices",
@@ -68477,6 +68849,14 @@
         "pteManageChipSearch",
         "pteManageSearch",
         "pteRagNameEdit",
+        "pteObjSearch",
+        "pteObjFX",
+        "pteObjFY",
+        "pteObjFZ",
+        "pteObjFYaw",
+        "pteObjFPitch",
+        "pteObjFRoll",
+        "pteObjFScale",
         "pteThemeNameEdit",
         "pteInvSearch",
         "pteChipSearch",
@@ -68505,6 +68885,8 @@
         "tsRagScroll",
         "tsKodexCatScroll",
         "tsKodexScroll",
+        "tsObjCatScroll",
+        "tsObjScroll",
         "tsTvScroll",
         "tsBodyChipsScroll",
         "tsOptionsCatScroll",
@@ -70863,6 +71245,61 @@
         }
        },
        {
+        "id": "eq19",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Objects"
+        }
+       },
+       {
+        "id": "b19",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq19.ReturnValue"
+        }
+       },
+       {
+        "id": "g19",
+        "kind": "get",
+        "var": "ObjectsBox"
+       },
+       {
+        "id": "v19",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g19.ObjectsBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "k19",
+        "kind": "set",
+        "var": "TmpKnown",
+        "in": {
+         "TmpKnown": "true"
+        }
+       },
+       {
+        "id": "h19",
+        "kind": "get",
+        "var": "ObjectsBox"
+       },
+       {
+        "id": "c19",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@h19.ObjectsBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
         "id": "gk",
         "kind": "get",
         "var": "TmpKnown"
@@ -71224,10 +71661,27 @@
        ],
        [
         "k18",
-        "bk"
+        "b19"
        ],
        [
         "c18",
+        "b19"
+       ],
+       [
+        "b19",
+        "v19",
+        "k19"
+       ],
+       [
+        "b19:else",
+        "c19"
+       ],
+       [
+        "k19",
+        "bk"
+       ],
+       [
+        "c19",
         "bk"
        ],
        [
@@ -75816,6 +76270,1376 @@
        [
         "be:else",
         "vh"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Obj Links",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjLinks"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ObjLinks"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Obj Link",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjLinks"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@g.ObjLinks",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Obj Tiles",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjTiles"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ObjTiles"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Obj Tile",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjTiles"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.ObjTiles",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Obj List",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjList"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ObjList"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Obj List",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjList"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.VerticalBox",
+        "function": "AddChildToVerticalBox",
+        "in": {
+         "self": "@g.ObjList",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Obj Cats",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjCats"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ObjCats"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Obj Cat",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjCats"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.VerticalBox",
+        "function": "AddChildToVerticalBox",
+        "in": {
+         "self": "@g.ObjCats",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Obj More",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjMore"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ObjMore"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Obj More",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjMore"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@g.ObjMore",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Obj Search Links",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjSearchLinks"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ObjSearchLinks"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Obj Search Link",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjSearchLinks"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@g.ObjSearchLinks",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Obj Search",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjSearch"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@g.ObjSearch",
+         "InText": ""
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "st"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Obj Scroll Top",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjScroll"
+       },
+       {
+        "id": "s",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "ScrollToStart",
+        "in": {
+         "self": "@g.ObjScroll"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Obj Sel Links",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjSelLinks"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ObjSelLinks"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Obj Sel Link",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjSelLinks"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.ObjSelLinks",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Obj Sel",
+     "inputs": [
+      {
+       "name": "shown",
+       "type": "bool"
+      },
+      {
+       "name": "name",
+       "type": "text"
+      },
+      {
+       "name": "state",
+       "type": "text"
+      },
+      {
+       "name": "tex",
+       "type": "object:/Script/Engine.Texture2D"
+      },
+      {
+       "name": "hint",
+       "type": "text"
+      },
+      {
+       "name": "head",
+       "type": "text"
+      },
+      {
+       "name": "rows",
+       "type": "text",
+       "container": "array"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.shown"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "ObjSelBody"
+       },
+       {
+        "id": "vb",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gb.ObjSelBody",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "ObjSelHint"
+       },
+       {
+        "id": "ch",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh.ObjSelHint",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gb2",
+        "kind": "get",
+        "var": "ObjSelBody"
+       },
+       {
+        "id": "cb",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gb2.ObjSelBody",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "ObjSelHint"
+       },
+       {
+        "id": "vh",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh2.ObjSelHint",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "ObjSelName"
+       },
+       {
+        "id": "sn",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gn.ObjSelName",
+         "InText": "@entry.name"
+        }
+       },
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "ObjSelState"
+       },
+       {
+        "id": "ss",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gs.ObjSelState",
+         "InText": "@entry.state"
+        }
+       },
+       {
+        "id": "gh3",
+        "kind": "get",
+        "var": "ObjSelHint"
+       },
+       {
+        "id": "sh",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gh3.ObjSelHint",
+         "InText": "@entry.hint"
+        }
+       },
+       {
+        "id": "ghd",
+        "kind": "get",
+        "var": "ObjSelHead"
+       },
+       {
+        "id": "shd",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ghd.ObjSelHead",
+         "InText": "@entry.head"
+        }
+       },
+       {
+        "id": "rg0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.rows",
+         "Index": "0"
+        }
+       },
+       {
+        "id": "gl0",
+        "kind": "get",
+        "var": "ObjSelLbl0"
+       },
+       {
+        "id": "sl0",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl0.ObjSelLbl0",
+         "InText": "@rg0.Item"
+        }
+       },
+       {
+        "id": "rg1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.rows",
+         "Index": "1"
+        }
+       },
+       {
+        "id": "gl1",
+        "kind": "get",
+        "var": "ObjSelLbl1"
+       },
+       {
+        "id": "sl1",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl1.ObjSelLbl1",
+         "InText": "@rg1.Item"
+        }
+       },
+       {
+        "id": "rg2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.rows",
+         "Index": "2"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "ObjSelLbl2"
+       },
+       {
+        "id": "sl2",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl2.ObjSelLbl2",
+         "InText": "@rg2.Item"
+        }
+       },
+       {
+        "id": "rg3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.rows",
+         "Index": "3"
+        }
+       },
+       {
+        "id": "gl3",
+        "kind": "get",
+        "var": "ObjFYawL"
+       },
+       {
+        "id": "sl3",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl3.ObjFYawL",
+         "InText": "@rg3.Item"
+        }
+       },
+       {
+        "id": "rg4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.rows",
+         "Index": "4"
+        }
+       },
+       {
+        "id": "gl4",
+        "kind": "get",
+        "var": "ObjFPitchL"
+       },
+       {
+        "id": "sl4",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl4.ObjFPitchL",
+         "InText": "@rg4.Item"
+        }
+       },
+       {
+        "id": "rg5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.rows",
+         "Index": "5"
+        }
+       },
+       {
+        "id": "gl5",
+        "kind": "get",
+        "var": "ObjFRollL"
+       },
+       {
+        "id": "sl5",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl5.ObjFRollL",
+         "InText": "@rg5.Item"
+        }
+       },
+       {
+        "id": "tv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@entry.tex"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "branch",
+        "in": {
+         "Condition": "@tv.ReturnValue"
+        }
+       },
+       {
+        "id": "gi",
+        "kind": "get",
+        "var": "ObjSelImg"
+       },
+       {
+        "id": "si",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetBrushFromTexture",
+        "in": {
+         "self": "@gi.ObjSelImg",
+         "Texture": "@entry.tex",
+         "bMatchSize": "true"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "vb",
+        "ch",
+        "sn",
+        "ss",
+        "sh",
+        "shd",
+        "sl0",
+        "sl1",
+        "sl2",
+        "sl3",
+        "sl4",
+        "sl5",
+        "bt",
+        "si"
+       ],
+       [
+        "b:else",
+        "cb",
+        "vh",
+        "sn"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Obj Fields",
+     "inputs": [
+      {
+       "name": "values",
+       "type": "string",
+       "container": "array"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.values",
+         "Index": "0"
+        }
+       },
+       {
+        "id": "t0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@g0.Item"
+        }
+       },
+       {
+        "id": "w0",
+        "kind": "get",
+        "var": "ObjFX"
+       },
+       {
+        "id": "s0",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@w0.ObjFX",
+         "InText": "@t0.ReturnValue"
+        }
+       },
+       {
+        "id": "g1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.values",
+         "Index": "1"
+        }
+       },
+       {
+        "id": "t1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@g1.Item"
+        }
+       },
+       {
+        "id": "w1",
+        "kind": "get",
+        "var": "ObjFY"
+       },
+       {
+        "id": "s1",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@w1.ObjFY",
+         "InText": "@t1.ReturnValue"
+        }
+       },
+       {
+        "id": "g2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.values",
+         "Index": "2"
+        }
+       },
+       {
+        "id": "t2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@g2.Item"
+        }
+       },
+       {
+        "id": "w2",
+        "kind": "get",
+        "var": "ObjFZ"
+       },
+       {
+        "id": "s2",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@w2.ObjFZ",
+         "InText": "@t2.ReturnValue"
+        }
+       },
+       {
+        "id": "g3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.values",
+         "Index": "3"
+        }
+       },
+       {
+        "id": "t3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@g3.Item"
+        }
+       },
+       {
+        "id": "w3",
+        "kind": "get",
+        "var": "ObjFYaw"
+       },
+       {
+        "id": "s3",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@w3.ObjFYaw",
+         "InText": "@t3.ReturnValue"
+        }
+       },
+       {
+        "id": "g4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.values",
+         "Index": "4"
+        }
+       },
+       {
+        "id": "t4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@g4.Item"
+        }
+       },
+       {
+        "id": "w4",
+        "kind": "get",
+        "var": "ObjFPitch"
+       },
+       {
+        "id": "s4",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@w4.ObjFPitch",
+         "InText": "@t4.ReturnValue"
+        }
+       },
+       {
+        "id": "g5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.values",
+         "Index": "5"
+        }
+       },
+       {
+        "id": "t5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@g5.Item"
+        }
+       },
+       {
+        "id": "w5",
+        "kind": "get",
+        "var": "ObjFRoll"
+       },
+       {
+        "id": "s5",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@w5.ObjFRoll",
+         "InText": "@t5.ReturnValue"
+        }
+       },
+       {
+        "id": "g6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@entry.values",
+         "Index": "6"
+        }
+       },
+       {
+        "id": "t6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@g6.Item"
+        }
+       },
+       {
+        "id": "w6",
+        "kind": "get",
+        "var": "ObjFScale"
+       },
+       {
+        "id": "s6",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@w6.ObjFScale",
+         "InText": "@t6.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s0",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Get Obj Fields",
+     "outputs": [
+      {
+       "name": "values",
+       "type": "string",
+       "container": "array"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "mk",
+        "kind": "make_array",
+        "count": 7,
+        "type": "string",
+        "in": {
+         "[0]": "@c0.ReturnValue",
+         "[1]": "@c1.ReturnValue",
+         "[2]": "@c2.ReturnValue",
+         "[3]": "@c3.ReturnValue",
+         "[4]": "@c4.ReturnValue",
+         "[5]": "@c5.ReturnValue",
+         "[6]": "@c6.ReturnValue"
+        }
+       },
+       {
+        "id": "w0",
+        "kind": "get",
+        "var": "ObjFX"
+       },
+       {
+        "id": "t0",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@w0.ObjFX"
+        }
+       },
+       {
+        "id": "c0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@t0.ReturnValue"
+        }
+       },
+       {
+        "id": "w1",
+        "kind": "get",
+        "var": "ObjFY"
+       },
+       {
+        "id": "t1",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@w1.ObjFY"
+        }
+       },
+       {
+        "id": "c1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@t1.ReturnValue"
+        }
+       },
+       {
+        "id": "w2",
+        "kind": "get",
+        "var": "ObjFZ"
+       },
+       {
+        "id": "t2",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@w2.ObjFZ"
+        }
+       },
+       {
+        "id": "c2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@t2.ReturnValue"
+        }
+       },
+       {
+        "id": "w3",
+        "kind": "get",
+        "var": "ObjFYaw"
+       },
+       {
+        "id": "t3",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@w3.ObjFYaw"
+        }
+       },
+       {
+        "id": "c3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@t3.ReturnValue"
+        }
+       },
+       {
+        "id": "w4",
+        "kind": "get",
+        "var": "ObjFPitch"
+       },
+       {
+        "id": "t4",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@w4.ObjFPitch"
+        }
+       },
+       {
+        "id": "c4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@t4.ReturnValue"
+        }
+       },
+       {
+        "id": "w5",
+        "kind": "get",
+        "var": "ObjFRoll"
+       },
+       {
+        "id": "t5",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@w5.ObjFRoll"
+        }
+       },
+       {
+        "id": "c5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@t5.ReturnValue"
+        }
+       },
+       {
+        "id": "w6",
+        "kind": "get",
+        "var": "ObjFScale"
+       },
+       {
+        "id": "t6",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@w6.ObjFScale"
+        }
+       },
+       {
+        "id": "c6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@t6.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "mk.Array",
+        "return.values"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Set Obj Text",
+     "inputs": [
+      {
+       "name": "status",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "ObjStatus"
+       },
+       {
+        "id": "ss",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gs.ObjStatus",
+         "InText": "@entry.status"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ss"
        ]
       ]
      }
@@ -86068,6 +87892,10 @@
       {
        "name": "hairsearch",
        "type": "text"
+      },
+      {
+       "name": "objsearch",
+       "type": "text"
       }
      ],
      "graph": {
@@ -88261,6 +90089,21 @@
          "self": "@ghairsearch.HairSearch",
          "InText": "@entry.hairsearch"
         }
+       },
+       {
+        "id": "gobjsearch",
+        "kind": "get",
+        "var": "ObjSearch"
+       },
+       {
+        "id": "sobjsearch",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetHintText",
+        "in": {
+         "self": "@gobjsearch.ObjSearch",
+         "InText": "@entry.objsearch"
+        }
        }
       ],
       "links": [],
@@ -88412,7 +90255,8 @@
         "shairfavorites",
         "shairall",
         "skeybinds",
-        "shairsearch"
+        "shairsearch",
+        "sobjsearch"
        ]
       ]
      }
@@ -90695,6 +92539,36 @@
          "self": "@g33.TvScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
+       },
+       {
+        "id": "g34",
+        "kind": "get",
+        "var": "ObjScroll"
+       },
+       {
+        "id": "s34",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetWheelScrollMultiplier",
+        "in": {
+         "self": "@g34.ObjScroll",
+         "NewWheelScrollMultiplier": "@entry.mult"
+        }
+       },
+       {
+        "id": "g35",
+        "kind": "get",
+        "var": "ObjCatScroll"
+       },
+       {
+        "id": "s35",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetWheelScrollMultiplier",
+        "in": {
+         "self": "@g35.ObjCatScroll",
+         "NewWheelScrollMultiplier": "@entry.mult"
+        }
        }
       ],
       "links": [],
@@ -90734,7 +92608,9 @@
         "s30",
         "s31",
         "s32",
-        "s33"
+        "s33",
+        "s34",
+        "s35"
        ]
       ]
      }
@@ -91742,6 +93618,64 @@
          "TargetArray": "@m33.ScrollMem",
          "NewItem": "@o33.ReturnValue"
         }
+       },
+       {
+        "id": "g34",
+        "kind": "get",
+        "var": "ObjScroll"
+       },
+       {
+        "id": "o34",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "GetScrollOffset",
+        "in": {
+         "self": "@g34.ObjScroll"
+        }
+       },
+       {
+        "id": "m34",
+        "kind": "get",
+        "var": "ScrollMem"
+       },
+       {
+        "id": "a34",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@m34.ScrollMem",
+         "NewItem": "@o34.ReturnValue"
+        }
+       },
+       {
+        "id": "g35",
+        "kind": "get",
+        "var": "ObjCatScroll"
+       },
+       {
+        "id": "o35",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "GetScrollOffset",
+        "in": {
+         "self": "@g35.ObjCatScroll"
+        }
+       },
+       {
+        "id": "m35",
+        "kind": "get",
+        "var": "ScrollMem"
+       },
+       {
+        "id": "a35",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@m35.ScrollMem",
+         "NewItem": "@o35.ReturnValue"
+        }
        }
       ],
       "links": [],
@@ -91782,7 +93716,9 @@
         "a30",
         "a31",
         "a32",
-        "a33"
+        "a33",
+        "a34",
+        "a35"
        ]
       ]
      }
@@ -91812,7 +93748,7 @@
         "function": "EqualEqual_IntInt",
         "in": {
          "A": "@ln.ReturnValue",
-         "B": "34"
+         "B": "36"
         }
        },
        {
@@ -92841,6 +94777,66 @@
          "self": "@g33.TvScroll",
          "NewScrollOffset": "@v33.Item"
         }
+       },
+       {
+        "id": "m34",
+        "kind": "get",
+        "var": "ScrollMem"
+       },
+       {
+        "id": "v34",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@m34.ScrollMem",
+         "Index": "34"
+        }
+       },
+       {
+        "id": "g34",
+        "kind": "get",
+        "var": "ObjScroll"
+       },
+       {
+        "id": "s34",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetScrollOffset",
+        "in": {
+         "self": "@g34.ObjScroll",
+         "NewScrollOffset": "@v34.Item"
+        }
+       },
+       {
+        "id": "m35",
+        "kind": "get",
+        "var": "ScrollMem"
+       },
+       {
+        "id": "v35",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@m35.ScrollMem",
+         "Index": "35"
+        }
+       },
+       {
+        "id": "g35",
+        "kind": "get",
+        "var": "ObjCatScroll"
+       },
+       {
+        "id": "s35",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetScrollOffset",
+        "in": {
+         "self": "@g35.ObjCatScroll",
+         "NewScrollOffset": "@v35.Item"
+        }
        }
       ],
       "links": [],
@@ -92881,7 +94877,9 @@
         "s30",
         "s31",
         "s32",
-        "s33"
+        "s33",
+        "s34",
+        "s35"
        ]
       ]
      }
@@ -96155,6 +98153,15 @@
         }
        },
        {
+        "id": "wc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "InputEvent_IsControlDown",
+        "in": {
+         "Input": "@entry.MouseEvent"
+        }
+       },
+       {
         "id": "gm2",
         "kind": "get",
         "var": "Manager"
@@ -96166,7 +98173,8 @@
         "function": "Rag Lift",
         "in": {
          "self": "@gm2.Manager",
-         "notches": "@wd.ReturnValue"
+         "notches": "@wd.ReturnValue",
+         "ctrl": "@wc.ReturnValue"
         }
        },
        {
@@ -98521,6 +100529,234 @@
         }
        },
        {
+        "id": "gso",
+        "kind": "get",
+        "var": "ObjSearch"
+       },
+       {
+        "id": "tob",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@gso.ObjSearch"
+        }
+       },
+       {
+        "id": "gm12",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "scob",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "On Obj Search Changed",
+        "in": {
+         "self": "@gm12.Manager",
+         "text": "@tob.ReturnValue"
+        }
+       },
+       {
+        "id": "gof0",
+        "kind": "get",
+        "var": "ObjFX"
+       },
+       {
+        "id": "hof0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@gof0.ObjFX"
+        }
+       },
+       {
+        "id": "gof1",
+        "kind": "get",
+        "var": "ObjFY"
+       },
+       {
+        "id": "hof1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@gof1.ObjFY"
+        }
+       },
+       {
+        "id": "oof1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@hof0.ReturnValue",
+         "B": "@hof1.ReturnValue"
+        }
+       },
+       {
+        "id": "gof2",
+        "kind": "get",
+        "var": "ObjFZ"
+       },
+       {
+        "id": "hof2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@gof2.ObjFZ"
+        }
+       },
+       {
+        "id": "oof2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@oof1.ReturnValue",
+         "B": "@hof2.ReturnValue"
+        }
+       },
+       {
+        "id": "gof3",
+        "kind": "get",
+        "var": "ObjFYaw"
+       },
+       {
+        "id": "hof3",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@gof3.ObjFYaw"
+        }
+       },
+       {
+        "id": "oof3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@oof2.ReturnValue",
+         "B": "@hof3.ReturnValue"
+        }
+       },
+       {
+        "id": "gof4",
+        "kind": "get",
+        "var": "ObjFPitch"
+       },
+       {
+        "id": "hof4",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@gof4.ObjFPitch"
+        }
+       },
+       {
+        "id": "oof4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@oof3.ReturnValue",
+         "B": "@hof4.ReturnValue"
+        }
+       },
+       {
+        "id": "gof5",
+        "kind": "get",
+        "var": "ObjFRoll"
+       },
+       {
+        "id": "hof5",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@gof5.ObjFRoll"
+        }
+       },
+       {
+        "id": "oof5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@oof4.ReturnValue",
+         "B": "@hof5.ReturnValue"
+        }
+       },
+       {
+        "id": "gof6",
+        "kind": "get",
+        "var": "ObjFScale"
+       },
+       {
+        "id": "hof6",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@gof6.ObjFScale"
+        }
+       },
+       {
+        "id": "oof6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@oof5.ReturnValue",
+         "B": "@hof6.ReturnValue"
+        }
+       },
+       {
+        "id": "oent",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@key.ReturnValue",
+         "B": "Enter"
+        }
+       },
+       {
+        "id": "oapp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@oent.ReturnValue",
+         "B": "@oof6.ReturnValue"
+        }
+       },
+       {
+        "id": "boap",
+        "kind": "branch",
+        "in": {
+         "Condition": "@oapp.ReturnValue"
+        }
+       },
+       {
+        "id": "gm13",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ofc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Obj Fields Commit",
+        "in": {
+         "self": "@gm13.Manager"
+        }
+       },
+       {
         "id": "gsi",
         "kind": "get",
         "var": "InvSearch"
@@ -98885,13 +101121,47 @@
         }
        },
        {
-        "id": "hfe",
+        "id": "hfe5",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanOR",
         "in": {
          "A": "@hfe4.ReturnValue",
          "B": "@hfh.ReturnValue"
+        }
+       },
+       {
+        "id": "gs14",
+        "kind": "get",
+        "var": "ObjSearch"
+       },
+       {
+        "id": "hfo",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@gs14.ObjSearch"
+        }
+       },
+       {
+        "id": "hfe6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@hfe5.ReturnValue",
+         "B": "@hfo.ReturnValue"
+        }
+       },
+       {
+        "id": "hfe",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@hfe6.ReturnValue",
+         "B": "@oof6.ReturnValue"
         }
        },
        {
@@ -99072,6 +101342,16 @@
         "scmc",
         "sciv",
         "sch",
+        "scob",
+        "boap"
+       ],
+       [
+        "boap",
+        "ofc",
+        "return"
+       ],
+       [
+        "boap:else",
         "b",
         "cl",
         "return"
@@ -101761,6 +104041,737 @@
                {
                 "class": "/Script/UMG.VerticalBox",
                 "name": "KodexLinks"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "class": "/Script/UMG.HorizontalBox",
+          "name": "ObjectsBox",
+          "props": {
+           "Visibility": "Collapsed"
+          },
+          "slot": {
+           "Size": "(SizeRule=Fill,Value=1)"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.SizeBox",
+            "name": "ObjLeftSize",
+            "props": {
+             "bOverride_WidthOverride": true,
+             "WidthOverride": 570,
+             "bOverride_HeightOverride": true,
+             "HeightOverride": 190
+            },
+            "slot": {
+             "Size": "(SizeRule=Automatic)",
+             "VerticalAlignment": "VAlign_Fill",
+             "Padding": "(Left=0,Top=0,Right=30,Bottom=0)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.ScrollBox",
+              "name": "ObjCatScroll",
+              "props": {
+               "WheelScrollMultiplier": 2.0,
+               "WidgetBarStyle": "(VerticalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),VerticalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),NormalThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),HoveredThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),DraggedThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)))"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.VerticalBox",
+                "name": "ObjCats"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "class": "/Script/UMG.VerticalBox",
+            "name": "ObjRight",
+            "slot": {
+             "Size": "(SizeRule=Fill,Value=1)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.HorizontalBox",
+              "name": "ObjFilters",
+              "slot": {
+               "Padding": "(Left=0,Top=0,Right=0,Bottom=19)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Border",
+                "name": "OSearchFrame",
+                "props": {
+                 "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                 "BrushColor": "(R=1,G=1,B=1,A=0.25)",
+                 "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+                },
+                "slot": {
+                 "Size": "(SizeRule=Fill,Value=1)"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.Border",
+                  "name": "OSearchFill",
+                  "props": {
+                   "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                   "BrushColor": "(R=0,G=0,B=0,A=0.55)",
+                   "Padding": "(Left=0,Top=0,Right=0,Bottom=0)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.HorizontalBox",
+                    "name": "OSearchHB",
+                    "children": [
+                     {
+                      "class": "/Script/UMG.EditableTextBox",
+                      "name": "ObjSearch",
+                      "props": {
+                       "HintText": "Search...",
+                       "WidgetStyle": "(Font=(Size=30),Padding=(Left=19,Top=13,Right=19,Bottom=13),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                      },
+                      "slot": {
+                       "Size": "(SizeRule=Fill,Value=1)"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.HorizontalBox",
+                      "name": "ObjSearchLinks",
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center",
+                       "Padding": "(Left=0,Top=0,Right=8,Bottom=0)"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "ObjStatus",
+              "props": {
+               "Text": "",
+               "Font": "(Size=25)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+               "AutoWrapText": true
+              },
+              "slot": {
+               "Padding": "(Left=0,Top=0,Right=0,Bottom=11)"
+              }
+             },
+             {
+              "class": "/Script/UMG.HorizontalBox",
+              "name": "ObjLinks",
+              "slot": {
+               "Padding": "(Left=0,Top=0,Right=0,Bottom=19)"
+              }
+             },
+             {
+              "class": "/Script/UMG.ScrollBox",
+              "name": "ObjScroll",
+              "props": {
+               "WheelScrollMultiplier": 2.0,
+               "WidgetBarStyle": "(VerticalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),VerticalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),NormalThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),HoveredThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),DraggedThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)))"
+              },
+              "slot": {
+               "Size": "(SizeRule=Fill,Value=1)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.VerticalBox",
+                "name": "ObjVB",
+                "children": [
+                 {
+                  "class": "/Script/UMG.VerticalBox",
+                  "name": "ObjList"
+                 },
+                 {
+                  "class": "/Script/UMG.WrapBox",
+                  "name": "ObjTiles",
+                  "props": {
+                   "InnerSlotPadding": "(X=12,Y=12)"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "ObjMore",
+                  "slot": {
+                   "Padding": "(Left=0,Top=19,Right=0,Bottom=0)"
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.Border",
+              "name": "ObjSelFrame",
+              "props": {
+               "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+               "BrushColor": "(R=1,G=1,B=1,A=0.25)",
+               "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+              },
+              "slot": {
+               "Padding": "(Left=0,Top=19,Right=0,Bottom=0)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Border",
+                "name": "ObjSelFill",
+                "props": {
+                 "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                 "BrushColor": "(R=0,G=0,B=0,A=0.55)",
+                 "Padding": "(Left=11,Top=11,Right=11,Bottom=11)"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.VerticalBox",
+                  "name": "ObjSelVB",
+                  "children": [
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "ObjSelHead",
+                    "props": {
+                     "Text": "Selected",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=0.85,G=0.75,B=0.4,A=1))"
+                    },
+                    "slot": {
+                     "Padding": "(Left=0,Top=0,Right=0,Bottom=11)"
+                    }
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "ObjSelHint",
+                    "props": {
+                     "Text": "",
+                     "Font": "(Size=23)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+                     "AutoWrapText": true
+                    }
+                   },
+                   {
+                    "class": "/Script/UMG.HorizontalBox",
+                    "name": "ObjSelBody",
+                    "props": {
+                     "Visibility": "Collapsed"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.SizeBox",
+                      "name": "ObjSelImgBox",
+                      "props": {
+                       "bOverride_WidthOverride": true,
+                       "WidthOverride": 182,
+                       "bOverride_HeightOverride": true,
+                       "HeightOverride": 182
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Top",
+                       "Padding": "(Left=0,Top=0,Right=19,Bottom=0)"
+                      },
+                      "children": [
+                       {
+                        "class": "/Script/UMG.ScaleBox",
+                        "name": "ObjSelImgScale",
+                        "props": {
+                         "Stretch": "ScaleToFit"
+                        },
+                        "children": [
+                         {
+                          "class": "/Script/UMG.Image",
+                          "name": "ObjSelImg"
+                         }
+                        ]
+                       }
+                      ]
+                     },
+                     {
+                      "class": "/Script/UMG.VerticalBox",
+                      "name": "ObjSelInfo",
+                      "slot": {
+                       "Size": "(SizeRule=Fill,Value=1)"
+                      },
+                      "children": [
+                       {
+                        "class": "/Script/UMG.TextBlock",
+                        "name": "ObjSelName",
+                        "props": {
+                         "Text": "",
+                         "Font": "(Size=27)",
+                         "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                        },
+                        "slot": {
+                         "Padding": "(Left=0,Top=0,Right=0,Bottom=4)"
+                        }
+                       },
+                       {
+                        "class": "/Script/UMG.TextBlock",
+                        "name": "ObjSelState",
+                        "props": {
+                         "Text": "",
+                         "Font": "(Size=21)",
+                         "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                        },
+                        "slot": {
+                         "Padding": "(Left=0,Top=0,Right=0,Bottom=11)"
+                        }
+                       },
+                       {
+                        "class": "/Script/UMG.WrapBox",
+                        "name": "ObjSelLinks",
+                        "props": {
+                         "InnerSlotPadding": "(X=9,Y=5)"
+                        },
+                        "slot": {
+                         "Padding": "(Left=0,Top=0,Right=0,Bottom=11)"
+                        }
+                       },
+                       {
+                        "class": "/Script/UMG.GridPanel",
+                        "name": "ObjSelGrid",
+                        "children": [
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjSelLbl0",
+                          "props": {
+                           "Text": "",
+                           "Font": "(Size=23)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 0,
+                           "Column": 0,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=19,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjFXL",
+                          "props": {
+                           "Text": "X",
+                           "Font": "(Size=21)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 0,
+                           "Column": 1,
+                           "HorizontalAlignment": "HAlign_Right",
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=6,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.SizeBox",
+                          "name": "ObjFXBox",
+                          "props": {
+                           "bOverride_WidthOverride": true,
+                           "WidthOverride": 148,
+                           "bOverride_HeightOverride": true,
+                           "HeightOverride": 49
+                          },
+                          "slot": {
+                           "Row": 0,
+                           "Column": 2,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=15,Bottom=6)"
+                          },
+                          "children": [
+                           {
+                            "class": "/Script/UMG.Border",
+                            "name": "ObjFXFr",
+                            "props": {
+                             "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                             "BrushColor": "(R=1,G=1,B=1,A=0.25)",
+                             "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+                            },
+                            "children": [
+                             {
+                              "class": "/Script/UMG.EditableTextBox",
+                              "name": "ObjFX",
+                              "props": {
+                               "WidgetStyle": "(Font=(Size=21),Padding=(Left=10,Top=6,Right=10,Bottom=6),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))",
+                               "ClearKeyboardFocusOnCommit": false,
+                               "SelectAllTextWhenFocused": true
+                              }
+                             }
+                            ]
+                           }
+                          ]
+                         },
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjFYL",
+                          "props": {
+                           "Text": "Y",
+                           "Font": "(Size=21)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 0,
+                           "Column": 3,
+                           "HorizontalAlignment": "HAlign_Right",
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=6,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.SizeBox",
+                          "name": "ObjFYBox",
+                          "props": {
+                           "bOverride_WidthOverride": true,
+                           "WidthOverride": 148,
+                           "bOverride_HeightOverride": true,
+                           "HeightOverride": 49
+                          },
+                          "slot": {
+                           "Row": 0,
+                           "Column": 4,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=15,Bottom=6)"
+                          },
+                          "children": [
+                           {
+                            "class": "/Script/UMG.Border",
+                            "name": "ObjFYFr",
+                            "props": {
+                             "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                             "BrushColor": "(R=1,G=1,B=1,A=0.25)",
+                             "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+                            },
+                            "children": [
+                             {
+                              "class": "/Script/UMG.EditableTextBox",
+                              "name": "ObjFY",
+                              "props": {
+                               "WidgetStyle": "(Font=(Size=21),Padding=(Left=10,Top=6,Right=10,Bottom=6),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))",
+                               "ClearKeyboardFocusOnCommit": false,
+                               "SelectAllTextWhenFocused": true
+                              }
+                             }
+                            ]
+                           }
+                          ]
+                         },
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjFZL",
+                          "props": {
+                           "Text": "Z",
+                           "Font": "(Size=21)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 0,
+                           "Column": 5,
+                           "HorizontalAlignment": "HAlign_Right",
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=6,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.SizeBox",
+                          "name": "ObjFZBox",
+                          "props": {
+                           "bOverride_WidthOverride": true,
+                           "WidthOverride": 148,
+                           "bOverride_HeightOverride": true,
+                           "HeightOverride": 49
+                          },
+                          "slot": {
+                           "Row": 0,
+                           "Column": 6,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=15,Bottom=6)"
+                          },
+                          "children": [
+                           {
+                            "class": "/Script/UMG.Border",
+                            "name": "ObjFZFr",
+                            "props": {
+                             "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                             "BrushColor": "(R=1,G=1,B=1,A=0.25)",
+                             "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+                            },
+                            "children": [
+                             {
+                              "class": "/Script/UMG.EditableTextBox",
+                              "name": "ObjFZ",
+                              "props": {
+                               "WidgetStyle": "(Font=(Size=21),Padding=(Left=10,Top=6,Right=10,Bottom=6),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))",
+                               "ClearKeyboardFocusOnCommit": false,
+                               "SelectAllTextWhenFocused": true
+                              }
+                             }
+                            ]
+                           }
+                          ]
+                         },
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjSelLbl1",
+                          "props": {
+                           "Text": "",
+                           "Font": "(Size=23)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 1,
+                           "Column": 0,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=19,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjFYawL",
+                          "props": {
+                           "Text": "",
+                           "Font": "(Size=21)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 1,
+                           "Column": 1,
+                           "HorizontalAlignment": "HAlign_Right",
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=6,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.SizeBox",
+                          "name": "ObjFYawBox",
+                          "props": {
+                           "bOverride_WidthOverride": true,
+                           "WidthOverride": 148,
+                           "bOverride_HeightOverride": true,
+                           "HeightOverride": 49
+                          },
+                          "slot": {
+                           "Row": 1,
+                           "Column": 2,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=15,Bottom=6)"
+                          },
+                          "children": [
+                           {
+                            "class": "/Script/UMG.Border",
+                            "name": "ObjFYawFr",
+                            "props": {
+                             "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                             "BrushColor": "(R=1,G=1,B=1,A=0.25)",
+                             "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+                            },
+                            "children": [
+                             {
+                              "class": "/Script/UMG.EditableTextBox",
+                              "name": "ObjFYaw",
+                              "props": {
+                               "WidgetStyle": "(Font=(Size=21),Padding=(Left=10,Top=6,Right=10,Bottom=6),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))",
+                               "ClearKeyboardFocusOnCommit": false,
+                               "SelectAllTextWhenFocused": true
+                              }
+                             }
+                            ]
+                           }
+                          ]
+                         },
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjFPitchL",
+                          "props": {
+                           "Text": "",
+                           "Font": "(Size=21)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 1,
+                           "Column": 3,
+                           "HorizontalAlignment": "HAlign_Right",
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=6,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.SizeBox",
+                          "name": "ObjFPitchBox",
+                          "props": {
+                           "bOverride_WidthOverride": true,
+                           "WidthOverride": 148,
+                           "bOverride_HeightOverride": true,
+                           "HeightOverride": 49
+                          },
+                          "slot": {
+                           "Row": 1,
+                           "Column": 4,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=15,Bottom=6)"
+                          },
+                          "children": [
+                           {
+                            "class": "/Script/UMG.Border",
+                            "name": "ObjFPitchFr",
+                            "props": {
+                             "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                             "BrushColor": "(R=1,G=1,B=1,A=0.25)",
+                             "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+                            },
+                            "children": [
+                             {
+                              "class": "/Script/UMG.EditableTextBox",
+                              "name": "ObjFPitch",
+                              "props": {
+                               "WidgetStyle": "(Font=(Size=21),Padding=(Left=10,Top=6,Right=10,Bottom=6),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))",
+                               "ClearKeyboardFocusOnCommit": false,
+                               "SelectAllTextWhenFocused": true
+                              }
+                             }
+                            ]
+                           }
+                          ]
+                         },
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjFRollL",
+                          "props": {
+                           "Text": "",
+                           "Font": "(Size=21)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 1,
+                           "Column": 5,
+                           "HorizontalAlignment": "HAlign_Right",
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=6,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.SizeBox",
+                          "name": "ObjFRollBox",
+                          "props": {
+                           "bOverride_WidthOverride": true,
+                           "WidthOverride": 148,
+                           "bOverride_HeightOverride": true,
+                           "HeightOverride": 49
+                          },
+                          "slot": {
+                           "Row": 1,
+                           "Column": 6,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=15,Bottom=6)"
+                          },
+                          "children": [
+                           {
+                            "class": "/Script/UMG.Border",
+                            "name": "ObjFRollFr",
+                            "props": {
+                             "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                             "BrushColor": "(R=1,G=1,B=1,A=0.25)",
+                             "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+                            },
+                            "children": [
+                             {
+                              "class": "/Script/UMG.EditableTextBox",
+                              "name": "ObjFRoll",
+                              "props": {
+                               "WidgetStyle": "(Font=(Size=21),Padding=(Left=10,Top=6,Right=10,Bottom=6),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))",
+                               "ClearKeyboardFocusOnCommit": false,
+                               "SelectAllTextWhenFocused": true
+                              }
+                             }
+                            ]
+                           }
+                          ]
+                         },
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjSelLbl2",
+                          "props": {
+                           "Text": "",
+                           "Font": "(Size=23)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 2,
+                           "Column": 0,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=19,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.TextBlock",
+                          "name": "ObjFScaleL",
+                          "props": {
+                           "Text": "",
+                           "Font": "(Size=21)",
+                           "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                          },
+                          "slot": {
+                           "Row": 2,
+                           "Column": 1,
+                           "HorizontalAlignment": "HAlign_Right",
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=6,Bottom=6)"
+                          }
+                         },
+                         {
+                          "class": "/Script/UMG.SizeBox",
+                          "name": "ObjFScaleBox",
+                          "props": {
+                           "bOverride_WidthOverride": true,
+                           "WidthOverride": 148,
+                           "bOverride_HeightOverride": true,
+                           "HeightOverride": 49
+                          },
+                          "slot": {
+                           "Row": 2,
+                           "Column": 2,
+                           "VerticalAlignment": "VAlign_Center",
+                           "Padding": "(Left=0,Top=0,Right=15,Bottom=6)"
+                          },
+                          "children": [
+                           {
+                            "class": "/Script/UMG.Border",
+                            "name": "ObjFScaleFr",
+                            "props": {
+                             "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+                             "BrushColor": "(R=1,G=1,B=1,A=0.25)",
+                             "Padding": "(Left=2,Top=2,Right=2,Bottom=2)"
+                            },
+                            "children": [
+                             {
+                              "class": "/Script/UMG.EditableTextBox",
+                              "name": "ObjFScale",
+                              "props": {
+                               "WidgetStyle": "(Font=(Size=21),Padding=(Left=10,Top=6,Right=10,Bottom=6),BackgroundColor=(SpecifiedColor=(R=0,G=0,B=0,A=0)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))",
+                               "ClearKeyboardFocusOnCommit": false,
+                               "SelectAllTextWhenFocused": true
+                              }
+                             }
+                            ]
+                           }
+                          ]
+                         }
+                        ]
+                       }
+                      ]
+                     }
+                    ]
+                   }
+                  ]
+                 }
+                ]
                }
               ]
              }

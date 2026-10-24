@@ -55,6 +55,7 @@ El hook sustituye *TKA_PlayerCameraManager* y lanza el panel desde ahí. Cualqui
 * **Seguidores** – los looks se convierten en seguidores que caminan y luchan con Jodi, o en PNJ que se quedan en su sitio: órdenes, objetos y armas para dar, ropa que se daña como la de los PNJ del juego. Se guardan en un archivo propio, nunca en la partida del juego. Cada figura lleva el maquillaje de su look y tiene voz. «Todos los seguidores: venid aquí» desde el menú rápido. Munición infinita por figura; Jason, de la historia, se une como seguidor con su Glock.
 * **Códice** – el manual de AltUI en los siete idiomas, la enciclopedia del juego y las cerraduras de código del nivel actual; cada código queda oculto hasta que lo pulsas.
 * **TV** – en la oficina de Jodi, los vídeos del televisor en una lista: un clic reproduce uno, y se puede encender y apagar; tus propios .mp4 en `Videos/TV/` también aparecen.
+* **Objetos** – modelos del juego, armas y accesorios de mods en el mundo, con imágenes que AltUI toma por sí mismo: deslizar, girar, levantar y escalar, con o sin física; se guardan las posiciones por modelo y escenas completas por nivel.
 * **Movimiento** – velocidad propia de Jodi al andar y al correr (50–200 %), en Opciones. Cámara lenta con su propia velocidad. Cómo está de pie Jodi: seis animaciones de reposo más del juego, mods de reposo o una pose como reposo.
 * Deshacer / rehacer (5 pasos), descripciones emergentes que indican de qué mod viene cada prenda.
 

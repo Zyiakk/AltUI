@@ -1,0 +1,5150 @@
+{
+ "assets": [
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BP_AltUIProp",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "components": [
+    {
+     "name": "Box",
+     "class": "/Script/Engine.BoxComponent"
+    },
+    {
+     "name": "SMesh",
+     "class": "/Script/Engine.StaticMeshComponent",
+     "parent": "Box"
+    },
+    {
+     "name": "KMesh",
+     "class": "/Script/Engine.SkeletalMeshComponent",
+     "parent": "Box"
+    }
+   ],
+   "variables": [
+    {
+     "name": "Path",
+     "type": "string"
+    },
+    {
+     "name": "Label",
+     "type": "string"
+    },
+    {
+     "name": "Physics",
+     "type": "bool"
+    },
+    {
+     "name": "BoxBody",
+     "type": "bool"
+    },
+    {
+     "name": "Skeletal",
+     "type": "bool"
+    },
+    {
+     "name": "Center",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "Extent",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "Frame",
+     "type": "object:/Script/Engine.StaticMeshComponent",
+     "container": "array"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Mesh",
+     "outputs": [
+      {
+       "name": "comp",
+       "type": "object:/Script/Engine.PrimitiveComponent"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "SMesh"
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "KMesh"
+       },
+       {
+        "id": "gsk",
+        "kind": "get",
+        "var": "Skeletal"
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@gk.KMesh",
+         "B": "@gs.SMesh",
+         "bSelectA": "@gsk.Skeletal"
+        }
+       },
+       {
+        "id": "c",
+        "kind": "cast",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "pure": true,
+        "in": {
+         "Object": "@sel.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "c.AsPrimitive Component",
+        "return.comp"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Body",
+     "outputs": [
+      {
+       "name": "comp",
+       "type": "object:/Script/Engine.PrimitiveComponent"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Box"
+       },
+       {
+        "id": "gbb",
+        "kind": "get",
+        "var": "BoxBody"
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@gb.Box",
+         "B": "@m.comp",
+         "bSelectA": "@gbb.BoxBody"
+        }
+       },
+       {
+        "id": "c",
+        "kind": "cast",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "pure": true,
+        "in": {
+         "Object": "@sel.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "c.AsPrimitive Component",
+        "return.comp"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Set Model",
+     "inputs": [
+      {
+       "name": "path",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "ok",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "@entry.path"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@sp.ReturnValue"
+        }
+       },
+       {
+        "id": "ld",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@sr.ReturnValue"
+        }
+       },
+       {
+        "id": "spa",
+        "kind": "set",
+        "var": "Path",
+        "in": {
+         "Path": "@entry.path"
+        }
+       },
+       {
+        "id": "cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMesh",
+        "pure": true,
+        "in": {
+         "Object": "@ld.ReturnValue"
+        }
+       },
+       {
+        "id": "vs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@cs.AsStatic Mesh"
+        }
+       },
+       {
+        "id": "bs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vs.ReturnValue"
+        }
+       },
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "SMesh"
+       },
+       {
+        "id": "ss",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@gs.SMesh",
+         "NewMesh": "@cs.AsStatic Mesh"
+        }
+       },
+       {
+        "id": "sk0",
+        "kind": "set",
+        "var": "Skeletal",
+        "in": {
+         "Skeletal": "false"
+        }
+       },
+       {
+        "id": "ck",
+        "kind": "cast",
+        "class": "/Script/Engine.SkeletalMesh",
+        "pure": true,
+        "in": {
+         "Object": "@ld.ReturnValue"
+        }
+       },
+       {
+        "id": "vk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@ck.AsSkeletal Mesh"
+        }
+       },
+       {
+        "id": "bk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vk.ReturnValue"
+        }
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "KMesh"
+       },
+       {
+        "id": "sk",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "SetSkeletalMesh",
+        "in": {
+         "self": "@gk.KMesh",
+         "NewMesh": "@ck.AsSkeletal Mesh",
+         "bReinitPose": "true"
+        }
+       },
+       {
+        "id": "sk1",
+        "kind": "set",
+        "var": "Skeletal",
+        "in": {
+         "Skeletal": "true"
+        }
+       },
+       {
+        "id": "m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "mp",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionProfileName",
+        "in": {
+         "self": "@m.comp",
+         "InCollisionProfileName": "PhysicsActor",
+         "bUpdateOverlaps": "true"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Box"
+       },
+       {
+        "id": "bp",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionProfileName",
+        "in": {
+         "self": "@gb.Box",
+         "InCollisionProfileName": "NoCollision",
+         "bUpdateOverlaps": "true"
+        }
+       },
+       {
+        "id": "fb",
+        "kind": "call_self",
+        "function": "Fit Box"
+       },
+       {
+        "id": "rok",
+        "kind": "return_new",
+        "in": {
+         "ok": "true"
+        }
+       },
+       {
+        "id": "rno",
+        "kind": "return_new",
+        "in": {
+         "ok": "false"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ld",
+        "spa",
+        "bs",
+        "ss",
+        "sk0",
+        "mp",
+        "bp",
+        "fb",
+        "rok"
+       ],
+       [
+        "bs:else",
+        "bk",
+        "sk",
+        "sk1",
+        "mp"
+       ],
+       [
+        "bk:else",
+        "rno"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Fit Box",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gsk",
+        "kind": "get",
+        "var": "Skeletal"
+       },
+       {
+        "id": "bsk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gsk.Skeletal"
+        }
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "KMesh"
+       },
+       {
+        "id": "gkm",
+        "kind": "get",
+        "var": "SkeletalMesh",
+        "class": "/Script/Engine.SkinnedMeshComponent"
+       },
+       {
+        "id": "kb",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMesh",
+        "function": "GetBounds",
+        "in": {
+         "self": "@gkm.SkeletalMesh"
+        }
+       },
+       {
+        "id": "kbb",
+        "kind": "break",
+        "struct": "/Script/CoreUObject.BoxSphereBounds",
+        "in": {
+         "BoxSphereBounds": "@kb.ReturnValue"
+        }
+       },
+       {
+        "id": "kc",
+        "kind": "set",
+        "var": "Center",
+        "in": {
+         "Center": "@kbb.Origin"
+        }
+       },
+       {
+        "id": "ke",
+        "kind": "set",
+        "var": "Extent",
+        "in": {
+         "Extent": "@kbb.BoxExtent"
+        }
+       },
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "SMesh"
+       },
+       {
+        "id": "gsm",
+        "kind": "get",
+        "var": "StaticMesh",
+        "class": "/Script/Engine.StaticMeshComponent"
+       },
+       {
+        "id": "sb",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMesh",
+        "function": "GetBounds",
+        "in": {
+         "self": "@gsm.StaticMesh"
+        }
+       },
+       {
+        "id": "sbb",
+        "kind": "break",
+        "struct": "/Script/CoreUObject.BoxSphereBounds",
+        "in": {
+         "BoxSphereBounds": "@sb.ReturnValue"
+        }
+       },
+       {
+        "id": "sc",
+        "kind": "set",
+        "var": "Center",
+        "in": {
+         "Center": "@sbb.Origin"
+        }
+       },
+       {
+        "id": "se",
+        "kind": "set",
+        "var": "Extent",
+        "in": {
+         "Extent": "@sbb.BoxExtent"
+        }
+       },
+       {
+        "id": "gx",
+        "kind": "get",
+        "var": "Extent"
+       },
+       {
+        "id": "bx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector",
+        "in": {
+         "InVec": "@gx.Extent"
+        }
+       },
+       {
+        "id": "mxX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@bx.X",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "mxY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@bx.Y",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "mxZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@bx.Z",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "ext",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@mxX.ReturnValue",
+         "Y": "@mxY.ReturnValue",
+         "Z": "@mxZ.ReturnValue"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Box"
+       },
+       {
+        "id": "sbx",
+        "kind": "call",
+        "class": "/Script/Engine.BoxComponent",
+        "function": "SetBoxExtent",
+        "in": {
+         "self": "@gb.Box",
+         "InBoxExtent": "@ext.ReturnValue",
+         "bUpdateOverlaps": "false"
+        }
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Center"
+       },
+       {
+        "id": "neg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_VectorFloat",
+        "in": {
+         "A": "@gc.Center",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "rl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@m.comp",
+         "NewLocation": "@neg.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gk.KMesh",
+        "gkm.self"
+       ],
+       [
+        "gs.SMesh",
+        "gsm.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bsk",
+        "kc",
+        "ke",
+        "sbx",
+        "rl"
+       ],
+       [
+        "bsk:else",
+        "sc",
+        "se",
+        "sbx"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Physics",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "bon",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.on"
+        }
+       },
+       {
+        "id": "m1",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "ms",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetSimulatePhysics",
+        "in": {
+         "self": "@m1.comp",
+         "bSimulate": "true"
+        }
+       },
+       {
+        "id": "isim",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "IsSimulatingPhysics",
+        "in": {
+         "self": "@m1.comp",
+         "BoneName": "None"
+        }
+       },
+       {
+        "id": "bsim",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isim.ReturnValue"
+        }
+       },
+       {
+        "id": "bb0",
+        "kind": "set",
+        "var": "BoxBody",
+        "in": {
+         "BoxBody": "false"
+        }
+       },
+       {
+        "id": "ms0",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetSimulatePhysics",
+        "in": {
+         "self": "@m1.comp",
+         "bSimulate": "false"
+        }
+       },
+       {
+        "id": "mnc",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionProfileName",
+        "in": {
+         "self": "@m1.comp",
+         "InCollisionProfileName": "NoCollision",
+         "bUpdateOverlaps": "true"
+        }
+       },
+       {
+        "id": "gb1",
+        "kind": "get",
+        "var": "Box"
+       },
+       {
+        "id": "bpc",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionProfileName",
+        "in": {
+         "self": "@gb1.Box",
+         "InCollisionProfileName": "PhysicsActor",
+         "bUpdateOverlaps": "true"
+        }
+       },
+       {
+        "id": "gb2",
+        "kind": "get",
+        "var": "Box"
+       },
+       {
+        "id": "bsi",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetSimulatePhysics",
+        "in": {
+         "self": "@gb2.Box",
+         "bSimulate": "true"
+        }
+       },
+       {
+        "id": "bb1",
+        "kind": "set",
+        "var": "BoxBody",
+        "in": {
+         "BoxBody": "true"
+        }
+       },
+       {
+        "id": "gbb",
+        "kind": "get",
+        "var": "BoxBody"
+       },
+       {
+        "id": "bbx",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gbb.BoxBody"
+        }
+       },
+       {
+        "id": "gb3",
+        "kind": "get",
+        "var": "Box"
+       },
+       {
+        "id": "bso",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetSimulatePhysics",
+        "in": {
+         "self": "@gb3.Box",
+         "bSimulate": "false"
+        }
+       },
+       {
+        "id": "gb4",
+        "kind": "get",
+        "var": "Box"
+       },
+       {
+        "id": "bnc",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionProfileName",
+        "in": {
+         "self": "@gb4.Box",
+         "InCollisionProfileName": "NoCollision",
+         "bUpdateOverlaps": "true"
+        }
+       },
+       {
+        "id": "m2",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "mpc",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionProfileName",
+        "in": {
+         "self": "@m2.comp",
+         "InCollisionProfileName": "PhysicsActor",
+         "bUpdateOverlaps": "true"
+        }
+       },
+       {
+        "id": "bb2",
+        "kind": "set",
+        "var": "BoxBody",
+        "in": {
+         "BoxBody": "false"
+        }
+       },
+       {
+        "id": "wt",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_GetComponentToWorld",
+        "in": {
+         "self": "@m2.comp"
+        }
+       },
+       {
+        "id": "mso",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetSimulatePhysics",
+        "in": {
+         "self": "@m2.comp",
+         "bSimulate": "false"
+        }
+       },
+       {
+        "id": "gce",
+        "kind": "get",
+        "var": "Center"
+       },
+       {
+        "id": "wc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "TransformLocation",
+        "in": {
+         "T": "@wt.ReturnValue",
+         "Location": "@gce.Center"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakTransform",
+        "in": {
+         "InTransform": "@wt.ReturnValue"
+        }
+       },
+       {
+        "id": "at",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "@wc.ReturnValue",
+         "Rotation": "@bt.Rotation",
+         "Scale": "@bt.Scale"
+        }
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "sat",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_SetActorTransform",
+        "in": {
+         "self": "@me.self",
+         "NewTransform": "@at.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "gb5",
+        "kind": "get",
+        "var": "Box"
+       },
+       {
+        "id": "att",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@m2.comp",
+         "Parent": "@gb5.Box",
+         "SocketName": "None",
+         "LocationRule": "SnapToTarget",
+         "RotationRule": "SnapToTarget",
+         "ScaleRule": "SnapToTarget",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "neg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_VectorFloat",
+        "in": {
+         "A": "@gce.Center",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "rl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@m2.comp",
+         "NewLocation": "@neg.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "sph",
+        "kind": "set",
+        "var": "Physics",
+        "in": {
+         "Physics": "@entry.on"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bon",
+        "ms",
+        "bsim",
+        "bb0",
+        "sph"
+       ],
+       [
+        "bsim:else",
+        "ms0",
+        "mnc",
+        "bpc",
+        "bsi",
+        "bb1",
+        "sph"
+       ],
+       [
+        "bon:else",
+        "bbx",
+        "bso",
+        "bnc",
+        "mpc",
+        "bb2",
+        "sph"
+       ],
+       [
+        "bbx:else",
+        "mso",
+        "sat",
+        "att",
+        "rl",
+        "sph"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Show Frame",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "ln",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@gf.Frame"
+        }
+       },
+       {
+        "id": "none",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_IntInt",
+        "in": {
+         "A": "@ln.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "mk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@entry.on",
+         "B": "@none.ReturnValue"
+        }
+       },
+       {
+        "id": "bmk",
+        "kind": "branch",
+        "in": {
+         "Condition": "@mk.ReturnValue"
+        }
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "e0tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e0nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e0tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e0cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e0nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e0m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e0at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e0cs.AsStatic Mesh Component",
+         "Parent": "@e0m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e0sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e0cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e0mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e0cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e0md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e0cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e0pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e0md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e0pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e0md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e0pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e0md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e0pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e0md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e0ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e0cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e0sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e0cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e0gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e0ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e0gf.Frame",
+         "NewItem": "@e0cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e1tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e1nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e1tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e1cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e1nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e1m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e1at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e1cs.AsStatic Mesh Component",
+         "Parent": "@e1m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e1sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e1cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e1mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e1cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e1md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e1cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e1pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e1md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e1pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e1md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e1pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e1md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e1pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e1md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e1ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e1cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e1sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e1cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e1gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e1ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e1gf.Frame",
+         "NewItem": "@e1cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e2tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e2nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e2tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e2cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e2nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e2m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e2at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e2cs.AsStatic Mesh Component",
+         "Parent": "@e2m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e2sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e2cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e2mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e2cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e2md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e2cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e2pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e2md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e2pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e2md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e2pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e2md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e2pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e2md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e2ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e2cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e2sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e2cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e2gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e2ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e2gf.Frame",
+         "NewItem": "@e2cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e3tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e3nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e3tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e3cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e3nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e3m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e3at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e3cs.AsStatic Mesh Component",
+         "Parent": "@e3m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e3sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e3cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e3mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e3cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e3md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e3cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e3pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e3md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e3pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e3md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e3pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e3md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e3pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e3md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e3ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e3cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e3sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e3cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e3gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e3ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e3gf.Frame",
+         "NewItem": "@e3cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e4tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e4nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e4tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e4cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e4nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e4m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e4at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e4cs.AsStatic Mesh Component",
+         "Parent": "@e4m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e4sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e4cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e4mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e4cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e4md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e4cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e4pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e4md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e4pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e4md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e4pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e4md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e4pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e4md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e4ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e4cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e4sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e4cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e4gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e4ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e4gf.Frame",
+         "NewItem": "@e4cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e5tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e5nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e5tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e5cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e5nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e5m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e5at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e5cs.AsStatic Mesh Component",
+         "Parent": "@e5m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e5sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e5cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e5mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e5cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e5md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e5cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e5pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e5md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e5pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e5md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e5pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e5md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e5pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e5md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e5ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e5cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e5sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e5cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e5gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e5ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e5gf.Frame",
+         "NewItem": "@e5cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e6tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e6nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e6tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e6cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e6nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e6m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e6at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e6cs.AsStatic Mesh Component",
+         "Parent": "@e6m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e6sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e6cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e6mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e6cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e6md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e6cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e6pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e6md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e6pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e6md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e6pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e6md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e6pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e6md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e6ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e6cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e6sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e6cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e6gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e6ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e6gf.Frame",
+         "NewItem": "@e6cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e7tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e7nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e7tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e7cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e7nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e7m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e7at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e7cs.AsStatic Mesh Component",
+         "Parent": "@e7m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e7sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e7cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e7mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e7cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e7md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e7cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e7pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e7md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e7pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e7md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e7pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e7md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e7pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e7md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e7ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e7cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e7sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e7cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e7gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e7ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e7gf.Frame",
+         "NewItem": "@e7cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e8tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e8nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e8tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e8cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e8nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e8m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e8at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e8cs.AsStatic Mesh Component",
+         "Parent": "@e8m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e8sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e8cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e8mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e8cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e8md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e8cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e8pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e8md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e8pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e8md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e8pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e8md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e8pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e8md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e8ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e8cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e8sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e8cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e8gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e8ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e8gf.Frame",
+         "NewItem": "@e8cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e9tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e9nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e9tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e9cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e9nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e9m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e9at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e9cs.AsStatic Mesh Component",
+         "Parent": "@e9m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e9sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e9cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e9mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e9cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e9md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e9cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e9pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e9md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e9pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e9md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e9pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e9md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e9pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e9md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e9ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e9cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e9sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e9cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e9gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e9ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e9gf.Frame",
+         "NewItem": "@e9cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e10tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e10nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e10tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e10cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e10nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e10m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e10at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e10cs.AsStatic Mesh Component",
+         "Parent": "@e10m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e10sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e10cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e10mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e10cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e10md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e10cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e10pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e10md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e10pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e10md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e10pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e10md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e10pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e10md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e10ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e10cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e10sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e10cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e10gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e10ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e10gf.Frame",
+         "NewItem": "@e10cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "e11tf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "e11nc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@me.self",
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@e11tf.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "e11cs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@e11nc.ReturnValue"
+        }
+       },
+       {
+        "id": "e11m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "e11at",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@e11cs.AsStatic Mesh Component",
+         "Parent": "@e11m.comp",
+         "SocketName": "None",
+         "LocationRule": "KeepRelative",
+         "RotationRule": "KeepRelative",
+         "ScaleRule": "KeepRelative",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "e11sm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@e11cs.AsStatic Mesh Component",
+         "NewMesh": "/Engine/BasicShapes/Cube"
+        }
+       },
+       {
+        "id": "e11mt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@e11cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "e11md",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@e11cs.AsStatic Mesh Component",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "e11pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@e11md.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=1.0,G=0.72,B=0.1,A=1.0)"
+        }
+       },
+       {
+        "id": "e11pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e11md.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "2.0"
+        }
+       },
+       {
+        "id": "e11pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e11md.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "40.0"
+        }
+       },
+       {
+        "id": "e11pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@e11md.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.3"
+        }
+       },
+       {
+        "id": "e11ce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@e11cs.AsStatic Mesh Component",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "e11sh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@e11cs.AsStatic Mesh Component",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "e11gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "e11ad",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@e11gf.Frame",
+         "NewItem": "@e11cs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "fit",
+        "kind": "call_self",
+        "function": "Fit Frame"
+       },
+       {
+        "id": "gf2",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "fv",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gf2.Frame"
+        }
+       },
+       {
+        "id": "vis",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@fv.Array Element",
+         "bNewVisibility": "@entry.on",
+         "bPropagateToChildren": "false"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bmk",
+        "e0nc",
+        "e0at",
+        "e0sm",
+        "e0mt",
+        "e0md",
+        "e0pc",
+        "e0pn",
+        "e0pf",
+        "e0pp",
+        "e0ce",
+        "e0sh",
+        "e0ad",
+        "e1nc",
+        "e1at",
+        "e1sm",
+        "e1mt",
+        "e1md",
+        "e1pc",
+        "e1pn",
+        "e1pf",
+        "e1pp",
+        "e1ce",
+        "e1sh",
+        "e1ad",
+        "e2nc",
+        "e2at",
+        "e2sm",
+        "e2mt",
+        "e2md",
+        "e2pc",
+        "e2pn",
+        "e2pf",
+        "e2pp",
+        "e2ce",
+        "e2sh",
+        "e2ad",
+        "e3nc",
+        "e3at",
+        "e3sm",
+        "e3mt",
+        "e3md",
+        "e3pc",
+        "e3pn",
+        "e3pf",
+        "e3pp",
+        "e3ce",
+        "e3sh",
+        "e3ad",
+        "e4nc",
+        "e4at",
+        "e4sm",
+        "e4mt",
+        "e4md",
+        "e4pc",
+        "e4pn",
+        "e4pf",
+        "e4pp",
+        "e4ce",
+        "e4sh",
+        "e4ad",
+        "e5nc",
+        "e5at",
+        "e5sm",
+        "e5mt",
+        "e5md",
+        "e5pc",
+        "e5pn",
+        "e5pf",
+        "e5pp",
+        "e5ce",
+        "e5sh",
+        "e5ad",
+        "e6nc",
+        "e6at",
+        "e6sm",
+        "e6mt",
+        "e6md",
+        "e6pc",
+        "e6pn",
+        "e6pf",
+        "e6pp",
+        "e6ce",
+        "e6sh",
+        "e6ad",
+        "e7nc",
+        "e7at",
+        "e7sm",
+        "e7mt",
+        "e7md",
+        "e7pc",
+        "e7pn",
+        "e7pf",
+        "e7pp",
+        "e7ce",
+        "e7sh",
+        "e7ad",
+        "e8nc",
+        "e8at",
+        "e8sm",
+        "e8mt",
+        "e8md",
+        "e8pc",
+        "e8pn",
+        "e8pf",
+        "e8pp",
+        "e8ce",
+        "e8sh",
+        "e8ad",
+        "e9nc",
+        "e9at",
+        "e9sm",
+        "e9mt",
+        "e9md",
+        "e9pc",
+        "e9pn",
+        "e9pf",
+        "e9pp",
+        "e9ce",
+        "e9sh",
+        "e9ad",
+        "e10nc",
+        "e10at",
+        "e10sm",
+        "e10mt",
+        "e10md",
+        "e10pc",
+        "e10pn",
+        "e10pf",
+        "e10pp",
+        "e10ce",
+        "e10sh",
+        "e10ad",
+        "e11nc",
+        "e11at",
+        "e11sm",
+        "e11mt",
+        "e11md",
+        "e11pc",
+        "e11pn",
+        "e11pf",
+        "e11pp",
+        "e11ce",
+        "e11sh",
+        "e11ad",
+        "fit",
+        "fv"
+       ],
+       [
+        "bmk:else",
+        "fit"
+       ],
+       [
+        "fv",
+        "vis"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Fit Frame",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Center"
+       },
+       {
+        "id": "bc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector",
+        "in": {
+         "InVec": "@gc.Center"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "Extent"
+       },
+       {
+        "id": "be",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector",
+        "in": {
+         "InVec": "@ge.Extent"
+        }
+       },
+       {
+        "id": "m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "ws",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_GetComponentScale",
+        "in": {
+         "self": "@m.comp"
+        }
+       },
+       {
+        "id": "bws",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector",
+        "in": {
+         "InVec": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "ws0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@bws.X",
+         "B": "0.001"
+        }
+       },
+       {
+        "id": "th",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "0.006",
+         "B": "@ws0.ReturnValue"
+        }
+       },
+       {
+        "id": "f0gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f0e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f0gf.Frame",
+         "Index": "0"
+        }
+       },
+       {
+        "id": "f0v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f0e.Item"
+        }
+       },
+       {
+        "id": "f0b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f0v.ReturnValue"
+        }
+       },
+       {
+        "id": "f0oY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f0lY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Y",
+         "B": "@f0oY.ReturnValue"
+        }
+       },
+       {
+        "id": "f0oZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f0lZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Z",
+         "B": "@f0oZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f0sX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f0lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@bc.X",
+         "Y": "@f0lY.ReturnValue",
+         "Z": "@f0lZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f0sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f0sX.ReturnValue",
+         "Y": "@th.ReturnValue",
+         "Z": "@th.ReturnValue"
+        }
+       },
+       {
+        "id": "f0sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f0e.Item",
+         "NewLocation": "@f0lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f0ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f0e.Item",
+         "NewScale3D": "@f0sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f1gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f1e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f1gf.Frame",
+         "Index": "1"
+        }
+       },
+       {
+        "id": "f1v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f1e.Item"
+        }
+       },
+       {
+        "id": "f1b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f1v.ReturnValue"
+        }
+       },
+       {
+        "id": "f1oY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f1lY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Y",
+         "B": "@f1oY.ReturnValue"
+        }
+       },
+       {
+        "id": "f1oZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f1lZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Z",
+         "B": "@f1oZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f1sX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f1lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@bc.X",
+         "Y": "@f1lY.ReturnValue",
+         "Z": "@f1lZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f1sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f1sX.ReturnValue",
+         "Y": "@th.ReturnValue",
+         "Z": "@th.ReturnValue"
+        }
+       },
+       {
+        "id": "f1sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f1e.Item",
+         "NewLocation": "@f1lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f1ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f1e.Item",
+         "NewScale3D": "@f1sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f2gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f2e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f2gf.Frame",
+         "Index": "2"
+        }
+       },
+       {
+        "id": "f2v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f2e.Item"
+        }
+       },
+       {
+        "id": "f2b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f2v.ReturnValue"
+        }
+       },
+       {
+        "id": "f2oY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f2lY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Y",
+         "B": "@f2oY.ReturnValue"
+        }
+       },
+       {
+        "id": "f2oZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f2lZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Z",
+         "B": "@f2oZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f2sX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f2lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@bc.X",
+         "Y": "@f2lY.ReturnValue",
+         "Z": "@f2lZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f2sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f2sX.ReturnValue",
+         "Y": "@th.ReturnValue",
+         "Z": "@th.ReturnValue"
+        }
+       },
+       {
+        "id": "f2sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f2e.Item",
+         "NewLocation": "@f2lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f2ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f2e.Item",
+         "NewScale3D": "@f2sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f3gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f3e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f3gf.Frame",
+         "Index": "3"
+        }
+       },
+       {
+        "id": "f3v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f3e.Item"
+        }
+       },
+       {
+        "id": "f3b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f3v.ReturnValue"
+        }
+       },
+       {
+        "id": "f3oY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f3lY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Y",
+         "B": "@f3oY.ReturnValue"
+        }
+       },
+       {
+        "id": "f3oZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f3lZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Z",
+         "B": "@f3oZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f3sX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f3lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@bc.X",
+         "Y": "@f3lY.ReturnValue",
+         "Z": "@f3lZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f3sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f3sX.ReturnValue",
+         "Y": "@th.ReturnValue",
+         "Z": "@th.ReturnValue"
+        }
+       },
+       {
+        "id": "f3sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f3e.Item",
+         "NewLocation": "@f3lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f3ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f3e.Item",
+         "NewScale3D": "@f3sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f4gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f4e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f4gf.Frame",
+         "Index": "4"
+        }
+       },
+       {
+        "id": "f4v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f4e.Item"
+        }
+       },
+       {
+        "id": "f4b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f4v.ReturnValue"
+        }
+       },
+       {
+        "id": "f4oX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f4lX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.X",
+         "B": "@f4oX.ReturnValue"
+        }
+       },
+       {
+        "id": "f4oZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f4lZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Z",
+         "B": "@f4oZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f4sY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f4lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f4lX.ReturnValue",
+         "Y": "@bc.Y",
+         "Z": "@f4lZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f4sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@th.ReturnValue",
+         "Y": "@f4sY.ReturnValue",
+         "Z": "@th.ReturnValue"
+        }
+       },
+       {
+        "id": "f4sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f4e.Item",
+         "NewLocation": "@f4lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f4ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f4e.Item",
+         "NewScale3D": "@f4sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f5gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f5e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f5gf.Frame",
+         "Index": "5"
+        }
+       },
+       {
+        "id": "f5v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f5e.Item"
+        }
+       },
+       {
+        "id": "f5b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f5v.ReturnValue"
+        }
+       },
+       {
+        "id": "f5oX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f5lX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.X",
+         "B": "@f5oX.ReturnValue"
+        }
+       },
+       {
+        "id": "f5oZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f5lZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Z",
+         "B": "@f5oZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f5sY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f5lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f5lX.ReturnValue",
+         "Y": "@bc.Y",
+         "Z": "@f5lZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f5sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@th.ReturnValue",
+         "Y": "@f5sY.ReturnValue",
+         "Z": "@th.ReturnValue"
+        }
+       },
+       {
+        "id": "f5sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f5e.Item",
+         "NewLocation": "@f5lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f5ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f5e.Item",
+         "NewScale3D": "@f5sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f6gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f6e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f6gf.Frame",
+         "Index": "6"
+        }
+       },
+       {
+        "id": "f6v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f6e.Item"
+        }
+       },
+       {
+        "id": "f6b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f6v.ReturnValue"
+        }
+       },
+       {
+        "id": "f6oX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f6lX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.X",
+         "B": "@f6oX.ReturnValue"
+        }
+       },
+       {
+        "id": "f6oZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f6lZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Z",
+         "B": "@f6oZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f6sY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f6lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f6lX.ReturnValue",
+         "Y": "@bc.Y",
+         "Z": "@f6lZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f6sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@th.ReturnValue",
+         "Y": "@f6sY.ReturnValue",
+         "Z": "@th.ReturnValue"
+        }
+       },
+       {
+        "id": "f6sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f6e.Item",
+         "NewLocation": "@f6lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f6ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f6e.Item",
+         "NewScale3D": "@f6sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f7gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f7e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f7gf.Frame",
+         "Index": "7"
+        }
+       },
+       {
+        "id": "f7v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f7e.Item"
+        }
+       },
+       {
+        "id": "f7b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f7v.ReturnValue"
+        }
+       },
+       {
+        "id": "f7oX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f7lX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.X",
+         "B": "@f7oX.ReturnValue"
+        }
+       },
+       {
+        "id": "f7oZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f7lZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Z",
+         "B": "@f7oZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f7sY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f7lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f7lX.ReturnValue",
+         "Y": "@bc.Y",
+         "Z": "@f7lZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f7sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@th.ReturnValue",
+         "Y": "@f7sY.ReturnValue",
+         "Z": "@th.ReturnValue"
+        }
+       },
+       {
+        "id": "f7sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f7e.Item",
+         "NewLocation": "@f7lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f7ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f7e.Item",
+         "NewScale3D": "@f7sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f8gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f8e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f8gf.Frame",
+         "Index": "8"
+        }
+       },
+       {
+        "id": "f8v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f8e.Item"
+        }
+       },
+       {
+        "id": "f8b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f8v.ReturnValue"
+        }
+       },
+       {
+        "id": "f8oX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f8lX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.X",
+         "B": "@f8oX.ReturnValue"
+        }
+       },
+       {
+        "id": "f8oY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f8lY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Y",
+         "B": "@f8oY.ReturnValue"
+        }
+       },
+       {
+        "id": "f8sZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f8lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f8lX.ReturnValue",
+         "Y": "@f8lY.ReturnValue",
+         "Z": "@bc.Z"
+        }
+       },
+       {
+        "id": "f8sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@th.ReturnValue",
+         "Y": "@th.ReturnValue",
+         "Z": "@f8sZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f8sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f8e.Item",
+         "NewLocation": "@f8lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f8ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f8e.Item",
+         "NewScale3D": "@f8sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f9gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f9e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f9gf.Frame",
+         "Index": "9"
+        }
+       },
+       {
+        "id": "f9v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f9e.Item"
+        }
+       },
+       {
+        "id": "f9b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f9v.ReturnValue"
+        }
+       },
+       {
+        "id": "f9oX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f9lX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.X",
+         "B": "@f9oX.ReturnValue"
+        }
+       },
+       {
+        "id": "f9oY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f9lY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Y",
+         "B": "@f9oY.ReturnValue"
+        }
+       },
+       {
+        "id": "f9sZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f9lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f9lX.ReturnValue",
+         "Y": "@f9lY.ReturnValue",
+         "Z": "@bc.Z"
+        }
+       },
+       {
+        "id": "f9sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@th.ReturnValue",
+         "Y": "@th.ReturnValue",
+         "Z": "@f9sZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f9sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f9e.Item",
+         "NewLocation": "@f9lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f9ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f9e.Item",
+         "NewScale3D": "@f9sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f10gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f10e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f10gf.Frame",
+         "Index": "10"
+        }
+       },
+       {
+        "id": "f10v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f10e.Item"
+        }
+       },
+       {
+        "id": "f10b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f10v.ReturnValue"
+        }
+       },
+       {
+        "id": "f10oX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "f10lX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.X",
+         "B": "@f10oX.ReturnValue"
+        }
+       },
+       {
+        "id": "f10oY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f10lY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Y",
+         "B": "@f10oY.ReturnValue"
+        }
+       },
+       {
+        "id": "f10sZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f10lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f10lX.ReturnValue",
+         "Y": "@f10lY.ReturnValue",
+         "Z": "@bc.Z"
+        }
+       },
+       {
+        "id": "f10sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@th.ReturnValue",
+         "Y": "@th.ReturnValue",
+         "Z": "@f10sZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f10sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f10e.Item",
+         "NewLocation": "@f10lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f10ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f10e.Item",
+         "NewScale3D": "@f10sv.ReturnValue"
+        }
+       },
+       {
+        "id": "f11gf",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "f11e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@f11gf.Frame",
+         "Index": "11"
+        }
+       },
+       {
+        "id": "f11v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@f11e.Item"
+        }
+       },
+       {
+        "id": "f11b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@f11v.ReturnValue"
+        }
+       },
+       {
+        "id": "f11oX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.X",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f11lX",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.X",
+         "B": "@f11oX.ReturnValue"
+        }
+       },
+       {
+        "id": "f11oY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Y",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "f11lY",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@bc.Y",
+         "B": "@f11oY.ReturnValue"
+        }
+       },
+       {
+        "id": "f11sZ",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@be.Z",
+         "B": "0.02"
+        }
+       },
+       {
+        "id": "f11lv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@f11lX.ReturnValue",
+         "Y": "@f11lY.ReturnValue",
+         "Z": "@bc.Z"
+        }
+       },
+       {
+        "id": "f11sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@th.ReturnValue",
+         "Y": "@th.ReturnValue",
+         "Z": "@f11sZ.ReturnValue"
+        }
+       },
+       {
+        "id": "f11sl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_SetRelativeLocation",
+        "in": {
+         "self": "@f11e.Item",
+         "NewLocation": "@f11lv.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "true"
+        }
+       },
+       {
+        "id": "f11ss",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetRelativeScale3D",
+        "in": {
+         "self": "@f11e.Item",
+         "NewScale3D": "@f11sv.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "f0b",
+        "f0sl",
+        "f0ss"
+       ],
+       [
+        "f0b:else",
+        "f1b"
+       ],
+       [
+        "f0ss",
+        "f1b",
+        "f1sl",
+        "f1ss"
+       ],
+       [
+        "f1b:else",
+        "f2b"
+       ],
+       [
+        "f1ss",
+        "f2b",
+        "f2sl",
+        "f2ss"
+       ],
+       [
+        "f2b:else",
+        "f3b"
+       ],
+       [
+        "f2ss",
+        "f3b",
+        "f3sl",
+        "f3ss"
+       ],
+       [
+        "f3b:else",
+        "f4b"
+       ],
+       [
+        "f3ss",
+        "f4b",
+        "f4sl",
+        "f4ss"
+       ],
+       [
+        "f4b:else",
+        "f5b"
+       ],
+       [
+        "f4ss",
+        "f5b",
+        "f5sl",
+        "f5ss"
+       ],
+       [
+        "f5b:else",
+        "f6b"
+       ],
+       [
+        "f5ss",
+        "f6b",
+        "f6sl",
+        "f6ss"
+       ],
+       [
+        "f6b:else",
+        "f7b"
+       ],
+       [
+        "f6ss",
+        "f7b",
+        "f7sl",
+        "f7ss"
+       ],
+       [
+        "f7b:else",
+        "f8b"
+       ],
+       [
+        "f7ss",
+        "f8b",
+        "f8sl",
+        "f8ss"
+       ],
+       [
+        "f8b:else",
+        "f9b"
+       ],
+       [
+        "f8ss",
+        "f9b",
+        "f9sl",
+        "f9ss"
+       ],
+       [
+        "f9b:else",
+        "f10b"
+       ],
+       [
+        "f9ss",
+        "f10b",
+        "f10sl",
+        "f10ss"
+       ],
+       [
+        "f10b:else",
+        "f11b"
+       ],
+       [
+        "f10ss",
+        "f11b",
+        "f11sl",
+        "f11ss"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Where",
+     "outputs": [
+      {
+       "name": "where",
+       "type": "struct:/Script/CoreUObject.Transform"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "Physics"
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "BoxBody"
+       },
+       {
+        "id": "nb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@gb.BoxBody"
+        }
+       },
+       {
+        "id": "own",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gp.Physics",
+         "B": "@nb.ReturnValue"
+        }
+       },
+       {
+        "id": "m",
+        "kind": "call_self",
+        "function": "Mesh"
+       },
+       {
+        "id": "wt",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_GetComponentToWorld",
+        "in": {
+         "self": "@m.comp"
+        }
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Center"
+       },
+       {
+        "id": "wc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "TransformLocation",
+        "in": {
+         "T": "@wt.ReturnValue",
+         "Location": "@gc.Center"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakTransform",
+        "in": {
+         "InTransform": "@wt.ReturnValue"
+        }
+       },
+       {
+        "id": "mt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "@wc.ReturnValue",
+         "Rotation": "@bt.Rotation",
+         "Scale": "@bt.Scale"
+        }
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "at",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "GetTransform",
+        "in": {
+         "self": "@me.self"
+        }
+       },
+       {
+        "id": "sel",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectTransform",
+        "in": {
+         "A": "@mt.ReturnValue",
+         "B": "@at.ReturnValue",
+         "bPickA": "@own.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "sel.ReturnValue",
+        "return.where"
+       ]
+      ],
+      "exec": []
+     }
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_PropObj",
+   "members": [
+    {
+     "name": "Path",
+     "type": "string",
+     "internal_name": "Path_2_CF547FFFE2D1EF725F82E2A0AEBBCF10"
+    },
+    {
+     "name": "Name",
+     "type": "string",
+     "internal_name": "Name_4_B3E020D194C9786C6BB4FFC2D821183E"
+    },
+    {
+     "name": "Where",
+     "type": "struct:/Script/CoreUObject.Transform",
+     "internal_name": "Where_6_828749ABC080A5D492C80DDCB7EAB7B4"
+    },
+    {
+     "name": "Physics",
+     "type": "bool",
+     "internal_name": "Physics_8_5954F53A7517F61506C9D43C04CE569D"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_PropScene",
+   "members": [
+    {
+     "name": "Name",
+     "type": "string",
+     "internal_name": "Name_2_E221FE4ACE049508536022D9813DA1AA"
+    },
+    {
+     "name": "Level",
+     "type": "string",
+     "internal_name": "Level_4_0B17DF52F74EE99B522A26E39C065E01"
+    },
+    {
+     "name": "Objects",
+     "type": "struct:/Game/Mod/AltUI/S_PropObj",
+     "container": "array",
+     "internal_name": "Objects_6_367360C9D53F633787FEDB0B0E1FD63A"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Mod/AltUI/S_PropPlace",
+   "members": [
+    {
+     "name": "Name",
+     "type": "string",
+     "internal_name": "Name_2_AB86A5EAFCC05078AF70818253963771"
+    },
+    {
+     "name": "Level",
+     "type": "string",
+     "internal_name": "Level_4_36F595CCFBE057192F919666A31D2535"
+    },
+    {
+     "name": "Path",
+     "type": "string",
+     "internal_name": "Path_6_BBBE99259D7B7E01571D8AC4E7C6209A"
+    },
+    {
+     "name": "Where",
+     "type": "struct:/Script/CoreUObject.Transform",
+     "internal_name": "Where_8_6C4F03346C99BE4C258DE91CA951A3DA"
+    },
+    {
+     "name": "Physics",
+     "type": "bool",
+     "internal_name": "Physics_10_8A9C94AA9689A67CEEED5BE7B55A76A6"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/SG_Props",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Scenes",
+     "type": "struct:/Game/Mod/AltUI/S_PropScene",
+     "container": "array"
+    },
+    {
+     "name": "Places",
+     "type": "struct:/Game/Mod/AltUI/S_PropPlace",
+     "container": "array"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/SG_ObjCache",
+   "mode": "create",
+   "parent": "/Script/Engine.SaveGame",
+   "variables": [
+    {
+     "name": "Folders",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "Paths",
+     "type": "string",
+     "container": "array"
+    },
+    {
+     "name": "Extra",
+     "type": "string",
+     "container": "array"
+    }
+   ]
+  }
+ ]
+}

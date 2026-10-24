@@ -163,6 +163,7 @@ Skóra, każdy rodzaj makijażu, oczy i presety wyglądu z gry.
 
 - Kliknięcie wpisu go nakłada. Prawy przycisk na makijażu: tonowanie paletą gry, przywróć tonowanie.
 - Oczy: kolor tęczówki i rzęs w menu kontekstowym.
+- Skóra: „Naoliwiona skóra” nad skórami nadaje skórze połysk, jak mokra skóra w grze (mokra skóra gry = 50 %). Zaznaczone = twoja wartość, także wbrew fabule; odznaczone = znów decyduje gra. Tylko u Jodi. Looki i presety wyglądu zapamiętują to ustawienie; starsze przywracają „decyduje gra”.
 - Mutacja: zmutowany wygląd Jodi z fabuły w częściach – kolor skóry i poświata jako suwaki (zaznaczone = działa), żyły i oczy jako przełączniki, „Resetuj” wyłącza wszystko. Makijaż pozostaje widoczny na przebarwionej skórze, własny kolor tęczówki barwi zmutowane oko. „Wygląd z fabuły” ustawia wygląd z przerywnika: materiał skóry z fabuły, wszystkie wiersze na maksimum; potem można cofnąć pojedyncze wiersze. Makijaż i blizny nie są z nim widoczne. Gdy fabuła sama zmienia Jodi w mutanta, obowiązuje jej wygląd.
 - Presety: kafelek „+” zapisuje aktualny wygląd ze zdjęciem. Prawy przycisk: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń, szybkie menu.
 
@@ -179,7 +180,7 @@ Skóra, każdy rodzaj makijażu, oczy i presety wyglądu z gry.
 Mimika Jodi.
 
 - Suwaki dla min z gry (zrelaksowana, skupiona, uśmiech, ból, przestrach, zmęczona, cierpienie), spojrzenia i kształtów ust.
-- „Zamknięte oczy” (w Spojrzenie) zamyka oczy, od otwartych do całkiem zamkniętych; mruganie gry działa dalej jak zwykle. Tylko na przekonwertowanych ciałach, jak suwaki ciała.
+- „Zamknięte oczy” (w Spojrzenie) zamyka oczy, od otwartych do całkiem zamkniętych; mruganie gry działa dalej jak zwykle. Tylko na przekonwertowanych ciałach, jak suwaki ciała. „Lewe oko zamknięte” i „Prawe oko zamknięte” zamykają jedno oko (lewe / prawe Jodi), np. do mrugnięcia; każde oko zamyka się tak, jak większa z wartości jego wiersza i „Zamknięte oczy”.
 - Zaznaczony wpis zachowuje swoją wartość, także w pozach; niezaznaczony ustala animacja gry. „Ustal wszystkie” i „Wszystko grze” przełączają wszystkie naraz.
 - Miny są mieszane (razem najwyżej 100 %) albo sumowane.
 - Kafelek „+” zapisuje aktualną twarz ze zdjęciem. Prawy przycisk: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń.
@@ -213,7 +214,8 @@ Własne nazwy wyświetlane dla modów, grup, ubrań, fryzur, skór, makijażu, p
 - Chipy i wyszukiwanie filtrują listę; „tylko mody” ukrywa wpisy gry; ↺ przywraca nazwę domyślną.
 - Za pomocą altui_names.pyz nazwy można wyeksportować do pliku tekstowego i zaimportować z powrotem.
 - Mody broni są na liście razem z innymi modami.
-- „Użycie” pokazuje, które mody są teraz używane: dla każdego moda używane elementy i miejsca, w których są (Jodi teraz, stroje, stylizacje, presety, ulubione, towarzysze, sceny ragdolli, stanie, broń). Nieużywane mody są niżej na szaro, tak samo mody, których użycia AltUI nie potrafi ustalić (mapy, mody skryptowe). „Pokaż zawartość” otwiera każdy z nich. To, co leży tylko w szafie, nie liczy się jako użycie. Każdy mod to kafelek z nazwą wyświetlaną i plikiem pak; miejsca elementu są zebrane według rodzaju (np. „Stroje 4–6, 8”). Lista jest zbierana przy otwarciu „Użycie”; gdzie indziej liczba po lewej jest z ostatniego razu (przed pierwszym razem brak).
+- „Użycie” pokazuje, które mody są teraz używane: dla każdego moda używane elementy i miejsca, w których są (Jodi teraz, stroje, stylizacje, presety, ulubione, towarzysze, sceny ragdolli, stanie, broń, sceny i pozycje obiektów, szuflady z ubraniami). Nieużywane mody są niżej na szaro, tak samo mody, których użycia AltUI nie potrafi ustalić (mapy, mody skryptowe). „Pokaż zawartość” otwiera każdy z nich. To, co leży tylko w szafie, nie liczy się jako użycie. Każdy mod to kafelek z nazwą wyświetlaną i plikiem pak; miejsca elementu są zebrane według rodzaju (np. „Stroje 4–6, 8”). Lista jest zbierana przy otwarciu „Użycie”; gdzie indziej liczba po lewej jest z ostatniego razu (przed pierwszym razem brak).
+- Sceny obiektów i zapisane pozycje obiektów też liczą się jako użycie (modele z modów).
 
 ## Ragdolle {#ragdolls}
 
@@ -231,7 +233,7 @@ Figury z fizyką do ustawiania i pozowania na poziomie: kopie Jodi, zombie i lud
 Z myszą na figurze, obok panelu i w trybie ragdolli:
 
 - Przeciąganie lewym przyciskiem zamrożonej figury przesuwa ją po podłodze; kółko myszy podnosi ją lub opuszcza podczas przeciągania.
-- Przeciąganie lewym przyciskiem aktywnej figury chwyta część ciała pod myszą; puść, a figura upadnie.
+- Przeciąganie lewym przyciskiem aktywnej figury chwyta część ciała pod myszą; puść, a figura upadnie. Kółko myszy podnosi lub opuszcza wtedy chwycony punkt.
 - Prawy przycisk podczas przeciągania przypina część w tym miejscu; reszta figury na niej wisi. Chwyć ją ponownie, a będzie wolna. „puść wszystkie” w wierszu figury zwalnia wszystkie.
 - Przeciąganie prawym przyciskiem obraca figurę wokół bioder.
 - Shift + lewy przycisk blokuje lub zwalnia kliknięty staw.
@@ -248,6 +250,25 @@ Przesuwanie i pozowanie figur bez panelu, z kamerą poruszającą się swobodnie
 - W A S D i Q E przesuwają kamerę, Shift szybciej; Shift + kółko ustawia prędkość.
 - Przeciąganie w pustym miejscu obraca kamerę.
 - Esc lub B kończy tryb.
+
+## Obiekty {#objects}
+
+Umieszczanie w świecie modeli z gry, broni i modeli z modów (np. rekwizytów z modów póz), przesuwanie ich i zapisywanie jako scena.
+
+- Po lewej KATALOG: Wszystkie, ★ Ulubione, foldery gry, „Z poziomu: …”, Broń i Mody (+ rozwija poszczególne mody). Po prawej wyszukiwanie i modele jako kafelki, posortowane po nazwie; „Pokaż więcej” wczytuje kolejne. Obrazki AltUI robi sam i je zapamiętuje.
+- Kliknięcie kafelka stawia model na podłodze przed Jodi, nieruchomo. Prawy przycisk: ulubione, „Pojaw z fizyką”.
+- Modele z modów AltUI znajduje, przeszukując mody raz, folder po folderze (licznik jest u góry), i zapamiętuje wynik; potem przeszukuje tylko nowe mody. „Przeszukaj mody ponownie” zaczyna od nowa. Niektóre mody trzymają modele w folderach o innej nazwie niż ich pak; znajduje je „Przeszukaj wszystkie foldery modów” (gra zatrzymuje się na około pół minuty).
+- Na dole blok „Wybrany”: obrazek, nazwa, nieruchomy lub z fizyką, fizyka wł./wył., na podłogę, kopiuj, usuń; pola pozycji, obrotu (odchylenie, pochylenie, przechył) i rozmiaru – Enter zatwierdza. Wybrany obiekt ma żółtą ramkę.
+- ŚWIAT › W świecie: wiersz dla każdego obiektu z wyborem, fizyką wł./wył., kopiowaniem, usuwaniem. „Pozycje” rozwija blok: nazwa i „Zapisz pozycję” zapamiętują miejsce, obrót, rozmiar i fizykę. Pozycja pojawia się przy każdym obiekcie tego samego modelu na tym samym poziomie – kliknięcie go tam ustawia, prawy przycisk: zastosuj / usuń.
+- ŚWIAT › Sceny: nazwa i „Zapisz scenę” zapamiętują wszystkie obiekty poziomu; ta sama nazwa na tym samym poziomie nadpisuje. Widać tylko sceny bieżącego poziomu. Kliknięcie wczytuje scenę i zastępuje obiekty; prawy przycisk: wczytaj / usuń. Brakujący model (mod nie zainstalowany) jest pomijany i zgłaszany.
+- Obiekty znikają razem z poziomem; scena je przywraca.
+
+Myszą na obiekcie, obok panelu i w trybie ragdolli:
+
+- Kliknięcie go wybiera.
+- Przeciąganie lewym przesuwa nieruchomy obiekt na jego wysokości; obiekt z fizyką zostaje chwycony, puszczenie go rzuca.
+- Przeciąganie prawym obraca go wokół osi pionowej, Shift + przeciąganie prawym obraca swobodnie. Obiekt z fizyką stoi wtedy w miejscu, a potem znów spada.
+- Kółko podczas przeciągania podnosi go lub opuszcza (także chwycony z fizyką); Ctrl + kółko zmienia jego rozmiar.
 
 ## Towarzysze {#followers}
 

@@ -57,6 +57,7 @@ The hook replaces *TKA_PlayerCameraManager* and starts the panel from there. Any
 * **Followers** – looks become followers that walk and fight with Jodi, or NPCs that stay where they are: orders, items and guns to hand over, clothes that take damage like those of the game's own NPCs. Kept in a save file of their own, never in the game's save. Each figure wears the make-up of its look and has a voice. "All followers: come to me" from the quick menu. Infinite ammo per figure; Jason from the story joins as a follower with his Glock.
 * **Codex** – the AltUI manual in all seven languages, the game's encyclopedia and the code locks of the current level, each code hidden until you click it.
 * **TV** – in Jodi's office the TV's videos as a list: click one to play it, switch the TV on or off; your own .mp4 files in `Videos/TV/` show up too.
+* **Objects** – models of the game, weapons and props from mods into the world, with pictures AltUI takes itself: slide, turn, lift and scale them, with or without physics; positions per model and whole scenes per level are saved.
 * **Movement** – Jodi's own walk and run speed (50–200 %), under Options. Slow motion with its own speed. How Jodi stands: six more idle animations of the game, idle mods, or a pose as idle.
 * Undo / redo (5 steps), tooltips showing which mod an item comes from.
 

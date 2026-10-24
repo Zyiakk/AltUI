@@ -24,7 +24,7 @@ class Data(unittest.TestCase):
         self.assertEqual(fields(mutn.S_MUT), ["Color", "Glow", "Veins", "Eyes", "Skin", "Story"])
 
     def test_appended_last(self):
-        self.assertEqual(fields("/Game/Mod/AltUI/S_Snapshot")[-1], "Mutation")
+        self.assertEqual(fields("/Game/Mod/AltUI/S_Snapshot")[-3:], ["Mutation", "OilOn", "Oil"])   # oiled skin appended after it (2026-10-23)
         self.assertEqual(fields("/Game/Mod/AltUI/S_Follower")[-1], "Mutation")
 
     def test_snapshot_round_trip(self):
@@ -37,7 +37,7 @@ class Data(unittest.TestCase):
     def test_presets(self):
         # ui-test-126 round 5: the game's appearance presets know no mutation - an old one left it on. AltUI keeps its own per preset
         # (Settings.PresetColors, as the eye / make-up colours): an old preset brings zeros = none.
-        self.assertEqual(fields("/Game/Mod/AltUI/S_PresetColors")[-1], "Mutation")
+        self.assertEqual(fields("/Game/Mod/AltUI/S_PresetColors")[-3:], ["Mutation", "OilOn", "Oil"])
         mk = [n for n in mgr_graph("Store Preset Colors")["nodes"] if n.get("kind") == "make"][0]; self.assertEqual(mk["in"]["Mutation"], "@gmu.Mutation")
         g = mgr_graph("Preset Clicked"); s = sets(g, "Mutation"); self.assertTrue(s); self.assertEqual(s[0]["in"]["Mutation"], "@bpc.Mutation")
         ch = next(c for c in g["exec"] if "aec" in c); self.assertLess(ch.index(s[0]["id"]), ch.index("aec"))   # before Apply Eye Colors (it applies it)
@@ -173,7 +173,7 @@ class Page(unittest.TestCase):
     def test_rows(self):
         g = mgr_graph("Rebuild Look")
         inits = [n for n in g["nodes"] if n.get("function") == "Init" and n.get("class", "").endswith("W_FaceRow")]
-        self.assertEqual([n["in"]["key"] for n in inits], [k for k, _, _ in mutn.ROWS])
+        self.assertEqual([n["in"]["key"] for n in inits if n["in"]["key"].startswith(mutn.PREFIX)], [k for k, _, _ in mutn.ROWS])   # the skin page has its oil row (test_oil_wink)
         self.assertEqual(len(calls(g, "Set Switch")), len([r for r in mutn.ROWS if not r[2]]))
         self.assertIn('"MutReset"', json.dumps(g)); self.assertTrue(calls(g, "Clear Look Rows"))
 

@@ -257,7 +257,10 @@ def main():
             roots = {k.split("/")[2] for k in listing if k.startswith("TheKillingAntidote/Content/") and k.count("/") > 2}
             for p in sorted(referenced_game_paths()):
                 if game_rel(p).split("/")[0] not in roots: continue   # editor test fixtures (/Game/X/...) - never in a game
-                if not any(("TheKillingAntidote/Content/%s.%s" % (game_rel(p), e)) in listing for e in ("uasset", "umap")):
+                if p.endswith("/"):   # a folder (Objects tab: the catalogue's roots) - it must still hold something
+                    if not any(k.startswith("TheKillingAntidote/Content/" + game_rel(p)) for k in listing):
+                        report["BROKEN"].append("%s: folder referenced by AltUI, empty or gone in the pak" % p)
+                elif not any(("TheKillingAntidote/Content/%s.%s" % (game_rel(p), e)) in listing for e in ("uasset", "umap")):
                     report["BROKEN"].append("%s: referenced by AltUI, not in the pak" % p)
         for k in ("BROKEN", "HOOK", "CHANGED") + (("NOTE",) if a.notes else ()):
             for line in report[k]: print("%-8s %s" % (k, line))

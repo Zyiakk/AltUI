@@ -25,10 +25,11 @@ def asset(path, fname="30_manager.json"):
 
 class FaceTable(unittest.TestCase):
     def test_morphs_exist_on_the_mesh(self):
-        self.assertEqual(len(fc.ENTRIES), 19); self.assertEqual(len(fc.MORPHS), 19); self.assertEqual(len(set(fc.MORPHS)), 19)
+        self.assertEqual(len(fc.ENTRIES), 21); self.assertEqual(len(fc.MORPHS), 19); self.assertEqual(len(set(fc.MORPHS)), 19)
         for m in fc.MORPHS: self.assertIn(m, FEMALE_MORPHS)
         for k in fc.KEYS: self.assertTrue(k in FEMALE_MORPHS or k in fc.VIRTUAL or k in fc.ANIM_KEYS, k)
-        self.assertEqual(fc.ANIM_KEYS, {"AltUI_EyesClosed": "EyesClosed"})   # the eyelids are bones: ABP_BodyScale variable, no morph
+        # the eyelids are bones: ABP_BodyScale variables (one per lid), no morph; "Eyes closed" drives both
+        self.assertEqual(fc.ANIM_KEYS, {"AltUI_EyesClosed": ("EyeClosedL", "EyeClosedR"), "AltUI_EyeClosedL": ("EyeClosedL",), "AltUI_EyeClosedR": ("EyeClosedR",)})
 
     def test_close_mouth_counters_the_open_mouth(self):
         self.assertEqual(fc.VIRTUAL, {"Mouth_Close": ("Mouth_AH CDG KN", -1.0)})
@@ -38,7 +39,7 @@ class FaceTable(unittest.TestCase):
     def test_groups_and_captions(self):
         for key, group, neg, pos in fc.ENTRIES:
             self.assertIn(group, fc.GROUPS); self.assertIn("Face_" + key, STRINGS)
-            self.assertEqual(neg is not None, group == "FaceEyes" and key != "EyesClosed", key)   # only the gaze is bipolar
+            self.assertEqual(neg is not None, group == "FaceEyes" and not key.startswith("EyeClosed") and key != "EyesClosed", key)   # only the gaze is bipolar
         for g in fc.GROUPS + [fc.SAVED]: self.assertIn("Cat_" + g, STRINGS)
 
     def test_assets(self):

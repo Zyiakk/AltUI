@@ -561,6 +561,19 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_TabObjects",
+   "file": "tex/tab_objects.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BgNight",
    "file": "tex/bg_night.png",
    "props": {

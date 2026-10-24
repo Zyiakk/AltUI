@@ -163,6 +163,7 @@ Haut, jede Make-up-Art, Augen und die Aussehen-Presets des Spiels.
 
 - Klick auf einen Eintrag legt ihn auf. Rechtsklick auf Make-up: mit der Palette des Spiels tönen, Tönung zurücksetzen.
 - Augen: Iris- und Wimpernfarbe im Kontextmenü.
+- Haut: „Geölte Haut“ über den Häuten lässt die Haut glänzen, wie nasse Haut im Spiel (nasse Haut des Spiels = 50 %). Haken an = dein Wert, auch gegen die Story; Haken aus = das Spiel entscheidet wieder. Nur bei Jodi. Looks und Aussehens-Presets merken sich die Einstellung; ältere bringen „Spiel entscheidet“.
 - Mutation: Jodis Mutations-Look aus der Story in Teilen – Hautfarbe und Glühen als Regler (Haken an = wirkt), Adern und Augen als Schalter, „Zurücksetzen“ schaltet alles ab. Make-up bleibt über der verfärbten Haut sichtbar, eine eigene Irisfarbe tönt das Mutations-Auge. „Story-Look“ stellt den Look der Cutscene her: Hautmaterial der Story, alle Zeilen auf voll; einzelne Zeilen lassen sich danach zurücknehmen. Dabei sind Make-up und Narben nicht zu sehen. Während die Story Jodi selbst mutieren lässt, gilt deren Aussehen.
 - Presets: Die „+“-Kachel speichert das aktuelle Aussehen mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen, Schnellmenü.
 
@@ -179,7 +180,7 @@ Haut, jede Make-up-Art, Augen und die Aussehen-Presets des Spiels.
 Jodis Gesichtsausdruck.
 
 - Regler für die Ausdrücke des Spiels (entspannt, konzentriert, Lächeln, Schmerz, Schreck, müde, leidend), Blick und Mundformen.
-- „Augen geschlossen“ (unter Blick) schließt die Augen, von offen bis ganz zu; das Blinzeln des Spiels läuft wie gewohnt weiter. Nur mit konvertierten Bodies, wie die Körper-Regler.
+- „Augen geschlossen“ (unter Blick) schließt die Augen, von offen bis ganz zu; das Blinzeln des Spiels läuft wie gewohnt weiter. Nur mit konvertierten Bodies, wie die Körper-Regler. „Linkes Auge zu“ und „Rechtes Auge zu“ schließen ein Auge (Jodis links/rechts), etwa zum Zwinkern; jedes Auge geht so weit zu wie der größere Wert aus seiner Zeile und „Augen geschlossen“.
 - Ein angehaktes Feld behält seinen Wert, auch in Posen; ein nicht angehaktes bestimmt die Animation des Spiels. „Alle festlegen“ und „Alle ans Spiel“ schalten alle auf einmal.
 - Ausdrücke werden überblendet (zusammen höchstens 100 %) oder addiert.
 - Die „+“-Kachel speichert das aktuelle Gesicht mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen.
@@ -213,7 +214,8 @@ Eigene Anzeigenamen für Mods, Gruppen, Kleidung, Frisuren, Haut, Make-up, Posen
 - Chips und eine Suche filtern die Liste; „nur Mods“ blendet die Einträge des Spiels aus; ↺ kehrt zum Standardnamen zurück.
 - Mit altui_names.pyz lassen sich die Namen in eine Textdatei exportieren und wieder importieren.
 - Waffen-Mods stehen bei den anderen Mods.
-- „Nutzung“ zeigt, welche Mods gerade in Gebrauch sind: je Mod die genutzten Teile und wo sie stecken (Jodi jetzt, Outfits, Looks, Presets, Favoriten, Follower, Ragdoll-Szenen, Stehen, Waffen). Ungenutzte Mods stehen grau darunter, ebenso Mods, deren Nutzung AltUI nicht erkennen kann (Maps, Script-Mods). „Inhalt anzeigen“ öffnet jede Mod. Was nur im Kleiderschrank liegt, zählt nicht als Nutzung. Jede Mod ist eine Kachel mit Anzeigename und Pak-Datei; die Fundorte eines Teils stehen zusammengefasst je Art (z. B. „Outfits 4–6, 8“). Die Liste wird gesammelt, wenn du „Nutzung“ öffnest; sonst steht links die Zahl vom letzten Mal (vor dem ersten Mal keine).
+- „Nutzung“ zeigt, welche Mods gerade in Gebrauch sind: je Mod die genutzten Teile und wo sie stecken (Jodi jetzt, Outfits, Looks, Presets, Favoriten, Follower, Ragdoll-Szenen, Stehen, Waffen, Objekt-Szenen und -Positionen, Kleidungs-Schubladen). Ungenutzte Mods stehen grau darunter, ebenso Mods, deren Nutzung AltUI nicht erkennen kann (Maps, Script-Mods). „Inhalt anzeigen“ öffnet jede Mod. Was nur im Kleiderschrank liegt, zählt nicht als Nutzung. Jede Mod ist eine Kachel mit Anzeigename und Pak-Datei; die Fundorte eines Teils stehen zusammengefasst je Art (z. B. „Outfits 4–6, 8“). Die Liste wird gesammelt, wenn du „Nutzung“ öffnest; sonst steht links die Zahl vom letzten Mal (vor dem ersten Mal keine).
+- Auch Objekt-Szenen und gespeicherte Objekt-Positionen zählen als Nutzung (Modelle aus Mods).
 
 ## Ragdolls {#ragdolls}
 
@@ -231,7 +233,7 @@ Figuren mit Physik zum Aufstellen und Posieren im Level: Kopien von Jodi, Zombie
 Mit der Maus auf einer Figur, neben dem Panel und im Ragdoll-Modus:
 
 - Links-Ziehen an einer eingefrorenen Figur verschiebt sie über den Boden; das Mausrad hebt oder senkt sie beim Ziehen.
-- Links-Ziehen an einer aktiven Figur greift das Körperteil unter der Maus; loslassen, und sie fällt.
+- Links-Ziehen an einer aktiven Figur greift das Körperteil unter der Maus; loslassen, und sie fällt. Das Mausrad hebt oder senkt dabei den gehaltenen Punkt.
 - Rechtsklick beim Ziehen hält das Teil an dieser Stelle fest; der Rest der Figur hängt daran. Greifst du es wieder, ist es gelöst. „alle loslassen“ in der Figurzeile löst alle.
 - Rechts-Ziehen dreht die Figur um ihre Hüfte.
 - Shift + Linksklick sperrt oder löst das angeklickte Gelenk.
@@ -248,6 +250,25 @@ Figuren ohne Panel bewegen und posieren, die Kamera frei im Raum. Start mit dem 
 - W A S D und Q E bewegen die Kamera, Shift ist schneller; Shift + Mausrad stellt die Geschwindigkeit.
 - Ziehen im Leeren dreht die Kamera.
 - Esc oder B beendet den Modus.
+
+## Objekte {#objects}
+
+Modelle aus dem Spiel, Waffen und Modelle aus Mods (z. B. Requisiten aus Posen-Mods) in die Welt stellen, bewegen und als Szene speichern.
+
+- Links KATALOG: Alle, ★ Favoriten, die Ordner des Spiels, „Aus Level: …“, Waffen und Mods (+ klappt die einzelnen Mods auf). Rechts eine Suche und die Modelle als Kacheln, nach Namen sortiert; „Mehr zeigen“ lädt weitere. Die Bilder nimmt AltUI selbst auf und merkt sie sich.
+- Klick auf eine Kachel stellt das Modell vor Jodi auf den Boden, fest. Rechtsklick: Favorit, „Mit Physik spawnen“.
+- Mod-Modelle findet AltUI, indem es die Mods einmal Ordner für Ordner durchsucht (der Zähler steht oben) und sich das Ergebnis merkt; danach werden nur neue Mods durchsucht. „Mods neu durchsuchen“ fängt von vorn an. Manche Mods legen Modelle in Ordner, die anders heißen als ihr Pak; die findet „Alle Mod-Ordner durchsuchen“ (das Spiel hält dabei etwa eine halbe Minute an).
+- Unten der Block „Gewählt“: Bild, Name, fest oder mit Physik, Physik an/aus, auf den Boden, kopieren, entfernen; Zahlenfelder für Position, Drehung (Gier, Nick, Roll) und Größe – Enter übernimmt. Das gewählte Objekt hat einen gelben Kantenrahmen.
+- WELT › In der Welt: eine Zeile je Objekt mit Wählen, Physik an/aus, Kopieren, Entfernen. „Positionen“ klappt einen Block auf: ein Name und „Position speichern“ halten Ort, Drehung, Größe und Physik fest. Die Position erscheint bei jedem Objekt desselben Modells im selben Level – Klick setzt es dorthin, Rechtsklick: Anwenden / Löschen.
+- WELT › Szenen: ein Name und „Szene speichern“ halten alle Objekte des Levels fest; gleicher Name im selben Level überschreibt. Gezeigt werden nur die Szenen des aktuellen Levels. Ein Klick lädt eine Szene und ersetzt die vorhandenen Objekte; Rechtsklick: Laden / Löschen. Fehlt ein Modell (Mod nicht installiert), wird es übersprungen und gemeldet.
+- Objekte verschwinden mit dem Level; zurück kommen sie über eine Szene.
+
+Mit der Maus auf einem Objekt, neben dem Panel und im Ragdoll-Modus:
+
+- Klick wählt es.
+- Links-Ziehen verschiebt ein festes Objekt über seiner Höhe; ein Objekt mit Physik wird gegriffen, loslassen wirft es.
+- Rechts-Ziehen dreht es um seine Hochachse, Shift + Rechts-Ziehen dreht es frei. Ein Objekt mit Physik hält dabei still und fällt danach wieder.
+- Mausrad beim Ziehen hebt oder senkt es (auch gegriffen mit Physik); Strg + Mausrad ändert seine Größe.
 
 ## Follower {#followers}
 

@@ -34,5 +34,16 @@ class ChainIds(unittest.TestCase):
                         if isinstance(end, str) and "." in end and end.split(".")[0] not in ids: bad.append("%s %s: link %s" % (os.path.basename(f), name, end))
         self.assertEqual(sorted(set(bad)), [])
 
+    def test_return_only_with_outputs(self):
+        """A function without outputs has no return node: an exec chain into "return" fails in BPGen ("exec: unknown node fe or return",
+        2026-10-23, Obj Scan)."""
+        bad = []
+        for f in sorted(glob.glob(os.path.join(ASSETS, "*.json"))):
+            for a in json.load(open(f)).get("assets", []):
+                for fn in a.get("functions", []):
+                    if fn.get("outputs") or fn.get("override") or a.get("interfaces") or not fn.get("graph"): continue   # overrides / interface functions inherit theirs
+                    if any(x == "return" for ch in fn["graph"].get("exec", []) for x in ch): bad.append("%s %s" % (os.path.basename(f), fn["name"]))
+        self.assertEqual(bad, [])
+
 
 if __name__ == "__main__": unittest.main()

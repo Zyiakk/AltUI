@@ -163,6 +163,7 @@ Peau, chaque type de maquillage, yeux et préréglages d'apparence du jeu.
 
 - Un clic sur une entrée l'applique. Clic droit sur un maquillage : teinter avec la palette du jeu, réinitialiser la teinte.
 - Yeux : couleur de l'iris et des cils dans le menu contextuel.
+- Peau : « Peau huilée » au-dessus des peaux rend la peau brillante, comme la peau mouillée du jeu (la peau mouillée du jeu = 50 %). Case cochée = votre valeur, même face à l'histoire ; décochée = le jeu décide à nouveau. Seulement sur Jodi. Les looks et les presets d'apparence gardent ce réglage ; les plus anciens reviennent à « le jeu décide ».
 - Mutation : l'apparence mutée de Jodi dans l'histoire, par parties – couleur de peau et lueur en curseurs (case cochée = actif), veines et yeux en interrupteurs, « Réinitialiser » désactive tout. Le maquillage reste visible sur la peau décolorée, votre couleur d'iris teinte l'œil muté. « Look de l'histoire » reproduit l'apparence de la cinématique : matériau de peau de l'histoire, toutes les lignes au maximum ; chaque ligne peut ensuite être réduite. Maquillage et cicatrices n'y sont pas visibles. Pendant que l'histoire fait muter Jodi elle-même, c'est son apparence qui s'applique.
 - Préréglages : la tuile « + » enregistre l'apparence actuelle avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer, menu rapide.
 
@@ -179,7 +180,7 @@ Peau, chaque type de maquillage, yeux et préréglages d'apparence du jeu.
 L'expression du visage de Jodi.
 
 - Curseurs pour les expressions du jeu (détendue, concentrée, sourire, douleur, frayeur, fatiguée, souffrance), le regard et les formes de la bouche.
-- « Yeux fermés » (sous Regard) ferme les yeux, d'ouverts à complètement fermés ; le clignement des yeux du jeu continue comme d'habitude. Seulement avec les corps convertis, comme les curseurs du corps.
+- « Yeux fermés » (sous Regard) ferme les yeux, d'ouverts à complètement fermés ; le clignement des yeux du jeu continue comme d'habitude. Seulement avec les corps convertis, comme les curseurs du corps. « Œil gauche fermé » et « Œil droit fermé » ferment un seul œil (gauche / droit de Jodi), par exemple pour un clin d'œil ; chaque œil se ferme autant que la plus grande valeur entre sa ligne et « Yeux fermés ».
 - Une entrée cochée garde sa valeur, même pendant les poses ; une entrée non cochée est laissée à l'animation du jeu. « Tout fixer » et « Tout au jeu » basculent toutes les entrées à la fois.
 - Les expressions sont mélangées (ensemble au plus 100 %) ou additionnées.
 - La tuile « + » enregistre le visage actuel avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer.
@@ -213,7 +214,8 @@ Vos propres noms d'affichage pour les mods, groupes, vêtements, coiffures, peau
 - Des puces et une recherche filtrent la liste ; « seulement les mods » masque les entrées du jeu ; ↺ revient au nom par défaut.
 - Avec altui_names.pyz, les noms peuvent être exportés dans un fichier texte puis réimportés.
 - Les mods d'armes figurent avec les autres mods.
-- « Utilisation » montre quels mods sont utilisés en ce moment : pour chaque mod, les pièces utilisées et où elles se trouvent (Jodi maintenant, tenues, looks, préréglages, favoris, compagnons, scènes de ragdolls, position debout, armes). Les mods inutilisés sont listés en gris en dessous, ainsi que les mods dont AltUI ne peut pas détecter l'utilisation (cartes, mods de script). « Voir le contenu » ouvre chacun d'eux. Ce qui se trouve seulement dans la garde-robe ne compte pas comme utilisé. Chaque mod est une tuile avec son nom affiché et son fichier pak ; les emplacements d'une pièce sont résumés par type (p. ex. « Tenues 4–6, 8 »). La liste est établie à l'ouverture de « Utilisation » ; ailleurs, le nombre à gauche est celui de la dernière fois (aucun avant la première).
+- « Utilisation » montre quels mods sont utilisés en ce moment : pour chaque mod, les pièces utilisées et où elles se trouvent (Jodi maintenant, tenues, looks, préréglages, favoris, compagnons, scènes de ragdolls, position debout, armes, scènes et positions d'objets, tiroirs de vêtements). Les mods inutilisés sont listés en gris en dessous, ainsi que les mods dont AltUI ne peut pas détecter l'utilisation (cartes, mods de script). « Voir le contenu » ouvre chacun d'eux. Ce qui se trouve seulement dans la garde-robe ne compte pas comme utilisé. Chaque mod est une tuile avec son nom affiché et son fichier pak ; les emplacements d'une pièce sont résumés par type (p. ex. « Tenues 4–6, 8 »). La liste est établie à l'ouverture de « Utilisation » ; ailleurs, le nombre à gauche est celui de la dernière fois (aucun avant la première).
+- Les scènes d'objets et les positions d'objets enregistrées comptent aussi comme utilisation (modèles de mods).
 
 ## Ragdolls {#ragdolls}
 
@@ -231,7 +233,7 @@ Des figures avec physique à placer et à poser dans le niveau : copies de Jodi,
 Avec la souris sur une figure, à côté du panneau et en mode ragdoll :
 
 - Glisser avec le bouton gauche une figure figée la déplace sur le sol ; la molette la lève ou l'abaisse pendant le glissement.
-- Glisser avec le bouton gauche une figure active saisit la partie du corps sous la souris ; relâchez et elle tombe.
+- Glisser avec le bouton gauche une figure active saisit la partie du corps sous la souris ; relâchez et elle tombe. La molette monte ou descend alors le point saisi.
 - Un clic droit pendant le glissement fixe la partie là où elle est ; le reste de la figure y pend. Saisissez-la de nouveau et elle est libre. « tout relâcher » dans la ligne de la figure les libère toutes.
 - Glisser avec le bouton droit tourne la figure autour de ses hanches.
 - Maj + clic gauche bloque ou libère l'articulation cliquée.
@@ -248,6 +250,25 @@ Déplacer et poser les figures sans le panneau, la caméra libre dans la pièce.
 - W A S D et Q E déplacent la caméra, Maj plus vite ; Maj + molette règle la vitesse.
 - Glisser dans le vide tourne la caméra.
 - Échap ou B quitte le mode.
+
+## Objets {#objects}
+
+Placer dans le monde des modèles du jeu, des armes et des modèles de mods (p. ex. les accessoires des mods de poses), les déplacer et les enregistrer en scène.
+
+- À gauche, CATALOGUE : Tous, ★ Favoris, les dossiers du jeu, « Du niveau : … », Armes et Mods (+ déplie les mods). À droite une recherche et les modèles en tuiles, triés par nom ; « Afficher plus » en charge d'autres. AltUI prend les images lui-même et les garde.
+- Un clic sur une tuile pose le modèle au sol devant Jodi, fixe. Clic droit : favori, « Faire apparaître avec physique ».
+- AltUI trouve les modèles des mods en parcourant les mods une fois, dossier par dossier (le compteur est affiché en haut), et garde le résultat ; ensuite seuls les nouveaux mods sont parcourus. « Rechercher à nouveau dans les mods » recommence. Certains mods rangent des modèles dans des dossiers qui ne portent pas le nom de leur pak ; « Rechercher dans tous les dossiers de mods » les trouve (le jeu s'arrête environ une demi-minute).
+- En bas le bloc « Sélectionné » : image, nom, fixe ou avec physique, physique on/off, au sol, copier, retirer ; champs pour la position, la rotation (lacet, tangage, roulis) et la taille – Entrée applique. L'objet sélectionné a un cadre jaune.
+- MONDE › Dans le monde : une ligne par objet avec sélectionner, physique on/off, copier, retirer. « Positions » ouvre un bloc : un nom et « Enregistrer la position » gardent l'endroit, la rotation, la taille et la physique. La position apparaît pour chaque objet du même modèle dans le même niveau – un clic l'y place, clic droit : appliquer / supprimer.
+- MONDE › Scènes : un nom et « Enregistrer la scène » gardent tous les objets du niveau ; le même nom dans le même niveau remplace. Seules les scènes du niveau actuel sont affichées. Un clic charge une scène et remplace les objets présents ; clic droit : charger / supprimer. Un modèle manquant (mod non installé) est ignoré et signalé.
+- Les objets disparaissent avec le niveau ; une scène les ramène.
+
+Avec la souris sur un objet, à côté du panneau et en mode ragdoll :
+
+- Un clic le sélectionne.
+- Glisser à gauche déplace un objet fixe à sa hauteur ; un objet avec physique est saisi, le relâcher le lance.
+- Glisser à droite le tourne autour de son axe vertical, Maj + glisser à droite le tourne librement. Un objet avec physique reste immobile pendant ce temps puis retombe.
+- La molette en glissant le monte ou le descend (aussi saisi avec physique) ; Ctrl + molette change sa taille.
 
 ## Compagnons {#followers}
 

@@ -163,6 +163,7 @@ Skin, every make-up type, eyes and the game's appearance presets.
 
 - Click an entry to put it on. Right click on make-up: tint with the game's palette, reset the tint.
 - Eyes: iris and eyelash colour in the context menu.
+- Skin: "Oiled skin" above the skins makes her skin glossy, as wet skin in the game (the game's own wet skin is 50 %). Ticked = your value, also against the story; unticked = the game decides again. Only on Jodi. Looks and appearance presets keep the setting; older ones bring "the game decides".
 - Mutation: Jodi's mutated look from the story in parts – skin colour and glow as sliders (ticked = on), veins and eyes as switches, "Reset" turns everything off. Make-up stays visible on the discoloured skin, your own iris colour tints the mutated eye. "Story look" sets the cutscene's look: the story's own skin material, every row at full; you can take single rows back afterwards. Make-up and scars are not visible with it. While the story mutates Jodi herself, the story's look applies.
 - Presets: the "+" tile saves the current appearance with a photo. Right click: apply, view content, rename, update, move, delete, quick menu.
 
@@ -179,7 +180,7 @@ Skin, every make-up type, eyes and the game's appearance presets.
 Jodi's facial expression.
 
 - Sliders for the game's expressions (relaxed, focused, smile, pain, fright, tired, suffering), gaze and mouth shapes.
-- "Eyes closed" (under Gaze) closes the eyes, from open to fully shut; the game's own blinking goes on as before. Only on converted bodies, like the body sliders.
+- "Eyes closed" (under Gaze) closes the eyes, from open to fully shut; the game's own blinking goes on as before. Only on converted bodies, like the body sliders. "Left eye closed" and "Right eye closed" close one eye (Jodi's left / right), e.g. for a wink; each eye closes as far as the larger of its row and "Eyes closed".
 - A ticked entry keeps its value, also in poses; an unticked one is left to the game's animation. "Fix all" and "All to the game" switch every entry at once.
 - Expressions are blended (together at most 100 %) or added up.
 - The "+" tile saves the current face with a photo. Right click: apply, view content, rename, update, move, delete.
@@ -213,7 +214,8 @@ Your own display names for mods, groups, clothes, hairstyles, skins, make-up, po
 - Chips and a search filter the list; "only mods" hides the game's own entries; ↺ goes back to the default name.
 - With altui_names.pyz the names can be exported to a text file and imported again.
 - Weapon mods are listed with the other mods.
-- "Usage" shows which mods are in use right now: per mod the pieces in use and where they are (Jodi now, outfits, looks, presets, favourites, followers, ragdoll scenes, standing idle, weapons). Unused mods are listed below in grey, as are mods whose use AltUI cannot detect (maps, script mods). "View content" opens any of them. Pieces that are only in the wardrobe do not count as in use. Each mod is a tile with its shown name and its pak file; the places of a piece are summed up per kind (e.g. "Outfits 4–6, 8"). The list is collected when you open "Usage"; elsewhere the number on the left is the one from the last time (none before the first time).
+- "Usage" shows which mods are in use right now: per mod the pieces in use and where they are (Jodi now, outfits, looks, presets, favourites, followers, ragdoll scenes, standing idle, weapons, object scenes and positions, clothes drawers). Unused mods are listed below in grey, as are mods whose use AltUI cannot detect (maps, script mods). "View content" opens any of them. Pieces that are only in the wardrobe do not count as in use. Each mod is a tile with its shown name and its pak file; the places of a piece are summed up per kind (e.g. "Outfits 4–6, 8"). The list is collected when you open "Usage"; elsewhere the number on the left is the one from the last time (none before the first time).
+- Object scenes and saved object positions count as use too (models from mods).
 
 ## Ragdolls {#ragdolls}
 
@@ -231,7 +233,7 @@ Figures with physics to place in the level and pose: copies of Jodi, zombies and
 With the mouse on a figure, beside the panel and in the ragdolls mode:
 
 - Left drag on a frozen figure moves it over the floor; the mouse wheel lifts or lowers it while you drag.
-- Left drag on an active figure grabs the body part under the mouse; let go and it falls.
+- Left drag on an active figure grabs the body part under the mouse; let go and it falls. The mouse wheel lifts or lowers the held point meanwhile.
 - A right click while dragging pins the part where it is; the rest of the figure hangs on it. Grab it again and it is free. "release all" in the figure's row frees them all.
 - Right drag turns the figure about its hips.
 - Shift + left click locks or frees the joint you click.
@@ -248,6 +250,25 @@ Moves and poses the figures without the panel, with the camera free in the room.
 - W A S D and Q E move the camera, Shift is faster; Shift + mouse wheel sets the speed.
 - Drag on nothing to turn the camera.
 - Esc or B ends the mode.
+
+## Objects {#objects}
+
+Put models from the game, weapons and models from mods (e.g. props from pose mods) into the world, move them and save them as a scene.
+
+- Left, CATALOGUE: All, ★ Favourites, the game's folders, "From level: …", Weapons and Mods (+ opens the single mods). On the right a search and the models as tiles, sorted by name; "Show more" loads further ones. AltUI takes the pictures itself and keeps them.
+- Clicking a tile puts the model on the floor in front of Jodi, fixed. Right click: favourite, "Spawn with physics".
+- AltUI finds mod models by searching the mods once, folder by folder (the counter is shown at the top), and keeps the result; after that only new mods are searched. "Search mods again" starts over. Some mods put models in folders named unlike their pak; "Search all mod folders" finds those (the game pauses for about half a minute).
+- At the bottom the "Selected" block: picture, name, fixed or with physics, physics on/off, to the floor, copy, remove; fields for position, turn (yaw, pitch, roll) and size – Enter applies. The selected object has a yellow frame.
+- WORLD › In the world: a row per object with select, physics on/off, copy, remove. "Positions" opens a block: a name and "Save position" keep place, turn, size and physics. The position shows for every object of the same model in the same level – a click puts it there, right click: apply / delete.
+- WORLD › Scenes: a name and "Save scene" keep every object of the level; the same name in the same level overwrites. Only the current level's scenes are shown. A click loads a scene and replaces the objects there; right click: load / delete. A missing model (mod not installed) is skipped and reported.
+- Objects go with the level; a scene brings them back.
+
+With the mouse on an object, beside the panel and in the Ragdolls mode:
+
+- Click selects it.
+- Left drag slides a fixed object at its height; an object with physics is grabbed, letting go throws it.
+- Right drag turns it about its vertical axis, Shift + right drag turns it freely. An object with physics keeps still meanwhile and falls again afterwards.
+- The mouse wheel while dragging lifts or lowers it (also when held with physics); Ctrl + wheel changes its size.
 
 ## Followers {#followers}
 
