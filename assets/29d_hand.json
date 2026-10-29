@@ -1,0 +1,1571 @@
+{
+ "assets": [
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BP_AltUIHand",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "variables": [
+    {
+     "name": "On",
+     "type": "bool"
+    },
+    {
+     "name": "Range",
+     "type": "float"
+    },
+    {
+     "name": "Batch",
+     "type": "float"
+    },
+    {
+     "name": "NoHand",
+     "type": "bool"
+    },
+    {
+     "name": "Bound",
+     "type": "object:/Game/Project/Classes/Character_Player_Base"
+    },
+    {
+     "name": "Hand",
+     "type": "object:/Game/Project/Classes/Misc/InvisibleHand_Comp"
+    },
+    {
+     "name": "Active",
+     "type": "bool"
+    },
+    {
+     "name": "Next",
+     "type": "float"
+    },
+    {
+     "name": "Count",
+     "type": "int"
+    },
+    {
+     "name": "TmpVec",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
+     "name": "TmpBool",
+     "type": "bool"
+    },
+    {
+     "name": "TmpFloat",
+     "type": "float"
+    },
+    {
+     "name": "TmpInt",
+     "type": "int"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Hand Extent",
+     "inputs": [
+      {
+       "name": "range",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "extent",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "set",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@entry.range",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "r0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@entry.range",
+         "B": "1.0",
+         "bPickA": "@set.ReturnValue"
+        }
+       },
+       {
+        "id": "r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@r0.ReturnValue",
+         "Min": "1.0",
+         "Max": "10.0"
+        }
+       },
+       {
+        "id": "rz",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMin",
+        "in": {
+         "A": "@r.ReturnValue",
+         "B": "2.0"
+        }
+       },
+       {
+        "id": "x",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@r.ReturnValue",
+         "B": "180.0"
+        }
+       },
+       {
+        "id": "y",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@r.ReturnValue",
+         "B": "180.0"
+        }
+       },
+       {
+        "id": "z",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@rz.ReturnValue",
+         "B": "100.0"
+        }
+       },
+       {
+        "id": "v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "@x.ReturnValue",
+         "Y": "@y.ReturnValue",
+         "Z": "@z.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "v.ReturnValue",
+        "return.extent"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Hand Wanted",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      },
+      {
+       "name": "ticking",
+       "type": "bool"
+      },
+      {
+       "name": "nohand",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "o",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@entry.ticking",
+         "B": "@entry.nohand"
+        }
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@entry.on",
+         "B": "@o.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "a.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Hand Interval",
+     "inputs": [
+      {
+       "name": "ticking",
+       "type": "bool"
+      },
+      {
+       "name": "interval",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "v",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "m",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@entry.interval",
+         "B": "0.1"
+        }
+       },
+       {
+        "id": "s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@m.ReturnValue",
+         "B": "2.5",
+         "bPickA": "@entry.ticking"
+        }
+       }
+      ],
+      "links": [
+       [
+        "s.ReturnValue",
+        "return.v"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Batch Count",
+     "inputs": [
+      {
+       "name": "batch",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "n",
+       "type": "int"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "set",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@entry.batch",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "b0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@entry.batch",
+         "B": "1.0",
+         "bPickA": "@set.ReturnValue"
+        }
+       },
+       {
+        "id": "r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Round",
+        "in": {
+         "A": "@b0.ReturnValue"
+        }
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Clamp",
+        "in": {
+         "Value": "@r.ReturnValue",
+         "Min": "1",
+         "Max": "20"
+        }
+       }
+      ],
+      "links": [
+       [
+        "c.ReturnValue",
+        "return.n"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Pick Allowed",
+     "inputs": [
+      {
+       "name": "auto",
+       "type": "bool"
+      },
+      {
+       "name": "flying",
+       "type": "bool"
+      },
+      {
+       "name": "count",
+       "type": "int"
+      },
+      {
+       "name": "max",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "nf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@entry.flying"
+        }
+       },
+       {
+        "id": "lt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_IntInt",
+        "in": {
+         "A": "@entry.count",
+         "B": "@entry.max"
+        }
+       },
+       {
+        "id": "a1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@entry.auto",
+         "B": "@nf.ReturnValue"
+        }
+       },
+       {
+        "id": "a2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a1.ReturnValue",
+         "B": "@lt.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "a2.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Set Hand",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      },
+      {
+       "name": "range",
+       "type": "float"
+      },
+      {
+       "name": "batch",
+       "type": "float"
+      },
+      {
+       "name": "nohand",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "so",
+        "kind": "set",
+        "var": "On",
+        "in": {
+         "On": "@entry.on"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "set",
+        "var": "Range",
+        "in": {
+         "Range": "@entry.range"
+        }
+       },
+       {
+        "id": "sb",
+        "kind": "set",
+        "var": "Batch",
+        "in": {
+         "Batch": "@entry.batch"
+        }
+       },
+       {
+        "id": "sn",
+        "kind": "set",
+        "var": "NoHand",
+        "in": {
+         "NoHand": "@entry.nohand"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "so",
+        "sr",
+        "sb",
+        "sn"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Release",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "Hand"
+       },
+       {
+        "id": "vh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gh.Hand"
+        }
+       },
+       {
+        "id": "bh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vh.ReturnValue"
+        }
+       },
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "Active"
+       },
+       {
+        "id": "ba",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ga.Active"
+        }
+       },
+       {
+        "id": "st",
+        "kind": "set",
+        "var": "time",
+        "class": "/Game/Project/Classes/Misc/InvisibleHand_Comp",
+        "in": {
+         "self": "@gh.Hand",
+         "time": "0.0"
+        }
+       },
+       {
+        "id": "sa",
+        "kind": "set",
+        "var": "Active",
+        "in": {
+         "Active": "false"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bh",
+        "ba",
+        "st",
+        "sa"
+       ],
+       [
+        "bh:else",
+        "sa"
+       ],
+       [
+        "ba:else",
+        "sa"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Bind",
+     "inputs": [
+      {
+       "name": "jodi",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "rl",
+        "kind": "call_self",
+        "function": "Release"
+       },
+       {
+        "id": "sb",
+        "kind": "set",
+        "var": "Bound",
+        "in": {
+         "Bound": "@entry.jodi"
+        }
+       },
+       {
+        "id": "sn",
+        "kind": "set",
+        "var": "Next",
+        "in": {
+         "Next": "0.0"
+        }
+       },
+       {
+        "id": "cj",
+        "kind": "cast",
+        "class": "/Game/Project/Character/Jodi/Jodi",
+        "pure": true,
+        "in": {
+         "Object": "@entry.jodi"
+        }
+       },
+       {
+        "id": "vj",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@cj.AsJodi"
+        }
+       },
+       {
+        "id": "bj",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vj.ReturnValue"
+        }
+       },
+       {
+        "id": "gih",
+        "kind": "get",
+        "var": "InvisibleHand_Comp",
+        "class": "/Game/Project/Character/Jodi/Jodi"
+       },
+       {
+        "id": "sh",
+        "kind": "set",
+        "var": "Hand",
+        "in": {
+         "Hand": "@gih.InvisibleHand_Comp"
+        }
+       },
+       {
+        "id": "sh0",
+        "kind": "set",
+        "var": "Hand"
+       }
+      ],
+      "links": [
+       [
+        "cj.AsJodi",
+        "gih.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "rl",
+        "sb",
+        "sn",
+        "bj",
+        "sh"
+       ],
+       [
+        "bj:else",
+        "sh0"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Pick",
+     "inputs": [
+      {
+       "name": "comp",
+       "type": "object:/Game/Project/Classes/Items/ItemComp_Pickable"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ow",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "GetOwner",
+        "in": {
+         "self": "@entry.comp"
+        }
+       },
+       {
+        "id": "sim",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "IsSimulatingPhysics",
+        "in": {
+         "self": "@entry.comp",
+         "BoneName": "None"
+        }
+       },
+       {
+        "id": "bsim",
+        "kind": "branch",
+        "in": {
+         "Condition": "@sim.ReturnValue"
+        }
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_GetComponentLocation",
+        "in": {
+         "self": "@entry.comp"
+        }
+       },
+       {
+        "id": "sal",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_SetActorLocation",
+        "in": {
+         "self": "@ow.ReturnValue",
+         "NewLocation": "@cl.ReturnValue",
+         "bSweep": "false",
+         "bTeleport": "false"
+        }
+       },
+       {
+        "id": "ssp",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetSimulatePhysics",
+        "in": {
+         "self": "@entry.comp",
+         "bSimulate": "false"
+        }
+       },
+       {
+        "id": "rt",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "K2_GetRootComponent",
+        "in": {
+         "self": "@ow.ReturnValue"
+        }
+       },
+       {
+        "id": "att",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@entry.comp",
+         "Parent": "@rt.ReturnValue",
+         "SocketName": "None",
+         "LocationRule": "SnapToTarget",
+         "RotationRule": "SnapToTarget",
+         "ScaleRule": "SnapToTarget",
+         "bWeldSimulatedBodies": "true"
+        }
+       },
+       {
+        "id": "idtf8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "ac",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "self": "@ow.ReturnValue",
+         "Class": "/Game/Project/Classes/Component/FlyingItem_Comp",
+         "bManualAttachment": "false",
+         "RelativeTransform": "@idtf8.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "cf",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/Component/FlyingItem_Comp",
+        "pure": true,
+        "in": {
+         "Object": "@ac.ReturnValue"
+        }
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "Hand"
+       },
+       {
+        "id": "ini",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Component/FlyingItem_Comp",
+        "function": "Init",
+        "in": {
+         "self": "@cf.AsFlying Item Comp",
+         "invisible Comp": "@gh.Hand"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bsim",
+        "sal",
+        "ssp",
+        "att",
+        "ac",
+        "ini"
+       ],
+       [
+        "bsim:else",
+        "ac"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Scan",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bound"
+       },
+       {
+        "id": "ft",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Base",
+        "function": "get Foot Location",
+        "in": {
+         "self": "@gb.Bound"
+        }
+       },
+       {
+        "id": "ctr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_VectorVector",
+        "in": {
+         "A": "@ft.location",
+         "B": "(X=0,Y=0,Z=90.0)"
+        }
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "Range"
+       },
+       {
+        "id": "ex",
+        "kind": "call_self",
+        "function": "Hand Extent",
+        "in": {
+         "range": "@gr.Range"
+        }
+       },
+       {
+        "id": "ot",
+        "kind": "make_array",
+        "count": 1,
+        "type": "enum:/Script/Engine.EObjectTypeQuery",
+        "in": {
+         "[0]": "ObjectTypeQuery4"
+        }
+       },
+       {
+        "id": "ign",
+        "kind": "make_array",
+        "count": 0,
+        "type": "object:/Script/Engine.Actor"
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "bo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "BoxOverlapComponents",
+        "in": {
+         "WorldContextObject": "@me.self",
+         "BoxPos": "@ctr.ReturnValue",
+         "Extent": "@ex.extent",
+         "ObjectTypes": "@ot.Array",
+         "ComponentClassFilter": "/Game/Project/Classes/Items/ItemComp_Pickable",
+         "ActorsToIgnore": "@ign.Array"
+        }
+       },
+       {
+        "id": "s0",
+        "kind": "set",
+        "var": "Count",
+        "in": {
+         "Count": "0"
+        }
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@bo.OutComponents"
+        }
+       },
+       {
+        "id": "cp",
+        "kind": "cast",
+        "class": "/Game/Project/Classes/Items/ItemComp_Pickable",
+        "pure": true,
+        "in": {
+         "Object": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "vp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@cp.AsItem Comp Pickable"
+        }
+       },
+       {
+        "id": "bv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vp.ReturnValue"
+        }
+       },
+       {
+        "id": "gau",
+        "kind": "get",
+        "var": "Can Be Auto Picked",
+        "class": "/Game/Project/Classes/Items/ItemComp_Pickable"
+       },
+       {
+        "id": "ow",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "GetOwner",
+        "in": {
+         "self": "@cp.AsItem Comp Pickable"
+        }
+       },
+       {
+        "id": "fl",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "GetComponentByClass",
+        "in": {
+         "self": "@ow.ReturnValue",
+         "ComponentClass": "/Game/Project/Classes/Component/FlyingItem_Comp"
+        }
+       },
+       {
+        "id": "vfl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@fl.ReturnValue"
+        }
+       },
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "Count"
+       },
+       {
+        "id": "gbt",
+        "kind": "get",
+        "var": "Batch"
+       },
+       {
+        "id": "bn",
+        "kind": "call_self",
+        "function": "Batch Count",
+        "in": {
+         "batch": "@gbt.Batch"
+        }
+       },
+       {
+        "id": "pa",
+        "kind": "call_self",
+        "function": "Pick Allowed",
+        "in": {
+         "auto": "@gau.Can Be Auto Picked",
+         "flying": "@vfl.ReturnValue",
+         "count": "@gc.Count",
+         "max": "@bn.n"
+        }
+       },
+       {
+        "id": "bpa",
+        "kind": "branch",
+        "in": {
+         "Condition": "@pa.yes"
+        }
+       },
+       {
+        "id": "pk",
+        "kind": "call_self",
+        "function": "Pick",
+        "in": {
+         "comp": "@cp.AsItem Comp Pickable"
+        }
+       },
+       {
+        "id": "inc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@gc.Count",
+         "B": "1"
+        }
+       },
+       {
+        "id": "sc",
+        "kind": "set",
+        "var": "Count",
+        "in": {
+         "Count": "@inc.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "cp.AsItem Comp Pickable",
+        "gau.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bo",
+        "s0",
+        "fe"
+       ],
+       [
+        "fe",
+        "bv",
+        "bpa",
+        "pk",
+        "sc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Step",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "Hand"
+       },
+       {
+        "id": "vh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@gh.Hand"
+        }
+       },
+       {
+        "id": "bh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vh.ReturnValue"
+        }
+       },
+       {
+        "id": "tk",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "IsComponentTickEnabled",
+        "in": {
+         "self": "@gh.Hand"
+        }
+       },
+       {
+        "id": "go",
+        "kind": "get",
+        "var": "On"
+       },
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "NoHand"
+       },
+       {
+        "id": "hw",
+        "kind": "call_self",
+        "function": "Hand Wanted",
+        "in": {
+         "on": "@go.On",
+         "ticking": "@tk.ReturnValue",
+         "nohand": "@gn.NoHand"
+        }
+       },
+       {
+        "id": "bw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hw.yes"
+        }
+       },
+       {
+        "id": "rl",
+        "kind": "call_self",
+        "function": "Release"
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bound"
+       },
+       {
+        "id": "cj",
+        "kind": "cast",
+        "class": "/Game/Project/Character/Jodi/Jodi",
+        "pure": true,
+        "in": {
+         "Object": "@gb.Bound"
+        }
+       },
+       {
+        "id": "sj",
+        "kind": "set",
+        "var": "Jodi",
+        "class": "/Game/Project/Classes/Misc/InvisibleHand_Comp",
+        "in": {
+         "self": "@gh.Hand",
+         "Jodi": "@cj.AsJodi"
+        }
+       },
+       {
+        "id": "now",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "GetGameTimeSinceCreation",
+        "in": {
+         "self": "@gb.Bound"
+        }
+       },
+       {
+        "id": "q",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@now.ReturnValue",
+         "B": "1000000.0"
+        }
+       },
+       {
+        "id": "sq",
+        "kind": "set",
+        "var": "time",
+        "class": "/Game/Project/Classes/Misc/InvisibleHand_Comp",
+        "in": {
+         "self": "@gh.Hand",
+         "time": "@q.ReturnValue"
+        }
+       },
+       {
+        "id": "sa",
+        "kind": "set",
+        "var": "Active",
+        "in": {
+         "Active": "true"
+        }
+       },
+       {
+        "id": "gx",
+        "kind": "get",
+        "var": "Next"
+       },
+       {
+        "id": "due",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@now.ReturnValue",
+         "B": "@gx.Next"
+        }
+       },
+       {
+        "id": "bd",
+        "kind": "branch",
+        "in": {
+         "Condition": "@due.ReturnValue"
+        }
+       },
+       {
+        "id": "giv",
+        "kind": "get",
+        "var": "interval",
+        "class": "/Game/Project/Classes/Misc/InvisibleHand_Comp"
+       },
+       {
+        "id": "iv",
+        "kind": "call_self",
+        "function": "Hand Interval",
+        "in": {
+         "ticking": "@tk.ReturnValue",
+         "interval": "@giv.interval"
+        }
+       },
+       {
+        "id": "nx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@now.ReturnValue",
+         "B": "@iv.v"
+        }
+       },
+       {
+        "id": "sn",
+        "kind": "set",
+        "var": "Next",
+        "in": {
+         "Next": "@nx.ReturnValue"
+        }
+       },
+       {
+        "id": "rg",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Base",
+        "function": "Is Ragdoll ?",
+        "in": {
+         "self": "@gb.Bound"
+        }
+       },
+       {
+        "id": "brg",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rg.yes"
+        }
+       },
+       {
+        "id": "sc",
+        "kind": "call_self",
+        "function": "Scan"
+       }
+      ],
+      "links": [
+       [
+        "gh.Hand",
+        "giv.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "bh",
+        "bw",
+        "sj",
+        "sq",
+        "sa",
+        "bd",
+        "sn",
+        "brg"
+       ],
+       [
+        "bw:else",
+        "rl"
+       ],
+       [
+        "brg:else",
+        "sc"
+       ]
+      ]
+     }
+    }
+   ],
+   "event_graph": {
+    "nodes": [
+     {
+      "id": "tk",
+      "kind": "event",
+      "class": "/Script/Engine.Actor",
+      "name": "ReceiveTick"
+     },
+     {
+      "id": "pp",
+      "kind": "call",
+      "class": "/Script/Engine.GameplayStatics",
+      "function": "GetPlayerCharacter",
+      "in": {
+       "PlayerIndex": "0"
+      }
+     },
+     {
+      "id": "cp",
+      "kind": "cast",
+      "class": "/Game/Project/Classes/Character_Player_Base",
+      "pure": true,
+      "in": {
+       "Object": "@pp.ReturnValue"
+      }
+     },
+     {
+      "id": "gb",
+      "kind": "get",
+      "var": "Bound"
+     },
+     {
+      "id": "ne",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "NotEqual_ObjectObject",
+      "in": {
+       "A": "@cp.AsCharacter Player Base",
+       "B": "@gb.Bound"
+      }
+     },
+     {
+      "id": "bne",
+      "kind": "branch",
+      "in": {
+       "Condition": "@ne.ReturnValue"
+      }
+     },
+     {
+      "id": "bd",
+      "kind": "call_self",
+      "function": "Bind",
+      "in": {
+       "jodi": "@cp.AsCharacter Player Base"
+      }
+     },
+     {
+      "id": "st",
+      "kind": "call_self",
+      "function": "Step"
+     },
+     {
+      "id": "ep",
+      "kind": "event",
+      "class": "/Script/Engine.Actor",
+      "name": "ReceiveEndPlay"
+     },
+     {
+      "id": "rl",
+      "kind": "call_self",
+      "function": "Release"
+     },
+     {
+      "id": "tex",
+      "kind": "custom_event",
+      "name": "Test Hand Extent",
+      "inputs": [
+       {
+        "name": "range",
+        "type": "float"
+       }
+      ]
+     },
+     {
+      "id": "tex_c",
+      "kind": "call_self",
+      "function": "Hand Extent",
+      "in": {
+       "range": "@tex.range"
+      }
+     },
+     {
+      "id": "tex_s",
+      "kind": "set",
+      "var": "TmpVec",
+      "in": {
+       "TmpVec": "@tex_c.extent"
+      }
+     },
+     {
+      "id": "thw",
+      "kind": "custom_event",
+      "name": "Test Hand Wanted",
+      "inputs": [
+       {
+        "name": "on",
+        "type": "bool"
+       },
+       {
+        "name": "ticking",
+        "type": "bool"
+       },
+       {
+        "name": "nohand",
+        "type": "bool"
+       }
+      ]
+     },
+     {
+      "id": "thw_c",
+      "kind": "call_self",
+      "function": "Hand Wanted",
+      "in": {
+       "on": "@thw.on",
+       "ticking": "@thw.ticking",
+       "nohand": "@thw.nohand"
+      }
+     },
+     {
+      "id": "thw_s",
+      "kind": "set",
+      "var": "TmpBool",
+      "in": {
+       "TmpBool": "@thw_c.yes"
+      }
+     },
+     {
+      "id": "thi",
+      "kind": "custom_event",
+      "name": "Test Hand Interval",
+      "inputs": [
+       {
+        "name": "ticking",
+        "type": "bool"
+       },
+       {
+        "name": "interval",
+        "type": "float"
+       }
+      ]
+     },
+     {
+      "id": "thi_c",
+      "kind": "call_self",
+      "function": "Hand Interval",
+      "in": {
+       "ticking": "@thi.ticking",
+       "interval": "@thi.interval"
+      }
+     },
+     {
+      "id": "thi_s",
+      "kind": "set",
+      "var": "TmpFloat",
+      "in": {
+       "TmpFloat": "@thi_c.v"
+      }
+     },
+     {
+      "id": "tbc",
+      "kind": "custom_event",
+      "name": "Test Batch Count",
+      "inputs": [
+       {
+        "name": "batch",
+        "type": "float"
+       }
+      ]
+     },
+     {
+      "id": "tbc_c",
+      "kind": "call_self",
+      "function": "Batch Count",
+      "in": {
+       "batch": "@tbc.batch"
+      }
+     },
+     {
+      "id": "tbc_s",
+      "kind": "set",
+      "var": "TmpInt",
+      "in": {
+       "TmpInt": "@tbc_c.n"
+      }
+     },
+     {
+      "id": "tpa",
+      "kind": "custom_event",
+      "name": "Test Pick Allowed",
+      "inputs": [
+       {
+        "name": "auto",
+        "type": "bool"
+       },
+       {
+        "name": "flying",
+        "type": "bool"
+       },
+       {
+        "name": "count",
+        "type": "int"
+       },
+       {
+        "name": "max",
+        "type": "int"
+       }
+      ]
+     },
+     {
+      "id": "tpa_c",
+      "kind": "call_self",
+      "function": "Pick Allowed",
+      "in": {
+       "auto": "@tpa.auto",
+       "flying": "@tpa.flying",
+       "count": "@tpa.count",
+       "max": "@tpa.max"
+      }
+     },
+     {
+      "id": "tpa_s",
+      "kind": "set",
+      "var": "TmpBool",
+      "in": {
+       "TmpBool": "@tpa_c.yes"
+      }
+     }
+    ],
+    "links": [],
+    "exec": [
+     [
+      "tk",
+      "bne",
+      "bd",
+      "st"
+     ],
+     [
+      "bne:else",
+      "st"
+     ],
+     [
+      "ep",
+      "rl"
+     ],
+     [
+      "tex",
+      "tex_s"
+     ],
+     [
+      "thw",
+      "thw_s"
+     ],
+     [
+      "thi",
+      "thi_s"
+     ],
+     [
+      "tbc",
+      "tbc_s"
+     ],
+     [
+      "tpa",
+      "tpa_s"
+     ]
+    ]
+   }
+  }
+ ]
+}

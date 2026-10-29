@@ -51,6 +51,16 @@
    "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton"
   },
   {
+   "type": "animsequence_stub",
+   "path": "/Game/Mod/AltUI/Female_WalkTemplate",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton"
+  },
+  {
+   "type": "animsequence_stub",
+   "path": "/Game/Mod/AltUI/Female_RunTemplate",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton"
+  },
+  {
    "type": "animstub",
    "path": "/Game/Project/Character/Jodi/Jodi_Anim",
    "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
@@ -152,6 +162,220 @@
    }
   },
   {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkTpl_Normal_Normal",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkTpl_Normal_Afk1",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Appearance/Female_Idle_Afk1"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkTpl_Normal_Afk2",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Appearance/Female_Idle_Afk2"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkTpl_Normal_Afk3",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Appearance/Female_Idle_Afk3"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkTpl_Normal_Careful",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Female_IdleCare"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkTpl_Normal_Hurt",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Female_Idle_Hurt"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkTpl_Normal_Mirror",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Female_Mirrow_Idle"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIRunTpl_Normal_Normal",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIRunTpl_Normal_Afk1",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Appearance/Female_Idle_Afk1"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIRunTpl_Normal_Afk2",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Appearance/Female_Idle_Afk2"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIRunTpl_Normal_Afk3",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Appearance/Female_Idle_Afk3"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIRunTpl_Normal_Careful",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Female_IdleCare"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIRunTpl_Normal_Hurt",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Female_Idle_Hurt"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIRunTpl_Normal_Mirror",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Female_Mirrow_Idle"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkRunTpl_Normal",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkRunTpl_Afk1",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Appearance/Female_Idle_Afk1"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkRunTpl_Afk2",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Appearance/Female_Idle_Afk2"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkRunTpl_Afk3",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Appearance/Female_Idle_Afk3"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkRunTpl_Careful",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Female_IdleCare"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkRunTpl_Hurt",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Female_Idle_Hurt"
+   }
+  },
+  {
+   "type": "animchild",
+   "path": "/Game/Mod/AltUI/ABP_AltUIWalkRunTpl_Mirror",
+   "parent": "/Game/Project/Character/Jodi/Jodi_Anim",
+   "skeleton": "/Game/Project/Character/Jodi/Body/Female_Skeleton",
+   "overrides": {
+    "AnimGraphNode_SequencePlayer_1": "/Game/Mod/AltUI/Female_WalkTemplate",
+    "AnimGraphNode_SequencePlayer_4": "/Game/Mod/AltUI/Female_RunTemplate",
+    "AnimGraphNode_SequencePlayer_27": "/Game/Project/Character/Jodi/Animations/Female_Mirrow_Idle"
+   }
+  },
+  {
    "type": "blueprint",
    "path": "/Game/Mod/AltUI/BP_AltUIMove",
    "mode": "create",
@@ -215,6 +439,30 @@
     {
      "name": "RunStyle",
      "type": "name"
+    },
+    {
+     "name": "ModClass",
+     "type": "class:/Script/CoreUObject.Object"
+    },
+    {
+     "name": "ModFrom",
+     "type": "string"
+    },
+    {
+     "name": "ModWalkLoop",
+     "type": "object:/Script/CoreUObject.Object"
+    },
+    {
+     "name": "ModRunLoop",
+     "type": "object:/Script/CoreUObject.Object"
+    },
+    {
+     "name": "MoveRunLost",
+     "type": "bool"
+    },
+    {
+     "name": "MoveIdleLost",
+     "type": "bool"
     },
     {
      "name": "IdleStyle",
@@ -1220,12 +1468,1195 @@
         "var": "IdleStyle"
        },
        {
+        "id": "ws",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@gw.WalkStyle"
+        }
+       },
+       {
+        "id": "rs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@gr.RunStyle"
+        }
+       },
+       {
         "id": "is",
         "kind": "call",
         "class": "/Script/Engine.KismetStringLibrary",
         "function": "Conv_NameToString",
         "in": {
          "InName": "@gi.IdleStyle"
+        }
+       },
+       {
+        "id": "wm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "StartsWith",
+        "in": {
+         "SourceString": "@ws.ReturnValue",
+         "InPrefix": "WalkAltUI_",
+         "SearchCase": "IgnoreCase"
+        }
+       },
+       {
+        "id": "rm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "StartsWith",
+        "in": {
+         "SourceString": "@rs.ReturnValue",
+         "InPrefix": "WalkAltUI_",
+         "SearchCase": "IgnoreCase"
+        }
+       },
+       {
+        "id": "same0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@ws.ReturnValue",
+         "B": "@rs.ReturnValue"
+        }
+       },
+       {
+        "id": "same",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@wm.ReturnValue",
+         "B": "@same0.ReturnValue"
+        }
+       },
+       {
+        "id": "nwk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "Normal",
+         "B": ""
+        }
+       },
+       {
+        "id": "nrk",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "Normal",
+         "B": ""
+        }
+       },
+       {
+        "id": "nis",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@gi.IdleStyle"
+        }
+       },
+       {
+        "id": "nie0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@nis.ReturnValue",
+         "B": "Afk1"
+        }
+       },
+       {
+        "id": "nik0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Afk1",
+         "B": "Normal",
+         "bPickA": "@nie0.ReturnValue"
+        }
+       },
+       {
+        "id": "nie1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@nis.ReturnValue",
+         "B": "Afk2"
+        }
+       },
+       {
+        "id": "nik1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Afk2",
+         "B": "@nik0.ReturnValue",
+         "bPickA": "@nie1.ReturnValue"
+        }
+       },
+       {
+        "id": "nie2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@nis.ReturnValue",
+         "B": "Afk3"
+        }
+       },
+       {
+        "id": "nik2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Afk3",
+         "B": "@nik1.ReturnValue",
+         "bPickA": "@nie2.ReturnValue"
+        }
+       },
+       {
+        "id": "nie3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@nis.ReturnValue",
+         "B": "Careful"
+        }
+       },
+       {
+        "id": "nik3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Careful",
+         "B": "@nik2.ReturnValue",
+         "bPickA": "@nie3.ReturnValue"
+        }
+       },
+       {
+        "id": "nie4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@nis.ReturnValue",
+         "B": "Hurt"
+        }
+       },
+       {
+        "id": "nik4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Hurt",
+         "B": "@nik3.ReturnValue",
+         "bPickA": "@nie4.ReturnValue"
+        }
+       },
+       {
+        "id": "nie5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@nis.ReturnValue",
+         "B": "Mirror"
+        }
+       },
+       {
+        "id": "nik5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectString",
+        "in": {
+         "A": "Mirror",
+         "B": "@nik4.ReturnValue",
+         "bPickA": "@nie5.ReturnValue"
+        }
+       },
+       {
+        "id": "c0",
+        "kind": "set",
+        "var": "ModClass",
+        "in": {
+         "ModClass": "None"
+        }
+       },
+       {
+        "id": "f0",
+        "kind": "set",
+        "var": "ModFrom",
+        "in": {
+         "ModFrom": ""
+        }
+       },
+       {
+        "id": "b1n0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "ABP_AltUIWalkRunTpl_",
+         "B": "@nik5.ReturnValue"
+        }
+       },
+       {
+        "id": "b1gc",
+        "kind": "get",
+        "var": "ModClass"
+       },
+       {
+        "id": "b1hv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@b1gc.ModClass"
+        }
+       },
+       {
+        "id": "b1br",
+        "kind": "branch",
+        "in": {
+         "Condition": "@b1hv.ReturnValue"
+        }
+       },
+       {
+        "id": "b1a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "b1b",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b1a.ReturnValue",
+         "B": "/"
+        }
+       },
+       {
+        "id": "b1c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b1b.ReturnValue",
+         "B": "@b1n0.ReturnValue"
+        }
+       },
+       {
+        "id": "b1d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b1c.ReturnValue",
+         "B": "."
+        }
+       },
+       {
+        "id": "b1e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b1d.ReturnValue",
+         "B": "@b1n0.ReturnValue"
+        }
+       },
+       {
+        "id": "b1f",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b1e.ReturnValue",
+         "B": "_C"
+        }
+       },
+       {
+        "id": "b1p",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftClassPath",
+        "in": {
+         "PathString": "@b1f.ReturnValue"
+        }
+       },
+       {
+        "id": "b1r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftClassPathToSoftClassRef",
+        "in": {
+         "SoftClassPath": "@b1p.ReturnValue"
+        }
+       },
+       {
+        "id": "b1l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadClassAsset_Blocking",
+        "in": {
+         "AssetClass": "@b1r.ReturnValue"
+        }
+       },
+       {
+        "id": "b1v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@b1l.ReturnValue"
+        }
+       },
+       {
+        "id": "b1ok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@b1v.ReturnValue"
+        }
+       },
+       {
+        "id": "b1sc",
+        "kind": "set",
+        "var": "ModClass",
+        "in": {
+         "ModClass": "@b1l.ReturnValue"
+        }
+       },
+       {
+        "id": "b1sm",
+        "kind": "set",
+        "var": "ModFrom",
+        "in": {
+         "ModFrom": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "b2gc",
+        "kind": "get",
+        "var": "ModClass"
+       },
+       {
+        "id": "b2hv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@b2gc.ModClass"
+        }
+       },
+       {
+        "id": "b2br",
+        "kind": "branch",
+        "in": {
+         "Condition": "@b2hv.ReturnValue"
+        }
+       },
+       {
+        "id": "b2a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "b2b",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b2a.ReturnValue",
+         "B": "/"
+        }
+       },
+       {
+        "id": "b2c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b2b.ReturnValue",
+         "B": "ABP_AltUIWalkRunTpl_Normal"
+        }
+       },
+       {
+        "id": "b2d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b2c.ReturnValue",
+         "B": "."
+        }
+       },
+       {
+        "id": "b2e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b2d.ReturnValue",
+         "B": "ABP_AltUIWalkRunTpl_Normal"
+        }
+       },
+       {
+        "id": "b2f",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@b2e.ReturnValue",
+         "B": "_C"
+        }
+       },
+       {
+        "id": "b2p",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftClassPath",
+        "in": {
+         "PathString": "@b2f.ReturnValue"
+        }
+       },
+       {
+        "id": "b2r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftClassPathToSoftClassRef",
+        "in": {
+         "SoftClassPath": "@b2p.ReturnValue"
+        }
+       },
+       {
+        "id": "b2l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadClassAsset_Blocking",
+        "in": {
+         "AssetClass": "@b2r.ReturnValue"
+        }
+       },
+       {
+        "id": "b2v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@b2l.ReturnValue"
+        }
+       },
+       {
+        "id": "b2ok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@b2v.ReturnValue"
+        }
+       },
+       {
+        "id": "b2sc",
+        "kind": "set",
+        "var": "ModClass",
+        "in": {
+         "ModClass": "@b2l.ReturnValue"
+        }
+       },
+       {
+        "id": "b2sm",
+        "kind": "set",
+        "var": "ModFrom",
+        "in": {
+         "ModFrom": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "w1n0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "ABP_AltUIWalkTpl_",
+         "B": "@nrk.ReturnValue"
+        }
+       },
+       {
+        "id": "w1n1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w1n0.ReturnValue",
+         "B": "_"
+        }
+       },
+       {
+        "id": "w1n2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w1n1.ReturnValue",
+         "B": "@nik5.ReturnValue"
+        }
+       },
+       {
+        "id": "w1gc",
+        "kind": "get",
+        "var": "ModClass"
+       },
+       {
+        "id": "w1hv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@w1gc.ModClass"
+        }
+       },
+       {
+        "id": "w1br",
+        "kind": "branch",
+        "in": {
+         "Condition": "@w1hv.ReturnValue"
+        }
+       },
+       {
+        "id": "w1a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "w1b",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w1a.ReturnValue",
+         "B": "/"
+        }
+       },
+       {
+        "id": "w1c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w1b.ReturnValue",
+         "B": "@w1n2.ReturnValue"
+        }
+       },
+       {
+        "id": "w1d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w1c.ReturnValue",
+         "B": "."
+        }
+       },
+       {
+        "id": "w1e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w1d.ReturnValue",
+         "B": "@w1n2.ReturnValue"
+        }
+       },
+       {
+        "id": "w1f",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w1e.ReturnValue",
+         "B": "_C"
+        }
+       },
+       {
+        "id": "w1p",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftClassPath",
+        "in": {
+         "PathString": "@w1f.ReturnValue"
+        }
+       },
+       {
+        "id": "w1r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftClassPathToSoftClassRef",
+        "in": {
+         "SoftClassPath": "@w1p.ReturnValue"
+        }
+       },
+       {
+        "id": "w1l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadClassAsset_Blocking",
+        "in": {
+         "AssetClass": "@w1r.ReturnValue"
+        }
+       },
+       {
+        "id": "w1v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@w1l.ReturnValue"
+        }
+       },
+       {
+        "id": "w1ok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@w1v.ReturnValue"
+        }
+       },
+       {
+        "id": "w1sc",
+        "kind": "set",
+        "var": "ModClass",
+        "in": {
+         "ModClass": "@w1l.ReturnValue"
+        }
+       },
+       {
+        "id": "w1sm",
+        "kind": "set",
+        "var": "ModFrom",
+        "in": {
+         "ModFrom": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "w2gc",
+        "kind": "get",
+        "var": "ModClass"
+       },
+       {
+        "id": "w2hv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@w2gc.ModClass"
+        }
+       },
+       {
+        "id": "w2br",
+        "kind": "branch",
+        "in": {
+         "Condition": "@w2hv.ReturnValue"
+        }
+       },
+       {
+        "id": "w2a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "w2b",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w2a.ReturnValue",
+         "B": "/"
+        }
+       },
+       {
+        "id": "w2c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w2b.ReturnValue",
+         "B": "ABP_AltUIWalkTpl_Normal_Normal"
+        }
+       },
+       {
+        "id": "w2d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w2c.ReturnValue",
+         "B": "."
+        }
+       },
+       {
+        "id": "w2e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w2d.ReturnValue",
+         "B": "ABP_AltUIWalkTpl_Normal_Normal"
+        }
+       },
+       {
+        "id": "w2f",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@w2e.ReturnValue",
+         "B": "_C"
+        }
+       },
+       {
+        "id": "w2p",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftClassPath",
+        "in": {
+         "PathString": "@w2f.ReturnValue"
+        }
+       },
+       {
+        "id": "w2r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftClassPathToSoftClassRef",
+        "in": {
+         "SoftClassPath": "@w2p.ReturnValue"
+        }
+       },
+       {
+        "id": "w2l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadClassAsset_Blocking",
+        "in": {
+         "AssetClass": "@w2r.ReturnValue"
+        }
+       },
+       {
+        "id": "w2v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@w2l.ReturnValue"
+        }
+       },
+       {
+        "id": "w2ok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@w2v.ReturnValue"
+        }
+       },
+       {
+        "id": "w2sc",
+        "kind": "set",
+        "var": "ModClass",
+        "in": {
+         "ModClass": "@w2l.ReturnValue"
+        }
+       },
+       {
+        "id": "w2sm",
+        "kind": "set",
+        "var": "ModFrom",
+        "in": {
+         "ModFrom": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "r1n0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "ABP_AltUIRunTpl_",
+         "B": "@nwk.ReturnValue"
+        }
+       },
+       {
+        "id": "r1n1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r1n0.ReturnValue",
+         "B": "_"
+        }
+       },
+       {
+        "id": "r1n2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r1n1.ReturnValue",
+         "B": "@nik5.ReturnValue"
+        }
+       },
+       {
+        "id": "r1gc",
+        "kind": "get",
+        "var": "ModClass"
+       },
+       {
+        "id": "r1hv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@r1gc.ModClass"
+        }
+       },
+       {
+        "id": "r1br",
+        "kind": "branch",
+        "in": {
+         "Condition": "@r1hv.ReturnValue"
+        }
+       },
+       {
+        "id": "r1a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@rs.ReturnValue"
+        }
+       },
+       {
+        "id": "r1b",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r1a.ReturnValue",
+         "B": "/"
+        }
+       },
+       {
+        "id": "r1c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r1b.ReturnValue",
+         "B": "@r1n2.ReturnValue"
+        }
+       },
+       {
+        "id": "r1d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r1c.ReturnValue",
+         "B": "."
+        }
+       },
+       {
+        "id": "r1e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r1d.ReturnValue",
+         "B": "@r1n2.ReturnValue"
+        }
+       },
+       {
+        "id": "r1f",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r1e.ReturnValue",
+         "B": "_C"
+        }
+       },
+       {
+        "id": "r1p",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftClassPath",
+        "in": {
+         "PathString": "@r1f.ReturnValue"
+        }
+       },
+       {
+        "id": "r1r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftClassPathToSoftClassRef",
+        "in": {
+         "SoftClassPath": "@r1p.ReturnValue"
+        }
+       },
+       {
+        "id": "r1l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadClassAsset_Blocking",
+        "in": {
+         "AssetClass": "@r1r.ReturnValue"
+        }
+       },
+       {
+        "id": "r1v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@r1l.ReturnValue"
+        }
+       },
+       {
+        "id": "r1ok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@r1v.ReturnValue"
+        }
+       },
+       {
+        "id": "r1sc",
+        "kind": "set",
+        "var": "ModClass",
+        "in": {
+         "ModClass": "@r1l.ReturnValue"
+        }
+       },
+       {
+        "id": "r1sm",
+        "kind": "set",
+        "var": "ModFrom",
+        "in": {
+         "ModFrom": "@rs.ReturnValue"
+        }
+       },
+       {
+        "id": "r2gc",
+        "kind": "get",
+        "var": "ModClass"
+       },
+       {
+        "id": "r2hv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@r2gc.ModClass"
+        }
+       },
+       {
+        "id": "r2br",
+        "kind": "branch",
+        "in": {
+         "Condition": "@r2hv.ReturnValue"
+        }
+       },
+       {
+        "id": "r2a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@rs.ReturnValue"
+        }
+       },
+       {
+        "id": "r2b",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r2a.ReturnValue",
+         "B": "/"
+        }
+       },
+       {
+        "id": "r2c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r2b.ReturnValue",
+         "B": "ABP_AltUIRunTpl_Normal_Normal"
+        }
+       },
+       {
+        "id": "r2d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r2c.ReturnValue",
+         "B": "."
+        }
+       },
+       {
+        "id": "r2e",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r2d.ReturnValue",
+         "B": "ABP_AltUIRunTpl_Normal_Normal"
+        }
+       },
+       {
+        "id": "r2f",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@r2e.ReturnValue",
+         "B": "_C"
+        }
+       },
+       {
+        "id": "r2p",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftClassPath",
+        "in": {
+         "PathString": "@r2f.ReturnValue"
+        }
+       },
+       {
+        "id": "r2r",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftClassPathToSoftClassRef",
+        "in": {
+         "SoftClassPath": "@r2p.ReturnValue"
+        }
+       },
+       {
+        "id": "r2l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadClassAsset_Blocking",
+        "in": {
+         "AssetClass": "@r2r.ReturnValue"
+        }
+       },
+       {
+        "id": "r2v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@r2l.ReturnValue"
+        }
+       },
+       {
+        "id": "r2ok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@r2v.ReturnValue"
+        }
+       },
+       {
+        "id": "r2sc",
+        "kind": "set",
+        "var": "ModClass",
+        "in": {
+         "ModClass": "@r2l.ReturnValue"
+        }
+       },
+       {
+        "id": "r2sm",
+        "kind": "set",
+        "var": "ModFrom",
+        "in": {
+         "ModFrom": "@rs.ReturnValue"
+        }
+       },
+       {
+        "id": "st0",
+        "kind": "branch",
+        "in": {
+         "Condition": "@same.ReturnValue"
+        }
+       },
+       {
+        "id": "st1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@same.ReturnValue"
+        }
+       },
+       {
+        "id": "st2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@wm.ReturnValue"
+        }
+       },
+       {
+        "id": "st3",
+        "kind": "branch",
+        "in": {
+         "Condition": "@wm.ReturnValue"
+        }
+       },
+       {
+        "id": "st4",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rm.ReturnValue"
+        }
+       },
+       {
+        "id": "st5",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rm.ReturnValue"
         }
        },
        {
@@ -1240,10 +2671,43 @@
         }
        },
        {
+        "id": "gmc",
+        "kind": "get",
+        "var": "ModClass"
+       },
+       {
+        "id": "hmc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValidClass",
+        "in": {
+         "Class": "@gmc.ModClass"
+        }
+       },
+       {
+        "id": "nmc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@hmc.ReturnValue"
+        }
+       },
+       {
+        "id": "idm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ism.ReturnValue",
+         "B": "@nmc.ReturnValue"
+        }
+       },
+       {
         "id": "bm",
         "kind": "branch",
         "in": {
-         "Condition": "@ism.ReturnValue"
+         "Condition": "@idm.ReturnValue"
         }
        },
        {
@@ -1253,6 +2717,16 @@
         "in": {
          "walk": "@gw.WalkStyle",
          "run": "@gr.RunStyle"
+        }
+       },
+       {
+        "id": "m1n0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "ABP_AltUIIdleTpl_",
+         "B": "@sk.key"
         }
        },
        {
@@ -1272,7 +2746,7 @@
         "function": "Concat_StrStr",
         "in": {
          "A": "@m1a.ReturnValue",
-         "B": "/ABP_AltUIIdleTpl_"
+         "B": "/"
         }
        },
        {
@@ -1282,7 +2756,7 @@
         "function": "Concat_StrStr",
         "in": {
          "A": "@m1b.ReturnValue",
-         "B": "@sk.key"
+         "B": "@m1n0.ReturnValue"
         }
        },
        {
@@ -1292,7 +2766,7 @@
         "function": "Concat_StrStr",
         "in": {
          "A": "@m1c.ReturnValue",
-         "B": ".ABP_AltUIIdleTpl_"
+         "B": "."
         }
        },
        {
@@ -1302,7 +2776,7 @@
         "function": "Concat_StrStr",
         "in": {
          "A": "@m1d.ReturnValue",
-         "B": "@sk.key"
+         "B": "@m1n0.ReturnValue"
         }
        },
        {
@@ -1368,7 +2842,7 @@
         "function": "Concat_StrStr",
         "in": {
          "A": "@m2a.ReturnValue",
-         "B": "/ABP_AltUIIdleTpl_"
+         "B": "/"
         }
        },
        {
@@ -1378,7 +2852,7 @@
         "function": "Concat_StrStr",
         "in": {
          "A": "@m2b.ReturnValue",
-         "B": "Normal_Normal"
+         "B": "ABP_AltUIIdleTpl_Normal_Normal"
         }
        },
        {
@@ -1388,7 +2862,7 @@
         "function": "Concat_StrStr",
         "in": {
          "A": "@m2c.ReturnValue",
-         "B": ".ABP_AltUIIdleTpl_"
+         "B": "."
         }
        },
        {
@@ -1398,7 +2872,7 @@
         "function": "Concat_StrStr",
         "in": {
          "A": "@m2d.ReturnValue",
-         "B": "Normal_Normal"
+         "B": "ABP_AltUIIdleTpl_Normal_Normal"
         }
        },
        {
@@ -1480,33 +2954,493 @@
         }
        },
        {
-        "id": "mod",
+        "id": "idc",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "SelectClass",
         "in": {
          "A": "@pick1.ReturnValue",
          "B": "@sc.cls",
-         "bSelectA": "@ism.ReturnValue"
+         "bSelectA": "@idm.ReturnValue"
+        }
+       },
+       {
+        "id": "res",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectClass",
+        "in": {
+         "A": "@gmc.ModClass",
+         "B": "@idc.ReturnValue",
+         "bSelectA": "@hmc.ReturnValue"
+        }
+       },
+       {
+        "id": "gmf",
+        "kind": "get",
+        "var": "ModFrom"
+       },
+       {
+        "id": "fw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@gmf.ModFrom",
+         "B": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "fr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "EqualEqual_StriStri",
+        "in": {
+         "A": "@gmf.ModFrom",
+         "B": "@rs.ReturnValue"
+        }
+       },
+       {
+        "id": "ww",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@wm.ReturnValue",
+         "B": "@fw.ReturnValue"
+        }
+       },
+       {
+        "id": "rw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@rm.ReturnValue",
+         "B": "@fr.ReturnValue"
+        }
+       },
+       {
+        "id": "lwp0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@ws.ReturnValue"
+        }
+       },
+       {
+        "id": "lwp1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@lwp0.ReturnValue",
+         "B": "/Female_Walk.Female_Walk"
+        }
+       },
+       {
+        "id": "lwsp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "@lwp1.ReturnValue"
+        }
+       },
+       {
+        "id": "lwsr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@lwsp.ReturnValue"
+        }
+       },
+       {
+        "id": "lwb",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ww.ReturnValue"
+        }
+       },
+       {
+        "id": "lwl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@lwsr.ReturnValue"
+        }
+       },
+       {
+        "id": "lws",
+        "kind": "set",
+        "var": "ModWalkLoop",
+        "in": {
+         "ModWalkLoop": "@lwl.ReturnValue"
+        }
+       },
+       {
+        "id": "lwn",
+        "kind": "set",
+        "var": "ModWalkLoop",
+        "in": {
+         "ModWalkLoop": "None"
+        }
+       },
+       {
+        "id": "lrp0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "/Game/Mod/",
+         "B": "@rs.ReturnValue"
+        }
+       },
+       {
+        "id": "lrp1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@lrp0.ReturnValue",
+         "B": "/Female_Run.Female_Run"
+        }
+       },
+       {
+        "id": "lrsp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeSoftObjectPath",
+        "in": {
+         "PathString": "@lrp1.ReturnValue"
+        }
+       },
+       {
+        "id": "lrsr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "Conv_SoftObjPathToSoftObjRef",
+        "in": {
+         "SoftObjectPath": "@lrsp.ReturnValue"
+        }
+       },
+       {
+        "id": "lrb",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rw.ReturnValue"
+        }
+       },
+       {
+        "id": "lrl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "LoadAsset_Blocking",
+        "in": {
+         "Asset": "@lrsr.ReturnValue"
+        }
+       },
+       {
+        "id": "lrs",
+        "kind": "set",
+        "var": "ModRunLoop",
+        "in": {
+         "ModRunLoop": "@lrl.ReturnValue"
+        }
+       },
+       {
+        "id": "lrn",
+        "kind": "set",
+        "var": "ModRunLoop",
+        "in": {
+         "ModRunLoop": "None"
+        }
+       },
+       {
+        "id": "nrw",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@rw.ReturnValue"
+        }
+       },
+       {
+        "id": "rl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@rm.ReturnValue",
+         "B": "@nrw.ReturnValue"
+        }
+       },
+       {
+        "id": "rl2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@rl.ReturnValue",
+         "B": "@hmc.ReturnValue"
+        }
+       },
+       {
+        "id": "il",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ism.ReturnValue",
+         "B": "@hmc.ReturnValue"
+        }
+       },
+       {
+        "id": "srl",
+        "kind": "set",
+        "var": "MoveRunLost",
+        "in": {
+         "MoveRunLost": "@rl2.ReturnValue"
+        }
+       },
+       {
+        "id": "sil",
+        "kind": "set",
+        "var": "MoveIdleLost",
+        "in": {
+         "MoveIdleLost": "@il.ReturnValue"
         }
        }
       ],
       "links": [
        [
-        "mod.ReturnValue",
+        "res.ReturnValue",
         "return.cls"
        ]
       ],
       "exec": [
        [
+        "b1br:else",
+        "b1l",
+        "b1ok",
+        "b1sc",
+        "b1sm"
+       ],
+       [
+        "b2br:else",
+        "b2l",
+        "b2ok",
+        "b2sc",
+        "b2sm"
+       ],
+       [
+        "w1br:else",
+        "w1l",
+        "w1ok",
+        "w1sc",
+        "w1sm"
+       ],
+       [
+        "w2br:else",
+        "w2l",
+        "w2ok",
+        "w2sc",
+        "w2sm"
+       ],
+       [
+        "r1br:else",
+        "r1l",
+        "r1ok",
+        "r1sc",
+        "r1sm"
+       ],
+       [
+        "r2br:else",
+        "r2l",
+        "r2ok",
+        "r2sc",
+        "r2sm"
+       ],
+       [
+        "f0",
+        "st0"
+       ],
+       [
+        "st0",
+        "b1br"
+       ],
+       [
+        "b1br",
+        "st1"
+       ],
+       [
+        "b1ok:else",
+        "st1"
+       ],
+       [
+        "b1sm",
+        "st1"
+       ],
+       [
+        "st0:else",
+        "st1"
+       ],
+       [
+        "st1",
+        "b2br"
+       ],
+       [
+        "b2br",
+        "st2"
+       ],
+       [
+        "b2ok:else",
+        "st2"
+       ],
+       [
+        "b2sm",
+        "st2"
+       ],
+       [
+        "st1:else",
+        "st2"
+       ],
+       [
+        "st2",
+        "w1br"
+       ],
+       [
+        "w1br",
+        "st3"
+       ],
+       [
+        "w1ok:else",
+        "st3"
+       ],
+       [
+        "w1sm",
+        "st3"
+       ],
+       [
+        "st2:else",
+        "st3"
+       ],
+       [
+        "st3",
+        "w2br"
+       ],
+       [
+        "w2br",
+        "st4"
+       ],
+       [
+        "w2ok:else",
+        "st4"
+       ],
+       [
+        "w2sm",
+        "st4"
+       ],
+       [
+        "st3:else",
+        "st4"
+       ],
+       [
+        "st4",
+        "r1br"
+       ],
+       [
+        "r1br",
+        "st5"
+       ],
+       [
+        "r1ok:else",
+        "st5"
+       ],
+       [
+        "r1sm",
+        "st5"
+       ],
+       [
+        "st4:else",
+        "st5"
+       ],
+       [
+        "st5",
+        "r2br"
+       ],
+       [
+        "r2br",
+        "bm"
+       ],
+       [
+        "r2ok:else",
+        "bm"
+       ],
+       [
+        "r2sm",
+        "bm"
+       ],
+       [
+        "st5:else",
+        "bm"
+       ],
+       [
+        "lwb",
+        "lwl",
+        "lws"
+       ],
+       [
+        "lwb:else",
+        "lwn"
+       ],
+       [
+        "lrb",
+        "lrl",
+        "lrs"
+       ],
+       [
+        "lrb:else",
+        "lrn"
+       ],
+       [
         "entry",
+        "c0",
+        "f0"
+       ],
+       [
         "bm",
         "m1l",
         "m2l",
-        "return"
+        "lwb"
        ],
        [
         "bm:else",
+        "lwb"
+       ],
+       [
+        "lws",
+        "lrb"
+       ],
+       [
+        "lwn",
+        "lrb"
+       ],
+       [
+        "lrs",
+        "srl"
+       ],
+       [
+        "lrn",
+        "srl"
+       ],
+       [
+        "srl",
+        "sil",
         "return"
        ]
       ]
@@ -1547,11 +3481,52 @@
          "B": "None",
          "bSelectA": "@entry.running"
         }
+       },
+       {
+        "id": "gml",
+        "kind": "get",
+        "var": "ModWalkLoop"
+       },
+       {
+        "id": "gmr",
+        "kind": "get",
+        "var": "ModRunLoop"
+       },
+       {
+        "id": "mod",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@gmr.ModRunLoop",
+         "B": "@gml.ModWalkLoop",
+         "bSelectA": "@entry.running"
+        }
+       },
+       {
+        "id": "vm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@mod.ReturnValue"
+        }
+       },
+       {
+        "id": "fin",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectObject",
+        "in": {
+         "A": "@mod.ReturnValue",
+         "B": "@r.ReturnValue",
+         "bSelectA": "@vm.ReturnValue"
+        }
        }
       ],
       "links": [
        [
-        "r.ReturnValue",
+        "fin.ReturnValue",
         "return.loop"
        ]
       ],

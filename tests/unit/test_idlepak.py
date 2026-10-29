@@ -101,7 +101,8 @@ class RealMod(unittest.TestCase):
         arch = os.environ.get("TKA_MOD_ARCHIVE")
         src = os.path.join(os.path.dirname(arch or "."), "library", "override", "Jodi_Idle_Adjustment_qhlys_P.pak")
         altui = os.path.join(H, "..", "..", "build", "AltUI.pak")
-        if not (arch and os.path.exists(src) and os.path.exists(altui)): self.skipTest("no archive / no AltUI build")
+        real = os.path.exists(src) and (os.stat(src).st_blocks > 0 or os.path.getsize(src) == 0)   # not a placeholder
+        if not (arch and real and os.path.exists(altui)): self.skipTest("no archive / no AltUI build")
         d = tempfile.mkdtemp(); self.addCleanup(shutil.rmtree, d, ignore_errors=True)
         log = idlepak.convert(src, name="IdleAdjustment", out_dir=d, altui=altui)
         self.assertIn("Normal_Normal", log["templates"]); self.assertEqual(log["verify"], [])

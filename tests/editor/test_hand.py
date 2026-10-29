@@ -1,0 +1,46 @@
+"""BP_AltUIHand: scan box (range, height cap), when it runs, pace, items per round, which item is taken."""
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import unreal
+from edtest_lib import *
+
+
+def main():
+    h = cdo("/Game/Mod/AltUI/BP_AltUIHand.BP_AltUIHand_C")
+    def ext(r): h.call_method("Test Hand Extent", args=(r,)); v = h.get_editor_property("TmpVec"); return (round(v.x, 1), round(v.y, 1), round(v.z, 1))
+    expect("never set = the game's box", ext(0.0), (180.0, 180.0, 100.0))
+    expect("1x = the game's box", ext(1.0), (180.0, 180.0, 100.0))
+    expect("2.5x, height capped at 2x", ext(2.5), (450.0, 450.0, 200.0))
+    expect("10x", ext(10.0), (1800.0, 1800.0, 200.0))
+    expect("above the range: 10x", ext(25.0), (1800.0, 1800.0, 200.0))
+    def wanted(*a): h.call_method("Test Hand Wanted", args=a); return h.get_editor_property("TmpBool")
+    expect("off: game", wanted(False, True, True), False)
+    expect("on, hand in the bag", wanted(True, True, False), True)
+    expect("on, no hand, option off: game (does nothing)", wanted(True, False, False), False)
+    expect("on, no hand, option on", wanted(True, False, True), True)
+    def iv(*a): h.call_method("Test Hand Interval", args=a); return round(h.get_editor_property("TmpFloat"), 2)
+    expect("hand ticks: its interval", iv(True, 2.0), 2.0)
+    expect("six hands: at least 0.1 s", iv(True, 0.0), 0.1)
+    expect("no hand: pace of one", iv(False, 0.0), 2.5)
+    def bc(b): h.call_method("Test Batch Count", args=(b,)); return h.get_editor_property("TmpInt")
+    expect("never set = 1", bc(0.0), 1); expect("5", bc(5.0), 5); expect("capped at 20", bc(50.0), 20)
+    def pa(*a): h.call_method("Test Pick Allowed", args=a); return h.get_editor_property("TmpBool")
+    expect("auto, room", pa(True, False, 0, 1), True)
+    expect("not auto-pickable", pa(False, False, 0, 5), False)
+    expect("already flying", pa(True, True, 0, 5), False)
+    expect("round full", pa(True, False, 5, 5), False)
+    mgr = cdo("/Game/Mod/AltUI/BP_AltUIManager.BP_AltUIManager_C")
+    mgr.set_editor_property("HandOn", True); mgr.set_editor_property("HandRange", 4.5); mgr.set_editor_property("HandBatch", 7.0); mgr.set_editor_property("HandNoHand", True)
+    mgr.call_method("Test Save Settings")
+    for k, v in (("HandOn", False), ("HandRange", 0.0), ("HandBatch", 0.0), ("HandNoHand", False)): mgr.set_editor_property(k, v)
+    mgr.call_method("Test Load Settings")
+    expect("hand on round trip", mgr.get_editor_property("HandOn"), True)
+    expect("range round trip", round(mgr.get_editor_property("HandRange"), 1), 4.5)
+    expect("batch round trip", round(mgr.get_editor_property("HandBatch"), 1), 7.0)
+    expect("no hand round trip", mgr.get_editor_property("HandNoHand"), True)
+    mgr.call_method("Test Toggle Hand"); expect("quick toggle off", mgr.get_editor_property("HandOn"), False)
+    mgr.call_method("Test Toggle Hand"); expect("and on again", mgr.get_editor_property("HandOn"), True)
+    for k, v in (("HandOn", False), ("HandRange", 0.0), ("HandBatch", 0.0), ("HandNoHand", False)): mgr.set_editor_property(k, v)
+    mgr.call_method("Test Save Settings")
+
+
+run(main)

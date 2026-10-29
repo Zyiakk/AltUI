@@ -39,7 +39,7 @@ A body mod is not a clothing row; it is a mesh AltUI loads on demand, and it nee
 * optionally, a one-row table `Body_Scale` next to it describes the body's own bone scales
 * optionally, the mesh points at `ABP_BodyScale` as its post-process animation blueprint, which is what makes the shape sliders work on it
 
-There are two ways to get there: convert an existing replacer with `bodypak.pyz` – the players' guide is [installing body mods](../BODY_MODS.md) – or build the mod in the Unreal Editor against the two assets in [uassets/](../uassets/README.md), which is the route if the body is yours and you would rather not round-trip through a converter.
+There are two ways to get there: convert an existing replacer with `bodypak.pyz` – the players' guide is [installing body mods](../../BODY_MODS.md) – or build the mod in the Unreal Editor against the two assets in [uassets/](../../uassets/README.md), which is the route if the body is yours and you would rather not round-trip through a converter.
 
 Either way the result works only with AltUI installed: the mesh is under your own path, and without AltUI nothing loads it. It is a second file to offer beside your replacer, not a replacement for it.
 
@@ -52,11 +52,11 @@ A weapon mod is not a row in a game table either; it is a mod of its own, with a
 * a **skin** is a row in `Mod_WeaponSkin` (row structure `S_WeaponSkin`): `Weapon`, `Caption`, `MainTex`, `NormalTex`, `MetallicTex`, `Icon`. Leave a texture out and the game's stays
 * a **model** is a row in `Mod_WeaponModel` (row structure `S_WeaponModel`): `Weapon`, `Caption`, `Icon`. The meshes are not named in the table – AltUI loads `/Game/Mod/WeaponAltUI_<Name>/<name of the mesh the game would use>`, so your packages go flat into the mod folder under exactly the game's names, and whatever you leave out keeps its original. That is also how the magazine, the optics, the suppressor and the grip come along
 * a **shot sound** is a row in `Mod_WeaponSound` (row structure `S_WeaponSound`): `Weapon`, `Caption`, `Sound` – a SoundCue or a SoundWave. Chosen in the Sound section it becomes the weapon's shot sound, independent of model and skin; a mounted suppressor with a sound of its own still wins. A cue keeps the attenuation over distance, a bare wave plays as loud far away as up close
-* `Weapon` is an item row name – `Glock`, `UMP45`, `Shotgun` and thirteen more; the full list is in [the editor assets](../uassets/README.md)
+* `Weapon` is an item row name – `Glock`, `UMP45`, `Shotgun` and thirteen more; the full list is in [the editor assets](../../uassets/README.md)
 
 Worth knowing before you build a skin: it is applied by setting `MainTex`, `NormalTex` and `MetallicTex` on the weapon's material, and a material without those parameters ignores it silently. The game's own weapon materials have them; the materials that come with a model mod usually do not, so a skin can look perfect on the vanilla weapon and do nothing on top of someone else's model.
 
-Two routes, as for bodies: convert a replacer with `weaponpak.pyz` – the players' guide is [installing weapon mods](../WEAPON_MODS.md) – or build the mod in the editor against the three structs in [uassets/](../uassets/README.md), where a finished example sits in [examples/WeaponAltUI_Example/](../examples/WeaponAltUI_Example/). Either way it works only with AltUI installed: a second file beside your replacer, not a replacement for it.
+Two routes, as for bodies: convert a replacer with `weaponpak.pyz` – the players' guide is [installing weapon mods](../../WEAPON_MODS.md) – or build the mod in the editor against the three structs in [uassets/](../../uassets/README.md), where a finished example sits in [examples/WeaponAltUI_Example/](../../examples/WeaponAltUI_Example/). Either way it works only with AltUI installed: a second file beside your replacer, not a replacement for it.
 
 ## Where it goes wrong
 

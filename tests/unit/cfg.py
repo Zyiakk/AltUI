@@ -22,3 +22,11 @@ def path(name, default=""):
             out = r.stdout.strip()
         _cache[name] = out
     return _cache[name] or default
+
+
+def real_file(p):
+    """True for a file with data on disk; False if it is missing or a zero-filled sparse placeholder (a copy of the mod
+    archive without the mod files). Reads metadata only."""
+    try: st = os.stat(p)
+    except OSError: return False
+    return st.st_size == 0 or st.st_blocks > 0

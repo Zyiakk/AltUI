@@ -159,6 +159,8 @@ def structs():
                            param("InfAmmo", "bool"),
                            # what the figure is: KIND_LOOK (BP_AltUIFollower wearing a look) or KIND_JASON (BP_AltUIJason, the story's Jason); 0 = an old record
                            param("Kind", "int"),
+                           # gear menu "attackable" off: bCanBeDamaged false - zombies take only figures that can be damaged; false = attackable / an old record
+                           param("NoAttack", "bool"),
                            # the look's mutation (mutation.py), drawn into a skin target of its own on spawn; zeros = none / an old record
                            param("Mutation", "struct:/Game/Mod/AltUI/S_Mutation")]),
             blueprint(SG_FOL, "/Script/Engine.SaveGame", variables=[var("Followers", "struct:" + S_FOL, "array"), var("Counter", "int")])]

@@ -48,6 +48,7 @@ After a game update, or with a mod that replaces tables of the game, AltUI may m
 - The mouse wheel scrolls; the scroll speed is set under Options › Controls.
 - While the panel is open Jodi cannot walk. Drag on the background to turn the camera; click on Jodi and drag to turn her – she turns back when the panel closes.
 - + and − change the camera distance in 5 % steps, the mouse wheel over Jodi in 4 % steps.
+- While you play (panel closed) the mouse wheel moves the camera closer to Jodi or further away; with the quick menu entry "Camera height (wheel)" it moves the camera up or down instead (left click or Esc ends that); aiming keeps the game's view. Distance and height are kept.
 - The round buttons above + and − open a free camera (mouse turns, W A S D and Q E move, Shift is faster, the wheel sets the speed, Esc returns), the game's photo mode (Esc returns) and the ragdolls mode (see "Ragdolls mode").
 - The topmost round button (the bulb) is the camera light: it lights up what the camera sees – beside the panel, in the free camera and in photo mode. A click opens a small menu: on / off, the light's colour (palette) and a brightness slider. It only brightens (no shine spots, no beam in fog), is off while you play and comes back as you left it when the panel opens again.
 - Undo and redo (five steps) are in the status bar at the bottom.
@@ -61,7 +62,8 @@ The slots are on the left, the items of the chosen slot on the right.
 - Click an item to wear it, click a worn item to take it off.
 - The chips above the list filter by mod or group; "..." folds the chip rows. A search field narrows down the chips, the search above the list finds items by name, mod or group.
 - Filters: only owned, only favourites, only vanilla, only worn.
-- Right click on an item: favourite, hide, colour via the game's palette, reset colour, put in backpack, rename, only this group, view mod content, show in tab.
+- Right click on an item: favourite, keep on, hide, colour via the game's palette, reset colour, put in backpack, rename, only this group, view mod content, show in tab.
+- Keep on: a marked piece that you put on yourself stays on when you put on a look or an outfit. The look then leaves out pieces of the same slot (or of a slot that does not go with it) and names them in the notice. A piece that a look or outfit put on does not stay through the next change, even when it is marked – trying outfits never piles pieces up. The tile shows "kept on". Undo restores the state before exactly.
 - Drawers: your own collections of clothes, in a bar above the list. "Default" shows everything; "+" makes a new drawer ("Drawer 1", "Drawer 2" …). A drawer shows the same page – slots, chips, search, filters, favourites – with only its pieces, and the slots count only those. Right click on an item › "Drawer ›" opens the list of drawers next to the menu: a tick means the piece is in it, a click puts it in or takes it out, "+ New drawer" makes one with the piece in it. A piece can be in any number of drawers; inside a drawer the menu also has "Remove from this drawer". Right click on a drawer: rename (Enter keeps the name, Esc cancels), move left / right, delete (asks first – the pieces stay). The shown drawer is kept after a restart.
 - Tooltips show which mod an item comes from.
 - Damage (in the context menu): 0 to 100 %, live on a worn piece; on any other piece it is kept until the piece is worn. Worn pieces without damage textures have no slider.
@@ -83,9 +85,9 @@ The game's saved outfits, the same ones the wardrobe and the mirror use.
 
 A look is everything at once: clothes with their colours, hairstyle and hair colour, make-up, eyes, skin, mutation, body sliders, body mod and face.
 
-- The "+" tile saves the current look with a full-body photo – from the front or as you see her.
+- The "+" tile saves the current look with a full-body photo – from the front, or with the free camera: fly it wherever you like and click to take the photo (Esc: the front photo instead).
 - Click a look to apply it.
-- Right click: view content, rename, update (photo from the front or as seen), move, delete, add to or remove from the quick menu.
+- Right click: view content, rename, update (photo from the front or with the free camera), move, delete, add to or remove from the quick menu.
 - Right click also: "Spawn as ragdoll", "Spawn as follower", "Spawn as NPC" (see "Ragdolls" and "Followers").
 - Right click "Clean copy (without missing parts)" – only shown when the look holds pieces of a mod that is no longer installed, or make-up / eye rows no table has: a new look right after it without those entries, with the same photo. The original stays as it is; saving a look again never removes them by itself.
 
@@ -189,6 +191,8 @@ Jodi's facial expression.
 
 Settings of other mods that register with AltUI: their entries on the left, the chosen one's toggles, sliders, numbers, choices, colours, text fields, keys and buttons on the right.
 
+Above the fields: presets of the page. The "+" tile saves the current settings with a photo (from the front or with the free camera); a click applies a preset. Right click: apply, view content, rename, update, move, delete, quick menu. "View content" lists the values with a check box each: only ticked values are applied, unticked ones stay stored. Presets a mod brings itself come first; they can be applied, renamed, given a photo of your own ("New photo") and their values ticked or unticked, not changed or deleted. Kept per mod in AltUI_ModPresets_<mod>.sav.
+
 This tab only appears when such a mod is installed.
 
 ## Options {#options}
@@ -200,8 +204,7 @@ The categories are on the left.
 - Groups: merge groups or mods with the same name, length of group names, height of the chip area, chip search.
 - Camera: field of view, distance, height, camera follows the chosen slot. Two switches for the free camera (also in the ragdolls mode): no collision – it flies through walls and Jodi – and any distance from Jodi.
 - Controls: panel key, scroll speed, camera height with the right mouse button, how far the mouse wheel lifts a ragdoll per notch.
-- Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. "Slow motion on" switches slow motion, "Slow motion speed" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry "Slow motion on / off" does the same as the switch. "Reset to default" sets walk, run and slow motion speed back. "Standing" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…).
-- Quick menu: its key, its opacity, what is in the wheel, own keys.
+- Movement: Jodi's own walk and run speed (50 to 200 %); crouching and jumping stay as they are. "Slow motion on" switches slow motion, "Slow motion speed" (5 to 90 %, default 25 %) sets how slow it runs; the quick menu entry "Slow motion on / off" does the same as the switch. "Reset to default" sets walk, run and slow motion speed back. "Standing" picks Jodi's idle: the game's standing animations (looking around, checking nails, checking leg, careful, injured, posing) and those of installed idle mods (IdleAltUI_…). Walk / run mods (WalkAltUI_…) add chips to "Walk style" and "Run style"; those rows only show when there is a choice. A walk mod beats a run mod or an idle mod chosen at the same time: that side plays normal and says so under its row.
 - Theme: every panel colour and its opacity, a background picture (fill, alignment, hue, sepia, invert, its own opacity) and a picture for tiles and tabs, colour schemes saved under a name; reset is in the status bar. A theme saved now keeps the pictures and their settings too. Your own pictures: Background_1 … Background_30 and Button_1 … Button_30 (.png, .jpg or .jpeg) in the folder the page names. "Show previews" shows the pictures themselves on their chips; right click on the preview of an own picture: "Redo preview".
 - Slot conflicts: free the game's slot pairs (for example bra and shirt) so both can be worn. Below: "Several pieces in one slot" – a slot switched on keeps its pieces when another one is put on (for example knee socks over tights), for Jodi, followers and looks.
 - Tabs: text, icons or both in the tab bar; switch tabs off. "Try to fit in one row": the captions get smaller and then shorter, so the bar fits on one row where it can.
@@ -229,6 +232,7 @@ Figures with physics to place in the level and pose: copies of Jodi, zombies and
 - Joint spheres show where you can grab: grey, red = locked, green = movable, blue = pinned. Hidden ones shimmer pale through the body; a click on a sphere grabs exactly that joint. They show only on this tab and in the Ragdolls mode.
 - Poses (in the opened row): a name and "save pose" keep how the body parts are placed and which joints are locked or movable. A pose loads onto every figure of the same kind, in every level – a click loads, right click: load / delete. The figure freezes and stands on the floor.
 - Scenes: "Save scene as" keeps every figure of the level with its look, place, pose and joints; the same name in the same level overwrites. Only the scenes of the current level are shown. A click loads a scene and replaces the figures that are there; right click: load / delete.
+- "Make attackable" (Jodi copies, NPC and mercenary copies): zombies attack the ragdoll like a figure; its header then shows "· attackable". Every hit pushes the body part nearest to the zombie; a frozen ragdoll springs back into its pose about a second after the last hit. Ragdolls do not die. The state is saved with the scene.
 
 With the mouse on a figure, beside the panel and in the ragdolls mode:
 
@@ -239,6 +243,8 @@ With the mouse on a figure, beside the panel and in the ragdolls mode:
 - Shift + left click locks or frees the joint you click.
 - Shift + right click on a frozen figure makes the joint movable. Left drag on a body part below a movable joint then moves only that part; it stays where you let go – that is how a figure is posed.
 - Right drag on a body part below a movable joint of a frozen figure turns that limb about the joint: the point you grabbed follows the mouse, hand and fingers turn with it. The mouse wheel twists the limb about its own axis meanwhile. The turn stays in the pose and is saved with poses and scenes; joint limits do not apply until the figure becomes active.
+- Fingers and eyes (frozen figures with Jodi's body): up close (within about 1 m) small spheres appear on the finger joints and the lids. Right-drag a finger sphere to turn that joint, the mouse wheel twists it; left-drag curls the whole finger (pull the tip towards the knuckle). Left-drag a lid sphere to aim both eyes; the wheel opens and closes the lids meanwhile (with Shift when grabbing: only that lid).
+- In an opened figure, "Left hand" and "Right hand" set ready-made hand poses (open, relaxed, fist, thumbs up, peace, point, hold, base pose); "Eyes: reset" opens the lids and looks straight ahead. Poses and scenes save fingers, lids and gaze.
 
 Without the panel, the quick menu activates or freezes figures: "Ragdoll: activate / freeze the one in view" takes the figure in the middle of the screen, "Ragdolls: active / frozen" switches all of them.
 
@@ -249,7 +255,15 @@ Moves and poses the figures without the panel, with the camera free in the room.
 - The mouse pointer stays visible; on a figure everything works as beside the panel (see "Ragdolls").
 - W A S D and Q E move the camera, Shift is faster; Shift + mouse wheel sets the speed.
 - Drag on nothing to turn the camera.
+- Hold the middle mouse button to turn the camera without the screen edges stopping it; the pointer comes back where it was.
 - Esc or B ends the mode.
+
+## Navigation {#navigation}
+
+- Fly / Land: Jodi flies. Move as usual, Space rises, Ctrl sinks, Shift is three times as fast; the slider sets the speed. Walls stop her. Land lets her drop to the ground – a high fall hurts as in the game. Also in the quick menu, so it can have a key of its own (Actions › Own keys).
+- Lists the beds of the current level where Jodi can save, nearest first, with the room's name and the distance.
+- Teleport puts Jodi next to that bed, facing it; save as usual by using the bed. Followers that follow her come along, waiting ones stay.
+- A teleport skips everything on the way: story steps the game starts when Jodi walks through an area do not happen on the way, only when she walks into them later. Jodi's office, Level 3 and the shooting range have no such beds.
 
 ## Objects {#objects}
 
@@ -258,8 +272,8 @@ Put models from the game, weapons and models from mods (e.g. props from pose mod
 - Left, CATALOGUE: All, ★ Favourites, the game's folders, "From level: …", Weapons and Mods (+ opens the single mods). On the right a search and the models as tiles, sorted by name; "Show more" loads further ones. AltUI takes the pictures itself and keeps them.
 - Clicking a tile puts the model on the floor in front of Jodi, fixed. Right click: favourite, "Spawn with physics".
 - AltUI finds mod models by searching the mods once, folder by folder (the counter is shown at the top), and keeps the result; after that only new mods are searched. "Search mods again" starts over. Some mods put models in folders named unlike their pak; "Search all mod folders" finds those (the game pauses for about half a minute).
-- At the bottom the "Selected" block: picture, name, fixed or with physics, physics on/off, to the floor, copy, remove; fields for position, turn (yaw, pitch, roll) and size – Enter applies. The selected object has a yellow frame.
-- WORLD › In the world: a row per object with select, physics on/off, copy, remove. "Positions" opens a block: a name and "Save position" keep place, turn, size and physics. The position shows for every object of the same model in the same level – a click puts it there, right click: apply / delete.
+- At the bottom the "Selected" block: picture, name, fixed or with physics, deselect, physics on/off, to the floor, copy, remove; fields for position, turn (yaw, pitch, roll) and size – Enter applies. The selected object has a yellow frame.
+- WORLD › In the world: a row per object with select (on the selected one: deselect), physics on/off, copy, remove. "Positions" opens a block: a name and "Save position" keep place, turn, size and physics. The position shows for every object of the same model in the same level – a click puts it there, right click: apply / delete.
 - WORLD › Scenes: a name and "Save scene" keep every object of the level; the same name in the same level overwrites. Only the current level's scenes are shown. A click loads a scene and replaces the objects there; right click: load / delete. A missing model (mod not installed) is skipped and reported.
 - Objects go with the level; a scene brings them back.
 
@@ -275,7 +289,7 @@ With the mouse on an object, beside the panel and in the Ragdolls mode:
 Looks as people in the game: a follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
 
 - In the Looks tab, right click a look: "Spawn as follower" or "Spawn as NPC". The figure appears in front of Jodi wearing that look.
-- The tab "Followers" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: "Follow me", "Wait here", "Bring here", → NPC / → Follower, "Active", ∞ with a heart (invulnerable), ∞ with cartridges (infinite ammo) and the gear (rename, change look, revive, remove). "..." folds the figure's tiles (clothes and backpack) away and back; it stays folded per figure, also after a restart.
+- The tab "Followers" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: "Follow me", "Wait here", "Bring here", → NPC / → Follower, "Active", ∞ with a heart (invulnerable), ∞ with cartridges (infinite ammo) and the gear (attackable / unattackable, rename, change look, revive, remove). "..." folds the figure's tiles (clothes and backpack) away and back; it stays folded per figure, also after a restart.
 - Followers are listed above NPCs, with a line between the two groups. The chips above the rows show all, only followers or only NPCs (kept after a restart).
 - Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. "..." above a list folds it.
 - The context menu of a stack – Jodi's or the figure's – has the amount row as in the Inventory tab: "Give 5", "Take 5", into the box.
@@ -283,6 +297,8 @@ Looks as people in the game: a follower walks with Jodi, fights and takes orders
 - "Active" off takes a figure out of the world, with everything it carries; on again, it comes back in front of Jodi.
 - "Infinite ammo": the figure keeps reloading its guns without needing ammo in its bag. Guns with a magazine leave its ammo untouched; the shotgun and the grenade launcher use up what it carries first.
 - A figure that is not invulnerable can fall. It stays in the list and "Revive" brings it back with what it carried. Figures never turn into zombies.
+- "Invulnerable" (∞ with a heart): the figure cannot die, its health fills up again after every hit. It still shows hit reactions and its clothes still take damage.
+- "Attackable" (gear): zombies only target attackable figures, whether invulnerable or not. After "Make unattackable" zombies leave the figure alone, and it takes no damage either. The switch is saved; new figures are attackable.
 - "+ Jason" (bottom right of the tab) adds Jason from the story as a follower, with his Glock. He takes orders, comes along and is saved. He fights only with his own Glock: a Glock you give him becomes his, other weapons he does not take. He has no look, clothes or make-up; when he is down he cannot be healed – "Revive" brings him back.
 - "Remove" asks first; the figure's items and guns go into the storage box, its clothes into Jodi's backpack.
 - "Change look" switches to the Looks tab: click the look the figure should wear.
@@ -291,6 +307,8 @@ Looks as people in the game: a follower walks with Jodi, fights and takes orders
 AltUI keeps the figures in a save of its own (AltUI_Followers.sav), the game's save never contains them. Following followers come along to every level and after loading; waiting followers and NPCs stay in their level at their place.
 
 Quick menu: "Follower: follow me / wait here" orders the follower in view, "All followers: follow / wait" all of them. "All followers: come to me" brings every active follower to the places in front of Jodi – also one waiting in another level.
+
+Figure in a pose: the quick menu group "Figure: favourite poses" holds each of your favourite poses as "Figure: <pose>". The item puts the follower or NPC figure in view into that pose (not Jason). It then neither walks nor fights, holds the pose even after hits and does not turn away. If it is attackable, zombies attack it, and a figure that is not invulnerable can die – a way to set up scenes. "Figure: stop pose" makes it get up; it then follows or waits as before. A level change ends the pose.
 
 ## Codex {#kodex}
 
@@ -307,19 +325,22 @@ Quick menu: "Follower: follow me / wait here" orders the follower in view, "All 
 
 ## Quick menu {#quick}
 
-Hold 4 (another key under Options › Quick menu) and a wheel opens around the mouse. Let go on an item to run it; let go in the middle to do nothing.
+Hold 4 (another key under Actions) and a wheel opens around the mouse. Let go on an item to run it; let go in the middle to do nothing.
 
 - Items: outfits, looks, faces, appearance presets, poses, tabs, settings of other mods and actions: free camera, photo mode, ragdolls mode, a copy of Jodi as a ragdoll, switch every ragdoll between active and frozen, activate / freeze the one in view, remove all ragdolls, own speed on / off.
 - More actions: "Slow motion on / off", "Stop time / go on" (everything stands still; the panel and the cameras keep working; also the camera of the game's photo mode), "Hide / show Jodi" (with clothes, hair and weapon; she is back in the next level) and the orders for followers (see "Followers").
 - "Hide / show the game's UI" switches the game's HUD off and on, as its photo mode does.
 - "+1 Invisible Hand" puts one Invisible Hand into the backpack (see Inventory › All items).
-- Own keys: under Options › Quick menu, right click an item under "Available" and press a key – the item then runs on that key, with the panel closed, also in the free camera and in the game's photo mode. Click the key of a row for another one, ✕ removes it. The panel key, the quick menu key and a key already given are refused; a key the game uses itself triggers both.
-- Add them under Options › Quick menu, or with a right click on a tile, a tab or a mod's entry ("Add to quick menu").
-- The order in the wheel is the order in the list under Options › Quick menu.
+- "Camera height (wheel)": two arrows appear in the middle of the screen, and the mouse wheel now moves the camera up or down instead of closer or further away. A left click or Esc ends it. The height is kept.
+- Own keys: under Actions, right click an item under "Available" and press a key – the item then runs on that key, with the panel closed, also in the free camera and in the game's photo mode. Click the key of a row for another one, ✕ removes it. The panel key, the quick menu key and a key already given are refused; a key the game uses itself triggers both.
+- Add them under Actions, or with a right click on a tile, a tab or a mod's entry ("Add to quick menu").
+- The Actions tab: on the left "In the wheel" (key, opacity, order with ↑ ↓ ✕), "Own keys", then "All" and every group that has items – outfits, looks, faces, presets, poses, tabs, mod entries – and one row per mod with actions. On the right, the items of that group with a check box (in the wheel or not) and a search above them. Each group keeps its scroll position.
+- The order in the wheel is the order in the list under Actions › In the wheel.
 
 ## For mod authors {#modding}
 
 - Clothes mods need nothing special: AltUI reads the game's tables and sorts every item by slot.
 - Body and weapon replacer mods can be converted with bodypak.pyz and weaponpak.pyz so that several can be installed side by side; they can also be built for AltUI directly in the Unreal Editor.
 - Idle mods (a pak that replaces Jodi's idle animation) can be converted with idlepak.pyz: python3 idlepak.pyz <mod>.pak. The new IdleAltUI_….pak goes into Mods/ and appears under Options › Movement › "Standing"; the game's own idle stays. AltUI must be installed: the converter builds the new pak partly from AltUI.pak and looks for it in the usual Steam folders; if it is somewhere else, give the path with --altui <path to AltUI.pak>.
+- Walk / run mods (a pak that replaces Jodi's walk or run animation) can be converted with walkpak.pyz: python3 walkpak.pyz <mod>.pak. The new WalkAltUI_….pak goes into Mods/ and appears under Options › Movement › "Walk style" (and "Run style" if it brings a run); the game's own walk stays. walkpak refuses an animation without the game's movement curves (MoveData_Speed, Rotation Speed) and says which one is missing. Like idlepak it needs AltUI.pak (--altui <path> if it is not in the usual Steam folders).
 - Mods can show their settings in the Mods tab through two data tables and an interface; MOD_UI.md in the source repository describes how.

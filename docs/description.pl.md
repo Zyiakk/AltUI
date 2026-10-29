@@ -38,25 +38,27 @@ Hook podmienia *TKA_PlayerCameraManager* i stamtąd uruchamia panel. Każdy mod,
 
 ## Co potrafi
 
-* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych w opcjach; puść klawisz nad pozycją, aby ją wykonać. Prawy klik na kafelku, karcie lub wpisie moda dodaje go do koła albo go z niego usuwa. Do tego zwolnienie, zatrzymanie czasu, ukrycie Jodi i rozkazy dla towarzyszy. Każda pozycja może też dostać własny klawisz (Własne klawisze).
-* **Ubrania** – każda rzecz z gry i z twoich modów, jedna lista na slot, z wyszukiwaniem, filtrami, ulubionymi i ukrywaniem. Suwak uszkodzeń w menu kontekstowym; kolor na każdy slot materiału, także dla biżuterii, osobno dla każdego zapisu gry. Szuflady: własne zestawy rzeczy, jako karty nad listą.
-* **Zestawy · Looki** – gotowe zestawy gry z nazwami oraz pełne looki (ubrania z kolorami, fryzura, makijaż, oczy, skóra, ciało, twarz) ze zdjęciem z gry. Look można przywołać jako towarzysza, NPC albo ragdolla. „Oczyszczona kopia” pomija to, czego już nie ma. Strój zapisany w AltUI zachowuje kolory każdego kanału koloru.
+* **Szybkie menu** – przytrzymaj **4** (klawisz można zmienić), a otworzy się koło z tym, czego używasz najczęściej: wolna kamera, tryb zdjęć, zapisany strój, stylizacja, twarz lub preset, ulubiona poza, karta oraz akcje innych modów. Do 32 pozycji, wybieranych i układanych na karcie Akcje; puść klawisz nad pozycją, aby ją wykonać. Prawy klik na kafelku, karcie lub wpisie moda dodaje go do koła albo go z niego usuwa. Do tego zwolnienie, zatrzymanie czasu, ukrycie Jodi i rozkazy dla towarzyszy. Każda pozycja może też dostać własny klawisz (Własne klawisze).
+* **Ubrania** – każda rzecz z gry i z twoich modów, jedna lista na slot, z wyszukiwaniem, filtrami, ulubionymi i ukrywaniem. Suwak uszkodzeń w menu kontekstowym; kolor na każdy slot materiału, także dla biżuterii, osobno dla każdego zapisu gry. Szuflady: własne zestawy rzeczy, jako karty nad listą. „Zostaw założone” zostawia rzecz założoną przez ciebie przy zmianie stylizacji i strojów.
+* **Zestawy · Looki** – gotowe zestawy gry z nazwami oraz pełne looki (ubrania z kolorami, fryzura, makijaż, oczy, skóra, ciało, twarz) ze zdjęciem z gry – z przodu albo skądkolwiek, dokąd dolecisz wolną kamerą. Look można przywołać jako towarzysza, NPC albo ragdolla. „Oczyszczona kopia” pomija to, czego już nie ma. Strój zapisany w AltUI zachowuje kolory każdego kanału koloru.
 * **Plecak · Fryzury · Wygląd** – co Jodi nosi i ma przy sobie; fryzury i kolory włosów; skóra, makijaż i oczy, każde do podbarwienia. Ulubione fryzury na górze. Mutacja: zmutowany wygląd Jodi z fabuły w częściach – kolor skóry, świecące żyły, żyły, oczy – albo pełny wygląd z fabuły. Wyszukiwanie fryzur po nazwie, modzie lub pliku pak.
-* **Ekwipunek** – przedmioty Jodi i Hiperskrzynia jedna pod drugą: kliknięcie przenosi przedmiot, prawy przycisk – użyj, obejrzyj, wyrzuć lub rozładuj; wszystko przez własne funkcje gry. Opcjonalnie katalog „Wszystkie przedmioty”. Suwak wybiera dowolną ilość ze stosu; zanim na ziemię trafi bardzo wiele obiektów, najpierw pyta ostrzeżenie. Niewidzialna ręka z gry jest w katalogu: w plecaku przynosi Jodi przedmioty z okolicy.
+* **Ekwipunek** – przedmioty Jodi i Hiperskrzynia jedna pod drugą: kliknięcie przenosi przedmiot, prawy przycisk – użyj, obejrzyj, wyrzuć lub rozładuj; wszystko przez własne funkcje gry. Opcjonalnie katalog „Wszystkie przedmioty”. Suwak wybiera dowolną ilość ze stosu; zanim na ziemię trafi bardzo wiele obiektów, najpierw pyta ostrzeżenie. Niewidzialna ręka z gry jest w katalogu: w plecaku przynosi Jodi przedmioty z okolicy; w Opcjach może dostać własny zasięg i zbierać więcej przedmiotów na rundę.
 * **Sylwetka** – suwaki biustu i talii, przełącznik przekonwertowanych modów ciała, suwaki kości dla każdego ciała. Dla biustu i pośladków: falowanie, kąt i szerokość bioder.
 * **Twarz** – mimika, spojrzenie i usta Jodi jako suwaki; twarz trzyma się także w pozach i podczas tańca; zapisane twarze ze zdjęciem, ich wartości w „Pokaż zawartość”. „Zamknięte oczy” na przekonwertowanych ciałach.
 * **Bronie** – model, skin i dźwięk strzału na broń, także broń do walki wręcz, obok siebie ze wszystkich modów do broni, z wyrenderowanym obrazkiem na kafelku; kliknięcie dźwięku go odtwarza. Dodatki według slotu (celownik, lufa, chwyt, magazynek) z plecaka lub skrzyni. Własne wersje malowań z gry, które ma mod modelu, też są dostępne.
 * **Pozy** – każda animacja akcji z gry i z modów, posortowana na stojące, siedzące i leżące. „Powtarzaj pozy” dla póz, które kończą się same.
-* **Mods** – ustawienia innych modów, które się tam rejestrują: przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, wiersze informacyjne, klawisze i przyciski. Widoczna tylko, gdy taki mod jest zainstalowany.
+* **Mods** – ustawienia innych modów, które się tam rejestrują: przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, wiersze informacyjne, klawisze i przyciski. Liczby można wpisywać. Presety dla każdej strony: ustawienia zapisane ze zdjęciem, stosowane jednym kliknięciem, a dla każdej wartości wybierasz, czy preset ją stosuje; do szybkiego menu albo na własny klawisz. Mody mogą dostarczać własne presety. Widoczna tylko, gdy taki mod jest zainstalowany.
 * **Opcje** – podzielone na kategorie wybierane z listy po lewej: klawisz panelu, język, kolory (schematy można zapisać pod nazwą), pasek kart z ikonami, tekstem lub jednym i drugim oraz wielkość kafelków, osobno dla zestawów i looków. Kilka rzeczy może dzielić jeden slot (podkolanówki na rajstopy). Niepotrzebne karty można wyłączyć. Wolna kamera bez kolizji i dowolnie daleko; „Bez powiadomień” ukrywa powiadomienia AltUI i gry. Światło kamery (okrągły przycisk obok panelu) rozjaśnia to, co widzi kamera – z kolorem i jasnością.
 * **Motyw** – kolory z ich kryciem, obraz tła za panelem (wypełnij, dopasuj, rozciągnij lub kafelki, wyrównany, z odcieniem, sepią i odwróceniem, własnym kryciem) oraz obraz dla kafelków i kart z zaokrąglonymi rogami; obrazy AltUI – wśród nich złamane biele kartonu – lub własne; motywy zapisane pod nazwą zachowują to wszystko. Na życzenie podglądy na chipach obrazów.
+* **Akcje** – ustawienia szybkiego menu, przeniesione z Opcji: pozycje w kole, własne klawisze i każda pozycja według grup, z wyszukiwaniem.
 * **Zarządzanie** – własne nazwy modów, grup i przedmiotów. Jak w Ubraniach podzakładki filtrują listę według moda lub grupy, a pole wyszukiwania zawęża podzakładki. Użycie: które mody są używane i gdzie (stroje, stylizacje, towarzysze, ulubione…), a które nie – widać, co można usunąć.
-* **Ragdolle** – kopie Jodi, zombie i ludzie jako figury z fizyką: ustawianie, pozowanie staw po stawie, zamrażanie albo puszczanie bezwładnie; pozy zapisują się dla każdego rodzaju figury, całe sceny dla każdego poziomu. Podczas przeciągania prawy klik przypina część w powietrzu, jak pistolet fizyczny; kule na stawach pokazują, gdzie można chwycić figurę. Tryb ragdolli porusza nimi bez panelu. Także najemnik, z karabinem w rękach. Kończyna poniżej ruchomego stawu obraca się przeciąganiem prawym przyciskiem.
-* **Towarzysze** – looki stają się towarzyszami, którzy chodzą i walczą razem z Jodi, albo NPC, którzy zostają na miejscu: rozkazy, przedmioty i broń do przekazania, ubrania niszczą się jak u NPC gry. Zapisywani w osobnym pliku, nigdy w zapisie gry. Każda postać nosi makijaż swojej stylizacji i ma głos. „Wszyscy towarzysze: do mnie” z szybkiego menu. Nieskończona amunicja dla każdej figury; Jason z fabuły dołącza jako towarzysz ze swoim Glockiem.
+* **Ragdolle** – kopie Jodi, zombie i ludzie jako figury z fizyką: ustawianie, pozowanie staw po stawie, zamrażanie albo puszczanie bezwładnie; pozy zapisują się dla każdego rodzaju figury, całe sceny dla każdego poziomu. Podczas przeciągania prawy klik przypina część w powietrzu, jak pistolet fizyczny; kule na stawach pokazują, gdzie można chwycić figurę. Tryb ragdolli porusza nimi bez panelu. Także najemnik, z karabinem w rękach. Kończyna poniżej ruchomego stawu obraca się przeciąganiem prawym przyciskiem. Palce i oczy: pozowanie stawów palców, kierunek spojrzenia, otwieranie i zamykanie powiek, pozy dłoni dla każdej ręki. Ragdolle można ustawić jako atakowalne dla zombie.
+* **Towarzysze** – looki stają się towarzyszami, którzy chodzą i walczą razem z Jodi, albo NPC, którzy zostają na miejscu: rozkazy, przedmioty i broń do przekazania, ubrania niszczą się jak u NPC gry. Zapisywani w osobnym pliku, nigdy w zapisie gry. Każda postać nosi makijaż swojej stylizacji i ma głos. „Wszyscy towarzysze: do mnie” z szybkiego menu. Nieskończona amunicja dla każdej figury; Jason z fabuły dołącza jako towarzysz ze swoim Glockiem. Przełącznik „atakowalna” decyduje, czy zombie atakują postać. Szybkie menu ustawia postać, na którą patrzysz, w jednej z twoich ulubionych póz.
 * **Kodeks** – podręcznik AltUI we wszystkich siedmiu językach, encyklopedia gry i zamki szyfrowe bieżącego poziomu; każdy kod pozostaje ukryty, dopóki go nie klikniesz.
 * **TV** – w biurze Jodi filmy telewizora jako lista: kliknięcie odtwarza film, telewizor można włączyć i wyłączyć; własne pliki .mp4 w `Videos/TV/` też się pojawiają.
+* **Nawigacja** – łóżka poziomu, przy których Jodi może zapisać grę, najbliższe najpierw: teleport obok jednego z nich, a towarzysze idą za nią. Leć / Wyląduj, z suwakiem prędkości; także w szybkim menu.
 * **Obiekty** – modele z gry, broń i rekwizyty z modów w świecie, z obrazkami robionymi przez AltUI: przesuwanie, obracanie, podnoszenie, skalowanie, z fizyką lub bez; zapisywane są pozycje każdego modelu i całe sceny poziomu.
-* **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach. Zwolnienie z własną prędkością. Jak stoi Jodi: sześć kolejnych animacji bezczynności z gry, mody bezczynności albo poza jako bezczynność.
+* **Ruch** – własna prędkość chodu i biegu Jodi (50–200 %), w Opcjach. Zwolnienie z własną prędkością. Jak stoi Jodi: sześć kolejnych animacji bezczynności z gry, mody bezczynności albo poza jako bezczynność. Mody chodu i biegu (przerobione przez walkpak.pyz) jako chipy obok wbudowanych stylów chodu i biegu.
 * Cofnij / ponów (5 kroków), dymki z nazwą moda, z którego pochodzi dana rzecz.
 
 Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francuski (wykrywane automatycznie, zmienialne w Opcjach).
@@ -67,6 +69,7 @@ Języki: angielski, niemiecki, chiński, rosyjski, hiszpański, polski, francusk
 * **4** – przytrzymaj, aby otworzyć szybkie menu (zmienialne w opcjach); puść nad pozycją, aby ją wykonać, a puszczenie na środku nic nie robi.
 * **B w menu głównym** – małe menu: sceny menu, scena ładowania, następna kamera i ukrycie menu gry.
 * Lewy przycisk – wybierz / załóż / zastosuj. Prawy przycisk – menu kontekstowe. Kółko myszy – przewijanie.
+* **Kółko myszy w grze** (panel zamknięty) – kamera bliżej lub dalej; „Wysokość kamery (kółko)” w szybkim menu zamiast tego przesuwa ją w górę lub w dół.
 
 ## Mody ciała
 
@@ -87,6 +90,18 @@ python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
 Skopiuj powstały IdleAltUI_SomeIdle.pak do TheKillingAntidote\Mods\ i usuń pierwotny pak podmieniający.
 
 idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Szczegóły: [README](https://github.com/Zyiakk/AltUI#idle-mods)
+
+## Mody chodu i biegu
+
+Mody chodu podmieniają animację, w której Jodi chodzi lub biega, więc aktywny może być tylko jeden. **walkpak.pyz** (w wydaniu; Python 3.8+, bez dodatkowych pakietów) robi z takiego paka podmieniającego osobny pak moda: chód z gry zostaje, a mod staje się chipem w Opcje › Ruch › Styl chodu (i Styl biegu, jeśli zawiera bieg). Tak jak przy idlepak, AltUI musi być zainstalowany.
+
+```
+python walkpak.pyz SomeWalkReplacer.pak --name Strut --title "Strut"
+```
+
+Skopiuj powstały WalkAltUI_Strut.pak do TheKillingAntidote\Mods\.
+
+walkpak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/walkpak.pyz · Szczegóły: [README](https://github.com/Zyiakk/AltUI#walk--run-mods)
 
 ## Aktualizacje moda a drugi plik
 

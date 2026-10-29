@@ -39,7 +39,10 @@ P_CNPC = "/Game/Project/Character/Npc/Character_NPC"; P_NPCF = "/Game/Project/Ch
 P_JASON = "/Game/Project/Character/Jason/Jason"; P_JASONCTRL = "/Game/Project/Character/Jason/Jason_Controller"   # the story's Jason (Character_NPC, Jason_Controller): AltUI's Jason prototype derives from it
 P_NPCCTRL = "/Game/Project/Classes/Controller/Npc_Controller"   # followers (stubs: gen_stubs.py)
 P_JODI = "/Game/Project/Character/Jodi/Jodi"
+P_WVS = "/Game/Project/Classes/Struct/WeaponViewStruct"   # Jodi's camera view (unarmed / per weapon): fov, arm length, socket offset
 P_IHC = "/Game/Project/Classes/Misc/InvisibleHand_Comp"   # the invisible hand: picks up items near Jodi while "InvisibleHand" is in her bag
+P_PICKABLE = "/Game/Project/Classes/Items/ItemComp_Pickable"   # a loose item's pick component (Can Be Auto Picked: the invisible hand may take it)
+P_FLYING = "/Game/Project/Classes/Component/FlyingItem_Comp"   # flies an item to the invisible hand, then Jodi.On Item Picked (Init(hand))
 P_JODI_BASE = "/Game/Project/Character/Jodi/Jodi_Base"   # parent of Jodi; the main menu's figure (Jodi_Intro) is one too, but no Jodi
 P_GS = "/Game/Project/Classes/GameMode/TKA_GameState_Base"
 P_ATTUI = "/Game/Project/UserInterface/AttentionUI"   # the game's notice widget (TKA_GameState_Base.Get Attention UI, on the player screen)
@@ -68,6 +71,8 @@ P_GEQ_T = "/Game/Project/Tables/GunEquipment"; P_GEQ_S = "/Game/Project/Tables/G
 P_HBSAVE = "/Game/Project/Classes/Save/HyperBox_Save"; P_HBDATA = "/Game/Project/Classes/Misc/HyperBoxData"   # storage box (inventory tab)
 P_PAINT_T = "/Game/Project/Tables/GunPaint"; P_PAINT_S = "/Game/Project/Tables/GunPaintStruct"; P_GUN_S = "/Game/Project/Classes/Struct/Gun_Struct"
 P_TV = "/Game/Project/Maps/JodisOffice/TV/TV_Actor"   # TV tab: the office TV (videos = the .mp4 files in <game>/Videos/TV/)
+P_BED = "/Game/Project/Actors/Bed"   # Navigation tab: the save bed (On Use This -> Show Save Panel(Save Point Name)); Bed_Lab (Level 2) and Bed_Child are children of it; Sofa is furniture
+P_DESCBASE = "/Game/Project/Classes/Misc/Description_Base"; P_DEPT = "/Game/Project/Actors/Misc/Department"   # room signs: Description (declared in Description_Base)
 P_ARCH_T = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Archives"; P_ARCH_S = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Mail_Struct"   # Kodex: encyclopedia (Jodi's office PC)
 P_NOTE_SAVE = "/Game/Project/Classes/Save/Note_Save"; P_SETTINGS_SAVE = "/Game/Project/Classes/Save/Settings_Save"; P_PWCOMP = "/Game/Project/Classes/Items/ItemComp_Password"; P_ZOMBIE = "/Game/Project/Zombie/Zombie_Base"; P_SHATTERER = "/Game/Project/Zombie/Shatterer"
 P_INTERACTIVE = "/Game/Project/Classes/InteractiveActor/InteractiveActor_Base"; P_ITEMCOMP = "/Game/Project/Classes/Items/ItemComponent"

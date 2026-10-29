@@ -30,7 +30,7 @@ STUBS = os.path.join(W, "assets", "10_stubs.json")
 BASELINE = os.path.join(W, "knowledge", "compat_baseline.json")
 HOOK_BASE = "/Game/Project/Classes/TKA_PlayerCameraManager"
 OWN_PREFIXES = ("/Game/Mod/",)   # AltUI's own and other mods' folders: not the game's
-FILELIST = os.path.join(W, "knowledge", "game_pak_filelist.txt")
+FILELIST = os.environ.get("GAME_PAK_FILELIST") or os.path.join(W, "knowledge", "game_pak_filelist.txt")
 
 
 def env():

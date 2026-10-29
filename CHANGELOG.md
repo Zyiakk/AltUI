@@ -1,6 +1,64 @@
 # Changelog
 
-## Unreleased
+## 2.9.0 – 2026-10-29
+
+* Photos: **free camera instead of "as seen"**. The lower half of a "+" tile (looks, faces, appearance presets, mod presets)
+  and "Update (photo with free cam)" start the free camera with a frame of the photo's shape; fly it wherever you like and
+  left-click to take the photo – exactly what you see, without the fill light. Esc takes the photo from the front instead;
+  the settings are saved either way. The split "+" tiles of faces, appearance presets and mod presets say it short:
+  "photo front" / "photo free".
+* Mods tab: the value of a **number field** can be typed in. Click it, type, Enter or a click elsewhere applies it; a
+  comma counts as the decimal point, the value is kept within the field's range, and anything that is no number brings
+  the old value back. − and + work as before.
+* Mods tab: **presets** for every page. "+" saves the page's settings with a photo (from the front / free camera), a click
+  applies them, the right-click menu renames, updates, moves, deletes and puts them into the quick menu or onto an own
+  key. Mods need no change for this; a mod can ship ready-made presets in an optional `AltUI_Presets` table
+  (`S_AltUIModPreset`, see MOD_UI.md). One file per mod: `Saved/SaveGames/AltUI_ModPresets_<mod>.sav`.
+  "View content" lists a preset's values with a check box each: unticked ones stay stored but are not applied. Shipped
+  presets can get a photo of their own ("New photo"). Colour and text fields are applied before the choices, so a
+  choice that a colour field switches to "Custom" comes back as saved.
+* Walk / run mods: `walkpak.pyz` turns a pak that replaces Jodi's walk or run animation into a `WalkAltUI_<Name>.pak`
+  that replaces nothing. It shows up as a chip under Options › Movement › Walk style / Run style, next to the built-in
+  styles, and combines with them and the standing idles. A walk mod chosen together with an idle mod wins; Options says so.
+* Navigation: **Fly / Land**. Jodi flies with Space / Ctrl for up / down, Shift x3 and a speed slider; also in the quick menu.
+* New tab **Navigation**: the beds of the level where Jodi can save, nearest first, with name and distance. *Teleport* puts
+  Jodi next to the bed, facing it; followers that follow her come along. The place next to the bed must be in sight of it (Level 1, A2 Lounge
+  sent her into a closed shaft behind the wall); a bed in a room without navmesh gets free floor next to it.
+* Ragdolls mode: holding the middle mouse button turns the camera without the screen edges stopping it; the pointer comes
+  back where it was. Left / right and the wheel work as before.
+* New tab **Actions**: the quick menu's settings left Options. On the left: In the wheel, Own keys, All, each group with
+  items and one row per mod; on the right the items of that group with a search. Each group keeps its scroll position;
+  ticking an item no longer moves the list.
+* Ragdolls: fingers and eyes. On frozen figures with Jodi's body small spheres appear on the finger joints and the lids when
+  the camera is close. Right-drag turns a finger joint, left-drag curls the whole finger; left-drag on a lid aims both eyes and
+  the mouse wheel opens / closes the lids (Shift: one lid, to wink). The opened figure has hand poses per hand (open,
+  relaxed, fist, thumbs up, peace, point, hold, base pose) and "Eyes: reset". Poses and scenes keep fingers, lids and gaze.
+* Options › Invisible hand: with "Own settings" on, the invisible hand picks up items in a larger area (range 1x to 10x,
+  the height grows at most to 2x) and more than one item per round (up to 20). The pace stays the game's, faster with more
+  hands in the backpack. "Also without a hand in the backpack" makes it work without the item (off by default). It only
+  takes what the game's hand takes, and items still fly to you the game's way. Switched off, the game's hand works as
+  before. Quick menu: "Invisible hand: own settings on / off".
+* Figures in a pose: the quick menu group "Figure: favourite poses" puts the follower or NPC you look at into one of your
+  favourite poses (Jason excepted). It neither walks nor fights, holds the pose through hits and does not turn on the
+  spot; seated poses keep sitting. "Figure: stop pose" makes it get up and follow or wait as before. The pose ends with
+  a level change.
+* Followers and NPCs: new switch "Attackable" in the gear menu (saved, on for new figures). Zombies only target
+  attackable figures; an unattackable one is left alone and takes no damage.
+* Followers and NPCs: "Invulnerable" no longer keeps zombies away – that is the "Attackable" switch now. An invulnerable
+  figure cannot die and its health fills up again after every hit; it still reacts to hits and its clothes take damage.
+* Ragdolls: "Make attackable" lets zombies attack a human ragdoll (copy of Jodi, NPC or mercenary). Hits push the body
+  part nearest to the zombie; a frozen ragdoll springs back into its pose. Ragdolls do not die. Saved with the scene.
+* Clothes: right click › "Keep on" marks a piece. When you put it on yourself it stays on through looks and outfits;
+  pieces of the look that would take its slot are left out and named. A piece a look or outfit put on does not stay,
+  so trying outfits never piles pieces up. Undo restores exactly.
+* Camera zoom while playing: with the panel closed, the mouse wheel moves the camera closer to Jodi or further away
+  (from about a third to four times the game's distance). Aiming keeps the game's view, the panel's Jodi view is
+  unchanged, and the distance is kept.
+* Camera height while playing: the quick menu entry "Camera height (wheel)" shows two arrows in the middle of the
+  screen; the mouse wheel then moves the camera up or down instead of closer or further away. A left click or Esc ends
+  it. The height is kept.
+* Objects: a selected object can be deselected again – "Deselect" in the Selected block, and in WORLD › In the world
+  the selected row's "Select" link turns into "Deselect".
 
 ## 2.8.0 – 2026-10-24
 

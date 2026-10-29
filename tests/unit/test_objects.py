@@ -1,5 +1,5 @@
 """2026-10-23 (spec 2026-10-23-objects-tab-design): Objects tab - catalogue from the asset registry, mod scan, spawning, pictures."""
-import unittest, os, sys
+import json, unittest, os, sys
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 from test_fol_tab import mgr_graph
 import objects
@@ -149,7 +149,7 @@ class Pictures(unittest.TestCase):
 class Tab(unittest.TestCase):
     def test_after_ragdolls(self):
         import gen_manager_ui as ui
-        self.assertEqual(ui.TOP_TABS[ui.TOP_TABS.index("Ragdolls") + 1], "Objects"); self.assertEqual(ui.TOP_TABS[-1], "TV")
+        self.assertEqual(ui.TOP_TABS[ui.TOP_TABS.index("Navigation") + 1], "Objects"); self.assertEqual(ui.TOP_TABS[-1], "TV")
 
     def test_tile_click_spawns(self):
         g = mgr_graph("On Item Clicked"); self.assertIn("Obj Tile Clicked", fns(g))
@@ -286,6 +286,15 @@ class World(unittest.TestCase):
     def test_world_rows_follow_click_in_world(self):
         """ui-test-160: selecting an object in the world left the "›" mark of In the world on the old row."""
         self.assertIn("Rebuild Obj World", fns(mgr_graph("Obj Begin Drag")))
+
+    def test_deselect(self):
+        """2026-10-24 (user): an object could be selected but not deselected - Selected block link + "Select" on the selected row."""
+        import gen_manager_ui as ui
+        self.assertIn(("ObjSelNone", "Obj Sel None", None), ui.MENU_ACTIONS)
+        g = mgr_graph("Obj Sel None"); self.assertEqual([n["in"]["actor"] for n in g["nodes"] if n.get("function") == "Obj Select"], ["None"])
+        self.assertIn("Rebuild Obj World", fns(g))
+        g = mgr_graph("Obj World Action"); self.assertIn("None", [n["in"]["actor"] for n in g["nodes"] if n.get("function") == "Obj Select"])
+        self.assertIn("Obj_Deselect", json.dumps(mgr_graph("Rebuild Obj World")))
 
     def test_search_filters_world_pages(self):
         """2026-10-24 (user): the search box built catalogue tiles on the WORLD pages; now it filters their rows."""

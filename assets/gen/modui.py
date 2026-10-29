@@ -58,3 +58,19 @@ TEST_FIELDS = {
     "X_Range": {"Entry": "First", "Key": "Bad3", "Type": "Slider", "Label": "x", "Min": 5.0, "Max": 5.0, "Order": 9},
     "X_Entry": {"Entry": "Nowhere", "Key": "Bad4", "Type": "Toggle", "Label": "x", "Order": 9},
 }
+
+# presets for a mod page (docs/specs/2026-10-28-mod-presets-design.md): the player's own in Saved/SaveGames/<PRESET_SLOT_PREFIX><pak>.sav,
+# a mod's own in /Game/Mod/<Pak>/AltUI_Presets (row struct S_AltUIModPreset) - Values: field Key -> value as text, read by the field's type
+PRESET_STRUCT = M + "/S_AltUIModPreset"
+PRESETS_TABLE = "AltUI_Presets"
+PRESET_MEMBERS = [("Entry", "name", ""), ("Caption", "text", ""), ("Icon", "softobject:/Script/Engine.Texture2D", ""), ("Order", "int", ""),
+                  ("Values", "name", "map")]   # map value type: string (gen_manager.py)
+S_MODPRESET = M + "/S_ModPreset"; SG_MODPRESETS = M + "/SG_ModPresets"; PRESET_SLOT_PREFIX = "AltUI_ModPresets_"; PRESET_VERSION = 1
+PRESET_NUM_TYPES = ["Toggle", "Slider", "Number", "Choice"]   # a number per field (Values)
+PRESET_TYPES = PRESET_NUM_TYPES + ["Color", "Text"]           # Colors / Texts; Key, Button, Info, Header never go into a preset
+
+# editor tests: shipped presets of the stub mod - one with a key the entry does not have, one with a value that is no number,
+# one for an entry the mod does not have (left out by the scan)
+TEST_PRESETS = {"Big": {"Entry": "First", "Caption": "Big", "Order": 2, "Values": {"Size": "8", "On": "true", "Nope": "1"}},
+                "Small": {"Entry": "First", "Caption": "Small", "Order": 1, "Values": {"Size": "x1", "On": "0"}},
+                "Lost": {"Entry": "Nowhere", "Caption": "Lost", "Order": 0, "Values": {}}}

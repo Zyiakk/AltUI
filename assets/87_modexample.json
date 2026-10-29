@@ -1753,6 +1753,34 @@
   },
   {
    "type": "datatable",
+   "path": "/Game/Mod/AltUIMod_Example/AltUI_Presets",
+   "row_struct": "/Game/Mod/AltUI/S_AltUIModPreset",
+   "composite": false,
+   "rows": {
+    "Warm": {
+     "Entry": "Lamp",
+     "Caption": "Warm",
+     "Order": 0,
+     "Values": {
+      "Light": "1",
+      "Brightness": "6000",
+      "Colour": "0"
+     }
+    },
+    "Cold": {
+     "Entry": "Lamp",
+     "Caption": "Cold",
+     "Order": 1,
+     "Values": {
+      "Light": "1",
+      "Brightness": "12000",
+      "Colour": "1"
+     }
+    }
+   }
+  },
+  {
+   "type": "datatable",
    "path": "/Game/Mod/AltUIMod_Example/TKA_BlueprintLoader",
    "row_struct": "/Game/Mod/TKA_BlueprintLoader/BlueprintToLoad_Struct",
    "composite": false,

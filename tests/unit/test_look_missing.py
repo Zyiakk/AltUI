@@ -50,7 +50,7 @@ class LookMissing(unittest.TestCase):
         self.assertIn(["bmx:else", "mxa"], self.g["exec"])
 
     def test_the_check_runs_before_the_popup(self):
-        self.assertIn(["fmk:Completed", "bms"], self.g["exec"])
+        self.assertIn(["fmk:Completed", "snt", "bms"], self.g["exec"])
         self.assertTrue(reachable(self.g, "entry", "fmk"), "the check is not on the path of Finish Apply Snapshot")
 
 

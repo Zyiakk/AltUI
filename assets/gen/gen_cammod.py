@@ -5,7 +5,8 @@ already has (AddNewCameraModifier, applied in UpdateViewTarget after the view ta
 no longer needs a replaced class and survives next to other mods that replace TKA_PlayerCameraManager.
 Against the old override: the search for the view target's active CameraComponent is gone - location, rotation and FOV
 arrive as parameters; the rest (closed-loop lateral offset, FOV/distance maths, FInterpTo easing) is unchanged.
-On top of that the modifier carries the dragged camera height (UserZ) and a wall probe that limits the pull-back."""
+On top of that the modifier carries the dragged camera height (UserZ) and a wall probe that limits the pull-back, and it rolls
+the view by Roll (screen tilt, set every frame by the manager's Tilt Tick) on both ways out."""
 import os, sys; sys.path.insert(0, os.path.dirname(__file__))
 from bpdsl import *
 
@@ -113,10 +114,14 @@ def f_modify_camera():
     g.call("loc0", K_MATH, "Subtract_VectorVector", inp={"A": "@entry.ViewLocation", "B": "@boff.ReturnValue"})
     g.call("loc1", K_MATH, "Add_VectorVector", inp={"A": "@loc0.ReturnValue", "B": "@off.ReturnValue"})
     g.call("loc", K_MATH, "Add_VectorVector", inp={"A": "@loc1.ReturnValue", "B": "@offu.ReturnValue"})
-    g.link("loc.ReturnValue", "return.NewViewLocation"); g.link("entry.ViewRotation", "return.NewViewRotation"); g.link("nfov.ReturnValue", "return.NewFOV")
+    # screen tilt (manager: Tilt Tick): the view rolled about its own axis, on both ways out - the framing above works unrolled
+    g.call("vr", K_MATH, "BreakRotator", inp={"InRot": "@entry.ViewRotation"}); g.get("grl", "Roll")
+    g.call("rl", K_MATH, "Add_FloatFloat", inp={"A": "@vr.Roll", "B": "@grl.Roll"})
+    g.call("nr", K_MATH, "MakeRotator", inp={"Roll": "@rl.ReturnValue", "Pitch": "@vr.Pitch", "Yaw": "@vr.Yaw"})
+    g.link("loc.ReturnValue", "return.NewViewLocation"); g.link("nr.ReturnValue", "return.NewViewRotation"); g.link("nfov.ReturnValue", "return.NewFOV")
     # pass-through: hand back what came in (no "not handled" flag on a modifier - unchanged values are the way to stay out)
     g.n("r2", "return_new")
-    g.link("entry.ViewLocation", "r2.NewViewLocation"); g.link("entry.ViewRotation", "r2.NewViewRotation"); g.link("entry.FOV", "r2.NewFOV")
+    g.link("entry.ViewLocation", "r2.NewViewLocation"); g.link("nr.ReturnValue", "r2.NewViewRotation"); g.link("entry.FOV", "r2.NewFOV")
     g.set("rsi", "ShiftInit", inp={"ShiftInit": "false"})   # panel closed / no view target: reset the controllers
     g.set("rsu", "ShiftUp", inp={"ShiftUp": "0.0"}); g.set("rcz", "CurZ", inp={"CurZ": "0.0"}); g.set("rcm", "CurZoom", inp={"CurZoom": "1.0"}); g.set("rdf", "CurDistF", inp={"CurDistF": "1.0"})
     g.get("gds2", "DistScale"); g.set("rcd2", "CurDist", inp={"CurDist": "@gds2.DistScale"})
@@ -130,7 +135,7 @@ assets = [blueprint(CAMMOD, E_CAMMOD,
                     variables=[var("ViewShift", "float"), var("FovScale", "float", default="0.8"), var("DistScale", "float", default="1.0"),
                                var("ShiftWorld", "float"), var("ShiftInit", "bool"),
                                var("FocusOn", "bool"), var("FocusZ", "float"), var("FocusZoom", "float", default="1.0"), var("UserZ", "float"),
-                               var("CurZ", "float"), var("CurZoom", "float", default="1.0"), var("ShiftUp", "float"), var("CurDistF", "float", default="1.0"), var("CurDist", "float", default="1.0")],
+                               var("CurZ", "float"), var("CurZoom", "float", default="1.0"), var("ShiftUp", "float"), var("CurDistF", "float", default="1.0"), var("CurDist", "float", default="1.0"), var("Roll", "float")],
                     functions=[f_modify_camera()]),
           # camera light of the Jodi view (spec 2026-10-19-kameralicht): placed on the game camera every frame by the manager (Light Step).
           # Brightens only: no specular (no glint on skin / latex / floor), no volumetric scattering (no visible cone in fog), no shadows,

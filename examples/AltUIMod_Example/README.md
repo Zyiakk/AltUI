@@ -19,6 +19,10 @@ It also brings one action for AltUI's **quick menu** (`AltUI_Actions`): **"Lamp:
 own, steps through the colours. Tick it under *Options › Quick menu*, next to "Example lamp › Light" and "Example
 lamp › Back to the defaults", which the quick menu offers by itself because they are a toggle and a button.
 
+And it ships two **presets** (`AltUI_Presets`): **"Warm"** (light on, brightness 6000, warm colour) and **"Cold"**
+(light on, brightness 12000, cold colour). They show as tiles above the fields, before the player's own presets - "+"
+saves the lamp's current settings as one more. Keys, buttons and the info line are never part of a preset.
+
 ## Try it
 
 1. Install the [Blueprint Loader](https://www.nexusmods.com/thekillingantidote/mods/994) - it starts the lamp's actor.

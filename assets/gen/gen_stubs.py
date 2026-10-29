@@ -97,7 +97,11 @@ assets = [
     blueprint(P_TV, P_INTERACTIVE, variables=[var("is working", "bool"), var("Videos", "string", "array"), var("current video index", "int")],
               functions=[fn("On Use This", [param("Player", "object:" + P_CPB)], [param("finish", "bool")]), fn("Play Video", [param("index", "int")]),
                          fn("Start Animation", [param("working", "bool")])]),
-    blueprint(P_ITEMCOMP, mode="augment", functions=[fn("Is Locked", outputs=[param("Yes", "bool")], pure=True)]),
+    # Navigation tab: the save bed; Save Point Name = its Department's Description, set on BeginPlay (bytecode 2026-10-27)
+    blueprint(P_DESCBASE, E_ACTOR, variables=[var("Description", "text")]),   # room signs (Department) - Navigation: "near: ..."
+    blueprint(P_DEPT, P_DESCBASE),
+    blueprint(P_BED, P_INTERACTIVE, variables=[var("Save Point Name", "text"), var("Department", "object:" + P_DEPT)]),
+    blueprint(P_ITEMCOMP,mode="augment", functions=[fn("Is Locked", outputs=[param("Yes", "bool")], pure=True)]),
     blueprint(P_PWCOMP, mode="augment", variables=[var("Password", "string")]),
     blueprint(P_SHATTERER, mode="augment", variables=[var("gas tank", "object:/Script/Engine.Actor")]),   # Ragdolls: its tank moves to the copy, then cleared
     blueprint(P_ZOMBIE, mode="augment", variables=[var("Crystal", "object:/Script/Engine.Actor")]),   # Ragdolls: cleared before a copied zombie goes (its on destroyed drops it)   # the game reads/writes it (Dices_Password, ChangePassword)
@@ -118,6 +122,11 @@ assets = [
     struct(P_GUN_S, [param("PaintName", "name", internal_name="PaintName_29_FA1F96D44E7CE9841245EC85AD208267"),
                      param("GunName", "name", internal_name="GunName_20_398D82A0403D587DA0A681A117336AE6"),   # inventory tab: a gun in the storage box
                      param("Parts", "name", "array", internal_name="Parts_9_2957A5274990B0EE840FDB8AEC3E0EEA")]),   # its mounted attachments (GunEquipment rows)
+    # Jodi's camera view (zoom in play): the internal names must match the game; the display names are those of the kit's own stub
+    # ("arm length", "socket offset") - other names do not find the kit's members and add a second member with the same internal name
+    struct(P_WVS, [param("fov", "float", internal_name="fov_2_6AF08AEF41E4C33F90B60EB3EAFE60CF"),
+                   param("arm length", "float", internal_name="armlength_4_A0D45C7F4145C5F649D173884365ED33"),
+                   param("socket offset", "struct:/Script/CoreUObject.Vector", internal_name="socketoffset_7_51B3ABFE4696FBC4E58B58ACDA4589F8")]),
     # Shot Sound: what Shoot Fx plays (Reset Default Attributes sets the class's own); Equipment Suppressor: the mounted barrel part
     blueprint(P_GUN, P_WEAPON, variables=[var("Equipment Mag", "object:" + P_MAGCOMP), var("Gun Data", "struct:" + P_GUN_S),
                                           var("Shot Sound", "object:/Script/Engine.SoundBase"), var("Equipment Suppressor", "object:" + P_BARRELCOMP)],
@@ -226,11 +235,19 @@ assets = [
                          # chain has no AI_Controller, the pointer is the same)
                          fn("Change Controller", [param("Class", "class:/Script/AIModule.AIController")]),
                                                fn("Is Crouching", outputs=[param("yes", "bool")], pure=True),
+                                               fn("get Foot Location", outputs=[param("location", "struct:/Script/CoreUObject.Vector")], pure=True),   # invisible hand (BP_AltUIHand): the scan box sits on it
+                                               fn("Is Ragdoll ?", outputs=[param("yes", "bool")], pure=True),
                                                ], variables=[var("Health", "float"), var("Speed 2d", "float"), var("Anim Blueprint", "object:/Script/Engine.AnimInstance"),
-                                                                    var("Loading State", "int")]),   # > 0: loaded from a story save (Plots_GameState.Load Game Ex)   # BP_AltUIMove (Anim Blueprint: set once in Begin Play Ex - reset after a style switch)
+                                                                    var("Loading State", "int"),   # > 0: loaded from a story save (Plots_GameState.Load Game Ex)   # BP_AltUIMove (Anim Blueprint: set once in Begin Play Ex - reset after a style switch)
+                                                                    var("Health Max", "float"), var("undead time", "float")]),   # followers: Invulnerable = the game's undead time + health filled up (Fol Guard)
     # the invisible hand (catalog item): Jodi.Put Item to Bag sets its power from the hands in the bag, nothing else does - Hand Watch keeps it in step
-    blueprint(P_IHC, "/Script/Engine.SceneComponent", variables=[var("Number", "int")], functions=[fn("Update Power", [param("Number", "int")])]),
-    blueprint(P_JODI, mode="augment", variables=[var("InvisibleHand_Comp", "object:" + P_IHC), var("Skin Wet Alpha Target", "float"), var("previous weapon", "object:" + P_WEAPON), var("wanna toggle weapon", "bool"),   # inventory tab: Got A Gun's equip request (Inv Got Gun)
+    blueprint(P_IHC, "/Script/Engine.SceneComponent", variables=[var("Number", "int"), var("interval", "float"), var("time", "float"), var("Jodi", "object:" + P_JODI)],
+              functions=[fn("Update Power", [param("Number", "int")])]),   # BP_AltUIHand: time (next scan), interval, Jodi (FlyingItem_Comp picks for her)
+    blueprint(P_PICKABLE, mode="augment", variables=[var("Can Be Auto Picked", "bool")]),
+    blueprint(P_FLYING, "/Script/Engine.ActorComponent", variables=[var("Invisible Comp", "object:" + P_IHC)],
+              functions=[fn("Init", [param("invisible Comp", "object:" + P_IHC)])]),
+    blueprint(P_JODI, mode="augment", variables=[var("InvisibleHand_Comp", "object:" + P_IHC), var("View Data Unarmed ", "struct:" + P_WVS), var("need update camera view data", "bool"),   # zoom in play (the game's name ends in a space)
+                                                var("Skin Wet Alpha Target", "float"), var("previous weapon", "object:" + P_WEAPON), var("wanna toggle weapon", "bool"),   # inventory tab: Got A Gun's equip request (Inv Got Gun)
                                                 var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Wanna Use This Item", [param("item name", "name")]), fn("on Menu Displayed", [param("show", "bool")]),   # panel open/close: what PlayingHud does for the game's menus (aim ends, Wanna Aim reset)
                                                 fn("Add Item to Shortcut", [param("item name", "name"), param("group", "int"), param("gun", "object:" + P_WEAPON)]),   # inventory tab
                                                 fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True), fn("Wanna Running"),
@@ -257,7 +274,8 @@ assets = [
                                                 var("Save Player Clothes", "name", "array"),   # On Begun Play puts these on (Wear These Clothes), then clears them
                                                 var("Save Clothes Damaged", "name", "map", value_type="float"),   # damage per piece (Store / Get Clothes Damage)
                                                 var("Hair Comps", "object:" + P_HAIRC, "array"), var("clothes component list", "object:" + P_CC, "array"),
-                                                var("Zombie in front of me", "object:" + P_CB), var("is paralleled animation playing", "bool")],   # ALTUI_FOLLOG (Fol Debug)
+                                                var("Zombie in front of me", "object:" + P_CB), var("is paralleled animation playing", "bool"),   # ALTUI_FOLLOG (Fol Debug)
+                                                var("Action Out Montage", "object:/Script/Engine.AnimMontage")],   # figure in a pose: its stand-up montage (Fol Pose End)
               functions=[fn("Check Appearence"), fn("Set Heel Height", [param("height ratio", "float"), param("thickness", "float")]),
                          fn("Change Hairstyle Ex", [param("hairstyle", "name")]),   # the hairstyle's Hair_Comps (HairstyleTable), unknown row -> the first
                          fn("check clothes covering"),
@@ -267,7 +285,9 @@ assets = [
                          fn("Play Montage", [param("AnimMontage", "object:/Script/Engine.AnimMontage"), param("StartSectionName", "name")], [param("duration", "float")]),
                          fn("Attach Weapon to Right Hand"),
                          # the game's reload asks this (Npc_Controller.Try to Reload, Weapon_Gun_Base.New Mag Installed): the follower overrides it for infinite ammo
-                         fn("Count Weapon Ammo", [param("weapon", "object:" + P_WEAPON)], [param("num", "int")], pure=True)]),   # the underwear rule (Bra01 / Briefs01 unless Is Nude Allowed); the follower's Check Appearence calls it
+                         fn("Count Weapon Ammo", [param("weapon", "object:" + P_WEAPON)], [param("num", "int")], pure=True),
+                         # figure in a pose: the out montage / loop of an action animation (Fol Pose End, Fol Pose Watch)
+                         fn("Change Action Animation", [param("Anim", "object:/Script/Engine.AnimSequence"), param("Montage", "object:/Script/Engine.AnimMontage")])]),   # the underwear rule (Bra01 / Briefs01 unless Is Nude Allowed); the follower's Check Appearence calls it
     # on Spawn in Runtime: the game's start of a figure spawned while playing (-> On Begun Play: anim class, order, health)
     blueprint(P_CNPC, P_CPB, variables=[var("Distance to Master", "float")], functions=[fn("Need to Save", outputs=[param("yes", "bool")], pure=True), fn("Mutate"), fn("on Spawn in Runtime"),
                                                                                  fn("Ani Notify Grab Weapon", [param("equip", "bool")])],   # Jason: a weapon on a socket he lacks goes to Prop_R

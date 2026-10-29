@@ -37,6 +37,7 @@ The two tables use AltUI's row structures, and the actor implements AltUI's inte
 | `S_AltUIModEntry.uasset` | row structure of `AltUI_Entries` |
 | `S_AltUIModField.uasset` | row structure of `AltUI_Fields` |
 | `BPI_AltUIMod.uasset` | the interface your actor implements |
+| `S_AltUIModPreset.uasset` | row structure of `AltUI_Presets`, only for [presets your mod ships](#presets) |
 
 Your assets store these by their path, and in the game they are loaded from `AltUI.pak` at that path. **Do not ship
 them in your pak**: a pak that brings its own copy replaces AltUI's for everyone who installs it. A table built on a
@@ -63,7 +64,7 @@ One row per field. The row name does not matter; what counts are the columns.
 | `Type` | Name | `Header`, `Info`, `Toggle`, `Slider`, `Number`, `Choice`, `Color`, `Text`, `Key` or `Button` |
 | `Label` | Text | the text beside the field (a header's text, a button's caption) |
 | `Min`, `Max` | Float | slider and number only: the range |
-| `Step` | Float | slider: the value snaps to multiples of it from `Min`, 0 means continuous; number: what - and + change, 0 means 1 |
+| `Step` | Float | slider: the value snaps to multiples of it from `Min`, 0 means continuous; number: what - and + change, 0 means 1 (a typed value is not snapped) |
 | `Options` | Array of Text | choice only: the options, shown one at a time with arrows |
 | `Order` | Integer | position within the entry; lower first |
 
@@ -75,7 +76,7 @@ What each type shows and which value it carries:
 | `Info` | a line of text your mod supplies, updated live - a state, a counter | text, read only |
 | `Toggle` | a checkbox | 0 or 1 |
 | `Slider` | a slider with the value beside it | a number from `Min` to `Max` |
-| `Number` | the value between − and + | a number from `Min` to `Max` |
+| `Number` | the value between − and +; the player can also type it in | a number from `Min` to `Max` |
 | `Choice` | one option at a time, with arrows | the index of the option, starting at 0 |
 | `Color` | a colour swatch; a click opens AltUI's colour palette | a colour |
 | `Text` | a text field | text, reported when the player leaves the field or presses Enter |
@@ -140,7 +141,7 @@ that are not a value - reset, spawn, teleport, reload - or a step you want to ha
 ## The quick menu
 
 Besides the Mods tab, AltUI has a quick menu: a wheel the player opens by holding a key (4 unless they changed it) and
-closes on the item under the mouse. Under *Options › Quick menu* the player ticks what goes into the wheel. Your mod
+closes on the item under the mouse. In the *Actions* tab the player ticks what goes into the wheel. Your mod
 can be part of it in two ways, and neither needs a change to your actor or to `BPI_AltUIMod`.
 
 **Your buttons and toggles, automatically.** Every `Button` and `Toggle` field of your `AltUI_Fields` is offered,
@@ -167,6 +168,58 @@ can bring actions only.
 
 While your actor is not in the level, its items stay in the wheel greyed out and do nothing. The example below has
 one action, "Lamp: next colour", with an icon.
+
+## Presets
+
+Every page of the Mods tab gets a row of preset tiles above its fields, like the saved looks and faces. The player
+saves the page's current settings with the "+" tile (with a photo, from the front or with the free camera), clicks a tile to apply
+it, and renames, updates, moves or deletes it from its right-click menu, where it can also go into the quick menu or
+onto a key of its own. **Your mod does not need to do anything for this.**
+
+* **What a preset holds:** the value of every `Toggle`, `Slider`, `Number`, `Choice`, `Color` and `Text` field of the
+  page, read with the Get functions, by the field's `Key`. `Key` fields (a key binding is not a mood), buttons, info
+  lines and headers are not part of a preset. A page without such a field gets no preset tiles.
+* **Applying a preset** goes field by field, one `On AltUI … Changed` each - exactly as if the player had changed the
+  fields in the panel, so your mod applies and saves them as it already does. First every `Color` and `Text` field, then
+  the toggles, sliders, numbers and choices, each group in the fields' `Order`: a mod that switches a choice to "Custom"
+  when its colour field changes (as the example does) gets the choice the preset holds. A toggle arrives as 0
+  or 1, a slider or number clamped to `Min`…`Max`, a choice only when its index is one of the options. A field the
+  preset has no value for - one you added in a later version, say - stays as it is; a key the page no longer has is
+  left out.
+* **The player decides what belongs to a preset:** "View content" in a preset's menu lists the page's fields with the
+  stored values and a check box each. An unticked value is kept but not applied, so a preset can, say, change the
+  weather and leave the lamp's height alone. This works for shipped presets too (kept in the player's file).
+* **Where they are kept:** one file per mod, `Saved/SaveGames/AltUI_ModPresets_<ModName>.sav`, the photos in
+  `Saved/SaveGames/AltUI/ModPresets/<ModName>/`. Removing your mod leaves them; deleting that file removes them.
+
+### Shipping presets with your mod
+
+A mod can bring ready-made presets in a third, optional table in its folder: `AltUI_Presets`, with the row structure
+`S_AltUIModPreset` from [`uassets/`](uassets/) (at `Content/Mod/AltUI/` like the others - not in your pak). They are
+shown before the player's own; the player can apply and rename them, give them a photo of their own, untick some of
+their values and put them into the quick menu, but not change their values or delete them - to change one, the player
+applies it, adjusts the fields and saves an own preset with "+". The values stay yours, so an update of your mod
+reaches them.
+
+| Column | Type | Meaning |
+|---|---|---|
+| `Entry` | Name | row name in your `AltUI_Entries` this preset belongs to |
+| `Caption` | Text | the name on the tile |
+| `Icon` | Soft object reference (Texture2D) | the tile's picture; empty shows the name only |
+| `Order` | Integer | position among your shipped presets; lower first |
+| `Values` | Map of Name to String | field `Key` -> value as text |
+
+The values are read by the type of the field with that key: a toggle `1` or `true` (anything else is off), a slider,
+number or choice a number with a point (`40`, `0.25`; a choice is the option's index from 0), a colour `#RRGGBB` or
+`#RRGGBBAA`, a text as it is. A value that cannot be read and a key the entry does not have are left out without a
+message. A preset may set only some fields - a "Thunderstorm" can change the weather and leave the room lamps alone.
+
+The example mod below ships two, "Warm" and "Cold":
+
+| Row | Entry | Caption | Order | Values |
+|---|---|---|---|---|
+| `Warm` | `Lamp` | Warm | 0 | `Light` → `1`, `Brightness` → `6000`, `Colour` → `0` |
+| `Cold` | `Lamp` | Cold | 1 | `Light` → `1`, `Brightness` → `12000`, `Colour` → `1` |
 
 ## Keeping the values
 
@@ -224,6 +277,12 @@ Content Browser.
 `Content/Mod/AltUI/` in your project, that the tables are named `AltUI_Entries` and `AltUI_Fields` and lie in
 `Content/Mod/<ModName>/` where `<ModName>` is your pak's name without `.pak`, and that your pak does not ship its own
 copy of AltUI's assets.
+
+**Can my mod ship ready-made presets?** Yes: an `AltUI_Presets` table, see [Shipping presets with your
+mod](#shipping-presets-with-your-mod). Without one, players still save presets of their own.
+
+**Does my mod have to do anything for presets?** No. AltUI reads the values with your Get functions and applies a
+preset through your `On AltUI … Changed` events - the same calls the panel makes.
 
 **My entry is shown, but greyed out.** The actor of the entry's `Actor` class is not in the level - check that the
 Blueprint Loader is installed and your loader row names that class.

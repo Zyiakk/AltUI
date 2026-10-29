@@ -21,7 +21,8 @@ def state_vars(L):
             var(L + "Loop2", "int", "array"), var(L + "RowPool", "object:/Script/UMG.UserWidget", "array"), var(L + "RC", "int"), var(L + "Seen", "bool"),
             var(L + "TCW", "object:/Script/UMG.UserWidget"), var(L + "HCW", "object:/Script/UMG.UserWidget"), var(L + "RCW", "object:/Script/UMG.UserWidget"),
             var(L + "RowH", "float", "array"), var(L + "MeasW", "object:/Script/UMG.UserWidget", "array"), var(L + "RowOf", "int", "array"), var(L + "Settle", "int"),
-            var(L + "ScrollTo", "int", default="-1")]   # entry to scroll into view once the rows are known ("Show in tab")
+            var(L + "ScrollTo", "int", default="-1"),   # entry to scroll into view once the rows are known ("Show in tab")
+            var(L + "ScrollOff", "float")]   # extra offset for that scroll (Actions tab: the remembered position inside the row); 0 after use
 
 
 def signatures(L):

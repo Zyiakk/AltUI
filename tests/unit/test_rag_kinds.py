@@ -2,10 +2,11 @@
 without it those two checks are skipped).
 A wrong path only shows in the game: the class does not load and the link does nothing."""
 import unittest, os, sys
-H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen"))
+H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 import gen_manager_ui as ui
 
-LIST = os.environ.get("GAME_PAK_FILELIST") or os.path.join(H, "..", "..", "knowledge", "game_pak_filelist.txt")
+import cfg
+LIST = cfg.path("GAME_PAK_FILELIST", os.path.join(H, "..", "..", "knowledge", "game_pak_filelist.txt"))
 FILES = set(l.strip() for l in open(LIST)) if os.path.exists(LIST) else None
 need_list = unittest.skipUnless(FILES, "no game pak file list (GAME_PAK_FILELIST)")
 

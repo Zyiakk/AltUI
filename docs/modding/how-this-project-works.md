@@ -14,7 +14,7 @@ It is here because a mod of this size is mostly not a programming problem. The h
 | `scripts/` | the tooling: pak readers and writers, asset readers, the converters, the build chain |
 | `tests/unit/` | tests that need neither engine nor game – the ones that only look at generated data finish in under a second |
 | `tests/editor/` | tests that run inside an editor session, for things only the engine can answer |
-| `uassets/`, `pubdocs/` | what is handed to other modders |
+| `uassets/`, `docs/modding/` | what is handed to other modders |
 | `versions/<version>/` | exactly the files that were released, with their checksums |
 | `build.sh`, `config.example.sh` | the whole chain in one script, and the paths it needs |
 

@@ -340,6 +340,123 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_ArrowUp",
+   "file": "tex/arrow_up.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_ArrowDown",
+   "file": "tex/arrow_down.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_CamHeight",
+   "file": "tex/camheight.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_TiltLeft",
+   "file": "tex/tilt_left.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_TiltRight",
+   "file": "tex/tilt_right.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_CamTilt",
+   "file": "tex/camtilt.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_ArrowFar",
+   "file": "tex/arrow_far.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_ArrowNear",
+   "file": "tex/arrow_near.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_CamDist",
+   "file": "tex/camdist.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_TabClothes",
    "file": "tex/tab_clothes.png",
    "props": {
@@ -496,6 +613,19 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_TabActions",
+   "file": "tex/tab_actions.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_TabManage",
    "file": "tex/tab_manage.png",
    "props": {
@@ -511,6 +641,19 @@
    "type": "texture",
    "path": "/Game/Mod/AltUI/T_TabRagdolls",
    "file": "tex/tab_ragdolls.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_TabNavigation",
+   "file": "tex/tab_navigation.png",
    "props": {
     "CompressionSettings": "TC_EditorIcon",
     "LODGroup": "TEXTUREGROUP_UI",

@@ -69,11 +69,13 @@ def _keys(cb, d):
     return keys
 
 
-def read(uasset):
-    """{"length": seconds, "curves": {name: curve}}; a curve is {"constant": v} or {"keys": [...], "pre": x, "post": x}."""
-    d, names, imps, exps, th = up.read_summary(uasset)
-    b = open(os.path.splitext(uasset)[0] + ".uexp", "rb").read()
-    i = b.find(CODEC); n = struct.unpack_from("<i", b, i - 4)[0]
+def read_bytes(ua, ux):
+    """read() of a package already in memory (.uasset bytes, .uexp bytes - e.g. read from a pak); no curve stream -> no curves."""
+    d, names, imps, exps, th = up.read_summary_bytes(ua)
+    b = ux
+    i = b.find(CODEC)
+    if i < 4: return {"length": None, "curves": {}}
+    n = struct.unpack_from("<i", b, i - 4)[0]
     p = i + n; nbytes = struct.unpack_from("<i", b, p)[0]; cb = b[p + 4:p + 4 + nbytes]
     # the compressor starts KeyDataOffset after the descriptors: the first one's offset is 12 x the number of curves
     count = struct.unpack_from("<i", cb, 8)[0] // 12 if len(cb) >= 12 else 0
@@ -85,11 +87,15 @@ def read(uasset):
         else: curves[name] = {"keys": _keys(cb, dd), "pre": dd["pre"], "post": dd["post"]}
     length = None
     try:
-        import subprocess
-        out = json.loads(subprocess.run([sys.executable, os.path.join(H, "uasset_props.py"), uasset], capture_output=True, text=True).stdout)
+        out = up.dump_bytes(ua, ux)
         length = next(v["props"].get("SequenceLength") for k, v in out.items() if isinstance(v, dict) and "props" in v and not k.startswith("Default"))
     except Exception: pass
     return {"length": length, "curves": curves}
+
+
+def read(uasset):
+    """{"length": seconds, "curves": {name: curve}}; a curve is {"constant": v} or {"keys": [...], "pre": x, "post": x}."""
+    return read_bytes(open(uasset, "rb").read(), open(os.path.splitext(uasset)[0] + ".uexp", "rb").read())
 
 
 def _bezier(p0, p1, p2, p3, a):

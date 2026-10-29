@@ -187,6 +187,10 @@ def build():
         {"type": "texture", "path": T_ACTION, "file": "tex/example_action.png", "props": {"CompressionSettings": "TC_EditorIcon", "LODGroup": "TEXTUREGROUP_UI",
                                                                                          "MipGenSettings": "TMGS_NoMipmaps", "NeverStream": True, "SRGB": True, "Filter": "TF_Bilinear"}},
         datatable(MOD + "/" + mu.ACTIONS_TABLE, mu.ACTION_STRUCT, rows={"NextColour": {"Caption": "Lamp: next colour", "Icon": T_ACTION + ".T_ExampleAction", "Actor": BP_CLASS, "Key": "NextColour", "Order": 0}}),
+        # presets the mod ships (MOD_UI.md, "Presets"): the colour by its index in COLOURS
+        datatable(MOD + "/" + mu.PRESETS_TABLE, mu.PRESET_STRUCT, rows={
+            "Warm": {"Entry": "Lamp", "Caption": "Warm", "Order": 0, "Values": {"Light": "1", "Brightness": "6000", "Colour": "0"}},
+            "Cold": {"Entry": "Lamp", "Caption": "Cold", "Order": 1, "Values": {"Light": "1", "Brightness": "12000", "Colour": "1"}}}),
         datatable(MOD + "/TKA_BlueprintLoader", BPL_STRUCT, rows={NAME: {"Actor Class": BP_CLASS}}),
         datatable(MOD + "/TKA_Mod_Table", "/Game/Project/Tables/DLC_Struct",
                   rows={NAME: {"Caption": "AltUI Mods tab example", "Desc": "A lamp in front of Jodi, set up from AltUI's Mods tab",

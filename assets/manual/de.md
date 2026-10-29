@@ -48,6 +48,7 @@ Nach einem Spiel-Update oder mit einer Mod, die Tabellen des Spiels ersetzt, kan
 - Das Mausrad scrollt; die Geschwindigkeit steht unter Optionen › Steuerung.
 - Solange das Panel offen ist, kann Jodi nicht laufen. Ziehen auf dem Hintergrund dreht die Kamera; Klick auf Jodi und Ziehen dreht sie – beim Schließen dreht sie sich zurück.
 - + und − ändern den Kameraabstand in 5-%-Schritten, das Mausrad über Jodi in 4-%-Schritten.
+- Beim Spielen (Panel zu) holt das Mausrad die Kamera näher an Jodi heran oder weiter weg; mit dem Schnellmenü-Eintrag „Kamerahöhe (Mausrad)“ hebt oder senkt es sie stattdessen (Linksklick oder Esc beendet das); beim Zielen bleibt die Ansicht des Spiels. Abstand und Höhe bleiben gespeichert.
 - Die runden Knöpfe über + und − öffnen eine freie Kamera (Maus dreht, W A S D und Q E bewegen, Shift ist schneller, das Mausrad stellt die Geschwindigkeit, Esc zurück), den Fotomodus des Spiels (Esc zurück) und den Ragdoll-Modus (siehe „Ragdoll-Modus“).
 - Der oberste runde Knopf (die Glühbirne) ist das Kameralicht: Es hellt auf, was die Kamera sieht – neben dem Panel, in der freien Kamera und im Fotomodus. Ein Klick öffnet ein kleines Menü: an / aus, die Lichtfarbe (Palette) und ein Helligkeitsregler. Es hellt nur auf (keine Glanzpunkte, kein Lichtkegel im Nebel), ist beim Spielen aus und kommt wieder, wie du es verlassen hast, wenn das Panel aufgeht.
 - Rückgängig und Wiederherstellen (fünf Schritte) stehen in der Statusleiste unten.
@@ -61,7 +62,8 @@ Links die Slots, rechts die Teile des gewählten Slots.
 - Klick auf ein Teil zieht es an, Klick auf ein getragenes zieht es aus.
 - Die Chips über der Liste filtern nach Mod oder Gruppe; „...“ klappt die Chip-Zeilen ein. Ein Suchfeld engt die Chips ein, die Suche über der Liste findet Teile nach Name, Mod oder Gruppe.
 - Filter: nur Besitz, nur Favoriten, nur Vanilla, nur getragen.
-- Rechtsklick auf ein Teil: Favorit, Ausblenden, Farbe über die Palette des Spiels, Farbe zurücksetzen, in den Rucksack, umbenennen, nur diese Gruppe, Mod-Inhalt anzeigen, im Reiter anzeigen.
+- Rechtsklick auf ein Teil: Favorit, Behalten, Ausblenden, Farbe über die Palette des Spiels, Farbe zurücksetzen, in den Rucksack, umbenennen, nur diese Gruppe, Mod-Inhalt anzeigen, im Reiter anzeigen.
+- Behalten: Ein markiertes Teil, das du selbst angezogen hast, bleibt an, wenn du einen Look oder ein Outfit anziehst. Teile im selben Slot (oder in einem Slot, der nicht dazu passt) lässt der Look dann weg und nennt sie im Hinweis. Ein Teil, das ein Look oder Outfit angezogen hat, bleibt beim nächsten Wechsel nicht an – auch wenn es markiert ist; so sammeln sich beim Durchprobieren keine Teile an. Die Kachel zeigt „behalten“. Rückgängig stellt den Stand davor genau her.
 - Schubladen: eigene Sammlungen von Kleidung, in einer Leiste über der Liste. „Standard“ zeigt alles; „+“ legt eine neue Schublade an („Schublade 1“, „Schublade 2“ …). Eine Schublade zeigt dieselbe Seite – Slots, Chips, Suche, Filter, Favoriten – nur mit ihren Teilen, und die Slots zählen nur diese. Rechtsklick auf ein Teil › „Schublade ›“ öffnet neben dem Menü die Liste der Schubladen: Ein Haken heißt, das Teil liegt darin; ein Klick legt es hinein oder nimmt es heraus, „+ Neue Schublade“ legt eine mit dem Teil darin an. Ein Teil kann in beliebig vielen Schubladen liegen; in einer Schublade hat das Menü zusätzlich „Aus dieser Schublade entfernen“. Rechtsklick auf eine Schublade: umbenennen (Enter übernimmt, Esc bricht ab), nach links / rechts, löschen (fragt nach – die Teile bleiben). Die gezeigte Schublade bleibt nach einem Neustart.
 - Der Tooltip zeigt, aus welchem Mod ein Teil stammt.
 - Schaden (im Kontextmenü): 0 bis 100 %, an einem getragenen Teil sofort; bei jedem anderen Teil wird er gemerkt, bis es getragen wird. Getragene Teile ohne Schadens-Texturen haben keinen Regler.
@@ -83,9 +85,9 @@ Die gespeicherten Outfits des Spiels – dieselben, die Kleiderschrank und Spieg
 
 Ein Look ist alles auf einmal: Kleidung mit ihren Farben, Frisur und Haarfarbe, Make-up, Augen, Haut, Mutation, Körperregler, Body-Mod und Gesicht.
 
-- Die „+“-Kachel speichert den aktuellen Look mit einem Ganzkörperfoto – frontal oder wie du sie gerade siehst.
+- Die „+“-Kachel speichert den aktuellen Look mit einem Ganzkörperfoto – frontal oder mit der freien Kamera: Flieg sie, wohin du willst, und klick, um das Foto zu machen (Esc: stattdessen frontal).
 - Klick auf einen Look wendet ihn an.
-- Rechtsklick: Inhalt anzeigen, Umbenennen, Aktualisieren (Foto frontal oder wie gesehen), Verschieben, Löschen, ins Schnellmenü oder heraus.
+- Rechtsklick: Inhalt anzeigen, Umbenennen, Aktualisieren (Foto frontal oder mit freier Kamera), Verschieben, Löschen, ins Schnellmenü oder heraus.
 - Rechtsklick außerdem: „Als Ragdoll spawnen“, „Als Follower spawnen“, „Als NPC spawnen“ (siehe „Ragdolls“ und „Follower“).
 - Rechtsklick „Bereinigte Kopie (ohne fehlende Teile)“ – nur, wenn der Look Teile einer nicht mehr installierten Mod oder Make-up-/Augen-Zeilen enthält, die keine Tabelle mehr kennt: ein neuer Look direkt dahinter ohne diese Einträge, mit demselben Foto. Das Original bleibt, wie es ist; Neuspeichern entfernt sie nie von selbst.
 
@@ -189,6 +191,8 @@ Jodis Gesichtsausdruck.
 
 Einstellungen anderer Mods, die sich bei AltUI anmelden: links ihre Einträge, rechts Schalter, Regler, Zahlen, Auswahlen, Farben, Textfelder, Tasten und Knöpfe des gewählten.
 
+Über den Feldern: Presets der Seite. Die Kachel „+“ speichert die aktuellen Einstellungen mit Foto (frontal oder mit freier Kamera); ein Klick wendet ein Preset an. Rechtsklick: anwenden, Inhalt anzeigen, umbenennen, aktualisieren, verschieben, löschen, Schnellmenü. „Inhalt anzeigen“ listet die Werte mit je einem Häkchen: Nur angehakte Werte werden angewendet, nicht angehakte bleiben gespeichert. Presets, die eine Mod selbst mitbringt, stehen vorn; sie lassen sich anwenden, umbenennen, mit einem eigenen Foto versehen („Neues Foto“) und ihre Werte an- oder abhaken, nicht ändern oder löschen. Gespeichert pro Mod in AltUI_ModPresets_<Mod>.sav.
+
 Der Reiter erscheint nur, wenn ein solcher Mod installiert ist.
 
 ## Optionen {#options}
@@ -200,8 +204,7 @@ Links die Kategorien.
 - Gruppen: Gruppen oder Mods gleichen Namens zusammenfassen, Länge der Gruppennamen, Höhe des Chip-Bereichs, Chip-Suche.
 - Kamera: Blickwinkel, Abstand, Höhe, Kamera folgt dem gewählten Slot. Zwei Schalter für die freie Kamera (auch im Ragdolls-Modus): keine Kollision – sie fliegt durch Wände und Jodi – und beliebig weit von Jodi weg.
 - Steuerung: Panel-Taste, Scrollgeschwindigkeit, Kamerahöhe mit der rechten Maustaste, wie weit das Mausrad ein Ragdoll pro Raste hebt.
-- Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…).
-- Schnellmenü: Taste, Deckkraft, was im Rad steht, eigene Tasten.
+- Bewegung: Jodis eigenes Geh- und Renntempo (50 bis 200 %); Ducken und Springen bleiben, wie sie sind. „Zeitlupe an“ schaltet die Zeitlupe, „Tempo der Zeitlupe“ (5 bis 90 %, Standard 25 %) stellt ein, wie langsam sie läuft; der Schnellmenü-Eintrag „Zeitlupe an / aus“ tut dasselbe wie der Schalter. „Auf Standard zurücksetzen“ stellt Geh-, Renn- und Zeitlupentempo zurück. „Stehen“ wählt Jodis Steh-Animation: die des Spiels (Umsehen, Nägel ansehen, Bein ansehen, Vorsichtig, Verletzt, Posieren) und die installierter Idle-Mods (IdleAltUI_…). Geh-/Renn-Mods (WalkAltUI_…) bringen Chips bei „Gehstil“ und „Rennstil“; diese Zeilen erscheinen nur, wenn es eine Wahl gibt. Eine Geh-Mod gewinnt gegen eine gleichzeitig gewählte Renn- oder Idle-Mod: diese Seite läuft normal, ein Hinweis unter ihrer Zeile sagt das.
 - Theme: jede Farbe des Panels mit ihrer Deckkraft, ein Hintergrundbild (Füllung, Ausrichtung, Farbton, Sepia, Invertieren, eigene Deckkraft) und ein Bild für Kacheln und Reiter, Farbschemata unter einem Namen gespeichert; Zurücksetzen steht in der Statusleiste. Ein jetzt gespeichertes Theme behält auch die Bilder und ihre Einstellungen. Eigene Bilder: Background_1 … Background_30 und Button_1 … Button_30 (.png, .jpg oder .jpeg) in dem Ordner, den die Seite nennt. „Vorschauen einblenden“ zeigt die Bilder selbst auf ihren Chips; Rechtsklick auf die Vorschau eines eigenen Bildes: „Vorschau neu erstellen“.
 - Slot-Konflikte: die Slot-Paare des Spiels lösen (zum Beispiel BH und Hemd), damit beide getragen werden können. Darunter: „Mehrere Teile im selben Slot“ – ein eingeschalteter Slot behält seine Teile, wenn ein weiteres angezogen wird (zum Beispiel Kniestrümpfe über einer Strumpfhose), für Jodi, Follower und Looks.
 - Reiter: Text, Symbole oder beides in der Reiterleiste; Reiter abschalten. „Möglichst in eine Zeile“: die Beschriftungen werden kleiner und dann kürzer, damit die Leiste wo möglich in eine Zeile passt.
@@ -229,6 +232,7 @@ Figuren mit Physik zum Aufstellen und Posieren im Level: Kopien von Jodi, Zombie
 - Gelenkkugeln zeigen, wo man greifen kann: grau, rot = gesperrt, grün = beweglich, blau = festgehalten. Verdeckte schimmern blass durch den Körper; ein Klick auf eine Kugel greift genau dieses Gelenk. Sie erscheinen nur auf diesem Reiter und im Ragdoll-Modus.
 - Posen (in der aufgeklappten Zeile): ein Name und „Pose speichern“ halten fest, wie die Körperteile stehen und welche Gelenke gesperrt oder beweglich sind. Eine Pose lässt sich auf jede Figur derselben Art laden, in jedem Level – Klick lädt, Rechtsklick: Laden / Löschen. Die Figur friert dabei ein und steht auf dem Boden.
 - Szenen: „Szene speichern als“ hält jede Figur des Levels mit Aussehen, Ort, Pose und Gelenken fest; gleicher Name im selben Level überschreibt. Gezeigt werden nur die Szenen des aktuellen Levels. Ein Klick lädt eine Szene und ersetzt die vorhandenen Figuren; Rechtsklick: Laden / Löschen.
+- „Angreifbar machen“ (Jodi-Kopien, NPC- und Söldner-Kopien): Zombies greifen den Ragdoll an wie eine Figur; die Kopfzeile zeigt dann „· angreifbar“. Jeder Treffer stößt den Körperteil an, der dem Zombie am nächsten ist; ein eingefrorener Ragdoll federt etwa eine Sekunde nach dem letzten Treffer in seine Pose zurück. Ragdolls sterben nicht. Der Zustand wird mit der Szene gespeichert.
 
 Mit der Maus auf einer Figur, neben dem Panel und im Ragdoll-Modus:
 
@@ -239,6 +243,8 @@ Mit der Maus auf einer Figur, neben dem Panel und im Ragdoll-Modus:
 - Shift + Linksklick sperrt oder löst das angeklickte Gelenk.
 - Shift + Rechtsklick auf eine eingefrorene Figur macht das Gelenk beweglich. Links-Ziehen an einem Körperteil unter einem beweglichen Gelenk bewegt dann nur diesen Teil; er bleibt, wo du loslässt – so wird eine Figur posiert.
 - Rechts-Ziehen an einem Körperteil unter einem beweglichen Gelenk einer eingefrorenen Figur dreht dieses Glied um das Gelenk: Der gegriffene Punkt folgt der Maus, Hand und Finger drehen mit. Das Mausrad verdreht das Glied dabei um seine eigene Achse. Die Drehung bleibt in der Pose und wird mit Posen und Szenen gespeichert; Gelenkgrenzen gelten erst, wenn die Figur aktiv wird.
+- Finger und Augen (eingefrorene Figuren mit Jodis Körper): Aus der Nähe (unter etwa 1 m) erscheinen kleine Kugeln an den Fingergliedern und an den Lidern. Rechts-Ziehen an einer Fingerkugel dreht das Glied, das Mausrad verdreht es; Links-Ziehen krümmt den ganzen Finger (Spitze zur Handwurzel hin ziehen). Links-Ziehen an einer Lidkugel lenkt den Blick beider Augen, das Mausrad öffnet und schließt dabei die Lider (mit Shift beim Greifen nur dieses Lid).
+- In der aufgeklappten Figur setzen „Linke Hand“ und „Rechte Hand“ fertige Handposen (offen, entspannt, Faust, Daumen hoch, Peace, zeigen, halten, Grundpose); „Augen: zurücksetzen“ öffnet die Lider und richtet den Blick gerade aus. Posen und Szenen speichern Finger, Lider und Blick mit.
 
 Ohne Panel aktiviert oder friert das Schnellmenü Figuren ein: „Ragdoll: anvisierte aktivieren / einfrieren“ nimmt die Figur in der Bildmitte, „Ragdolls: aktiv / eingefroren“ schaltet alle um.
 
@@ -249,7 +255,15 @@ Figuren ohne Panel bewegen und posieren, die Kamera frei im Raum. Start mit dem 
 - Der Mauszeiger bleibt sichtbar; auf einer Figur geht alles wie neben dem Panel (siehe „Ragdolls“).
 - W A S D und Q E bewegen die Kamera, Shift ist schneller; Shift + Mausrad stellt die Geschwindigkeit.
 - Ziehen im Leeren dreht die Kamera.
+- Mittlere Maustaste halten dreht die Kamera, ohne dass der Bildschirmrand bremst; der Zeiger kommt danach an seine Stelle zurück.
 - Esc oder B beendet den Modus.
+
+## Navigation {#navigation}
+
+- Fliegen / Landen: Jodi fliegt. Bewegen wie gewohnt, Leertaste steigt, Strg sinkt, Shift ist dreimal so schnell; der Regler stellt das Tempo ein. Wände halten sie auf. Landen lässt sie zu Boden fallen – ein tiefer Fall schadet wie im Spiel. Auch im Schnellmenü, damit auch auf eigener Taste (Aktionen › Eigene Tasten).
+- Listet die Betten des aktuellen Levels, an denen Jodi speichern kann, das nächste zuerst, mit dem Namen des Raums und der Entfernung.
+- „Teleportieren“ stellt Jodi neben dieses Bett, zum Bett gewandt; gespeichert wird wie gewohnt, indem man das Bett benutzt. Folgende Follower kommen mit, wartende bleiben.
+- Ein Teleport überspringt alles auf dem Weg: Story-Schritte, die das Spiel beim Durchqueren eines Bereichs auslöst, geschehen unterwegs nicht, erst wenn Jodi später hineinläuft. Jodis Büro, Level 3 und der Schießstand haben keine solchen Betten.
 
 ## Objekte {#objects}
 
@@ -258,8 +272,8 @@ Modelle aus dem Spiel, Waffen und Modelle aus Mods (z. B. Requisiten aus Posen-M
 - Links KATALOG: Alle, ★ Favoriten, die Ordner des Spiels, „Aus Level: …“, Waffen und Mods (+ klappt die einzelnen Mods auf). Rechts eine Suche und die Modelle als Kacheln, nach Namen sortiert; „Mehr zeigen“ lädt weitere. Die Bilder nimmt AltUI selbst auf und merkt sie sich.
 - Klick auf eine Kachel stellt das Modell vor Jodi auf den Boden, fest. Rechtsklick: Favorit, „Mit Physik spawnen“.
 - Mod-Modelle findet AltUI, indem es die Mods einmal Ordner für Ordner durchsucht (der Zähler steht oben) und sich das Ergebnis merkt; danach werden nur neue Mods durchsucht. „Mods neu durchsuchen“ fängt von vorn an. Manche Mods legen Modelle in Ordner, die anders heißen als ihr Pak; die findet „Alle Mod-Ordner durchsuchen“ (das Spiel hält dabei etwa eine halbe Minute an).
-- Unten der Block „Gewählt“: Bild, Name, fest oder mit Physik, Physik an/aus, auf den Boden, kopieren, entfernen; Zahlenfelder für Position, Drehung (Gier, Nick, Roll) und Größe – Enter übernimmt. Das gewählte Objekt hat einen gelben Kantenrahmen.
-- WELT › In der Welt: eine Zeile je Objekt mit Wählen, Physik an/aus, Kopieren, Entfernen. „Positionen“ klappt einen Block auf: ein Name und „Position speichern“ halten Ort, Drehung, Größe und Physik fest. Die Position erscheint bei jedem Objekt desselben Modells im selben Level – Klick setzt es dorthin, Rechtsklick: Anwenden / Löschen.
+- Unten der Block „Gewählt“: Bild, Name, fest oder mit Physik, abwählen, Physik an/aus, auf den Boden, kopieren, entfernen; Zahlenfelder für Position, Drehung (Gier, Nick, Roll) und Größe – Enter übernimmt. Das gewählte Objekt hat einen gelben Kantenrahmen.
+- WELT › In der Welt: eine Zeile je Objekt mit Wählen (beim gewählten: Abwählen), Physik an/aus, Kopieren, Entfernen. „Positionen“ klappt einen Block auf: ein Name und „Position speichern“ halten Ort, Drehung, Größe und Physik fest. Die Position erscheint bei jedem Objekt desselben Modells im selben Level – Klick setzt es dorthin, Rechtsklick: Anwenden / Löschen.
 - WELT › Szenen: ein Name und „Szene speichern“ halten alle Objekte des Levels fest; gleicher Name im selben Level überschreibt. Gezeigt werden nur die Szenen des aktuellen Levels. Ein Klick lädt eine Szene und ersetzt die vorhandenen Objekte; Rechtsklick: Laden / Löschen. Fehlt ein Modell (Mod nicht installiert), wird es übersprungen und gemeldet.
 - Objekte verschwinden mit dem Level; zurück kommen sie über eine Szene.
 
@@ -275,7 +289,7 @@ Mit der Maus auf einem Objekt, neben dem Panel und im Ragdoll-Modus:
 Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befehle an; ein NPC bleibt, wo er ist, und verteidigt sich.
 
 - Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.
-- Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, ∞ mit Herz (unverwundbar), ∞ mit Patronen (Endlosmunition) und das Zahnrad (umbenennen, Look ändern, wiederbeleben, entfernen). „...“ klappt die Kacheln der Figur (Kleidung und Rucksack) weg und wieder auf; das bleibt je Figur, auch nach einem Neustart.
+- Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, ∞ mit Herz (unverwundbar), ∞ mit Patronen (Endlosmunition) und das Zahnrad (angreifbar / nicht angreifbar, umbenennen, Look ändern, wiederbeleben, entfernen). „...“ klappt die Kacheln der Figur (Kleidung und Rucksack) weg und wieder auf; das bleibt je Figur, auch nach einem Neustart.
 - Follower stehen über den NPCs, eine Linie trennt die beiden Gruppen. Die Chips über den Zeilen zeigen alle, nur Follower oder nur NPCs (bleibt nach einem Neustart).
 - Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.
 - Das Kontextmenü eines Stapels – bei Jodi oder der Figur – hat die Anzahl-Zeile wie im Reiter Inventar: „5 geben“, „5 nehmen“, in die Box.
@@ -283,6 +297,8 @@ Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befeh
 - „Aktiv“ aus nimmt eine Figur mit allem, was sie trägt, aus der Welt; wieder an, kommt sie vor Jodi zurück.
 - „Endlosmunition“: Die Figur lädt ihre Schusswaffen immer wieder nach, ohne Munition in ihrer Tasche zu brauchen. Magazinwaffen lassen ihre Munition unberührt; Schrotflinte und Granatwerfer verbrauchen zuerst, was sie dabei hat.
 - Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.
+- „Unverwundbar“ (∞ mit Herz): Die Figur kann nicht sterben, ihre Lebensenergie füllt sich nach jedem Treffer wieder auf. Treffer-Reaktionen und Kleidungsschaden gibt es trotzdem.
+- „Angreifbar“ (Zahnrad): Zombies nehmen nur angreifbare Figuren als Ziel, unabhängig von „Unverwundbar“. Nach „Nicht angreifbar machen“ lassen Zombies die Figur in Ruhe, sie nimmt dann auch keinen Schaden. Der Schalter wird gespeichert; neue Figuren sind angreifbar.
 - „+ Jason“ (unten rechts im Reiter) holt Jason aus der Story als Follower dazu, mit seiner Glock. Er nimmt Befehle, kommt mit und wird gespeichert. Er kämpft nur mit seiner eigenen Glock: Eine Glock, die man ihm gibt, wird seine, andere Waffen nimmt er nicht. Look, Kleidung und Make-up hat er nicht; liegt er am Boden, kann man ihn nicht heilen – „Wiederbeleben“ holt ihn zurück.
 - „Entfernen“ fragt nach; Items und Schusswaffen der Figur kommen in die Box, ihre Kleidung in Jodis Rucksack.
 - „Look ändern“ wechselt in den Looks-Reiter: den Look anklicken, den die Figur tragen soll.
@@ -291,6 +307,8 @@ Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befeh
 AltUI speichert die Figuren in einem eigenen Spielstand (AltUI_Followers.sav), der Spielstand des Spiels enthält sie nie. Folgende Follower kommen in jedes Level mit und sind nach dem Laden da; wartende Follower und NPCs bleiben in ihrem Level an ihrem Platz.
 
 Schnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im Blick, „Alle Follower: folgen / warten“ für alle. „Alle Follower: zu mir“ holt jeden aktiven Follower auf die Plätze vor Jodi – auch einen, der in einem anderen Level wartet.
+
+Figur in Pose: Die Schnellmenü-Gruppe „Figur: Lieblingsposen“ enthält jede deiner Lieblingsposen als „Figur: <Pose>“. Der Eintrag setzt die Follower- oder NPC-Figur im Blick in diese Pose (Jason nicht). Sie läuft und kämpft dann nicht, hält die Pose auch nach Treffern und dreht sich nicht weg. Ist sie angreifbar, greifen Zombies sie an, und eine verwundbare Figur kann dabei sterben – so lassen sich Szenen stellen. „Figur: Pose beenden“ lässt sie aufstehen, danach folgt oder wartet sie wie vorher. Nach einem Levelwechsel ist die Pose vorbei.
 
 ## Kodex {#kodex}
 
@@ -307,19 +325,22 @@ Schnellmenü: „Follower: Folge mir / Warte hier“ gilt für den Follower im B
 
 ## Schnellmenü {#quick}
 
-4 gedrückt halten (andere Taste unter Optionen › Schnellmenü), und um die Maus öffnet sich ein Rad. Über einem Eintrag loslassen führt ihn aus; in der Mitte loslassen tut nichts.
+4 gedrückt halten (andere Taste unter Aktionen), und um die Maus öffnet sich ein Rad. Über einem Eintrag loslassen führt ihn aus; in der Mitte loslassen tut nichts.
 
 - Einträge: Outfits, Looks, Gesichter, Aussehen-Presets, Posen, Reiter, Einstellungen anderer Mods und Aktionen: freie Kamera, Fotomodus, Ragdoll-Modus, Kopie von Jodi als Ragdoll, alle Ragdolls zwischen aktiv und eingefroren umschalten, anvisierte aktivieren / einfrieren, alle Ragdolls entfernen, eigenes Tempo an / aus.
 - Weitere Aktionen: „Zeitlupe an / aus“, „Zeit anhalten / weiter“ (alles steht still; Panel und Kameras arbeiten weiter; auch die Kamera des Fotomodus), „Jodi aus- / einblenden“ (mit Kleidung, Haaren und Waffe; im nächsten Level ist sie wieder da) und die Befehle an Follower (siehe „Follower“).
 - „Spiel-UI aus- / einblenden“ schaltet das HUD des Spiels aus und ein, wie es sein Fotomodus tut.
 - „+1 Unsichtbare Hand“ legt eine Unsichtbare Hand in den Rucksack (siehe Inventar › Alle Items).
-- Eigene Tasten: unter Optionen › Schnellmenü Rechtsklick auf einen Eintrag unter „Verfügbar“ und eine Taste drücken – der Eintrag läuft dann auf dieser Taste, bei geschlossenem Panel, auch in der freien Kamera und im Fotomodus des Spiels. Klick auf die Taste einer Zeile legt eine andere fest, ✕ entfernt sie. Panel-Taste, Schnellmenü-Taste und schon vergebene Tasten werden abgelehnt; eine Taste, die das Spiel selbst nutzt, löst beides aus.
-- Hinzufügen unter Optionen › Schnellmenü oder per Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods („Ins Schnellmenü“).
-- Die Reihenfolge im Rad ist die Reihenfolge der Liste unter Optionen › Schnellmenü.
+- „Kamerahöhe (Mausrad)“: In der Bildschirmmitte erscheinen zwei Pfeile, und das Mausrad hebt oder senkt die Kamera, statt sie näher oder weiter weg zu holen. Ein Linksklick oder Esc beendet das. Die Höhe bleibt gespeichert.
+- Eigene Tasten: unter Aktionen Rechtsklick auf einen Eintrag unter „Verfügbar“ und eine Taste drücken – der Eintrag läuft dann auf dieser Taste, bei geschlossenem Panel, auch in der freien Kamera und im Fotomodus des Spiels. Klick auf die Taste einer Zeile legt eine andere fest, ✕ entfernt sie. Panel-Taste, Schnellmenü-Taste und schon vergebene Tasten werden abgelehnt; eine Taste, die das Spiel selbst nutzt, löst beides aus.
+- Hinzufügen unter Aktionen oder per Rechtsklick auf eine Kachel, einen Reiter oder den Eintrag eines Mods („Ins Schnellmenü“).
+- Der Reiter Aktionen: links „Im Rad“ (Taste, Deckkraft, Reihenfolge mit ↑ ↓ ✕), „Eigene Tasten“, dann „Alle“ und jede Gruppe mit Einträgen – Outfits, Looks, Gesichter, Presets, Posen, Reiter, Mod-Einträge – und eine Zeile pro Mod mit Aktionen. Rechts die Einträge dieser Gruppe mit Haken (im Rad oder nicht) und darüber eine Suche. Jede Gruppe merkt sich ihre Scroll-Position.
+- Die Reihenfolge im Rad ist die Reihenfolge der Liste unter Aktionen › Im Rad.
 
 ## Für Mod-Autoren {#modding}
 
 - Kleidungs-Mods brauchen nichts Besonderes: AltUI liest die Tabellen des Spiels und ordnet jedes Teil seinem Slot zu.
 - Body- und Waffen-Ersatz-Mods lassen sich mit bodypak.pyz und weaponpak.pyz umwandeln, damit mehrere nebeneinander installiert sein können; sie lassen sich auch direkt im Unreal Editor für AltUI bauen.
 - Idle-Mods (ein Pak, das Jodis Idle-Animation ersetzt) lassen sich mit idlepak.pyz umwandeln: python3 idlepak.pyz <mod>.pak. Das neue IdleAltUI_….pak gehört nach Mods/ und erscheint unter Optionen › Bewegung › „Stehen“; das Idle des Spiels bleibt. AltUI muss installiert sein: Der Konverter baut das neue Pak zum Teil aus AltUI.pak und sucht es in den üblichen Steam-Ordnern; liegt es woanders, gibt man den Pfad mit --altui <Pfad zu AltUI.pak> an.
+- Geh-/Renn-Mods (ein Pak, das Jodis Geh- oder Rennanimation ersetzt) lassen sich mit walkpak.pyz umwandeln: python3 walkpak.pyz <mod>.pak. Das neue WalkAltUI_….pak kommt nach Mods/ und erscheint unter Optionen › Bewegung › „Gehstil“ (und „Rennstil“, wenn es ein Rennen mitbringt); Jodis eigener Gang bleibt. walkpak lehnt eine Animation ohne die Bewegungskurven des Spiels (MoveData_Speed, Rotation Speed) ab und nennt die fehlende. Wie idlepak braucht es AltUI.pak (--altui <Pfad>, wenn es nicht in den üblichen Steam-Ordnern liegt).
 - Mods können ihre Einstellungen über zwei Datentabellen und eine Schnittstelle im Reiter Mods zeigen; MOD_UI.md im Quell-Repository beschreibt, wie.

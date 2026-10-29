@@ -1,6 +1,6 @@
 # AltUI
 
-An alternative wardrobe and appearance UI for *The Killing Antidote* (game version 0.6.x), usable next to the game's own wardrobe and mirror. The vanilla wardrobe gives every mod author their own tab, so with a few clothing mods installed the same kind of item is scattered across a dozen tabs and there is no way to search. AltUI sorts every item from the game and from all installed mods into **one list per slot** (tops, skirts, shoes, …), with search, filters, favourites and hiding – and puts hair, makeup, body and outfits into the same panel. It opens anywhere in a level with **B**; no trips to the wardrobe or the mirror. Next to that: an Inventory tab for Jodi's backpack and the Hyper Storage Box, followers and NPCs made from your looks, ragdolls to place and pose (copies of Jodi, zombies, people), an Objects tab that puts models of the game and of mods into the world, a Codex with the manual, the game's encyclopedia and the code locks of the level, a TV tab that plays the videos of the TV in Jodi's office with a click, Jodi's own walk and run speed, slow motion, and per weapon a model, a skin, a shot sound and its accessories. Hold **4** for the quick menu: a wheel of what you use most – poses, outfits, looks, slow motion, orders for followers – one flick away without opening the panel.
+An alternative wardrobe and appearance UI for *The Killing Antidote* (game version 0.6.x), usable next to the game's own wardrobe and mirror. The vanilla wardrobe gives every mod author their own tab, so with a few clothing mods installed the same kind of item is scattered across a dozen tabs and there is no way to search. AltUI sorts every item from the game and from all installed mods into **one list per slot** (tops, skirts, shoes, …), with search, filters, favourites and hiding – and puts hair, makeup, body and outfits into the same panel. It opens anywhere in a level with **B**; no trips to the wardrobe or the mirror. Next to that: an Inventory tab for Jodi's backpack and the Hyper Storage Box, followers and NPCs made from your looks, ragdolls to place and pose (copies of Jodi, zombies, people), a teleport to the save beds of the level, an Objects tab that puts models of the game and of mods into the world, a Codex with the manual, the game's encyclopedia and the code locks of the level, a TV tab that plays the videos of the TV in Jodi's office with a click, Jodi's own walk and run speed, slow motion, and per weapon a model, a skin, a shot sound and its accessories. Hold **4** for the quick menu: a wheel of what you use most – poses, outfits, looks, slow motion, orders for followers – one flick away without opening the panel.
 
 ![Quick menu – hold 4 for a wheel of what you use most](versions/2.0.0/screenshots/01-quick-menu.jpg)
 
@@ -77,6 +77,7 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Search, also by mod and group name.
 * Filters: only owned, only favourites, only vanilla and only worn.
 * Favourites, and hiding pieces you never want to see.
+* "Keep on": pieces you put on yourself stay on through looks and outfits.
 * Colour through the game's palette, with a `#RRGGBB` field below it; colour reset per piece.
 * Every piece that can take a colour gets one, jewellery included – and one colour per material slot, so a dress can
   wear one colour on the fabric and another on the trim.
@@ -98,7 +99,7 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 
 * A complete look: clothes with their colours, hairstyle and hair colour, make-up, eyes, skin, body sliders, body mod and
   face.
-* Saved with a full-body photo from the game, taken from the front or as you see her.
+* Saved with a full-body photo from the game, taken from the front or with the free camera, from wherever you fly it.
 * Apply, update, rename and delete; "View content" lists what a look holds.
 * Your own order: right click moves a look left, right, to the start or to the end.
 * Spawn a look as a ragdoll, a follower or an NPC.
@@ -199,7 +200,12 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 ### Mods
 
 * The settings of other mods that register with AltUI: the mods on the left, the chosen one's settings on the right –
-  toggles, sliders, numbers, choices, colours, text fields, info lines, keys and buttons.
+  toggles, sliders, numbers, choices, colours, text fields, info lines, keys and buttons. A number can be typed in
+  (Enter or a click elsewhere applies it, kept within its range).
+* Presets per page: "+" saves the page's settings with a photo, a click applies them; rename, update, move, delete and
+  quick menu from the right-click menu. "View content" lists a preset's values with a check box each – only ticked ones
+  are applied, so a preset can leave some settings alone. A mod can ship presets of its own; they can get a photo of
+  yours. Kept per mod in `AltUI_ModPresets_<mod>.sav`.
 * Only shown when such a mod is installed – see [Settings of other mods](#settings-of-other-mods).
 
 ### Options
@@ -218,8 +224,6 @@ In categories, chosen in a list on the left:
 * **Movement:** Jodi's own walk and run speed (50–200 %; crouching and jumping stay as they are), slow motion and its
   speed, and how she stands: the game's usual idle, six other idle animations of the game, or an idle mod converted with
   `idlepak.pyz` – see [Idle mods](#idle-mods).
-* **Quick menu:** its key, its opacity, the items in the wheel, and **own keys**: right click any available item and press
-  a key – it then runs on that key with the panel closed, also in the free camera and the game's photo mode.
 * **Theme:** in sections –
   * colours and their opacity;
   * a background picture behind the panel: fill, fit, stretch or tile, aligned left / centre / right and top / middle /
@@ -233,6 +237,12 @@ In categories, chosen in a list on the left:
   tights) – for Jodi, looks and followers.
 * **Tabs:** switch tabs off; the tab bar shows text, icons or both, icon left or right of the text; "try to fit in one
   row" makes the captions smaller and shorter so the bar fits on one row where it can.
+
+### Actions
+
+The quick menu's settings: the key and opacity, the items in the wheel and their order, own keys, and every item that can
+go into the wheel – by group on the left ("All" shows them all), with a search. Right click an item for a key of its own:
+it then runs on that key with the panel closed, also in the free camera and the game's photo mode.
 
 ### Manage
 
@@ -265,6 +275,11 @@ In categories, chosen in a list on the left:
   * Shift + right click makes a joint movable – dragging a body part below it then poses only that part.
   * right drag on a body part below a movable joint turns that limb about the joint (the grabbed point follows the mouse);
     the wheel twists it about its own axis.
+* Fingers and eyes (frozen figures with Jodi's body, camera close): right drag turns a finger joint, left drag curls the
+  whole finger; left drag on a lid aims both eyes, the wheel opens and closes the lids (Shift: one lid, to wink). Hand
+  poses per hand (open, relaxed, fist, thumbs up, peace, point, hold) in the opened figure; poses and scenes keep them.
+* Attackable ragdolls: zombies attack a copy of Jodi, an NPC or the mercenary you made attackable; hits push the body
+  part nearest to the zombie, a frozen figure springs back into its pose.
 * Poses are saved per kind of figure, scenes per level (`AltUI_Ragdolls.sav`).
 
 ### Followers
@@ -273,7 +288,7 @@ In categories, chosen in a list on the left:
   sliders and weapon looks.
 * A follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
 * The tab lists every figure with its status, and chips: follow me, wait here, bring here (also from another level),
-  → NPC / → follower, active, invulnerable, and a gear for rename, change look, revive and remove; "..." folds a
+  → NPC / → follower, active, invulnerable, and a gear for attackable, rename, change look, revive and remove; "..." folds a
   figure's tiles away.
 * Followers above NPCs; chips show all, only followers or only NPCs.
 * Jodi's backpack and the storage box sit at the top: a click gives an item or a gun to the selected figure; a stack's
@@ -284,7 +299,13 @@ In categories, chosen in a list on the left:
 * Quick menu: "Follower: follow me / wait here" for the one in view, "All followers: follow / wait" and "All followers:
   come to me" – every active follower to the places in front of Jodi, also one waiting in another level.
 * Infinite ammo (chip per figure, ∞ with cartridges): it keeps reloading without ammo in its bag. Invulnerable is the
-  chip with ∞ and a heart; both show their name as a tooltip.
+  chip with ∞ and a heart; both show their name as a tooltip. An invulnerable figure cannot die – its health fills up
+  again after every hit.
+* Attackable (gear, saved): zombies only target attackable figures, invulnerable or not; an unattackable figure is left
+  alone and takes no damage.
+* Figures in a pose: the quick menu group "Figure: favourite poses" puts the follower or NPC in view into one of your
+  favourite poses. It holds the pose through hits and stays turned the way it was; zombies attack it if it is attackable –
+  a way to set up scenes. "Figure: stop pose" gives it its follow / wait order back.
 * "+ Jason" (bottom right) adds Jason from the story as a follower with his Glock – orders, bag, saving and level changes
   as for every figure. He fights with his own Glock only, has no look, and his death does not end the game.
 * Figures are kept in `AltUI_Followers.sav`, never in the game's save.
@@ -304,6 +325,15 @@ In categories, chosen in a list on the left:
 * Your own videos: put `.mp4` files into `TheKillingAntidote/Videos/TV/` in the game folder; they show up after the level
   is loaded again.
 
+### Navigation
+
+* *Fly* / *Land*: Jodi flies – move as usual, Space rises, Ctrl sinks, Shift is three times as fast, a slider sets the
+  speed; walls stop her. *Land* drops her to the ground; a high fall hurts as in the game. Also in the quick menu (and on an own key).
+* The beds of the current level where Jodi can save, nearest first, with the room's name and the distance. *Teleport* puts
+  Jodi next to the bed, facing it; saving works as usual by using the bed. Followers that follow her come along.
+* A teleport skips everything on the way: story steps the game starts when Jodi walks through an area happen only when she
+  walks into them later. Jodi's office, Level 3 and the shooting range have no such beds.
+
 ### Objects
 
 * Models of the game (its folders and levels), its weapons and the models of mods – props of pose mods, for example – as
@@ -312,7 +342,7 @@ In categories, chosen in a list on the left:
 * With the mouse beside the panel, like the ragdolls: left drag slides an object (with physics: grab and throw), right
   drag turns it (Shift: freely), the wheel lifts it, Ctrl + wheel scales it.
 * The selected object has a frame; the "Selected" block shows it with fields for position, turn and size and links for
-  physics, to the floor, copy and remove.
+  physics, to the floor, copy, remove and deselect.
 * WORLD › In the world lists the objects in the level and keeps positions per model; WORLD › Scenes saves all objects of
   a level under a name and loads them back (replacing them). The search box filters these lists too.
 * Mod models are found by searching the installed mods once in the background; the result is kept, so later starts only
@@ -331,6 +361,9 @@ In categories, chosen in a list on the left:
 
 * **B** opens and closes the panel (changeable in Options); **Esc** closes it.
 * Left click selects, wears or applies; right click opens the context menu; the mouse wheel scrolls.
+* While you play (panel closed), the mouse wheel moves the camera closer to Jodi or further away; after the quick
+  menu entry "Camera height (wheel)" it moves the camera up or down instead until a left click or Esc. Aiming keeps the
+  game's view; distance and height are kept.
 * While the panel is open, Jodi cannot walk:
   * drag on the background to turn the camera;
   * click on Jodi and drag to turn her – she turns back when the panel closes;
@@ -342,11 +375,11 @@ In categories, chosen in a list on the left:
     stops at walls; Esc goes back;
   * **photo mode** of the game – Esc goes back;
   * **ragdolls mode** – the panel goes away and the camera is free (W A S D / Q E, Shift + wheel sets the speed, drag on
-    nothing turns it); figures under the mouse are moved and posed as beside the panel; Esc or B goes back.
-* **Quick menu:** hold **4** (changeable) for a wheel of the items you picked – in Options, or with a right click on a
+    nothing turns it, the held middle button turns it without screen edges); figures under the mouse are moved and posed as beside the panel; Esc or B goes back.
+* **Quick menu:** hold **4** (changeable) for a wheel of the items you picked – in the Actions tab, or with a right click on a
   tile, a tab or a mod's entry – and let go on one to run it. It also offers slow motion, stop time (also in the game's
   photo mode, whose camera keeps moving), hide Jodi, hide the game's UI, orders for followers and the buttons and toggles
-  of mods in the Mods tab. Any of these can also get a key of its own (Options › Quick menu, "Own keys").
+  of mods in the Mods tab. Any of these can also get a key of its own (Actions › Own keys).
 * **Main menu:** **B** opens a small menu – the menu scenes, the loading scene, the next camera, and hiding the game's
   menu.
 
@@ -416,11 +449,34 @@ the mod's animation) and looks for it in the usual Steam folders; if it is somew
 original replacer. The animation is taken byte for byte; everything else in the pak is left out and listed. On Windows the
 command is `python` instead of `python3`.
 
+## Walk / run mods
+
+Walk mods replace Jodi's walk or run animation, so only one can be active. `walkpak.pyz` (in the release, Python 3.8+, no
+packages; GPL-3, see LICENSE) converts such a replacer into a `WalkAltUI_<Name>.pak`: the game's own walk stays, and the
+mod becomes a chip under *Options › Movement › Walk style* (and *Run style*, if it brings a run).
+
+```
+python3 walkpak.pyz <Replacer.pak> [--name <Name>] [--title "Display name"] [--out <folder>] [--force] [--altui <AltUI.pak>]
+python3 walkpak.pyz SomeWalkReplacer.pak --name Strut --title "Strut"
+```
+
+The loop needs the game's movement curves: without `MoveData_Speed` Jodi would stand still, without `Rotation Speed` she
+could not turn – walkpak refuses such a pak and names the curve; missing other curves, sync markers or footstep notifies
+are listed as warnings. The easiest start for your own walk is a copy of `Female_Walk` in the mod kit with your own bone
+tracks: the curves, markers and notifies stay. Like idlepak it builds the new pak partly from `AltUI.pak` (templates
+pointed at the mod's animations) and looks for it in the usual Steam folders, else `--altui <path to AltUI.pak>`. Copy the
+resulting pak to `TheKillingAntidote/Mods/` and remove the original replacer.
+
+Walk and run are picked separately and combine with the built-in styles and idles. A walk mod chosen together with a run
+mod from another pak or an idle mod wins: that side plays normal, and Options says so under its row.
+
 ## Settings of other mods
 
 Mods that the player controls in the game can put their settings into AltUI instead of binding keys of their own: a
 **Mods** tab lists every mod that registered there and shows its settings - toggles, sliders, numbers, choices,
 colours, text fields, info lines, keys and buttons - in AltUI's style. The tab only appears when such a mod is installed.
+Every page has presets: the player saves its settings with a photo and applies them with a click, and a mod can ship
+ready-made ones in an optional third table - nothing else is needed from the mod.
 
 **For mod authors.** A mod registers through two data tables in its own folder and an interface on its actor;
 [MOD_UI.md](MOD_UI.md) describes both, the assets are in [`uassets/`](uassets/), and a finished example to install and to
@@ -430,7 +486,7 @@ rebuild is in [`examples/AltUIMod_Example/`](examples/AltUIMod_Example/).
 
 Mod packs often ship cryptic identifiers. The Manage tab lets you give any mod, group, piece, hairstyle, skin, make-up, pose or appearance preset your own display name; the name is used everywhere in the panel and found by the search (the identifier stays searchable too, and the tooltip shows both). Names are stored in `Saved/SaveGames/AltUI_Names.sav`. To edit them as text, close the game and run `python3 altui_names.pyz export` (writes `names.json`), edit the file, then `python3 altui_names.pyz import names.json`; the previous save is kept as `AltUI_Names.sav.bak`. Without a path the tool looks in the game's save folder (Windows `%LOCALAPPDATA%\TheKillingAntidote\Saved\SaveGames`, Linux/Proton the Steam compatdata prefix).
 
-**Modding notes.** The techniques behind this mod, written up for other modders: paks and assets without the editor, how the game finds mods, running your own code, what AltUI reads from a mod, asset pitfalls, and generating assets instead of clicking them – [pubdocs/](pubdocs/).
+**Modding notes.** The techniques behind this mod, written up for other modders: paks and assets without the editor, how the game finds mods, running your own code, what AltUI reads from a mod, asset pitfalls, and generating assets instead of clicking them – [docs/modding/](docs/modding/).
 
 ## Building from source
 
@@ -476,7 +532,7 @@ Everything in the paks is generated – no game assets are included.
 | **Options › General** – language, space for Jodi, ownership, Codex, “All items” catalogue, auto-equip ![Options › General](versions/2.0.0/screenshots/37-options-general.jpg) | **Options › Tiles** – tile sizes, also for outfits, looks, ragdolls and the inventory ![Options › Tiles](versions/2.0.0/screenshots/38-options-tiles.jpg) |
 | **Options › Groups** – merging, group names, chip area, chip search ![Options › Groups](versions/2.0.0/screenshots/39-options-groups.jpg) | **Options › Camera** – FOV, distance, height, “camera follows slot / face” ![Options › Camera](versions/2.0.0/screenshots/40-options-camera.jpg) |
 | **Options › Controls** – panel key, scroll speed, ragdoll lift per wheel notch ![Options › Controls](versions/2.0.0/screenshots/41-options-controls.jpg) | **Options › Movement** – own walk / run speed, slow motion ![Options › Movement](versions/2.0.0/screenshots/42-options-movement.jpg) |
-| **Options › Quick menu** – key, opacity, the items in the wheel; below, everything available ![Options › Quick menu](versions/2.0.0/screenshots/43-options-quick-menu.jpg) | **Options › Theme** – colours, a background and a button picture with fill, alignment, hue, sepia and invert, saved themes ![Options › Theme](versions/2.3.0/screenshots/01-options-theme.jpg) |
+| **Actions** – key, opacity, the items in the wheel; below, everything available ![Actions](versions/2.0.0/screenshots/43-options-quick-menu.jpg) | **Options › Theme** – colours, a background and a button picture with fill, alignment, hue, sepia and invert, saved themes ![Options › Theme](versions/2.3.0/screenshots/01-options-theme.jpg) |
 | **Options › Theme** – the saved colours “oceanic” ![Options › Theme](versions/2.0.0/screenshots/45-options-colours-scheme-oceanic.jpg) | **Options › Theme** – the saved colours “Fire” ![Options › Theme](versions/2.0.0/screenshots/46-options-colours-scheme-fire.jpg) |
 | **Options › Slot conflicts** – free the game's slot pairs ![Options › Slot conflicts](versions/2.0.0/screenshots/47-options-slot-conflicts.jpg) | **Options › Tabs** – tab bar with icons and text, tabs switched off ![Options › Tabs](versions/2.0.0/screenshots/48-options-tabs.jpg) |
 | **Options › Tabs** – icons only ![Options › Tabs](versions/2.0.0/screenshots/49-options-tabs-icons-only.jpg) | **Manage** – mods and their groups, with chips ![Manage](versions/2.0.0/screenshots/50-manage.jpg) |

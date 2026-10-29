@@ -40,25 +40,27 @@ The hook replaces *TKA_PlayerCameraManager* and starts the panel from there. Any
 
 ## What it does
 
-* **Quick menu** – hold **4** (changeable) and a wheel opens with what you use most: free camera, photo mode, a saved outfit, look, face or preset, a favourite pose, a tab, and actions of other mods. Up to 32 items, picked and sorted in Options; let go on one to run it. A right click on a tile, a tab or a mod's entry puts it into the wheel or takes it out. It also has slow motion, stop time, hide Jodi and orders for followers. Any item can also get a key of its own (Own keys).
-* **Clothes** – every item of the game and of your mods, one list per slot, with search, filters, favourites and hiding. Damage slider in the context menu; a colour per material slot, jewellery included, kept per save game. Drawers: your own collections of pieces, as tabs above the list.
-* **Outfits · Looks** – the game's presets with names, and complete looks (clothes with colours, hair, makeup, eyes, skin, body, face) saved with an in-game photo. A look can be spawned as a follower, an NPC or a ragdoll. "Clean copy" leaves out what is no longer installed. An outfit saved in AltUI keeps the colours of every colour slot.
+* **Quick menu** – hold **4** (changeable) and a wheel opens with what you use most: free camera, photo mode, a saved outfit, look, face or preset, a favourite pose, a tab, and actions of other mods. Up to 32 items, picked and sorted in the Actions tab; let go on one to run it. A right click on a tile, a tab or a mod's entry puts it into the wheel or takes it out. It also has slow motion, stop time, hide Jodi and orders for followers. Any item can also get a key of its own (Own keys).
+* **Clothes** – every item of the game and of your mods, one list per slot, with search, filters, favourites and hiding. Damage slider in the context menu; a colour per material slot, jewellery included, kept per save game. Drawers: your own collections of pieces, as tabs above the list. “Keep on” keeps a piece you put on through looks and outfits.
+* **Outfits · Looks** – the game's presets with names, and complete looks (clothes with colours, hair, makeup, eyes, skin, body, face) saved with an in-game photo – from the front, or from wherever you fly the free camera. A look can be spawned as a follower, an NPC or a ragdoll. "Clean copy" leaves out what is no longer installed. An outfit saved in AltUI keeps the colours of every colour slot.
 * **Backpack · Coiffure · Appearance** – what Jodi wears and carries; hairstyles and hair colours; skin, makeup and eyes, each tintable. Favourite hairstyles at the top. Mutation: Jodi's mutated look from the story in parts – skin colour, glowing veins, veins, eyes – or the story's look in full. Hairstyle search by name, mod or pak file.
-* **Inventory** – Jodi's items and the Hyper Storage Box one under the other: a click moves an item, right click uses, inspects, discards or unloads it; everything goes through the game's own functions. Optional: an “All items” catalogue. A slider picks any amount of a stack; before very many objects would land on the ground, a warning asks first. The game's Invisible Hand is in the catalogue: in the backpack it brings items near Jodi to her.
+* **Inventory** – Jodi's items and the Hyper Storage Box one under the other: a click moves an item, right click uses, inspects, discards or unloads it; everything goes through the game's own functions. Optional: an “All items” catalogue. A slider picks any amount of a stack; before very many objects would land on the ground, a warning asks first. The game's Invisible Hand is in the catalogue: in the backpack it brings items near Jodi to her; under Options it can get its own range and take more items per round.
 * **Body Shape** – breast / waist sliders, a switcher for converted body mods, bone-scale sliders per body. For breast and glutes: jiggle, angle and hip width.
 * **Face** – Jodi's expression, gaze and mouth as sliders; the face holds in poses and while dancing; saved faces with a photo, their values under “View content”. “Eyes closed” on converted bodies.
 * **Weapons** – model, skin and shot sound per weapon, melee weapons included, side by side from every weapon mod, with a rendered picture on each tile; a click on a sound plays it. Accessories per slot (sights, barrel, grip, magazine) from the backpack or the storage box. A model mod's own versions of the game's paints come along with it.
 * **Poses** – every action animation of the game and of pose mods, sorted into standing, sitting and lying. "Repeat poses" for poses that end by themselves.
-* **Mods** – the settings of other mods that register there: toggles, sliders, numbers, choices, colours, text fields, info lines, keys and buttons. Only shown when such a mod is installed.
+* **Mods** – the settings of other mods that register there: toggles, sliders, numbers, choices, colours, text fields, info lines, keys and buttons; numbers can be typed in. Presets per page: the settings saved with a photo, applied with a click, and per value you choose what a preset applies; into the quick menu or onto an own key. Mods can ship presets of their own. Only shown when such a mod is installed.
 * **Options** – sorted into categories you pick from a list on the left: panel key, language, colours (schemes can be saved under a name), a tab bar with icons, text or both, and tile sizes, set separately for outfits and looks. Several pieces can share a slot (knee socks over tights). Tabs you do not need can be switched off. A free camera without collision and at any distance; "No notices" hides AltUI's and the game's notices. A camera light (round button beside the panel) brightens what the camera sees, with colour and brightness.
 * **Theme** – colours with their opacity, a background picture behind the panel (fill, fit, stretch or tile, aligned, with hue, sepia and invert, its own opacity) and a picture for tiles and tabs with rounded corners; AltUI's own pictures – off-white card stocks among them – or your own; themes saved under a name keep it all. Previews on the picture chips if you like.
+* **Actions** – the quick menu's settings, out of Options: the items in the wheel, own keys, and every item by group, with a search.
 * **Manage** – your own display names for mods, groups and items. As in Clothes, chips filter the list by mod or group, and a search field narrows down the chips. Usage: which mods are in use and where (outfits, looks, followers, favourites …) and which are not – to see what can go.
-* **Ragdolls** – copies of Jodi, zombies and people as figures with physics: place them, pose them joint by joint, freeze them or let them fall; poses per kind of figure and whole scenes per level are saved. While you drag, a right click pins a part in the air, like the physics gun; joint spheres show where a figure can be grabbed. A ragdolls mode moves them without the panel. The mercenary too, rifle in hand. A limb below a movable joint turns with a right drag.
-* **Followers** – looks become followers that walk and fight with Jodi, or NPCs that stay where they are: orders, items and guns to hand over, clothes that take damage like those of the game's own NPCs. Kept in a save file of their own, never in the game's save. Each figure wears the make-up of its look and has a voice. "All followers: come to me" from the quick menu. Infinite ammo per figure; Jason from the story joins as a follower with his Glock.
+* **Ragdolls** – copies of Jodi, zombies and people as figures with physics: place them, pose them joint by joint, freeze them or let them fall; poses per kind of figure and whole scenes per level are saved. While you drag, a right click pins a part in the air, like the physics gun; joint spheres show where a figure can be grabbed. A ragdolls mode moves them without the panel. The mercenary too, rifle in hand. A limb below a movable joint turns with a right drag. Fingers and eyes: pose the finger joints, aim the eyes, open and close the lids, hand poses per hand. Ragdolls can be made attackable for zombies.
+* **Followers** – looks become followers that walk and fight with Jodi, or NPCs that stay where they are: orders, items and guns to hand over, clothes that take damage like those of the game's own NPCs. Kept in a save file of their own, never in the game's save. Each figure wears the make-up of its look and has a voice. "All followers: come to me" from the quick menu. Infinite ammo per figure; Jason from the story joins as a follower with his Glock. An “Attackable” switch decides whether zombies go for a figure. The quick menu puts the figure you look at into one of your favourite poses.
 * **Codex** – the AltUI manual in all seven languages, the game's encyclopedia and the code locks of the current level, each code hidden until you click it.
 * **TV** – in Jodi's office the TV's videos as a list: click one to play it, switch the TV on or off; your own .mp4 files in `Videos/TV/` show up too.
+* **Navigation** – the beds of the level where Jodi can save, nearest first: teleport next to one, and followers come along. Fly / Land, with a speed slider; also in the quick menu.
 * **Objects** – models of the game, weapons and props from mods into the world, with pictures AltUI takes itself: slide, turn, lift and scale them, with or without physics; positions per model and whole scenes per level are saved.
-* **Movement** – Jodi's own walk and run speed (50–200 %), under Options. Slow motion with its own speed. How Jodi stands: six more idle animations of the game, idle mods, or a pose as idle.
+* **Movement** – Jodi's own walk and run speed (50–200 %), under Options. Slow motion with its own speed. How Jodi stands: six more idle animations of the game, idle mods, or a pose as idle. Walk and run mods (converted with walkpak.pyz) as chips next to the built-in walk and run styles.
 * Undo / redo (5 steps), tooltips showing which mod an item comes from.
 
 Languages: English, German, Chinese, Russian, Spanish, Polish, French (auto-detected, switchable in Options).
@@ -69,6 +71,7 @@ Languages: English, German, Chinese, Russian, Spanish, Polish, French (auto-dete
 * **4** – hold for the quick menu (changeable in Options); let go on an item to run it, or in the middle to do nothing.
 * **B in the main menu** – a small menu for the menu scenes, the loading scene, the next camera and hiding the game's menu.
 * Left click – select / wear / apply. Right click – context menu. Mouse wheel – scroll.
+* **Mouse wheel while playing** (panel closed) – the camera closer or further away; “Camera height (wheel)” in the quick menu moves it up or down instead.
 
 ## Body mods
 
@@ -87,6 +90,18 @@ python idlepak.pyz SomeIdleReplacer.pak --name SomeIdle --title "Some idle"
 Copy the resulting IdleAltUI_SomeIdle.pak to TheKillingAntidote\Mods\ and remove the original replacer.
 
 idlepak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/idlepak.pyz · Details: [README](https://github.com/Zyiakk/AltUI#idle-mods)
+
+## Walk / run mods
+
+Walk mods replace Jodi's walk or run animation, so only one can be active. **walkpak.pyz** (in the release; Python 3.8+, no packages) turns such a replacer into its own mod pak: the game's walk stays, and the mod becomes a chip under Options › Movement › Walk style (and Run style, if it brings a run). Like idlepak it needs AltUI installed.
+
+```
+python walkpak.pyz SomeWalkReplacer.pak --name Strut --title "Strut"
+```
+
+Copy the resulting WalkAltUI_Strut.pak to TheKillingAntidote\Mods\.
+
+walkpak.pyz: https://github.com/Zyiakk/AltUI/releases/latest/download/walkpak.pyz · Details: [README](https://github.com/Zyiakk/AltUI#walk--run-mods)
 
 ## Mod updates and the second file
 

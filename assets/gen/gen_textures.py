@@ -1,5 +1,5 @@
 """Generates assets/tex/*.png and assets/05_textures.json: the mod's UI textures (white, tintable via BrushColor)."""
-import os, sys; sys.path.insert(0, os.path.dirname(__file__))
+import os, sys, math; sys.path.insert(0, os.path.dirname(__file__))
 from PIL import Image, ImageDraw
 from bpdsl import M, write
 
@@ -264,6 +264,60 @@ def _glyph(path, draw, size=128, ss=4):
 def _pts(S, pts): return [(x * S, y * S) for x, y in pts]
 
 
+def _arrow(d, S, W, top, bottom, up, half=0.36, shaft=0.10):
+    """Vertical arrow between top and bottom (shares of S): a triangle head over a short shaft, pointing up or down."""
+    h = (bottom - top) * 0.55; tip, base = (top, top + h) if up else (bottom, bottom - h)
+    d.polygon(_pts(S, [(0.5, tip), (0.5 + half, base), (0.5 - half, base)]), fill=W)
+    y0, y1 = (base - 0.01, bottom) if up else (top, base + 0.01)
+    d.rectangle(_pts(S, [(0.5 - shaft, y0), (0.5 + shaft, y1)]), fill=W)
+
+
+def arrow_up(d, S, W, C): _arrow(d, S, W, 0.12, 0.88, True)       # camera height mode, in the middle of the screen
+def arrow_down(d, S, W, C): _arrow(d, S, W, 0.12, 0.88, False)
+
+
+def _taper(d, S, W, top, bottom, up, half, shaft_far, shaft_near):
+    """Arrow in perspective: like _arrow, but the shaft narrows towards the far end (the tip for "away", the tail for "towards")."""
+    h = (bottom - top) * 0.5; tip, base = (top, top + h) if up else (bottom, bottom - h)
+    d.polygon(_pts(S, [(0.5, tip), (0.5 + half, base), (0.5 - half, base)]), fill=W)
+    if up: d.polygon(_pts(S, [(0.5 - shaft_far, base - 0.01), (0.5 + shaft_far, base - 0.01), (0.5 + shaft_near, bottom), (0.5 - shaft_near, bottom)]), fill=W)
+    else: d.polygon(_pts(S, [(0.5 - shaft_far, top), (0.5 + shaft_far, top), (0.5 + shaft_near, base + 0.01), (0.5 - shaft_near, base + 0.01)]), fill=W)
+
+
+def arrow_far(d, S, W, C): _taper(d, S, W, 0.04, 0.96, True, 0.40, 0.06, 0.16)      # distance mode: drawn small (W_PlayHeight), pointing into the depth
+def arrow_near(d, S, W, C): _taper(d, S, W, 0.04, 0.96, False, 0.44, 0.06, 0.16)    # big, coming towards you
+
+
+def cam_dist(d, S, W, C):
+    """Quick menu icon of the distance mode: the small far arrow above the big near one."""
+    _taper(d, S, W, 0.02, 0.34, True, 0.14, 0.03, 0.06); _taper(d, S, W, 0.42, 0.98, False, 0.36, 0.05, 0.13)
+
+
+def cam_height(d, S, W, C):
+    """Quick menu icon of the camera height mode: an up and a down arrow above each other."""
+    _arrow(d, S, W, 0.04, 0.46, True, half=0.30, shaft=0.08); _arrow(d, S, W, 0.54, 0.96, False, half=0.30, shaft=0.08)
+
+
+def _curved(d, S, W, cw, box=(0.10, 0.18, 0.90, 0.98), start=205, end=335, width=0.09, head=0.16):
+    """An arc over the top (PIL angles: 0 = 3 o'clock, clockwise), its head at the end it turns to: cw -> right end, turning
+    clockwise; else the left end, turning counter-clockwise."""
+    x0, y0, x1, y1 = [v * S for v in box]; cx, cy, r = (x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2; w = width * S
+    d.arc((x0, y0, x1, y1), start=start, end=end, fill=W, width=int(w))
+    a = math.radians(end if cw else start); s = 1 if cw else -1
+    px, py = cx + (r - w / 2) * math.cos(a), cy + (r - w / 2) * math.sin(a)
+    tx, ty = -math.sin(a) * s, math.cos(a) * s; nx, ny = math.cos(a), math.sin(a); h = head * S
+    d.polygon([(px + tx * h, py + ty * h), (px + nx * h * 0.75, py + ny * h * 0.75), (px - nx * h * 0.75, py - ny * h * 0.75)], fill=W)
+
+
+def tilt_right(d, S, W, C): _curved(d, S, W, True)        # tilt mode / "Image 1 degree right"
+def tilt_left(d, S, W, C): _curved(d, S, W, False)
+
+
+def cam_tilt(d, S, W, C):
+    """Quick menu icon of the tilt mode and of the reset: one arc over the top with a head at both ends."""
+    _curved(d, S, W, True); _curved(d, S, W, False)
+
+
 def tab_clothes(d, S, W, C):
     """T-shirt."""
     d.polygon(_pts(S, [(0.37, 0.13), (0.63, 0.13), (0.80, 0.19), (0.96, 0.39), (0.83, 0.51), (0.75, 0.43), (0.75, 0.89), (0.25, 0.89),
@@ -383,6 +437,18 @@ def tab_options(d, S, W, C):
     rh = S * 0.15; d.ellipse((cx - rh, cy - rh, cx + rh, cy + rh), fill=C)
 
 
+def tab_actions(d, S, W, C):
+    """Actions: the quick menu wheel - a ring in six segments around a hub."""
+    import math
+    c, ro, ri, rh = S / 2, S * 0.46, S * 0.24, S * 0.12
+    d.ellipse((c - ro, c - ro, c + ro, c + ro), fill=W); d.ellipse((c - ri, c - ri, c + ri, c + ri), fill=C)
+    lw = int(S * 0.05)
+    for i in range(6):   # the gaps between the segments
+        a = math.radians(30 + 60 * i)
+        d.line([(c + ri * 0.9 * math.cos(a), c + ri * 0.9 * math.sin(a)), (c + ro * 1.05 * math.cos(a), c + ro * 1.05 * math.sin(a))], fill=C, width=lw)
+    d.ellipse((c - rh, c - rh, c + rh, c + rh), fill=W)
+
+
 def tab_manage(d, S, W, C):
     """List of names with a pencil."""
     lw = int(S * 0.07)
@@ -452,6 +518,15 @@ def tab_objects(d, S, W, C):
     d.line(_pts(S, [(0.71, 0.38), (0.71, 0.84)]), fill=C, width=int(S * 0.03))                      # and on the side
 
 
+def tab_navigation(d, S, W, C):
+    """Navigation: a compass - a ring, the needle as two triangles (north filled, south outlined), a hub."""
+    lw = int(S * 0.06)
+    d.ellipse((S * 0.08, S * 0.08, S * 0.92, S * 0.92), outline=W, width=lw)
+    d.polygon(_pts(S, [(0.50, 0.15), (0.67, 0.50), (0.33, 0.50)]), fill=W)                             # north half
+    d.polygon(_pts(S, [(0.33, 0.50), (0.67, 0.50), (0.50, 0.85)]), outline=W, width=int(S * 0.05))   # south half, open
+    d.ellipse((S * 0.45, S * 0.45, S * 0.55, S * 0.55), fill=C)                                          # hub
+
+
 def altui_panel(d, S, W, C):
     """The AltUI panel, stylised: frame, tab bar with the chosen tab underlined, category list on the left, tile grid on the right."""
     d.rounded_rectangle((S * 0.04, S * 0.10, S * 0.96, S * 0.90), radius=int(S * 0.08), outline=W, width=int(S * 0.06))
@@ -466,7 +541,7 @@ def altui_panel(d, S, W, C):
 
 
 TAB_ICON_DRAW = {"Clothes": tab_clothes, "Outfits": tab_outfits, "Looks": tab_looks, "Bag": tab_bag, "Inventory": tab_inventory, "Hair": tab_hair, "Weapons": tab_weapons,
-                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Manage": tab_manage, "Ragdolls": tab_ragdolls, "Followers": tab_followers, "Kodex": tab_kodex, "TV": tab_tv, "Objects": tab_objects}
+                 "Look": tab_look, "Body": tab_body, "Face": tab_face, "Mods": tab_mods, "Options": tab_options, "Actions": tab_actions, "Manage": tab_manage, "Ragdolls": tab_ragdolls, "Navigation": tab_navigation, "Followers": tab_followers, "Kodex": tab_kodex, "TV": tab_tv, "Objects": tab_objects}
 T_ALTUI = M + "/T_AltUI"
 TAB_ICONS = dict({k: M + "/T_Tab" + k for k in TAB_ICON_DRAW}, Poses=T_POSE)   # page -> texture; Poses uses the pose tiles' stick figure
 
@@ -489,6 +564,7 @@ def build(assets_dir):
     inf_heart(os.path.join(assets_dir, "tex", "inf_life.png")); inf_ammo(os.path.join(assets_dir, "tex", "inf_ammo.png"))
     for k, f in TAB_ICON_DRAW.items(): _glyph(os.path.join(assets_dir, "tex", "tab_%s.png" % k.lower()), f)
     _glyph(os.path.join(assets_dir, "tex", "altui.png"), altui_panel)
+    for f, fn_ in (("arrow_up", arrow_up), ("arrow_down", arrow_down), ("camheight", cam_height), ("tilt_left", tilt_left), ("tilt_right", tilt_right), ("camtilt", cam_tilt), ("arrow_far", arrow_far), ("arrow_near", arrow_near), ("camdist", cam_dist)): _glyph(os.path.join(assets_dir, "tex", f + ".png"), fn_, size=64)
     return [{"type": "texture", "path": T_ROUNDBOX, "file": "tex/roundbox.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_ROUNDFRAME, "file": "tex/roundframe.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_ON, "file": "tex/check_on.png", "props": TEX_PROPS},
@@ -514,7 +590,16 @@ def build(assets_dir):
             {"type": "texture", "path": T_POSE, "file": "tex/pose.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_INF_LIFE, "file": "tex/inf_life.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_INF_AMMO, "file": "tex/inf_ammo.png", "props": TEX_PROPS},
-            {"type": "texture", "path": T_ALTUI, "file": "tex/altui.png", "props": TEX_PROPS}] + \
+            {"type": "texture", "path": T_ALTUI, "file": "tex/altui.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_ArrowUp", "file": "tex/arrow_up.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_ArrowDown", "file": "tex/arrow_down.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_CamHeight", "file": "tex/camheight.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_TiltLeft", "file": "tex/tilt_left.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_TiltRight", "file": "tex/tilt_right.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_CamTilt", "file": "tex/camtilt.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_ArrowFar", "file": "tex/arrow_far.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_ArrowNear", "file": "tex/arrow_near.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_CamDist", "file": "tex/camdist.png", "props": TEX_PROPS}] + \
            [{"type": "texture", "path": M + "/T_Tab" + k, "file": "tex/tab_%s.png" % k.lower(), "props": TEX_PROPS} for k in TAB_ICON_DRAW]
 
 

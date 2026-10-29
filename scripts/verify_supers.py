@@ -3,14 +3,15 @@
 defined by that very class in the game. Such an import is the SuperStruct of an override or the target of a call_parent; the kit's
 stub chain can name a class that only inherits the function in the game (2026-10-18: Npc_Controller_C:on Character Die, defined in
 AI_Controller) - the game then stops on load: "Could not find SuperStruct on <fn> to create <fn>".
-Game assets come from extracted/game (missing ones are extracted from the game pak). Requires COOKED and GAME (config.sh)."""
+Game assets come from $EXTRACTED/game (default extracted/game) (missing ones are extracted from the game pak). Requires COOKED and GAME (config.sh)."""
 import os, sys, subprocess, glob
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, H)
 from uasset_props import read_summary
 W = os.path.dirname(H)
 COOKED = os.environ["COOKED"]; GAME = os.environ["GAME"]
 PAK = os.path.join(GAME, "Content/Paks/pakchunk0-WindowsNoEditor.pak")
-EXTRACTED = os.path.join(W, "extracted/game/TheKillingAntidote/Content")
+X = os.environ.get("EXTRACTED") or os.path.join(W, "extracted")   # extracted game files (config.sh; dev: the knowledge base's)
+EXTRACTED = os.path.join(X, "game/TheKillingAntidote/Content")
 
 
 def imported_functions(path):
@@ -31,7 +32,7 @@ def own_functions(pkg):
     rel = pkg[len("/Game/"):] + ".uasset"; path = os.path.join(EXTRACTED, rel)
     if not os.path.exists(path):
         rx = "Content/%s\\.(uasset|uexp)$" % pkg[len("/Game/"):].replace(".", "\\.")
-        subprocess.run([sys.executable, os.path.join(H, "pak11_extract.py"), PAK, os.path.join(W, "extracted/game"), rx], check=True, stdout=subprocess.DEVNULL)
+        subprocess.run([sys.executable, os.path.join(H, "pak11_extract.py"), PAK, os.path.join(X, "game"), rx], check=True, stdout=subprocess.DEVNULL)
     _, _, imps, exps, _ = read_summary(path)
     fn = set()
     for on, cls, sup, outer, ssz, soff in exps:

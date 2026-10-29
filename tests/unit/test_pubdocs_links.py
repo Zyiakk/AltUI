@@ -1,6 +1,6 @@
 import unittest, os, re
 H = os.path.dirname(os.path.abspath(__file__)); W = os.path.join(H, "..", "..")
-P = os.path.join(W, "pubdocs")
+P = os.path.join(W, "docs", "modding")
 LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
 
 

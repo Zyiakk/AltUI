@@ -364,6 +364,67 @@
      "type": "object:/Script/Engine.StaticMeshComponent"
     },
     {
+     "name": "DetailBones",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "Details",
+     "type": "object:/Script/Engine.StaticMeshComponent",
+     "container": "array"
+    },
+    {
+     "name": "DetailMids",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic",
+     "container": "array"
+    },
+    {
+     "name": "DetailGroup",
+     "type": "int",
+     "container": "array"
+    },
+    {
+     "name": "DetailBuilt",
+     "type": "bool"
+    },
+    {
+     "name": "DetailHold",
+     "type": "name"
+    },
+    {
+     "name": "DetailPose",
+     "type": "struct:/Script/Engine.PoseSnapshot"
+    },
+    {
+     "name": "ThumbSpread",
+     "type": "float",
+     "container": "array"
+    },
+    {
+     "name": "GazeSide",
+     "type": "float"
+    },
+    {
+     "name": "GazeUp",
+     "type": "float"
+    },
+    {
+     "name": "GazeSet",
+     "type": "bool"
+    },
+    {
+     "name": "LidL",
+     "type": "float"
+    },
+    {
+     "name": "LidR",
+     "type": "float"
+    },
+    {
+     "name": "TmpGaze",
+     "type": "struct:/Script/CoreUObject.Vector"
+    },
+    {
      "name": "TurnPose",
      "type": "struct:/Script/Engine.PoseSnapshot"
     },
@@ -410,6 +471,22 @@
     {
      "name": "TmpTurnLocal",
      "type": "struct:/Script/CoreUObject.Rotator"
+    },
+    {
+     "name": "Attackable",
+     "type": "bool"
+    },
+    {
+     "name": "HitPose",
+     "type": "struct:/Script/Engine.PoseSnapshot"
+    },
+    {
+     "name": "HitUntil",
+     "type": "float"
+    },
+    {
+     "name": "HitActive",
+     "type": "bool"
     }
    ],
    "functions": [
@@ -3769,6 +3846,14 @@
         "id": "cpn",
         "kind": "call_self",
         "function": "Clear Pins"
+       },
+       {
+        "id": "sha",
+        "kind": "set",
+        "var": "HitActive",
+        "in": {
+         "HitActive": "false"
+        }
        }
       ],
       "links": [],
@@ -3790,7 +3875,8 @@
         "cpn",
         "off",
         "sa",
-        "grv"
+        "grv",
+        "sha"
        ]
       ]
      }
@@ -11804,6 +11890,14 @@
         "id": "rm",
         "kind": "call_self",
         "function": "Refresh Markers"
+       },
+       {
+        "id": "sd",
+        "kind": "call_self",
+        "function": "Show Details",
+        "in": {
+         "on": "@entry.on"
+        }
        }
       ],
       "links": [],
@@ -11830,7 +11924,8 @@
        ],
        [
         "fh:Completed",
-        "rm"
+        "rm",
+        "sd"
        ]
       ]
      }
@@ -12014,6 +12109,6157 @@
         "sl",
         "so",
         "rm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Has Detail",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "bi1",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "GetBoneIndex",
+        "in": {
+         "self": "@gb.Body",
+         "BoneName": "Eye_L"
+        }
+       },
+       {
+        "id": "bi2",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "GetBoneIndex",
+        "in": {
+         "self": "@gb.Body",
+         "BoneName": "index_01_l"
+        }
+       },
+       {
+        "id": "h1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@bi1.ReturnValue",
+         "B": "-1"
+        }
+       },
+       {
+        "id": "h2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@bi2.ReturnValue",
+         "B": "-1"
+        }
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@h1.ReturnValue",
+         "B": "@h2.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "a.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Detail Kind",
+     "inputs": [
+      {
+       "name": "bone",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "kind",
+       "type": "int"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "dnl0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_l"
+        }
+       },
+       {
+        "id": "dnl1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_l"
+        }
+       },
+       {
+        "id": "dnl2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_l"
+        }
+       },
+       {
+        "id": "dnl3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_l"
+        }
+       },
+       {
+        "id": "dnl4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_l"
+        }
+       },
+       {
+        "id": "dnl5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_l"
+        }
+       },
+       {
+        "id": "dnl6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_l"
+        }
+       },
+       {
+        "id": "dnl7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_l"
+        }
+       },
+       {
+        "id": "dnl8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_l"
+        }
+       },
+       {
+        "id": "dnl9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_l"
+        }
+       },
+       {
+        "id": "dnl10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_l"
+        }
+       },
+       {
+        "id": "dnl11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_l"
+        }
+       },
+       {
+        "id": "dnl12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_l"
+        }
+       },
+       {
+        "id": "dnl13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_l"
+        }
+       },
+       {
+        "id": "dnl14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_l"
+        }
+       },
+       {
+        "id": "dnl15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_r"
+        }
+       },
+       {
+        "id": "dnl16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_r"
+        }
+       },
+       {
+        "id": "dnl17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_r"
+        }
+       },
+       {
+        "id": "dnl18",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_r"
+        }
+       },
+       {
+        "id": "dnl19",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_r"
+        }
+       },
+       {
+        "id": "dnl20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_r"
+        }
+       },
+       {
+        "id": "dnl21",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_r"
+        }
+       },
+       {
+        "id": "dnl22",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_r"
+        }
+       },
+       {
+        "id": "dnl23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_r"
+        }
+       },
+       {
+        "id": "dnl24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_r"
+        }
+       },
+       {
+        "id": "dnl25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_r"
+        }
+       },
+       {
+        "id": "dnl26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_r"
+        }
+       },
+       {
+        "id": "dnl27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_r"
+        }
+       },
+       {
+        "id": "dnl28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_r"
+        }
+       },
+       {
+        "id": "dnl29",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_r"
+        }
+       },
+       {
+        "id": "dnl30",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Eye_L"
+        }
+       },
+       {
+        "id": "dnl31",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Eye_R"
+        }
+       },
+       {
+        "id": "dn",
+        "kind": "make_array",
+        "count": 32,
+        "type": "name",
+        "in": {
+         "[0]": "@dnl0.ReturnValue",
+         "[1]": "@dnl1.ReturnValue",
+         "[2]": "@dnl2.ReturnValue",
+         "[3]": "@dnl3.ReturnValue",
+         "[4]": "@dnl4.ReturnValue",
+         "[5]": "@dnl5.ReturnValue",
+         "[6]": "@dnl6.ReturnValue",
+         "[7]": "@dnl7.ReturnValue",
+         "[8]": "@dnl8.ReturnValue",
+         "[9]": "@dnl9.ReturnValue",
+         "[10]": "@dnl10.ReturnValue",
+         "[11]": "@dnl11.ReturnValue",
+         "[12]": "@dnl12.ReturnValue",
+         "[13]": "@dnl13.ReturnValue",
+         "[14]": "@dnl14.ReturnValue",
+         "[15]": "@dnl15.ReturnValue",
+         "[16]": "@dnl16.ReturnValue",
+         "[17]": "@dnl17.ReturnValue",
+         "[18]": "@dnl18.ReturnValue",
+         "[19]": "@dnl19.ReturnValue",
+         "[20]": "@dnl20.ReturnValue",
+         "[21]": "@dnl21.ReturnValue",
+         "[22]": "@dnl22.ReturnValue",
+         "[23]": "@dnl23.ReturnValue",
+         "[24]": "@dnl24.ReturnValue",
+         "[25]": "@dnl25.ReturnValue",
+         "[26]": "@dnl26.ReturnValue",
+         "[27]": "@dnl27.ReturnValue",
+         "[28]": "@dnl28.ReturnValue",
+         "[29]": "@dnl29.ReturnValue",
+         "[30]": "@dnl30.ReturnValue",
+         "[31]": "@dnl31.ReturnValue"
+        }
+       },
+       {
+        "id": "fi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Find",
+        "in": {
+         "TargetArray": "@dn.Array",
+         "ItemToFind": "@entry.bone"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@fi.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "lf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_IntInt",
+        "in": {
+         "A": "@fi.ReturnValue",
+         "B": "30"
+        }
+       },
+       {
+        "id": "fg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ge.ReturnValue",
+         "B": "@lf.ReturnValue"
+        }
+       },
+       {
+        "id": "el",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@fi.ReturnValue",
+         "B": "30"
+        }
+       },
+       {
+        "id": "k1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "1",
+         "B": "0",
+         "bPickA": "@fg.ReturnValue"
+        }
+       },
+       {
+        "id": "k2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "2",
+         "B": "@k1.ReturnValue",
+         "bPickA": "@el.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "k2.ReturnValue",
+        "return.kind"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Finger Of",
+     "inputs": [
+      {
+       "name": "bone",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "finger",
+       "type": "int"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "dnl0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_l"
+        }
+       },
+       {
+        "id": "dnl1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_l"
+        }
+       },
+       {
+        "id": "dnl2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_l"
+        }
+       },
+       {
+        "id": "dnl3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_l"
+        }
+       },
+       {
+        "id": "dnl4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_l"
+        }
+       },
+       {
+        "id": "dnl5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_l"
+        }
+       },
+       {
+        "id": "dnl6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_l"
+        }
+       },
+       {
+        "id": "dnl7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_l"
+        }
+       },
+       {
+        "id": "dnl8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_l"
+        }
+       },
+       {
+        "id": "dnl9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_l"
+        }
+       },
+       {
+        "id": "dnl10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_l"
+        }
+       },
+       {
+        "id": "dnl11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_l"
+        }
+       },
+       {
+        "id": "dnl12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_l"
+        }
+       },
+       {
+        "id": "dnl13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_l"
+        }
+       },
+       {
+        "id": "dnl14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_l"
+        }
+       },
+       {
+        "id": "dnl15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_r"
+        }
+       },
+       {
+        "id": "dnl16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_r"
+        }
+       },
+       {
+        "id": "dnl17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_r"
+        }
+       },
+       {
+        "id": "dnl18",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_r"
+        }
+       },
+       {
+        "id": "dnl19",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_r"
+        }
+       },
+       {
+        "id": "dnl20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_r"
+        }
+       },
+       {
+        "id": "dnl21",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_r"
+        }
+       },
+       {
+        "id": "dnl22",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_r"
+        }
+       },
+       {
+        "id": "dnl23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_r"
+        }
+       },
+       {
+        "id": "dnl24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_r"
+        }
+       },
+       {
+        "id": "dnl25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_r"
+        }
+       },
+       {
+        "id": "dnl26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_r"
+        }
+       },
+       {
+        "id": "dnl27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_r"
+        }
+       },
+       {
+        "id": "dnl28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_r"
+        }
+       },
+       {
+        "id": "dnl29",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_r"
+        }
+       },
+       {
+        "id": "dnl30",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Eye_L"
+        }
+       },
+       {
+        "id": "dnl31",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Eye_R"
+        }
+       },
+       {
+        "id": "dn",
+        "kind": "make_array",
+        "count": 32,
+        "type": "name",
+        "in": {
+         "[0]": "@dnl0.ReturnValue",
+         "[1]": "@dnl1.ReturnValue",
+         "[2]": "@dnl2.ReturnValue",
+         "[3]": "@dnl3.ReturnValue",
+         "[4]": "@dnl4.ReturnValue",
+         "[5]": "@dnl5.ReturnValue",
+         "[6]": "@dnl6.ReturnValue",
+         "[7]": "@dnl7.ReturnValue",
+         "[8]": "@dnl8.ReturnValue",
+         "[9]": "@dnl9.ReturnValue",
+         "[10]": "@dnl10.ReturnValue",
+         "[11]": "@dnl11.ReturnValue",
+         "[12]": "@dnl12.ReturnValue",
+         "[13]": "@dnl13.ReturnValue",
+         "[14]": "@dnl14.ReturnValue",
+         "[15]": "@dnl15.ReturnValue",
+         "[16]": "@dnl16.ReturnValue",
+         "[17]": "@dnl17.ReturnValue",
+         "[18]": "@dnl18.ReturnValue",
+         "[19]": "@dnl19.ReturnValue",
+         "[20]": "@dnl20.ReturnValue",
+         "[21]": "@dnl21.ReturnValue",
+         "[22]": "@dnl22.ReturnValue",
+         "[23]": "@dnl23.ReturnValue",
+         "[24]": "@dnl24.ReturnValue",
+         "[25]": "@dnl25.ReturnValue",
+         "[26]": "@dnl26.ReturnValue",
+         "[27]": "@dnl27.ReturnValue",
+         "[28]": "@dnl28.ReturnValue",
+         "[29]": "@dnl29.ReturnValue",
+         "[30]": "@dnl30.ReturnValue",
+         "[31]": "@dnl31.ReturnValue"
+        }
+       },
+       {
+        "id": "fi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Find",
+        "in": {
+         "TargetArray": "@dn.Array",
+         "ItemToFind": "@entry.bone"
+        }
+       },
+       {
+        "id": "d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_IntInt",
+        "in": {
+         "A": "@fi.ReturnValue",
+         "B": "3"
+        }
+       }
+      ],
+      "links": [
+       [
+        "d.ReturnValue",
+        "return.finger"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Finger Tip Base",
+     "inputs": [
+      {
+       "name": "finger",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "tip",
+       "type": "struct:/Script/CoreUObject.Vector"
+      },
+      {
+       "name": "base",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "dnl0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_l"
+        }
+       },
+       {
+        "id": "dnl1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_l"
+        }
+       },
+       {
+        "id": "dnl2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_l"
+        }
+       },
+       {
+        "id": "dnl3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_l"
+        }
+       },
+       {
+        "id": "dnl4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_l"
+        }
+       },
+       {
+        "id": "dnl5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_l"
+        }
+       },
+       {
+        "id": "dnl6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_l"
+        }
+       },
+       {
+        "id": "dnl7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_l"
+        }
+       },
+       {
+        "id": "dnl8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_l"
+        }
+       },
+       {
+        "id": "dnl9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_l"
+        }
+       },
+       {
+        "id": "dnl10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_l"
+        }
+       },
+       {
+        "id": "dnl11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_l"
+        }
+       },
+       {
+        "id": "dnl12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_l"
+        }
+       },
+       {
+        "id": "dnl13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_l"
+        }
+       },
+       {
+        "id": "dnl14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_l"
+        }
+       },
+       {
+        "id": "dnl15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_r"
+        }
+       },
+       {
+        "id": "dnl16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_r"
+        }
+       },
+       {
+        "id": "dnl17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_r"
+        }
+       },
+       {
+        "id": "dnl18",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_r"
+        }
+       },
+       {
+        "id": "dnl19",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_r"
+        }
+       },
+       {
+        "id": "dnl20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_r"
+        }
+       },
+       {
+        "id": "dnl21",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_r"
+        }
+       },
+       {
+        "id": "dnl22",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_r"
+        }
+       },
+       {
+        "id": "dnl23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_r"
+        }
+       },
+       {
+        "id": "dnl24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_r"
+        }
+       },
+       {
+        "id": "dnl25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_r"
+        }
+       },
+       {
+        "id": "dnl26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_r"
+        }
+       },
+       {
+        "id": "dnl27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_r"
+        }
+       },
+       {
+        "id": "dnl28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_r"
+        }
+       },
+       {
+        "id": "dnl29",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_r"
+        }
+       },
+       {
+        "id": "dnl30",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Eye_L"
+        }
+       },
+       {
+        "id": "dnl31",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Eye_R"
+        }
+       },
+       {
+        "id": "dn",
+        "kind": "make_array",
+        "count": 32,
+        "type": "name",
+        "in": {
+         "[0]": "@dnl0.ReturnValue",
+         "[1]": "@dnl1.ReturnValue",
+         "[2]": "@dnl2.ReturnValue",
+         "[3]": "@dnl3.ReturnValue",
+         "[4]": "@dnl4.ReturnValue",
+         "[5]": "@dnl5.ReturnValue",
+         "[6]": "@dnl6.ReturnValue",
+         "[7]": "@dnl7.ReturnValue",
+         "[8]": "@dnl8.ReturnValue",
+         "[9]": "@dnl9.ReturnValue",
+         "[10]": "@dnl10.ReturnValue",
+         "[11]": "@dnl11.ReturnValue",
+         "[12]": "@dnl12.ReturnValue",
+         "[13]": "@dnl13.ReturnValue",
+         "[14]": "@dnl14.ReturnValue",
+         "[15]": "@dnl15.ReturnValue",
+         "[16]": "@dnl16.ReturnValue",
+         "[17]": "@dnl17.ReturnValue",
+         "[18]": "@dnl18.ReturnValue",
+         "[19]": "@dnl19.ReturnValue",
+         "[20]": "@dnl20.ReturnValue",
+         "[21]": "@dnl21.ReturnValue",
+         "[22]": "@dnl22.ReturnValue",
+         "[23]": "@dnl23.ReturnValue",
+         "[24]": "@dnl24.ReturnValue",
+         "[25]": "@dnl25.ReturnValue",
+         "[26]": "@dnl26.ReturnValue",
+         "[27]": "@dnl27.ReturnValue",
+         "[28]": "@dnl28.ReturnValue",
+         "[29]": "@dnl29.ReturnValue",
+         "[30]": "@dnl30.ReturnValue",
+         "[31]": "@dnl31.ReturnValue"
+        }
+       },
+       {
+        "id": "b3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_IntInt",
+        "in": {
+         "A": "@entry.finger",
+         "B": "3"
+        }
+       },
+       {
+        "id": "i2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b3.ReturnValue",
+         "B": "2"
+        }
+       },
+       {
+        "id": "nt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@dn.Array",
+         "Index": "@i2.ReturnValue"
+        }
+       },
+       {
+        "id": "nb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@dn.Array",
+         "Index": "@b3.ReturnValue"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "lt",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketLocation",
+        "in": {
+         "self": "@gb.Body",
+         "InSocketName": "@nt.Item"
+        }
+       },
+       {
+        "id": "lb",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketLocation",
+        "in": {
+         "self": "@gb.Body",
+         "InSocketName": "@nb.Item"
+        }
+       }
+      ],
+      "links": [
+       [
+        "lt.ReturnValue",
+        "return.tip"
+       ],
+       [
+        "lb.ReturnValue",
+        "return.base"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Build Detail Markers",
+     "graph": {
+      "nodes": [
+       {
+        "id": "bal0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_l"
+        }
+       },
+       {
+        "id": "bal1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_l"
+        }
+       },
+       {
+        "id": "bal2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_l"
+        }
+       },
+       {
+        "id": "bal3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_l"
+        }
+       },
+       {
+        "id": "bal4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_l"
+        }
+       },
+       {
+        "id": "bal5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_l"
+        }
+       },
+       {
+        "id": "bal6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_l"
+        }
+       },
+       {
+        "id": "bal7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_l"
+        }
+       },
+       {
+        "id": "bal8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_l"
+        }
+       },
+       {
+        "id": "bal9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_l"
+        }
+       },
+       {
+        "id": "bal10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_l"
+        }
+       },
+       {
+        "id": "bal11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_l"
+        }
+       },
+       {
+        "id": "bal12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_l"
+        }
+       },
+       {
+        "id": "bal13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_l"
+        }
+       },
+       {
+        "id": "bal14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_l"
+        }
+       },
+       {
+        "id": "bal15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_r"
+        }
+       },
+       {
+        "id": "bal16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_r"
+        }
+       },
+       {
+        "id": "bal17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_r"
+        }
+       },
+       {
+        "id": "bal18",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_r"
+        }
+       },
+       {
+        "id": "bal19",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_r"
+        }
+       },
+       {
+        "id": "bal20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_r"
+        }
+       },
+       {
+        "id": "bal21",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_r"
+        }
+       },
+       {
+        "id": "bal22",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_r"
+        }
+       },
+       {
+        "id": "bal23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_r"
+        }
+       },
+       {
+        "id": "bal24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_r"
+        }
+       },
+       {
+        "id": "bal25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_r"
+        }
+       },
+       {
+        "id": "bal26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_r"
+        }
+       },
+       {
+        "id": "bal27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_r"
+        }
+       },
+       {
+        "id": "bal28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_r"
+        }
+       },
+       {
+        "id": "bal29",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_r"
+        }
+       },
+       {
+        "id": "bal30",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Eye_L"
+        }
+       },
+       {
+        "id": "bal31",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "Eye_R"
+        }
+       },
+       {
+        "id": "ba",
+        "kind": "make_array",
+        "count": 32,
+        "type": "name",
+        "in": {
+         "[0]": "@bal0.ReturnValue",
+         "[1]": "@bal1.ReturnValue",
+         "[2]": "@bal2.ReturnValue",
+         "[3]": "@bal3.ReturnValue",
+         "[4]": "@bal4.ReturnValue",
+         "[5]": "@bal5.ReturnValue",
+         "[6]": "@bal6.ReturnValue",
+         "[7]": "@bal7.ReturnValue",
+         "[8]": "@bal8.ReturnValue",
+         "[9]": "@bal9.ReturnValue",
+         "[10]": "@bal10.ReturnValue",
+         "[11]": "@bal11.ReturnValue",
+         "[12]": "@bal12.ReturnValue",
+         "[13]": "@bal13.ReturnValue",
+         "[14]": "@bal14.ReturnValue",
+         "[15]": "@bal15.ReturnValue",
+         "[16]": "@bal16.ReturnValue",
+         "[17]": "@bal17.ReturnValue",
+         "[18]": "@bal18.ReturnValue",
+         "[19]": "@bal19.ReturnValue",
+         "[20]": "@bal20.ReturnValue",
+         "[21]": "@bal21.ReturnValue",
+         "[22]": "@bal22.ReturnValue",
+         "[23]": "@bal23.ReturnValue",
+         "[24]": "@bal24.ReturnValue",
+         "[25]": "@bal25.ReturnValue",
+         "[26]": "@bal26.ReturnValue",
+         "[27]": "@bal27.ReturnValue",
+         "[28]": "@bal28.ReturnValue",
+         "[29]": "@bal29.ReturnValue",
+         "[30]": "@bal30.ReturnValue",
+         "[31]": "@bal31.ReturnValue"
+        }
+       },
+       {
+        "id": "ga",
+        "kind": "make_array",
+        "count": 32,
+        "type": "int",
+        "in": {
+         "[0]": "0",
+         "[1]": "0",
+         "[2]": "0",
+         "[3]": "0",
+         "[4]": "0",
+         "[5]": "0",
+         "[6]": "0",
+         "[7]": "0",
+         "[8]": "0",
+         "[9]": "0",
+         "[10]": "0",
+         "[11]": "0",
+         "[12]": "0",
+         "[13]": "0",
+         "[14]": "0",
+         "[15]": "1",
+         "[16]": "1",
+         "[17]": "1",
+         "[18]": "1",
+         "[19]": "1",
+         "[20]": "1",
+         "[21]": "1",
+         "[22]": "1",
+         "[23]": "1",
+         "[24]": "1",
+         "[25]": "1",
+         "[26]": "1",
+         "[27]": "1",
+         "[28]": "1",
+         "[29]": "1",
+         "[30]": "2",
+         "[31]": "2"
+        }
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ba.Array"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "bi",
+        "kind": "call",
+        "class": "/Script/Engine.SkinnedMeshComponent",
+        "function": "GetBoneIndex",
+        "in": {
+         "self": "@gb.Body",
+         "BoneName": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "hb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@bi.ReturnValue",
+         "B": "-1"
+        }
+       },
+       {
+        "id": "bh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@hb.ReturnValue"
+        }
+       },
+       {
+        "id": "gdb",
+        "kind": "get",
+        "var": "DetailBones"
+       },
+       {
+        "id": "adb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gdb.DetailBones",
+         "NewItem": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "gg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ga.Array",
+         "Index": "@fe.Array Index"
+        }
+       },
+       {
+        "id": "gdg",
+        "kind": "get",
+        "var": "DetailGroup"
+       },
+       {
+        "id": "adg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@gdg.DetailGroup",
+         "NewItem": "@gg.Item"
+        }
+       },
+       {
+        "id": "idtf44",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "(X=0,Y=0,Z=0)",
+         "Rotation": "(Pitch=0,Yaw=0,Roll=0)",
+         "Scale": "(X=1,Y=1,Z=1)"
+        }
+       },
+       {
+        "id": "hnc",
+        "kind": "call",
+        "class": "/Script/Engine.Actor",
+        "function": "AddComponentByClass",
+        "in": {
+         "Class": "/Script/Engine.StaticMeshComponent",
+         "bManualAttachment": "true",
+         "RelativeTransform": "@idtf44.ReturnValue",
+         "bDeferredFinish": "false"
+        }
+       },
+       {
+        "id": "hcs",
+        "kind": "cast",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "pure": true,
+        "in": {
+         "Object": "@hnc.ReturnValue"
+        }
+       },
+       {
+        "id": "hst",
+        "kind": "set",
+        "var": "MarkTmp",
+        "in": {
+         "MarkTmp": "@hcs.AsStatic Mesh Component"
+        }
+       },
+       {
+        "id": "hgm",
+        "kind": "get",
+        "var": "MarkTmp"
+       },
+       {
+        "id": "hgb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "hat",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_AttachToComponent",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "Parent": "@hgb.Body",
+         "SocketName": "@fe.Array Element",
+         "LocationRule": "SnapToTarget",
+         "RotationRule": "SnapToTarget",
+         "ScaleRule": "KeepWorld",
+         "bWeldSimulatedBodies": "false"
+        }
+       },
+       {
+        "id": "hab",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetAbsolute",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "bNewAbsoluteLocation": "false",
+         "bNewAbsoluteRotation": "false",
+         "bNewAbsoluteScale": "true"
+        }
+       },
+       {
+        "id": "hsc",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetWorldScale3D",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewScale": "(X=0.013,Y=0.013,Z=0.013)"
+        }
+       },
+       {
+        "id": "hsm",
+        "kind": "call",
+        "class": "/Script/Engine.StaticMeshComponent",
+        "function": "SetStaticMesh",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewMesh": "/Engine/BasicShapes/Sphere"
+        }
+       },
+       {
+        "id": "hmt",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetMaterial",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "ElementIndex": "0",
+         "Material": "/Game/Mod/AltUI/Mat/M_JointMarker"
+        }
+       },
+       {
+        "id": "hmd",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "CreateDynamicMaterialInstance",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "ElementIndex": "0",
+         "SourceMaterial": "None",
+         "OptionalName": "None"
+        }
+       },
+       {
+        "id": "hgmi",
+        "kind": "get",
+        "var": "DetailMids"
+       },
+       {
+        "id": "hami",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@hgmi.DetailMids",
+         "NewItem": "@hmd.ReturnValue"
+        }
+       },
+       {
+        "id": "hce",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewType": "NoCollision"
+        }
+       },
+       {
+        "id": "hco",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionObjectType",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "Channel": "ECC_Destructible"
+        }
+       },
+       {
+        "id": "hcr",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionResponseToAllChannels",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewResponse": "ECR_Ignore"
+        }
+       },
+       {
+        "id": "hsh",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCastShadow",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "NewCastShadow": "false"
+        }
+       },
+       {
+        "id": "hvi",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@hgm.MarkTmp",
+         "bNewVisibility": "false",
+         "bPropagateToChildren": "false"
+        }
+       },
+       {
+        "id": "ghc",
+        "kind": "get",
+        "var": "Details"
+       },
+       {
+        "id": "ght",
+        "kind": "get",
+        "var": "MarkTmp"
+       },
+       {
+        "id": "ahc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@ghc.Details",
+         "NewItem": "@ght.MarkTmp"
+        }
+       },
+       {
+        "id": "pn",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@hmd.ReturnValue",
+         "ParameterName": "Near",
+         "Value": "1.0"
+        }
+       },
+       {
+        "id": "pf",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@hmd.ReturnValue",
+         "ParameterName": "Far",
+         "Value": "3.0"
+        }
+       },
+       {
+        "id": "pp",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetScalarParameterValue",
+        "in": {
+         "self": "@hmd.ReturnValue",
+         "ParameterName": "Pale",
+         "Value": "0.15"
+        }
+       },
+       {
+        "id": "pc",
+        "kind": "call",
+        "class": "/Script/Engine.MaterialInstanceDynamic",
+        "function": "SetVectorParameterValue",
+        "in": {
+         "self": "@hmd.ReturnValue",
+         "ParameterName": "Color",
+         "Value": "(R=0.9,G=0.9,B=0.9,A=1.0)"
+        }
+       },
+       {
+        "id": "sbt",
+        "kind": "set",
+        "var": "DetailBuilt",
+        "in": {
+         "DetailBuilt": "true"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "fe"
+       ],
+       [
+        "fe",
+        "bh",
+        "adb",
+        "adg",
+        "hnc",
+        "hst",
+        "hat",
+        "hab",
+        "hsc",
+        "hsm",
+        "hmt",
+        "hmd",
+        "hami",
+        "hce",
+        "hco",
+        "hcr",
+        "hsh",
+        "hvi",
+        "ahc",
+        "pn",
+        "pf",
+        "pp",
+        "pc"
+       ],
+       [
+        "fe:Completed",
+        "sbt"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Show Details",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "hd",
+        "kind": "call_self",
+        "function": "Has Detail"
+       },
+       {
+        "id": "w",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@entry.on",
+         "B": "@hd.yes"
+        }
+       },
+       {
+        "id": "bw",
+        "kind": "branch",
+        "in": {
+         "Condition": "@w.ReturnValue"
+        }
+       },
+       {
+        "id": "gbt",
+        "kind": "get",
+        "var": "DetailBuilt"
+       },
+       {
+        "id": "bbt",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gbt.DetailBuilt"
+        }
+       },
+       {
+        "id": "bd",
+        "kind": "call_self",
+        "function": "Build Detail Markers"
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "tm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "K2_SetTimer",
+        "in": {
+         "Object": "@me.self",
+         "FunctionName": "Detail Tick",
+         "Time": "0.2",
+         "bLooping": "true"
+        }
+       },
+       {
+        "id": "dt",
+        "kind": "call_self",
+        "function": "Detail Tick"
+       },
+       {
+        "id": "me2",
+        "kind": "self"
+       },
+       {
+        "id": "ct",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "K2_ClearTimer",
+        "in": {
+         "Object": "@me2.self",
+         "FunctionName": "Detail Tick"
+        }
+       },
+       {
+        "id": "gd",
+        "kind": "get",
+        "var": "Details"
+       },
+       {
+        "id": "fh",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gd.Details"
+        }
+       },
+       {
+        "id": "vh",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@fh.Array Element",
+         "bNewVisibility": "false",
+         "bPropagateToChildren": "false"
+        }
+       },
+       {
+        "id": "cn",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@fh.Array Element",
+         "NewType": "NoCollision"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bw",
+        "bbt",
+        "tm",
+        "dt"
+       ],
+       [
+        "bbt:else",
+        "bd",
+        "tm"
+       ],
+       [
+        "bw:else",
+        "ct",
+        "fh"
+       ],
+       [
+        "fh",
+        "vh",
+        "cn"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Detail Tick",
+     "graph": {
+      "nodes": [
+       {
+        "id": "cm",
+        "kind": "call",
+        "class": "/Script/Engine.GameplayStatics",
+        "function": "GetPlayerCameraManager",
+        "in": {
+         "PlayerIndex": "0"
+        }
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.PlayerCameraManager",
+        "function": "GetCameraLocation",
+        "in": {
+         "self": "@cm.ReturnValue"
+        }
+       },
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "Active"
+       },
+       {
+        "id": "na",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@ga.Active"
+        }
+       },
+       {
+        "id": "gb0",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "sl0",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketLocation",
+        "in": {
+         "self": "@gb0.Body",
+         "InSocketName": "hand_l"
+        }
+       },
+       {
+        "id": "d0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Vector_Distance",
+        "in": {
+         "V1": "@cl.ReturnValue",
+         "V2": "@sl0.ReturnValue"
+        }
+       },
+       {
+        "id": "n0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_FloatFloat",
+        "in": {
+         "A": "@d0.ReturnValue",
+         "B": "100.0"
+        }
+       },
+       {
+        "id": "a0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@n0.ReturnValue",
+         "B": "@na.ReturnValue"
+        }
+       },
+       {
+        "id": "gb1",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "sl1",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketLocation",
+        "in": {
+         "self": "@gb1.Body",
+         "InSocketName": "hand_r"
+        }
+       },
+       {
+        "id": "d1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Vector_Distance",
+        "in": {
+         "V1": "@cl.ReturnValue",
+         "V2": "@sl1.ReturnValue"
+        }
+       },
+       {
+        "id": "n1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_FloatFloat",
+        "in": {
+         "A": "@d1.ReturnValue",
+         "B": "100.0"
+        }
+       },
+       {
+        "id": "a1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@n1.ReturnValue",
+         "B": "@na.ReturnValue"
+        }
+       },
+       {
+        "id": "gb2",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "sl2",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketLocation",
+        "in": {
+         "self": "@gb2.Body",
+         "InSocketName": "head"
+        }
+       },
+       {
+        "id": "d2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Vector_Distance",
+        "in": {
+         "V1": "@cl.ReturnValue",
+         "V2": "@sl2.ReturnValue"
+        }
+       },
+       {
+        "id": "n2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_FloatFloat",
+        "in": {
+         "A": "@d2.ReturnValue",
+         "B": "100.0"
+        }
+       },
+       {
+        "id": "a2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@n2.ReturnValue",
+         "B": "@na.ReturnValue"
+        }
+       },
+       {
+        "id": "nr",
+        "kind": "make_array",
+        "count": 3,
+        "type": "bool",
+        "in": {
+         "[0]": "@a0.ReturnValue",
+         "[1]": "@a1.ReturnValue",
+         "[2]": "@a2.ReturnValue"
+        }
+       },
+       {
+        "id": "gd",
+        "kind": "get",
+        "var": "Details"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gd.Details"
+        }
+       },
+       {
+        "id": "gg",
+        "kind": "get",
+        "var": "DetailGroup"
+       },
+       {
+        "id": "gi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gg.DetailGroup",
+         "Index": "@fe.Array Index"
+        }
+       },
+       {
+        "id": "nv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@nr.Array",
+         "Index": "@gi.Item"
+        }
+       },
+       {
+        "id": "gdb",
+        "kind": "get",
+        "var": "DetailBones"
+       },
+       {
+        "id": "bn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gdb.DetailBones",
+         "Index": "@fe.Array Index"
+        }
+       },
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "DetailHold"
+       },
+       {
+        "id": "hq",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@bn.Item",
+         "B": "@gh.DetailHold"
+        }
+       },
+       {
+        "id": "vis",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@nv.Item",
+         "B": "@hq.ReturnValue"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@fe.Array Element",
+         "bNewVisibility": "@vis.ReturnValue",
+         "bPropagateToChildren": "false"
+        }
+       },
+       {
+        "id": "bv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@vis.ReturnValue"
+        }
+       },
+       {
+        "id": "cq",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@fe.Array Element",
+         "NewType": "QueryOnly"
+        }
+       },
+       {
+        "id": "cn",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetCollisionEnabled",
+        "in": {
+         "self": "@fe.Array Element",
+         "NewType": "NoCollision"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "fe"
+       ],
+       [
+        "fe",
+        "sv",
+        "bv",
+        "cq"
+       ],
+       [
+        "bv:else",
+        "cn"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Detail Begin",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "gdp",
+        "kind": "get",
+        "var": "DetailPose"
+       },
+       {
+        "id": "sn",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "SnapshotPose",
+        "in": {
+         "self": "@gb.Body",
+         "Snapshot": "@gdp.DetailPose"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sn"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Detail Put",
+     "inputs": [
+      {
+       "name": "bone",
+       "type": "name"
+      },
+      {
+       "name": "rot",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gdp",
+        "kind": "get",
+        "var": "DetailPose"
+       },
+       {
+        "id": "bp",
+        "kind": "break",
+        "struct": "/Script/Engine.PoseSnapshot",
+        "in": {
+         "PoseSnapshot": "@gdp.DetailPose"
+        }
+       },
+       {
+        "id": "fi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Find",
+        "in": {
+         "TargetArray": "@bp.BoneNames",
+         "ItemToFind": "@entry.bone"
+        }
+       },
+       {
+        "id": "ok",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_IntInt",
+        "in": {
+         "A": "@fi.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "bok",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ok.ReturnValue"
+        }
+       },
+       {
+        "id": "stl",
+        "kind": "set",
+        "var": "TmpLocal",
+        "in": {
+         "TmpLocal": "@bp.LocalTransforms"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "TmpLocal"
+       },
+       {
+        "id": "ot",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gl.TmpLocal",
+         "Index": "@fi.ReturnValue"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakTransform",
+        "in": {
+         "InTransform": "@ot.Item"
+        }
+       },
+       {
+        "id": "mt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeTransform",
+        "in": {
+         "Location": "@bt.Location",
+         "Rotation": "@entry.rot",
+         "Scale": "@bt.Scale"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "TmpLocal"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Set",
+        "in": {
+         "TargetArray": "@gl2.TmpLocal",
+         "Index": "@fi.ReturnValue",
+         "Item": "@mt.ReturnValue",
+         "bSizeToFit": "false"
+        }
+       },
+       {
+        "id": "gl3",
+        "kind": "get",
+        "var": "TmpLocal"
+       },
+       {
+        "id": "ms",
+        "kind": "make",
+        "struct": "/Script/Engine.PoseSnapshot",
+        "in": {
+         "LocalTransforms": "@gl3.TmpLocal",
+         "BoneNames": "@bp.BoneNames",
+         "SkeletalMeshName": "@bp.SkeletalMeshName",
+         "bIsValid": "true"
+        }
+       },
+       {
+        "id": "sdp",
+        "kind": "set",
+        "var": "DetailPose",
+        "in": {
+         "DetailPose": "@ms.PoseSnapshot"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bok",
+        "stl",
+        "st",
+        "sdp"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Detail Commit",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gdp",
+        "kind": "get",
+        "var": "DetailPose"
+       },
+       {
+        "id": "sp",
+        "kind": "call_self",
+        "function": "Set Pose",
+        "in": {
+         "snap": "@gdp.DetailPose"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sp"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Curl Rot",
+     "inputs": [
+      {
+       "name": "ref",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      },
+      {
+       "name": "axis",
+       "type": "struct:/Script/CoreUObject.Vector"
+      },
+      {
+       "name": "angle",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "rot",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "RotatorFromAxisAndAngle",
+        "in": {
+         "Axis": "@entry.axis",
+         "Angle": "@entry.angle"
+        }
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "ComposeRotators",
+        "in": {
+         "A": "@d.ReturnValue",
+         "B": "@entry.ref"
+        }
+       }
+      ],
+      "links": [
+       [
+        "c.ReturnValue",
+        "return.rot"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Lid Rot",
+     "inputs": [
+      {
+       "name": "ref",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      },
+      {
+       "name": "axis",
+       "type": "struct:/Script/CoreUObject.Vector"
+      },
+      {
+       "name": "angle",
+       "type": "float"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "rot",
+       "type": "struct:/Script/CoreUObject.Rotator"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "d",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "RotatorFromAxisAndAngle",
+        "in": {
+         "Axis": "@entry.axis",
+         "Angle": "@entry.angle"
+        }
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "ComposeRotators",
+        "in": {
+         "A": "@entry.ref",
+         "B": "@d.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "c.ReturnValue",
+        "return.rot"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Curl Finger",
+     "inputs": [
+      {
+       "name": "finger",
+       "type": "int"
+      },
+      {
+       "name": "amount",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "anl0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_l"
+        }
+       },
+       {
+        "id": "anl1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_l"
+        }
+       },
+       {
+        "id": "anl2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_l"
+        }
+       },
+       {
+        "id": "anl3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_l"
+        }
+       },
+       {
+        "id": "anl4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_l"
+        }
+       },
+       {
+        "id": "anl5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_l"
+        }
+       },
+       {
+        "id": "anl6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_l"
+        }
+       },
+       {
+        "id": "anl7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_l"
+        }
+       },
+       {
+        "id": "anl8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_l"
+        }
+       },
+       {
+        "id": "anl9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_l"
+        }
+       },
+       {
+        "id": "anl10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_l"
+        }
+       },
+       {
+        "id": "anl11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_l"
+        }
+       },
+       {
+        "id": "anl12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_l"
+        }
+       },
+       {
+        "id": "anl13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_l"
+        }
+       },
+       {
+        "id": "anl14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_l"
+        }
+       },
+       {
+        "id": "anl15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_r"
+        }
+       },
+       {
+        "id": "anl16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_r"
+        }
+       },
+       {
+        "id": "anl17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_r"
+        }
+       },
+       {
+        "id": "anl18",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_r"
+        }
+       },
+       {
+        "id": "anl19",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_r"
+        }
+       },
+       {
+        "id": "anl20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_r"
+        }
+       },
+       {
+        "id": "anl21",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_r"
+        }
+       },
+       {
+        "id": "anl22",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_r"
+        }
+       },
+       {
+        "id": "anl23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_r"
+        }
+       },
+       {
+        "id": "anl24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_r"
+        }
+       },
+       {
+        "id": "anl25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_r"
+        }
+       },
+       {
+        "id": "anl26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_r"
+        }
+       },
+       {
+        "id": "anl27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_r"
+        }
+       },
+       {
+        "id": "anl28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_r"
+        }
+       },
+       {
+        "id": "anl29",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_r"
+        }
+       },
+       {
+        "id": "an",
+        "kind": "make_array",
+        "count": 30,
+        "type": "name",
+        "in": {
+         "[0]": "@anl0.ReturnValue",
+         "[1]": "@anl1.ReturnValue",
+         "[2]": "@anl2.ReturnValue",
+         "[3]": "@anl3.ReturnValue",
+         "[4]": "@anl4.ReturnValue",
+         "[5]": "@anl5.ReturnValue",
+         "[6]": "@anl6.ReturnValue",
+         "[7]": "@anl7.ReturnValue",
+         "[8]": "@anl8.ReturnValue",
+         "[9]": "@anl9.ReturnValue",
+         "[10]": "@anl10.ReturnValue",
+         "[11]": "@anl11.ReturnValue",
+         "[12]": "@anl12.ReturnValue",
+         "[13]": "@anl13.ReturnValue",
+         "[14]": "@anl14.ReturnValue",
+         "[15]": "@anl15.ReturnValue",
+         "[16]": "@anl16.ReturnValue",
+         "[17]": "@anl17.ReturnValue",
+         "[18]": "@anl18.ReturnValue",
+         "[19]": "@anl19.ReturnValue",
+         "[20]": "@anl20.ReturnValue",
+         "[21]": "@anl21.ReturnValue",
+         "[22]": "@anl22.ReturnValue",
+         "[23]": "@anl23.ReturnValue",
+         "[24]": "@anl24.ReturnValue",
+         "[25]": "@anl25.ReturnValue",
+         "[26]": "@anl26.ReturnValue",
+         "[27]": "@anl27.ReturnValue",
+         "[28]": "@anl28.ReturnValue",
+         "[29]": "@anl29.ReturnValue"
+        }
+       },
+       {
+        "id": "arr0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "93.685",
+         "Pitch": "-35.202",
+         "Yaw": "-20.241"
+        }
+       },
+       {
+        "id": "arr1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-10.718",
+         "Pitch": "-3.546",
+         "Yaw": "-15.552"
+        }
+       },
+       {
+        "id": "arr2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "4.322",
+         "Pitch": "-0.553",
+         "Yaw": "0.085"
+        }
+       },
+       {
+        "id": "arr3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "8.212",
+         "Pitch": "-1.418",
+         "Yaw": "-13.005"
+        }
+       },
+       {
+        "id": "arr4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-1.116",
+         "Pitch": "1.655",
+         "Yaw": "-9.978"
+        }
+       },
+       {
+        "id": "arr5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "0.184",
+         "Pitch": "0.917",
+         "Yaw": "1.726"
+        }
+       },
+       {
+        "id": "arr6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "3.228",
+         "Pitch": "1.026",
+         "Yaw": "-7.934"
+        }
+       },
+       {
+        "id": "arr7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "1.944",
+         "Pitch": "1.26",
+         "Yaw": "-14.356"
+        }
+       },
+       {
+        "id": "arr8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "2.927",
+         "Pitch": "-0.282",
+         "Yaw": "2.628"
+        }
+       },
+       {
+        "id": "arr9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "3.609",
+         "Pitch": "5.606",
+         "Yaw": "-8.713"
+        }
+       },
+       {
+        "id": "arr10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-5.579",
+         "Pitch": "3.0",
+         "Yaw": "-13.978"
+        }
+       },
+       {
+        "id": "arr11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-0.689",
+         "Pitch": "-1.654",
+         "Yaw": "-1.993"
+        }
+       },
+       {
+        "id": "arr12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "0.242",
+         "Pitch": "9.628",
+         "Yaw": "-7.556"
+        }
+       },
+       {
+        "id": "arr13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-1.587",
+         "Pitch": "-0.385",
+         "Yaw": "-2.558"
+        }
+       },
+       {
+        "id": "arr14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "6.689",
+         "Pitch": "2.884",
+         "Yaw": "-11.567"
+        }
+       },
+       {
+        "id": "arr15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "93.684",
+         "Pitch": "-35.202",
+         "Yaw": "-20.242"
+        }
+       },
+       {
+        "id": "arr16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-10.718",
+         "Pitch": "-3.546",
+         "Yaw": "-15.552"
+        }
+       },
+       {
+        "id": "arr17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "4.322",
+         "Pitch": "-0.553",
+         "Yaw": "0.084"
+        }
+       },
+       {
+        "id": "arr18",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "8.212",
+         "Pitch": "-1.418",
+         "Yaw": "-13.005"
+        }
+       },
+       {
+        "id": "arr19",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-1.116",
+         "Pitch": "1.648",
+         "Yaw": "-9.978"
+        }
+       },
+       {
+        "id": "arr20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "0.185",
+         "Pitch": "0.917",
+         "Yaw": "1.726"
+        }
+       },
+       {
+        "id": "arr21",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "3.228",
+         "Pitch": "1.019",
+         "Yaw": "-7.935"
+        }
+       },
+       {
+        "id": "arr22",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "1.942",
+         "Pitch": "1.273",
+         "Yaw": "-14.355"
+        }
+       },
+       {
+        "id": "arr23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "2.927",
+         "Pitch": "-0.291",
+         "Yaw": "2.628"
+        }
+       },
+       {
+        "id": "arr24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "3.609",
+         "Pitch": "5.58",
+         "Yaw": "-8.715"
+        }
+       },
+       {
+        "id": "arr25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-5.586",
+         "Pitch": "3.026",
+         "Yaw": "-13.979"
+        }
+       },
+       {
+        "id": "arr26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-0.689",
+         "Pitch": "-1.644",
+         "Yaw": "-1.994"
+        }
+       },
+       {
+        "id": "arr27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "0.241",
+         "Pitch": "9.628",
+         "Yaw": "-7.556"
+        }
+       },
+       {
+        "id": "arr28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-1.586",
+         "Pitch": "-0.402",
+         "Yaw": "-2.558"
+        }
+       },
+       {
+        "id": "arr29",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "6.686",
+         "Pitch": "2.879",
+         "Yaw": "-11.57"
+        }
+       },
+       {
+        "id": "ar",
+        "kind": "make_array",
+        "count": 30,
+        "type": "struct:/Script/CoreUObject.Rotator",
+        "in": {
+         "[0]": "@arr0.ReturnValue",
+         "[1]": "@arr1.ReturnValue",
+         "[2]": "@arr2.ReturnValue",
+         "[3]": "@arr3.ReturnValue",
+         "[4]": "@arr4.ReturnValue",
+         "[5]": "@arr5.ReturnValue",
+         "[6]": "@arr6.ReturnValue",
+         "[7]": "@arr7.ReturnValue",
+         "[8]": "@arr8.ReturnValue",
+         "[9]": "@arr9.ReturnValue",
+         "[10]": "@arr10.ReturnValue",
+         "[11]": "@arr11.ReturnValue",
+         "[12]": "@arr12.ReturnValue",
+         "[13]": "@arr13.ReturnValue",
+         "[14]": "@arr14.ReturnValue",
+         "[15]": "@arr15.ReturnValue",
+         "[16]": "@arr16.ReturnValue",
+         "[17]": "@arr17.ReturnValue",
+         "[18]": "@arr18.ReturnValue",
+         "[19]": "@arr19.ReturnValue",
+         "[20]": "@arr20.ReturnValue",
+         "[21]": "@arr21.ReturnValue",
+         "[22]": "@arr22.ReturnValue",
+         "[23]": "@arr23.ReturnValue",
+         "[24]": "@arr24.ReturnValue",
+         "[25]": "@arr25.ReturnValue",
+         "[26]": "@arr26.ReturnValue",
+         "[27]": "@arr27.ReturnValue",
+         "[28]": "@arr28.ReturnValue",
+         "[29]": "@arr29.ReturnValue"
+        }
+       },
+       {
+        "id": "ax",
+        "kind": "make_array",
+        "count": 30,
+        "type": "struct:/Script/CoreUObject.Vector",
+        "in": {
+         "[0]": "(X=-0.317,Y=0.945,Z=-0.082)",
+         "[1]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[2]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[3]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[4]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[5]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[6]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[7]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[8]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[9]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[10]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[11]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[12]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[13]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[14]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[15]": "(X=-0.317,Y=0.945,Z=-0.082)",
+         "[16]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[17]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[18]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[19]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[20]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[21]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[22]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[23]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[24]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[25]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[26]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[27]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[28]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[29]": "(X=0.0,Y=0.0,Z=-1.0)"
+        }
+       },
+       {
+        "id": "ad",
+        "kind": "make_array",
+        "count": 30,
+        "type": "float",
+        "in": {
+         "[0]": "35.0",
+         "[1]": "40.0",
+         "[2]": "60.0",
+         "[3]": "85.0",
+         "[4]": "100.0",
+         "[5]": "70.0",
+         "[6]": "85.0",
+         "[7]": "100.0",
+         "[8]": "70.0",
+         "[9]": "85.0",
+         "[10]": "100.0",
+         "[11]": "70.0",
+         "[12]": "85.0",
+         "[13]": "100.0",
+         "[14]": "70.0",
+         "[15]": "35.0",
+         "[16]": "40.0",
+         "[17]": "60.0",
+         "[18]": "85.0",
+         "[19]": "100.0",
+         "[20]": "70.0",
+         "[21]": "85.0",
+         "[22]": "100.0",
+         "[23]": "70.0",
+         "[24]": "85.0",
+         "[25]": "100.0",
+         "[26]": "70.0",
+         "[27]": "85.0",
+         "[28]": "100.0",
+         "[29]": "70.0"
+        }
+       },
+       {
+        "id": "as",
+        "kind": "make_array",
+        "count": 30,
+        "type": "float",
+        "in": {
+         "[0]": "25.0",
+         "[1]": "0.0",
+         "[2]": "0.0",
+         "[3]": "0.0",
+         "[4]": "0.0",
+         "[5]": "0.0",
+         "[6]": "0.0",
+         "[7]": "0.0",
+         "[8]": "0.0",
+         "[9]": "0.0",
+         "[10]": "0.0",
+         "[11]": "0.0",
+         "[12]": "0.0",
+         "[13]": "0.0",
+         "[14]": "0.0",
+         "[15]": "25.0",
+         "[16]": "0.0",
+         "[17]": "0.0",
+         "[18]": "0.0",
+         "[19]": "0.0",
+         "[20]": "0.0",
+         "[21]": "0.0",
+         "[22]": "0.0",
+         "[23]": "0.0",
+         "[24]": "0.0",
+         "[25]": "0.0",
+         "[26]": "0.0",
+         "[27]": "0.0",
+         "[28]": "0.0",
+         "[29]": "0.0"
+        }
+       },
+       {
+        "id": "sd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_IntInt",
+        "in": {
+         "A": "@entry.finger",
+         "B": "5"
+        }
+       },
+       {
+        "id": "gts",
+        "kind": "get",
+        "var": "ThumbSpread"
+       },
+       {
+        "id": "tv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_IsValidIndex",
+        "in": {
+         "TargetArray": "@gts.ThumbSpread",
+         "IndexToTest": "@sd.ReturnValue"
+        }
+       },
+       {
+        "id": "tg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@gts.ThumbSpread",
+         "Index": "@sd.ReturnValue"
+        }
+       },
+       {
+        "id": "spv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@tg.Item",
+         "B": "0.0",
+         "bPickA": "@tv.ReturnValue"
+        }
+       },
+       {
+        "id": "b3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_IntInt",
+        "in": {
+         "A": "@entry.finger",
+         "B": "3"
+        }
+       },
+       {
+        "id": "j0i",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b3.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "j0nm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@an.Array",
+         "Index": "@j0i.ReturnValue"
+        }
+       },
+       {
+        "id": "j0rf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ar.Array",
+         "Index": "@j0i.ReturnValue"
+        }
+       },
+       {
+        "id": "j0av",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ax.Array",
+         "Index": "@j0i.ReturnValue"
+        }
+       },
+       {
+        "id": "j0dg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ad.Array",
+         "Index": "@j0i.ReturnValue"
+        }
+       },
+       {
+        "id": "j0sg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@as.Array",
+         "Index": "@j0i.ReturnValue"
+        }
+       },
+       {
+        "id": "j0m1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@entry.amount",
+         "B": "@j0dg.Item"
+        }
+       },
+       {
+        "id": "j0m2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@spv.ReturnValue",
+         "B": "@j0sg.Item"
+        }
+       },
+       {
+        "id": "j0an",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@j0m1.ReturnValue",
+         "B": "@j0m2.ReturnValue"
+        }
+       },
+       {
+        "id": "j0cr",
+        "kind": "call_self",
+        "function": "Curl Rot",
+        "in": {
+         "ref": "@j0rf.Item",
+         "axis": "@j0av.Item",
+         "angle": "@j0an.ReturnValue"
+        }
+       },
+       {
+        "id": "j0pt",
+        "kind": "call_self",
+        "function": "Detail Put",
+        "in": {
+         "bone": "@j0nm.Item",
+         "rot": "@j0cr.rot"
+        }
+       },
+       {
+        "id": "j1i",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b3.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "j1nm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@an.Array",
+         "Index": "@j1i.ReturnValue"
+        }
+       },
+       {
+        "id": "j1rf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ar.Array",
+         "Index": "@j1i.ReturnValue"
+        }
+       },
+       {
+        "id": "j1av",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ax.Array",
+         "Index": "@j1i.ReturnValue"
+        }
+       },
+       {
+        "id": "j1dg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ad.Array",
+         "Index": "@j1i.ReturnValue"
+        }
+       },
+       {
+        "id": "j1sg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@as.Array",
+         "Index": "@j1i.ReturnValue"
+        }
+       },
+       {
+        "id": "j1m1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@entry.amount",
+         "B": "@j1dg.Item"
+        }
+       },
+       {
+        "id": "j1m2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@spv.ReturnValue",
+         "B": "@j1sg.Item"
+        }
+       },
+       {
+        "id": "j1an",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@j1m1.ReturnValue",
+         "B": "@j1m2.ReturnValue"
+        }
+       },
+       {
+        "id": "j1cr",
+        "kind": "call_self",
+        "function": "Curl Rot",
+        "in": {
+         "ref": "@j1rf.Item",
+         "axis": "@j1av.Item",
+         "angle": "@j1an.ReturnValue"
+        }
+       },
+       {
+        "id": "j1pt",
+        "kind": "call_self",
+        "function": "Detail Put",
+        "in": {
+         "bone": "@j1nm.Item",
+         "rot": "@j1cr.rot"
+        }
+       },
+       {
+        "id": "j2i",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b3.ReturnValue",
+         "B": "2"
+        }
+       },
+       {
+        "id": "j2nm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@an.Array",
+         "Index": "@j2i.ReturnValue"
+        }
+       },
+       {
+        "id": "j2rf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ar.Array",
+         "Index": "@j2i.ReturnValue"
+        }
+       },
+       {
+        "id": "j2av",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ax.Array",
+         "Index": "@j2i.ReturnValue"
+        }
+       },
+       {
+        "id": "j2dg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ad.Array",
+         "Index": "@j2i.ReturnValue"
+        }
+       },
+       {
+        "id": "j2sg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@as.Array",
+         "Index": "@j2i.ReturnValue"
+        }
+       },
+       {
+        "id": "j2m1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@entry.amount",
+         "B": "@j2dg.Item"
+        }
+       },
+       {
+        "id": "j2m2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@spv.ReturnValue",
+         "B": "@j2sg.Item"
+        }
+       },
+       {
+        "id": "j2an",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@j2m1.ReturnValue",
+         "B": "@j2m2.ReturnValue"
+        }
+       },
+       {
+        "id": "j2cr",
+        "kind": "call_self",
+        "function": "Curl Rot",
+        "in": {
+         "ref": "@j2rf.Item",
+         "axis": "@j2av.Item",
+         "angle": "@j2an.ReturnValue"
+        }
+       },
+       {
+        "id": "j2pt",
+        "kind": "call_self",
+        "function": "Detail Put",
+        "in": {
+         "bone": "@j2nm.Item",
+         "rot": "@j2cr.rot"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "j0pt",
+        "j1pt",
+        "j2pt"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Finger Curl Of",
+     "inputs": [
+      {
+       "name": "finger",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "amount",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "anl0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_l"
+        }
+       },
+       {
+        "id": "anl1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_l"
+        }
+       },
+       {
+        "id": "anl2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_l"
+        }
+       },
+       {
+        "id": "anl3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_l"
+        }
+       },
+       {
+        "id": "anl4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_l"
+        }
+       },
+       {
+        "id": "anl5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_l"
+        }
+       },
+       {
+        "id": "anl6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_l"
+        }
+       },
+       {
+        "id": "anl7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_l"
+        }
+       },
+       {
+        "id": "anl8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_l"
+        }
+       },
+       {
+        "id": "anl9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_l"
+        }
+       },
+       {
+        "id": "anl10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_l"
+        }
+       },
+       {
+        "id": "anl11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_l"
+        }
+       },
+       {
+        "id": "anl12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_l"
+        }
+       },
+       {
+        "id": "anl13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_l"
+        }
+       },
+       {
+        "id": "anl14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_l"
+        }
+       },
+       {
+        "id": "anl15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_01_r"
+        }
+       },
+       {
+        "id": "anl16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_02_r"
+        }
+       },
+       {
+        "id": "anl17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "thumb_03_r"
+        }
+       },
+       {
+        "id": "anl18",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_01_r"
+        }
+       },
+       {
+        "id": "anl19",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_02_r"
+        }
+       },
+       {
+        "id": "anl20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "index_03_r"
+        }
+       },
+       {
+        "id": "anl21",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_01_r"
+        }
+       },
+       {
+        "id": "anl22",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_02_r"
+        }
+       },
+       {
+        "id": "anl23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "middle_03_r"
+        }
+       },
+       {
+        "id": "anl24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_01_r"
+        }
+       },
+       {
+        "id": "anl25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_02_r"
+        }
+       },
+       {
+        "id": "anl26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "ring_03_r"
+        }
+       },
+       {
+        "id": "anl27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_01_r"
+        }
+       },
+       {
+        "id": "anl28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_02_r"
+        }
+       },
+       {
+        "id": "anl29",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "MakeLiteralName",
+        "in": {
+         "Value": "pinky_03_r"
+        }
+       },
+       {
+        "id": "an",
+        "kind": "make_array",
+        "count": 30,
+        "type": "name",
+        "in": {
+         "[0]": "@anl0.ReturnValue",
+         "[1]": "@anl1.ReturnValue",
+         "[2]": "@anl2.ReturnValue",
+         "[3]": "@anl3.ReturnValue",
+         "[4]": "@anl4.ReturnValue",
+         "[5]": "@anl5.ReturnValue",
+         "[6]": "@anl6.ReturnValue",
+         "[7]": "@anl7.ReturnValue",
+         "[8]": "@anl8.ReturnValue",
+         "[9]": "@anl9.ReturnValue",
+         "[10]": "@anl10.ReturnValue",
+         "[11]": "@anl11.ReturnValue",
+         "[12]": "@anl12.ReturnValue",
+         "[13]": "@anl13.ReturnValue",
+         "[14]": "@anl14.ReturnValue",
+         "[15]": "@anl15.ReturnValue",
+         "[16]": "@anl16.ReturnValue",
+         "[17]": "@anl17.ReturnValue",
+         "[18]": "@anl18.ReturnValue",
+         "[19]": "@anl19.ReturnValue",
+         "[20]": "@anl20.ReturnValue",
+         "[21]": "@anl21.ReturnValue",
+         "[22]": "@anl22.ReturnValue",
+         "[23]": "@anl23.ReturnValue",
+         "[24]": "@anl24.ReturnValue",
+         "[25]": "@anl25.ReturnValue",
+         "[26]": "@anl26.ReturnValue",
+         "[27]": "@anl27.ReturnValue",
+         "[28]": "@anl28.ReturnValue",
+         "[29]": "@anl29.ReturnValue"
+        }
+       },
+       {
+        "id": "arr0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "93.685",
+         "Pitch": "-35.202",
+         "Yaw": "-20.241"
+        }
+       },
+       {
+        "id": "arr1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-10.718",
+         "Pitch": "-3.546",
+         "Yaw": "-15.552"
+        }
+       },
+       {
+        "id": "arr2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "4.322",
+         "Pitch": "-0.553",
+         "Yaw": "0.085"
+        }
+       },
+       {
+        "id": "arr3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "8.212",
+         "Pitch": "-1.418",
+         "Yaw": "-13.005"
+        }
+       },
+       {
+        "id": "arr4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-1.116",
+         "Pitch": "1.655",
+         "Yaw": "-9.978"
+        }
+       },
+       {
+        "id": "arr5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "0.184",
+         "Pitch": "0.917",
+         "Yaw": "1.726"
+        }
+       },
+       {
+        "id": "arr6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "3.228",
+         "Pitch": "1.026",
+         "Yaw": "-7.934"
+        }
+       },
+       {
+        "id": "arr7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "1.944",
+         "Pitch": "1.26",
+         "Yaw": "-14.356"
+        }
+       },
+       {
+        "id": "arr8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "2.927",
+         "Pitch": "-0.282",
+         "Yaw": "2.628"
+        }
+       },
+       {
+        "id": "arr9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "3.609",
+         "Pitch": "5.606",
+         "Yaw": "-8.713"
+        }
+       },
+       {
+        "id": "arr10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-5.579",
+         "Pitch": "3.0",
+         "Yaw": "-13.978"
+        }
+       },
+       {
+        "id": "arr11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-0.689",
+         "Pitch": "-1.654",
+         "Yaw": "-1.993"
+        }
+       },
+       {
+        "id": "arr12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "0.242",
+         "Pitch": "9.628",
+         "Yaw": "-7.556"
+        }
+       },
+       {
+        "id": "arr13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-1.587",
+         "Pitch": "-0.385",
+         "Yaw": "-2.558"
+        }
+       },
+       {
+        "id": "arr14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "6.689",
+         "Pitch": "2.884",
+         "Yaw": "-11.567"
+        }
+       },
+       {
+        "id": "arr15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "93.684",
+         "Pitch": "-35.202",
+         "Yaw": "-20.242"
+        }
+       },
+       {
+        "id": "arr16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-10.718",
+         "Pitch": "-3.546",
+         "Yaw": "-15.552"
+        }
+       },
+       {
+        "id": "arr17",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "4.322",
+         "Pitch": "-0.553",
+         "Yaw": "0.084"
+        }
+       },
+       {
+        "id": "arr18",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "8.212",
+         "Pitch": "-1.418",
+         "Yaw": "-13.005"
+        }
+       },
+       {
+        "id": "arr19",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-1.116",
+         "Pitch": "1.648",
+         "Yaw": "-9.978"
+        }
+       },
+       {
+        "id": "arr20",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "0.185",
+         "Pitch": "0.917",
+         "Yaw": "1.726"
+        }
+       },
+       {
+        "id": "arr21",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "3.228",
+         "Pitch": "1.019",
+         "Yaw": "-7.935"
+        }
+       },
+       {
+        "id": "arr22",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "1.942",
+         "Pitch": "1.273",
+         "Yaw": "-14.355"
+        }
+       },
+       {
+        "id": "arr23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "2.927",
+         "Pitch": "-0.291",
+         "Yaw": "2.628"
+        }
+       },
+       {
+        "id": "arr24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "3.609",
+         "Pitch": "5.58",
+         "Yaw": "-8.715"
+        }
+       },
+       {
+        "id": "arr25",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-5.586",
+         "Pitch": "3.026",
+         "Yaw": "-13.979"
+        }
+       },
+       {
+        "id": "arr26",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-0.689",
+         "Pitch": "-1.644",
+         "Yaw": "-1.994"
+        }
+       },
+       {
+        "id": "arr27",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "0.241",
+         "Pitch": "9.628",
+         "Yaw": "-7.556"
+        }
+       },
+       {
+        "id": "arr28",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-1.586",
+         "Pitch": "-0.402",
+         "Yaw": "-2.558"
+        }
+       },
+       {
+        "id": "arr29",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "6.686",
+         "Pitch": "2.879",
+         "Yaw": "-11.57"
+        }
+       },
+       {
+        "id": "ar",
+        "kind": "make_array",
+        "count": 30,
+        "type": "struct:/Script/CoreUObject.Rotator",
+        "in": {
+         "[0]": "@arr0.ReturnValue",
+         "[1]": "@arr1.ReturnValue",
+         "[2]": "@arr2.ReturnValue",
+         "[3]": "@arr3.ReturnValue",
+         "[4]": "@arr4.ReturnValue",
+         "[5]": "@arr5.ReturnValue",
+         "[6]": "@arr6.ReturnValue",
+         "[7]": "@arr7.ReturnValue",
+         "[8]": "@arr8.ReturnValue",
+         "[9]": "@arr9.ReturnValue",
+         "[10]": "@arr10.ReturnValue",
+         "[11]": "@arr11.ReturnValue",
+         "[12]": "@arr12.ReturnValue",
+         "[13]": "@arr13.ReturnValue",
+         "[14]": "@arr14.ReturnValue",
+         "[15]": "@arr15.ReturnValue",
+         "[16]": "@arr16.ReturnValue",
+         "[17]": "@arr17.ReturnValue",
+         "[18]": "@arr18.ReturnValue",
+         "[19]": "@arr19.ReturnValue",
+         "[20]": "@arr20.ReturnValue",
+         "[21]": "@arr21.ReturnValue",
+         "[22]": "@arr22.ReturnValue",
+         "[23]": "@arr23.ReturnValue",
+         "[24]": "@arr24.ReturnValue",
+         "[25]": "@arr25.ReturnValue",
+         "[26]": "@arr26.ReturnValue",
+         "[27]": "@arr27.ReturnValue",
+         "[28]": "@arr28.ReturnValue",
+         "[29]": "@arr29.ReturnValue"
+        }
+       },
+       {
+        "id": "ax",
+        "kind": "make_array",
+        "count": 30,
+        "type": "struct:/Script/CoreUObject.Vector",
+        "in": {
+         "[0]": "(X=-0.317,Y=0.945,Z=-0.082)",
+         "[1]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[2]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[3]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[4]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[5]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[6]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[7]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[8]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[9]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[10]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[11]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[12]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[13]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[14]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[15]": "(X=-0.317,Y=0.945,Z=-0.082)",
+         "[16]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[17]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[18]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[19]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[20]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[21]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[22]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[23]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[24]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[25]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[26]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[27]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[28]": "(X=0.0,Y=0.0,Z=-1.0)",
+         "[29]": "(X=0.0,Y=0.0,Z=-1.0)"
+        }
+       },
+       {
+        "id": "ad",
+        "kind": "make_array",
+        "count": 30,
+        "type": "float",
+        "in": {
+         "[0]": "35.0",
+         "[1]": "40.0",
+         "[2]": "60.0",
+         "[3]": "85.0",
+         "[4]": "100.0",
+         "[5]": "70.0",
+         "[6]": "85.0",
+         "[7]": "100.0",
+         "[8]": "70.0",
+         "[9]": "85.0",
+         "[10]": "100.0",
+         "[11]": "70.0",
+         "[12]": "85.0",
+         "[13]": "100.0",
+         "[14]": "70.0",
+         "[15]": "35.0",
+         "[16]": "40.0",
+         "[17]": "60.0",
+         "[18]": "85.0",
+         "[19]": "100.0",
+         "[20]": "70.0",
+         "[21]": "85.0",
+         "[22]": "100.0",
+         "[23]": "70.0",
+         "[24]": "85.0",
+         "[25]": "100.0",
+         "[26]": "70.0",
+         "[27]": "85.0",
+         "[28]": "100.0",
+         "[29]": "70.0"
+        }
+       },
+       {
+        "id": "as",
+        "kind": "make_array",
+        "count": 30,
+        "type": "float",
+        "in": {
+         "[0]": "25.0",
+         "[1]": "0.0",
+         "[2]": "0.0",
+         "[3]": "0.0",
+         "[4]": "0.0",
+         "[5]": "0.0",
+         "[6]": "0.0",
+         "[7]": "0.0",
+         "[8]": "0.0",
+         "[9]": "0.0",
+         "[10]": "0.0",
+         "[11]": "0.0",
+         "[12]": "0.0",
+         "[13]": "0.0",
+         "[14]": "0.0",
+         "[15]": "25.0",
+         "[16]": "0.0",
+         "[17]": "0.0",
+         "[18]": "0.0",
+         "[19]": "0.0",
+         "[20]": "0.0",
+         "[21]": "0.0",
+         "[22]": "0.0",
+         "[23]": "0.0",
+         "[24]": "0.0",
+         "[25]": "0.0",
+         "[26]": "0.0",
+         "[27]": "0.0",
+         "[28]": "0.0",
+         "[29]": "0.0"
+        }
+       },
+       {
+        "id": "b3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_IntInt",
+        "in": {
+         "A": "@entry.finger",
+         "B": "3"
+        }
+       },
+       {
+        "id": "i1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b3.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "nm",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@an.Array",
+         "Index": "@i1.ReturnValue"
+        }
+       },
+       {
+        "id": "rf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ar.Array",
+         "Index": "@i1.ReturnValue"
+        }
+       },
+       {
+        "id": "dg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@ad.Array",
+         "Index": "@i1.ReturnValue"
+        }
+       },
+       {
+        "id": "gdp",
+        "kind": "get",
+        "var": "DetailPose"
+       },
+       {
+        "id": "bp",
+        "kind": "break",
+        "struct": "/Script/Engine.PoseSnapshot",
+        "in": {
+         "PoseSnapshot": "@gdp.DetailPose"
+        }
+       },
+       {
+        "id": "fi",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Find",
+        "in": {
+         "TargetArray": "@bp.BoneNames",
+         "ItemToFind": "@nm.Item"
+        }
+       },
+       {
+        "id": "lt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@bp.LocalTransforms",
+         "Index": "@fi.ReturnValue"
+        }
+       },
+       {
+        "id": "bt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakTransform",
+        "in": {
+         "InTransform": "@lt.Item"
+        }
+       },
+       {
+        "id": "fc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GetForwardVector",
+        "in": {
+         "InRot": "@bt.Rotation"
+        }
+       },
+       {
+        "id": "fr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GetForwardVector",
+        "in": {
+         "InRot": "@rf.Item"
+        }
+       },
+       {
+        "id": "dt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Dot_VectorVector",
+        "in": {
+         "A": "@fc.ReturnValue",
+         "B": "@fr.ReturnValue"
+        }
+       },
+       {
+        "id": "dc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@dt.ReturnValue",
+         "Min": "-1.0",
+         "Max": "1.0"
+        }
+       },
+       {
+        "id": "ac",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "DegAcos",
+        "in": {
+         "A": "@dc.ReturnValue"
+        }
+       },
+       {
+        "id": "q",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@ac.ReturnValue",
+         "B": "@dg.Item"
+        }
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@q.ReturnValue",
+         "Min": "0.0",
+         "Max": "1.0"
+        }
+       }
+      ],
+      "links": [
+       [
+        "cl.ReturnValue",
+        "return.amount"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Hand Pose",
+     "inputs": [
+      {
+       "name": "right",
+       "type": "bool"
+      },
+      {
+       "name": "pose",
+       "type": "int"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "tb",
+        "kind": "make_array",
+        "count": 48,
+        "type": "float",
+        "in": {
+         "[0]": "0.0",
+         "[1]": "0.0",
+         "[2]": "0.0",
+         "[3]": "0.0",
+         "[4]": "0.0",
+         "[5]": "0.6",
+         "[6]": "0.25",
+         "[7]": "0.2",
+         "[8]": "0.3",
+         "[9]": "0.4",
+         "[10]": "0.5",
+         "[11]": "0.2",
+         "[12]": "1.0",
+         "[13]": "1.0",
+         "[14]": "1.0",
+         "[15]": "1.0",
+         "[16]": "1.0",
+         "[17]": "0.0",
+         "[18]": "0.0",
+         "[19]": "1.0",
+         "[20]": "1.0",
+         "[21]": "1.0",
+         "[22]": "1.0",
+         "[23]": "0.0",
+         "[24]": "1.0",
+         "[25]": "0.0",
+         "[26]": "0.0",
+         "[27]": "1.0",
+         "[28]": "1.0",
+         "[29]": "0.0",
+         "[30]": "1.0",
+         "[31]": "0.0",
+         "[32]": "1.0",
+         "[33]": "1.0",
+         "[34]": "1.0",
+         "[35]": "0.0",
+         "[36]": "0.5",
+         "[37]": "0.6",
+         "[38]": "0.65",
+         "[39]": "0.7",
+         "[40]": "0.75",
+         "[41]": "0.1",
+         "[42]": "0.0",
+         "[43]": "0.0",
+         "[44]": "0.0",
+         "[45]": "0.0",
+         "[46]": "0.0",
+         "[47]": "0.0"
+        }
+       },
+       {
+        "id": "sd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectInt",
+        "in": {
+         "A": "1",
+         "B": "0",
+         "bPickA": "@entry.right"
+        }
+       },
+       {
+        "id": "b6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_IntInt",
+        "in": {
+         "A": "@entry.pose",
+         "B": "6"
+        }
+       },
+       {
+        "id": "db",
+        "kind": "call_self",
+        "function": "Detail Begin"
+       },
+       {
+        "id": "i5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b6.ReturnValue",
+         "B": "5"
+        }
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@tb.Array",
+         "Index": "@i5.ReturnValue"
+        }
+       },
+       {
+        "id": "gts",
+        "kind": "get",
+        "var": "ThumbSpread"
+       },
+       {
+        "id": "ss",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Set",
+        "in": {
+         "TargetArray": "@gts.ThumbSpread",
+         "Index": "@sd.ReturnValue",
+         "Item": "@sv.Item",
+         "bSizeToFit": "true"
+        }
+       },
+       {
+        "id": "s5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_IntInt",
+        "in": {
+         "A": "@sd.ReturnValue",
+         "B": "5"
+        }
+       },
+       {
+        "id": "fi0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b6.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "fv0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@tb.Array",
+         "Index": "@fi0.ReturnValue"
+        }
+       },
+       {
+        "id": "fn0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@s5.ReturnValue",
+         "B": "0"
+        }
+       },
+       {
+        "id": "cf0",
+        "kind": "call_self",
+        "function": "Curl Finger",
+        "in": {
+         "finger": "@fn0.ReturnValue",
+         "amount": "@fv0.Item"
+        }
+       },
+       {
+        "id": "fi1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b6.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "fv1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@tb.Array",
+         "Index": "@fi1.ReturnValue"
+        }
+       },
+       {
+        "id": "fn1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@s5.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "cf1",
+        "kind": "call_self",
+        "function": "Curl Finger",
+        "in": {
+         "finger": "@fn1.ReturnValue",
+         "amount": "@fv1.Item"
+        }
+       },
+       {
+        "id": "fi2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b6.ReturnValue",
+         "B": "2"
+        }
+       },
+       {
+        "id": "fv2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@tb.Array",
+         "Index": "@fi2.ReturnValue"
+        }
+       },
+       {
+        "id": "fn2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@s5.ReturnValue",
+         "B": "2"
+        }
+       },
+       {
+        "id": "cf2",
+        "kind": "call_self",
+        "function": "Curl Finger",
+        "in": {
+         "finger": "@fn2.ReturnValue",
+         "amount": "@fv2.Item"
+        }
+       },
+       {
+        "id": "fi3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b6.ReturnValue",
+         "B": "3"
+        }
+       },
+       {
+        "id": "fv3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@tb.Array",
+         "Index": "@fi3.ReturnValue"
+        }
+       },
+       {
+        "id": "fn3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@s5.ReturnValue",
+         "B": "3"
+        }
+       },
+       {
+        "id": "cf3",
+        "kind": "call_self",
+        "function": "Curl Finger",
+        "in": {
+         "finger": "@fn3.ReturnValue",
+         "amount": "@fv3.Item"
+        }
+       },
+       {
+        "id": "fi4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@b6.ReturnValue",
+         "B": "4"
+        }
+       },
+       {
+        "id": "fv4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@tb.Array",
+         "Index": "@fi4.ReturnValue"
+        }
+       },
+       {
+        "id": "fn4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@s5.ReturnValue",
+         "B": "4"
+        }
+       },
+       {
+        "id": "cf4",
+        "kind": "call_self",
+        "function": "Curl Finger",
+        "in": {
+         "finger": "@fn4.ReturnValue",
+         "amount": "@fv4.Item"
+        }
+       },
+       {
+        "id": "cm",
+        "kind": "call_self",
+        "function": "Detail Commit"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "db",
+        "ss",
+        "cf0",
+        "cf1",
+        "cf2",
+        "cf3",
+        "cf4",
+        "cm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Lids",
+     "graph": {
+      "nodes": [
+       {
+        "id": "db",
+        "kind": "call_self",
+        "function": "Detail Begin"
+       },
+       {
+        "id": "lg",
+        "kind": "get",
+        "var": "LidL"
+       },
+       {
+        "id": "la",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@lg.LidL",
+         "B": "40.0"
+        }
+       },
+       {
+        "id": "lrf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "-174.902",
+         "Pitch": "4.482",
+         "Yaw": "-14.831"
+        }
+       },
+       {
+        "id": "lr",
+        "kind": "call_self",
+        "function": "Lid Rot",
+        "in": {
+         "ref": "@lrf.ReturnValue",
+         "axis": "(X=-0.052,Y=0.106,Z=0.993)",
+         "angle": "@la.ReturnValue"
+        }
+       },
+       {
+        "id": "lpt",
+        "kind": "call_self",
+        "function": "Detail Put",
+        "in": {
+         "bone": "Eye_L",
+         "rot": "@lr.rot"
+        }
+       },
+       {
+        "id": "rg",
+        "kind": "get",
+        "var": "LidR"
+       },
+       {
+        "id": "ra",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@rg.LidR",
+         "B": "40.0"
+        }
+       },
+       {
+        "id": "rrf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "5.09",
+         "Pitch": "4.48",
+         "Yaw": "165.168"
+        }
+       },
+       {
+        "id": "rr",
+        "kind": "call_self",
+        "function": "Lid Rot",
+        "in": {
+         "ref": "@rrf.ReturnValue",
+         "axis": "(X=0.052,Y=-0.106,Z=0.993)",
+         "angle": "@ra.ReturnValue"
+        }
+       },
+       {
+        "id": "rpt",
+        "kind": "call_self",
+        "function": "Detail Put",
+        "in": {
+         "bone": "Eye_R",
+         "rot": "@rr.rot"
+        }
+       },
+       {
+        "id": "cm",
+        "kind": "call_self",
+        "function": "Detail Commit"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "db",
+        "lpt",
+        "rpt",
+        "cm"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Eye Lids Step",
+     "inputs": [
+      {
+       "name": "delta",
+       "type": "float"
+      },
+      {
+       "name": "which",
+       "type": "int"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gLidL",
+        "kind": "get",
+        "var": "LidL"
+       },
+       {
+        "id": "wLidL",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@entry.which",
+         "B": "2"
+        }
+       },
+       {
+        "id": "aLidL",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@gLidL.LidL",
+         "B": "@entry.delta"
+        }
+       },
+       {
+        "id": "cLidL",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@aLidL.ReturnValue",
+         "Min": "0.0",
+         "Max": "1.0"
+        }
+       },
+       {
+        "id": "sLidL",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@cLidL.ReturnValue",
+         "B": "@gLidL.LidL",
+         "bPickA": "@wLidL.ReturnValue"
+        }
+       },
+       {
+        "id": "ssLidL",
+        "kind": "set",
+        "var": "LidL",
+        "in": {
+         "LidL": "@sLidL.ReturnValue"
+        }
+       },
+       {
+        "id": "gLidR",
+        "kind": "get",
+        "var": "LidR"
+       },
+       {
+        "id": "wLidR",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_IntInt",
+        "in": {
+         "A": "@entry.which",
+         "B": "1"
+        }
+       },
+       {
+        "id": "aLidR",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@gLidR.LidR",
+         "B": "@entry.delta"
+        }
+       },
+       {
+        "id": "cLidR",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@aLidR.ReturnValue",
+         "Min": "0.0",
+         "Max": "1.0"
+        }
+       },
+       {
+        "id": "sLidR",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@cLidR.ReturnValue",
+         "B": "@gLidR.LidR",
+         "bPickA": "@wLidR.ReturnValue"
+        }
+       },
+       {
+        "id": "ssLidR",
+        "kind": "set",
+        "var": "LidR",
+        "in": {
+         "LidR": "@sLidR.ReturnValue"
+        }
+       },
+       {
+        "id": "al",
+        "kind": "call_self",
+        "function": "Apply Lids"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ssLidL",
+        "ssLidR",
+        "al"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Gaze From Target",
+     "inputs": [
+      {
+       "name": "head",
+       "type": "struct:/Script/CoreUObject.Transform"
+      },
+      {
+       "name": "eyes",
+       "type": "struct:/Script/CoreUObject.Vector"
+      },
+      {
+       "name": "target",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "side",
+       "type": "float"
+      },
+      {
+       "name": "up",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_VectorVector",
+        "in": {
+         "A": "@entry.target",
+         "B": "@entry.eyes"
+        }
+       },
+       {
+        "id": "l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "InverseTransformDirection",
+        "in": {
+         "T": "@entry.head",
+         "Direction": "@v.ReturnValue"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector",
+        "in": {
+         "InVec": "@l.ReturnValue"
+        }
+       },
+       {
+        "id": "ys",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "DegAtan2",
+        "in": {
+         "Y": "@b.Z",
+         "X": "@b.Y"
+        }
+       },
+       {
+        "id": "hv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeVector",
+        "in": {
+         "X": "0.0",
+         "Y": "@b.Y",
+         "Z": "@b.Z"
+        }
+       },
+       {
+        "id": "hl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "VSize",
+        "in": {
+         "A": "@hv.ReturnValue"
+        }
+       },
+       {
+        "id": "up",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "DegAtan2",
+        "in": {
+         "Y": "@b.X",
+         "X": "@hl.ReturnValue"
+        }
+       },
+       {
+        "id": "s1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@ys.ReturnValue",
+         "B": "0.04"
+        }
+       },
+       {
+        "id": "s2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@s1.ReturnValue",
+         "Min": "-1.0",
+         "Max": "1.0"
+        }
+       },
+       {
+        "id": "u1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Divide_FloatFloat",
+        "in": {
+         "A": "@up.ReturnValue",
+         "B": "20.0"
+        }
+       },
+       {
+        "id": "u2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FClamp",
+        "in": {
+         "Value": "@u1.ReturnValue",
+         "Min": "-1.0",
+         "Max": "1.0"
+        }
+       }
+      ],
+      "links": [
+       [
+        "s2.ReturnValue",
+        "return.side"
+       ],
+       [
+        "u2.ReturnValue",
+        "return.up"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Gaze",
+     "inputs": [
+      {
+       "name": "side",
+       "type": "float"
+      },
+      {
+       "name": "up",
+       "type": "float"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ss",
+        "kind": "set",
+        "var": "GazeSide",
+        "in": {
+         "GazeSide": "@entry.side"
+        }
+       },
+       {
+        "id": "su",
+        "kind": "set",
+        "var": "GazeUp",
+        "in": {
+         "GazeUp": "@entry.up"
+        }
+       },
+       {
+        "id": "sg",
+        "kind": "set",
+        "var": "GazeSet",
+        "in": {
+         "GazeSet": "true"
+        }
+       },
+       {
+        "id": "ns",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@entry.side",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "nu",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@entry.up",
+         "B": "-1.0"
+        }
+       },
+       {
+        "id": "mx0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@entry.side",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "gb0",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "mt0",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "SetMorphTarget",
+        "in": {
+         "self": "@gb0.Body",
+         "MorphTargetName": "Face_Eye2Right",
+         "Value": "@mx0.ReturnValue",
+         "bRemoveZeroWeight": "false"
+        }
+       },
+       {
+        "id": "mx1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@ns.ReturnValue",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "gb1",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "mt1",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "SetMorphTarget",
+        "in": {
+         "self": "@gb1.Body",
+         "MorphTargetName": "Face_Eye2Left",
+         "Value": "@mx1.ReturnValue",
+         "bRemoveZeroWeight": "false"
+        }
+       },
+       {
+        "id": "mx2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@entry.up",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "gb2",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "mt2",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "SetMorphTarget",
+        "in": {
+         "self": "@gb2.Body",
+         "MorphTargetName": "Face_Eye2Up",
+         "Value": "@mx2.ReturnValue",
+         "bRemoveZeroWeight": "false"
+        }
+       },
+       {
+        "id": "mx3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@nu.ReturnValue",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "gb3",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "mt3",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "SetMorphTarget",
+        "in": {
+         "self": "@gb3.Body",
+         "MorphTargetName": "Face_Eye2Down",
+         "Value": "@mx3.ReturnValue",
+         "bRemoveZeroWeight": "false"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "ss",
+        "su",
+        "sg",
+        "mt0",
+        "mt1",
+        "mt2",
+        "mt3"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Look At",
+     "inputs": [
+      {
+       "name": "target",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "ht",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketTransform",
+        "in": {
+         "self": "@gb.Body",
+         "InSocketName": "head",
+         "TransformSpace": "RTS_World"
+        }
+       },
+       {
+        "id": "el",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketLocation",
+        "in": {
+         "self": "@gb.Body",
+         "InSocketName": "Eye_L"
+        }
+       },
+       {
+        "id": "er",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "GetSocketLocation",
+        "in": {
+         "self": "@gb.Body",
+         "InSocketName": "Eye_R"
+        }
+       },
+       {
+        "id": "es",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_VectorVector",
+        "in": {
+         "A": "@el.ReturnValue",
+         "B": "@er.ReturnValue"
+        }
+       },
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_VectorFloat",
+        "in": {
+         "A": "@es.ReturnValue",
+         "B": "0.5"
+        }
+       },
+       {
+        "id": "gz",
+        "kind": "call_self",
+        "function": "Gaze From Target",
+        "in": {
+         "head": "@ht.ReturnValue",
+         "eyes": "@em.ReturnValue",
+         "target": "@entry.target"
+        }
+       },
+       {
+        "id": "sg",
+        "kind": "call_self",
+        "function": "Set Gaze",
+        "in": {
+         "side": "@gz.side",
+         "up": "@gz.up"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sg"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Reset Eyes",
+     "graph": {
+      "nodes": [
+       {
+        "id": "sl",
+        "kind": "set",
+        "var": "LidL",
+        "in": {
+         "LidL": "0.0"
+        }
+       },
+       {
+        "id": "sr",
+        "kind": "set",
+        "var": "LidR",
+        "in": {
+         "LidR": "0.0"
+        }
+       },
+       {
+        "id": "al",
+        "kind": "call_self",
+        "function": "Apply Lids"
+       },
+       {
+        "id": "sg",
+        "kind": "call_self",
+        "function": "Set Gaze",
+        "in": {
+         "side": "0.0",
+         "up": "0.0"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sl",
+        "sr",
+        "al",
+        "sg"
        ]
       ]
      }
@@ -12943,6 +19189,898 @@
        ]
       ]
      }
+    },
+    {
+     "name": "Hit Jolt",
+     "inputs": [
+      {
+       "name": "bone",
+       "type": "name"
+      },
+      {
+       "name": "impulse",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "Active"
+       },
+       {
+        "id": "bac",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ga.Active"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "imp",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "AddImpulse",
+        "in": {
+         "self": "@gb.Body",
+         "Impulse": "@entry.impulse",
+         "BoneName": "@entry.bone",
+         "bVelChange": "true"
+        }
+       },
+       {
+        "id": "gha",
+        "kind": "get",
+        "var": "HitActive"
+       },
+       {
+        "id": "bha",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gha.HitActive"
+        }
+       },
+       {
+        "id": "gb2",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "ghp",
+        "kind": "get",
+        "var": "HitPose"
+       },
+       {
+        "id": "snp",
+        "kind": "call",
+        "class": "/Script/Engine.SkeletalMeshComponent",
+        "function": "SnapshotPose",
+        "in": {
+         "self": "@gb2.Body",
+         "Snapshot": "@ghp.HitPose"
+        }
+       },
+       {
+        "id": "sha",
+        "kind": "set",
+        "var": "HitActive",
+        "in": {
+         "HitActive": "true"
+        }
+       },
+       {
+        "id": "e0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "calf_l"
+        }
+       },
+       {
+        "id": "br0",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e0.ReturnValue"
+        }
+       },
+       {
+        "id": "lb0",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "thigh_l"
+        }
+       },
+       {
+        "id": "e1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "calf_r"
+        }
+       },
+       {
+        "id": "br1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e1.ReturnValue"
+        }
+       },
+       {
+        "id": "lb1",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "thigh_r"
+        }
+       },
+       {
+        "id": "e2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "foot_l"
+        }
+       },
+       {
+        "id": "br2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e2.ReturnValue"
+        }
+       },
+       {
+        "id": "lb2",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "thigh_l"
+        }
+       },
+       {
+        "id": "e3",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "foot_r"
+        }
+       },
+       {
+        "id": "br3",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e3.ReturnValue"
+        }
+       },
+       {
+        "id": "lb3",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "thigh_r"
+        }
+       },
+       {
+        "id": "e4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "hand_l"
+        }
+       },
+       {
+        "id": "br4",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e4.ReturnValue"
+        }
+       },
+       {
+        "id": "lb4",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "upperarm_l"
+        }
+       },
+       {
+        "id": "e5",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "hand_r"
+        }
+       },
+       {
+        "id": "br5",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e5.ReturnValue"
+        }
+       },
+       {
+        "id": "lb5",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "upperarm_r"
+        }
+       },
+       {
+        "id": "e6",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "head"
+        }
+       },
+       {
+        "id": "br6",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e6.ReturnValue"
+        }
+       },
+       {
+        "id": "lb6",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "neck_01"
+        }
+       },
+       {
+        "id": "e7",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "lowerarm_l"
+        }
+       },
+       {
+        "id": "br7",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e7.ReturnValue"
+        }
+       },
+       {
+        "id": "lb7",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "upperarm_l"
+        }
+       },
+       {
+        "id": "e8",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "lowerarm_r"
+        }
+       },
+       {
+        "id": "br8",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e8.ReturnValue"
+        }
+       },
+       {
+        "id": "lb8",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "upperarm_r"
+        }
+       },
+       {
+        "id": "e9",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "neck_01"
+        }
+       },
+       {
+        "id": "br9",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e9.ReturnValue"
+        }
+       },
+       {
+        "id": "lb9",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "neck_01"
+        }
+       },
+       {
+        "id": "e10",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "spine_01"
+        }
+       },
+       {
+        "id": "br10",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e10.ReturnValue"
+        }
+       },
+       {
+        "id": "lb10",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "spine_01"
+        }
+       },
+       {
+        "id": "e11",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "spine_02"
+        }
+       },
+       {
+        "id": "br11",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e11.ReturnValue"
+        }
+       },
+       {
+        "id": "lb11",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "spine_02"
+        }
+       },
+       {
+        "id": "e12",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "spine_03"
+        }
+       },
+       {
+        "id": "br12",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e12.ReturnValue"
+        }
+       },
+       {
+        "id": "lb12",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "spine_03"
+        }
+       },
+       {
+        "id": "e13",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "thigh_l"
+        }
+       },
+       {
+        "id": "br13",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e13.ReturnValue"
+        }
+       },
+       {
+        "id": "lb13",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "thigh_l"
+        }
+       },
+       {
+        "id": "e14",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "thigh_r"
+        }
+       },
+       {
+        "id": "br14",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e14.ReturnValue"
+        }
+       },
+       {
+        "id": "lb14",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "thigh_r"
+        }
+       },
+       {
+        "id": "e15",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "upperarm_l"
+        }
+       },
+       {
+        "id": "br15",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e15.ReturnValue"
+        }
+       },
+       {
+        "id": "lb15",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "upperarm_l"
+        }
+       },
+       {
+        "id": "e16",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.bone",
+         "B": "upperarm_r"
+        }
+       },
+       {
+        "id": "br16",
+        "kind": "branch",
+        "in": {
+         "Condition": "@e16.ReturnValue"
+        }
+       },
+       {
+        "id": "lb16",
+        "kind": "call_self",
+        "function": "Loosen Below",
+        "in": {
+         "root": "upperarm_r"
+        }
+       },
+       {
+        "id": "now",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "GetGameTimeInSeconds"
+       },
+       {
+        "id": "until",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@now.ReturnValue",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "su",
+        "kind": "set",
+        "var": "HitUntil",
+        "in": {
+         "HitUntil": "@until.ReturnValue"
+        }
+       },
+       {
+        "id": "gb3",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "imp2",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "AddImpulse",
+        "in": {
+         "self": "@gb3.Body",
+         "Impulse": "@entry.impulse",
+         "BoneName": "@entry.bone",
+         "bVelChange": "true"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "br0",
+        "lb0",
+        "su"
+       ],
+       [
+        "br1",
+        "lb1",
+        "su"
+       ],
+       [
+        "br0:else",
+        "br1"
+       ],
+       [
+        "br2",
+        "lb2",
+        "su"
+       ],
+       [
+        "br1:else",
+        "br2"
+       ],
+       [
+        "br3",
+        "lb3",
+        "su"
+       ],
+       [
+        "br2:else",
+        "br3"
+       ],
+       [
+        "br4",
+        "lb4",
+        "su"
+       ],
+       [
+        "br3:else",
+        "br4"
+       ],
+       [
+        "br5",
+        "lb5",
+        "su"
+       ],
+       [
+        "br4:else",
+        "br5"
+       ],
+       [
+        "br6",
+        "lb6",
+        "su"
+       ],
+       [
+        "br5:else",
+        "br6"
+       ],
+       [
+        "br7",
+        "lb7",
+        "su"
+       ],
+       [
+        "br6:else",
+        "br7"
+       ],
+       [
+        "br8",
+        "lb8",
+        "su"
+       ],
+       [
+        "br7:else",
+        "br8"
+       ],
+       [
+        "br9",
+        "lb9",
+        "su"
+       ],
+       [
+        "br8:else",
+        "br9"
+       ],
+       [
+        "br10",
+        "lb10",
+        "su"
+       ],
+       [
+        "br9:else",
+        "br10"
+       ],
+       [
+        "br11",
+        "lb11",
+        "su"
+       ],
+       [
+        "br10:else",
+        "br11"
+       ],
+       [
+        "br12",
+        "lb12",
+        "su"
+       ],
+       [
+        "br11:else",
+        "br12"
+       ],
+       [
+        "br13",
+        "lb13",
+        "su"
+       ],
+       [
+        "br12:else",
+        "br13"
+       ],
+       [
+        "br14",
+        "lb14",
+        "su"
+       ],
+       [
+        "br13:else",
+        "br14"
+       ],
+       [
+        "br15",
+        "lb15",
+        "su"
+       ],
+       [
+        "br14:else",
+        "br15"
+       ],
+       [
+        "br16",
+        "lb16",
+        "su"
+       ],
+       [
+        "br15:else",
+        "br16"
+       ],
+       [
+        "entry",
+        "bac",
+        "imp"
+       ],
+       [
+        "bac:else",
+        "bha",
+        "br0"
+       ],
+       [
+        "bha:else",
+        "snp",
+        "sha",
+        "br0"
+       ],
+       [
+        "br16:else",
+        "su"
+       ],
+       [
+        "su",
+        "imp2"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Hit Back",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "Active"
+       },
+       {
+        "id": "bac",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ga.Active"
+        }
+       },
+       {
+        "id": "gb0",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "grv0",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetEnableGravity",
+        "in": {
+         "self": "@gb0.Body",
+         "bGravityEnabled": "true"
+        }
+       },
+       {
+        "id": "sha0",
+        "kind": "set",
+        "var": "HitActive",
+        "in": {
+         "HitActive": "false"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "Locks"
+       },
+       {
+        "id": "lv",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Values",
+        "in": {
+         "TargetMap": "@gl.Locks"
+        }
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@lv.Values"
+        }
+       },
+       {
+        "id": "dc",
+        "kind": "call",
+        "class": "/Script/Engine.ActorComponent",
+        "function": "K2_DestroyComponent",
+        "in": {
+         "self": "@fe.Array Element",
+         "Object": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "Locks"
+       },
+       {
+        "id": "cl",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Clear",
+        "in": {
+         "TargetMap": "@gl2.Locks"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "off",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetSimulatePhysics",
+        "in": {
+         "self": "@gb.Body",
+         "bSimulate": "false"
+        }
+       },
+       {
+        "id": "gb2",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "grv",
+        "kind": "call",
+        "class": "/Script/Engine.PrimitiveComponent",
+        "function": "SetEnableGravity",
+        "in": {
+         "self": "@gb2.Body",
+         "bGravityEnabled": "true"
+        }
+       },
+       {
+        "id": "ghp",
+        "kind": "get",
+        "var": "HitPose"
+       },
+       {
+        "id": "sp",
+        "kind": "call_self",
+        "function": "Set Pose",
+        "in": {
+         "snap": "@ghp.HitPose"
+        }
+       },
+       {
+        "id": "sha",
+        "kind": "set",
+        "var": "HitActive",
+        "in": {
+         "HitActive": "false"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bac",
+        "grv0",
+        "sha0"
+       ],
+       [
+        "bac:else",
+        "lv",
+        "fe"
+       ],
+       [
+        "fe",
+        "dc"
+       ],
+       [
+        "fe:Completed",
+        "cl",
+        "off",
+        "grv",
+        "sp",
+        "sha"
+       ]
+      ]
+     }
     }
    ],
    "event_graph": {
@@ -13226,6 +20364,128 @@
       "in": {
        "TmpTurnLocal": "@ttd_l.local"
       }
+     },
+     {
+      "id": "tcr",
+      "kind": "custom_event",
+      "name": "Test Curl Rot",
+      "inputs": [
+       {
+        "name": "ref",
+        "type": "struct:/Script/CoreUObject.Rotator"
+       },
+       {
+        "name": "axis",
+        "type": "struct:/Script/CoreUObject.Vector"
+       },
+       {
+        "name": "angle",
+        "type": "float"
+       }
+      ]
+     },
+     {
+      "id": "tcr_c",
+      "kind": "call_self",
+      "function": "Curl Rot",
+      "in": {
+       "ref": "@tcr.ref",
+       "axis": "@tcr.axis",
+       "angle": "@tcr.angle"
+      }
+     },
+     {
+      "id": "tcr_s",
+      "kind": "set",
+      "var": "TmpTurnLocal",
+      "in": {
+       "TmpTurnLocal": "@tcr_c.rot"
+      }
+     },
+     {
+      "id": "tlr2",
+      "kind": "custom_event",
+      "name": "Test Lid Rot",
+      "inputs": [
+       {
+        "name": "ref",
+        "type": "struct:/Script/CoreUObject.Rotator"
+       },
+       {
+        "name": "axis",
+        "type": "struct:/Script/CoreUObject.Vector"
+       },
+       {
+        "name": "angle",
+        "type": "float"
+       }
+      ]
+     },
+     {
+      "id": "tlr2_c",
+      "kind": "call_self",
+      "function": "Lid Rot",
+      "in": {
+       "ref": "@tlr2.ref",
+       "axis": "@tlr2.axis",
+       "angle": "@tlr2.angle"
+      }
+     },
+     {
+      "id": "tlr2_s",
+      "kind": "set",
+      "var": "TmpTurnWorld",
+      "in": {
+       "TmpTurnWorld": "@tlr2_c.rot"
+      }
+     },
+     {
+      "id": "tgz",
+      "kind": "custom_event",
+      "name": "Test Gaze",
+      "inputs": [
+       {
+        "name": "head",
+        "type": "struct:/Script/CoreUObject.Transform"
+       },
+       {
+        "name": "eyes",
+        "type": "struct:/Script/CoreUObject.Vector"
+       },
+       {
+        "name": "target",
+        "type": "struct:/Script/CoreUObject.Vector"
+       }
+      ]
+     },
+     {
+      "id": "tgz_c",
+      "kind": "call_self",
+      "function": "Gaze From Target",
+      "in": {
+       "head": "@tgz.head",
+       "eyes": "@tgz.eyes",
+       "target": "@tgz.target"
+      }
+     },
+     {
+      "id": "tgz_v",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "MakeVector",
+      "in": {
+       "X": "@tgz_c.side",
+       "Y": "@tgz_c.up",
+       "Z": "0.0"
+      }
+     },
+     {
+      "id": "tgz_s",
+      "kind": "set",
+      "var": "TmpGaze",
+      "in": {
+       "TmpGaze": "@tgz_v.ReturnValue"
+      }
      }
     ],
     "links": [],
@@ -13271,6 +20531,18 @@
       "ttd_s1",
       "ttd_s2",
       "ttd_s3"
+     ],
+     [
+      "tcr",
+      "tcr_s"
+     ],
+     [
+      "tlr2",
+      "tlr2_s"
+     ],
+     [
+      "tgz",
+      "tgz_s"
      ]
     ]
    }

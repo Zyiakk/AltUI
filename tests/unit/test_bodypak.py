@@ -13,7 +13,8 @@ THICC = A + "/nexus/783/Jodithicctest4_P.pak"   # mesh + PostProcessAnimBlueprin
 CUSTOM = A + "/other/JodiCustomWIP_P.pak"   # versioned cook (UE4 522) with its own Female_Skeleton + Female_PhysicsAsset
 UNREALPAK = cfg.path("UNREALPAK", "UnrealPak")
 # the paks of real mods are not part of the repository: without TKA_MOD_ARCHIVE those tests skip
-NEED_ARCHIVE = unittest.skipUnless(os.path.isdir(A), "no mod archive (TKA_MOD_ARCHIVE)")
+NEED_ARCHIVE = unittest.skipUnless(os.path.isdir(A) and all(cfg.real_file(p) for p in (DV1, PUSSY, OG, SHOES, THICC, CUSTOM)),
+                                    "no mod archive (TKA_MOD_ARCHIVE) or only placeholders")
 NEED_UNREALPAK = unittest.skipUnless(os.path.exists(UNREALPAK), "UnrealPak not found (UNREALPAK)")
 
 

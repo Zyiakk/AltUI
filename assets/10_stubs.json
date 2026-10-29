@@ -585,6 +585,40 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/Classes/Misc/Description_Base",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "variables": [
+    {
+     "name": "Description",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Misc/Department",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/Misc/Description_Base"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Bed",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/InteractiveActor/InteractiveActor_Base",
+   "variables": [
+    {
+     "name": "Save Point Name",
+     "type": "text"
+    },
+    {
+     "name": "Department",
+     "type": "object:/Game/Project/Actors/Misc/Department"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/Classes/Items/ItemComponent",
    "mode": "augment",
    "functions": [
@@ -758,6 +792,27 @@
      "type": "name",
      "container": "array",
      "internal_name": "Parts_9_2957A5274990B0EE840FDB8AEC3E0EEA"
+    }
+   ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Classes/Struct/WeaponViewStruct",
+   "members": [
+    {
+     "name": "fov",
+     "type": "float",
+     "internal_name": "fov_2_6AF08AEF41E4C33F90B60EB3EAFE60CF"
+    },
+    {
+     "name": "arm length",
+     "type": "float",
+     "internal_name": "armlength_4_A0D45C7F4145C5F649D173884365ED33"
+    },
+    {
+     "name": "socket offset",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "internal_name": "socketoffset_7_51B3ABFE4696FBC4E58B58ACDA4589F8"
     }
    ]
   },
@@ -2082,6 +2137,14 @@
     {
      "name": "Loading State",
      "type": "int"
+    },
+    {
+     "name": "Health Max",
+     "type": "float"
+    },
+    {
+     "name": "undead time",
+     "type": "float"
     }
    ],
    "functions": [
@@ -2112,6 +2175,26 @@
       }
      ],
      "pure": true
+    },
+    {
+     "name": "get Foot Location",
+     "outputs": [
+      {
+       "name": "location",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Is Ragdoll ?",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
     }
    ]
   },
@@ -2124,6 +2207,18 @@
     {
      "name": "Number",
      "type": "int"
+    },
+    {
+     "name": "interval",
+     "type": "float"
+    },
+    {
+     "name": "time",
+     "type": "float"
+    },
+    {
+     "name": "Jodi",
+     "type": "object:/Game/Project/Character/Jodi/Jodi"
     }
    ],
    "functions": [
@@ -2140,12 +2235,54 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/Classes/Items/ItemComp_Pickable",
+   "mode": "augment",
+   "variables": [
+    {
+     "name": "Can Be Auto Picked",
+     "type": "bool"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Component/FlyingItem_Comp",
+   "mode": "create",
+   "parent": "/Script/Engine.ActorComponent",
+   "variables": [
+    {
+     "name": "Invisible Comp",
+     "type": "object:/Game/Project/Classes/Misc/InvisibleHand_Comp"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Init",
+     "inputs": [
+      {
+       "name": "invisible Comp",
+       "type": "object:/Game/Project/Classes/Misc/InvisibleHand_Comp"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/Character/Jodi/Jodi",
    "mode": "augment",
    "variables": [
     {
      "name": "InvisibleHand_Comp",
      "type": "object:/Game/Project/Classes/Misc/InvisibleHand_Comp"
+    },
+    {
+     "name": "View Data Unarmed ",
+     "type": "struct:/Game/Project/Classes/Struct/WeaponViewStruct"
+    },
+    {
+     "name": "need update camera view data",
+     "type": "bool"
     },
     {
      "name": "Skin Wet Alpha Target",
@@ -2494,6 +2631,10 @@
     {
      "name": "is paralleled animation playing",
      "type": "bool"
+    },
+    {
+     "name": "Action Out Montage",
+     "type": "object:/Script/Engine.AnimMontage"
     }
    ],
    "functions": [
@@ -2571,6 +2712,19 @@
       }
      ],
      "pure": true
+    },
+    {
+     "name": "Change Action Animation",
+     "inputs": [
+      {
+       "name": "Anim",
+       "type": "object:/Script/Engine.AnimSequence"
+      },
+      {
+       "name": "Montage",
+       "type": "object:/Script/Engine.AnimMontage"
+      }
+     ]
     }
    ]
   },

@@ -48,6 +48,7 @@ Po aktualizacji gry albo z modem, który zastępuje tabele gry, AltUI może traf
 - Kółko myszy przewija; prędkość ustawia się w Opcje › Sterowanie.
 - Gdy panel jest otwarty, Jodi nie może chodzić. Przeciąganie po tle obraca kamerę; kliknięcie na Jodi i przeciąganie obraca ją – po zamknięciu panelu wraca do poprzedniej pozycji.
 - + i − zmieniają odległość kamery co 5 %, kółko myszy nad Jodi co 4 %.
+- Podczas gry (panel zamknięty) kółko myszy przybliża lub oddala kamerę od Jodi; z pozycją szybkiego menu „Wysokość kamery (kółko)” podnosi lub opuszcza ją zamiast tego (lewy przycisk lub Esc kończy); przy celowaniu zostaje widok gry. Odległość i wysokość są zapamiętywane.
 - Okrągłe przyciski nad + i − otwierają swobodną kamerę (mysz obraca, W A S D i Q E przesuwają, Shift szybciej, kółko ustawia prędkość, Esc wraca), tryb fotograficzny gry (Esc wraca) i tryb ragdolli (zob. „Tryb ragdolli”).
 - Najwyższy okrągły przycisk (żarówka) to światło kamery: rozjaśnia to, co widzi kamera – obok panelu, w swobodnej kamerze i w trybie zdjęć. Kliknięcie otwiera małe menu: wł. / wył., kolor światła (paleta) i suwak jasności. Tylko rozjaśnia (bez odblasków, bez snopu we mgle), w czasie gry jest wyłączone i wraca takie, jak je zostawiono, gdy panel się otworzy.
 - Cofnij i Ponów (pięć kroków) są na pasku stanu na dole.
@@ -61,7 +62,8 @@ Po lewej sloty, po prawej elementy wybranego slotu.
 - Kliknięcie elementu zakłada go, kliknięcie założonego zdejmuje.
 - Chipy nad listą filtrują według moda lub grupy; „...” zwija rzędy chipów. Pole wyszukiwania zawęża chipy, a wyszukiwanie nad listą znajduje elementy po nazwie, modzie lub grupie.
 - Filtry: tylko posiadane, tylko ulubione, tylko vanilla, tylko założone.
-- Prawy przycisk na elemencie: ulubione, ukryj, kolor z palety gry, przywróć kolor, do plecaka, zmień nazwę, tylko ta grupa, pokaż zawartość moda, pokaż w zakładce.
+- Prawy przycisk na elemencie: ulubione, zostaw założone, ukryj, kolor z palety gry, przywróć kolor, do plecaka, zmień nazwę, tylko ta grupa, pokaż zawartość moda, pokaż w zakładce.
+- Zostaw założone: oznaczona część, którą założyłaś sama, zostaje przy zakładaniu looku lub stroju. Look pomija wtedy części z tego samego slotu (lub ze slotu, który do niego nie pasuje) i wymienia je w komunikacie. Część założona przez look lub strój nie zostaje przy następnej zmianie, nawet jeśli jest oznaczona – przymierzanie strojów nigdy nie gromadzi części. Kafelek pokazuje „zostaje”. Cofnij przywraca dokładnie poprzedni stan.
 - Szuflady: własne kolekcje ubrań, na pasku nad listą. „Domyślny” pokazuje wszystko; „+” tworzy nową szufladę („Szuflada 1”, „Szuflada 2” …). Szuflada pokazuje tę samą stronę – sloty, przyciski, wyszukiwanie, filtry, ulubione – tylko z jej rzeczami, a sloty liczą tylko je. Prawy przycisk na rzeczy › „Szuflada ›” otwiera obok menu listę szuflad: znacznik oznacza, że rzecz w niej jest; kliknięcie wkłada ją lub wyjmuje, „+ Nowa szuflada” tworzy szufladę z tą rzeczą. Rzecz może być w dowolnej liczbie szuflad; w szufladzie menu ma też „Usuń z tej szuflady”. Prawy przycisk na szufladzie: zmień nazwę (Enter zatwierdza, Esc anuluje), w lewo / w prawo, usuń (najpierw pyta – rzeczy zostają). Pokazana szuflada zostaje po ponownym uruchomieniu.
 - Podpowiedź pokazuje, z którego moda pochodzi element.
 - Uszkodzenie (w menu kontekstowym): od 0 do 100 %, od razu na noszonym elemencie; przy każdym innym zostaje zapamiętane, aż element zostanie założony. Noszone elementy bez tekstur uszkodzeń nie mają suwaka.
@@ -83,9 +85,9 @@ Zapisane stroje gry – te same, których używają szafa i lustro.
 
 Stylizacja to wszystko naraz: ubrania z kolorami, fryzura i kolor włosów, makijaż, oczy, skóra, mutacja, suwaki ciała, mod ciała i twarz.
 
-- Kafelek „+” zapisuje aktualną stylizację ze zdjęciem całej postaci – z przodu albo tak, jak ją teraz widzisz.
+- Kafelek „+” zapisuje aktualną stylizację ze zdjęciem całej postaci – z przodu albo wolną kamerą: przesuń ją, gdzie chcesz, i kliknij, aby zrobić zdjęcie (Esc: zamiast tego z przodu).
 - Kliknięcie stylizacji ją stosuje.
-- Prawy przycisk: pokaż zawartość, zmień nazwę, aktualizuj (zdjęcie z przodu lub jak widać), przesuń, usuń, dodaj do szybkiego menu lub usuń z niego.
+- Prawy przycisk: pokaż zawartość, zmień nazwę, aktualizuj (zdjęcie z przodu lub wolną kamerą), przesuń, usuń, dodaj do szybkiego menu lub usuń z niego.
 - Prawy przycisk także: „Utwórz jako ragdoll”, „Utwórz jako towarzysza”, „Utwórz jako NPC” (zobacz „Ragdolle” i „Towarzysze”).
 - Prawy przycisk „Oczyszczona kopia (bez brakujących części)” – widoczne tylko, gdy wygląd zawiera części moda, którego już nie ma, albo wiersze makijażu / oczu, których nie zna żadna tabela: nowy wygląd tuż za nim bez tych wpisów, z tym samym zdjęciem. Oryginał zostaje bez zmian; ponowne zapisanie nigdy ich samo nie usuwa.
 
@@ -189,6 +191,8 @@ Mimika Jodi.
 
 Ustawienia innych modów, które rejestrują się w AltUI: po lewej ich wpisy, po prawej przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, klawisze i przyciski wybranego.
 
+Nad polami: presety strony. Kafelek „+” zapisuje obecne ustawienia ze zdjęciem (z przodu lub wolną kamerą); kliknięcie stosuje preset. Prawy klik: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń, menu szybkie. „Pokaż zawartość” wypisuje wartości, każdą z polem wyboru: stosowane są tylko zaznaczone, niezaznaczone pozostają zapisane. Presety dostarczone przez mod są na początku; można je stosować, zmieniać ich nazwę, dodać własne zdjęcie („Nowe zdjęcie”) i zaznaczać ich wartości, ale nie edytować ani usuwać. Zapisywane osobno dla każdego moda w AltUI_ModPresets_<mod>.sav.
+
 Ta karta pojawia się tylko wtedy, gdy taki mod jest zainstalowany.
 
 ## Opcje {#options}
@@ -200,8 +204,7 @@ Po lewej kategorie.
 - Grupy: łączenie grup lub modów o tej samej nazwie, długość nazw grup, wysokość obszaru chipów, wyszukiwanie chipów.
 - Kamera: pole widzenia, odległość, wysokość, kamera podąża za wybranym slotem. Dwa przełączniki wolnej kamery (także w trybie ragdolli): bez kolizji – przelatuje przez ściany i Jodi – oraz dowolnie daleko od Jodi.
 - Sterowanie: klawisz panelu, prędkość przewijania, wysokość kamery prawym przyciskiem myszy, jak wysoko kółko myszy podnosi ragdolla na jeden ząbek.
-- Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %); kucanie i skakanie pozostają bez zmian. „Zwolnienie wł.” włącza zwolnienie, „Tempo zwolnienia” (od 5 do 90 %, domyślnie 25 %) ustala, jak wolno płynie czas; pozycja szybkiego menu „Zwolnienie wł / wył” działa tak samo jak przełącznik. „Przywróć domyślne” przywraca prędkość chodu, biegu i zwolnienia. „Stanie” wybiera animację bezczynności Jodi: animacje gry (rozglądanie się, oglądanie paznokci, oglądanie nogi, ostrożnie, ranna, pozowanie) i zainstalowanych modów bezczynności (IdleAltUI_…).
-- Szybkie menu: klawisz, przezroczystość, co jest w kole, własne klawisze.
+- Ruch: własna prędkość chodu i biegu Jodi (od 50 do 200 %); kucanie i skakanie pozostają bez zmian. „Zwolnienie wł.” włącza zwolnienie, „Tempo zwolnienia” (od 5 do 90 %, domyślnie 25 %) ustala, jak wolno płynie czas; pozycja szybkiego menu „Zwolnienie wł / wył” działa tak samo jak przełącznik. „Przywróć domyślne” przywraca prędkość chodu, biegu i zwolnienia. „Stanie” wybiera animację bezczynności Jodi: animacje gry (rozglądanie się, oglądanie paznokci, oglądanie nogi, ostrożnie, ranna, pozowanie) i zainstalowanych modów bezczynności (IdleAltUI_…). Mody chodu/biegu (WalkAltUI_…) dodają wybory do „Styl chodu” i „Styl biegu”; te wiersze pokazują się tylko, gdy jest wybór. Mod chodu wygrywa z wybranym jednocześnie modem biegu lub bezczynności: ta strona działa zwykle, a pod jej wierszem jest o tym informacja.
 - Motyw: każdy kolor panelu i jego krycie, obraz tła (wypełnienie, wyrównanie, odcień, sepia, odwrócenie, własne krycie) i obraz dla kafelków i kart, schematy kolorów zapisane pod nazwą; reset jest na pasku stanu. Motyw zapisany teraz zachowuje także obrazy i ich ustawienia. Własne obrazy: Background_1 … Background_30 i Button_1 … Button_30 (.png, .jpg lub .jpeg) w folderze podanym na stronie. „Pokaż podglądy” pokazuje same obrazy na ich chipach; prawy klik na podglądzie własnego obrazu: „Utwórz podgląd ponownie”.
 - Konflikty slotów: rozdzielenie par slotów gry (na przykład biustonosz i koszula), aby można było nosić oba elementy. Poniżej: „Kilka rzeczy w jednym slocie” – włączony slot zachowuje swoje rzeczy, gdy zakłada się kolejną (na przykład podkolanówki na rajstopy), dla Jodi, towarzyszy i wyglądów.
 - Karty: tekst, ikony lub oba na pasku kart; wyłączanie kart. „Spróbuj w jednym wierszu”: podpisy najpierw się zmniejszają, potem skracają, aby pasek mieścił się w jednym wierszu, gdzie to możliwe.
@@ -229,6 +232,7 @@ Figury z fizyką do ustawiania i pozowania na poziomie: kopie Jodi, zombie i lud
 - Kule stawów pokazują, gdzie można chwycić: szare, czerwone = zablokowany, zielone = ruchomy, niebieskie = przypięty. Zasłonięte prześwitują blado przez ciało; kliknięcie kuli chwyta dokładnie ten staw. Pojawiają się tylko na tej karcie i w trybie ragdoll.
 - Pozy (w rozwiniętym wierszu): nazwa i „zapisz pozę” zapamiętują ułożenie części ciała oraz to, które stawy są zablokowane lub ruchome. Pozę można wczytać na każdą figurę tego samego rodzaju, na każdym poziomie – kliknięcie wczytuje, prawy przycisk: wczytaj / usuń. Figura przy tym zamarza i staje na podłodze.
 - Sceny: „Zapisz scenę jako” zapamiętuje każdą figurę poziomu z wyglądem, miejscem, pozą i stawami; ta sama nazwa na tym samym poziomie nadpisuje scenę. Widać tylko sceny bieżącego poziomu. Kliknięcie wczytuje scenę i zastępuje obecne figury; prawy przycisk: wczytaj / usuń.
+- „Ustaw jako atakowalną” (kopie Jodi, NPC i najemnika): zombie atakują ragdolla jak figurę; w nagłówku pojawia się wtedy „· atakowalna”. Każde uderzenie popycha część ciała najbliższą zombie; zamrożony ragdoll wraca do swojej pozy około sekundy po ostatnim uderzeniu. Ragdolle nie giną. Stan zapisuje się ze sceną.
 
 Z myszą na figurze, obok panelu i w trybie ragdolli:
 
@@ -239,6 +243,8 @@ Z myszą na figurze, obok panelu i w trybie ragdolli:
 - Shift + lewy przycisk blokuje lub zwalnia kliknięty staw.
 - Shift + prawy przycisk na zamrożonej figurze czyni staw ruchomym. Przeciąganie wtedy lewym przyciskiem części ciała poniżej ruchomego stawu porusza tylko tę część; zostaje tam, gdzie ją puścisz – tak pozuje się figurę.
 - Przeciąganie prawym przyciskiem części ciała pod ruchomym stawem zamrożonej figury obraca tę kończynę wokół stawu: chwycony punkt podąża za myszą, dłoń i palce obracają się razem z nią. Kółko myszy skręca przy tym kończynę wokół jej własnej osi. Obrót zostaje w pozie i zapisuje się z pozami i scenami; ograniczenia stawów działają dopiero, gdy figura stanie się aktywna.
+- Palce i oczy (zamrożone postacie z ciałem Jodi): z bliska (poniżej ok. 1 m) na paliczkach i powiekach pojawiają się małe kule. Przeciągnięcie prawym przyciskiem kuli palca obraca ten paliczek, kółko go skręca; przeciągnięcie lewym zgina cały palec (czubek w stronę nasady). Przeciągnięcie lewym kuli powieki kieruje wzrok obu oczu; kółko otwiera i zamyka przy tym powieki (z Shift przy chwytaniu: tylko tę powiekę).
+- W rozwiniętej postaci „Lewa dłoń” i „Prawa dłoń” ustawiają gotowe pozy dłoni (otwarta, rozluźniona, pięść, kciuk w górę, pokój, wskaż, trzymaj, poza bazowa); „Oczy: resetuj” otwiera powieki i kieruje wzrok prosto. Pozy i sceny zapisują palce, powieki i wzrok.
 
 Bez panelu figury aktywuje lub zamraża szybkie menu: „Ragdoll: aktywuj / zamroź tę na środku” bierze figurę na środku ekranu, „Ragdolle: aktywne / zamrożone” przełącza wszystkie.
 
@@ -249,7 +255,15 @@ Przesuwanie i pozowanie figur bez panelu, z kamerą poruszającą się swobodnie
 - Kursor myszy pozostaje widoczny; na figurze wszystko działa jak obok panelu (zob. „Ragdolle”).
 - W A S D i Q E przesuwają kamerę, Shift szybciej; Shift + kółko ustawia prędkość.
 - Przeciąganie w pustym miejscu obraca kamerę.
+- Przytrzymanie środkowego przycisku myszy obraca kamerę bez zatrzymywania na krawędziach ekranu; potem wskaźnik wraca na swoje miejsce.
 - Esc lub B kończy tryb.
+
+## Nawigacja {#navigation}
+
+- Leć / Wyląduj: Jodi lata. Ruch jak zwykle, Spacja w górę, Ctrl w dół, Shift trzy razy szybciej; suwak ustawia tempo. Ściany ją zatrzymują. Wyląduj pozwala jej spaść na ziemię – upadek z wysoka rani jak w grze. Także w szybkim menu, więc także pod własnym klawiszem (Akcje › Własne klawisze).
+- Pokazuje łóżka bieżącego poziomu, na których Jodi może zapisać grę, najbliższe najpierw, z nazwą pomieszczenia i odległością.
+- „Teleportuj” stawia Jodi obok tego łóżka, przodem do niego; zapis jak zwykle przez użycie łóżka. Podążający za nią towarzysze idą z nią, czekający zostają.
+- Teleport pomija wszystko po drodze: kroki fabuły, które gra uruchamia, gdy Jodi przechodzi przez obszar, nie dzieją się po drodze, dopiero gdy później do niego wejdzie. Biuro Jodi, poziom 3 i strzelnica nie mają takich łóżek.
 
 ## Obiekty {#objects}
 
@@ -258,8 +272,8 @@ Umieszczanie w świecie modeli z gry, broni i modeli z modów (np. rekwizytów z
 - Po lewej KATALOG: Wszystkie, ★ Ulubione, foldery gry, „Z poziomu: …”, Broń i Mody (+ rozwija poszczególne mody). Po prawej wyszukiwanie i modele jako kafelki, posortowane po nazwie; „Pokaż więcej” wczytuje kolejne. Obrazki AltUI robi sam i je zapamiętuje.
 - Kliknięcie kafelka stawia model na podłodze przed Jodi, nieruchomo. Prawy przycisk: ulubione, „Pojaw z fizyką”.
 - Modele z modów AltUI znajduje, przeszukując mody raz, folder po folderze (licznik jest u góry), i zapamiętuje wynik; potem przeszukuje tylko nowe mody. „Przeszukaj mody ponownie” zaczyna od nowa. Niektóre mody trzymają modele w folderach o innej nazwie niż ich pak; znajduje je „Przeszukaj wszystkie foldery modów” (gra zatrzymuje się na około pół minuty).
-- Na dole blok „Wybrany”: obrazek, nazwa, nieruchomy lub z fizyką, fizyka wł./wył., na podłogę, kopiuj, usuń; pola pozycji, obrotu (odchylenie, pochylenie, przechył) i rozmiaru – Enter zatwierdza. Wybrany obiekt ma żółtą ramkę.
-- ŚWIAT › W świecie: wiersz dla każdego obiektu z wyborem, fizyką wł./wył., kopiowaniem, usuwaniem. „Pozycje” rozwija blok: nazwa i „Zapisz pozycję” zapamiętują miejsce, obrót, rozmiar i fizykę. Pozycja pojawia się przy każdym obiekcie tego samego modelu na tym samym poziomie – kliknięcie go tam ustawia, prawy przycisk: zastosuj / usuń.
+- Na dole blok „Wybrany”: obrazek, nazwa, nieruchomy lub z fizyką, odznacz, fizyka wł./wył., na podłogę, kopiuj, usuń; pola pozycji, obrotu (odchylenie, pochylenie, przechył) i rozmiaru – Enter zatwierdza. Wybrany obiekt ma żółtą ramkę.
+- ŚWIAT › W świecie: wiersz dla każdego obiektu z wyborem (przy wybranym: odznacz), fizyką wł./wył., kopiowaniem, usuwaniem. „Pozycje” rozwija blok: nazwa i „Zapisz pozycję” zapamiętują miejsce, obrót, rozmiar i fizykę. Pozycja pojawia się przy każdym obiekcie tego samego modelu na tym samym poziomie – kliknięcie go tam ustawia, prawy przycisk: zastosuj / usuń.
 - ŚWIAT › Sceny: nazwa i „Zapisz scenę” zapamiętują wszystkie obiekty poziomu; ta sama nazwa na tym samym poziomie nadpisuje. Widać tylko sceny bieżącego poziomu. Kliknięcie wczytuje scenę i zastępuje obiekty; prawy przycisk: wczytaj / usuń. Brakujący model (mod nie zainstalowany) jest pomijany i zgłaszany.
 - Obiekty znikają razem z poziomem; scena je przywraca.
 
@@ -275,7 +289,7 @@ Myszą na obiekcie, obok panelu i w trybie ragdolli:
 Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkazów; NPC zostaje na miejscu i się broni.
 
 - W zakładce Stylizacje prawy klik na stylizację: „Utwórz jako towarzysza” albo „Utwórz jako NPC”. Postać pojawia się przed Jodi w tej stylizacji.
-- Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, ∞ z sercem (nieśmiertelny), ∞ z nabojami (amunicja bez końca) i zębatka (zmień nazwę, zmień stylizację, ożyw, usuń). „...” zwija i rozwija kafelki postaci (ubrania i plecak); zostaje tak dla każdej postaci, także po ponownym uruchomieniu.
+- Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, ∞ z sercem (nieśmiertelny), ∞ z nabojami (amunicja bez końca) i zębatka (atakowalna / nieatakowalna, zmień nazwę, zmień stylizację, ożyw, usuń). „...” zwija i rozwija kafelki postaci (ubrania i plecak); zostaje tak dla każdej postaci, także po ponownym uruchomieniu.
 - Towarzysze są nad NPC, linia oddziela obie grupy. Przyciski nad wierszami pokazują wszystkich, tylko towarzyszy albo tylko NPC (zostaje po ponownym uruchomieniu).
 - Kliknięcie wiersza wybiera postać. Na górze są plecak (po lewej) i skrzynia (po prawej): kliknięcie daje przedmiot wybranej postaci, broń razem z malowaniem i akcesoriami. Kliknięcie kafelka postaci oddaje go do plecaka; prawy klik: wszystko albo do skrzyni. „...” nad listą zwija ją.
 - Menu kontekstowe stosu – Jodi lub postaci – ma wiersz ilości jak w karcie Ekwipunek: „Daj 5”, „Weź 5”, do skrzyni.
@@ -283,6 +297,8 @@ Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkaz
 - Wyłączenie „Aktywny” zabiera postać ze świata razem z tym, co niesie; po włączeniu wraca przed Jodi.
 - „Amunicja bez końca”: postać przeładowuje broń palną bez końca i nie potrzebuje amunicji w torbie. Broń z magazynkiem nie rusza jej amunicji; strzelba i granatnik najpierw zużywają to, co ma przy sobie.
 - Postać, która nie jest nieśmiertelna, może polec. Zostaje na liście, a „Ożyw” przywraca ją z jej rzeczami. Postacie nigdy nie zmieniają się w zombie.
+- „Nieśmiertelny” (∞ z sercem): postać nie może zginąć, jej zdrowie odnawia się po każdym trafieniu. Mimo to reaguje na trafienia, a jej ubrania się niszczą.
+- „Atakowalna” (zębatka): zombie biorą na cel tylko atakowalne postacie, nieśmiertelne czy nie. Po „Ustaw jako nieatakowalną” zombie zostawiają postać w spokoju i nie otrzymuje ona też obrażeń. Ustawienie jest zapisywane; nowe postacie są atakowalne.
 - „+ Jason” (na dole po prawej w zakładce) dodaje Jasona z fabuły jako towarzysza, z jego Glockiem. Słucha poleceń, idzie z Jodi i jest zapisywany. Walczy tylko własnym Glockiem: Glock, który mu dasz, staje się jego, innej broni nie przyjmuje. Nie ma stylizacji, ubrań ani makijażu; gdy leży, nie da się go uleczyć – „Ożyw” przywraca go.
 - „Usuń” pyta o potwierdzenie; przedmioty i broń postaci trafiają do skrzyni, a ubrania do plecaka Jodi.
 - „Zmień stylizację” przechodzi do zakładki Stylizacje: kliknij stylizację, którą postać ma nosić.
@@ -291,6 +307,8 @@ Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkaz
 AltUI przechowuje postacie we własnym zapisie (AltUI_Followers.sav); zapis gry nigdy ich nie zawiera. Podążający towarzysze przechodzą z Jodi do każdego poziomu i są po wczytaniu; czekający i NPC zostają w swoim poziomie na swoim miejscu.
 
 Szybkie menu: „Towarzysz: za mną / czekaj tutaj” dotyczy towarzysza w polu widzenia, „Wszyscy towarzysze: za mną / czekać” – wszystkich. „Wszyscy towarzysze: do mnie” sprowadza każdego aktywnego towarzysza na miejsca przed Jodi – także tego, który czeka na innym poziomie.
+
+Postać w pozie: grupa szybkiego menu „Postać: ulubione pozy” zawiera każdą z twoich ulubionych póz jako „Postać: <poza>”. Wpis ustawia postać towarzysza lub NPC w polu widzenia w tej pozie (nie Jasona). Postać wtedy nie chodzi ani nie walczy, utrzymuje pozę także po trafieniach i się nie odwraca. Jeśli jest atakowalna, zombie ją atakują, a postać bez nieśmiertelności może zginąć – tak można ustawiać sceny. „Postać: zakończ pozę” każe jej wstać; potem podąża lub czeka jak wcześniej. Zmiana poziomu kończy pozę.
 
 ## Kodeks {#kodex}
 
@@ -307,19 +325,22 @@ Szybkie menu: „Towarzysz: za mną / czekaj tutaj” dotyczy towarzysza w polu 
 
 ## Szybkie menu {#quick}
 
-Przytrzymaj 4 (inny klawisz w Opcje › Szybkie menu), a wokół myszy otworzy się koło. Puść nad wpisem, aby go wykonać; puść na środku, aby nic nie robić.
+Przytrzymaj 4 (inny klawisz w Akcje), a wokół myszy otworzy się koło. Puść nad wpisem, aby go wykonać; puść na środku, aby nic nie robić.
 
 - Wpisy: stroje, stylizacje, twarze, presety wyglądu, pozy, karty, ustawienia innych modów i akcje: swobodna kamera, tryb fotograficzny, tryb ragdolli, kopia Jodi jako ragdoll, przełączanie wszystkich ragdolli między aktywnymi a zamrożonymi, aktywuj / zamroź tę na środku, usuń wszystkie ragdolle, własna prędkość wł. / wył.
 - Dalsze akcje: „Zwolnienie wł / wył”, „Zatrzymaj czas / dalej” (wszystko staje; panel i kamery działają dalej; także kamera trybu fotograficznego gry), „Ukryj / pokaż Jodi” (z ubraniem, włosami i bronią; w następnym poziomie znów jest widoczna) oraz rozkazy dla towarzyszy (zobacz „Towarzysze”).
 - „Ukryj / pokaż interfejs gry” wyłącza i włącza HUD gry, tak jak jej tryb fotograficzny.
 - „+1 Niewidzialna ręka” wkłada jedną Niewidzialną rękę do plecaka (zob. Ekwipunek › Wszystkie przedmioty).
-- Własne klawisze: w Opcje › Szybkie menu kliknij prawym przyciskiem pozycję w „Dostępne” i naciśnij klawisz – pozycja działa wtedy pod tym klawiszem, przy zamkniętym panelu, także w swobodnej kamerze i w trybie fotograficznym gry. Kliknięcie klawisza w wierszu przypisuje inny, ✕ go usuwa. Klawisz panelu, klawisz szybkiego menu i klawisz już przypisany są odrzucane; klawisz używany przez grę uruchamia oba działania.
-- Dodaje się je w Opcje › Szybkie menu albo prawym przyciskiem na kafelku, karcie lub wpisie moda („Dodaj do szybkiego menu”).
-- Kolejność w kole to kolejność listy w Opcje › Szybkie menu.
+- „Wysokość kamery (kółko)”: na środku ekranu pojawiają się dwie strzałki, a kółko myszy podnosi lub opuszcza kamerę zamiast ją przybliżać lub oddalać. Kliknięcie lewym przyciskiem lub Esc kończy ten tryb. Wysokość jest zapamiętywana.
+- Własne klawisze: w Akcje kliknij prawym przyciskiem pozycję w „Dostępne” i naciśnij klawisz – pozycja działa wtedy pod tym klawiszem, przy zamkniętym panelu, także w swobodnej kamerze i w trybie fotograficznym gry. Kliknięcie klawisza w wierszu przypisuje inny, ✕ go usuwa. Klawisz panelu, klawisz szybkiego menu i klawisz już przypisany są odrzucane; klawisz używany przez grę uruchamia oba działania.
+- Dodaje się je w Akcje albo prawym przyciskiem na kafelku, karcie lub wpisie moda („Dodaj do szybkiego menu”).
+- Karta Akcje: po lewej „W kole” (klawisz, przezroczystość, kolejność przez ↑ ↓ ✕), „Własne klawisze”, potem „Wszystkie” i każda grupa z wpisami – stroje, looki, twarze, presety, pozy, karty, wpisy modów – oraz jeden wiersz na każdy mod z akcjami. Po prawej wpisy tej grupy z polem wyboru (w kole lub nie) i wyszukiwarka nad nimi. Każda grupa pamięta swoją pozycję przewijania.
+- Kolejność w kole to kolejność listy w Akcje › W kole.
 
 ## Dla autorów modów {#modding}
 
 - Mody z ubraniami nie potrzebują niczego szczególnego: AltUI czyta tabele gry i przypisuje każdy element do jego slotu.
 - Mody zastępujące ciało lub broń można przekonwertować za pomocą bodypak.pyz i weaponpak.pyz, aby kilka mogło być zainstalowanych obok siebie; można je też zbudować dla AltUI bezpośrednio w Unreal Editorze.
 - Mody bezczynności (pak zastępujący animację bezczynności Jodi) można przekonwertować za pomocą idlepak.pyz: python3 idlepak.pyz <mod>.pak. Nowy IdleAltUI_….pak trafia do Mods/ i pojawia się w Opcje › Ruch › „Stanie”; własna animacja gry zostaje. AltUI musi być zainstalowany: konwerter buduje nowy pak częściowo z AltUI.pak i szuka go w zwykłych folderach Steam; jeśli leży gdzie indziej, podaj ścieżkę przez --altui <ścieżka do AltUI.pak>.
+- Mody chodu/biegu (pak zastępujący animację chodu lub biegu Jodi) można przekształcić za pomocą walkpak.pyz: python3 walkpak.pyz <mod>.pak. Nowy WalkAltUI_….pak trafia do Mods/ i pojawia się w Opcje › Ruch › „Styl chodu” (oraz „Styl biegu”, jeśli zawiera bieg); własny chód gry zostaje. walkpak odrzuca animację bez krzywych ruchu gry (MoveData_Speed, Rotation Speed) i podaje brakującą. Tak jak idlepak potrzebuje AltUI.pak (--altui <ścieżka>, jeśli nie leży w zwykłych folderach Steam).
 - Mody mogą pokazywać swoje ustawienia w karcie Mody przez dwie tabele danych i interfejs; jak to zrobić, opisuje MOD_UI.md w repozytorium kodu źródłowego.

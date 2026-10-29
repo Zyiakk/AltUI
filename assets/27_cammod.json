@@ -67,6 +67,10 @@
      "name": "CurDist",
      "type": "float",
      "default": "1.0"
+    },
+    {
+     "name": "Roll",
+     "type": "float"
     }
    ],
    "functions": [
@@ -1151,6 +1155,41 @@
         }
        },
        {
+        "id": "vr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakRotator",
+        "in": {
+         "InRot": "@entry.ViewRotation"
+        }
+       },
+       {
+        "id": "grl",
+        "kind": "get",
+        "var": "Roll"
+       },
+       {
+        "id": "rl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@vr.Roll",
+         "B": "@grl.Roll"
+        }
+       },
+       {
+        "id": "nr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeRotator",
+        "in": {
+         "Roll": "@rl.ReturnValue",
+         "Pitch": "@vr.Pitch",
+         "Yaw": "@vr.Yaw"
+        }
+       },
+       {
         "id": "r2",
         "kind": "return_new"
        },
@@ -1214,7 +1253,7 @@
         "return.NewViewLocation"
        ],
        [
-        "entry.ViewRotation",
+        "nr.ReturnValue",
         "return.NewViewRotation"
        ],
        [
@@ -1226,7 +1265,7 @@
         "r2.NewViewLocation"
        ],
        [
-        "entry.ViewRotation",
+        "nr.ReturnValue",
         "r2.NewViewRotation"
        ],
        [

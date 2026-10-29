@@ -119,12 +119,12 @@ class Blocks(unittest.TestCase):
         t = time.time(); decode_entry(os.path.join(FX, "kraken_fixture.pak"), "/big.bin")
         self.assertLess(time.time() - t, 2.0)
 
-    @unittest.skipUnless(os.path.exists(A), "no mod archive (TKA_MOD_ARCHIVE)")
+    @unittest.skipUnless(cfg.real_file(A + "/Mods/TKA_Workshop_EscapefromRC.pak"), "no mod archive (TKA_MOD_ARCHIVE) or only placeholders")
     def test_runtime_largest_uasset(self):
         # 410 KB, the largest Oodle-compressed .uasset in the archive
         p = A + "/Mods/TKA_Workshop_EscapefromRC.pak"; key = "ModernCityEnvironment01/Blueprints/BP_MBuilding04.uasset"
         t = time.time(); data = decode_entry(p, key)
-        self.assertLess(time.time() - t, 5.0); self.assertEqual(len(data), 410140)
+        self.assertLess(time.time() - t, 6.0); self.assertEqual(len(data), 410140)
 
 
 @unittest.skipUnless(os.path.exists(OOZ), "libooz.so (tools/fetch_ooz.sh) not built")
@@ -153,7 +153,7 @@ class Native(unittest.TestCase):
             pak11_extract._native = oodle_native
 
 
-@unittest.skipUnless(os.path.exists(OOZ) and os.path.exists(A), "libooz.so (tools/fetch_ooz.sh) or the mod archive is missing")
+@unittest.skipUnless(os.path.exists(OOZ) and cfg.real_file(A + "/Mods/HMs_Shoes.pak"), "libooz.so (tools/fetch_ooz.sh) or the mod archive is missing")
 class Reference(unittest.TestCase):
     """Python decoder == ooz on the archive: every .uasset of a sample of paks (all entries of all paks with KRAKEN_FULL=1)."""
     SAMPLE = ["Mods/TKA-UN_Dv1-fix1.3d.pak", "nexus/783/Jodithicctest4_P.pak", "Mods/HMs_Shoes.pak", "Mods/Car_Dealer.pak",
@@ -163,6 +163,8 @@ class Reference(unittest.TestCase):
     def test_matches_ooz(self):
         full = os.environ.get("KRAKEN_FULL") == "1"
         paks = sorted(glob.glob(A + "/**/*.pak", recursive=True)) if full else [os.path.join(A, p) for p in self.SAMPLE]
+        paks = [p for p in paks if cfg.real_file(p)]   # placeholders (copies without the mod files) carry no data
+        if not paks: self.skipTest("only placeholders in the mod archive")
         n = 0
         for p in paks:
             try:

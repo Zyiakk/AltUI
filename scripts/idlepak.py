@@ -9,12 +9,11 @@ copied from the templates in the installed AltUI.pak with the placeholder import
 the pak is skipped and listed. Standard library only at runtime."""
 import os, sys, re, json, zlib, argparse
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, H)
-import idle_mods as im
+import idle_mods as im, anim_templates
 from bodypak import plain_entry, write_pak, verify, sha256_file, MOUNT_PREFIX, pkg_path, load_pkg, import_name
 from weaponpak import asset_class, copy_package
 from pakio import open_pak
 from pak11_extract import Pak
-from uasset_pkg import Package
 
 ALTUI_REL = "steamapps/common/TheKillingAntidote/TheKillingAntidote/Mods/AltUI.pak"
 # the usual install places; $GAME (the game folder TheKillingAntidote/TheKillingAntidote, as in config.sh) comes first when set
@@ -30,27 +29,15 @@ def altui_pak(given=None):
 
 
 def retarget_template(ua, ux, mod):
-    """A template's .uasset with its placeholder animation (package + object import) pointed at /Game/Mod/<mod>/Female_Idle.
-    The export data stays byte for byte; the new names are appended to the name table, so the name indices stay valid."""
-    pkg = Package.from_bytes(ua, ux); placeholder = im.TEMPLATE_ANIM.rsplit("/", 1)[1]; hits = set()
-    for i in pkg.imports:
-        if i.class_name == "Package" and import_name(i) == im.TEMPLATE_ANIM:
-            i.object_name = "/Game/Mod/%s/%s" % (mod, im.ANIM_NAME); i.object_number = 0; hits.add("pkg")
-        elif i.class_name == "AnimSequence" and import_name(i) == placeholder:
-            i.object_name = im.ANIM_NAME; i.object_number = 0; hits.add("obj")
-    if hits != {"pkg", "obj"}: raise SystemExit("not an idle template (no import of %s)" % im.TEMPLATE_ANIM)
-    ua2, ux2 = pkg.write()
-    if ux2 != ux: raise SystemExit("rewriting the template changed its export data")
-    return ua2
+    """A template's .uasset with its placeholder animation pointed at /Game/Mod/<mod>/Female_Idle (anim_templates.retarget)."""
+    try: return anim_templates.retarget(ua, ux, {im.TEMPLATE_ANIM: ("/Game/Mod/%s/%s" % (mod, im.ANIM_NAME), im.ANIM_NAME)})
+    except SystemExit as e:
+        raise SystemExit("not an idle template (no import of %s)" % im.TEMPLATE_ANIM if "not a template" in str(e) else str(e))
 
 
 def templates(altui):
     """{"<walk>_<run>": (uasset bytes, uexp bytes)} of every idle template in AltUI.pak."""
-    pk = open_pak(altui); out = {}
-    for k in sorted(pk.files):
-        p = pkg_path(pk, k) or ""
-        if p.startswith(im.TEMPLATE_DIR + "/" + im.TEMPLATE_PREFIX):
-            out[p.rsplit("/", 1)[1][len(im.TEMPLATE_PREFIX):]] = (pk.read(k), pk.read(k[:-len(".uasset")] + ".uexp"))
+    out = anim_templates.read_templates(altui, im.TEMPLATE_PREFIX, im.TEMPLATE_DIR)
     if "Normal_Normal" not in out: raise SystemExit("%s has no idle templates - it is older than idle styles; update AltUI first" % altui)
     return out
 

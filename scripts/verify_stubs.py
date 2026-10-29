@@ -16,8 +16,9 @@ STUBS = {  # cooked stub -> (API dump, checked functions)
                                                                      "Get Clothes Damage", "Store Clothes Damage",   # damage slider in the clothes menu
                                                                      "Change Hairstyle Ex", "check clothes covering",   # followers: the game's hair, the underwear rule
                                                                      "Count Weapon Ammo",   # followers: infinite ammo
-                                                                     "Character Die", "Play Montage", "Attach Weapon to Right Hand"]),   # Jason: his death; any weapon with his montages   # Jason: his death past Character_NPC's
-    "Project/Classes/Character_Base": ("Character_Base", ["Is Crouching"]),   # walk / run speed (BP_AltUIMove)
+                                                                     "Character Die", "Play Montage", "Attach Weapon to Right Hand",
+                                                                     "Change Action Animation"]),   # figure in a pose   # Jason: his death; any weapon with his montages   # Jason: his death past Character_NPC's
+    "Project/Classes/Character_Base": ("Character_Base", ["Is Crouching", "get Foot Location", "Is Ragdoll ?"]),   # walk / run speed (BP_AltUIMove), invisible hand (BP_AltUIHand)
     "Project/Character/Jodi/Jodi": ("Jodi", ["Save Appearance", "Is Input Enabled ?", "Wanna Running", "Wanna Use This Item", "Add Item to Shortcut"]),
     "Project/Character/Jodi/Jodi_Base": ("Jodi_Base", ["Get Makeup Data", "Update Makeup Texture", "Load Player Makeup"]),
     "Project/Classes/GameMode/TKA_GameState_Base": ("TKA_GameState_Base", ["Get Wardrobe Data", "Pop Attention", "Get Attention UI"]),
@@ -26,6 +27,7 @@ STUBS = {  # cooked stub -> (API dump, checked functions)
     "Project/Classes/Misc/Clothes_Comp": ("Clothes_Comp", ["Change Color", "Change Damage", "Is Damaged"]),
     "Project/Classes/Misc/Hair_Comp": ("Hair_Comp", ["Change Color"]),
     "Project/Classes/Misc/InvisibleHand_Comp": ("InvisibleHand_Comp", ["Update Power"]),
+    "Project/Classes/Component/FlyingItem_Comp": ("FlyingItem_Comp", ["Init"]),   # invisible hand (BP_AltUIHand)
     "Project/Classes/GameMode/TKA_GameState": ("TKA_GameState", ["Get Note Save", "Get Hyper Box Data", "Is Game Over ?"]),   # Kodex: the encyclopedia's unlock list
     "Project/Classes/Items/ItemComponent": ("ItemComponent", ["Is Locked"]),
     "Project/Maps/JodisOffice/TV/TV_Actor": ("TV_Actor", ["On Use This", "Play Video", "Start Animation"]),   # TV tab   # Kodex: lock state of a code lock
@@ -51,11 +53,13 @@ VARS = {  # cooked stub -> (API dump, checked variables: name and type must matc
     "Project/Classes/Controller/Npc_Controller": ("Npc_Controller", ["master"]),   # followers
     "Project/Character/Npc/NPC_Female": ("NPC_Female", ["save order", "Order Location"]),
     "Project/Character/Jason/Jason": ("Jason", ["State"]),   # Jason prototype
-    "Project/Classes/Misc/InvisibleHand_Comp": ("InvisibleHand_Comp", ["Number"]),   # catalog: the invisible hand (Hand Watch)
-    "Project/Classes/Character_Base": ("Character_Base", ["Health", "Anim Blueprint"]),
+    "Project/Classes/Misc/InvisibleHand_Comp": ("InvisibleHand_Comp", ["Number", "interval", "time", "Jodi"]),   # catalog: the invisible hand (Hand Watch); BP_AltUIHand
+    "Project/Classes/Items/ItemComp_Pickable": ("ItemComp_Pickable", ["Can Be Auto Picked"]),   # invisible hand (BP_AltUIHand): only what the game's hand takes
+    "Project/Classes/Component/FlyingItem_Comp": ("FlyingItem_Comp", ["Invisible Comp"]),
+    "Project/Classes/Character_Base": ("Character_Base", ["Health", "Anim Blueprint", "Health Max", "undead time"]),
     "Project/Classes/TKA_Controller": ("TKA_Controller", ["Input Move Values"]),   # idle pose: raw move input
     "Project/UserInterface/PlayingHud": ("PlayingHud", ["InventoryNpc"]),   # followers: Fol Watch (the game's swap dialog)
-    "Project/Classes/Character_Player_Base": ("Character_Player_Base", ["Bag", "Weapons", "Save Player Clothes", "Save Clothes Damaged", "Hair Comps", "clothes component list", "in hand weapon"]),   # followers: fallen when Health <= 0; anim instance after the body swap
+    "Project/Classes/Character_Player_Base": ("Character_Player_Base", ["Bag", "Weapons", "Save Player Clothes", "Save Clothes Damaged", "Hair Comps", "clothes component list", "in hand weapon", "Action Out Montage"]),   # followers: fallen when Health <= 0; anim instance after the body swap
 }
 
 

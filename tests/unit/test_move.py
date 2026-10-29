@@ -1,6 +1,7 @@
 """BP_AltUIMove (docs/specs/2026-10-06-move-speed-design.md): asset, functions, manifest."""
 import unittest, os, sys, json
-H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen"))
+H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
+import cfg
 import gen_move
 
 
@@ -25,6 +26,18 @@ class MoveAsset(unittest.TestCase):
             self.assertIn(v, js, v)
 
 
+    def test_want_class_knows_walk_mods(self):
+        import walk_mods as wm
+        g = json.dumps(next(f["graph"] for f in self.bp["functions"] if f["name"] == "Want Class"))
+        for s in (wm.MOD_PREFIX, wm.WALK_PREFIX, wm.RUN_PREFIX, wm.BOTH_PREFIX, "LoadAsset_Blocking", "MoveRunLost", "MoveIdleLost", "ModWalkLoop", "ModRunLoop"):
+            self.assertIn(s, g, s)
+        names = {v["name"] for v in self.bp["variables"]}
+        self.assertLessEqual({"ModClass", "ModFrom", "ModWalkLoop", "ModRunLoop", "MoveRunLost", "MoveIdleLost"}, names)
+
+    def test_style_loop_reads_mod_loops(self):
+        g = json.dumps(next(f["graph"] for f in self.bp["functions"] if f["name"] == "Style Loop"))
+        self.assertIn("ModWalkLoop", g); self.assertIn("ModRunLoop", g)
+
     def test_no_tick_cycle(self):
         """Only 'this after Jodi': the engine ticks her CharacterMovement before her already (bTickBeforeOwner); CMC after this
         closed a cycle, the engine broke it at a changing edge and the movement ran before or after her camera update (pistol
@@ -38,7 +51,7 @@ class MoveOptions(unittest.TestCase):
     def test_rows(self):
         import gen_widgets
         # "reset to default" below the slow motion row: it resets that one too (tester report 2026-10-12)
-        self.assertEqual(gen_widgets.OPT_CAT_ROWS["Move"], ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "RowIdleStyle", "RowSlowMoOn", "RowSlowMo", "MoveLinks"])
+        self.assertEqual(gen_widgets.OPT_CAT_ROWS["Move"], ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "HintRunMod", "RowIdleStyle", "HintIdleMod", "RowSlowMoOn", "RowSlowMo", "MoveLinks"])
         self.assertIn(("WalkSpeed", "Walk speed"), gen_widgets.OPTION_ROWS); self.assertIn(("RunSpeed", "Run speed"), gen_widgets.OPTION_ROWS)
 
     def test_reset_includes_slow_motion(self):
@@ -53,6 +66,27 @@ class MoveOptions(unittest.TestCase):
         keys = ("OptCat_Move", "Lbl_MoveOn", "Lbl_WalkSpeed", "Lbl_RunSpeed", "Btn_SpeedReset", "Quick_SpeedToggle", "Lbl_WalkStyle", "Lbl_RunStyle", "Lbl_IdleStyle") \
             + tuple("Style_" + k for k, _ in gen_move.WALK_STYLES + gen_move.RUN_STYLES) + tuple("Idle_" + k for k, _ in gen_move.IDLE_STYLES[1:])
         for k in keys: self.assertEqual(len(STRINGS[k]), len(LANGS), k)
+
+    def test_walk_mod_strings(self):
+        from strings import STRINGS, LANGS
+        for k in ("Hint_RunModPaused", "Hint_IdleModPaused"): self.assertEqual(len(STRINGS[k]), len(LANGS), k)
+
+    def test_walk_mod_chips(self):
+        """walk / run mods (docs/specs/2026-10-27-walk-mods-design.md): scanned, chips after the built-in styles, rows and hints in Rebuild Options."""
+        import gen_manager_ui
+        d = json.load(open(os.path.join(H, "..", "..", "assets", "50_manager_ui.json")))
+        mgr = next(a for a in d["assets"] if a["path"].endswith("BP_AltUIManager"))
+        names = {f["name"] for f in mgr["functions"]}
+        self.assertLessEqual({"Scan Walk Mods", "Add Walk Mod Chips"}, names)
+        ro = json.dumps(next(f["graph"] for f in mgr["functions"] if f["name"] == "Rebuild Options Body"))
+        self.assertIn("Add Walk Mod Chips", ro)
+        ch = json.dumps(next(f["graph"] for f in mgr["functions"] if f["name"] == "Add Walk Mod Chips"))
+        for s in ("Set Move Style Rows Visible", "MStyleW", "MStyleR", "MoveRunLost", "MoveIdleLost"): self.assertIn(s, ch, s)
+        self.assertIn(("runmodhint", "Hint_RunModPaused"), gen_manager_ui.PANEL_STRINGS)
+
+    def test_walk_mod_rows(self):
+        import gen_widgets
+        self.assertIn(("runmodhint", "HintRunMod"), gen_widgets.PANEL_TEXTS); self.assertIn(("idlemodhint", "HintIdleMod"), gen_widgets.PANEL_TEXTS)
 
     def test_settings(self):
         import gen_manager
@@ -108,7 +142,7 @@ class MoveStyles(unittest.TestCase):
 
     def test_nodes_match_the_game(self):
         """The stub's node names must be the loop players of the real Jodi_Anim (the child's cooked CDO addresses them by name)."""
-        ja = os.path.join(H, "..", "..", "extracted", "game", "TheKillingAntidote", "Content", "Project", "Character", "Jodi", "Jodi_Anim.uasset")
+        ja = os.path.join(cfg.path("EXTRACTED", os.path.join(H, "..", "..", "extracted")), "game", "TheKillingAntidote", "Content", "Project", "Character", "Jodi", "Jodi_Anim.uasset")
         if not os.path.exists(ja): self.skipTest("no extracted Jodi_Anim")
         import subprocess
         out = subprocess.run([sys.executable, os.path.join(H, "..", "..", "scripts", "uasset_props.py"), ja], capture_output=True, text=True).stdout
@@ -204,3 +238,28 @@ class IdlePose(unittest.TestCase):
         self.assertIn("PoseIdle", self.fn("On Pose Context"))
         from strings import STRINGS, LANGS
         for k in ("Menu_PoseIdleSet", "Menu_PoseIdleClear"): self.assertEqual(len(STRINGS[k]), len(LANGS), k)
+
+
+class WalkModTemplates(unittest.TestCase):
+    """walk / run mods (docs/specs/2026-10-27-walk-mods-design.md): three template families over the built-in styles."""
+    def test_families(self):
+        import walk_mods as wm
+        w, r, i = [k for k, _ in gen_move.WALK_STYLES], [k for k, _ in gen_move.RUN_STYLES], [k for k, _ in gen_move.IDLE_STYLES]
+        want = {wm.walk_tpl(a, b) for a in r for b in i} | {wm.run_tpl(a, b) for a in w for b in i} | {wm.both_tpl(b) for b in i}
+        self.assertEqual(set(gen_move.WALKMOD_TEMPLATES), want)
+        self.assertEqual(len(want), len(r) * len(i) + len(w) * len(i) + len(i))
+
+    def test_overrides(self):
+        import walk_mods as wm
+        n = gen_move.STYLE_NODES
+        _, ov = gen_move.WALKMOD_TEMPLATES[wm.walk_tpl("Normal", "Normal")]
+        self.assertEqual(ov, {n["walk"]: wm.TEMPLATE_WALK})
+        _, ov = gen_move.WALKMOD_TEMPLATES[wm.run_tpl("Normal", "Afk1")]
+        self.assertEqual(ov, {n["run"]: wm.TEMPLATE_RUN, n["idle"]: dict(gen_move.IDLE_STYLES)["Afk1"]})
+        _, ov = gen_move.WALKMOD_TEMPLATES[wm.both_tpl("Normal")]
+        self.assertEqual(ov, {n["walk"]: wm.TEMPLATE_WALK, n["run"]: wm.TEMPLATE_RUN})
+
+    def test_assets(self):
+        import walk_mods as wm
+        paths = {a["path"] for a in gen_move.style_assets()}
+        self.assertLessEqual({wm.TEMPLATE_WALK, wm.TEMPLATE_RUN} | {p for p, _ in gen_move.WALKMOD_TEMPLATES.values()}, paths)

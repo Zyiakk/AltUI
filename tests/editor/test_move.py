@@ -48,6 +48,31 @@ def main():
     expect("want class game idle", wc("None", "None", "Afk2"), "ABP_AltUIStyle_Normal_Normal_Afk2_C")
     expect("want class normal", wc("None", "None", "None"), "Jodi_Anim_C")
     expect("want class missing idle mod = Jodi_Anim", wc("None", "None", "IdleAltUI_NotInstalled"), "Jodi_Anim_C")
+    # walk / run mods (docs/specs/2026-10-27-walk-mods-design.md): a test mod made of AltUI's own templates
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "scripts")); import walk_mods as wm
+    eal = unreal.EditorAssetLibrary; mod = "WalkAltUI_EdTest"; d = "/Game/Mod/" + mod
+    for n in (wm.walk_tpl("Normal", "Normal"), wm.walk_tpl("Normal", "Afk1"), wm.run_tpl("Normal", "Normal"), wm.both_tpl("Normal")):
+        eal.duplicate_asset(wm.TEMPLATE_DIR + "/" + n, d + "/" + n)
+    def wp(w, r, i="None"): mv.call_method("Test Want Class", args=(w, r, i)); c = mv.get_editor_property("TmpClass"); return c.get_path_name() if c else None
+    def cp(n): return "%s/%s.%s_C" % (d, n, n)
+    try:
+        expect("walk mod", wp(mod, "None"), cp(wm.walk_tpl("Normal", "Normal")))
+        expect("walk mod ignoring case", wp(mod.lower(), "None"), cp(wm.walk_tpl("Normal", "Normal")))
+        expect("walk mod + built-in idle", wp(mod, "None", "Afk1"), cp(wm.walk_tpl("Normal", "Afk1")))
+        expect("walk mod + idle without template -> Normal", wp(mod, "None", "Careful"), cp(wm.walk_tpl("Normal", "Normal")))
+        expect("walk + run of the same mod", wp(mod, mod), cp(wm.both_tpl("Normal")))
+        expect("run mod", wp("None", mod), cp(wm.run_tpl("Normal", "Normal")))
+        expect("run mod not lost", mv.get_editor_property("MoveRunLost"), False)
+        expect("walk mod beats an idle mod", wp(mod, "None", "IdleAltUI_Nope"), cp(wm.walk_tpl("Normal", "Normal")))
+        expect("idle lost", mv.get_editor_property("MoveIdleLost"), True)
+        expect("walk mod beats another run mod", wp(mod, "WalkAltUI_Other"), cp(wm.walk_tpl("Normal", "Normal")))
+        expect("run lost", mv.get_editor_property("MoveRunLost"), True)
+        expect("missing walk mod = Normal", wp("WalkAltUI_Missing", "None"), "/Game/Project/Character/Jodi/Jodi_Anim.Jodi_Anim_C")
+        expect("missing walk mod, the run mod still counts", wp("WalkAltUI_Missing", mod), cp(wm.run_tpl("Normal", "Normal")))
+        expect("no lost side without mods", (wp("None", "None"), mv.get_editor_property("MoveRunLost"), mv.get_editor_property("MoveIdleLost")),
+               ("/Game/Project/Character/Jodi/Jodi_Anim.Jodi_Anim_C", False, False))
+    finally:
+        eal.delete_directory(d)
     mv.call_method("Test Want Class", args=("None", "None", "None"))
 
 

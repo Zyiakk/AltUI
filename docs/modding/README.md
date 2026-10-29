@@ -24,4 +24,4 @@ Everything described here can be done with a text editor, Python 3 and the game'
 
 ## Elsewhere
 
-Three guides live outside this folder: [installing body mods](../BODY_MODS.md) and [installing weapon mods](../WEAPON_MODS.md) for players, and [the editor assets](../uassets/README.md) for building a body or a weapon mod for AltUI in the Unreal Editor.
+Three guides live outside this folder: [installing body mods](../../BODY_MODS.md) and [installing weapon mods](../../WEAPON_MODS.md) for players, and [the editor assets](../../uassets/README.md) for building a body or a weapon mod for AltUI in the Unreal Editor.

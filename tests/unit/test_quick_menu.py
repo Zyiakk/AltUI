@@ -5,14 +5,14 @@ from strings import STRINGS, LANGS
 import gen_manager, gen_manager_ui as ui
 from tests.unit.test_options_cats import graph, calls, after
 
-QUICK_STRINGS = ["OptCat_Quick", "Lbl_QuickKey", "Lbl_QuickInWheel", "Lbl_QuickAvailable", "Lbl_QuickEmpty", "Lbl_QuickKeyTaken", "QuickGrp_Camera",
+QUICK_STRINGS = ["Lbl_QuickKey", "Lbl_QuickInWheel", "Lbl_QuickAvailable", "Lbl_QuickEmpty", "Lbl_QuickKeyTaken", "QuickGrp_Camera",
                  "QuickGrp_Outfits", "QuickGrp_Looks", "QuickGrp_Faces", "QuickGrp_Presets", "QuickGrp_Poses", "QuickGrp_Tabs", "QuickGrp_ModEntries",
                  "Quick_FreeCam", "Quick_Photo", "Quick_Panel", "Quick_PoseStop", "Quick_Outfit", "Quick_Preset", "Quick_SpeedToggle"]
 
 
 class QuickData(unittest.TestCase):
     def test_constants(self):
-        self.assertEqual(ui.QUICK_MAX, 32); self.assertEqual(ui.QUICK_FIXED, ["freecam", "photo", "panel", "posestop", "ragdoll", "ragdolltoggle", "ragdollclear", "ragdollmode", "ragdollaim", "speedtoggle", "folfollow", "folwait", "folallfollow", "folallwait", "folbring", "slowmo", "freeze", "hidejodi", "hideui", "hand"])
+        self.assertEqual(ui.QUICK_MAX, 32); self.assertEqual(ui.QUICK_FIXED, ["freecam", "photo", "panel", "posestop", "ragdoll", "ragdolltoggle", "ragdollclear", "ragdollmode", "ragdollaim", "speedtoggle", "folfollow", "folwait", "folallfollow", "folallwait", "folbring", "slowmo", "freeze", "hidejodi", "hideui", "hand", "camheight", "folposestop", "tiltleft", "tiltright", "tiltreset", "camdist", "camtilt", "handtoggle", "fly"])
 
     def test_strings(self):
         for k in QUICK_STRINGS: self.assertEqual(len(STRINGS[k]), len(LANGS), k)
@@ -24,7 +24,7 @@ class QuickData(unittest.TestCase):
     def test_find_covers_every_kind(self):
         g = graph("50_manager_ui.json", "Quick Find")
         kinds = {n["in"]["B"] for n in g["nodes"] if n.get("function") == "EqualEqual_StrStr" and n["id"].startswith("qe_")}
-        self.assertEqual(kinds, set(ui.QUICK_FIXED) | {"tab", "pose", "modentry", "outfit", "look", "face", "preset", "modfield", "modaction"})
+        self.assertEqual(kinds, set(ui.QUICK_FIXED) | {"tab", "pose", "folpose", "modentry", "outfit", "look", "face", "preset", "modfield", "modaction", "modpreset"})
 
 
     def test_run_calls(self):
@@ -32,7 +32,7 @@ class QuickData(unittest.TestCase):
         for kind, fns in (("freecam", ["Open Panel", "Start Free Cam"]), ("photo", ["Open Panel", "Start Photo Mode"]), ("panel", ["Open Panel"]),
                           ("posestop", ["Stop Pose"]), ("tab", ["Open Panel", "Select Page"]), ("pose", ["Pose Clicked"]),
                           ("modentry", ["Open Panel", "Select Page", "Select Mod Entry"]), ("outfit", ["On Outfit Clicked"]), ("look", ["Apply Look"]),
-                          ("face", ["On Face Clicked"]), ("preset", ["Preset Clicked"]), ("speedtoggle", ["Toggle Move"])):
+                          ("face", ["On Face Clicked"]), ("preset", ["Preset Clicked"]), ("speedtoggle", ["Toggle Move"]), ("modpreset", ["Run Mod Preset"])):
             reach = after(g, "qb_" + kind)
             for f in fns: self.assertTrue(any(n in reach for n in calls(g, f)), (kind, f))
 
@@ -50,13 +50,12 @@ class QuickData(unittest.TestCase):
         qb = next(n for n in eg["nodes"] if n["id"] == "qb"); self.assertEqual(qb["in"], {"A": "@qa.ReturnValue", "B": "@ie.yes"})
 
 
-    def test_options_block(self):
+    def test_actions_blocks(self):
         import gen_widgets
-        self.assertEqual(gen_widgets.OPT_CAT_ROWS["Quick"], ["LblQuickControl", "RowQuickKey", "RowQuickAlpha", "LblQuickInWheel", "QuickInWheel", "LblKeyBinds", "KeyBindHint", "KeyBinds", "LblQuickAvailable", "QuickAvailable"])
-        g = graph("50_manager_ui.json", "Rebuild Options"); c = calls(g, "Rebuild Quick Options"); self.assertEqual(len(c), 1)
-        eqs = {n["id"] for n in g["nodes"] if n.get("function") == "EqualEqual_NameName" and "Quick" in n.get("in", {}).values()}
-        br = [n["id"] for n in g["nodes"] if n.get("kind") == "branch" and any(("@%s." % e) in json.dumps(n) for e in eqs)]
-        self.assertEqual(len(br), 1); self.assertIn(c[0], after(g, br[0])); self.assertNotIn(c[0], after(g, br[0] + ":else"))
+        self.assertNotIn("Quick", gen_widgets.OPT_CAT_ROWS)
+        w = json.dumps(json.load(open(os.path.join(H, "..", "..", "assets", "40_widgets.json"))))
+        for wn in ("LblQuickControl", "RowQuickKey", "RowQuickAlpha", "LblQuickInWheel", "QuickInWheel", "LblKeyBinds", "KeyBindHint", "KeyBinds", "QuickAvailable"): self.assertIn('"%s"' % wn, w, wn)
+        self.assertNotIn('"LblQuickAvailable"', w)
 
     def test_menu_actions(self):
         g = graph("50_manager_ui.json", "On Menu Action"); self.assertIn(calls(g, "Quick Action")[0], after(g, "bq"))
@@ -158,7 +157,7 @@ class OwnKeysCam(unittest.TestCase):
     def test_free_cam_hands_keys_on(self):
         """2026-10-16 ui-test-102 #7: the free cam's BP_CamInput consumes every key - its Pressed goes to Bind Run."""
         a = next(x for x in json.load(open(os.path.join(H, "..", "..", "assets", "50_manager_ui.json")))["assets"] if x["path"].endswith("/BP_CamInput"))
-        eg = a["event_graph"]; self.assertIn(["k:Pressed", "bp0"], eg["exec"])
+        eg = a["event_graph"]; self.assertTrue(any(c[:2] == ["k:Pressed", "bp0"] for c in eg["exec"]), "a press goes to Bind Run first")
         self.assertEqual(next(n for n in eg["nodes"] if n["id"] == "bp0")["function"], "Bind Run")
 
     def test_stop_time_holds_the_photo_camera(self):

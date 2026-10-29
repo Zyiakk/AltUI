@@ -6,7 +6,7 @@ CharacterMovement (tick prerequisites both ways) and scales that value; the mesh
 moves on the ground without a montage, so the feet keep their grip. Off, crouching or in the air: factor 1."""
 import os, sys; sys.path[:0] = [os.path.dirname(__file__), os.path.join(os.path.dirname(__file__), "..", "anim"), os.path.join(os.path.dirname(__file__), "..", "..", "scripts")]
 from bpdsl import *
-import anims, idle_mods
+import anims, idle_mods, walk_mods
 
 MOVE = M + "/BP_AltUIMove"
 E_CMC = "/Script/Engine.CharacterMovementComponent"; E_ACTC = "/Script/Engine.ActorComponent"; E_ANIMI = "/Script/Engine.AnimInstance"
@@ -39,6 +39,20 @@ STYLE_ABPS = {"%s_%s_%s" % (w, r, i): M + "/ABP_AltUIStyle_%s_%s_%s" % (w, r, i)
               if (w, r, i) != ("Normal", "Normal", "Normal")}
 # idle mods (idlepak): one template per walk / run combination, its idle player on a placeholder the converter points at the mod's animation
 TEMPLATE_ABPS = {"%s_%s" % (w, r): idle_mods.TEMPLATE_DIR + "/" + idle_mods.template_name(w, r) for w, _ in WALK_STYLES for r, _ in RUN_STYLES}
+# walk / run mods (walkpak, docs/specs/2026-10-27-walk-mods-design.md): three families of templates, their mod side on a placeholder
+
+
+def _walkmod_templates():
+    walk, run, idle, n = dict(WALK_STYLES), dict(RUN_STYLES), dict(IDLE_STYLES), STYLE_NODES
+    def ov(**kw): return {n[k]: v for k, v in kw.items() if v}
+    out = {}
+    for r in run:
+        for i in idle: out[walk_mods.walk_tpl(r, i)] = ov(walk=walk_mods.TEMPLATE_WALK, run=run[r], idle=idle[i])
+    for w in walk:
+        for i in idle: out[walk_mods.run_tpl(w, i)] = ov(walk=walk[w], run=walk_mods.TEMPLATE_RUN, idle=idle[i])
+    for i in idle: out[walk_mods.both_tpl(i)] = ov(walk=walk_mods.TEMPLATE_WALK, run=walk_mods.TEMPLATE_RUN, idle=idle[i])
+    return {k: (walk_mods.TEMPLATE_DIR + "/" + k, v) for k, v in out.items()}
+WALKMOD_TEMPLATES = _walkmod_templates()
 
 
 def f_target_factor():
@@ -132,42 +146,116 @@ def f_style_class():
     return fn("Style Class", [param("walk", "name"), param("run", "name"), param("idle", "name")], [param("cls", "class:/Script/CoreUObject.Object")], graph=g, pure=True)
 
 
+def mod_class_pins(g, q, mod_pin, name_pin):
+    """Graph: load class /Game/Mod/<mod>/<name>.<name>_C (exec node <q>l). Returns (class pin, valid pin)."""
+    g.call(q + "a", K_STR, "Concat_StrStr", inp={"A": "/Game/Mod/", "B": mod_pin})
+    g.call(q + "b", K_STR, "Concat_StrStr", inp={"A": "@%sa.ReturnValue" % q, "B": "/"})
+    g.call(q + "c", K_STR, "Concat_StrStr", inp={"A": "@%sb.ReturnValue" % q, "B": name_pin})
+    g.call(q + "d", K_STR, "Concat_StrStr", inp={"A": "@%sc.ReturnValue" % q, "B": "."})
+    g.call(q + "e", K_STR, "Concat_StrStr", inp={"A": "@%sd.ReturnValue" % q, "B": name_pin})
+    g.call(q + "f", K_STR, "Concat_StrStr", inp={"A": "@%se.ReturnValue" % q, "B": "_C"})
+    g.call(q + "p", K_SYS, "MakeSoftClassPath", inp={"PathString": "@%sf.ReturnValue" % q})
+    g.call(q + "r", K_SYS, "Conv_SoftClassPathToSoftClassRef", inp={"SoftClassPath": "@%sp.ReturnValue" % q})
+    g.call(q + "l", K_SYS, "LoadClassAsset_Blocking", inp={"AssetClass": "@%sr.ReturnValue" % q})
+    g.call(q + "v", K_SYS, "IsValidClass", inp={"Class": "@%sl.ReturnValue" % q})
+    return "@%sl.ReturnValue" % q, "@%sv.ReturnValue" % q
+
+
+def concat(g, q, *parts):
+    """Graph: string concatenation of literal / pin parts. Returns the pin (or the literal itself for one part)."""
+    prev = parts[0]
+    for i, p in enumerate(parts[1:]):
+        g.call("%s%d" % (q, i), K_STR, "Concat_StrStr", inp={"A": prev, "B": p}); prev = "@%s%d.ReturnValue" % (q, i)
+    return prev
+
+
+def try_mod_class(g, q, mod_pin, name_pin):
+    """Exec steps: only while ModClass is unset - load the class, keep it (and the mod) if it exists. Returns (first node, exits)."""
+    g.get(q + "gc", "ModClass"); g.call(q + "hv", K_SYS, "IsValidClass", inp={"Class": "@%sgc.ModClass" % q})
+    g.branch(q + "br", "@%shv.ReturnValue" % q)
+    cls, ok = mod_class_pins(g, q, mod_pin, name_pin)
+    g.branch(q + "ok", ok); g.set(q + "sc", "ModClass", inp={"ModClass": cls}); g.set(q + "sm", "ModFrom", inp={"ModFrom": mod_pin})
+    g.chain(q + "br:else", q + "l", q + "ok", q + "sc", q + "sm")
+    return q + "br", [q + "br", q + "ok:else", q + "sm"]   # exits: already set, not found, set
+
+
 def f_want_class():
     """The anim class for the current WalkStyle / RunStyle / IdleStyle - computed when the style is set, not every tick (it may load a class).
-    Idle mod (IdleAltUI_<Name>): its ABP_AltUIIdleTpl_<walk>_<run>, else its ..._Normal_Normal (a pak converted before a newer walk style: the
-    idle wins, walk / run play normal), else the game styles with idle Normal (mod not installed - the setting stays, like bodies)."""
+    Walk / run mods (WalkAltUI_<Name>, docs/specs/2026-10-27-walk-mods-design.md), the walk beats the run beats the idle:
+      walk = run = mod X  -> X/ABP_AltUIWalkRunTpl_<idle>, then X/..._Normal, then as a walk mod
+      walk = mod X        -> X/ABP_AltUIWalkTpl_<run>_<idle>, then X/..._Normal_Normal   (run = another mod -> <run> = Normal: it loses)
+      run = mod Y         -> Y/ABP_AltUIRunTpl_<walk>_<idle>, then Y/..._Normal_Normal
+    <walk> / <run> / <idle> are the built-in keys (norm_key: a mod or an unknown name = Normal - an idle mod loses). A mod that is not
+    installed counts as Normal on its side. Idle mod (IdleAltUI_<Name>) when no walk / run mod won: its ABP_AltUIIdleTpl_<walk>_<run>,
+    else its ..._Normal_Normal (a pak converted before a newer walk style: the idle wins, walk / run play normal), else the game styles
+    with idle Normal (mod not installed - the setting stays, like bodies). Also: the mod loops for the start (ModWalkLoop / ModRunLoop)
+    and which side lost (MoveRunLost / MoveIdleLost, the hints in Options > Move)."""
     g = G(); g.get("gw", "WalkStyle"); g.get("gr", "RunStyle"); g.get("gi", "IdleStyle")
+    g.call("ws", K_STR, "Conv_NameToString", inp={"InName": "@gw.WalkStyle"}); g.call("rs", K_STR, "Conv_NameToString", inp={"InName": "@gr.RunStyle"})
     g.call("is", K_STR, "Conv_NameToString", inp={"InName": "@gi.IdleStyle"})
-    g.call("ism", K_STR, "StartsWith", inp={"SourceString": "@is.ReturnValue", "InPrefix": idle_mods.MOD_PREFIX, "SearchCase": "IgnoreCase"}); g.branch("bm", "@ism.ReturnValue")
+    g.call("wm", K_STR, "StartsWith", inp={"SourceString": "@ws.ReturnValue", "InPrefix": walk_mods.MOD_PREFIX, "SearchCase": "IgnoreCase"})
+    g.call("rm", K_STR, "StartsWith", inp={"SourceString": "@rs.ReturnValue", "InPrefix": walk_mods.MOD_PREFIX, "SearchCase": "IgnoreCase"})
+    g.call("same0", K_STR, "EqualEqual_StriStri", inp={"A": "@ws.ReturnValue", "B": "@rs.ReturnValue"})
+    g.call("same", K_MATH, "BooleanAND", inp={"A": "@wm.ReturnValue", "B": "@same0.ReturnValue"})
+    wk = norm_key(g, "nw", WALK_STYLES, "@gw.WalkStyle"); rk = norm_key(g, "nr", RUN_STYLES, "@gr.RunStyle"); ik = norm_key(g, "ni", IDLE_STYLES, "@gi.IdleStyle")
+    g.set("c0", "ModClass", inp={"ModClass": "None"}); g.set("f0", "ModFrom", inp={"ModFrom": ""})
+    steps = []   # candidates in order, each only while ModClass is unset
+    def step(q, cond, mod_pin, *name_parts):
+        first, exits = try_mod_class(g, q, mod_pin, concat(g, q + "n", *name_parts)); steps.append((cond, first, exits))
+    step("b1", "@same.ReturnValue", "@ws.ReturnValue", walk_mods.BOTH_PREFIX, ik)
+    step("b2", "@same.ReturnValue", "@ws.ReturnValue", walk_mods.both_tpl("Normal"))
+    step("w1", "@wm.ReturnValue", "@ws.ReturnValue", walk_mods.WALK_PREFIX, rk, "_", ik)
+    step("w2", "@wm.ReturnValue", "@ws.ReturnValue", walk_mods.walk_tpl("Normal", "Normal"))
+    step("r1", "@rm.ReturnValue", "@rs.ReturnValue", walk_mods.RUN_PREFIX, wk, "_", ik)
+    step("r2", "@rm.ReturnValue", "@rs.ReturnValue", walk_mods.run_tpl("Normal", "Normal"))
+    exits = ["f0"]
+    for n, (cond, first, ex) in enumerate(steps):
+        g.branch("st%d" % n, cond)
+        for e in exits: g.chain(e, "st%d" % n)
+        g.chain("st%d" % n, first); exits = ex + ["st%d:else" % n]
+    # idle mod, when no walk / run mod won
+    g.call("ism", K_STR, "StartsWith", inp={"SourceString": "@is.ReturnValue", "InPrefix": idle_mods.MOD_PREFIX, "SearchCase": "IgnoreCase"})
+    g.get("gmc", "ModClass"); g.call("hmc", K_SYS, "IsValidClass", inp={"Class": "@gmc.ModClass"}); g.call("nmc", K_MATH, "Not_PreBool", inp={"A": "@hmc.ReturnValue"})
+    g.call("idm", K_MATH, "BooleanAND", inp={"A": "@ism.ReturnValue", "B": "@nmc.ReturnValue"}); g.branch("bm", "@idm.ReturnValue")
+    for e in exits: g.chain(e, "bm")
     g.n("sk", "call_self", function="Style Key", inp={"walk": "@gw.WalkStyle", "run": "@gr.RunStyle"})
-
-    def load(q, key_pin):
-        # "/Game/Mod/<mod>/ABP_AltUIIdleTpl_<key>.ABP_AltUIIdleTpl_<key>_C"
-        g.call(q + "a", K_STR, "Concat_StrStr", inp={"A": "/Game/Mod/", "B": "@is.ReturnValue"})
-        g.call(q + "b", K_STR, "Concat_StrStr", inp={"A": "@%sa.ReturnValue" % q, "B": "/" + idle_mods.TEMPLATE_PREFIX})
-        g.call(q + "c", K_STR, "Concat_StrStr", inp={"A": "@%sb.ReturnValue" % q, "B": key_pin})
-        g.call(q + "d", K_STR, "Concat_StrStr", inp={"A": "@%sc.ReturnValue" % q, "B": "." + idle_mods.TEMPLATE_PREFIX})
-        g.call(q + "e", K_STR, "Concat_StrStr", inp={"A": "@%sd.ReturnValue" % q, "B": key_pin})
-        g.call(q + "f", K_STR, "Concat_StrStr", inp={"A": "@%se.ReturnValue" % q, "B": "_C"})
-        g.call(q + "p", K_SYS, "MakeSoftClassPath", inp={"PathString": "@%sf.ReturnValue" % q})
-        g.call(q + "r", K_SYS, "Conv_SoftClassPathToSoftClassRef", inp={"SoftClassPath": "@%sp.ReturnValue" % q})
-        g.call(q + "l", K_SYS, "LoadClassAsset_Blocking", inp={"AssetClass": "@%sr.ReturnValue" % q})
-        g.call(q + "v", K_SYS, "IsValidClass", inp={"Class": "@%sl.ReturnValue" % q})
-        return "@%sl.ReturnValue" % q, "@%sv.ReturnValue" % q
-    c1, v1 = load("m1", "@sk.key"); c2, v2 = load("m2", "Normal_Normal")
+    c1, v1 = mod_class_pins(g, "m1", "@is.ReturnValue", concat(g, "m1n", idle_mods.TEMPLATE_PREFIX, "@sk.key"))
+    c2, v2 = mod_class_pins(g, "m2", "@is.ReturnValue", idle_mods.TEMPLATE_PREFIX + "Normal_Normal")
     g.n("sc", "call_self", function="Style Class", inp={"walk": "@gw.WalkStyle", "run": "@gr.RunStyle", "idle": "@gi.IdleStyle"})
     g.call("pick2", K_MATH, "SelectClass", inp={"A": c2, "B": "@sc.cls", "bSelectA": v2})
     g.call("pick1", K_MATH, "SelectClass", inp={"A": c1, "B": "@pick2.ReturnValue", "bSelectA": v1})
-    g.call("mod", K_MATH, "SelectClass", inp={"A": "@pick1.ReturnValue", "B": "@sc.cls", "bSelectA": "@ism.ReturnValue"})
-    g.link("mod.ReturnValue", "return.cls")
-    # the loads are exec nodes: only on the mod branch; the SelectClass nodes are pure and read their outputs
-    g.chain("entry", "bm", "m1l", "m2l", "return"); g.chain("bm:else", "return")
+    g.call("idc", K_MATH, "SelectClass", inp={"A": "@pick1.ReturnValue", "B": "@sc.cls", "bSelectA": "@idm.ReturnValue"})
+    g.call("res", K_MATH, "SelectClass", inp={"A": "@gmc.ModClass", "B": "@idc.ReturnValue", "bSelectA": "@hmc.ReturnValue"})
+    g.link("res.ReturnValue", "return.cls")
+    # the mod loops for the start (Style Loop) and the sides that lost
+    g.get("gmf", "ModFrom")
+    g.call("fw", K_STR, "EqualEqual_StriStri", inp={"A": "@gmf.ModFrom", "B": "@ws.ReturnValue"}); g.call("fr", K_STR, "EqualEqual_StriStri", inp={"A": "@gmf.ModFrom", "B": "@rs.ReturnValue"})
+    g.call("ww", K_MATH, "BooleanAND", inp={"A": "@wm.ReturnValue", "B": "@fw.ReturnValue"}); g.call("rw", K_MATH, "BooleanAND", inp={"A": "@rm.ReturnValue", "B": "@fr.ReturnValue"})
+    def loop(q, mod_pin, anim, won_pin, var_):
+        p = concat(g, q + "p", "/Game/Mod/", mod_pin, "/%s.%s" % (anim, anim))
+        g.call(q + "sp", K_SYS, "MakeSoftObjectPath", inp={"PathString": p})
+        g.call(q + "sr", K_SYS, "Conv_SoftObjPathToSoftObjRef", inp={"SoftObjectPath": "@%ssp.ReturnValue" % q})
+        g.branch(q + "b", won_pin); g.call(q + "l", K_SYS, "LoadAsset_Blocking", inp={"Asset": "@%ssr.ReturnValue" % q})
+        g.set(q + "s", var_, inp={var_: "@%sl.ReturnValue" % q}); g.set(q + "n", var_, inp={var_: "None"})
+        g.chain(q + "b", q + "l", q + "s"); g.chain(q + "b:else", q + "n")
+        return q + "b", [q + "s", q + "n"]
+    lw, lwx = loop("lw", "@ws.ReturnValue", walk_mods.ANIM_WALK, "@ww.ReturnValue", "ModWalkLoop")
+    lr, lrx = loop("lr", "@rs.ReturnValue", walk_mods.ANIM_RUN, "@rw.ReturnValue", "ModRunLoop")
+    g.call("nrw", K_MATH, "Not_PreBool", inp={"A": "@rw.ReturnValue"}); g.call("rl", K_MATH, "BooleanAND", inp={"A": "@rm.ReturnValue", "B": "@nrw.ReturnValue"})
+    g.call("rl2", K_MATH, "BooleanAND", inp={"A": "@rl.ReturnValue", "B": "@hmc.ReturnValue"})   # a run mod is chosen, another walk mod won
+    g.call("il", K_MATH, "BooleanAND", inp={"A": "@ism.ReturnValue", "B": "@hmc.ReturnValue"})   # an idle mod is chosen, a walk / run mod won
+    g.set("srl", "MoveRunLost", inp={"MoveRunLost": "@rl2.ReturnValue"}); g.set("sil", "MoveIdleLost", inp={"MoveIdleLost": "@il.ReturnValue"})
+    g.chain("entry", "c0", "f0")
+    g.chain("bm", "m1l", "m2l", lw); g.chain("bm:else", lw)
+    for e in lwx: g.chain(e, lr)
+    for e in lrx: g.chain(e, "srl")
+    g.chain("srl", "sil", "return")
     return fn("Want Class", outputs=[param("cls", "class:/Script/CoreUObject.Object")], graph=g)
 
 
 def f_style_loop():
     """The style's loop animation for the current gait (None on a Normal side or for an unknown style) - what Apply Start Loop puts
-    into Jodi_Anim's 'Anim Move Start'."""
+    into Jodi_Anim's 'Anim Move Start'. A walk / run mod's loop (ModWalkLoop / ModRunLoop) comes first."""
     g = G(); outs = {}
     for k, styles in (("walk", WALK_STYLES), ("run", RUN_STYLES)):
         prev = None
@@ -183,7 +271,12 @@ def f_style_loop():
     elif outs["walk"] or outs["run"]:
         one = outs["walk"] or outs["run"]; g.call("r", K_MATH, "SelectObject", inp={"A": "None" if outs["walk"] else one, "B": one if outs["walk"] else "None", "bSelectA": "@entry.running"}); res = "@r.ReturnValue"
     else: g.call("r", K_MATH, "SelectObject", inp={"A": "None", "B": "None", "bSelectA": "@entry.running"}); res = "@r.ReturnValue"
-    g.link(res[1:], "return.loop")
+    # a walk / run mod's loop (Want Class loaded it) beats the built-in one on its gait
+    g.get("gml", "ModWalkLoop"); g.get("gmr", "ModRunLoop")
+    g.call("mod", K_MATH, "SelectObject", inp={"A": "@gmr.ModRunLoop", "B": "@gml.ModWalkLoop", "bSelectA": "@entry.running"})
+    g.call("vm", K_SYS, "IsValid", inp={"Object": "@mod.ReturnValue"})
+    g.call("fin", K_MATH, "SelectObject", inp={"A": "@mod.ReturnValue", "B": res, "bSelectA": "@vm.ReturnValue"})
+    g.link("fin.ReturnValue", "return.loop")
     return fn("Style Loop", [param("walk", "name"), param("run", "name"), param("running", "bool")], [param("loop", "object:/Script/CoreUObject.Object")], graph=g, pure=True)
 
 
@@ -329,10 +422,11 @@ def event_graph():
 
 def style_assets():
     """Stand-in sequences, the Jodi_Anim stub, one child ABP per style combination (Normal / Normal / Normal is Jodi_Anim itself) and one
-    idle template per walk / run combination for idlepak."""
+    idle template per walk / run combination for idlepak, and the walk mod templates for walkpak (WALKMOD_TEMPLATES)."""
     seqs = [J + "/Animations/Female_Walk", J + "/Animations/Female_Run", J + "/Animations/Female_Idle"] + \
            [a for _, a in WALK_STYLES + RUN_STYLES + IDLE_STYLES if a and a.startswith(J)]   # stand-ins for game animations only
     out = [animsequence_stub(a, SKELETON) for a in seqs] + [animsequence_stub(idle_mods.TEMPLATE_ANIM, SKELETON)]   # placeholder: our own empty animation, packed
+    out += [animsequence_stub(walk_mods.TEMPLATE_WALK, SKELETON), animsequence_stub(walk_mods.TEMPLATE_RUN, SKELETON)]   # walk mod placeholders
     out.append(animstub(JODI_ANIM, SKELETON, [(STYLE_NODES["walk"], seqs[0]), (STYLE_NODES["run"], seqs[1]), (STYLE_NODES["idle"], seqs[2])]))
     # Move Start / Move Change write the game's start and walk <-> run animations (2 - 2.6 s) into this variable; BP_AltUIMove puts the
     # style's loop there so a style shows from the first step
@@ -350,13 +444,15 @@ def style_assets():
         if walk[w]: ov[STYLE_NODES["walk"]] = walk[w]
         if run[r]: ov[STYLE_NODES["run"]] = run[r]
         out.append(animchild(path, JODI_ANIM, SKELETON, ov))
+    for path, ov in WALKMOD_TEMPLATES.values():
+        out.append(animchild(path, JODI_ANIM, SKELETON, ov))
     return out
 
 
 def build():
     return style_assets() + [blueprint(MOVE, E_ACTOR,
                       variables=[var("On", "bool"), var("Walk", "float"), var("Run", "float"), var("Bound", "object:" + P_CPB), var("Factor", "float", default="1.0"),
-                                 var("Rate", "float", default="1.0"), var("LastSet", "float", default="-1.0"), var("LastBase", "float"), var("Idle", "bool"), var("TmpFloat", "float"), var("TmpInt", "int"), var("RunAction", "int"), var("WalkStyle", "name"), var("RunStyle", "name"), var("IdleStyle", "name"), var("WantClass", "class:/Script/CoreUObject.Object"), var("TmpClass", "class:/Script/CoreUObject.Object"), var("TmpObj", "object:/Script/CoreUObject.Object")],
+                                 var("Rate", "float", default="1.0"), var("LastSet", "float", default="-1.0"), var("LastBase", "float"), var("Idle", "bool"), var("TmpFloat", "float"), var("TmpInt", "int"), var("RunAction", "int"), var("WalkStyle", "name"), var("RunStyle", "name"), var("ModClass", "class:/Script/CoreUObject.Object"), var("ModFrom", "string"), var("ModWalkLoop", "object:/Script/CoreUObject.Object"), var("ModRunLoop", "object:/Script/CoreUObject.Object"), var("MoveRunLost", "bool"), var("MoveIdleLost", "bool"), var("IdleStyle", "name"), var("WantClass", "class:/Script/CoreUObject.Object"), var("TmpClass", "class:/Script/CoreUObject.Object"), var("TmpObj", "object:/Script/CoreUObject.Object")],
                       functions=[f_target_factor(), f_rate_target(), f_run_fix(), f_check_run_key(), f_style_key(), f_style_class(), f_want_class(), f_style_loop(), f_apply_start_loop(), f_set_style(), f_apply_style(), f_bind(), f_set_speeds(), f_apply()], event_graph=event_graph())]
 
 

@@ -22,10 +22,10 @@ class RoundBox(unittest.TestCase):
         self.assertEqual(assets[0]["path"], "/Game/Mod/AltUI/T_RoundBox")
         self.assertTrue(os.path.isfile(os.path.join(d, assets[0]["file"])))
         self.assertEqual(assets[0]["props"]["CompressionSettings"], "TC_EditorIcon")
-        self.assertEqual([a["path"].rsplit("/", 1)[-1] for a in assets], ["T_RoundBox", "T_RoundFrame", "T_CheckOn", "T_CheckOff", "T_CheckFill", "T_CheckOnHover", "T_CheckInner", "T_ScrollThumb", "T_ScrollTrackV", "T_ScrollTrackH", "T_Undo", "T_Redo", "T_Plus", "T_Minus", "T_Colorize", "T_Sound", "T_Cam", "T_Photo", "T_RagMode", "T_Light", "T_Power", "T_Swatch", "T_Pose", "T_InfLife", "T_InfAmmo", "T_AltUI"] +
+        self.assertEqual([a["path"].rsplit("/", 1)[-1] for a in assets], ["T_RoundBox", "T_RoundFrame", "T_CheckOn", "T_CheckOff", "T_CheckFill", "T_CheckOnHover", "T_CheckInner", "T_ScrollThumb", "T_ScrollTrackV", "T_ScrollTrackH", "T_Undo", "T_Redo", "T_Plus", "T_Minus", "T_Colorize", "T_Sound", "T_Cam", "T_Photo", "T_RagMode", "T_Light", "T_Power", "T_Swatch", "T_Pose", "T_InfLife", "T_InfAmmo", "T_AltUI", "T_ArrowUp", "T_ArrowDown", "T_CamHeight", "T_TiltLeft", "T_TiltRight", "T_CamTilt", "T_ArrowFar", "T_ArrowNear", "T_CamDist"] +
                          ["T_Tab" + k for k in gen_textures.TAB_ICON_DRAW])
         # tab icons + panel icon: a texture for every tab (Poses reuses the stick figure), white glyph without ring - transparent corners
-        self.assertEqual(set(gen_textures.TAB_ICONS), {"Clothes", "Outfits", "Looks", "Bag", "Inventory", "Hair", "Poses", "Weapons", "Look", "Body", "Face", "Mods", "Options", "Manage", "Ragdolls", "Followers", "Kodex", "TV", "Objects"})
+        self.assertEqual(set(gen_textures.TAB_ICONS), {"Clothes", "Outfits", "Looks", "Bag", "Inventory", "Hair", "Poses", "Weapons", "Look", "Body", "Face", "Mods", "Options", "Actions", "Manage", "Ragdolls", "Navigation", "Followers", "Kodex", "TV", "Objects"})
         self.assertEqual(gen_textures.TAB_ICONS["Poses"], gen_textures.T_POSE)
         for f in ["altui.png"] + ["tab_%s.png" % k.lower() for k in gen_textures.TAB_ICON_DRAW]:
             im = Image.open(os.path.join(d, "tex", f)); self.assertEqual(im.size, (128, 128), f); px = im.load()
