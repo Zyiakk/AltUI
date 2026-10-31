@@ -88,7 +88,7 @@ A look is everything at once: clothes with their colours, hairstyle and hair col
 - The "+" tile saves the current look with a full-body photo – from the front, or with the free camera: fly it wherever you like and click to take the photo (Esc: the front photo instead).
 - Click a look to apply it.
 - Right click: view content, rename, update (photo from the front or with the free camera), move, delete, add to or remove from the quick menu.
-- Right click also: "Spawn as ragdoll", "Spawn as follower", "Spawn as NPC" (see "Ragdolls" and "Followers").
+- Right click also: "Spawn as ragdoll", "Spawn as follower", "Spawn as NPC", "Spawn as enemy" (see "Ragdolls" and "Followers").
 - Right click "Clean copy (without missing parts)" – only shown when the look holds pieces of a mod that is no longer installed, or make-up / eye rows no table has: a new look right after it without those entries, with the same photo. The original stays as it is; saving a look again never removes them by itself.
 
 ## Backpack {#bag}
@@ -107,6 +107,7 @@ Jodi's items and the Hyper Storage Box, one list under the other.
 
 - The chips filter by the game's groups (weapons, ammo, weapon accessories, tools …). The weight shows what Jodi carries, what she can carry and how far she is overloaded.
 - A click puts one item into the box or takes one out. Right click: half or all, use, inspect, discard, quick slot 1 or 2, unload ammo, "Accessories…" (opens the gun in the Weapons tab).
+- "Always auto-equip" (right click, also on catalogue items): after every level load AltUI puts the item into Jodi's backpack, made anew, up to the amount the tile had when you marked it (at least one pack); it never takes anything away. Such tiles show a gold loop arrow and a gold frame. "Stop auto-equip" ends it.
 - The context menu of a stack ends with "Amount": a slider and a number field, and below one entry per target with that number ("Put 5 in the box", "Take 5"). Enter in the field runs the first entry. In the catalogue the number counts pieces and the field takes more than the slider reaches. Guns and single items have no amount.
 - "Discard all" puts one object on the ground per pack. From 100 objects on a window asks first: "Cancel", "Destroy instead" (the items are gone, nothing falls) or "Drop anyway" – that many objects with physics at once can crash the game. Esc cancels.
 - Everything goes through the game's own functions, so the game's rules stay – overloading included.
@@ -191,7 +192,7 @@ Jodi's facial expression.
 
 Settings of other mods that register with AltUI: their entries on the left, the chosen one's toggles, sliders, numbers, choices, colours, text fields, keys and buttons on the right.
 
-Above the fields: presets of the page. The "+" tile saves the current settings with a photo (from the front or with the free camera); a click applies a preset. Right click: apply, view content, rename, update, move, delete, quick menu. "View content" lists the values with a check box each: only ticked values are applied, unticked ones stay stored. Presets a mod brings itself come first; they can be applied, renamed, given a photo of your own ("New photo") and their values ticked or unticked, not changed or deleted. Kept per mod in AltUI_ModPresets_<mod>.sav.
+Above the fields: presets of the page. The "+" tile saves the current settings with a photo (from the front or with the free camera); a click applies a preset. Right click: apply, view content, rename, update, move, delete, quick menu. "View content" lists the values with a check box each: only ticked values are applied, unticked ones stay stored. Presets a mod brings itself come first; they can be applied, renamed, given a photo of your own ("New photo") and their values ticked or unticked, not changed or deleted. Kept per mod in AltUI_ModPresets_<mod>.sav. Presets a mod brings can be hidden (right click "Hide"); "Show hidden presets" in the bar above the tiles brings this page's back. "..." in that bar folds the preset area of every mod page and opens it again.
 
 This tab only appears when such a mod is installed.
 
@@ -258,6 +259,19 @@ Moves and poses the figures without the panel, with the camera free in the room.
 - Hold the middle mouse button to turn the camera without the screen edges stopping it; the pointer comes back where it was.
 - Esc or B ends the mode.
 
+## Enemies {#enemies}
+
+Living, hostile zombies of every kind. A tile spawns its kind, the links below it its variants – in the camera's direction at the distance you set, as many as "Count" says, spread around that point.
+
+- Behaviour: *Hunt* – they come for Jodi at once; *Lurk* – they wait until they see or hear someone (followers too); *Passive* – they stand still and nothing wakes them. A change applies to every enemy AltUI spawned.
+- *Remove all* / *Remove nearest* take them away (no loot, no EXP); *Kill all* lets them die as in the game – the bodies stay until *Remove all*.
+- "Alive: n" counts the living enemies AltUI spawned; the game's own zombies are never touched.
+- Two views: "Spawn" (above) and "Alive (n)": one row per enemy – figures spawned from a look (with everything the Followers tab offers) and, below them, every zombie AltUI spawned with its kind, distance and behaviour; links per zombie: hunt, lurk, passive, remove, kill.
+- The game saves living enemies with the save game: after loading they are the game's zombies. Remove or kill them before saving.
+- In a challenge, living enemies keep you from winning (the game counts every living zombie). Cut scenes remove them.
+- Where there are no walkways (Jodi's office, Level 3, the shooting range) they only walk straight towards a target they can see.
+- Quick menu: "Spawn: <kind>" per kind and variant (with the current count, distance and behaviour), "Enemies: remove all / kill all / passive / active" – in the Actions tab, also on own keys.
+
 ## Navigation {#navigation}
 
 - Fly / Land: Jodi flies. Move as usual, Space rises, Ctrl sinks, Shift is three times as fast; the slider sets the speed. Walls stop her. Land lets her drop to the ground – a high fall hurts as in the game. Also in the quick menu, so it can have a key of its own (Actions › Own keys).
@@ -288,17 +302,18 @@ With the mouse on an object, beside the panel and in the Ragdolls mode:
 
 Looks as people in the game: a follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
 
-- In the Looks tab, right click a look: "Spawn as follower" or "Spawn as NPC". The figure appears in front of Jodi wearing that look.
+- In the Looks tab, right click a look: "Spawn as follower", "Spawn as NPC" or "Spawn as enemy". The figure appears in front of Jodi wearing that look. An enemy hunts Jodi with a pistol (infinite ammo) and hurts her; its row is on the Enemies page under "Alive" with everything the Followers tab offers (only in its level) – delete it there, or make it a follower. Your followers fight it.
 - The tab "Followers" lists every figure with its status (follows, waits, NPC, inactive, fallen) and chips: "Follow me", "Wait here", "Bring here", → NPC / → Follower, "Active", ∞ with a heart (invulnerable), ∞ with cartridges (infinite ammo) and the gear (attackable / unattackable, rename, change look, revive, remove). "..." folds the figure's tiles (clothes and backpack) away and back; it stays folded per figure, also after a restart.
 - Followers are listed above NPCs, with a line between the two groups. The chips above the rows show all, only followers or only NPCs (kept after a restart).
 - Click a row to select the figure. The backpack (left) and the storage box (right) are at the top: a click gives one item to the selected figure, a gun with its paint and accessories. A click on one of the figure's own tiles gives it back into the backpack; right click: everything, or into the box. "..." above a list folds it.
 - The context menu of a stack – Jodi's or the figure's – has the amount row as in the Inventory tab: "Give 5", "Take 5", into the box.
 - Clothes are real pieces of the figure, as with the game's NPCs: they take damage, can tear off and show up in the game's own NPC inventory, where you can swap them too. Under a figure, its pieces are tiles (a badge marks damaged ones): a click takes one off into Jodi's backpack; right click: repair with a sewing kit from Jodi's backpack, or repair all. In the backpack column, "Clothes" lists Jodi's pieces: a click gives one to the selected figure, which puts it on (her damage and colours go along).
+- Gear menu "Restore outfit (no sewing kit)": the figure wears exactly its look's outfit again, every piece as new, free – lost pieces (torn off, taken away) come back, other pieces come off into its bag (followers, NPCs and enemies). "Restore all outfits" at the bottom right of the Followers tab does it for every figure of that tab.
 - "Active" off takes a figure out of the world, with everything it carries; on again, it comes back in front of Jodi.
 - "Infinite ammo": the figure keeps reloading its guns without needing ammo in its bag. Guns with a magazine leave its ammo untouched; the shotgun and the grenade launcher use up what it carries first.
 - A figure that is not invulnerable can fall. It stays in the list and "Revive" brings it back with what it carried. Figures never turn into zombies.
 - "Invulnerable" (∞ with a heart): the figure cannot die, its health fills up again after every hit. It still shows hit reactions and its clothes still take damage.
-- "Attackable" (gear): zombies only target attackable figures, whether invulnerable or not. After "Make unattackable" zombies leave the figure alone, and it takes no damage either. The switch is saved; new figures are attackable.
+- "Attackable" (gear): zombies only target attackable figures, whether invulnerable or not. After "Make unattackable" zombies and mercenaries do not pick the figure as a target; it still takes damage (unhurt is "Invulnerable"). The switch is saved; new figures are attackable.
 - "+ Jason" (bottom right of the tab) adds Jason from the story as a follower, with his Glock. He takes orders, comes along and is saved. He fights only with his own Glock: a Glock you give him becomes his, other weapons he does not take. He has no look, clothes or make-up; when he is down he cannot be healed – "Revive" brings him back.
 - "Remove" asks first; the figure's items and guns go into the storage box, its clothes into Jodi's backpack.
 - "Change look" switches to the Looks tab: click the look the figure should wear.

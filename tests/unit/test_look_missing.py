@@ -53,6 +53,14 @@ class LookMissing(unittest.TestCase):
         self.assertIn(["fmk:Completed", "snt", "bms"], self.g["exec"])
         self.assertTrue(reachable(self.g, "entry", "fmk"), "the check is not on the path of Finish Apply Snapshot")
 
+    def test_not_for_an_outfit(self):
+        # an outfit brings Jodi's own make-up: a stale row in her save (tattoo mod gone / renamed) came up with every outfit (Discord 2026-10-30)
+        self.assertEqual(self.by["bpmo"]["in"]["Condition"], "@gpmo.PendingMkOwn")
+        self.assertIn(["bpmo:else", "mkk", "fmk"], self.g["exec"]); self.assertIn(["bpmo", "snt"], self.g["exec"])
+        oc = json.dumps(fn_graph("On Outfit Clicked")); self.assertIn('"SnapMkOwn": "true"', oc)
+        ap = json.dumps(fn_graph("Apply Snapshot")); self.assertIn("PendingMkOwn", ap); self.assertIn("NextMkOwn", ap)
+        self.assertIn("SnapMkOwn", json.dumps(fn_graph("Start Next Snapshot")))
+
 
 if __name__ == "__main__":
     unittest.main()

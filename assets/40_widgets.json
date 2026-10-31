@@ -6448,6 +6448,10 @@
      "type": "bool"
     },
     {
+     "name": "AutoMarked",
+     "type": "bool"
+    },
+    {
      "name": "BaseFrame",
      "type": "struct:/Script/CoreUObject.LinearColor"
     },
@@ -6869,6 +6873,56 @@
         }
        },
        {
+        "id": "tw_AutoBox",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "38.0",
+         "B": "@tsv.TileScale"
+        }
+       },
+       {
+        "id": "tg_AutoBox",
+        "kind": "get",
+        "var": "AutoBox"
+       },
+       {
+        "id": "tsw_AutoBox",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetWidthOverride",
+        "in": {
+         "self": "@tg_AutoBox.AutoBox",
+         "InWidthOverride": "@tw_AutoBox.ReturnValue"
+        }
+       },
+       {
+        "id": "th_AutoBox",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "38.0",
+         "B": "@tsv.TileScale"
+        }
+       },
+       {
+        "id": "tg2_AutoBox",
+        "kind": "get",
+        "var": "AutoBox"
+       },
+       {
+        "id": "tsh_AutoBox",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetHeightOverride",
+        "in": {
+         "self": "@tg2_AutoBox.AutoBox",
+         "InHeightOverride": "@th_AutoBox.ReturnValue"
+        }
+       },
+       {
         "id": "bi",
         "kind": "break",
         "struct": "/Game/Mod/AltUI/S_ClothesItem",
@@ -6897,6 +6951,29 @@
         "in": {
          "self": "@gsm0.SoundMark",
          "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gam0",
+        "kind": "get",
+        "var": "AutoMark"
+       },
+       {
+        "id": "cam0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gam0.AutoMark",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "sam0",
+        "kind": "set",
+        "var": "AutoMarked",
+        "in": {
+         "AutoMarked": "false"
         }
        },
        {
@@ -7437,8 +7514,12 @@
         "tsh_SwatchBox",
         "tsw_SoundBox",
         "tsh_SoundBox",
+        "tsw_AutoBox",
+        "tsh_AutoBox",
         "sn",
         "csm0",
+        "cam0",
+        "sam0",
         "bca",
         "vcz",
         "sw",
@@ -7654,6 +7735,56 @@
          "self": "@tg2_SwatchBox.SwatchBox",
          "InHeightOverride": "@th_SwatchBox.ReturnValue"
         }
+       },
+       {
+        "id": "tw_AutoBox",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "38.0",
+         "B": "@entry.scale"
+        }
+       },
+       {
+        "id": "tg_AutoBox",
+        "kind": "get",
+        "var": "AutoBox"
+       },
+       {
+        "id": "tsw_AutoBox",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetWidthOverride",
+        "in": {
+         "self": "@tg_AutoBox.AutoBox",
+         "InWidthOverride": "@tw_AutoBox.ReturnValue"
+        }
+       },
+       {
+        "id": "th_AutoBox",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "38.0",
+         "B": "@entry.scale"
+        }
+       },
+       {
+        "id": "tg2_AutoBox",
+        "kind": "get",
+        "var": "AutoBox"
+       },
+       {
+        "id": "tsh_AutoBox",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetHeightOverride",
+        "in": {
+         "self": "@tg2_AutoBox.AutoBox",
+         "InHeightOverride": "@th_AutoBox.ReturnValue"
+        }
        }
       ],
       "links": [],
@@ -7666,7 +7797,9 @@
         "tsw_ColorizeBox",
         "tsh_ColorizeBox",
         "tsw_SwatchBox",
-        "tsh_SwatchBox"
+        "tsh_SwatchBox",
+        "tsw_AutoBox",
+        "tsh_AutoBox"
        ]
       ]
      }
@@ -7807,6 +7940,33 @@
         }
        },
        {
+        "id": "gam",
+        "kind": "get",
+        "var": "AutoMarked"
+       },
+       {
+        "id": "chd_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "chd",
+        "kind": "get",
+        "var": "ColHead",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "f2a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@chd.ColHead",
+         "B": "@f2.ReturnValue",
+         "bPickA": "@gam.AutoMarked"
+        }
+       },
+       {
         "id": "ghl",
         "kind": "get",
         "var": "Highlight"
@@ -7829,7 +7989,7 @@
         "function": "SelectColor",
         "in": {
          "A": "@cac.ColAccent",
-         "B": "@f2.ReturnValue",
+         "B": "@f2a.ReturnValue",
          "bPickA": "@ghl.Highlight"
         }
        },
@@ -8053,6 +8213,10 @@
        [
         "cfh_m.Manager",
         "cfh.self"
+       ],
+       [
+        "chd_m.Manager",
+        "chd.self"
        ],
        [
         "cac_m.Manager",
@@ -8342,6 +8506,93 @@
        [
         "b:else",
         "sc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Auto Mark",
+     "inputs": [
+      {
+       "name": "on",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "sa",
+        "kind": "set",
+        "var": "AutoMarked",
+        "in": {
+         "AutoMarked": "@entry.on"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.on"
+        }
+       },
+       {
+        "id": "ga1",
+        "kind": "get",
+        "var": "AutoMark"
+       },
+       {
+        "id": "v",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@ga1.AutoMark",
+         "InVisibility": "HitTestInvisible"
+        }
+       },
+       {
+        "id": "ga2",
+        "kind": "get",
+        "var": "AutoMark"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@ga2.AutoMark",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call_self",
+        "function": "Compute Colors"
+       },
+       {
+        "id": "ap",
+        "kind": "call_self",
+        "function": "Apply Colors",
+        "in": {
+         "hover": "false"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sa",
+        "b",
+        "v",
+        "cc",
+        "ap"
+       ],
+       [
+        "b:else",
+        "c",
+        "cc"
        ]
       ]
      }
@@ -9148,6 +9399,30 @@
                 "name": "Colorize",
                 "props": {
                  "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_Colorize.T_Colorize',ImageSize=(X=48,Y=48),DrawAs=Image)",
+                 "Visibility": "Collapsed"
+                }
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.SizeBox",
+              "name": "AutoBox",
+              "props": {
+               "bOverride_WidthOverride": true,
+               "WidthOverride": 38,
+               "bOverride_HeightOverride": true,
+               "HeightOverride": 38
+              },
+              "slot": {
+               "HorizontalAlignment": "HAlign_Left",
+               "VerticalAlignment": "VAlign_Top"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Image",
+                "name": "AutoMark",
+                "props": {
+                 "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_AutoItem.T_AutoItem',ImageSize=(X=48,Y=48),DrawAs=Image)",
                  "Visibility": "Collapsed"
                 }
                }
@@ -38310,6 +38585,3004 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Mod/AltUI/W_EnemyTile",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "Manager",
+     "type": "object:/Game/Mod/AltUI/BP_AltUIManager"
+    },
+    {
+     "name": "Index",
+     "type": "int"
+    },
+    {
+     "name": "Editing",
+     "type": "bool"
+    },
+    {
+     "name": "SplitTile",
+     "type": "bool"
+    },
+    {
+     "name": "BaseFrame",
+     "type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "HoverFrame",
+     "type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "BaseFill",
+     "type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "HoverFill",
+     "type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "VarsAll",
+     "type": "object:/Script/UMG.Widget",
+     "container": "array"
+    },
+    {
+     "name": "VarsMoved",
+     "type": "int"
+    },
+    {
+     "name": "VarsPending",
+     "type": "bool"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Init",
+     "inputs": [
+      {
+       "name": "index",
+       "type": "int"
+      },
+      {
+       "name": "icon",
+       "type": "object:/Script/Engine.Texture2D"
+      },
+      {
+       "name": "caption",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "lsm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "lsv",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Rag Scale",
+        "in": {
+         "self": "@lsm.Manager"
+        }
+       },
+       {
+        "id": "tw_Box",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "198.0",
+         "B": "@lsv.scale"
+        }
+       },
+       {
+        "id": "tg_Box",
+        "kind": "get",
+        "var": "Box"
+       },
+       {
+        "id": "tsw_Box",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetWidthOverride",
+        "in": {
+         "self": "@tg_Box.Box",
+         "InWidthOverride": "@tw_Box.ReturnValue"
+        }
+       },
+       {
+        "id": "tw_PhotoBox",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "167.0",
+         "B": "@lsv.scale"
+        }
+       },
+       {
+        "id": "tg_PhotoBox",
+        "kind": "get",
+        "var": "PhotoBox"
+       },
+       {
+        "id": "tsw_PhotoBox",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetWidthOverride",
+        "in": {
+         "self": "@tg_PhotoBox.PhotoBox",
+         "InWidthOverride": "@tw_PhotoBox.ReturnValue"
+        }
+       },
+       {
+        "id": "th_PhotoBox",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "251.0",
+         "B": "@lsv.scale"
+        }
+       },
+       {
+        "id": "tg2_PhotoBox",
+        "kind": "get",
+        "var": "PhotoBox"
+       },
+       {
+        "id": "tsh_PhotoBox",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetHeightOverride",
+        "in": {
+         "self": "@tg2_PhotoBox.PhotoBox",
+         "InHeightOverride": "@th_PhotoBox.ReturnValue"
+        }
+       },
+       {
+        "id": "si",
+        "kind": "set",
+        "var": "Index",
+        "in": {
+         "Index": "@entry.index"
+        }
+       },
+       {
+        "id": "neg",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_IntInt",
+        "in": {
+         "A": "@entry.index",
+         "B": "0"
+        }
+       },
+       {
+        "id": "badd",
+        "kind": "branch",
+        "in": {
+         "Condition": "@neg.ReturnValue"
+        }
+       },
+       {
+        "id": "gpl",
+        "kind": "get",
+        "var": "Plus"
+       },
+       {
+        "id": "vpl",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gpl.Plus",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "gph",
+        "kind": "get",
+        "var": "Photo"
+       },
+       {
+        "id": "cph",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gph.Photo",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gnp",
+        "kind": "get",
+        "var": "NoPhoto"
+       },
+       {
+        "id": "cnp",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gnp.NoPhoto",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gl1",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "mtsv_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "mtsv",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@mtsv_m.Manager",
+         "key": "Btn_SaveLook"
+        }
+       },
+       {
+        "id": "sl1",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl1.Label",
+         "InText": "@mtsv.text"
+        }
+       },
+       {
+        "id": "gpl2",
+        "kind": "get",
+        "var": "Plus"
+       },
+       {
+        "id": "cpl",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gpl2.Plus",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "iv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@entry.icon"
+        }
+       },
+       {
+        "id": "biv",
+        "kind": "branch",
+        "in": {
+         "Condition": "@iv.ReturnValue"
+        }
+       },
+       {
+        "id": "gph2",
+        "kind": "get",
+        "var": "Photo"
+       },
+       {
+        "id": "sb",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetBrushFromTexture",
+        "in": {
+         "self": "@gph2.Photo",
+         "Texture": "@entry.icon",
+         "bMatchSize": "false"
+        }
+       },
+       {
+        "id": "gph3",
+        "kind": "get",
+        "var": "Photo"
+       },
+       {
+        "id": "vph",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gph3.Photo",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "gnp2",
+        "kind": "get",
+        "var": "NoPhoto"
+       },
+       {
+        "id": "cnp2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gnp2.NoPhoto",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gnp3",
+        "kind": "get",
+        "var": "NoPhoto"
+       },
+       {
+        "id": "mtnp_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "mtnp",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@mtnp_m.Manager",
+         "key": "Lbl_NoPhoto"
+        }
+       },
+       {
+        "id": "snp",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gnp3.NoPhoto",
+         "InText": "@mtnp.text"
+        }
+       },
+       {
+        "id": "gnp4",
+        "kind": "get",
+        "var": "NoPhoto"
+       },
+       {
+        "id": "vnp",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gnp4.NoPhoto",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "gph4",
+        "kind": "get",
+        "var": "Photo"
+       },
+       {
+        "id": "cph2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gph4.Photo",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "sl2",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl2.Label",
+         "InText": "@entry.caption"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call_self",
+        "function": "Compute Colors"
+       },
+       {
+        "id": "ap",
+        "kind": "call_self",
+        "function": "Apply Colors",
+        "in": {
+         "hover": "false"
+        }
+       },
+       {
+        "id": "spnst",
+        "kind": "set",
+        "var": "SplitTile",
+        "in": {
+         "SplitTile": "true"
+        }
+       },
+       {
+        "id": "spnb",
+        "kind": "branch",
+        "in": {
+         "Condition": "true"
+        }
+       },
+       {
+        "id": "spng1",
+        "kind": "get",
+        "var": "Split"
+       },
+       {
+        "id": "spnv1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spng1.Split",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "spng2",
+        "kind": "get",
+        "var": "Plus"
+       },
+       {
+        "id": "spnc2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spng2.Plus",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "spng3",
+        "kind": "get",
+        "var": "SplitFront"
+       },
+       {
+        "id": "spnm3_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "spnm3",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@spnm3_m.Manager",
+         "key": "Btn_SaveLookFront"
+        }
+       },
+       {
+        "id": "spnt3",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@spng3.SplitFront",
+         "InText": "@spnm3.text"
+        }
+       },
+       {
+        "id": "spng4",
+        "kind": "get",
+        "var": "SplitView"
+       },
+       {
+        "id": "spnm4_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "spnm4",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@spnm4_m.Manager",
+         "key": "Btn_SaveLookView"
+        }
+       },
+       {
+        "id": "spnt4",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@spng4.SplitView",
+         "InText": "@spnm4.text"
+        }
+       },
+       {
+        "id": "spng8",
+        "kind": "get",
+        "var": "VB"
+       },
+       {
+        "id": "spnc8",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spng8.VB",
+         "InVisibility": "Hidden"
+        }
+       },
+       {
+        "id": "spng5",
+        "kind": "get",
+        "var": "Split"
+       },
+       {
+        "id": "spnc5",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spng5.Split",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "spnga",
+        "kind": "get",
+        "var": "VB"
+       },
+       {
+        "id": "spnva",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spnga.VB",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "spfst",
+        "kind": "set",
+        "var": "SplitTile",
+        "in": {
+         "SplitTile": "false"
+        }
+       },
+       {
+        "id": "spfb",
+        "kind": "branch",
+        "in": {
+         "Condition": "false"
+        }
+       },
+       {
+        "id": "spfg1",
+        "kind": "get",
+        "var": "Split"
+       },
+       {
+        "id": "spfv1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spfg1.Split",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "spfg2",
+        "kind": "get",
+        "var": "Plus"
+       },
+       {
+        "id": "spfc2",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spfg2.Plus",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "spfg3",
+        "kind": "get",
+        "var": "SplitFront"
+       },
+       {
+        "id": "spft3",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@spfg3.SplitFront",
+         "InText": ""
+        }
+       },
+       {
+        "id": "spfg4",
+        "kind": "get",
+        "var": "SplitView"
+       },
+       {
+        "id": "spft4",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@spfg4.SplitView",
+         "InText": ""
+        }
+       },
+       {
+        "id": "spfg8",
+        "kind": "get",
+        "var": "VB"
+       },
+       {
+        "id": "spfc8",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spfg8.VB",
+         "InVisibility": "Hidden"
+        }
+       },
+       {
+        "id": "spfg5",
+        "kind": "get",
+        "var": "Split"
+       },
+       {
+        "id": "spfc5",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spfg5.Split",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "spfga",
+        "kind": "get",
+        "var": "VB"
+       },
+       {
+        "id": "spfva",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@spfga.VB",
+         "InVisibility": "Visible"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "spnst",
+        "spnb",
+        "spnv1",
+        "spnc2",
+        "spnt3",
+        "spnt4",
+        "spnc8"
+       ],
+       [
+        "spnb:else",
+        "spnc5",
+        "spnva"
+       ],
+       [
+        "spfst",
+        "spfb",
+        "spfv1",
+        "spfc2",
+        "spft3",
+        "spft4",
+        "spfc8"
+       ],
+       [
+        "spfb:else",
+        "spfc5",
+        "spfva"
+       ],
+       [
+        "entry",
+        "tsw_Box",
+        "tsw_PhotoBox",
+        "tsh_PhotoBox",
+        "si",
+        "badd"
+       ],
+       [
+        "badd",
+        "vpl",
+        "cph",
+        "cnp",
+        "sl1",
+        "spnst"
+       ],
+       [
+        "badd:else",
+        "cpl",
+        "biv",
+        "sb",
+        "vph",
+        "cnp2",
+        "sl2"
+       ],
+       [
+        "biv:else",
+        "snp",
+        "vnp",
+        "cph2",
+        "sl2"
+       ],
+       [
+        "sl2",
+        "spfst"
+       ],
+       [
+        "spnc8",
+        "cc"
+       ],
+       [
+        "spnva",
+        "cc"
+       ],
+       [
+        "spfc8",
+        "cc"
+       ],
+       [
+        "spfva",
+        "cc"
+       ],
+       [
+        "cc",
+        "ap"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Compute Colors",
+     "graph": {
+      "nodes": [
+       {
+        "id": "cf_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cf",
+        "kind": "get",
+        "var": "ColFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "cfh_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cfh",
+        "kind": "get",
+        "var": "ColFrameHover",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "sbFrame",
+        "kind": "set",
+        "var": "BaseFrame",
+        "in": {
+         "BaseFrame": "@cf.ColFrame"
+        }
+       },
+       {
+        "id": "shFrame",
+        "kind": "set",
+        "var": "HoverFrame",
+        "in": {
+         "HoverFrame": "@cfh.ColFrameHover"
+        }
+       },
+       {
+        "id": "cfi_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cfi",
+        "kind": "get",
+        "var": "ColFill",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "cfih_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cfih",
+        "kind": "get",
+        "var": "ColFillHover",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "sbFill",
+        "kind": "set",
+        "var": "BaseFill",
+        "in": {
+         "BaseFill": "@cfi.ColFill"
+        }
+       },
+       {
+        "id": "shFill",
+        "kind": "set",
+        "var": "HoverFill",
+        "in": {
+         "HoverFill": "@cfih.ColFillHover"
+        }
+       },
+       {
+        "id": "cc0_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cc0",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tc0_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@cc0.ColText"
+        }
+       },
+       {
+        "id": "tc0_w",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "tc0",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tc0_w.Label",
+         "InColorAndOpacity": "@tc0_sc.SlateColor"
+        }
+       },
+       {
+        "id": "cc1_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cc1",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tc1_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@cc1.ColText"
+        }
+       },
+       {
+        "id": "tc1_w",
+        "kind": "get",
+        "var": "Plus"
+       },
+       {
+        "id": "tc1",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tc1_w.Plus",
+         "InColorAndOpacity": "@tc1_sc.SlateColor"
+        }
+       },
+       {
+        "id": "cc2_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cc2",
+        "kind": "get",
+        "var": "ColTextDim",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tc2_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@cc2.ColTextDim"
+        }
+       },
+       {
+        "id": "tc2_w",
+        "kind": "get",
+        "var": "NoPhoto"
+       },
+       {
+        "id": "tc2",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tc2_w.NoPhoto",
+         "InColorAndOpacity": "@tc2_sc.SlateColor"
+        }
+       },
+       {
+        "id": "cc3_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cc3",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tc3_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@cc3.ColText"
+        }
+       },
+       {
+        "id": "tc3_w",
+        "kind": "get",
+        "var": "SplitFront"
+       },
+       {
+        "id": "tc3",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tc3_w.SplitFront",
+         "InColorAndOpacity": "@tc3_sc.SlateColor"
+        }
+       },
+       {
+        "id": "cc4_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cc4",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tc4_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@cc4.ColText"
+        }
+       },
+       {
+        "id": "tc4_w",
+        "kind": "get",
+        "var": "SplitView"
+       },
+       {
+        "id": "tc4",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tc4_w.SplitView",
+         "InColorAndOpacity": "@tc4_sc.SlateColor"
+        }
+       },
+       {
+        "id": "csl_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "csl",
+        "kind": "get",
+        "var": "ColFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "bsl_w",
+        "kind": "get",
+        "var": "SplitLine"
+       },
+       {
+        "id": "bsl",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@bsl_w.SplitLine",
+         "InBrushColor": "@csl.ColFrame"
+        }
+       },
+       {
+        "id": "teNameEditw",
+        "kind": "get",
+        "var": "NameEdit"
+       },
+       {
+        "id": "teNameEditm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "teNameEditc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "teNameEditc",
+        "kind": "get",
+        "var": "ColInput",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "teNameEdit",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Edit Box",
+        "in": {
+         "self": "@teNameEditm.Manager",
+         "box": "@teNameEditw.NameEdit",
+         "bg": "@teNameEditc.ColInput"
+        }
+       }
+      ],
+      "links": [
+       [
+        "cf_m.Manager",
+        "cf.self"
+       ],
+       [
+        "cfh_m.Manager",
+        "cfh.self"
+       ],
+       [
+        "cfi_m.Manager",
+        "cfi.self"
+       ],
+       [
+        "cfih_m.Manager",
+        "cfih.self"
+       ],
+       [
+        "cc0_m.Manager",
+        "cc0.self"
+       ],
+       [
+        "cc1_m.Manager",
+        "cc1.self"
+       ],
+       [
+        "cc2_m.Manager",
+        "cc2.self"
+       ],
+       [
+        "cc3_m.Manager",
+        "cc3.self"
+       ],
+       [
+        "cc4_m.Manager",
+        "cc4.self"
+       ],
+       [
+        "csl_m.Manager",
+        "csl.self"
+       ],
+       [
+        "teNameEditc_m.Manager",
+        "teNameEditc.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "sbFrame",
+        "shFrame",
+        "sbFill",
+        "shFill",
+        "tc0",
+        "tc1",
+        "tc2",
+        "tc3",
+        "tc4",
+        "bsl",
+        "teNameEdit"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "OnMouseButtonDown",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "btn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "PointerEvent_GetEffectingButton",
+        "in": {
+         "Input": "@entry.MouseEvent"
+        }
+       },
+       {
+        "id": "isr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@btn.ReturnValue",
+         "B": "RightMouseButton"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isr.ReturnValue"
+        }
+       },
+       {
+        "id": "gm0",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "me0",
+        "kind": "self"
+       },
+       {
+        "id": "slb",
+        "kind": "set",
+        "var": "LastButton",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "in": {
+         "self": "@gm0.Manager",
+         "LastButton": "@me0.self"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "Index"
+       },
+       {
+        "id": "r",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Enemy Kind Clicked",
+        "in": {
+         "self": "@gm.Manager",
+         "index": "@ga.Index"
+        }
+       },
+       {
+        "id": "gm2",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ga2",
+        "kind": "get",
+        "var": "Index"
+       },
+       {
+        "id": "l",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Enemy Kind Clicked",
+        "in": {
+         "self": "@gm2.Manager",
+         "index": "@ga2.Index"
+        }
+       },
+       {
+        "id": "h",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Handled"
+       },
+       {
+        "id": "ssp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "PointerEvent_GetScreenSpacePosition",
+        "in": {
+         "Input": "@entry.MouseEvent"
+        }
+       },
+       {
+        "id": "gst",
+        "kind": "get",
+        "var": "SplitTile"
+       },
+       {
+        "id": "slg",
+        "kind": "get",
+        "var": "Split"
+       },
+       {
+        "id": "slgeo",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "GetCachedGeometry",
+        "in": {
+         "self": "@slg.Split"
+        }
+       },
+       {
+        "id": "slloc",
+        "kind": "call",
+        "class": "/Script/UMG.SlateBlueprintLibrary",
+        "function": "AbsoluteToLocal",
+        "in": {
+         "Geometry": "@slgeo.ReturnValue",
+         "AbsoluteCoordinate": "@ssp.ReturnValue"
+        }
+       },
+       {
+        "id": "slsiz",
+        "kind": "call",
+        "class": "/Script/UMG.SlateBlueprintLibrary",
+        "function": "GetLocalSize",
+        "in": {
+         "Geometry": "@slgeo.ReturnValue"
+        }
+       },
+       {
+        "id": "slbl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@slloc.ReturnValue"
+        }
+       },
+       {
+        "id": "slbs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@slsiz.ReturnValue"
+        }
+       },
+       {
+        "id": "slh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@slbs.Y",
+         "B": "0.5"
+        }
+       },
+       {
+        "id": "sllo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_FloatFloat",
+        "in": {
+         "A": "@slbl.Y",
+         "B": "@slh.ReturnValue"
+        }
+       },
+       {
+        "id": "pv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@gst.SplitTile",
+         "B": "@sllo.ReturnValue"
+        }
+       },
+       {
+        "id": "gm3",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "spv",
+        "kind": "set",
+        "var": "PhotoView",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "in": {
+         "self": "@gm3.Manager",
+         "PhotoView": "@pv.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "h.ReturnValue",
+        "return.ReturnValue"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "slb",
+        "b",
+        "r",
+        "return"
+       ],
+       [
+        "b:else",
+        "spv",
+        "l",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Begin Rename",
+     "inputs": [
+      {
+       "name": "current",
+       "type": "string"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "se",
+        "kind": "set",
+        "var": "Editing",
+        "in": {
+         "Editing": "true"
+        }
+       },
+       {
+        "id": "txt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@entry.current"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "NameEdit"
+       },
+       {
+        "id": "stx",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "SetText",
+        "in": {
+         "self": "@ge.NameEdit",
+         "InText": "@txt.ReturnValue"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "hl",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gl.Label",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "ge2",
+        "kind": "get",
+        "var": "NameEdit"
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@ge2.NameEdit",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "ge3",
+        "kind": "get",
+        "var": "NameEdit"
+       },
+       {
+        "id": "kf",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetKeyboardFocus",
+        "in": {
+         "self": "@ge3.NameEdit"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "se",
+        "stx",
+        "hl",
+        "sv",
+        "kf"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "End Rename",
+     "graph": {
+      "nodes": [
+       {
+        "id": "se",
+        "kind": "set",
+        "var": "Editing",
+        "in": {
+         "Editing": "false"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "NameEdit"
+       },
+       {
+        "id": "hv",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@ge.NameEdit",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "sl",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gl.Label",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "kf",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Focus Panel",
+        "in": {
+         "self": "@gm.Manager"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "se",
+        "hv",
+        "sl",
+        "kf"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "OnKeyUp",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "ged",
+        "kind": "get",
+        "var": "Editing"
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ged.Editing"
+        }
+       },
+       {
+        "id": "key",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "GetKey",
+        "in": {
+         "Input": "@entry.InKeyEvent"
+        }
+       },
+       {
+        "id": "ent",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@key.ReturnValue",
+         "B": "Enter"
+        }
+       },
+       {
+        "id": "ben",
+        "kind": "branch",
+        "in": {
+         "Condition": "@ent.ReturnValue"
+        }
+       },
+       {
+        "id": "esc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@key.ReturnValue",
+         "B": "Escape"
+        }
+       },
+       {
+        "id": "bes",
+        "kind": "branch",
+        "in": {
+         "Condition": "@esc.ReturnValue"
+        }
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "NameEdit"
+       },
+       {
+        "id": "gt",
+        "kind": "call",
+        "class": "/Script/UMG.EditableTextBox",
+        "function": "GetText",
+        "in": {
+         "self": "@ge.NameEdit"
+        }
+       },
+       {
+        "id": "t2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@gt.ReturnValue"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gi",
+        "kind": "get",
+        "var": "Index"
+       },
+       {
+        "id": "sn",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Kodex Noop Rename",
+        "in": {
+         "self": "@gm.Manager",
+         "index": "@gi.Index",
+         "name": "@t2s.ReturnValue"
+        }
+       },
+       {
+        "id": "er",
+        "kind": "call_self",
+        "function": "End Rename"
+       },
+       {
+        "id": "er_e",
+        "kind": "call_self",
+        "function": "End Rename"
+       },
+       {
+        "id": "h",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Handled"
+       },
+       {
+        "id": "r2",
+        "kind": "return_new"
+       },
+       {
+        "id": "u",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Unhandled"
+       }
+      ],
+      "links": [
+       [
+        "h.ReturnValue",
+        "return.ReturnValue"
+       ],
+       [
+        "u.ReturnValue",
+        "r2.ReturnValue"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "be",
+        "ben",
+        "er_e",
+        "sn",
+        "return"
+       ],
+       [
+        "ben:else",
+        "bes",
+        "er",
+        "return"
+       ],
+       [
+        "bes:else",
+        "return"
+       ],
+       [
+        "be:else",
+        "r2"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Tick",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "pre",
+        "kind": "call_self",
+        "function": "Fit Vars"
+       },
+       {
+        "id": "ged",
+        "kind": "get",
+        "var": "Editing"
+       },
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "NameEdit"
+       },
+       {
+        "id": "hf",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "HasKeyboardFocus",
+        "in": {
+         "self": "@ge.NameEdit"
+        }
+       },
+       {
+        "id": "nf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@hf.ReturnValue"
+        }
+       },
+       {
+        "id": "and",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ged.Editing",
+         "B": "@nf.ReturnValue"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@and.ReturnValue"
+        }
+       },
+       {
+        "id": "er",
+        "kind": "call_self",
+        "function": "End Rename"
+       },
+       {
+        "id": "gst",
+        "kind": "get",
+        "var": "SplitTile"
+       },
+       {
+        "id": "bst",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gst.SplitTile"
+        }
+       },
+       {
+        "id": "hov",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "IsHovered"
+       },
+       {
+        "id": "mp",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetLayoutLibrary",
+        "function": "GetMousePositionOnPlatform"
+       },
+       {
+        "id": "slg",
+        "kind": "get",
+        "var": "Split"
+       },
+       {
+        "id": "slgeo",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "GetCachedGeometry",
+        "in": {
+         "self": "@slg.Split"
+        }
+       },
+       {
+        "id": "slloc",
+        "kind": "call",
+        "class": "/Script/UMG.SlateBlueprintLibrary",
+        "function": "AbsoluteToLocal",
+        "in": {
+         "Geometry": "@slgeo.ReturnValue",
+         "AbsoluteCoordinate": "@mp.ReturnValue"
+        }
+       },
+       {
+        "id": "slsiz",
+        "kind": "call",
+        "class": "/Script/UMG.SlateBlueprintLibrary",
+        "function": "GetLocalSize",
+        "in": {
+         "Geometry": "@slgeo.ReturnValue"
+        }
+       },
+       {
+        "id": "slbl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@slloc.ReturnValue"
+        }
+       },
+       {
+        "id": "slbs",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@slsiz.ReturnValue"
+        }
+       },
+       {
+        "id": "slh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@slbs.Y",
+         "B": "0.5"
+        }
+       },
+       {
+        "id": "sllo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "GreaterEqual_FloatFloat",
+        "in": {
+         "A": "@slbl.Y",
+         "B": "@slh.ReturnValue"
+        }
+       },
+       {
+        "id": "nlo",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@sllo.ReturnValue"
+        }
+       },
+       {
+        "id": "fon",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@hov.ReturnValue",
+         "B": "@nlo.ReturnValue"
+        }
+       },
+       {
+        "id": "von",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@hov.ReturnValue",
+         "B": "@sllo.ReturnValue"
+        }
+       },
+       {
+        "id": "chv_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "chv",
+        "kind": "get",
+        "var": "ColFillHover",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "cf",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@chv.ColFillHover",
+         "B": "(R=0,G=0,B=0,A=0)",
+         "bPickA": "@fon.ReturnValue"
+        }
+       },
+       {
+        "id": "cv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@chv.ColFillHover",
+         "B": "(R=0,G=0,B=0,A=0)",
+         "bPickA": "@von.ReturnValue"
+        }
+       },
+       {
+        "id": "gfb",
+        "kind": "get",
+        "var": "SplitFrontBg"
+       },
+       {
+        "id": "sf",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@gfb.SplitFrontBg",
+         "InBrushColor": "@cf.ReturnValue"
+        }
+       },
+       {
+        "id": "gvb",
+        "kind": "get",
+        "var": "SplitViewBg"
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@gvb.SplitViewBg",
+         "InBrushColor": "@cv.ReturnValue"
+        }
+       },
+       {
+        "id": "gbf",
+        "kind": "get",
+        "var": "BaseFill"
+       },
+       {
+        "id": "gfl",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "sfl",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@gfl.Fill",
+         "InBrushColor": "@gbf.BaseFill"
+        }
+       }
+      ],
+      "links": [
+       [
+        "chv_m.Manager",
+        "chv.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "pre"
+       ],
+       [
+        "pre",
+        "bst",
+        "mp",
+        "sf",
+        "sv",
+        "sfl",
+        "b"
+       ],
+       [
+        "bst:else",
+        "b"
+       ],
+       [
+        "b",
+        "er"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Apply Colors",
+     "inputs": [
+      {
+       "name": "hover",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gbFrame",
+        "kind": "get",
+        "var": "BaseFrame"
+       },
+       {
+        "id": "ghFrame",
+        "kind": "get",
+        "var": "HoverFrame"
+       },
+       {
+        "id": "cFrame",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@ghFrame.HoverFrame",
+         "B": "@gbFrame.BaseFrame",
+         "bPickA": "@entry.hover"
+        }
+       },
+       {
+        "id": "gwFrame",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "sFrame",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@gwFrame.Frame",
+         "InBrushColor": "@cFrame.ReturnValue"
+        }
+       },
+       {
+        "id": "gbFill",
+        "kind": "get",
+        "var": "BaseFill"
+       },
+       {
+        "id": "ghFill",
+        "kind": "get",
+        "var": "HoverFill"
+       },
+       {
+        "id": "cFill",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@ghFill.HoverFill",
+         "B": "@gbFill.BaseFill",
+         "bPickA": "@entry.hover"
+        }
+       },
+       {
+        "id": "gwFill",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "sFill",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@gwFill.Fill",
+         "InBrushColor": "@cFill.ReturnValue"
+        }
+       },
+       {
+        "id": "img_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "img_v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@img_m.Manager"
+        }
+       },
+       {
+        "id": "img_on",
+        "kind": "get",
+        "var": "ButtonOn",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_a",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@img_v.ReturnValue",
+         "B": "@img_on.ButtonOn"
+        }
+       },
+       {
+        "id": "img_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@img_a.ReturnValue"
+        }
+       },
+       {
+        "id": "img_br",
+        "kind": "get",
+        "var": "ButtonBrush",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_w",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrush",
+        "in": {
+         "self": "@img_w.Fill",
+         "InBrush": "@img_br.ButtonBrush"
+        }
+       },
+       {
+        "id": "img_l",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "LinearColorLerp",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@cFill.ReturnValue",
+         "Alpha": "0.4"
+        }
+       },
+       {
+        "id": "img_k",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakColor",
+        "in": {
+         "InColor": "@img_l.ReturnValue"
+        }
+       },
+       {
+        "id": "img_ta",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "img_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "MakeColor",
+        "in": {
+         "R": "@img_k.R",
+         "G": "@img_k.G",
+         "B": "@img_k.B",
+         "A": "@img_ta.TileAlpha"
+        }
+       },
+       {
+        "id": "img_w2",
+        "kind": "get",
+        "var": "Fill"
+       },
+       {
+        "id": "img_sc",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@img_w2.Fill",
+         "InBrushColor": "@img_c.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "img_m.Manager",
+        "img_on.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_br.self"
+       ],
+       [
+        "img_m.Manager",
+        "img_ta.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "sFrame",
+        "sFill",
+        "img_b",
+        "img_sb",
+        "img_sc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Var",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "VarsAll"
+       },
+       {
+        "id": "aa",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@ga.VarsAll",
+         "NewItem": "@entry.widget"
+        }
+       },
+       {
+        "id": "sp",
+        "kind": "set",
+        "var": "VarsPending",
+        "in": {
+         "VarsPending": "true"
+        }
+       },
+       {
+        "id": "rd",
+        "kind": "call_self",
+        "function": "Lay Out Vars"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "aa",
+        "sp",
+        "rd"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Lay Out Vars",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gb0",
+        "kind": "get",
+        "var": "Vars"
+       },
+       {
+        "id": "cl0",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@gb0.Vars"
+        }
+       },
+       {
+        "id": "gb1",
+        "kind": "get",
+        "var": "Vars2"
+       },
+       {
+        "id": "cl1",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@gb1.Vars2"
+        }
+       },
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "VarsAll"
+       },
+       {
+        "id": "len",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@ga.VarsAll"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "VarsMoved"
+       },
+       {
+        "id": "cut",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@len.ReturnValue",
+         "B": "@gm.VarsMoved"
+        }
+       },
+       {
+        "id": "ga2",
+        "kind": "get",
+        "var": "VarsAll"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@ga2.VarsAll"
+        }
+       },
+       {
+        "id": "one",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_IntInt",
+        "in": {
+         "A": "@fe.Array Index",
+         "B": "@cut.ReturnValue"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@one.ReturnValue"
+        }
+       },
+       {
+        "id": "gv0",
+        "kind": "get",
+        "var": "Vars"
+       },
+       {
+        "id": "a0",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@gv0.Vars",
+         "Content": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "pd0",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBoxSlot",
+        "function": "SetPadding",
+        "in": {
+         "self": "@a0.ReturnValue",
+         "InPadding": "(Left=6,Top=0,Right=6,Bottom=0)"
+        }
+       },
+       {
+        "id": "gv1",
+        "kind": "get",
+        "var": "Vars2"
+       },
+       {
+        "id": "a1",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@gv1.Vars2",
+         "Content": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "pd1",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBoxSlot",
+        "function": "SetPadding",
+        "in": {
+         "self": "@a1.ReturnValue",
+         "InPadding": "(Left=6,Top=0,Right=6,Bottom=0)"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "cl0",
+        "cl1",
+        "fe"
+       ],
+       [
+        "fe",
+        "b",
+        "a0",
+        "pd0"
+       ],
+       [
+        "b:else",
+        "a1",
+        "pd1"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Fit Vars",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gp",
+        "kind": "get",
+        "var": "VarsPending"
+       },
+       {
+        "id": "bp",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gp.VarsPending"
+        }
+       },
+       {
+        "id": "gbx",
+        "kind": "get",
+        "var": "VarsBox"
+       },
+       {
+        "id": "geo",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "GetCachedGeometry",
+        "in": {
+         "self": "@gbx.VarsBox"
+        }
+       },
+       {
+        "id": "ls",
+        "kind": "call",
+        "class": "/Script/UMG.SlateBlueprintLibrary",
+        "function": "GetLocalSize",
+        "in": {
+         "Geometry": "@geo.ReturnValue"
+        }
+       },
+       {
+        "id": "bl",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@ls.ReturnValue"
+        }
+       },
+       {
+        "id": "laid",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bl.X",
+         "B": "1.0"
+        }
+       },
+       {
+        "id": "bl2",
+        "kind": "branch",
+        "in": {
+         "Condition": "@laid.ReturnValue"
+        }
+       },
+       {
+        "id": "gv",
+        "kind": "get",
+        "var": "Vars"
+       },
+       {
+        "id": "fl",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "ForceLayoutPrepass",
+        "in": {
+         "self": "@gv.Vars"
+        }
+       },
+       {
+        "id": "ds",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "GetDesiredSize",
+        "in": {
+         "self": "@gv.Vars"
+        }
+       },
+       {
+        "id": "bd",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BreakVector2D",
+        "in": {
+         "InVec": "@ds.ReturnValue"
+        }
+       },
+       {
+        "id": "wide",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@bd.X",
+         "B": "@bl.X"
+        }
+       },
+       {
+        "id": "ga",
+        "kind": "get",
+        "var": "VarsAll"
+       },
+       {
+        "id": "len",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Length",
+        "in": {
+         "TargetArray": "@ga.VarsAll"
+        }
+       },
+       {
+        "id": "gm",
+        "kind": "get",
+        "var": "VarsMoved"
+       },
+       {
+        "id": "left",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_IntInt",
+        "in": {
+         "A": "@len.ReturnValue",
+         "B": "@gm.VarsMoved"
+        }
+       },
+       {
+        "id": "more",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_IntInt",
+        "in": {
+         "A": "@left.ReturnValue",
+         "B": "1"
+        }
+       },
+       {
+        "id": "go",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@wide.ReturnValue",
+         "B": "@more.ReturnValue"
+        }
+       },
+       {
+        "id": "bgo",
+        "kind": "branch",
+        "in": {
+         "Condition": "@go.ReturnValue"
+        }
+       },
+       {
+        "id": "gm2",
+        "kind": "get",
+        "var": "VarsMoved"
+       },
+       {
+        "id": "inc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_IntInt",
+        "in": {
+         "A": "@gm2.VarsMoved",
+         "B": "1"
+        }
+       },
+       {
+        "id": "sm",
+        "kind": "set",
+        "var": "VarsMoved",
+        "in": {
+         "VarsMoved": "@inc.ReturnValue"
+        }
+       },
+       {
+        "id": "rd",
+        "kind": "call_self",
+        "function": "Lay Out Vars"
+       },
+       {
+        "id": "done",
+        "kind": "set",
+        "var": "VarsPending",
+        "in": {
+         "VarsPending": "false"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bp",
+        "bl2",
+        "fl",
+        "bgo",
+        "sm",
+        "rd"
+       ],
+       [
+        "bgo:else",
+        "done"
+       ]
+      ]
+     }
+    }
+   ],
+   "event_graph": {
+    "nodes": [
+     {
+      "id": "en",
+      "kind": "event",
+      "class": "/Script/UMG.UserWidget",
+      "name": "OnMouseEnter"
+     },
+     {
+      "id": "ae",
+      "kind": "call_self",
+      "function": "Apply Colors",
+      "in": {
+       "hover": "true"
+      }
+     },
+     {
+      "id": "lv",
+      "kind": "event",
+      "class": "/Script/UMG.UserWidget",
+      "name": "OnMouseLeave"
+     },
+     {
+      "id": "al",
+      "kind": "call_self",
+      "function": "Apply Colors",
+      "in": {
+       "hover": "false"
+      }
+     }
+    ],
+    "links": [],
+    "exec": [
+     [
+      "en",
+      "ae"
+     ],
+     [
+      "lv",
+      "al"
+     ]
+    ]
+   },
+   "widget_tree": {
+    "class": "/Script/UMG.SizeBox",
+    "name": "Box",
+    "props": {
+     "bOverride_WidthOverride": true,
+     "WidthOverride": 198
+    },
+    "children": [
+     {
+      "class": "/Script/UMG.Border",
+      "name": "Frame",
+      "props": {
+       "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+       "BrushColor": "(R=1,G=1,B=1,A=0.35)",
+       "Padding": "(Left=2,Top=2,Right=2,Bottom=2)",
+       "Clipping": "ClipToBounds"
+      },
+      "children": [
+       {
+        "class": "/Script/UMG.Border",
+        "name": "Fill",
+        "props": {
+         "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+         "BrushColor": "(R=0.02,G=0.02,B=0.03,A=0.80)",
+         "Padding": "(Left=8,Top=13,Right=8,Bottom=13)"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.Overlay",
+          "name": "TileOv",
+          "children": [
+           {
+            "class": "/Script/UMG.VerticalBox",
+            "name": "VB",
+            "children": [
+             {
+              "class": "/Script/UMG.SizeBox",
+              "name": "PhotoBox",
+              "props": {
+               "bOverride_WidthOverride": true,
+               "WidthOverride": 167,
+               "bOverride_HeightOverride": true,
+               "HeightOverride": 251
+              },
+              "slot": {
+               "HorizontalAlignment": "HAlign_Center"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Overlay",
+                "name": "PhotoOv",
+                "children": [
+                 {
+                  "class": "/Script/UMG.Image",
+                  "name": "Photo",
+                  "props": {
+                   "Visibility": "Collapsed"
+                  },
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Fill",
+                   "VerticalAlignment": "VAlign_Fill"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "NoPhoto",
+                  "props": {
+                   "Text": "",
+                   "Font": "(Size=19)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+                   "Justification": "Center"
+                  },
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Center",
+                   "VerticalAlignment": "VAlign_Center"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "Plus",
+                  "props": {
+                   "Text": "+",
+                   "Font": "(Size=84)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+                   "Justification": "Center"
+                  },
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Center",
+                   "VerticalAlignment": "VAlign_Center"
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.SizeBox",
+              "name": "LabelBox",
+              "props": {
+               "bOverride_HeightOverride": true,
+               "HeightOverride": 57
+              },
+              "slot": {
+               "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.TextBlock",
+                "name": "Label",
+                "props": {
+                 "Text": "Look",
+                 "Font": "(Size=21)",
+                 "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+                 "AutoWrapText": true,
+                 "Justification": "Center"
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center"
+                }
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.SizeBox",
+              "name": "VarsBox",
+              "props": {
+               "bOverride_HeightOverride": true,
+               "HeightOverride": 84
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.VerticalBox",
+                "name": "VarsV",
+                "slot": {
+                 "HorizontalAlignment": "HAlign_Fill",
+                 "VerticalAlignment": "VAlign_Center"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "Vars",
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Center"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "Vars2",
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Center"
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.EditableTextBox",
+              "name": "NameEdit",
+              "props": {
+               "Visibility": "Collapsed",
+               "SelectAllTextWhenFocused": true,
+               "ClearKeyboardFocusOnCommit": false,
+               "WidgetStyle": "(Font=(Size=21),Padding=(Left=8,Top=4,Right=8,Bottom=4),BackgroundColor=(SpecifiedColor=(R=0.1,G=0.1,B=0.12,A=1)),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+              },
+              "slot": {
+               "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+              }
+             }
+            ],
+            "slot": {
+             "HorizontalAlignment": "HAlign_Fill",
+             "VerticalAlignment": "VAlign_Fill"
+            }
+           },
+           {
+            "class": "/Script/UMG.VerticalBox",
+            "name": "Split",
+            "props": {
+             "Visibility": "Collapsed"
+            },
+            "slot": {
+             "HorizontalAlignment": "HAlign_Fill",
+             "VerticalAlignment": "VAlign_Fill",
+             "Padding": "(Left=6,Top=0,Right=6,Bottom=0)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.Border",
+              "name": "SplitFrontBg",
+              "props": {
+               "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+               "BrushColor": "(R=0,G=0,B=0,A=0)",
+               "HorizontalAlignment": "HAlign_Center",
+               "VerticalAlignment": "VAlign_Center",
+               "Padding": "(Left=2,Top=4,Right=2,Bottom=10)"
+              },
+              "slot": {
+               "Size": "(SizeRule=Fill,Value=1)",
+               "HorizontalAlignment": "HAlign_Fill",
+               "VerticalAlignment": "VAlign_Fill"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.TextBlock",
+                "name": "SplitFront",
+                "props": {
+                 "Text": "+",
+                 "Font": "(Size=19)",
+                 "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+                 "AutoWrapText": true,
+                 "Justification": "Center"
+                }
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.SizeBox",
+              "name": "SplitLineBox",
+              "props": {
+               "bOverride_HeightOverride": true,
+               "HeightOverride": 2
+              },
+              "slot": {
+               "HorizontalAlignment": "HAlign_Fill"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Border",
+                "name": "SplitLine",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.35)"
+                }
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.Border",
+              "name": "SplitViewBg",
+              "props": {
+               "Background": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_RoundBox.T_RoundBox',ImageSize=(X=48,Y=48),DrawAs=Box,Margin=(Left=0.33,Top=0.33,Right=0.33,Bottom=0.33))",
+               "BrushColor": "(R=0,G=0,B=0,A=0)",
+               "HorizontalAlignment": "HAlign_Center",
+               "VerticalAlignment": "VAlign_Center",
+               "Padding": "(Left=2,Top=10,Right=2,Bottom=4)"
+              },
+              "slot": {
+               "Size": "(SizeRule=Fill,Value=1)",
+               "HorizontalAlignment": "HAlign_Fill",
+               "VerticalAlignment": "VAlign_Fill"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.TextBlock",
+                "name": "SplitView",
+                "props": {
+                 "Text": "+",
+                 "Font": "(Size=19)",
+                 "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+                 "AutoWrapText": true,
+                 "Justification": "Center"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "defaults": {
+    "bOverride_Cursor": "true",
+    "Cursor": "Hand"
+   }
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Mod/AltUI/W_TextButton",
    "mode": "create",
    "parent": "/Script/UMG.UserWidget",
@@ -64304,6 +67577,29 @@
         }
        },
        {
+        "id": "t_ModPresetLabel_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ModPresetLabel_w",
+        "kind": "get",
+        "var": "ModPresetLabel"
+       },
+       {
+        "id": "t_ModPresetLabel",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ModPresetLabel_w.ModPresetLabel",
+         "InColorAndOpacity": "@t_ModPresetLabel_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_TvHint_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -64370,6 +67666,98 @@
         "in": {
          "self": "@t_ValFlySpeed_w.ValFlySpeed",
          "InColorAndOpacity": "@t_ValFlySpeed_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_EnemyHint_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_EnemyHint_w",
+        "kind": "get",
+        "var": "EnemyHint"
+       },
+       {
+        "id": "t_EnemyHint",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_EnemyHint_w.EnemyHint",
+         "InColorAndOpacity": "@t_EnemyHint_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_EnemyLive_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_EnemyLive_w",
+        "kind": "get",
+        "var": "EnemyLive"
+       },
+       {
+        "id": "t_EnemyLive",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_EnemyLive_w.EnemyLive",
+         "InColorAndOpacity": "@t_EnemyLive_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_ValEnemyCount_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValEnemyCount_w",
+        "kind": "get",
+        "var": "ValEnemyCount"
+       },
+       {
+        "id": "t_ValEnemyCount",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValEnemyCount_w.ValEnemyCount",
+         "InColorAndOpacity": "@t_ValEnemyCount_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_ValEnemyDist_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValEnemyDist_w",
+        "kind": "get",
+        "var": "ValEnemyDist"
+       },
+       {
+        "id": "t_ValEnemyDist",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValEnemyDist_w.ValEnemyDist",
+         "InColorAndOpacity": "@t_ValEnemyDist_sc.SlateColor"
         }
        },
        {
@@ -66313,6 +69701,52 @@
         "in": {
          "self": "@t_LblScGrpGlutes_w.LblScGrpGlutes",
          "InColorAndOpacity": "@t_LblScGrpGlutes_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblEnemyCount_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblEnemyCount_w",
+        "kind": "get",
+        "var": "LblEnemyCount"
+       },
+       {
+        "id": "t_LblEnemyCount",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblEnemyCount_w.LblEnemyCount",
+         "InColorAndOpacity": "@t_LblEnemyCount_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblEnemyDist_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblEnemyDist_w",
+        "kind": "get",
+        "var": "LblEnemyDist"
+       },
+       {
+        "id": "t_LblEnemyDist",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblEnemyDist_w.LblEnemyDist",
+         "InColorAndOpacity": "@t_LblEnemyDist_sc.SlateColor"
         }
        },
        {
@@ -70746,6 +74180,26 @@
         }
        },
        {
+        "id": "tswEnemyScroll",
+        "kind": "get",
+        "var": "EnemyScroll"
+       },
+       {
+        "id": "tsmEnemyScroll",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "tsEnemyScroll",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Scroll Box",
+        "in": {
+         "self": "@tsmEnemyScroll.Manager",
+         "box": "@tswEnemyScroll.EnemyScroll"
+        }
+       },
+       {
         "id": "tswBodyChipsScroll",
         "kind": "get",
         "var": "BodyChipsScroll"
@@ -73823,9 +77277,14 @@
         "t_ValScPelvis",
         "t_ValScGlutesAngle",
         "t_ValScGlutesJiggle",
+        "t_ModPresetLabel",
         "t_TvHint",
         "t_NavHint",
         "t_ValFlySpeed",
+        "t_EnemyHint",
+        "t_EnemyLive",
+        "t_ValEnemyCount",
+        "t_ValEnemyDist",
         "t_LblImgHint",
         "t_WeaponAttachHeader",
         "t_WeaponSoundHeader",
@@ -73910,6 +77369,8 @@
         "t_LblScGlutesJiggle",
         "t_LblScGrpBreast",
         "t_LblScGrpGlutes",
+        "t_LblEnemyCount",
+        "t_LblEnemyDist",
         "t_LblTvAlways",
         "t_TvStatus",
         "t_ObjStatus",
@@ -74119,6 +77580,7 @@
         "tsObjScroll",
         "tsTvScroll",
         "tsNavScroll",
+        "tsEnemyScroll",
         "tsBodyChipsScroll",
         "tsOptionsCatScroll",
         "tsOptionsScroll",
@@ -76592,7 +80054,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.page",
-         "B": "Objects"
+         "B": "Enemies"
         }
        },
        {
@@ -76605,7 +80067,7 @@
        {
         "id": "g21",
         "kind": "get",
-        "var": "ObjectsBox"
+        "var": "EnemyViews"
        },
        {
         "id": "v21",
@@ -76613,7 +80075,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@g21.ObjectsBox",
+         "self": "@g21.EnemyViews",
          "InVisibility": "Visible"
         }
        },
@@ -76628,7 +80090,7 @@
        {
         "id": "h21",
         "kind": "get",
-        "var": "ObjectsBox"
+        "var": "EnemyViews"
        },
        {
         "id": "c21",
@@ -76636,7 +80098,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@h21.ObjectsBox",
+         "self": "@h21.EnemyViews",
          "InVisibility": "Collapsed"
         }
        },
@@ -76647,7 +80109,7 @@
         "function": "EqualEqual_NameName",
         "in": {
          "A": "@entry.page",
-         "B": "Actions"
+         "B": "Enemies"
         }
        },
        {
@@ -76660,7 +80122,7 @@
        {
         "id": "g22",
         "kind": "get",
-        "var": "ActionsBox"
+        "var": "EnemyBox"
        },
        {
         "id": "v22",
@@ -76668,7 +80130,7 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@g22.ActionsBox",
+         "self": "@g22.EnemyBox",
          "InVisibility": "Visible"
         }
        },
@@ -76683,7 +80145,7 @@
        {
         "id": "h22",
         "kind": "get",
-        "var": "ActionsBox"
+        "var": "EnemyBox"
        },
        {
         "id": "c22",
@@ -76691,7 +80153,117 @@
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@h22.ActionsBox",
+         "self": "@h22.EnemyBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "eq23",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Objects"
+        }
+       },
+       {
+        "id": "b23",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq23.ReturnValue"
+        }
+       },
+       {
+        "id": "g23",
+        "kind": "get",
+        "var": "ObjectsBox"
+       },
+       {
+        "id": "v23",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g23.ObjectsBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "k23",
+        "kind": "set",
+        "var": "TmpKnown",
+        "in": {
+         "TmpKnown": "true"
+        }
+       },
+       {
+        "id": "h23",
+        "kind": "get",
+        "var": "ObjectsBox"
+       },
+       {
+        "id": "c23",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@h23.ObjectsBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "eq24",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.page",
+         "B": "Actions"
+        }
+       },
+       {
+        "id": "b24",
+        "kind": "branch",
+        "in": {
+         "Condition": "@eq24.ReturnValue"
+        }
+       },
+       {
+        "id": "g24",
+        "kind": "get",
+        "var": "ActionsBox"
+       },
+       {
+        "id": "v24",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g24.ActionsBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "k24",
+        "kind": "set",
+        "var": "TmpKnown",
+        "in": {
+         "TmpKnown": "true"
+        }
+       },
+       {
+        "id": "h24",
+        "kind": "get",
+        "var": "ActionsBox"
+       },
+       {
+        "id": "c24",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@h24.ActionsBox",
          "InVisibility": "Collapsed"
         }
        },
@@ -77125,10 +80697,44 @@
        ],
        [
         "k22",
-        "bk"
+        "b23"
        ],
        [
         "c22",
+        "b23"
+       ],
+       [
+        "b23",
+        "v23",
+        "k23"
+       ],
+       [
+        "b23:else",
+        "c23"
+       ],
+       [
+        "k23",
+        "b24"
+       ],
+       [
+        "c23",
+        "b24"
+       ],
+       [
+        "b24",
+        "v24",
+        "k24"
+       ],
+       [
+        "b24:else",
+        "c24"
+       ],
+       [
+        "k24",
+        "bk"
+       ],
+       [
+        "c24",
         "bk"
        ],
        [
@@ -79504,6 +83110,247 @@
        [
         "b:else",
         "c0"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Enemy View",
+     "inputs": [
+      {
+       "name": "alive",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.alive"
+        }
+       },
+       {
+        "id": "a0",
+        "kind": "get",
+        "var": "EnemyBox"
+       },
+       {
+        "id": "sa0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@a0.EnemyBox",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "b0",
+        "kind": "get",
+        "var": "EnemyBox"
+       },
+       {
+        "id": "sb0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@b0.EnemyBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "a1",
+        "kind": "get",
+        "var": "FollowersVB"
+       },
+       {
+        "id": "sa1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@a1.FollowersVB",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "b1",
+        "kind": "get",
+        "var": "FollowersVB"
+       },
+       {
+        "id": "sb1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@b1.FollowersVB",
+         "InVisibility": "Collapsed"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "sa0",
+        "sa1"
+       ],
+       [
+        "b:else",
+        "sb0",
+        "sb1"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Fol Show Chips Visible",
+     "inputs": [
+      {
+       "name": "visible",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.visible"
+        }
+       },
+       {
+        "id": "g0",
+        "kind": "get",
+        "var": "FolShowChips"
+       },
+       {
+        "id": "v",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g0.FolShowChips",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "g1",
+        "kind": "get",
+        "var": "FolShowChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g1.FolShowChips",
+         "InVisibility": "Collapsed"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "v"
+       ],
+       [
+        "b:else",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Enemy Views",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyViews"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.EnemyViews"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Enemy View",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyViews"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@g.EnemyViews",
+         "Content": "@entry.widget"
+        }
+       },
+       {
+        "id": "p",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBoxSlot",
+        "function": "SetPadding",
+        "in": {
+         "self": "@a.ReturnValue",
+         "InPadding": "(Left=0,Top=0,Right=9,Bottom=0)"
+        }
+       },
+       {
+        "id": "v",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBoxSlot",
+        "function": "SetVerticalAlignment",
+        "in": {
+         "self": "@a.ReturnValue",
+         "InVerticalAlignment": "VAlign_Center"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a",
+        "p",
+        "v"
        ]
       ]
      }
@@ -82022,6 +85869,510 @@
        ]
       ],
       "exec": []
+     }
+    },
+    {
+     "name": "Set Enemy Count",
+     "inputs": [
+      {
+       "name": "value",
+       "type": "float"
+      },
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "SldEnemyCount"
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gs.SldEnemyCount",
+         "InValue": "@entry.value"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "ValEnemyCount"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gt.ValEnemyCount",
+         "InText": "@entry.text"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sv",
+        "st"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Get Enemy Count",
+     "outputs": [
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "SldEnemyCount"
+       },
+       {
+        "id": "gv",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gs.SldEnemyCount"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gv.ReturnValue",
+        "return.value"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Enemy Dist",
+     "inputs": [
+      {
+       "name": "value",
+       "type": "float"
+      },
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "SldEnemyDist"
+       },
+       {
+        "id": "sv",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gs.SldEnemyDist",
+         "InValue": "@entry.value"
+        }
+       },
+       {
+        "id": "gt",
+        "kind": "get",
+        "var": "ValEnemyDist"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gt.ValEnemyDist",
+         "InText": "@entry.text"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sv",
+        "st"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Get Enemy Dist",
+     "outputs": [
+      {
+       "name": "value",
+       "type": "float"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gs",
+        "kind": "get",
+        "var": "SldEnemyDist"
+       },
+       {
+        "id": "gv",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gs.SldEnemyDist"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gv.ReturnValue",
+        "return.value"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Enemy Live",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyLive"
+       },
+       {
+        "id": "s",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@g.EnemyLive",
+         "InText": "@entry.text"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Enemy Hint",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyHint"
+       },
+       {
+        "id": "s",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@g.EnemyHint",
+         "InText": "@entry.text"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Enemy Labels",
+     "inputs": [
+      {
+       "name": "count",
+       "type": "text"
+      },
+      {
+       "name": "dist",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gc",
+        "kind": "get",
+        "var": "LblEnemyCount"
+       },
+       {
+        "id": "sc",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gc.LblEnemyCount",
+         "InText": "@entry.count"
+        }
+       },
+       {
+        "id": "gd",
+        "kind": "get",
+        "var": "LblEnemyDist"
+       },
+       {
+        "id": "sd",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gd.LblEnemyDist",
+         "InText": "@entry.dist"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sc",
+        "sd"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Enemy Modes",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyModes"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.EnemyModes"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Enemy Mode",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyModes"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.EnemyModes",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Enemy Links",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyLinks"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.EnemyLinks"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Enemy Link",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyLinks"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@g.EnemyLinks",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Enemy Kinds",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyKinds"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.EnemyKinds"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Enemy Kind",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "EnemyKinds"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.EnemyKinds",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
      }
     },
     {
@@ -88586,44 +92937,85 @@
       {
        "name": "yes",
        "type": "bool"
+      },
+      {
+       "name": "tiles",
+       "type": "bool"
       }
      ],
      "graph": {
       "nodes": [
        {
-        "id": "b",
+        "id": "b0",
         "kind": "branch",
         "in": {
          "Condition": "@entry.yes"
         }
        },
        {
-        "id": "g1",
+        "id": "g0v",
         "kind": "get",
-        "var": "ModPresetTiles"
+        "var": "ModPresetBar"
        },
        {
-        "id": "sv",
+        "id": "sv0",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@g1.ModPresetTiles",
+         "self": "@g0v.ModPresetBar",
          "InVisibility": "Visible"
         }
        },
        {
-        "id": "g2",
+        "id": "g0h",
         "kind": "get",
-        "var": "ModPresetTiles"
+        "var": "ModPresetBar"
        },
        {
-        "id": "hd",
+        "id": "hd0",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetVisibility",
         "in": {
-         "self": "@g2.ModPresetTiles",
+         "self": "@g0h.ModPresetBar",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "b1",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.tiles"
+        }
+       },
+       {
+        "id": "g1v",
+        "kind": "get",
+        "var": "ModPresetTiles"
+       },
+       {
+        "id": "sv1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g1v.ModPresetTiles",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "g1h",
+        "kind": "get",
+        "var": "ModPresetTiles"
+       },
+       {
+        "id": "hd1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@g1h.ModPresetTiles",
          "InVisibility": "Collapsed"
         }
        }
@@ -88632,12 +93024,172 @@
       "exec": [
        [
         "entry",
+        "b0",
+        "sv0",
+        "b1"
+       ],
+       [
+        "b0:else",
+        "hd0",
+        "b1"
+       ],
+       [
+        "b1",
+        "sv1"
+       ],
+       [
+        "b1:else",
+        "hd1"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Clear Mod Preset Links",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ModPresetLinks"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.ModPresetLinks"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Mod Preset Link",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ModPresetLinks"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.HorizontalBox",
+        "function": "AddChildToHorizontalBox",
+        "in": {
+         "self": "@g.ModPresetLinks",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Mod Preset Label",
+     "inputs": [
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gh",
+        "kind": "get",
+        "var": "ModPresetLabel"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gh.ModPresetLabel",
+         "InText": "@entry.text"
+        }
+       },
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.text"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gh2",
+        "kind": "get",
+        "var": "ModPresetLabel"
+       },
+       {
+        "id": "hd",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh2.ModPresetLabel",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gh3",
+        "kind": "get",
+        "var": "ModPresetLabel"
+       },
+       {
+        "id": "sh",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gh3.ModPresetLabel",
+         "InVisibility": "Visible"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "st",
         "b",
-        "sv"
+        "hd"
        ],
        [
         "b:else",
-        "hd"
+        "sh"
        ]
       ]
      }
@@ -99866,7 +104418,7 @@
        {
         "id": "g35",
         "kind": "get",
-        "var": "ObjScroll"
+        "var": "EnemyScroll"
        },
        {
         "id": "s35",
@@ -99874,14 +104426,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g35.ObjScroll",
+         "self": "@g35.EnemyScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g36",
         "kind": "get",
-        "var": "ObjCatScroll"
+        "var": "ObjScroll"
        },
        {
         "id": "s36",
@@ -99889,14 +104441,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g36.ObjCatScroll",
+         "self": "@g36.ObjScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g37",
         "kind": "get",
-        "var": "ActScroll"
+        "var": "ObjCatScroll"
        },
        {
         "id": "s37",
@@ -99904,14 +104456,14 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g37.ActScroll",
+         "self": "@g37.ObjCatScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        },
        {
         "id": "g38",
         "kind": "get",
-        "var": "ActCatScroll"
+        "var": "ActScroll"
        },
        {
         "id": "s38",
@@ -99919,7 +104471,22 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetWheelScrollMultiplier",
         "in": {
-         "self": "@g38.ActCatScroll",
+         "self": "@g38.ActScroll",
+         "NewWheelScrollMultiplier": "@entry.mult"
+        }
+       },
+       {
+        "id": "g39",
+        "kind": "get",
+        "var": "ActCatScroll"
+       },
+       {
+        "id": "s39",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetWheelScrollMultiplier",
+        "in": {
+         "self": "@g39.ActCatScroll",
          "NewWheelScrollMultiplier": "@entry.mult"
         }
        }
@@ -99966,7 +104533,8 @@
         "s35",
         "s36",
         "s37",
-        "s38"
+        "s38",
+        "s39"
        ]
       ]
      }
@@ -101007,7 +105575,7 @@
        {
         "id": "g35",
         "kind": "get",
-        "var": "ObjScroll"
+        "var": "EnemyScroll"
        },
        {
         "id": "o35",
@@ -101015,7 +105583,7 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "GetScrollOffset",
         "in": {
-         "self": "@g35.ObjScroll"
+         "self": "@g35.EnemyScroll"
         }
        },
        {
@@ -101036,7 +105604,7 @@
        {
         "id": "g36",
         "kind": "get",
-        "var": "ObjCatScroll"
+        "var": "ObjScroll"
        },
        {
         "id": "o36",
@@ -101044,7 +105612,7 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "GetScrollOffset",
         "in": {
-         "self": "@g36.ObjCatScroll"
+         "self": "@g36.ObjScroll"
         }
        },
        {
@@ -101065,7 +105633,7 @@
        {
         "id": "g37",
         "kind": "get",
-        "var": "ActScroll"
+        "var": "ObjCatScroll"
        },
        {
         "id": "o37",
@@ -101073,7 +105641,7 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "GetScrollOffset",
         "in": {
-         "self": "@g37.ActScroll"
+         "self": "@g37.ObjCatScroll"
         }
        },
        {
@@ -101094,7 +105662,7 @@
        {
         "id": "g38",
         "kind": "get",
-        "var": "ActCatScroll"
+        "var": "ActScroll"
        },
        {
         "id": "o38",
@@ -101102,7 +105670,7 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "GetScrollOffset",
         "in": {
-         "self": "@g38.ActCatScroll"
+         "self": "@g38.ActScroll"
         }
        },
        {
@@ -101118,6 +105686,35 @@
         "in": {
          "TargetArray": "@m38.ScrollMem",
          "NewItem": "@o38.ReturnValue"
+        }
+       },
+       {
+        "id": "g39",
+        "kind": "get",
+        "var": "ActCatScroll"
+       },
+       {
+        "id": "o39",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "GetScrollOffset",
+        "in": {
+         "self": "@g39.ActCatScroll"
+        }
+       },
+       {
+        "id": "m39",
+        "kind": "get",
+        "var": "ScrollMem"
+       },
+       {
+        "id": "a39",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Add",
+        "in": {
+         "TargetArray": "@m39.ScrollMem",
+         "NewItem": "@o39.ReturnValue"
         }
        }
       ],
@@ -101164,7 +105761,8 @@
         "a35",
         "a36",
         "a37",
-        "a38"
+        "a38",
+        "a39"
        ]
       ]
      }
@@ -101194,7 +105792,7 @@
         "function": "EqualEqual_IntInt",
         "in": {
          "A": "@ln.ReturnValue",
-         "B": "39"
+         "B": "40"
         }
        },
        {
@@ -102272,7 +106870,7 @@
        {
         "id": "g35",
         "kind": "get",
-        "var": "ObjScroll"
+        "var": "EnemyScroll"
        },
        {
         "id": "s35",
@@ -102280,7 +106878,7 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetScrollOffset",
         "in": {
-         "self": "@g35.ObjScroll",
+         "self": "@g35.EnemyScroll",
          "NewScrollOffset": "@v35.Item"
         }
        },
@@ -102302,7 +106900,7 @@
        {
         "id": "g36",
         "kind": "get",
-        "var": "ObjCatScroll"
+        "var": "ObjScroll"
        },
        {
         "id": "s36",
@@ -102310,7 +106908,7 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetScrollOffset",
         "in": {
-         "self": "@g36.ObjCatScroll",
+         "self": "@g36.ObjScroll",
          "NewScrollOffset": "@v36.Item"
         }
        },
@@ -102332,7 +106930,7 @@
        {
         "id": "g37",
         "kind": "get",
-        "var": "ActScroll"
+        "var": "ObjCatScroll"
        },
        {
         "id": "s37",
@@ -102340,7 +106938,7 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetScrollOffset",
         "in": {
-         "self": "@g37.ActScroll",
+         "self": "@g37.ObjCatScroll",
          "NewScrollOffset": "@v37.Item"
         }
        },
@@ -102362,7 +106960,7 @@
        {
         "id": "g38",
         "kind": "get",
-        "var": "ActCatScroll"
+        "var": "ActScroll"
        },
        {
         "id": "s38",
@@ -102370,8 +106968,38 @@
         "class": "/Script/UMG.ScrollBox",
         "function": "SetScrollOffset",
         "in": {
-         "self": "@g38.ActCatScroll",
+         "self": "@g38.ActScroll",
          "NewScrollOffset": "@v38.Item"
+        }
+       },
+       {
+        "id": "m39",
+        "kind": "get",
+        "var": "ScrollMem"
+       },
+       {
+        "id": "v39",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Get",
+        "in": {
+         "TargetArray": "@m39.ScrollMem",
+         "Index": "39"
+        }
+       },
+       {
+        "id": "g39",
+        "kind": "get",
+        "var": "ActCatScroll"
+       },
+       {
+        "id": "s39",
+        "kind": "call",
+        "class": "/Script/UMG.ScrollBox",
+        "function": "SetScrollOffset",
+        "in": {
+         "self": "@g39.ActCatScroll",
+         "NewScrollOffset": "@v39.Item"
         }
        }
       ],
@@ -102418,7 +107046,8 @@
         "s35",
         "s36",
         "s37",
-        "s38"
+        "s38",
+        "s39"
        ]
       ]
      }
@@ -110595,6 +115224,38 @@
               }
              },
              {
+              "class": "/Script/UMG.HorizontalBox",
+              "name": "ModPresetBar",
+              "props": {
+               "Visibility": "Collapsed"
+              },
+              "slot": {
+               "Padding": "(Left=0,Top=0,Right=0,Bottom=11)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.TextBlock",
+                "name": "ModPresetLabel",
+                "props": {
+                 "Text": "",
+                 "Font": "(Size=25)",
+                 "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center",
+                 "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                }
+               },
+               {
+                "class": "/Script/UMG.HorizontalBox",
+                "name": "ModPresetLinks",
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center"
+                }
+               }
+              ]
+             },
+             {
               "class": "/Script/UMG.WrapBox",
               "name": "ModPresetTiles",
               "props": {
@@ -113015,6 +117676,211 @@
               ]
              }
             ]
+           }
+          ]
+         },
+         {
+          "class": "/Script/UMG.HorizontalBox",
+          "name": "EnemyViews",
+          "props": {
+           "Visibility": "Collapsed"
+          },
+          "slot": {
+           "Padding": "(Left=0,Top=0,Right=0,Bottom=19)"
+          }
+         },
+         {
+          "class": "/Script/UMG.VerticalBox",
+          "name": "EnemyBox",
+          "props": {
+           "Visibility": "Collapsed"
+          },
+          "slot": {
+           "Size": "(SizeRule=Fill,Value=1)"
+          },
+          "children": [
+           {
+            "class": "/Script/UMG.HorizontalBox",
+            "name": "EnemyTop",
+            "children": [
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "LblEnemyCount",
+              "props": {
+               "Text": "",
+               "Font": "(Size=25)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+              },
+              "slot": {
+               "VerticalAlignment": "VAlign_Center"
+              }
+             },
+             {
+              "class": "/Script/UMG.SizeBox",
+              "name": "SldEnemyCountBox",
+              "props": {
+               "bOverride_WidthOverride": true,
+               "WidthOverride": 266,
+               "bOverride_HeightOverride": true,
+               "HeightOverride": 46
+              },
+              "slot": {
+               "VerticalAlignment": "VAlign_Center",
+               "Padding": "(Left=15,Top=0,Right=0,Bottom=0)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Slider",
+                "name": "SldEnemyCount",
+                "props": {
+                 "Value": 0.0,
+                 "StepSize": 0.05263157894736842,
+                 "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                 "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                 "WidgetStyle": "(BarThickness=5.0)"
+                }
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "ValEnemyCount",
+              "props": {
+               "Text": "",
+               "Font": "(Size=23)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+              },
+              "slot": {
+               "VerticalAlignment": "VAlign_Center",
+               "Padding": "(Left=11,Top=0,Right=38,Bottom=0)"
+              }
+             },
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "LblEnemyDist",
+              "props": {
+               "Text": "",
+               "Font": "(Size=25)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+              },
+              "slot": {
+               "VerticalAlignment": "VAlign_Center"
+              }
+             },
+             {
+              "class": "/Script/UMG.SizeBox",
+              "name": "SldEnemyDistBox",
+              "props": {
+               "bOverride_WidthOverride": true,
+               "WidthOverride": 266,
+               "bOverride_HeightOverride": true,
+               "HeightOverride": 46
+              },
+              "slot": {
+               "VerticalAlignment": "VAlign_Center",
+               "Padding": "(Left=15,Top=0,Right=0,Bottom=0)"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Slider",
+                "name": "SldEnemyDist",
+                "props": {
+                 "Value": 0.034482758620689655,
+                 "StepSize": 0.034482758620689655,
+                 "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                 "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                 "WidgetStyle": "(BarThickness=5.0)"
+                }
+               }
+              ]
+             },
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "ValEnemyDist",
+              "props": {
+               "Text": "",
+               "Font": "(Size=23)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+              },
+              "slot": {
+               "VerticalAlignment": "VAlign_Center",
+               "Padding": "(Left=11,Top=0,Right=0,Bottom=0)"
+              }
+             }
+            ]
+           },
+           {
+            "class": "/Script/UMG.WrapBox",
+            "name": "EnemyModes",
+            "props": {
+             "InnerSlotPadding": "(X=11,Y=11)"
+            },
+            "slot": {
+             "Padding": "(Left=0,Top=19,Right=0,Bottom=0)"
+            }
+           },
+           {
+            "class": "/Script/UMG.HorizontalBox",
+            "name": "EnemyLinksRow",
+            "slot": {
+             "Padding": "(Left=0,Top=19,Right=0,Bottom=0)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.HorizontalBox",
+              "name": "EnemyLinks",
+              "slot": {
+               "VerticalAlignment": "VAlign_Center"
+              }
+             },
+             {
+              "class": "/Script/UMG.TextBlock",
+              "name": "EnemyLive",
+              "props": {
+               "Text": "",
+               "Font": "(Size=23)",
+               "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+              },
+              "slot": {
+               "VerticalAlignment": "VAlign_Center",
+               "Padding": "(Left=30,Top=0,Right=0,Bottom=0)"
+              }
+             }
+            ]
+           },
+           {
+            "class": "/Script/UMG.ScrollBox",
+            "name": "EnemyScroll",
+            "props": {
+             "WheelScrollMultiplier": 2.0,
+             "WidgetBarStyle": "(VerticalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),VerticalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),NormalThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),HoveredThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),DraggedThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)))"
+            },
+            "slot": {
+             "Size": "(SizeRule=Fill,Value=1)",
+             "Padding": "(Left=0,Top=19,Right=0,Bottom=0)"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.WrapBox",
+              "name": "EnemyKinds",
+              "props": {
+               "InnerSlotPadding": "(X=12,Y=12)"
+              }
+             }
+            ]
+           },
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "EnemyHint",
+            "props": {
+             "Text": "",
+             "Font": "(Size=23)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+             "AutoWrapText": true
+            },
+            "slot": {
+             "Padding": "(Left=0,Top=15,Right=0,Bottom=0)"
+            }
            }
           ]
          },

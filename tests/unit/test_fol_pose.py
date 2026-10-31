@@ -68,14 +68,24 @@ class Loop(unittest.TestCase):
 
 
 class Attackable(unittest.TestCase):
-    def test_switch_is_bCanBeDamaged_and_saved(self):
+    # 2026-10-30: "attackable" = whether zombies / mercenaries pick the figure as a target (NotTarget -> Is Ragdoll or Dying); it takes
+    # damage either way - bCanBeDamaged false had made an unattackable enemy immortal. Immortal is the Invulnerable chip.
+    def test_switch_is_not_target_and_saved(self):
         g = mgr_graph("Fol Set Attackable"); b = by_id(g)
-        self.assertEqual(b["dmg"]["var"], "bCanBeDamaged"); self.assertEqual(b["dmg"]["in"]["bCanBeDamaged"], "@entry.on")
-        self.assertEqual(b["pm"]["in"]["NoAttack"], "@no.ReturnValue")
+        self.assertEqual(b["dmg"]["in"]["bCanBeDamaged"], "true"); self.assertEqual(b["ntf"]["var"], "NotTarget"); self.assertEqual(b["ntf"]["in"]["NotTarget"], "@no.ReturnValue")
+        self.assertEqual(b["ntj"]["var"], "NotTarget"); self.assertEqual(b["pm"]["in"]["NoAttack"], "@no.ReturnValue")
 
     def test_spawn_uses_the_switch(self):
-        b = by_id(mgr_graph("Fol Spawn")); self.assertEqual(b["ninv"]["in"]["A"], "@rb.NoAttack")
-        self.assertEqual(b["dmg"]["in"]["bCanBeDamaged"], "@ninv.ReturnValue"); self.assertEqual(b["jdmg"]["in"]["bCanBeDamaged"], "@ninv.ReturnValue")
+        b = by_id(mgr_graph("Fol Spawn"))
+        self.assertEqual(b["dmg"]["in"]["bCanBeDamaged"], "true"); self.assertEqual(b["jdmg"]["in"]["bCanBeDamaged"], "true")
+        self.assertEqual(b["snt"]["in"]["NotTarget"], "@rb.NoAttack"); self.assertEqual(b["jnt"]["in"]["NotTarget"], "@rb.NoAttack")
+
+    def test_not_target_is_the_ragdoll_answer(self):
+        import json, os
+        a = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets")
+        for f, name in (("29b_follower.json", "BP_AltUIFollower"), ("29c_jason.json", "BP_AltUIJason")):
+            with open(os.path.join(a, f)) as fh: bp = {x["path"].rsplit("/", 1)[1]: x for x in json.load(fh)["assets"]}[name]
+            fn = next(x for x in bp["functions"] if x["name"] == "Is Ragdoll or Dying"); self.assertIn("NotTarget", json.dumps(fn), name)
 
     def test_invulnerable_is_undead_not_unattackable(self):
         b = by_id(mgr_graph("Fol Set Invulnerable")); self.assertEqual(b["dmg"]["var"], "undead time")

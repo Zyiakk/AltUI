@@ -38,6 +38,10 @@
     {
      "name": "InfAmmo",
      "type": "bool"
+    },
+    {
+     "name": "NotTarget",
+     "type": "bool"
     }
    ],
    "functions": [
@@ -223,6 +227,56 @@
        [
         "sel.ReturnValue",
         "return.num"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Is Ragdoll or Dying",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "NotTarget"
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "ir",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Base",
+        "function": "Is Ragdoll ?",
+        "in": {
+         "self": "@me.self"
+        }
+       },
+       {
+        "id": "o",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@gn.NotTarget",
+         "B": "@ir.yes"
+        }
+       }
+      ],
+      "links": [
+       [
+        "o.ReturnValue",
+        "return.yes"
        ]
       ],
       "exec": []

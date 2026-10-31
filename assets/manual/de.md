@@ -88,7 +88,7 @@ Ein Look ist alles auf einmal: Kleidung mit ihren Farben, Frisur und Haarfarbe, 
 - Die „+“-Kachel speichert den aktuellen Look mit einem Ganzkörperfoto – frontal oder mit der freien Kamera: Flieg sie, wohin du willst, und klick, um das Foto zu machen (Esc: stattdessen frontal).
 - Klick auf einen Look wendet ihn an.
 - Rechtsklick: Inhalt anzeigen, Umbenennen, Aktualisieren (Foto frontal oder mit freier Kamera), Verschieben, Löschen, ins Schnellmenü oder heraus.
-- Rechtsklick außerdem: „Als Ragdoll spawnen“, „Als Follower spawnen“, „Als NPC spawnen“ (siehe „Ragdolls“ und „Follower“).
+- Rechtsklick außerdem: „Als Ragdoll spawnen“, „Als Follower spawnen“, „Als NPC spawnen“, „Als Gegner spawnen“ (siehe „Ragdolls“ und „Follower“).
 - Rechtsklick „Bereinigte Kopie (ohne fehlende Teile)“ – nur, wenn der Look Teile einer nicht mehr installierten Mod oder Make-up-/Augen-Zeilen enthält, die keine Tabelle mehr kennt: ein neuer Look direkt dahinter ohne diese Einträge, mit demselben Foto. Das Original bleibt, wie es ist; Neuspeichern entfernt sie nie von selbst.
 
 ## Rucksack {#bag}
@@ -107,6 +107,7 @@ Jodis Gegenstände und die Hyper Item-Box, eine Liste unter der anderen.
 
 - Die Chips filtern nach den Gruppen des Spiels (Waffen, Munition, Waffenzubehör, Werkzeug …). Das Gewicht zeigt, was Jodi trägt, was sie tragen kann und wie weit sie überladen ist.
 - Ein Klick legt einen Gegenstand in die Box oder nimmt einen heraus. Rechtsklick: die Hälfte oder alle, verwenden, untersuchen, wegwerfen, Schnellwahl 1 oder 2, Munition entnehmen, „Zubehör …“ (öffnet die Waffe im Reiter Waffen).
+- „Immer automatisch ausrüsten“ (Rechtsklick, auch bei Katalog-Items): Nach jedem Laden eines Levels legt AltUI das Item neu in Jodis Rucksack, bis zur Menge, die die Kachel beim Markieren hatte (mindestens eine Packung); weggenommen wird nie etwas. Solche Kacheln zeigen einen goldenen Kreispfeil und einen goldenen Rahmen. „Nicht mehr automatisch ausrüsten“ beendet es.
 - Das Kontextmenü eines Stapels endet mit „Anzahl“: Regler und Zahlenfeld, darunter je Ziel ein Eintrag mit dieser Zahl („5 in die Box“, „5 nehmen“). Enter im Feld führt den ersten Eintrag aus. Im Katalog zählt die Zahl Stück, das Feld nimmt mehr, als der Regler erreicht. Waffen und Einzelstücke haben keine Anzahl.
 - „Alle wegwerfen“ legt je Packung ein Objekt auf den Boden. Ab 100 Objekten fragt ein Fenster zuerst: „Abbrechen“, „Stattdessen vernichten“ (die Gegenstände sind weg, nichts fällt) oder „Trotzdem ablegen“ – so viele Objekte mit Physik auf einmal können das Spiel abstürzen lassen. Esc bricht ab.
 - Alles läuft über die Funktionen des Spiels, die Regeln des Spiels bleiben also – Überladen eingeschlossen.
@@ -191,7 +192,7 @@ Jodis Gesichtsausdruck.
 
 Einstellungen anderer Mods, die sich bei AltUI anmelden: links ihre Einträge, rechts Schalter, Regler, Zahlen, Auswahlen, Farben, Textfelder, Tasten und Knöpfe des gewählten.
 
-Über den Feldern: Presets der Seite. Die Kachel „+“ speichert die aktuellen Einstellungen mit Foto (frontal oder mit freier Kamera); ein Klick wendet ein Preset an. Rechtsklick: anwenden, Inhalt anzeigen, umbenennen, aktualisieren, verschieben, löschen, Schnellmenü. „Inhalt anzeigen“ listet die Werte mit je einem Häkchen: Nur angehakte Werte werden angewendet, nicht angehakte bleiben gespeichert. Presets, die eine Mod selbst mitbringt, stehen vorn; sie lassen sich anwenden, umbenennen, mit einem eigenen Foto versehen („Neues Foto“) und ihre Werte an- oder abhaken, nicht ändern oder löschen. Gespeichert pro Mod in AltUI_ModPresets_<Mod>.sav.
+Über den Feldern: Presets der Seite. Die Kachel „+“ speichert die aktuellen Einstellungen mit Foto (frontal oder mit freier Kamera); ein Klick wendet ein Preset an. Rechtsklick: anwenden, Inhalt anzeigen, umbenennen, aktualisieren, verschieben, löschen, Schnellmenü. „Inhalt anzeigen“ listet die Werte mit je einem Häkchen: Nur angehakte Werte werden angewendet, nicht angehakte bleiben gespeichert. Presets, die eine Mod selbst mitbringt, stehen vorn; sie lassen sich anwenden, umbenennen, mit einem eigenen Foto versehen („Neues Foto“) und ihre Werte an- oder abhaken, nicht ändern oder löschen. Gespeichert pro Mod in AltUI_ModPresets_<Mod>.sav. Mitgelieferte Presets lassen sich ausblenden (Rechtsklick „Ausblenden“); „Ausgeblendete Presets zeigen“ in der Leiste über den Kacheln holt die dieser Seite zurück. „...“ in dieser Leiste klappt den Preset-Bereich aller Mod-Seiten zu und wieder auf.
 
 Der Reiter erscheint nur, wenn ein solcher Mod installiert ist.
 
@@ -258,6 +259,19 @@ Figuren ohne Panel bewegen und posieren, die Kamera frei im Raum. Start mit dem 
 - Mittlere Maustaste halten dreht die Kamera, ohne dass der Bildschirmrand bremst; der Zeiger kommt danach an seine Stelle zurück.
 - Esc oder B beendet den Modus.
 
+## Gegner {#enemies}
+
+Lebende, feindliche Zombies jeder Art. Eine Kachel spawnt ihre Art, die Links darunter ihre Varianten – in Blickrichtung der Kamera im eingestellten Abstand, so viele wie „Anzahl“ sagt, verteilt um diesen Punkt.
+
+- Verhalten: *Jagen* – sie kommen sofort auf Jodi zu; *Lauern* – sie warten, bis sie jemanden sehen oder hören (auch Follower); *Passiv* – sie stehen still, nichts weckt sie. Eine Änderung gilt für alle Gegner, die AltUI gespawnt hat.
+- *Alle entfernen* / *Nächsten entfernen* nehmen sie weg (keine Beute, keine EXP); *Alle töten* lässt sie sterben wie im Spiel – die Leichen bleiben bis *Alle entfernen*.
+- „Lebend: n“ zählt die lebenden Gegner, die AltUI gespawnt hat; die Zombies des Spiels werden nie angefasst.
+- Zwei Ansichten: „Spawnen“ (oben) und „Lebend (n)“: eine Zeile je Gegner – Figuren aus einem Look (mit allem, was der Follower-Reiter kann) und darunter jeder von AltUI gespawnte Zombie mit Art, Abstand und Verhalten; Links je Zombie: jagen, lauern, passiv, entfernen, töten.
+- Das Spiel speichert lebende Gegner mit dem Spielstand: Nach dem Laden sind sie Zombies des Spiels. Vor dem Speichern entfernen oder töten.
+- In einer Challenge verhindern lebende Gegner den Sieg (das Spiel zählt jeden lebenden Zombie). Zwischensequenzen entfernen sie.
+- Wo es keine Laufwege gibt (Jodis Büro, Level 3, der Schießstand), gehen sie nur geradeaus auf ein Ziel zu, das sie sehen.
+- Schnellmenü: „Spawnen: <Art>“ je Art und Variante (mit der aktuellen Anzahl, Abstand und Verhalten), „Gegner: alle entfernen / alle töten / passiv / aktiv“ – im Aktionen-Reiter, auch auf eigenen Tasten.
+
 ## Navigation {#navigation}
 
 - Fliegen / Landen: Jodi fliegt. Bewegen wie gewohnt, Leertaste steigt, Strg sinkt, Shift ist dreimal so schnell; der Regler stellt das Tempo ein. Wände halten sie auf. Landen lässt sie zu Boden fallen – ein tiefer Fall schadet wie im Spiel. Auch im Schnellmenü, damit auch auf eigener Taste (Aktionen › Eigene Tasten).
@@ -288,17 +302,18 @@ Mit der Maus auf einem Objekt, neben dem Panel und im Ragdoll-Modus:
 
 Looks als Personen im Spiel: Ein Follower geht mit Jodi, kämpft und nimmt Befehle an; ein NPC bleibt, wo er ist, und verteidigt sich.
 
-- Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“ oder „Als NPC spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look.
+- Im Looks-Reiter Rechtsklick auf einen Look: „Als Follower spawnen“, „Als NPC spawnen“ oder „Als Gegner spawnen“. Die Figur erscheint vor Jodi und trägt diesen Look. Ein Gegner jagt Jodi mit einer Pistole (Endlosmunition) und verletzt sie; seine Zeile steht im Reiter „Enemies“ unter „Lebend“, mit allem, was der Follower-Reiter kann (nur in seinem Level) – dort löschen oder zum Follower machen. Deine Follower bekämpfen ihn.
 - Der Reiter „Follower“ listet alle Figuren mit Status (folgt, wartet, NPC, inaktiv, gefallen) und Chips: „Folge mir“, „Warte hier“, „Herholen“, → NPC / → Follower, „Aktiv“, ∞ mit Herz (unverwundbar), ∞ mit Patronen (Endlosmunition) und das Zahnrad (angreifbar / nicht angreifbar, umbenennen, Look ändern, wiederbeleben, entfernen). „...“ klappt die Kacheln der Figur (Kleidung und Rucksack) weg und wieder auf; das bleibt je Figur, auch nach einem Neustart.
 - Follower stehen über den NPCs, eine Linie trennt die beiden Gruppen. Die Chips über den Zeilen zeigen alle, nur Follower oder nur NPCs (bleibt nach einem Neustart).
 - Ein Klick auf eine Zeile wählt die Figur aus. Oben stehen Rucksack (links) und Hyper Item-Box (rechts): Ein Klick gibt ein Item an die ausgewählte Figur, eine Schusswaffe samt Lackierung und Zubehör. Ein Klick auf eine Kachel der Figur gibt das Item zurück in den Rucksack; Rechtsklick: alles, oder in die Box. „...“ über einer Liste klappt sie ein.
 - Das Kontextmenü eines Stapels – bei Jodi oder der Figur – hat die Anzahl-Zeile wie im Reiter Inventar: „5 geben“, „5 nehmen“, in die Box.
 - Die Kleidung besteht aus echten Stücken der Figur wie bei den NPCs des Spiels: Sie bekommt Schaden, kann abreißen und steht im Inventar-Dialog des Spiels, wo man sie auch tauschen kann. Unter einer Figur stehen ihre Stücke als Kacheln (beschädigte mit Markierung): Ein Klick zieht eines aus und legt es in Jodis Rucksack; Rechtsklick: mit einem Nähset aus Jodis Rucksack reparieren oder alle reparieren. In der Rucksack-Spalte listet „Kleidung“ Jodis Stücke: Ein Klick gibt eines an die ausgewählte Figur, die es anzieht (Schaden und Farben gehen mit).
+- Zahnrad-Menü „Outfit wiederherstellen (ohne Nähset)“: die Figur trägt wieder genau das Outfit ihres Looks, jedes Stück wie neu, kostenlos – verlorene Teile (abgerissen, weggenommen) kommen zurück, andere Teile wandern in ihre Tasche (Follower, NPCs und Gegner). „Alle Outfits wiederherstellen“ unten rechts im Follower-Reiter macht das für jede Figur dieses Reiters.
 - „Aktiv“ aus nimmt eine Figur mit allem, was sie trägt, aus der Welt; wieder an, kommt sie vor Jodi zurück.
 - „Endlosmunition“: Die Figur lädt ihre Schusswaffen immer wieder nach, ohne Munition in ihrer Tasche zu brauchen. Magazinwaffen lassen ihre Munition unberührt; Schrotflinte und Granatwerfer verbrauchen zuerst, was sie dabei hat.
 - Eine Figur, die nicht unverwundbar ist, kann fallen. Sie bleibt in der Liste, „Wiederbeleben“ holt sie mit ihren Sachen zurück. Figuren werden nie zu Zombies.
 - „Unverwundbar“ (∞ mit Herz): Die Figur kann nicht sterben, ihre Lebensenergie füllt sich nach jedem Treffer wieder auf. Treffer-Reaktionen und Kleidungsschaden gibt es trotzdem.
-- „Angreifbar“ (Zahnrad): Zombies nehmen nur angreifbare Figuren als Ziel, unabhängig von „Unverwundbar“. Nach „Nicht angreifbar machen“ lassen Zombies die Figur in Ruhe, sie nimmt dann auch keinen Schaden. Der Schalter wird gespeichert; neue Figuren sind angreifbar.
+- „Angreifbar“ (Zahnrad): Zombies nehmen nur angreifbare Figuren als Ziel, unabhängig von „Unverwundbar“. Nach „Nicht angreifbar machen“ nehmen Zombies und Söldner die Figur nicht mehr als Ziel; Schaden nimmt sie trotzdem (unverletzt bleibt sie mit „Unverwundbar“). Der Schalter wird gespeichert; neue Figuren sind angreifbar.
 - „+ Jason“ (unten rechts im Reiter) holt Jason aus der Story als Follower dazu, mit seiner Glock. Er nimmt Befehle, kommt mit und wird gespeichert. Er kämpft nur mit seiner eigenen Glock: Eine Glock, die man ihm gibt, wird seine, andere Waffen nimmt er nicht. Look, Kleidung und Make-up hat er nicht; liegt er am Boden, kann man ihn nicht heilen – „Wiederbeleben“ holt ihn zurück.
 - „Entfernen“ fragt nach; Items und Schusswaffen der Figur kommen in die Box, ihre Kleidung in Jodis Rucksack.
 - „Look ändern“ wechselt in den Looks-Reiter: den Look anklicken, den die Figur tragen soll.

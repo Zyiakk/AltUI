@@ -17,7 +17,7 @@ NAV_STRINGS = ("Tab_Navigation", "Nav_NoBeds", "Nav_Dead", "Nav_Falling", "Nav_B
 
 class Tab(unittest.TestCase):
     def test_after_ragdolls(self):
-        self.assertEqual(ui.TOP_TABS[ui.TOP_TABS.index("Ragdolls") + 1], "Navigation")
+        self.assertEqual(ui.TOP_TABS[ui.TOP_TABS.index("Enemies") + 1], "Navigation")
 
     def test_strings(self):
         for k in NAV_STRINGS:

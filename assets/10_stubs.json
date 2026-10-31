@@ -301,6 +301,19 @@
    ]
   },
   {
+   "type": "enum",
+   "path": "/Game/Project/Classes/Enum/Zombie_AIMode",
+   "values": [
+    "None",
+    "NoSoul",
+    "Inactive",
+    "Active",
+    "ChasePlayer",
+    "Following",
+    "Patrol"
+   ]
+  },
+  {
    "type": "struct",
    "path": "/Game/Project/Tables/ItemStruct",
    "members": [
@@ -665,6 +678,98 @@
      "name": "Crystal",
      "type": "object:/Script/Engine.Actor"
     }
+   ],
+   "functions": [
+    {
+     "name": "on Spawn in Runtime",
+     "inputs": [
+      {
+       "name": "spawn location",
+       "type": "struct:/Script/CoreUObject.Vector"
+      }
+     ]
+    },
+    {
+     "name": "Set Loot Item with Name",
+     "inputs": [
+      {
+       "name": "item",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Change Ai Mode",
+     "inputs": [
+      {
+       "name": "mode",
+       "type": "enum:/Game/Project/Classes/Enum/Zombie_AIMode"
+      }
+     ]
+    },
+    {
+     "name": "Remove Me"
+    },
+    {
+     "name": "Is Alive ?",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Controller/AI_Controller",
+   "mode": "create",
+   "parent": "/Script/AIModule.AIController",
+   "variables": [
+    {
+     "name": "target character",
+     "type": "object:/Game/Project/Classes/Character_Base"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Change Target Character",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Base"
+      },
+      {
+       "name": "search time",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Start Wait"
+    },
+    {
+     "name": "Change Ai Mode",
+     "inputs": [
+      {
+       "name": "mode",
+       "type": "enum:/Game/Project/Classes/Enum/Zombie_AIMode"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Controller/Zombie_Controller",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/Controller/AI_Controller",
+   "functions": [
+    {
+     "name": "Stop Following Path"
+    }
    ]
   },
   {
@@ -672,6 +777,13 @@
    "path": "/Game/Project/Actors/Weapons/Weapon_Base",
    "mode": "create",
    "parent": "/Script/Engine.Actor",
+   "variables": [
+    {
+     "name": "Actors to Ignore Trace",
+     "type": "object:/Script/Engine.Actor",
+     "container": "array"
+    }
+   ],
    "functions": [
     {
      "name": "Get Weapon Name",
@@ -1797,6 +1909,9 @@
      ]
     },
     {
+     "name": "Try to Destruct Clothing"
+    },
+    {
      "name": "Take off this clothes",
      "inputs": [
       {
@@ -2158,6 +2273,36 @@
      ]
     },
     {
+     "name": "Get Ai Mode",
+     "outputs": [
+      {
+       "name": "mode",
+       "type": "enum:/Game/Project/Classes/Enum/Zombie_AIMode"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "is Npc ?",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Is Ragdoll or Dying",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
+    {
      "name": "Change Controller",
      "inputs": [
       {
@@ -2195,6 +2340,33 @@
       }
      ],
      "pure": true
+    },
+    {
+     "name": "Got Hurt",
+     "inputs": [
+      {
+       "name": "damage",
+       "type": "float"
+      },
+      {
+       "name": "murderer",
+       "type": "object:/Game/Project/Classes/Character_Base"
+      },
+      {
+       "name": "force ragdoll",
+       "type": "bool"
+      },
+      {
+       "name": "headshot",
+       "type": "bool"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "dead",
+       "type": "bool"
+      }
+     ]
     }
    ]
   },
@@ -2330,6 +2502,15 @@
     }
    ],
    "functions": [
+    {
+     "name": "Set Input Control Enabled",
+     "inputs": [
+      {
+       "name": "control",
+       "type": "bool"
+      }
+     ]
+    },
     {
      "name": "Wanna Use This Item",
      "inputs": [
@@ -2740,6 +2921,10 @@
     {
      "name": "Distance to Master",
      "type": "float"
+    },
+    {
+     "name": "char type",
+     "type": "int"
     }
    ],
    "functions": [
@@ -2758,6 +2943,40 @@
     },
     {
      "name": "on Spawn in Runtime"
+    },
+    {
+     "name": "on Damage Event",
+     "inputs": [
+      {
+       "name": "damage",
+       "type": "float"
+      },
+      {
+       "name": "damage type",
+       "type": "object:/Script/Engine.DamageType"
+      },
+      {
+       "name": "murderer",
+       "type": "object:/Game/Project/Classes/Character_Base"
+      },
+      {
+       "name": "weapon actor",
+       "type": "object:/Script/Engine.Actor"
+      },
+      {
+       "name": "hit info",
+       "type": "struct:/Script/Engine.HitResult",
+       "ref": true
+      },
+      {
+       "name": "location",
+       "type": "struct:/Script/CoreUObject.Vector"
+      },
+      {
+       "name": "is explosive",
+       "type": "bool"
+      }
+     ]
     },
     {
      "name": "Ani Notify Grab Weapon",
@@ -2843,6 +3062,10 @@
     {
      "name": "is busy",
      "type": "bool"
+    },
+    {
+     "name": "Order Flags",
+     "type": "int"
     }
    ],
    "functions": [
@@ -2866,6 +3089,19 @@
     },
     {
      "name": "Decide Next State"
+    },
+    {
+     "name": "Change Target Zombie",
+     "inputs": [
+      {
+       "name": "Zombie in front of me",
+       "type": "object:/Game/Project/Classes/Character_Base"
+      },
+      {
+       "name": "search time",
+       "type": "float"
+      }
+     ]
     }
    ]
   },
@@ -3065,9 +3301,30 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/UserInterface/Widgets/ImageButton",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "functions": [
+    {
+     "name": "Click Button"
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/UserInterface/Widgets/InventoryNpc",
    "mode": "create",
-   "parent": "/Script/UMG.UserWidget"
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "Npc",
+     "type": "object:/Game/Project/Character/Npc/Character_NPC"
+    },
+    {
+     "name": "ImageButton_Close",
+     "type": "object:/Game/Project/UserInterface/Widgets/ImageButton"
+    }
+   ]
   },
   {
    "type": "blueprint",

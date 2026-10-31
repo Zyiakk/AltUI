@@ -88,7 +88,7 @@ Stylizacja to wszystko naraz: ubrania z kolorami, fryzura i kolor włosów, maki
 - Kafelek „+” zapisuje aktualną stylizację ze zdjęciem całej postaci – z przodu albo wolną kamerą: przesuń ją, gdzie chcesz, i kliknij, aby zrobić zdjęcie (Esc: zamiast tego z przodu).
 - Kliknięcie stylizacji ją stosuje.
 - Prawy przycisk: pokaż zawartość, zmień nazwę, aktualizuj (zdjęcie z przodu lub wolną kamerą), przesuń, usuń, dodaj do szybkiego menu lub usuń z niego.
-- Prawy przycisk także: „Utwórz jako ragdoll”, „Utwórz jako towarzysza”, „Utwórz jako NPC” (zobacz „Ragdolle” i „Towarzysze”).
+- Prawy przycisk także: „Utwórz jako ragdoll”, „Utwórz jako towarzysza”, „Utwórz jako NPC”, „Utwórz jako wroga” (zobacz „Ragdolle” i „Towarzysze”).
 - Prawy przycisk „Oczyszczona kopia (bez brakujących części)” – widoczne tylko, gdy wygląd zawiera części moda, którego już nie ma, albo wiersze makijażu / oczu, których nie zna żadna tabela: nowy wygląd tuż za nim bez tych wpisów, z tym samym zdjęciem. Oryginał zostaje bez zmian; ponowne zapisanie nigdy ich samo nie usuwa.
 
 ## Plecak {#bag}
@@ -107,6 +107,7 @@ Przedmioty Jodi i hiperskrzynia, jedna lista pod drugą.
 
 - Chipy filtrują według grup gry (broń, amunicja, akcesoria do broni, narzędzia…). Waga pokazuje, ile Jodi niesie, ile może unieść i jak bardzo jest przeciążona.
 - Kliknięcie wkłada jeden przedmiot do skrzyni albo wyjmuje jeden. Prawy przycisk: połowa albo wszystko, użyj, obejrzyj, wyrzuć, szybki wybór 1 lub 2, rozładuj, „Akcesoria…” (otwiera broń w karcie Broń).
+- „Zawsze wyposażaj automatycznie” (prawy klik, także w katalogu): po każdym wczytaniu poziomu AltUI wkłada przedmiot, nowy, do plecaka Jodi, do ilości, jaką kafelek miał przy oznaczeniu (co najmniej jedna paczka); nigdy niczego nie zabiera. Takie kafelki mają złotą okrągłą strzałkę i złotą ramkę. „Przestań wyposażać automatycznie” to kończy.
 - Menu kontekstowe stosu kończy się wierszem „Ilość”: suwak i pole liczbowe, a pod nimi po jednym wpisie na cel z tą liczbą („Włóż 5 do skrzyni”, „Weź 5”). Enter w polu wykonuje pierwszy wpis. W katalogu liczba oznacza sztuki, a pole przyjmuje więcej, niż sięga suwak. Broń palna i pojedyncze przedmioty nie mają ilości.
 - „Wyrzuć wszystko” kładzie na ziemi jeden obiekt na paczkę. Od 100 obiektów najpierw pyta okno: „Anuluj”, „Zamiast tego zniszcz” (przedmioty znikają, nic nie spada) albo „Wyrzuć mimo to” – tyle obiektów z fizyką naraz może spowodować awarię gry. Esc anuluje.
 - Wszystko idzie przez funkcje samej gry, więc jej zasady zostają – razem z przeciążeniem.
@@ -191,7 +192,7 @@ Mimika Jodi.
 
 Ustawienia innych modów, które rejestrują się w AltUI: po lewej ich wpisy, po prawej przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, klawisze i przyciski wybranego.
 
-Nad polami: presety strony. Kafelek „+” zapisuje obecne ustawienia ze zdjęciem (z przodu lub wolną kamerą); kliknięcie stosuje preset. Prawy klik: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń, menu szybkie. „Pokaż zawartość” wypisuje wartości, każdą z polem wyboru: stosowane są tylko zaznaczone, niezaznaczone pozostają zapisane. Presety dostarczone przez mod są na początku; można je stosować, zmieniać ich nazwę, dodać własne zdjęcie („Nowe zdjęcie”) i zaznaczać ich wartości, ale nie edytować ani usuwać. Zapisywane osobno dla każdego moda w AltUI_ModPresets_<mod>.sav.
+Nad polami: presety strony. Kafelek „+” zapisuje obecne ustawienia ze zdjęciem (z przodu lub wolną kamerą); kliknięcie stosuje preset. Prawy klik: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń, menu szybkie. „Pokaż zawartość” wypisuje wartości, każdą z polem wyboru: stosowane są tylko zaznaczone, niezaznaczone pozostają zapisane. Presety dostarczone przez mod są na początku; można je stosować, zmieniać ich nazwę, dodać własne zdjęcie („Nowe zdjęcie”) i zaznaczać ich wartości, ale nie edytować ani usuwać. Zapisywane osobno dla każdego moda w AltUI_ModPresets_<mod>.sav. Presety dostarczone przez mod można ukryć (prawy klik „Ukryj”); „Pokaż ukryte presety” na pasku nad kafelkami przywraca te z tej strony. „...” na tym pasku zwija obszar presetów na wszystkich stronach modów i rozwija go ponownie.
 
 Ta karta pojawia się tylko wtedy, gdy taki mod jest zainstalowany.
 
@@ -258,6 +259,19 @@ Przesuwanie i pozowanie figur bez panelu, z kamerą poruszającą się swobodnie
 - Przytrzymanie środkowego przycisku myszy obraca kamerę bez zatrzymywania na krawędziach ekranu; potem wskaźnik wraca na swoje miejsce.
 - Esc lub B kończy tryb.
 
+## Wrogowie {#enemies}
+
+Żywe, wrogie zombie każdego rodzaju. Kafelek przywołuje swój rodzaj, linki pod nim jego warianty – w kierunku kamery w ustawionej odległości, tyle, ile mówi „Liczba”, rozmieszczone wokół tego punktu.
+
+- Zachowanie: *Polowanie* – od razu idą na Jodi; *Czatowanie* – czekają, aż kogoś zobaczą lub usłyszą (także towarzyszy); *Bierny* – stoją w miejscu i nic ich nie budzi. Zmiana dotyczy wszystkich wrogów przywołanych przez AltUI.
+- *Usuń wszystkich* / *Usuń najbliższego* zabierają ich (bez łupu, bez EXP); *Zabij wszystkich* pozwala im zginąć jak w grze – ciała zostają do *Usuń wszystkich*.
+- „Żywych: n” liczy żywych wrogów przywołanych przez AltUI; zombie gry nigdy nie są ruszane.
+- Dwa widoki: „Przywołaj” (powyżej) i „Żywi (n)”: wiersz na wroga – postacie ze stylizacji (ze wszystkim, co oferuje zakładka Towarzysze), a pod nimi każdy zombie przywołany przez AltUI z rodzajem, odległością i zachowaniem; linki dla każdego zombie: poluj, czaj się, pasywny, usuń, zabij.
+- Gra zapisuje żywych wrogów razem ze stanem gry: po wczytaniu są zombie gry. Usuń lub zabij ich przed zapisem.
+- W wyzwaniu żywi wrogowie nie pozwalają wygrać (gra liczy każdego żywego zombie). Przerywniki ich usuwają.
+- Tam, gdzie nie ma ścieżek (biuro Jodi, poziom 3, strzelnica), idą tylko prosto do celu, który widzą.
+- Szybkie menu: „Przywołaj: <rodzaj>” dla każdego rodzaju i wariantu (z aktualną liczbą, odległością i zachowaniem), „Wrogowie: usuń wszystkich / zabij wszystkich / bierni / aktywni” – w zakładce Akcje, także na własnych klawiszach.
+
 ## Nawigacja {#navigation}
 
 - Leć / Wyląduj: Jodi lata. Ruch jak zwykle, Spacja w górę, Ctrl w dół, Shift trzy razy szybciej; suwak ustawia tempo. Ściany ją zatrzymują. Wyląduj pozwala jej spaść na ziemię – upadek z wysoka rani jak w grze. Także w szybkim menu, więc także pod własnym klawiszem (Akcje › Własne klawisze).
@@ -288,17 +302,18 @@ Myszą na obiekcie, obok panelu i w trybie ragdolli:
 
 Stylizacje jako postacie w grze: towarzysz idzie z Jodi, walczy i słucha rozkazów; NPC zostaje na miejscu i się broni.
 
-- W zakładce Stylizacje prawy klik na stylizację: „Utwórz jako towarzysza” albo „Utwórz jako NPC”. Postać pojawia się przed Jodi w tej stylizacji.
+- W zakładce Stylizacje prawy klik na stylizację: „Utwórz jako towarzysza”, „Utwórz jako NPC” albo „Utwórz jako wroga”. Postać pojawia się przed Jodi w tej stylizacji. Wróg poluje na Jodi z pistoletem (nieskończona amunicja) i ją rani; jego wiersz jest w zakładce Wrogowie w widoku „Żywi”, ze wszystkim, co oferuje zakładka Towarzysze (tylko na swoim poziomie) – tam go usuń albo zrób z niego towarzysza. Twoi towarzysze z nim walczą.
 - Zakładka „Towarzysze” pokazuje wszystkie postacie ze stanem (podąża, czeka, NPC, nieaktywny, poległ) i przyciskami: „Za mną”, „Czekaj tutaj”, „Przywołaj”, → NPC / → Towarzysz, „Aktywny”, ∞ z sercem (nieśmiertelny), ∞ z nabojami (amunicja bez końca) i zębatka (atakowalna / nieatakowalna, zmień nazwę, zmień stylizację, ożyw, usuń). „...” zwija i rozwija kafelki postaci (ubrania i plecak); zostaje tak dla każdej postaci, także po ponownym uruchomieniu.
 - Towarzysze są nad NPC, linia oddziela obie grupy. Przyciski nad wierszami pokazują wszystkich, tylko towarzyszy albo tylko NPC (zostaje po ponownym uruchomieniu).
 - Kliknięcie wiersza wybiera postać. Na górze są plecak (po lewej) i skrzynia (po prawej): kliknięcie daje przedmiot wybranej postaci, broń razem z malowaniem i akcesoriami. Kliknięcie kafelka postaci oddaje go do plecaka; prawy klik: wszystko albo do skrzyni. „...” nad listą zwija ją.
 - Menu kontekstowe stosu – Jodi lub postaci – ma wiersz ilości jak w karcie Ekwipunek: „Daj 5”, „Weź 5”, do skrzyni.
 - Ubrania to prawdziwe rzeczy postaci, jak u NPC w grze: niszczą się, mogą zostać zerwane i widać je w ekwipunku NPC samej gry, gdzie można je też wymieniać. Pod postacią jej rzeczy są kafelkami (uszkodzone mają znacznik): kliknięcie zdejmuje rzecz i wkłada ją do plecaka Jodi; prawy klik: napraw zestawem do szycia z plecaka Jodi albo napraw wszystko. W kolumnie plecaka „Ubrania” pokazuje rzeczy Jodi: kliknięcie daje jedną wybranej postaci, która ją zakłada (uszkodzenia i kolory idą razem z nią).
+- Menu zębatki „Przywróć strój (bez zestawu do szycia)”: postać znów nosi dokładnie strój swojej stylizacji, każda część jak nowa, za darmo – utracone części (zerwane, zabrane) wracają, inne trafiają do jej plecaka (towarzysze, NPC i wrogowie). „Przywróć wszystkie stroje” w prawym dolnym rogu zakładki Towarzysze robi to dla każdej postaci tej zakładki.
 - Wyłączenie „Aktywny” zabiera postać ze świata razem z tym, co niesie; po włączeniu wraca przed Jodi.
 - „Amunicja bez końca”: postać przeładowuje broń palną bez końca i nie potrzebuje amunicji w torbie. Broń z magazynkiem nie rusza jej amunicji; strzelba i granatnik najpierw zużywają to, co ma przy sobie.
 - Postać, która nie jest nieśmiertelna, może polec. Zostaje na liście, a „Ożyw” przywraca ją z jej rzeczami. Postacie nigdy nie zmieniają się w zombie.
 - „Nieśmiertelny” (∞ z sercem): postać nie może zginąć, jej zdrowie odnawia się po każdym trafieniu. Mimo to reaguje na trafienia, a jej ubrania się niszczą.
-- „Atakowalna” (zębatka): zombie biorą na cel tylko atakowalne postacie, nieśmiertelne czy nie. Po „Ustaw jako nieatakowalną” zombie zostawiają postać w spokoju i nie otrzymuje ona też obrażeń. Ustawienie jest zapisywane; nowe postacie są atakowalne.
+- „Atakowalna” (zębatka): zombie biorą na cel tylko atakowalne postacie, nieśmiertelne czy nie. Po „Ustaw jako nieatakowalną” zombie i najemnicy nie biorą postaci na cel; obrażenia nadal otrzymuje (bez obrażeń z „Nieśmiertelna”). Ustawienie jest zapisywane; nowe postacie są atakowalne.
 - „+ Jason” (na dole po prawej w zakładce) dodaje Jasona z fabuły jako towarzysza, z jego Glockiem. Słucha poleceń, idzie z Jodi i jest zapisywany. Walczy tylko własnym Glockiem: Glock, który mu dasz, staje się jego, innej broni nie przyjmuje. Nie ma stylizacji, ubrań ani makijażu; gdy leży, nie da się go uleczyć – „Ożyw” przywraca go.
 - „Usuń” pyta o potwierdzenie; przedmioty i broń postaci trafiają do skrzyni, a ubrania do plecaka Jodi.
 - „Zmień stylizację” przechodzi do zakładki Stylizacje: kliknij stylizację, którą postać ma nosić.

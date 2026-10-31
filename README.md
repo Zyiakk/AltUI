@@ -102,7 +102,7 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Saved with a full-body photo from the game, taken from the front or with the free camera, from wherever you fly it.
 * Apply, update, rename and delete; "View content" lists what a look holds.
 * Your own order: right click moves a look left, right, to the start or to the end.
-* Spawn a look as a ragdoll, a follower or an NPC.
+* Spawn a look as a ragdoll, a follower, an NPC or an enemy.
 * "Clean copy (without missing parts)": for a look that holds pieces of a mod no longer installed, a new look without
   them, right after the original, with the same photo. The original and later saves keep such entries.
 
@@ -116,6 +116,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * The game's item groups as chips; the weight with a bar.
 * A click moves one item into the box or out of it.
 * Right click: half or all, use, inspect, discard, quick slot, unload ammo and accessories.
+* "Always auto-equip" (right click, also in the catalogue): after every level load the item is put into the backpack,
+  made anew, up to the amount the tile had when marked; nothing is taken away. Marked tiles have a gold loop arrow and frame.
 * A stack's menu ends with an amount: a slider and a number field, then one entry per target with that number.
 * "Discard all" asks first when it would put 100 or more objects on the ground – that many objects with physics at once
   can crash the game: cancel, destroy instead, or drop anyway.
@@ -206,6 +208,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   quick menu from the right-click menu. "View content" lists a preset's values with a check box each – only ticked ones
   are applied, so a preset can leave some settings alone. A mod can ship presets of its own; they can get a photo of
   yours. Kept per mod in `AltUI_ModPresets_<mod>.sav`.
+* Shipped presets can be hidden (right click "Hide"); "Show hidden presets" brings them back. "..." in the bar above the
+  tiles folds the preset area on every mod page.
 * Only shown when such a mod is installed – see [Settings of other mods](#settings-of-other-mods).
 
 ### Options
@@ -282,13 +286,25 @@ it then runs on that key with the panel closed, also in the free camera and the 
   part nearest to the zombie, a frozen figure springs back into its pose.
 * Poses are saved per kind of figure, scenes per level (`AltUI_Ragdolls.sav`).
 
+### Enemies
+
+* Living, hostile zombies of every kind, spawned in front of Jodi: count (1–20), distance (1–30 m, 2 m by default) and behaviour – hunt, lurk
+  or passive – set on the tab, saved with the settings.
+* Remove all (also the bodies) / remove nearest (no loot, no EXP), kill all (they die as in the game), all passive / active.
+* "Alive (n)": one row per enemy with its kind, distance and behaviour and its own links – hunt, lurk, passive, remove, kill.
+* Look enemies: right click a look, "Spawn as enemy" – the figure wears the look and hunts the nearest of Jodi and her
+  figures with a pistol and infinite ammo; its shots hurt, your followers fight it. Its row (in "Alive", only in its level)
+  has everything the Followers tab offers – delete it there or make it a follower. No swapping with it while it lives.
+* Only the enemies AltUI spawned are touched, never the game's own zombies. The game saves living enemies with the save game.
+* The same actions in the quick menu and on own keys ("Spawn: <kind>" per kind and variant).
+
 ### Followers
 
 * Figures made from a look: right click a look, "Spawn as follower" or "Spawn as NPC". They wear the look's clothes, body
   sliders and weapon looks.
 * A follower walks with Jodi, fights and takes orders; an NPC stays where it is and defends itself.
 * The tab lists every figure with its status, and chips: follow me, wait here, bring here (also from another level),
-  → NPC / → follower, active, invulnerable, and a gear for attackable, rename, change look, revive and remove; "..." folds a
+  → NPC / → follower, active, invulnerable, and a gear for attackable, restore outfit, rename, change look, revive and remove; "..." folds a
   figure's tiles away.
 * Followers above NPCs; chips show all, only followers or only NPCs.
 * Jodi's backpack and the storage box sit at the top: a click gives an item or a gun to the selected figure; a stack's
@@ -301,8 +317,10 @@ it then runs on that key with the panel closed, also in the free camera and the 
 * Infinite ammo (chip per figure, ∞ with cartridges): it keeps reloading without ammo in its bag. Invulnerable is the
   chip with ∞ and a heart; both show their name as a tooltip. An invulnerable figure cannot die – its health fills up
   again after every hit.
-* Attackable (gear, saved): zombies only target attackable figures, invulnerable or not; an unattackable figure is left
-  alone and takes no damage.
+* Attackable (gear, saved): zombies and mercenaries only pick attackable figures as a target; an unattackable figure is
+  left alone but still takes damage from a stray hit. Unhurt is the "Invulnerable" chip.
+* "Restore outfit (no sewing kit)" (gear): the figure wears exactly its look's outfit again, every piece as new – lost
+  pieces come back, others go into its bag. "Restore all outfits" (bottom right) does it for every follower and NPC.
 * Figures in a pose: the quick menu group "Figure: favourite poses" puts the follower or NPC in view into one of your
   favourite poses. It holds the pose through hits and stays turned the way it was; zombies attack it if it is attackable –
   a way to set up scenes. "Figure: stop pose" gives it its follow / wait order back.

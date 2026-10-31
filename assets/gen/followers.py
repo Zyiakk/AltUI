@@ -12,6 +12,9 @@ S_FOL = M + "/S_Follower"; SG_FOL = M + "/SG_Followers"; FOL_SLOT = "AltUI_Follo
 W_FOLROW = M + "/W_FolRow"   # one figure in the Followers tab (gen_widgets.py)
 S_RAGPART = M + "/S_RagPart"
 MODE_FOLLOWER, MODE_NPC = 1, 2
+MODE_ENEMY = 4   # a figure that hunts Jodi with the NPC AI (Fol Npc Guard); 3 is taken: FolSpawnMode 3 = new look for a record
+FOL_DEFEND_RANGE = 2500.0   # cm: a follower without a target takes an enemy figure this near (Fol Defend)
+ENEMY_GUN = "Glock"   # what a new enemy figure gets (with infinite ammo): the NPC AI shoots well, its melee approach is poor
 ORDER_FOLLOW, ORDER_STAY = "NpcFollow", "NpcStay"   # Npc_Controller orders (Change Order / Receive Order)
 FOL_DIST = 150.0          # spawn distance in front of Jodi (cm)
 FOL_SYNC = 10.0           # seconds between two syncs of the figures into the save (position, bag, weapons, fallen)
@@ -65,6 +68,7 @@ def new_pieces(before, now):
 
 KIND_LOOK, KIND_JASON = 0, 1   # S_Follower.Kind
 STATE_FOLLOWS, STATE_WAITS, STATE_NPC, STATE_INACTIVE, STATE_FALLEN = "Fol_Follows", "Fol_Waits", "Fol_Npc", "Fol_Inactive", "Fol_Fallen"
+STATE_ENEMY = "Fol_Enemy"
 
 
 # Followers tab rows are a table: name, status, then one column per chip in this order. A chip a state does not have leaves its
@@ -113,7 +117,7 @@ def col_widths(keys):
 
 
 def state_width():
-    return int(round(_longest([STATE_FOLLOWS, STATE_WAITS, STATE_NPC, STATE_INACTIVE, STATE_FALLEN]) * STATE_CHAR + STATE_PAD))
+    return int(round(_longest([STATE_FOLLOWS, STATE_WAITS, STATE_NPC, STATE_ENEMY, STATE_INACTIVE, STATE_FALLEN]) * STATE_CHAR + STATE_PAD))
 
 
 def state_key(mode, order, active, fallen):
@@ -121,6 +125,7 @@ def state_key(mode, order, active, fallen):
     if fallen: return STATE_FALLEN
     if not active: return STATE_INACTIVE
     if mode == MODE_NPC: return STATE_NPC
+    if mode == MODE_ENEMY: return STATE_ENEMY
     return STATE_FOLLOWS if order == ORDER_FOLLOW else STATE_WAITS
 
 
@@ -162,5 +167,11 @@ def structs():
                            # gear menu "attackable" off: bCanBeDamaged false - zombies take only figures that can be damaged; false = attackable / an old record
                            param("NoAttack", "bool"),
                            # the look's mutation (mutation.py), drawn into a skin target of its own on spawn; zeros = none / an old record
-                           param("Mutation", "struct:/Game/Mod/AltUI/S_Mutation")]),
+                           param("Mutation", "struct:/Game/Mod/AltUI/S_Mutation"),
+                           # pieces the game tore off (Character_Player_Base.Try to Destruct Clothing takes them out of the bag for good):
+                           # gear menu "Restore outfit" gives them back; empty = none / an old record
+                           param("Lost", "name", "array"),
+                           # the look's outfit: what it wore when made / given a new look - "Restore outfit" puts exactly this on again;
+                           # empty = an old record (restore then keeps what it wears and the torn-off pieces)
+                           param("Outfit", "name", "array")]),
             blueprint(SG_FOL, "/Script/Engine.SaveGame", variables=[var("Followers", "struct:" + S_FOL, "array"), var("Counter", "int")])]

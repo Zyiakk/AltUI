@@ -91,7 +91,8 @@ def f_with_kept_colors():
 def variables():
     return [var("KeepItems", "name", "array"), var("SnapWorn", "name", "array"), var("KeptOn", "name", "array"), var("KeepTmp", "name", "array"),
             var("KeepHit", "bool"), var("KeepColors", "name", "map", value_type=S_LINCOLOR), var("PendingKept", "string", "array"),
-            var("PendingKeep", "bool"), var("NextKeep", "bool")]
+            var("PendingKeep", "bool"), var("NextKeep", "bool"),
+            var("SnapMkOwn", "bool"), var("PendingMkOwn", "bool"), var("NextMkOwn", "bool")]   # the snapshot's make-up is Jodi's own (an outfit): no "not available" for it
 
 
 def saved_variables():

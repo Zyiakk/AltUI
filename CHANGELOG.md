@@ -1,5 +1,37 @@
 # Changelog
 
+## 2.10.0 – 2026-10-31
+
+* New tab **Enemies**: living, hostile zombies of every kind (tiles with their variants, as in the Ragdolls tab), spawned
+  in front of Jodi with a count (1–20), a distance (1–30 m, 2 m by default – as near as a ragdoll) and a behaviour – *Hunt* (they come for Jodi at once), *Lurk*
+  (they wait until they see or hear someone) or *Passive* (nothing wakes them). Remove all (also the bodies of the ones that died) / remove nearest (no loot, no
+  EXP), kill all (they die as in the game, the bodies stay), all passive / active; "Alive: n". Only the enemies AltUI
+  spawned are touched. Quick menu kind "enemy": "Spawn: <kind>" per kind and variant and the control entries, in the
+  Actions tab and on own keys.
+* Enemies tab: views **"Spawn"** and **"Alive (n)"** – one row per enemy: the look figures and every spawned zombie (kind,
+  distance, behaviour) with its own links: hunt, lurk, passive, remove, kill.
+* Looks: right click **"Spawn as enemy"** – the figure wears the look and hunts Jodi with the NPCs' own AI, with a pistol and
+  infinite ammo; its shots hurt Jodi, your followers fight it. Its row is on the Enemies page (only in its level), with
+  everything the Followers tab offers: delete it there or make it a follower. It fights whoever is nearest – Jodi or one of her
+  figures. No swapping with it while it lives; a dead one can be looted.
+* Followers / enemies: gear menu **"Restore outfit (no sewing kit)"** – the figure wears exactly its look's outfit again, every
+  piece as new, free: pieces it lost (torn off, taken away) come back, pieces beyond the outfit come off into its bag;
+  **"Restore all outfits"** at the bottom right of the Followers tab for every follower and NPC.
+  **Note:** the outfit is remembered from this version on – for a follower or NPC made with an earlier version, use "New look"
+  once (or make it anew); until then "Restore outfit" keeps what it wears and only brings back pieces torn off from now on.
+* Inventory: right click **"Always auto-equip"** / "Stop auto-equip" – after every level load AltUI puts the item into Jodi's
+  backpack, made anew, up to the amount the tile had when marked (never takes anything away). Marked tiles show a gold loop
+  arrow and a gold frame.
+* Mod presets: presets a mod brings can be **hidden** (right click "Hide"); "Show hidden presets" in the new bar above the
+  tiles brings back the ones of that page. "..." in the bar folds the preset area of every mod page (kept).
+* Changed: "Make unattackable" (gear menu) only means zombies and mercenaries do not pick the figure as a target – it takes
+  damage again (before, it became immortal, also to the followers' shots). Unhurt is the "Invulnerable" chip.
+* Fixed: a follower's mutation look was lost after a while (the record lost it with every sync).
+* Fixed: with the panel open, a hit on Jodi took the mouse cursor away (the game hides it when Jodi is hurt).
+* Fixed: in the Ragdolls mode a hit on Jodi took the mouse cursor away.
+* Fixed: every outfit said "Not available: <make-up row>" when Jodi's save game held a make-up / tattoo row no table has any
+  more (a tattoo mod removed or renamed) – an outfit keeps Jodi's own make-up, so only looks report such rows now.
+
 ## 2.9.0 – 2026-10-29
 
 * Photos: **free camera instead of "as seen"**. The lower half of a "+" tile (looks, faces, appearance presets, mod presets)

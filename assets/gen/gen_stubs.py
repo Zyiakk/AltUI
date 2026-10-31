@@ -58,6 +58,9 @@ assets = [
     # Weapons: ItemTable (weapon rows), GunPaint (paint -> weapon -> material), a converted skin mod for the editor test
     # ItemClass: only the byte value counts at runtime (the game's enum); display names are ours
     enum(P_ITEMCLASS_E, ["Tool", "Collectible", "Key", "Weapon", "Ammo", "Consumable"]),
+    # Enemies tab: the zombie AI mode - only the byte value counts at runtime. A pin literal is the INTERNAL name NewEnumerator<byte - 1> (cooked bytecode)
+    # (bpgen names them so; these are display names - "ChasePlayer" as a literal compiled to 0)
+    enum(P_ZOMBIE_AIMODE, ["None", "NoSoul", "Inactive", "Active", "ChasePlayer", "Following", "Patrol"]),
     struct(P_ITEM_S, [param("Caption", "text", internal_name="Caption_34_A1D1AEE6499506A034ED6E83F2123581"),
                       # inventory tab: weight, stacking, pack size, kind (inventory.kind_of), flag bits (2 = gun)
                       param("Weight", "int", internal_name="Weight_56_FFB819DE4B6F431FF2D096A9EE0A2195"),
@@ -104,9 +107,18 @@ assets = [
     blueprint(P_ITEMCOMP,mode="augment", functions=[fn("Is Locked", outputs=[param("Yes", "bool")], pure=True)]),
     blueprint(P_PWCOMP, mode="augment", variables=[var("Password", "string")]),
     blueprint(P_SHATTERER, mode="augment", variables=[var("gas tank", "object:/Script/Engine.Actor")]),   # Ragdolls: its tank moves to the copy, then cleared
-    blueprint(P_ZOMBIE, mode="augment", variables=[var("Crystal", "object:/Script/Engine.Actor")]),   # Ragdolls: cleared before a copied zombie goes (its on destroyed drops it)   # the game reads/writes it (Dices_Password, ChangePassword)
+    blueprint(P_ZOMBIE, mode="augment", variables=[var("Crystal", "object:/Script/Engine.Actor")],   # Ragdolls: cleared before a copied zombie goes (its on destroyed drops it)
+              # Enemies tab: the game's runtime spawn path (TKA_GameState.Spawn A Zombie) and remove / alive (bytecode 2026-10-30)
+              functions=[fn("on Spawn in Runtime", [param("spawn location", "struct:/Script/CoreUObject.Vector")]), fn("Set Loot Item with Name", [param("item", "name")]),
+                         fn("Change Ai Mode", [param("mode", "enum:" + P_ZOMBIE_AIMODE)]), fn("Remove Me"), fn("Is Alive ?", outputs=[param("yes", "bool")], pure=True)]),
+    # the zombie's controllers: AI_Controller <- Zombie_Controller <- one per kind (Brute_Controller ...); the kit has none
+    blueprint(P_AICTRL, "/Script/AIModule.AIController", variables=[var("target character", "object:" + P_CB)],   # ALTUI_ENEMYLOG
+              functions=[fn("Change Target Character", [param("char", "object:" + P_CB), param("search time", "float")]), fn("Start Wait"),
+                         fn("Change Ai Mode", [param("mode", "enum:" + P_ZOMBIE_AIMODE)])]),   # Enemies: straight to the controller (the zombie's own needs its Ai Controller variable)
+    blueprint(P_ZOMBIECTRL, P_AICTRL, functions=[fn("Stop Following Path")]),
     # the mesh components are reached with GetComponentsByClass (a stub variable named SkeletalMesh is refused - it collides with the engine class)
-    blueprint(P_WEAPON, E_ACTOR, functions=[fn("Get Weapon Name", outputs=[param("name", "name")], pure=True),
+    blueprint(P_WEAPON, E_ACTOR, variables=[var("Actors to Ignore Trace", "object:/Script/Engine.Actor", "array")],   # an NPC's weapon holds Jodi here (Character_NPC.Create a Weapon With Class): its shots fly through her
+              functions=[fn("Get Weapon Name", outputs=[param("name", "name")], pure=True),
                                             fn("Unload Ammo", outputs=[param("succeed", "bool")]),   # inventory tab: "Unload"
                                             fn("Attach to Hand"), fn("Set Visible", [param("visible", "bool")]),
                                             fn("Get Ammo Name", outputs=[param("ammo name", "name")], pure=True),   # followers: infinite ammo (Count Weapon Ammo)
@@ -206,6 +218,7 @@ assets = [
     datatable(P_CG, P_CGS, composite=True, parent_tables=[P_CGV]),
     blueprint(P_CPB, mode="augment", functions=[
         fn("Wear The Clothes", [param("name", "name"), param("check covering", "bool"), param("update mask", "bool"), param("ignore compatible", "bool")], [param("successed", "bool")]),
+        fn("Try to Destruct Clothing"),   # tears the most fragile worn piece off (Damage > 0.95): out of the bag for good - BP_AltUIFollower notes it
         fn("Take off this clothes", [param("clothes name", "name")]),
         fn("take off clothes", [param("type", "name"), param("update mask", "bool")]),
         fn("Take Off Clothes And Remove Component", [param("comp", "object:" + P_CC)]),   # one comp (multislot.Take Off Slot All)   # by slot, no covering check afterwards (the game's own forward conflict check uses it)
@@ -231,12 +244,16 @@ assets = [
     # breast / hip jiggle bodies: the game switches them on here; AltUI calls it again after re-instantiating the physics state (height slider)
     blueprint(P_CB, mode="augment", remove_functions=["Is Alive ?"],   # a stub of 2026-10-09 that collided with the kit's Jodi.Is Alive ?
               functions=[fn("Enable Boobs Physics", [param("hip", "bool")]),
+                         fn("Get Ai Mode", outputs=[param("mode", "enum:" + P_ZOMBIE_AIMODE)], pure=True),   # ALTUI_ENEMYLOG
+                         fn("is Npc ?", outputs=[param("yes", "bool")], pure=True),
+                         fn("Is Ragdoll or Dying", outputs=[param("yes", "bool")], pure=True),   # AI_Controller.is my target Character asks it first: an unattackable figure says yes   # NPCs ignore each other's damage (Character_NPC.on Damage Event); an enemy figure overrides it
                          # Jason prototype: Init Jason asks for Jason_Controller here, ours swaps the class (the game's pin is Class<AI_Controller_C>; the stub
                          # chain has no AI_Controller, the pointer is the same)
                          fn("Change Controller", [param("Class", "class:/Script/AIModule.AIController")]),
                                                fn("Is Crouching", outputs=[param("yes", "bool")], pure=True),
                                                fn("get Foot Location", outputs=[param("location", "struct:/Script/CoreUObject.Vector")], pure=True),   # invisible hand (BP_AltUIHand): the scan box sits on it
                                                fn("Is Ragdoll ?", outputs=[param("yes", "bool")], pure=True),
+                                               fn("Got Hurt", [param("damage", "float"), param("murderer", "object:" + P_CB), param("force ragdoll", "bool"), param("headshot", "bool")], [param("dead", "bool")]),   # Enemies: kill without a murderer (no EXP)
                                                ], variables=[var("Health", "float"), var("Speed 2d", "float"), var("Anim Blueprint", "object:/Script/Engine.AnimInstance"),
                                                                     var("Loading State", "int"),   # > 0: loaded from a story save (Plots_GameState.Load Game Ex)   # BP_AltUIMove (Anim Blueprint: set once in Begin Play Ex - reset after a style switch)
                                                                     var("Health Max", "float"), var("undead time", "float")]),   # followers: Invulnerable = the game's undead time + health filled up (Fol Guard)
@@ -248,7 +265,8 @@ assets = [
               functions=[fn("Init", [param("invisible Comp", "object:" + P_IHC)])]),
     blueprint(P_JODI, mode="augment", variables=[var("InvisibleHand_Comp", "object:" + P_IHC), var("View Data Unarmed ", "struct:" + P_WVS), var("need update camera view data", "bool"),   # zoom in play (the game's name ends in a space)
                                                 var("Skin Wet Alpha Target", "float"), var("previous weapon", "object:" + P_WEAPON), var("wanna toggle weapon", "bool"),   # inventory tab: Got A Gun's equip request (Inv Got Gun)
-                                                var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Wanna Use This Item", [param("item name", "name")]), fn("on Menu Displayed", [param("show", "bool")]),   # panel open/close: what PlayingHud does for the game's menus (aim ends, Wanna Aim reset)
+                                                var("Settings", "object:" + P_SETTINGS_SAVE), var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D"), var("Camera", "object:/Script/Engine.CameraComponent"), var("Action Animation Name Next", "name"), var("Action Animation Name Current", "name"), var("current weapon", "object:" + P_WEAPON)], functions=[fn("Set Input Control Enabled", [param("control", "bool")]),   # Focus Guard: a hit gave Jodi her input back (PlayingHud.Hide All Visible Panels)
+                                                fn("Wanna Use This Item", [param("item name", "name")]), fn("on Menu Displayed", [param("show", "bool")]),   # panel open/close: what PlayingHud does for the game's menus (aim ends, Wanna Aim reset)
                                                 fn("Add Item to Shortcut", [param("item name", "name"), param("group", "int"), param("gun", "object:" + P_WEAPON)]),   # inventory tab
                                                 fn("Save Appearance"), fn("Is Input Enabled ?", outputs=[param("yes", "bool")], pure=True), fn("Wanna Running"),
                                                 fn("Use Clothes from Bag", [param("clothes name", "name"), param("is wear", "bool")]),
@@ -269,7 +287,8 @@ assets = [
     # Weapons (name -> weapon actor): on Character_Player_Base as in the game (the old kit had it on Jodi); Jodi and the followers inherit it
     # Check Appearence: the follower overrides it (it would put the game's default clothes on a figure without clothes components)
     # heels (Clothes_Comp.Wear of heeled shoes: Set Heel Height + Feet Additive; the anims read Heels Height Ratio / Feet Additive): the follower copies them
-    blueprint(P_CPB, mode="augment", variables=[var("Weapons", "name", "map", value_type="object:" + P_WEAPON), var("in hand weapon", "object:" + P_WEAPON), var("Heels Height Ratio", "float"), var("Heel Height", "float"),
+    blueprint(P_CPB, mode="augment", variables=[var("Weapons", "name", "map", value_type="object:" + P_WEAPON), var("in hand weapon", "object:" + P_WEAPON),
+                                                var("Heels Height Ratio", "float"), var("Heel Height", "float"),
                                                 var("Feet Additive", "float"),
                                                 var("Save Player Clothes", "name", "array"),   # On Begun Play puts these on (Wear These Clothes), then clears them
                                                 var("Save Clothes Damaged", "name", "map", value_type="float"),   # damage per piece (Store / Get Clothes Damage)
@@ -289,7 +308,11 @@ assets = [
                          # figure in a pose: the out montage / loop of an action animation (Fol Pose End, Fol Pose Watch)
                          fn("Change Action Animation", [param("Anim", "object:/Script/Engine.AnimSequence"), param("Montage", "object:/Script/Engine.AnimMontage")])]),   # the underwear rule (Bra01 / Briefs01 unless Is Nude Allowed); the follower's Check Appearence calls it
     # on Spawn in Runtime: the game's start of a figure spawned while playing (-> On Begun Play: anim class, order, health)
-    blueprint(P_CNPC, P_CPB, variables=[var("Distance to Master", "float")], functions=[fn("Need to Save", outputs=[param("yes", "bool")], pure=True), fn("Mutate"), fn("on Spawn in Runtime"),
+    blueprint(P_CNPC, P_CPB, variables=[var("Distance to Master", "float"), var("char type", "int")],   # char type 1: followers' zombie search finds an enemy figure (as the mercenary)
+              functions=[fn("Need to Save", outputs=[param("yes", "bool")], pure=True), fn("Mutate"), fn("on Spawn in Runtime"),
+                         fn("on Damage Event", [param("damage", "float"), param("damage type", "object:/Script/Engine.DamageType"), param("murderer", "object:" + P_CB),
+                                                param("weapon actor", "object:/Script/Engine.Actor"), param("hit info", "struct:/Script/Engine.HitResult", ref=True),
+                                                param("location", "struct:/Script/CoreUObject.Vector"), param("is explosive", "bool")]),   # an enemy figure: hits from NPCs count
                                                                                  fn("Ani Notify Grab Weapon", [param("equip", "bool")])],   # Jason: a weapon on a socket he lacks goes to Prop_R
               remove_functions=["Character Die"]),   # since 2026-10-18 on Character_Player_Base (Jason's death skips Character_NPC's)
     # Jason (story NPC): State > 0 starts him in On Begun Play (Init Jason: Jason_Controller), 1 = hammer, 2 = Glock
@@ -298,9 +321,11 @@ assets = [
                                          var("Npc Name", "name")],   # Get Character Name -> VoiceTable row (Female_1..4): no name, no voice   # On Begun Play gives the controller these
               functions=[fn("delay to mutant"), fn("Apply Npc Appearance"), fn("Init Npc Appearance")]),   # the follower applies its look in Apply, rolls nothing in Init
     blueprint(P_NPCCTRL, "/Script/AIModule.AIController", variables=[var("master", "object:" + P_JODI), var("Order Location", "struct:/Script/CoreUObject.Vector"),   # Fol Spawn: order + place straight to the controller
-                                                                                   var("Current Order", "name"), var("walking state", "int"), var("is busy", "bool")],   # Current Order: Fol Sync (the game's NPC menu); the last two: ALTUI_FOLLOG
+                                                                                   var("Current Order", "name"), var("walking state", "int"), var("is busy", "bool"),   # Current Order: Fol Sync (the game's NPC menu); the last two: ALTUI_FOLLOG
+                                                                                   var("Order Flags", "int")],   # enemy figures (Fol Npc Guard): 1 = no zombie search (2), no orders / "Attack" sounds (4)
               functions=[fn("Change Order", [param("order", "name")]), fn("Receive Order", [param("order", "name")]),   # Receive Order: as the game's NPC menu (voice, stay = here)
-                         fn("Decide Next State")]),   # the orders (follow: walk to master); Jason_Controller's own never calls it, the prototype's controller does
+                         fn("Decide Next State"),
+                         fn("Change Target Zombie", [param("Zombie in front of me", "object:" + P_CB), param("search time", "float")])]),   # any Character_Base: an enemy figure's target is Jodi   # the orders (follow: walk to master); Jason_Controller's own never calls it, the prototype's controller does
     blueprint(P_JASONCTRL, P_NPCCTRL),   # Jason's AI: the prototype's controller derives from it
     blueprint(P_ATTUI, E_USERWIDGET),   # pop(): moved above AltUI's panel (the game adds it to the player screen, under every viewport widget)
     blueprint(P_GS, mode="augment", functions=[fn("Get Wardrobe Data", outputs=[param("wardrobe data", "object:" + P_WD)]),
@@ -316,7 +341,8 @@ assets = [
                          fn("Is Bag Full ?", outputs=[param("yes", "bool")], pure=True)]),
     blueprint(P_INV, E_USERWIDGET, functions=[fn("Repair Clothes", [param("clothes", "name"), param("all", "bool")], [param("done", "bool")]),
                                               fn("Remove all undressed clothes")]),
-    blueprint(P_INVNPC, E_USERWIDGET),   # followers: Fol Watch compares the figures' clothes only while it is shown
+    blueprint(P_IMGBTN, E_USERWIDGET, functions=[fn("Click Button")]),   # Esc in the swap dialog: on Clicked -> Will Close
+    blueprint(P_INVNPC, E_USERWIDGET, variables=[var("Npc", "object:" + P_CNPC), var("ImageButton_Close", "object:" + P_IMGBTN)]),   # followers: Fol Watch compares the figures' clothes only while it is shown; Enemy Swap Guard closes it on a living enemy
     blueprint(P_HUD, E_USERWIDGET, variables=[var("InventoryPanel", "object:" + P_INV), var("InventoryNpc", "object:" + P_INVNPC)],
               functions=[fn("Show Item Detail with Name", [param("item name", "name"), param("button", "object:" + E_WIDGET), param("gun", "object:" + P_WEAPON)])]),
     blueprint(P_GS2, mode="augment", variables=[var("UserInterface", "object:" + P_HUD), var("Default Underwear", "name", "array"),

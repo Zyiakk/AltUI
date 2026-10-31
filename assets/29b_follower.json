@@ -56,6 +56,24 @@
      "type": "bool"
     },
     {
+     "name": "IsEnemy",
+     "type": "bool"
+    },
+    {
+     "name": "NotTarget",
+     "type": "bool"
+    },
+    {
+     "name": "LostPieces",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "WornBefore",
+     "type": "name",
+     "container": "array"
+    },
+    {
      "name": "LookSkinTex",
      "type": "object:/Script/Engine.TextureRenderTarget2D"
     },
@@ -1970,6 +1988,334 @@
        [
         "sel.ReturnValue",
         "return.num"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "is Npc ?",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "IsEnemy"
+       },
+       {
+        "id": "n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@ge.IsEnemy"
+        }
+       }
+      ],
+      "links": [
+       [
+        "n.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "on Damage Event",
+     "inputs": [
+      {
+       "name": "damage",
+       "type": "float"
+      },
+      {
+       "name": "damage type",
+       "type": "object:/Script/Engine.DamageType"
+      },
+      {
+       "name": "murderer",
+       "type": "object:/Game/Project/Classes/Character_Base"
+      },
+      {
+       "name": "weapon actor",
+       "type": "object:/Script/Engine.Actor"
+      },
+      {
+       "name": "hit info",
+       "type": "struct:/Script/Engine.HitResult",
+       "ref": true
+      },
+      {
+       "name": "location",
+       "type": "struct:/Script/CoreUObject.Vector"
+      },
+      {
+       "name": "is explosive",
+       "type": "bool"
+      }
+     ],
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "ge",
+        "kind": "get",
+        "var": "IsEnemy"
+       },
+       {
+        "id": "mv",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@entry.murderer"
+        }
+       },
+       {
+        "id": "mn",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Base",
+        "function": "is Npc ?",
+        "in": {
+         "self": "@entry.murderer"
+        }
+       },
+       {
+        "id": "a1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@ge.IsEnemy",
+         "B": "@mv.ReturnValue"
+        }
+       },
+       {
+        "id": "a2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a1.ReturnValue",
+         "B": "@mn.yes"
+        }
+       },
+       {
+        "id": "b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@a2.ReturnValue"
+        }
+       },
+       {
+        "id": "p0",
+        "kind": "call_parent",
+        "function": "on Damage Event",
+        "class": "/Game/Project/Character/Npc/Character_NPC",
+        "in": {
+         "damage": "@entry.damage",
+         "damage type": "@entry.damage type",
+         "weapon actor": "@entry.weapon actor",
+         "hit info": "@entry.hit info",
+         "location": "@entry.location",
+         "is explosive": "@entry.is explosive",
+         "murderer": "None"
+        }
+       },
+       {
+        "id": "p1",
+        "kind": "call_parent",
+        "function": "on Damage Event",
+        "class": "/Game/Project/Character/Npc/Character_NPC",
+        "in": {
+         "damage": "@entry.damage",
+         "damage type": "@entry.damage type",
+         "weapon actor": "@entry.weapon actor",
+         "hit info": "@entry.hit info",
+         "location": "@entry.location",
+         "is explosive": "@entry.is explosive",
+         "murderer": "@entry.murderer"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "b",
+        "p0"
+       ],
+       [
+        "b:else",
+        "p1"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Try to Destruct Clothing",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "wb",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Get Wearing Clothes Names",
+        "in": {
+         "self": "@me.self"
+        }
+       },
+       {
+        "id": "sb",
+        "kind": "set",
+        "var": "WornBefore",
+        "in": {
+         "WornBefore": "@wb.clothes list"
+        }
+       },
+       {
+        "id": "pp",
+        "kind": "call_parent",
+        "function": "Try to Destruct Clothing",
+        "class": "/Game/Project/Classes/Character_Player_Base"
+       },
+       {
+        "id": "me2",
+        "kind": "self"
+       },
+       {
+        "id": "wa",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Player_Base",
+        "function": "Get Wearing Clothes Names",
+        "in": {
+         "self": "@me2.self"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "WornBefore"
+       },
+       {
+        "id": "fe",
+        "kind": "foreach",
+        "in": {
+         "Array": "@gb.WornBefore"
+        }
+       },
+       {
+        "id": "still",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@wa.clothes list",
+         "ItemToFind": "@fe.Array Element"
+        }
+       },
+       {
+        "id": "bs",
+        "kind": "branch",
+        "in": {
+         "Condition": "@still.ReturnValue"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "LostPieces"
+       },
+       {
+        "id": "al",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_AddUnique",
+        "in": {
+         "TargetArray": "@gl.LostPieces",
+         "NewItem": "@fe.Array Element"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "wb",
+        "sb",
+        "pp",
+        "wa",
+        "fe"
+       ],
+       [
+        "fe",
+        "bs"
+       ],
+       [
+        "bs:else",
+        "al"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Is Ragdoll or Dying",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gn",
+        "kind": "get",
+        "var": "NotTarget"
+       },
+       {
+        "id": "me",
+        "kind": "self"
+       },
+       {
+        "id": "ir",
+        "kind": "call",
+        "class": "/Game/Project/Classes/Character_Base",
+        "function": "Is Ragdoll ?",
+        "in": {
+         "self": "@me.self"
+        }
+       },
+       {
+        "id": "o",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@gn.NotTarget",
+         "B": "@ir.yes"
+        }
+       }
+      ],
+      "links": [
+       [
+        "o.ReturnValue",
+        "return.yes"
        ]
       ],
       "exec": []

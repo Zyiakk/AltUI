@@ -24,7 +24,7 @@ class QuickData(unittest.TestCase):
     def test_find_covers_every_kind(self):
         g = graph("50_manager_ui.json", "Quick Find")
         kinds = {n["in"]["B"] for n in g["nodes"] if n.get("function") == "EqualEqual_StrStr" and n["id"].startswith("qe_")}
-        self.assertEqual(kinds, set(ui.QUICK_FIXED) | {"tab", "pose", "folpose", "modentry", "outfit", "look", "face", "preset", "modfield", "modaction", "modpreset"})
+        self.assertEqual(kinds, set(ui.QUICK_FIXED) | {"tab", "pose", "folpose", "modentry", "outfit", "look", "face", "preset", "modfield", "modaction", "modpreset", "enemy"})
 
 
     def test_run_calls(self):

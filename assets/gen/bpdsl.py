@@ -50,6 +50,7 @@ P_GS2 = "/Game/Project/Classes/GameMode/TKA_GameState"
 P_BAG = "/Game/Project/Classes/Misc/Bag_Comp"
 P_HUD = "/Game/Project/UserInterface/PlayingHud"
 P_INVNPC = "/Game/Project/UserInterface/Widgets/InventoryNpc"   # the game's swap dialog with an NPC (PlayingHud.InventoryNpc)
+P_IMGBTN = "/Game/Project/UserInterface/Widgets/ImageButton"   # the game's button widget (InventoryNpc.ImageButton_Close)
 P_INV = "/Game/Project/UserInterface/Widgets/InventoryPanel"
 P_GI = "/Game/Project/Classes/TKA_GameInstance"
 P_HAIR_SAVE = "/Game/Project/Classes/Save/Hairstyle_Save"
@@ -75,6 +76,8 @@ P_BED = "/Game/Project/Actors/Bed"   # Navigation tab: the save bed (On Use This
 P_DESCBASE = "/Game/Project/Classes/Misc/Description_Base"; P_DEPT = "/Game/Project/Actors/Misc/Department"   # room signs: Description (declared in Description_Base)
 P_ARCH_T = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Archives"; P_ARCH_S = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Mail_Struct"   # Kodex: encyclopedia (Jodi's office PC)
 P_NOTE_SAVE = "/Game/Project/Classes/Save/Note_Save"; P_SETTINGS_SAVE = "/Game/Project/Classes/Save/Settings_Save"; P_PWCOMP = "/Game/Project/Classes/Items/ItemComp_Password"; P_ZOMBIE = "/Game/Project/Zombie/Zombie_Base"; P_SHATTERER = "/Game/Project/Zombie/Shatterer"
+P_AICTRL = "/Game/Project/Classes/Controller/AI_Controller"; P_ZOMBIECTRL = "/Game/Project/Classes/Controller/Zombie_Controller"   # Enemies tab (stubs: gen_stubs.py)
+P_ZOMBIE_AIMODE = "/Game/Project/Classes/Enum/Zombie_AIMode"   # byte values: 0 None, 1 NoSoul, 2 Inactive, 3 Active, 4 ChasePlayer, 5 Following, 6 Patrol (Names array, not the NewEnumeratorN names)
 P_INTERACTIVE = "/Game/Project/Classes/InteractiveActor/InteractiveActor_Base"; P_ITEMCOMP = "/Game/Project/Classes/Items/ItemComponent"
 P_WEAPON = "/Game/Project/Actors/Weapons/Weapon_Base"; P_GUN = "/Game/Project/Actors/Weapons/Weapon_Gun_Base"; P_EQUIPBASE = "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"; P_MAGCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Mag_Comp"; P_OPTICSCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp"; P_BARRELCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Barrel_Comp"; P_GRIPCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Grip_Comp"
 P_PRESET_SAVE = "/Game/Project/Classes/Save/MakeupPreset_Save"; P_PRESET_S = "/Game/Project/Classes/Struct/MakeupPreset_Struct"

@@ -15,7 +15,7 @@ W_BTN = M + "/W_ClothesButton"
 W_SUB = M + "/W_SubTab"
 W_ROUND = M + "/W_RoundButton"; T_LIGHT = M + "/T_Light"; T_POWER = M + "/T_Power"; T_SWATCH = M + "/T_Swatch"; T_PLUS = M + "/T_Plus"; T_MINUS = M + "/T_Minus"; T_CAM = M + "/T_Cam"; T_PHOTO = M + "/T_Photo"; T_COLORIZE = M + "/T_Colorize"
 W_TOP = M + "/W_TopTab"
-W_OUTFIT = M + "/W_OutfitButton"; W_LOOK = M + "/W_LookButton"; W_FACEBTN = M + "/W_FaceButton"; W_MODPRESETBTN = M + "/W_ModPresetButton"; W_KODEXTILE = M + "/W_KodexTile"; W_RAGTILE = M + "/W_RagTile"; W_LINKROW = M + "/W_LinkRow"; W_NAVROW = M + "/W_NavRow"; W_RAGPOSES = M + "/W_RagPoses"; W_TOOLTIP = M + "/W_Tooltip"; W_SECTION = M + "/W_ContentSection"; W_VALROW = M + "/W_ValueRow"
+W_OUTFIT = M + "/W_OutfitButton"; W_LOOK = M + "/W_LookButton"; W_FACEBTN = M + "/W_FaceButton"; W_MODPRESETBTN = M + "/W_ModPresetButton"; W_KODEXTILE = M + "/W_KodexTile"; W_RAGTILE = M + "/W_RagTile"; W_ENEMYTILE = M + "/W_EnemyTile"; W_LINKROW = M + "/W_LinkRow"; W_NAVROW = M + "/W_NavRow"; W_RAGPOSES = M + "/W_RagPoses"; W_TOOLTIP = M + "/W_Tooltip"; W_SECTION = M + "/W_ContentSection"; W_VALROW = M + "/W_ValueRow"
 U_OVERLAY = "/Script/UMG.Overlay"; K_SLATE = "/Script/UMG.SlateBlueprintLibrary"
 U_VBOX = "/Script/UMG.VerticalBox"; U_HBOX = "/Script/UMG.HorizontalBox"; U_SCROLL = "/Script/UMG.ScrollBox"
 U_PROGRESS = "/Script/UMG.ProgressBar"; U_GRID = "/Script/UMG.GridPanel"; U_WRAP = "/Script/UMG.WrapBox"; U_SCALE = "/Script/UMG.ScaleBox"; U_SIZE = "/Script/UMG.SizeBox"; U_CANVAS = "/Script/UMG.CanvasPanel"; U_PANELW = "/Script/UMG.PanelWidget"
@@ -930,6 +930,9 @@ def w_clothes_button():
                         sizebox("ColorizeBox", 20, 20, [w(E_IMAGE, "Colorize", props={"Brush": "(ResourceObject=Texture2D'%s.T_Colorize',ImageSize=(X=48,Y=48),DrawAs=Image)" % T_COLORIZE, "Visibility": "Collapsed"})],
                                 slot={"HorizontalAlignment": "HAlign_Right", "VerticalAlignment": "VAlign_Bottom"}),
                         # pose rows with a sound (AnimationTable.Sound): speaker in the same corner (poses never show the colour symbol)
+                        # "always auto-equip" (inventory, AutoItems): a gold loop arrow top left, the frame in the heading colour
+                        sizebox("AutoBox", 20, 20, [w(E_IMAGE, "AutoMark", props={"Brush": "(ResourceObject=Texture2D'%s/T_AutoItem.T_AutoItem',ImageSize=(X=48,Y=48),DrawAs=Image)" % M, "Visibility": "Collapsed"})],
+                                slot={"HorizontalAlignment": "HAlign_Left", "VerticalAlignment": "VAlign_Top"}),
                         sizebox("SoundBox", 20, 20, [w(E_IMAGE, "SoundMark", props={"Brush": "(ResourceObject=Texture2D'%s/T_Sound.T_Sound',ImageSize=(X=48,Y=48),DrawAs=Image)" % M, "Visibility": "Collapsed"})],
                                 slot={"HorizontalAlignment": "HAlign_Right", "VerticalAlignment": "VAlign_Bottom"}),
                         # stored colour of a piece in the content view (replaces the "colour adjustable" symbol there)
@@ -943,10 +946,11 @@ def w_clothes_button():
                 ])])])])
     hv, hf, eg = hover_parts(W_BTN, "Frame", "Fill", image=True)
     g = G(); tail = ["entry"]; reset_rename(g, tail, "Name")
-    tile_scale(g, tail, [("Box", 104, None), ("IconBox", 88, 88), ("ColorizeBox", 20, 20), ("SwatchBox", 20, 20), ("SoundBox", 20, 20)])
+    tile_scale(g, tail, [("Box", 104, None), ("IconBox", 88, 88), ("ColorizeBox", 20, 20), ("SwatchBox", 20, 20), ("SoundBox", 20, 20), ("AutoBox", 20, 20)])
     g.brk("bi", S_ITEM, "@entry.item")
     g.set("sn", "ItemName", inp={"ItemName": "@bi.Name"}); tail.append("sn")
     g.get("gsm0", "SoundMark"); g.call("csm0", E_WIDGET, "SetVisibility", inp={"self": "@gsm0.SoundMark", "InVisibility": "Collapsed"}); tail.append("csm0")   # a reused tile: only Set Sound Mark shows it
+    g.get("gam0", "AutoMark"); g.call("cam0", E_WIDGET, "SetVisibility", inp={"self": "@gam0.AutoMark", "InVisibility": "Collapsed"}); g.set("sam0", "AutoMarked", inp={"AutoMarked": "false"}); tail += ["cam0", "sam0"]   # ... and Set Auto Mark
     g.branch("bca", "@bi.ColorAdjustable"); tail.append("bca")
     g.get("gcz", "Colorize"); g.call("vcz", E_WIDGET, "SetVisibility", inp={"self": "@gcz.Colorize", "InVisibility": "Visible"})
     g.get("gcz2", "Colorize"); g.call("ccz", E_WIDGET, "SetVisibility", inp={"self": "@gcz2.Colorize", "InVisibility": "Collapsed"})
@@ -993,8 +997,9 @@ def w_clothes_button():
     c.call("f2", K_MATH, "SelectColor", inp={"A": mcol(c, "cfw", "ColFrameWorn"), "B": "@f1.ReturnValue", "bPickA": "@gw.Worn"})
     c.call("c1", K_MATH, "SelectColor", inp={"A": mcol(c, "cw", "ColFillWorn"), "B": mcol(c, "cfi", "ColFill"), "bPickA": "@gw.Worn"})
     c.call("c2", K_MATH, "SelectColor", inp={"A": mcol(c, "cwh", "ColFillWornHover"), "B": mcol(c, "cfh", "ColFillHover"), "bPickA": "@gw.Worn"})
+    c.get("gam", "AutoMarked"); c.call("f2a", K_MATH, "SelectColor", inp={"A": mcol(c, "chd", "ColHead"), "B": "@f2.ReturnValue", "bPickA": "@gam.AutoMarked"})   # always auto-equip: heading colour
     c.get("ghl", "Highlight")   # "Show in tab" target: accent frame
-    c.call("f3", K_MATH, "SelectColor", inp={"A": mcol(c, "cac", "ColAccent"), "B": "@f2.ReturnValue", "bPickA": "@ghl.Highlight"})
+    c.call("f3", K_MATH, "SelectColor", inp={"A": mcol(c, "cac", "ColAccent"), "B": "@f2a.ReturnValue", "bPickA": "@ghl.Highlight"})
     c.call("f4", K_MATH, "SelectColor", inp={"A": mcol(c, "cac2", "ColAccent"), "B": mcol(c, "cfrh", "ColFrameHover"), "bPickA": "@ghl.Highlight"})
     set_colors(c, "Frame", "@f3.ReturnValue", "@f4.ReturnValue", tail)
     set_colors(c, "Fill", "@c1.ReturnValue", "@c2.ReturnValue", tail)
@@ -1029,10 +1034,16 @@ def w_clothes_button():
     swn = G(); swn.set("sw", "Worn", inp={"Worn": "@entry.worn"}); swn.n("cc", "call_self", function="Compute Colors"); swn.call("hov", E_WIDGET, "IsHovered")
     swn.n("ap", "call_self", function="Apply Colors", inp={"hover": "@hov.ReturnValue"}); swn.chain("entry", "sw", "cc", "ap")
     # Set Scale(scale): the sizes of Init with a factor of the caller's (inventory tiles have a size of their own, Options > Tiles)
-    ssc = G(); tail = ["entry"]; tile_scale(ssc, tail, [("Box", 104, None), ("IconBox", 88, 88), ("ColorizeBox", 20, 20), ("SwatchBox", 20, 20)], scale_pin="@entry.scale"); ssc.chain(*tail)
-    return blueprint(W_BTN, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("ItemName", "name"), var("ItemSlot", "name"), var("Worn", "bool"), var("Owned", "bool"), var("Highlight", "bool"), var("Editing", "bool"), var("Kept", "bool")] + hv,
+    ssc = G(); tail = ["entry"]; tile_scale(ssc, tail, [("Box", 104, None), ("IconBox", 88, 88), ("ColorizeBox", 20, 20), ("SwatchBox", 20, 20), ("AutoBox", 20, 20)], scale_pin="@entry.scale"); ssc.chain(*tail)
+    # Set Auto Mark(on): inventory item AltUI puts into Jodi's backpack after each level load - the loop arrow and the frame colour
+    sam = G(); sam.set("sa", "AutoMarked", inp={"AutoMarked": "@entry.on"}); sam.branch("b", "@entry.on")
+    sam.get("ga1", "AutoMark"); sam.call("v", E_WIDGET, "SetVisibility", inp={"self": "@ga1.AutoMark", "InVisibility": "HitTestInvisible"})
+    sam.get("ga2", "AutoMark"); sam.call("c", E_WIDGET, "SetVisibility", inp={"self": "@ga2.AutoMark", "InVisibility": "Collapsed"})
+    sam.n("cc", "call_self", function="Compute Colors"); sam.n("ap", "call_self", function="Apply Colors", inp={"hover": "false"})
+    sam.chain("entry", "sa", "b", "v", "cc", "ap"); sam.chain("b:else", "c", "cc")
+    return blueprint(W_BTN, E_USERWIDGET, variables=[var("Manager", "object:" + MGR), var("ItemName", "name"), var("ItemSlot", "name"), var("Worn", "bool"), var("Owned", "bool"), var("Highlight", "bool"), var("Editing", "bool"), var("Kept", "bool"), var("AutoMarked", "bool")] + hv,
                      functions=[fn("Set Tile Size", [param("width", "float"), param("height", "float")], graph=tile_size_graph()), init, fn("Set Scale", [param("scale", "float")], graph=ssc), compute_fn(c), mouse_down_override("On Item Clicked", "On Item Context", "ItemName"), fn("Set Color Swatch", [param("color", S_LINCOLOR)], graph=sc),
-                                fn("Set Sound Mark", [param("on", "bool")], graph=sound_mark_graph()), fn("Set Worn", [param("worn", "bool")], graph=swn), fn("Begin Rename", [param("current", "string")], graph=br), fn("End Rename", graph=er), fn("OnKeyUp", override=True, graph=ku), fn("Poll Rename", outputs=[param("active", "bool")], graph=pr)] + hf,
+                                fn("Set Sound Mark", [param("on", "bool")], graph=sound_mark_graph()), fn("Set Auto Mark", [param("on", "bool")], graph=sam), fn("Set Worn", [param("worn", "bool")], graph=swn), fn("Begin Rename", [param("current", "string")], graph=br), fn("End Rename", graph=er), fn("OnKeyUp", override=True, graph=ku), fn("Poll Rename", outputs=[param("active", "bool")], graph=pr)] + hf,
                      event_graph=eg, widget_tree=tree, defaults=HAND)
 
 
@@ -2517,15 +2528,15 @@ PANEL_TEXTS += [("runmodhint", "HintRunMod"), ("idlemodhint", "HintIdleMod")]   
 THEME_COLS = 5   # theme grid: fixed columns (entries fill column-wise), the wrap box wraps whole columns on narrow panels
 THEME_REFRESH = [("TopTabs", W_TOP), ("TabChips", W_SUB), ("QuickKeyLinks", W_TXT), ("LayoutChips", W_SUB), ("UnownedChips", W_SUB), ("ThemePresetChips", W_SUB), ("ManageChips", W_SUB), ("ManageChipSearchLinks", W_TXT), ("ThemeSaveLinks", W_TXT), ("TabStyleChips", W_SUB), ("TabIconPosChips", W_SUB), ("TabRowChips", W_SUB), ("BgImageChips", W_SUB), ("BgFitChips", W_SUB), ("BgHAlignChips", W_SUB), ("BgVAlignChips", W_SUB), ("BtnImageChips", W_SUB), ("BgInvChips", W_SUB), ("ImgThumbsChips", W_SUB), ("BtnInvChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("MultiSlotChips", W_SUB), ("StatusLinks", W_TXT), ("StatusRight", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
 SUBTABS_MAX_H, SUBTABS_MAX_H_MAX = 112, 500   # default ~3.5 chip rows (80 showed 2.5); option range (unscaled units, x SC at runtime)
-SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "BodyChipsScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll", "KodexCatScroll", "KodexScroll", "RagScroll", "InvBagScroll", "InvBoxScroll", "InvCatScroll", "FolBagScroll", "FolBoxScroll", "FolScroll", "TvScroll", "NavScroll", "ObjScroll", "ObjCatScroll", "ActScroll", "ActCatScroll"]
+SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "BodyChipsScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll", "KodexCatScroll", "KodexScroll", "RagScroll", "InvBagScroll", "InvBoxScroll", "InvCatScroll", "FolBagScroll", "FolBoxScroll", "FolScroll", "TvScroll", "NavScroll", "EnemyScroll", "ObjScroll", "ObjCatScroll", "ActScroll", "ActCatScroll"]
 # panel-owned texts coloured by Apply Theme: widget -> derived colour
 PANEL_TEXT_COLORS = {"ColHead": ["HdrThemeColors", "HdrBgPic", "HdrBtnPic", "HdrThemeSchemes", "FolBagTitle", "FolBoxTitle", "InvBagTitle", "InvBoxTitle", "InvCatTitle", "KodexTitle", "LblQuickControl", "LblQuickInWheel", "LblKeyBinds", "BagWornHeader", "BagListHeader", "FavHeader", "LookFavHeader", "HairFavHeader", "PoseFavHeader", "WeaponFavHeader", "LblTheme", "ContentTitle", "LblConflicts", "LblMultiSlots"],
                      "ColTextDim": ["ActHint", "FolHint", "FolBagNote", "InvBagNote", "InvWeightText", "RagHint", "RagPresetsHint", "ModHint", "FaceHint", "LblTabsHint", "ThemePresetsHint", "LblQuickKeyHint", "KeyBindHint", "AllHeader", "LookAllHeader", "HairAllHeader", "PoseAllHeader", "WeaponAllHeader", "WeaponModelHeader", "ListHint", "BagEmpty", "PlaceholderText", "HdrName", "HdrDisplay", "HdrOrigin", "LblConflictsHint", "LblMultiSlotsHint", "LblScaleHint"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS] + ["Val" + k for k, _ in SCALE_ROWS],
                      "ColText": ["KodexBody", "LblRagKinds", "LblRagSave", "LblRagPresets", "LblQuickKey", "LblOwned", "LblFav", "LblVanilla", "LblOnlyWorn", "LblLookFav", "LblLookWorn", "LblOnlyMods", "LblCaseSens", "LblUnlimited", "LblPan", "LblCamRight", "LblNude", "LblMerge", "LblMergeMods", "LblChipSearch", "LblTipNoPrefix", "LblTipNoIds", "LblKodexAll", "LblMoveOn", "LblWalkStyle", "LblRunStyle", "LblIdleStyle", "LblUnowned", "LblTabStyle", "LblTabIconPos", "LblThemeSave", "LblThemePresets", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS] + ["Lbl" + k for k, _ in SCALE_ROWS] + ["LblScGrp" + h[len("Lbl_ScGrp"):] for h in bg.GROUP_HEADS.values()]}
 # 2026-10-19: labels that kept their colour from the widget tree (found by checking every text without a runtime colour)
-PANEL_TEXT_COLORS["ColText"] += ["LblTvAlways", "TvStatus", "ObjStatus", "LblInvCatalog", "LblInvAutoEquip", "LblNoNotices", "LblFreeNoCollide", "LblFreeNoLimit", "LblPlayWheelZoom", "LblTiltPanelOff", "LblHandOn", "LblHandNoHand", "LblSlowMoOn",
+PANEL_TEXT_COLORS["ColText"] += ["LblEnemyCount", "LblEnemyDist", "LblTvAlways", "TvStatus", "ObjStatus", "LblInvCatalog", "LblInvAutoEquip", "LblNoNotices", "LblFreeNoCollide", "LblFreeNoLimit", "LblPlayWheelZoom", "LblTiltPanelOff", "LblHandOn", "LblHandNoHand", "LblSlowMoOn",
                                  "LblImgThumbs", "LblBgImage", "LblBgFit", "LblBgHAlign", "LblBgVAlign", "LblBgInv", "LblBtnImage", "LblBtnInv", "LblTabRow"]
-PANEL_TEXT_COLORS["ColTextDim"] += ["TvHint", "NavHint", "ValFlySpeed", "LblImgHint", "WeaponAttachHeader", "WeaponSoundHeader"]
+PANEL_TEXT_COLORS["ColTextDim"] += ["ModPresetLabel", "TvHint", "NavHint", "ValFlySpeed", "EnemyHint", "EnemyLive", "ValEnemyCount", "ValEnemyDist", "LblImgHint", "WeaponAttachHeader", "WeaponSoundHeader"]
 
 
 # Options page: which category block (OptCat_<key>) every row of the former single options list belongs to
@@ -2704,13 +2715,36 @@ def set_hint_fn(name, widget):
     return fn(name, [param("text", "text")], graph=g)
 
 
+def vis_fn(name, widget):
+    """<name>(visible): one widget shown or collapsed."""
+    g = G(); g.branch("b", "@entry.visible")
+    g.get("g0", widget); g.call("v", E_WIDGET, "SetVisibility", inp={"self": "@g0." + widget, "InVisibility": "Visible"})
+    g.get("g1", widget); g.call("c", E_WIDGET, "SetVisibility", inp={"self": "@g1." + widget, "InVisibility": "Collapsed"})
+    g.chain("entry", "b", "v"); g.chain("b:else", "c")
+    return fn(name, [param("visible", "bool")], graph=g)
+
+
+def set_enemy_view():
+    """Set Enemy View(alive): the Enemies page shows its spawn controls (EnemyBox) or the Followers page (FollowersVB) for the living ones."""
+    g = G(); g.branch("b", "@entry.alive")
+    for i, (wn, on) in enumerate((("EnemyBox", "Collapsed"), ("FollowersVB", "Visible"))):
+        off = "Visible" if on == "Collapsed" else "Collapsed"
+        g.get("a%d" % i, wn); g.call("sa%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@a%d.%s" % (i, wn), "InVisibility": on})
+        g.get("b%d" % i, wn); g.call("sb%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@b%d.%s" % (i, wn), "InVisibility": off})
+    g.chain("entry", "b", "sa0", "sa1"); g.chain("b:else", "sb0", "sb1")
+    return fn("Set Enemy View", [param("alive", "bool")], graph=g)
+
+
 def set_mod_presets_shown():
-    """Set Mod Presets Shown(yes): the preset tiles of the Mods page shown or collapsed (a page without values to keep has none)."""
-    g = G(); g.branch("b", "@entry.yes")
-    g.get("g1", "ModPresetTiles"); g.call("sv", E_WIDGET, "SetVisibility", inp={"self": "@g1.ModPresetTiles", "InVisibility": "Visible"})
-    g.get("g2", "ModPresetTiles"); g.call("hd", E_WIDGET, "SetVisibility", inp={"self": "@g2.ModPresetTiles", "InVisibility": "Collapsed"})
-    g.chain("entry", "b", "sv"); g.chain("b:else", "hd")
-    return fn("Set Mod Presets Shown", [param("yes", "bool")], graph=g)
+    """Set Mod Presets Shown(yes, tiles): the preset bar of the Mods page (label, "..." and restore links) shown or collapsed (a page
+    without values to keep has none), the tiles below it only with tiles (the player folded the area with "...")."""
+    g = G()
+    for i, (wn, pin) in enumerate((("ModPresetBar", "@entry.yes"), ("ModPresetTiles", "@entry.tiles"))):
+        g.branch("b%d" % i, pin)
+        g.get("g%dv" % i, wn); g.call("sv%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@g%dv.%s" % (i, wn), "InVisibility": "Visible"})
+        g.get("g%dh" % i, wn); g.call("hd%d" % i, E_WIDGET, "SetVisibility", inp={"self": "@g%dh.%s" % (i, wn), "InVisibility": "Collapsed"})
+    g.chain("entry", "b0", "sv0", "b1"); g.chain("b0:else", "hd0", "b1"); g.chain("b1", "sv1"); g.chain("b1:else", "hd1")
+    return fn("Set Mod Presets Shown", [param("yes", "bool"), param("tiles", "bool")], graph=g)
 
 
 def set_mod_hint():
@@ -2822,7 +2856,11 @@ def w_panel():
                         slot={"Size": "(SizeRule=Automatic)", "VerticalAlignment": "VAlign_Fill", "Padding": "(Left=0,Top=0,Right=30,Bottom=0)"}),
                 w(U_VBOX, "ModsRight", slot=FILL, children=[
                     text("ModHint", "", 13, GREY, wrap=True, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(10)}),
-                    # presets of the shown entry (W_ModPresetButton tiles, "+" first); collapsed for a page without values to keep
+                    # presets of the shown entry: a bar (label, "..." folds the area, a link shows hidden shipped presets again), then the
+                    # W_ModPresetButton tiles ("+" first); both collapsed for a page without values to keep
+                    w(U_HBOX, "ModPresetBar", props={"Visibility": "Collapsed"}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(6)}, children=[
+                        text("ModPresetLabel", "", 13, GREY, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
+                        w(U_HBOX, "ModPresetLinks", slot={"VerticalAlignment": "VAlign_Center"})]),
                     w(U_WRAP, "ModPresetTiles", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1), "Visibility": "Collapsed"}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(10)}),
                     w(U_SCROLL, "ModFieldScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "ModFieldList")])])]),
             # Face: groups on the left (expression / gaze / mouth / saved faces), on the right the links, a note and the rows or the saved-face tiles
@@ -2964,6 +3002,26 @@ def w_panel():
             w(U_VBOX, "NavBox", props={"Visibility": "Collapsed"}, slot=FILL, children=[
                 text("NavHint", "", 13, wrap=True, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(10)}),
                 w(U_SCROLL, "NavScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[sizebox("NavListSize", 560, 100, [w(U_VBOX, "NavList")], slot={"HorizontalAlignment": "HAlign_Left"})])]),
+            # Enemies: count and distance sliders, behaviour chips, links + "Alive: n", hints, the zombie kinds as tiles
+            # Enemies: "Spawn" / "Alive (n)" - Spawn = EnemyBox; Alive = the Followers page (FollowersVB) with the enemy figures and a row per spawned zombie
+            w(U_HBOX, "EnemyViews", props={"Visibility": "Collapsed"}, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(10)}),
+            w(U_VBOX, "EnemyBox", props={"Visibility": "Collapsed"}, slot=FILL, children=[
+                w(U_HBOX, "EnemyTop", children=[
+                    text("LblEnemyCount", "", 13, slot={"VerticalAlignment": "VAlign_Center"}),
+                    sizebox("SldEnemyCountBox", 140, 24, [w(E_SLIDER, "SldEnemyCount", props={"Value": 0.0, "StepSize": 1.0 / 19, "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)", "SliderHandleColor": "(R=1,G=1,B=1,A=1)", "WidgetStyle": "(BarThickness=5.0)"})],
+                            slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(8)}),
+                    text("ValEnemyCount", "", 12, GREY, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=%d,Bottom=0)" % (sz(6), sz(20))}),
+                    text("LblEnemyDist", "", 13, slot={"VerticalAlignment": "VAlign_Center"}),
+                    sizebox("SldEnemyDistBox", 140, 24, [w(E_SLIDER, "SldEnemyDist", props={"Value": 1.0 / 29, "StepSize": 1.0 / 29, "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)", "SliderHandleColor": "(R=1,G=1,B=1,A=1)", "WidgetStyle": "(BarThickness=5.0)"})],
+                            slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(8)}),
+                    text("ValEnemyDist", "", 12, GREY, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(6)})]),
+                w(U_WRAP, "EnemyModes", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6), sz(6))}, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(10)}),
+                w(U_HBOX, "EnemyLinksRow", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(10)}, children=[
+                    w(U_HBOX, "EnemyLinks", slot={"VerticalAlignment": "VAlign_Center"}),
+                    text("EnemyLive", "", 12, GREY, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(16)})]),
+                w(U_SCROLL, "EnemyScroll", props={"WheelScrollMultiplier": 2.0}, slot=dict(FILL, Padding="(Left=0,Top=%d,Right=0,Bottom=0)" % sz(10)), children=[
+                    w(U_WRAP, "EnemyKinds", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)})]),
+                text("EnemyHint", "", 12, GREY, wrap=True, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(8)})]),
             # Body Shape: body chips (Standard + body mods) above the sliders
             w(U_VBOX, "BodyBox", props={"Visibility": "Collapsed"}, slot=FILL, children=[
                 # body chips: at most the chip area height (Options › Groups, like the clothes groups), then the box scrolls (many body mods)
@@ -3569,7 +3627,7 @@ def w_panel():
     mu.n("r2", "return_new"); mu.call("u", K_WBL, "Unhandled"); mu.link("u.ReturnValue", "r2.ReturnValue")
     mu.chain("entry", "b", "ed", "fp", "return"); mu.chain("b:else", "r2")
     # Set Page(page): exactly one page visible (Clothes = HB, Outfits = OutfitScroll, Bag = BagScroll)
-    sp = G(); pages = [("HB", "Clothes"), ("OutfitScroll", "Outfits"), ("LooksScroll", "Looks"), ("BagScroll", "Bag"), ("InventoryVB", "Inventory"), ("FollowersVB", "Followers"), ("HairPage", "Hair"), ("PoseHB", "Poses"), ("WeaponHB", "Weapons"), ("ModsHB", "Mods"), ("FaceHB", "Face"), ("LookHB", "Look"), ("BodyBox", "Body"), ("OptionsHB", "Options"), ("ContentBox", "Content"), ("ManageHB", "Manage"), ("RagScroll", "Ragdolls"), ("KodexHB", "Kodex"), ("TvBox", "TV"), ("NavBox", "Navigation"), ("NavStatus", "Navigation"), ("ObjectsBox", "Objects"), ("ActionsBox", "Actions")]
+    sp = G(); pages = [("HB", "Clothes"), ("OutfitScroll", "Outfits"), ("LooksScroll", "Looks"), ("BagScroll", "Bag"), ("InventoryVB", "Inventory"), ("FollowersVB", "Followers"), ("HairPage", "Hair"), ("PoseHB", "Poses"), ("WeaponHB", "Weapons"), ("ModsHB", "Mods"), ("FaceHB", "Face"), ("LookHB", "Look"), ("BodyBox", "Body"), ("OptionsHB", "Options"), ("ContentBox", "Content"), ("ManageHB", "Manage"), ("RagScroll", "Ragdolls"), ("KodexHB", "Kodex"), ("TvBox", "TV"), ("NavBox", "Navigation"), ("NavStatus", "Navigation"), ("EnemyViews", "Enemies"), ("EnemyBox", "Enemies"), ("ObjectsBox", "Objects"), ("ActionsBox", "Actions")]
     sp.set("sk", "TmpKnown", inp={"TmpKnown": "false"})
     for i, (wn, page) in enumerate(pages):
         sp.call("eq%d" % i, K_MATH, "EqualEqual_NameName", inp={"A": "@entry.page", "B": page}); sp.branch("b%d" % i, "@eq%d.ReturnValue" % i)
@@ -3947,6 +4005,18 @@ def w_panel():
     sfs = G(); sfs.get("g", "SldFlySpeed"); sfs.call("s", E_SLIDER, "SetValue", inp={"self": "@g.SldFlySpeed", "InValue": "@entry.value"})
     sfs.get("gv", "ValFlySpeed"); sfs.call("st", E_TEXT, "SetText", inp={"self": "@gv.ValFlySpeed", "InText": "@entry.text"}); sfs.chain("entry", "s", "st")
     gfs = G(); gfs.get("g", "SldFlySpeed"); gfs.call("v", E_SLIDER, "GetValue", inp={"self": "@g.SldFlySpeed"}); gfs.link("v.ReturnValue", "return.value")
+    def slider_fns(sld, val):
+        """Set <x>(value, text) / Get <x>() for an Enemies slider; the label beside it comes from the Strings table (Compute Colors keeps it)."""
+        s = G(); s.get("gs", sld); s.call("sv", E_SLIDER, "SetValue", inp={"self": "@gs." + sld, "InValue": "@entry.value"})
+        s.get("gt", val); s.call("st", E_TEXT, "SetText", inp={"self": "@gt." + val, "InText": "@entry.text"}); s.chain("entry", "sv", "st")
+        r = G(); r.get("gs", sld); r.call("gv", E_SLIDER, "GetValue", inp={"self": "@gs." + sld}); r.link("gv.ReturnValue", "return.value"); r.chain("entry", "return")
+        return s, r
+    secs, gecs = slider_fns("SldEnemyCount", "ValEnemyCount"); seds, geds = slider_fns("SldEnemyDist", "ValEnemyDist")
+    def set_text_fn(widget):
+        t = G(); t.get("g", widget); t.call("s", E_TEXT, "SetText", inp={"self": "@g." + widget, "InText": "@entry.text"}); t.chain("entry", "s"); return t
+    selv = set_text_fn("EnemyLive"); sehn = set_text_fn("EnemyHint")
+    elab = G(); elab.get("gc", "LblEnemyCount"); elab.call("sc", E_TEXT, "SetText", inp={"self": "@gc.LblEnemyCount", "InText": "@entry.count"})
+    elab.get("gd", "LblEnemyDist"); elab.call("sd", E_TEXT, "SetText", inp={"self": "@gd.LblEnemyDist", "InText": "@entry.dist"}); elab.chain("entry", "sc", "sd")
     ct = G(); ct.get("g", "ContentTitle"); ct.call("s", E_TEXT, "SetText", inp={"self": "@g.ContentTitle", "InText": "@entry.text"}); ct.chain("entry", "s")
     si = G(); prev = "entry"
     for i, (page, box) in enumerate([("Clothes", "ListScroll"), ("Hair", "HairScroll"), ("Look", "LookScroll"), ("Manage", "ManageScroll")]):
@@ -4124,7 +4194,8 @@ def w_panel():
              clear("Clear Fol Bag", "FolBagList"), add("Add Fol Bag", "FolBagList", U_VBOX, "AddChildToVerticalBox"),
              clear("Clear Fol Box", "FolBoxList"), add("Add Fol Box", "FolBoxList", U_VBOX, "AddChildToVerticalBox"),
              fn("Clear Fol Rows", graph=cfr), add("Add Fol Row", "FolRows", U_VBOX, "AddChildToVerticalBox"), add("Add Fol Npc Row", "FolNpcRows", U_VBOX, "AddChildToVerticalBox"),
-             fn("Set Fol Sep Visible", [param("visible", "bool")], graph=fsv), fn("Clear Fol Show Chips", graph=cfs), padded_add("Add Fol Show Chip", "FolShowChips"),
+             fn("Set Fol Sep Visible", [param("visible", "bool")], graph=fsv), set_enemy_view(), vis_fn("Set Fol Show Chips Visible", "FolShowChips"),
+             clear("Clear Enemy Views", "EnemyViews"), padded_add("Add Enemy View", "EnemyViews"), fn("Clear Fol Show Chips", graph=cfs), padded_add("Add Fol Show Chip", "FolShowChips"),
              fn("Clear Fol Heads", graph=cfh), padded_add("Add Fol Bag Head", "FolBagBtns"), padded_add("Add Fol Box Head", "FolBoxBtns"),
              fn("Set Fol Layout", [param("bagshown", "bool"), param("boxshown", "bool")], graph=flo), fn("Set Fol Hint", [param("text", "text")], graph=fhi), fn("Set Fol Bag Note", [param("text", "text")], graph=fbn), fn("Set Inv Bag Note", [param("text", "text")], graph=ibn),
              fn("Clear Inv Heads", graph=cih), fn("Clear Inv Search", graph=cise), clear("Clear Inv Search Links", "InvSearchLinks"), add("Add Inv Search Link", "InvSearchLinks", U_HBOX, "AddChildToHorizontalBox"), padded_add("Add Inv Bag Head", "InvBagBtns"), padded_add("Add Inv Box Head", "InvBoxBtns"), padded_add("Add Inv Cat Head", "InvCatBtns"),
@@ -4143,6 +4214,13 @@ def w_panel():
              fn("Set Nav Hint", [param("hint", "text")], graph=nvt),
              clear("Clear Nav Links", "NavLinks"), add("Add Nav Link", "NavLinks", U_HBOX, "AddChildToHorizontalBox"),
              fn("Set Fly Speed", [param("value", "float"), param("text", "text")], graph=sfs), fn("Get Fly Speed", outputs=[param("value", "float")], graph=gfs, pure=True),
+             fn("Set Enemy Count", [param("value", "float"), param("text", "text")], graph=secs), fn("Get Enemy Count", outputs=[param("value", "float")], graph=gecs, pure=True),
+             fn("Set Enemy Dist", [param("value", "float"), param("text", "text")], graph=seds), fn("Get Enemy Dist", outputs=[param("value", "float")], graph=geds, pure=True),
+             fn("Set Enemy Live", [param("text", "text")], graph=selv), fn("Set Enemy Hint", [param("text", "text")], graph=sehn),
+             fn("Set Enemy Labels", [param("count", "text"), param("dist", "text")], graph=elab),
+             clear("Clear Enemy Modes", "EnemyModes"), add("Add Enemy Mode", "EnemyModes", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear Enemy Links", "EnemyLinks"), add("Add Enemy Link", "EnemyLinks", U_HBOX, "AddChildToHorizontalBox"),
+             clear("Clear Enemy Kinds", "EnemyKinds"), add("Add Enemy Kind", "EnemyKinds", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Obj Links", "ObjLinks"), add("Add Obj Link", "ObjLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear Obj Tiles", "ObjTiles"), add("Add Obj Tile", "ObjTiles", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Obj List", "ObjList"), add("Add Obj List", "ObjList", U_VBOX, "AddChildToVerticalBox"),
@@ -4185,6 +4263,7 @@ def w_panel():
              clear("Clear Mod Entries", "ModEntries"), add("Add Mod Entry", "ModEntries", U_VBOX, "AddChildToVerticalBox"),
              clear("Clear Mod Fields", "ModFieldList"), add("Add Mod Field Widget", "ModFieldList", U_VBOX, "AddChildToVerticalBox"), set_mod_hint(),
              clear("Clear Mod Preset Tiles", "ModPresetTiles"), add("Add Mod Preset Tile", "ModPresetTiles", U_WRAP, "AddChildToWrapBox"), set_mod_presets_shown(),
+             clear("Clear Mod Preset Links", "ModPresetLinks"), add("Add Mod Preset Link", "ModPresetLinks", U_HBOX, "AddChildToHorizontalBox"), set_hint_fn("Set Mod Preset Label", "ModPresetLabel"),
              clear("Clear Face Groups", "FaceGroups"), add("Add Face Group", "FaceGroups", U_VBOX, "AddChildToVerticalBox"),
              clear("Clear Face Links", "FaceLinks"), add("Add Face Link", "FaceLinks", U_HBOX, "AddChildToHorizontalBox"),
              clear("Clear Face Rows", "FaceRowList"), add("Add Face Row", "FaceRowList", U_VBOX, "AddChildToVerticalBox"),
@@ -4534,5 +4613,6 @@ def w_play_height():
 
 assets = [w_shot_frame(), w_play_height(), w_quick_row(), w_quick_sector(), w_quick_wheel(), w_tooltip(), w_group_header(), w_value_row(), w_content_section(), w_slot_tab(), w_clothes_button(), w_sub_tab(), w_top_tab(), w_list_head(), w_vrow(), w_outfit_button(), w_look_button(scale_fn="Look Scale"), w_look_button(W_FACEBTN, "On Face Clicked", "On Face Context", "Set Face Name", "Btn_SaveFace", (104, 164), (88, 88)), w_look_button(W_MODPRESETBTN, "On Mod Preset Clicked", "On Mod Preset Context", "Set Mod Preset Name", "Btn_SaveModPreset", (104, 164), (88, 88)),
           w_look_button(W_KODEXTILE, "Kodex Tile Clicked", "Kodex Tile Clicked", "Kodex Noop Rename", "Btn_SaveLook", (136, 236), (120, 180)),
-          w_look_button(W_RAGTILE, "Rag Kind Clicked", "Rag Kind Clicked", "Kodex Noop Rename", "Btn_SaveLook", (104, 196), (88, 132), scale_fn="Rag Scale", links=True), w_text_button(), w_link_row(), w_nav_row(), w_rag_card(), w_usage_row(), w_usage_card(), w_rag_poses(), w_name_row(), w_conflict_row(), w_fol_row(), w_kodex_lock_row(), w_hair_swatch(), w_mod_field(), w_face_row(), w_round_button(), w_menu_row(), w_menu_slider(), w_menu_amount(), w_context_menu(), w_color_swatch(), w_hex_bar(), w_version_warning(), w_panel()]
+          w_look_button(W_RAGTILE, "Rag Kind Clicked", "Rag Kind Clicked", "Kodex Noop Rename", "Btn_SaveLook", (104, 196), (88, 132), scale_fn="Rag Scale", links=True),
+          w_look_button(W_ENEMYTILE, "Enemy Kind Clicked", "Enemy Kind Clicked", "Kodex Noop Rename", "Btn_SaveLook", (104, 196), (88, 132), scale_fn="Rag Scale", links=True), w_text_button(), w_link_row(), w_nav_row(), w_rag_card(), w_usage_row(), w_usage_card(), w_rag_poses(), w_name_row(), w_conflict_row(), w_fol_row(), w_kodex_lock_row(), w_hair_swatch(), w_mod_field(), w_face_row(), w_round_button(), w_menu_row(), w_menu_slider(), w_menu_amount(), w_context_menu(), w_color_swatch(), w_hex_bar(), w_version_warning(), w_panel()]
 write(os.path.join(os.path.dirname(__file__), "..", "40_widgets.json"), assets)

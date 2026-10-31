@@ -20,6 +20,52 @@ def f_need_to_save():
     return fn("Need to Save", graph=g, pure=True, override=True)
 
 
+def f_is_npc():
+    """An enemy figure (IsEnemy, docs/notes/2026-10-30-look-als-gegner.md) is no NPC to the others: Character_NPC.on Damage Event drops
+    hits whose murderer is an NPC - without this its shots would not hurt followers. Else as Character_NPC's (not Is Changed: a
+    figure never mutates)."""
+    g = G(); g.get("ge", "IsEnemy"); g.call("n", K_MATH, "Not_PreBool", inp={"A": "@ge.IsEnemy"}); g.link("n.ReturnValue", "return.yes")
+    return fn("is Npc ?", outputs=[param("yes", "bool")], graph=g, pure=True, override=True)
+
+
+def f_on_damage_event():
+    """An enemy figure takes hits from NPCs (followers): Character_NPC's own drops them (murderer.is Npc ?, @367) - it gets them
+    without a murderer then (no 'under attack' from them, no kill credit). Every other hit as the game does it."""
+    ins = {"damage": "@entry.damage", "damage type": "@entry.damage type", "weapon actor": "@entry.weapon actor", "hit info": "@entry.hit info",
+           "location": "@entry.location", "is explosive": "@entry.is explosive"}
+    g = G(); g.get("ge", "IsEnemy"); g.call("mv", K_SYS, "IsValid", inp={"Object": "@entry.murderer"}); g.call("mn", P_CB, "is Npc ?", inp={"self": "@entry.murderer"})
+    g.call("a1", K_MATH, "BooleanAND", inp={"A": "@ge.IsEnemy", "B": "@mv.ReturnValue"}); g.call("a2", K_MATH, "BooleanAND", inp={"A": "@a1.ReturnValue", "B": "@mn.yes"}); g.branch("b", "@a2.ReturnValue")
+    g.n("p0", "call_parent", function="on Damage Event", cls=P_CNPC, inp=dict(ins, murderer="None"))
+    g.n("p1", "call_parent", function="on Damage Event", cls=P_CNPC, inp=dict(ins, murderer="@entry.murderer"))
+    g.chain("entry", "b", "p0"); g.chain("b:else", "p1")
+    return fn("on Damage Event", [param("damage", "float"), param("damage type", "object:/Script/Engine.DamageType"), param("murderer", "object:" + P_CB),
+                                  param("weapon actor", "object:/Script/Engine.Actor"), param("hit info", "struct:/Script/Engine.HitResult", ref=True),
+                                  param("location", "struct:/Script/CoreUObject.Vector"), param("is explosive", "bool")], graph=g, override=True)
+
+
+def f_try_to_destruct_clothing():
+    """The game tears a piece off (Character_Player_Base.Try to Destruct Clothing: Remove Clothing From Bag, Take off, Start Destruction):
+    gone for good. What was worn before and is not now goes into LostPieces - the record keeps it (Fol Sync), "Restore outfit" gives
+    it back (play test 2026-10-30: destroyed pieces did not come back)."""
+    g = G(); g.self_("me"); g.call("wb", P_CPB, "Get Wearing Clothes Names", inp={"self": "@me.self"}); g.set("sb", "WornBefore", inp={"WornBefore": "@wb.clothes list"})
+    g.n("pp", "call_parent", function="Try to Destruct Clothing", cls=P_CPB)
+    g.self_("me2"); g.call("wa", P_CPB, "Get Wearing Clothes Names", inp={"self": "@me2.self"}); g.get("gb", "WornBefore"); g.foreach("fe", "@gb.WornBefore")
+    g.call("still", K_ARR, "Array_Contains", inp={"TargetArray": "@wa.clothes list", "ItemToFind": "@fe.Array Element"}); g.branch("bs", "@still.ReturnValue")
+    g.get("gl", "LostPieces"); g.call("al", K_ARR, "Array_AddUnique", inp={"TargetArray": "@gl.LostPieces", "NewItem": "@fe.Array Element"})
+    g.chain("entry", "wb", "sb", "pp", "wa", "fe"); g.chain("fe", "bs"); g.chain("bs:else", "al")
+    return fn("Try to Destruct Clothing", graph=g, override=True)
+
+
+def f_is_ragdoll_or_dying():
+    """Not attackable (NotTarget, gear menu "attackable" off): to the zombies' and mercenaries' target check (AI_Controller.is my target
+    Character asks this first) the figure lies on the ground - nobody picks it as a target, yet it takes damage (bCanBeDamaged stays;
+    being unhurt is the "Invulnerable" chip). Before 2026-10-30 bCanBeDamaged = false made an unattackable figure immortal. Else the
+    game's (Character_Base: Is Ragdoll ?)."""
+    g = G(); g.get("gn", "NotTarget"); g.self_("me"); g.call("ir", P_CB, "Is Ragdoll ?", inp={"self": "@me.self"})
+    g.call("o", K_MATH, "BooleanOR", inp={"A": "@gn.NotTarget", "B": "@ir.yes"}); g.link("o.ReturnValue", "return.yes")
+    return fn("Is Ragdoll or Dying", outputs=[param("yes", "bool")], graph=g, pure=True, override=True)
+
+
 def f_count_weapon_ammo():
     """Infinite ammo (InfAmmo, docs/notes/2026-10-18-follower-munition-und-npc-typen.md): the game reloads a gun when this is > 0
     (Npc_Controller.Try to Reload) and fills the magazine with Min(this, missing) before it takes that many from the bag
@@ -175,14 +221,15 @@ def f_set_look():
 
 VARS = [var("FollowerId", "name"), var("LookParts", "struct:" + S_RAGPART, "array"), var("LookMorphN", "name", "array"), var("LookMorphV", "float", "array"),
         var("LookComps", "object:" + E_SCENEC, "array"), var("TmpMid", "object:" + E_MIDC), var("LookHair", "name"), var("LookHairColor", S_LINCOLOR), var("LookWorn", "name", "array"),
-        var("LookMakeupTex", "object:/Script/Engine.TextureRenderTarget2D"), var("InfAmmo", "bool"),
+        var("LookMakeupTex", "object:/Script/Engine.TextureRenderTarget2D"), var("InfAmmo", "bool"), var("IsEnemy", "bool"), var("NotTarget", "bool"), var("LostPieces", "name", "array"), var("WornBefore", "name", "array"),   # LostPieces: torn off for good (Try to Destruct Clothing)   # IsEnemy: a look figure hunting Jodi (Fol Npc Guard sets it; is Npc ? / on Damage Event)
+       
         var("LookSkinTex", "object:/Script/Engine.TextureRenderTarget2D")] + ms.held_vars()
 
 
 def build():
     return [blueprint(FOLLOWER, P_NPCF, variables=VARS,
                       functions=[f_need_to_save(), fn("Mutate", graph=G(), override=True), fn("delay to mutant", graph=G(), override=True),
-                                 f_load_path(), f_apply_mats(), f_apply_makeup_tex(), f_apply_skin_tex(), f_apply_look(), f_init_npc_appearance(), f_check_appearence(), f_apply_npc_appearance(), f_set_look(), f_count_weapon_ammo()] + ms.functions())]
+                                 f_load_path(), f_apply_mats(), f_apply_makeup_tex(), f_apply_skin_tex(), f_apply_look(), f_init_npc_appearance(), f_check_appearence(), f_apply_npc_appearance(), f_set_look(), f_count_weapon_ammo(), f_is_npc(), f_on_damage_event(), f_try_to_destruct_clothing(), f_is_ragdoll_or_dying()] + ms.functions())]
 
 
 if __name__ == "__main__":

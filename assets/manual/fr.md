@@ -88,7 +88,7 @@ Un look, c'est tout à la fois : vêtements avec leurs couleurs, coiffure et cou
 - La tuile « + » enregistre le look actuel avec une photo en pied – de face, ou avec la caméra libre : placez-la où vous voulez et cliquez pour prendre la photo (Échap : photo de face à la place).
 - Un clic sur un look l'applique.
 - Clic droit : voir le contenu, renommer, mettre à jour (photo de face ou en caméra libre), déplacer, supprimer, ajouter au menu rapide ou l'en retirer.
-- Clic droit aussi : « Créer en ragdoll », « Créer en compagnon », « Créer en PNJ » (voir « Ragdolls » et « Compagnons »).
+- Clic droit aussi : « Créer en ragdoll », « Créer en compagnon », « Créer en PNJ », « Créer en ennemi » (voir « Ragdolls » et « Compagnons »).
 - Clic droit « Copie nettoyée (sans les parties manquantes) » – affiché seulement si le look contient des pièces d'un mod qui n'est plus installé, ou des lignes de maquillage / d'yeux qu'aucune table ne connaît : un nouveau look juste après, sans ces entrées, avec la même photo. L'original reste tel quel ; réenregistrer un look ne les retire jamais de lui-même.
 
 ## Sac à dos {#bag}
@@ -107,6 +107,7 @@ Les objets de Jodi et l'hyper coffre de stockage, une liste sous l'autre.
 
 - Les puces filtrent par les groupes du jeu (armes, munitions, accessoires d'armes, outils…). Le poids montre ce que Jodi porte, ce qu'elle peut porter et de combien elle est en surcharge.
 - Un clic met un objet dans le coffre ou en sort un. Clic droit : la moitié ou tout, utiliser, examiner, jeter, raccourci 1 ou 2, décharger, « Accessoires… » (ouvre l'arme dans l'onglet Armes).
+- « Toujours équiper automatiquement » (clic droit, aussi sur le catalogue) : après chaque chargement de niveau, AltUI remet l'objet, neuf, dans le sac de Jodi, jusqu'à la quantité de la tuile au moment du marquage (au moins un paquet) ; rien n'est jamais retiré. Ces tuiles montrent une flèche circulaire dorée et un cadre doré. « Ne plus équiper automatiquement » l'arrête.
 - Le menu contextuel d'une pile se termine par « Quantité » : un curseur et un champ numérique, puis une entrée par destination avec ce nombre (« Ranger 5 dans le coffre », « En prendre 5 »). Entrée dans le champ exécute la première entrée. Dans le catalogue, le nombre compte des unités et le champ accepte plus que le curseur. Les armes à feu et les objets uniques n'ont pas de quantité.
 - « Tout jeter » pose un objet au sol par paquet. À partir de 100 objets, une fenêtre demande d'abord : « Annuler », « Détruire à la place » (les objets disparaissent, rien ne tombe) ou « Jeter quand même » – autant d'objets physiques à la fois peuvent faire planter le jeu. Échap annule.
 - Tout passe par les fonctions du jeu lui-même, ses règles restent donc – surcharge comprise.
@@ -191,7 +192,7 @@ L'expression du visage de Jodi.
 
 Les réglages d'autres mods qui s'enregistrent auprès d'AltUI : à gauche leurs entrées, à droite les interrupteurs, curseurs, nombres, choix, couleurs, champs de texte, touches et boutons de celui qui est choisi.
 
-Au-dessus des réglages : les préréglages de la page. La tuile « + » enregistre les réglages actuels avec une photo (de face ou en caméra libre) ; un clic applique un préréglage. Clic droit : appliquer, afficher le contenu, renommer, mettre à jour, déplacer, supprimer, menu rapide. « Afficher le contenu » liste les valeurs, chacune avec une case : seules les valeurs cochées sont appliquées, les autres restent enregistrées. Les préréglages qu'un mod apporte lui-même viennent en premier ; on peut les appliquer, les renommer, leur donner sa propre photo (« Nouvelle photo ») et cocher ou décocher leurs valeurs, pas les modifier ni les supprimer. Enregistrés par mod dans AltUI_ModPresets_<mod>.sav.
+Au-dessus des réglages : les préréglages de la page. La tuile « + » enregistre les réglages actuels avec une photo (de face ou en caméra libre) ; un clic applique un préréglage. Clic droit : appliquer, afficher le contenu, renommer, mettre à jour, déplacer, supprimer, menu rapide. « Afficher le contenu » liste les valeurs, chacune avec une case : seules les valeurs cochées sont appliquées, les autres restent enregistrées. Les préréglages qu'un mod apporte lui-même viennent en premier ; on peut les appliquer, les renommer, leur donner sa propre photo (« Nouvelle photo ») et cocher ou décocher leurs valeurs, pas les modifier ni les supprimer. Enregistrés par mod dans AltUI_ModPresets_<mod>.sav. Les préréglages fournis par un mod peuvent être masqués (clic droit « Masquer ») ; « Afficher les préréglages masqués » dans la barre au-dessus des tuiles fait revenir ceux de cette page. « ... » dans cette barre replie la zone des préréglages de toutes les pages de mods et la rouvre.
 
 Cet onglet n'apparaît que si un tel mod est installé.
 
@@ -258,6 +259,19 @@ Déplacer et poser les figures sans le panneau, la caméra libre dans la pièce.
 - Maintenir le bouton du milieu tourne la caméra sans être arrêté par les bords de l'écran ; le pointeur revient ensuite à sa place.
 - Échap ou B quitte le mode.
 
+## Ennemis {#enemies}
+
+Des zombies vivants et hostiles de toutes sortes. Une tuile fait apparaître son type, les liens en dessous ses variantes – dans la direction de la caméra à la distance réglée, autant que « Nombre » l'indique, répartis autour de ce point.
+
+- Comportement : *Traquer* – ils foncent aussitôt sur Jodi ; *Guetter* – ils attendent de voir ou d'entendre quelqu'un (les compagnons aussi) ; *Passif* – ils restent immobiles et rien ne les réveille. Un changement s'applique à tous les ennemis créés par AltUI.
+- *Tout retirer* / *Retirer le plus proche* les font disparaître (pas de butin, pas d'EXP) ; *Tout tuer* les fait mourir comme dans le jeu – les corps restent jusqu'à *Tout retirer*.
+- « En vie : n » compte les ennemis vivants créés par AltUI ; les zombies du jeu ne sont jamais touchés.
+- Deux vues : « Faire apparaître » (ci-dessus) et « Vivants (n) » : une ligne par ennemi – les figures créées depuis un look (avec tout ce que propose l'onglet Compagnons) et, en dessous, chaque zombie créé par AltUI avec son type, sa distance et son comportement ; liens par zombie : traquer, guetter, passif, retirer, tuer.
+- Le jeu enregistre les ennemis vivants avec la sauvegarde : après le chargement, ce sont des zombies du jeu. Retirez-les ou tuez-les avant de sauvegarder.
+- Dans un défi, des ennemis vivants empêchent la victoire (le jeu compte chaque zombie vivant). Les cinématiques les retirent.
+- Là où il n'y a pas de chemins (le bureau de Jodi, le niveau 3, le stand de tir), ils ne marchent que tout droit vers une cible qu'ils voient.
+- Menu rapide : « Faire apparaître : <type> » par type et variante (avec le nombre, la distance et le comportement actuels), « Ennemis : tout retirer / tout tuer / passifs / actifs » – dans l'onglet Actions, aussi sur des touches propres.
+
 ## Navigation {#navigation}
 
 - Voler / Atterrir : Jodi vole. Se déplacer comme d'habitude, Espace monte, Ctrl descend, Maj va trois fois plus vite ; le curseur règle la vitesse. Les murs l'arrêtent. Atterrir la laisse tomber au sol – une longue chute blesse comme dans le jeu. Aussi dans le menu rapide, donc aussi sur une touche à soi (Actions › Touches personnelles).
@@ -288,17 +302,18 @@ Avec la souris sur un objet, à côté du panneau et en mode ragdoll :
 
 Des looks devenus personnages du jeu : un compagnon accompagne Jodi, se bat et obéit aux ordres ; un PNJ reste où il est et se défend.
 
-- Dans l'onglet Looks, clic droit sur un look : « Créer en compagnon » ou « Créer en PNJ ». La figure apparaît devant Jodi avec ce look.
+- Dans l'onglet Looks, clic droit sur un look : « Créer en compagnon », « Créer en PNJ » ou « Créer en ennemi ». La figure apparaît devant Jodi avec ce look. Un ennemi traque Jodi avec un pistolet (munitions infinies) et la blesse ; sa ligne est dans l'onglet Ennemis sous « Vivants », avec tout ce que propose l'onglet Compagnons (seulement dans son niveau) – à supprimer là-bas ou à transformer en compagnon. Vos compagnons le combattent.
 - L'onglet « Compagnons » liste toutes les figures avec leur état (suit, attend, PNJ, inactif, tombé) et des puces : « Suis-moi », « Attends ici », « Faire venir », → PNJ / → Compagnon, « Actif », ∞ avec un cœur (invulnérable), ∞ avec des cartouches (munitions infinies) et l'engrenage (attaquable / inattaquable, renommer, changer de look, ranimer, retirer). « ... » replie et déplie les tuiles de la figure (vêtements et sac) ; cela reste par figure, même après un redémarrage.
 - Les compagnons sont listés au-dessus des PNJ, une ligne sépare les deux groupes. Les puces au-dessus des lignes montrent tout, seulement les compagnons ou seulement les PNJ (conservé après un redémarrage).
 - Un clic sur une ligne sélectionne la figure. En haut se trouvent le sac à dos (à gauche) et la caisse (à droite) : un clic donne un objet à la figure sélectionnée, une arme avec sa peinture et ses accessoires. Un clic sur une tuile de la figure le rend au sac à dos ; clic droit : tout, ou dans la caisse. « ... » au-dessus d'une liste la replie.
 - Le menu contextuel d'une pile – de Jodi ou de la figure – a la ligne de quantité comme dans l'onglet Inventaire : « En donner 5 », « En prendre 5 », dans le coffre.
 - Les vêtements sont de vraies pièces de la figure, comme pour les PNJ du jeu : ils s'abîment, peuvent se déchirer et apparaissent dans l'inventaire PNJ du jeu, où l'on peut aussi les échanger. Sous une figure, ses pièces sont des tuiles (celles abîmées sont marquées) : un clic en enlève une et la met dans le sac à dos de Jodi ; clic droit : réparer avec un kit de couture du sac à dos de Jodi, ou tout réparer. Dans la colonne du sac à dos, « Vêtements » liste les pièces de Jodi : un clic en donne une à la figure sélectionnée, qui l'enfile (dégâts et couleurs suivent).
+- Menu engrenage « Restaurer la tenue (sans kit de couture) » : la figure porte à nouveau exactement la tenue de son look, chaque pièce comme neuve, gratuitement – les pièces perdues (arrachées, retirées) reviennent, les autres vont dans son sac (compagnons, PNJ et ennemis). « Restaurer toutes les tenues » en bas à droite de l'onglet Compagnons le fait pour chaque figure de cet onglet.
 - « Actif » désactivé retire la figure du monde avec tout ce qu'elle porte ; réactivée, elle revient devant Jodi.
 - « Munitions infinies » : la figure recharge ses armes à feu sans fin, sans avoir besoin de munitions dans son sac. Les armes à chargeur ne touchent pas à ses munitions ; le fusil à pompe et le lance-grenades utilisent d'abord ce qu'elle porte.
 - Une figure qui n'est pas invulnérable peut tomber. Elle reste dans la liste et « Ranimer » la ramène avec ses affaires. Les figures ne deviennent jamais des zombies.
 - « Invulnérable » (∞ avec un cœur) : la figure ne peut pas mourir, sa santé se remplit après chaque coup. Elle montre quand même les réactions aux coups et ses vêtements s'abîment.
-- « Attaquable » (engrenage) : les zombies ne ciblent que les figures attaquables, invulnérables ou non. Après « Rendre inattaquable », les zombies la laissent tranquille et elle ne subit plus de dégâts. Le réglage est enregistré ; les nouvelles figures sont attaquables.
+- « Attaquable » (engrenage) : les zombies ne ciblent que les figures attaquables, invulnérables ou non. Après « Rendre inattaquable », les zombies et les mercenaires ne la prennent plus pour cible ; elle subit toujours des dégâts (indemne avec « Invulnérable »). Le réglage est enregistré ; les nouvelles figures sont attaquables.
 - « + Jason » (en bas à droite de l'onglet) ajoute Jason de l'histoire comme compagnon, avec son Glock. Il obéit aux ordres, suit et est sauvegardé. Il ne se bat qu'avec son propre Glock : un Glock qu'on lui donne devient le sien, il refuse les autres armes. Il n'a ni look, ni vêtements, ni maquillage ; à terre, il ne peut pas être soigné – « Ranimer » le ramène.
 - « Retirer » demande confirmation ; les objets et les armes de la figure vont dans la caisse, ses vêtements dans le sac à dos de Jodi.
 - « Changer de look » passe à l'onglet Looks : cliquez sur le look que la figure doit porter.

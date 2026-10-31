@@ -4,7 +4,7 @@ master; without path points his controller waits and runs the NPC orders of Npc_
 his death skips Jason's own Character Die: that one spawns Camera_Death and turns the player's view onto him for good."""
 import os, sys; sys.path.insert(0, os.path.dirname(__file__))
 from bpdsl import *
-from gen_follower import f_need_to_save, f_count_weapon_ammo
+from gen_follower import f_need_to_save, f_count_weapon_ammo, f_is_ragdoll_or_dying
 
 JASON = M + "/BP_AltUIJason"; JASONCTRL = M + "/BP_AltUIJasonCtrl"
 
@@ -40,8 +40,8 @@ def f_ctrl_decide_next_state():
 def build():
     return [blueprint(JASONCTRL, P_JASONCTRL, functions=[f_ctrl_decide_next_state()]),
             # InfAmmo: his own Count Weapon Ammo is a fixed 100 (the story's endless ammo) - ours makes it the chip's (ui-test-123)
-            blueprint(JASON, P_JASON, variables=[var("InfAmmo", "bool")],
-                      functions=[f_need_to_save(), f_character_die(), f_change_controller(), f_count_weapon_ammo()])]
+            blueprint(JASON, P_JASON, variables=[var("InfAmmo", "bool"), var("NotTarget", "bool")],   # NotTarget: gear menu "attackable" off (gen_follower)
+                      functions=[f_need_to_save(), f_character_die(), f_change_controller(), f_count_weapon_ammo(), f_is_ragdoll_or_dying()])]
 
 
 if __name__ == "__main__":

@@ -45,7 +45,7 @@ class Contract(unittest.TestCase):
         s = asset(mu.S_MODPRESET)
         self.assertEqual([m["name"] for m in s["members"]], ["Entry", "Name", "Id", "Values", "Colors", "Texts", "Off"])
         sg = asset(mu.SG_MODPRESETS)
-        self.assertEqual({v["name"] for v in sg["variables"]}, {"Version", "NextId", "Presets", "ShippedNames", "ShippedOff"})
+        self.assertEqual({v["name"] for v in sg["variables"]}, {"Version", "NextId", "Presets", "ShippedNames", "ShippedOff", "ShippedHidden"})
         shipped = asset(mu.PRESET_STRUCT)["members"]
         self.assertEqual([m["name"] for m in shipped], ["Entry", "Caption", "Icon", "Order", "Values"])
         self.assertEqual(shipped[-1].get("value_type"), "string")
@@ -168,6 +168,20 @@ class Tiles(unittest.TestCase):
         a = {x["path"].rsplit("/", 1)[1]: x for x in load("40_widgets.json")}
         self.assertIn("W_ModPresetButton", a)
         self.assertTrue({"Clear Mod Preset Tiles", "Add Mod Preset Tile", "Set Mod Presets Shown"} <= {f["name"] for f in a["W_AltUI"]["functions"]})
+
+    def test_hide_restore_fold(self):
+        # shipped presets can be hidden (context menu, shipped only), the bar's restore link shows this page's again, "..." folds the area
+        g = fn_graph("Rebuild Mod Presets")
+        self.assertTrue(nodes(g, function="Array_Contains")); self.assertTrue(nodes(g, function="Add Mod Preset Link"))
+        self.assertIn("ModPresetsFold", json.dumps(g)); self.assertIn("ModPresetRestore", json.dumps(g)); self.assertIn("ModPresetsFolded", json.dumps(g))
+        self.assertTrue(nodes(fn_graph("Hide Mod Preset"), function="Array_AddUnique"))
+        self.assertTrue(nodes(fn_graph("Hide Mod Preset"), kind="call_self", function="Write Mod Presets"))
+        self.assertTrue(nodes(fn_graph("Restore Mod Presets"), kind="call_self", function="Write Mod Presets"))
+        self.assertTrue(nodes(fn_graph("Toggle Mod Presets Folded"), kind="call_self", function="Save Settings Soon"))
+        self.assertIn("ModPresetHide", json.dumps(fn_graph("On Mod Preset Context")))
+        sg = asset(mu.SG_MODPRESETS); self.assertIn("ShippedHidden", json.dumps(sg))
+        a = {x["path"].rsplit("/", 1)[1]: x for x in load("40_widgets.json")}
+        self.assertTrue({"Clear Mod Preset Links", "Add Mod Preset Link", "Set Mod Preset Label"} <= {f["name"] for f in a["W_AltUI"]["functions"]})
 
     def test_shipped_not_deleted_or_updated(self):
         for f in ("Delete Mod Preset", "Update Mod Preset", "Mod Preset Move"):

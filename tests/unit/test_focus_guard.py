@@ -34,7 +34,7 @@ class FocusGuard(unittest.TestCase):
         s = json.dumps(self.g)
         for v in ("PanelOpen", "QuickOpen", "VerWarn"):
             self.assertIn('"%s"' % v, s)
-        self.assertIn(["entry", "bon", "bvw", "bvi"], self.g["exec"])
+        self.assertIn(["entry", "bon", "bcur", "bvw"], self.g["exec"]); self.assertIn(["bvw", "bvi"], self.g["exec"])   # bcur: the cursor first (a hit on Jodi hides it)
         self.assertIn(["bvw:else", "bh"], self.g["exec"]); self.assertIn(["bvi:else", "bh"], self.g["exec"])   # warning shown: nothing
         self.assertEqual(self.nodes["vwi"]["function"], "IsInViewport")
 
@@ -62,6 +62,15 @@ class FocusGuard(unittest.TestCase):
     def test_color_keys_focus_the_panel(self):
         g = self.fns["Focus Color Keys"]["graph"]
         self.assertTrue(any(n.get("function") == "SetKeyboardFocus" and n["in"]["self"].endswith(".Panel") for n in g["nodes"]))
+
+    def test_ragdolls_mode_keeps_its_cursor(self):
+        # ui-test-182 9.3: Focus Guard runs only without a camera mode; a hit on Jodi in the Ragdolls mode hid the cursor for good
+        cam = self.fns["Cam Tick"]["graph"]
+        self.assertTrue(any(c[:5] == ["b1:else", "b3", "st3", "rms", "rcg"] for c in cam["exec"]))
+        g = self.fns["Rag Cursor Guard"]["graph"]; nodes = {n["id"]: n for n in g["nodes"]}
+        self.assertIn(["entry", "bml"], g["exec"]); self.assertIn(["bml:else", "bcur"], g["exec"]); self.assertIn(["bcur:else", "cur", "im"], g["exec"])
+        self.assertEqual(nodes["cur"]["in"]["show"], "true"); self.assertEqual(nodes["im"]["in"]["InWidgetToFocus"], "None")
+
 
 if __name__ == "__main__":
     unittest.main()
