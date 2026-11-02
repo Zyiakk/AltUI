@@ -1,4 +1,4 @@
-"""2026-10-24: keep pieces through look / outfit changes (spec docs/superpowers/specs/2026-10-24-keep-items-design.md).
+"""2026-10-24: keep pieces through look / outfit changes (spec internal design notes).
 KeepItems = marked pieces (only the menu changes it), SnapWorn = worn pieces a look / outfit put on. Apply Snapshot with
 keep = true leaves the marked pieces the player put on and skips what would push them off."""
 import unittest, os, sys
@@ -91,16 +91,27 @@ class Snapshot(unittest.TestCase):
 class Finish(unittest.TestCase):
     def test_kept_colours_survive(self):
         g = mgr_graph("Finish Apply Snapshot"); b = by_id(g)
-        self.assertEqual(b["wkc"]["function"], "With Kept Colors"); self.assertEqual(b["wkc"]["in"]["next"], "@bs.SlotColors")
-        self.assertEqual(b["rdc"]["in"]["next"], "@wkc.colors"); self.assertEqual(b["ssc9"]["in"]["SlotColors"], "@wkc.colors")
+        self.assertEqual(b["wkc"]["function"], "Look Colors"); self.assertEqual(b["wkc"]["in"]["snap"], "@gps.PendingSnap")
+        self.assertEqual(b["rdc"]["in"]["next"], "@wkc.slot"); self.assertEqual(b["ssc9"]["in"]["SlotColors"], "@wkc.slot"); self.assertEqual(b["smc9"]["in"]["MakeupColors"], "@wkc.makeup")
         self.assertTrue(any(c[i:i + 3] == ["umt", "wkc", "rdc"] for c in g["exec"] for i in range(len(c))))
+        lc = by_id(mgr_graph("Look Colors")); self.assertEqual(lc["wkc"]["function"], "With Kept Colors")   # replaced (undo, ragdoll): as before
+
+    def test_looks_and_outfits_merge_undo_replaces(self):
+        """2026-11-01: a look / outfit merges its colours into the save's (SnapMerge), undo / redo and the ragdoll's way back replace."""
+        for f in ("Apply Look", "On Outfit Clicked"):
+            g = mgr_graph(f); b = by_id(g); self.assertEqual(b["smg"]["in"]["SnapMerge"], "true", f)
+            self.assertTrue(any(c[i:i + 2] == ["smg", n] for c in g["exec"] for i in range(len(c)) for n in ("ap", "as")), f)
+        for f in ("Undo", "Redo", "Rag Load Next"):
+            self.assertFalse(any(n.get("var") == "SnapMerge" for n in mgr_graph(f)["nodes"]), f)
+        a = by_id(mgr_graph("Apply Snapshot")); self.assertEqual(a["spmg"]["in"]["PendingMerge"], "@gmg1.SnapMerge"); self.assertEqual(a["smg0"]["in"]["SnapMerge"], "false")
+        self.assertEqual(by_id(mgr_graph("Start Next Snapshot"))["smg"]["in"]["SnapMerge"], "@gnmg.NextMerge")
 
     def test_notice_has_its_own_line(self):
         g = mgr_graph("Finish Apply Snapshot"); b = by_id(g)
         self.assertEqual(b["snt"]["function"], "Snap Notice Text"); self.assertIn(["fmk:Completed", "snt", "bms"], g["exec"])
         self.assertIn(["bms:else", "mpop", "rs2"], g["exec"]); self.assertIn(["bms", "rs2"], g["exec"])
         n = by_id(mgr_graph("Snap Notice Text"))
-        self.assertEqual(n["kj"]["in"]["SourceArray"], "@gk.PendingKept"); self.assertEqual(n["sep"]["in"]["A"], "\n")
+        self.assertEqual(n["j2"]["in"]["SourceArray"], "@g2.PendingKept"); self.assertEqual(n["jn"]["in"]["Separator"], "\n")   # one line per kind (not owned: its own, 2026-11-01)
 
 
 if __name__ == "__main__":

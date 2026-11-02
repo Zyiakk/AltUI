@@ -3,7 +3,7 @@ RestoreState) UE 4.27 restores Jodi's anim instance and calls InitializeAnimScri
 (MovieSceneSkeletalAnimationTemplate.cpp, FPreAnimatedAnimationTokenProducer::RestoreState). With bForceReinit the
 post-process instance is spawned anew (SkeletalMeshComponent.cpp, NeedToSpawnPostPhysicsInstance) - a fresh ABP_BodyScale
 with its class defaults, so the body's default bone scales and every slider are gone until Apply Body Scales runs again
-(Nexus report 2026-10-07, docs/notes/2026-10-07-cutscene-body-reset.md).
+(Nexus report 2026-10-07, internal design notes).
 
 Body Scale Watch (every frame) compares the mesh's post-process instance with the one Apply Body Scales last wrote to and
 re-applies on a change - only bone scales and physics, no clothing (towel), no materials (mutation)."""

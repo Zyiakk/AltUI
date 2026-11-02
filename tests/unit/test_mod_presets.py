@@ -1,4 +1,4 @@
-"""Presets for mod pages (docs/specs/2026-10-28-mod-presets-design.md): contract, save per mod, capture / apply, tiles, quick menu."""
+"""Presets for mod pages (internal design notes): contract, save per mod, capture / apply, tiles, quick menu."""
 import unittest, os, sys
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen"))
 import modui as mu, json

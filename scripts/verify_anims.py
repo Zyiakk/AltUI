@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""verify_anims.py - checks the cooked pipeline animations (docs/specs/2026-10-06-anim-pipeline-design.md) against their build data
+"""verify_anims.py - checks the cooked pipeline animations (internal design notes) against their build data
 (build/anim/out/<name>.json): length, curve names and values (every frame, 1 % / 0.01), sync markers and Footstep notifies. A copy of a
 game animation (assets/anim/anims.py without modifier) is also compared with the game's original. Needs COOKED (config.sh)."""
 import os, sys, json, subprocess

@@ -1,6 +1,6 @@
 """Natural hair colour presets for the Coiffure page (W_Swatch row under the "Natural hair colours" link).
 Values are sRGB 0..255 converted to linear – the game's hair material takes a LinearColor. Tune the sRGB triples in game
-(docs/checklists/ui-test-20.md); nothing else needs to change."""
+(internal design notes); nothing else needs to change."""
 
 
 def lin(c):

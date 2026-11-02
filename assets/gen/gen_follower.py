@@ -1,9 +1,9 @@
 """Generates assets/29b_follower.json: BP_AltUIFollower, the figure AltUI spawns for a follower / NPC
-(docs/specs/2026-10-09-followers-design.md). A child of the game's NPC_Female (AI, bag, weapons, orders stay the game's):
+(internal design notes). A child of the game's NPC_Female (AI, bag, weapons, orders stay the game's):
 the game never saves it (Need to Save -> false; AltUI keeps its own save) and it never mutates. Its look comes from a look
 of the Looks tab as data (S_RagPart list + the body's morph values, see the Ragdolls figures): Apply Npc Appearance - which
 the game calls in On Begun Play, 0.2 s after the spawn - puts that look on instead of the game's NPC appearance. Clothes and
-hair are the game's (docs/specs/2026-10-12-follower-echte-kleidung-design.md): Set Look puts the pieces into the figure before
+hair are the game's (internal design notes): Set Look puts the pieces into the figure before
 its start, the game's On Begun Play puts them on (colour, damage, heels, body mask)."""
 import os, sys; sys.path.insert(0, os.path.dirname(__file__))
 from bpdsl import *
@@ -21,7 +21,7 @@ def f_need_to_save():
 
 
 def f_is_npc():
-    """An enemy figure (IsEnemy, docs/notes/2026-10-30-look-als-gegner.md) is no NPC to the others: Character_NPC.on Damage Event drops
+    """An enemy figure (IsEnemy, internal design notes) is no NPC to the others: Character_NPC.on Damage Event drops
     hits whose murderer is an NPC - without this its shots would not hurt followers. Else as Character_NPC's (not Is Changed: a
     figure never mutates)."""
     g = G(); g.get("ge", "IsEnemy"); g.call("n", K_MATH, "Not_PreBool", inp={"A": "@ge.IsEnemy"}); g.link("n.ReturnValue", "return.yes")
@@ -67,7 +67,7 @@ def f_is_ragdoll_or_dying():
 
 
 def f_count_weapon_ammo():
-    """Infinite ammo (InfAmmo, docs/notes/2026-10-18-follower-munition-und-npc-typen.md): the game reloads a gun when this is > 0
+    """Infinite ammo (InfAmmo, internal design notes): the game reloads a gun when this is > 0
     (Npc_Controller.Try to Reload) and fills the magazine with Min(this, missing) before it takes that many from the bag
     (Weapon_Gun_Base.New Mag Installed) - with 9999 the magazine is filled and the take fails, the bag stays as it is. Off: the
     game's own count, the weapon's ammo in her bag."""

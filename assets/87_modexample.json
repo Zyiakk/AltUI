@@ -1660,12 +1660,12 @@
      "Label": "Light",
      "Order": 2
     },
-    "LightKey": {
+    "TabLight": {
      "Entry": "Lamp",
-     "Key": "LightKey",
-     "Type": "Key",
-     "Label": "Key for on/off",
-     "Order": 3
+     "Key": "TabLight",
+     "Type": "Tab",
+     "Label": "Light",
+     "Order": 10
     },
     "Brightness": {
      "Entry": "Lamp",
@@ -1675,17 +1675,7 @@
      "Min": 0.0,
      "Max": 20000.0,
      "Step": 500.0,
-     "Order": 4
-    },
-    "Height": {
-     "Entry": "Lamp",
-     "Key": "Height",
-     "Type": "Number",
-     "Label": "Height (cm)",
-     "Min": -100.0,
-     "Max": 200.0,
-     "Step": 10.0,
-     "Order": 5
+     "Order": 11
     },
     "Colour": {
      "Entry": "Lamp",
@@ -1698,28 +1688,60 @@
       "Red",
       "Custom"
      ],
-     "Order": 6
+     "Order": 12
     },
     "CustomColor": {
      "Entry": "Lamp",
      "Key": "CustomColor",
      "Type": "Color",
      "Label": "Custom colour",
-     "Order": 7
+     "Order": 13
+    },
+    "TabPlace": {
+     "Entry": "Lamp",
+     "Key": "TabPlace",
+     "Type": "Tab",
+     "Label": "Position",
+     "Order": 20
+    },
+    "Height": {
+     "Entry": "Lamp",
+     "Key": "Height",
+     "Type": "Number",
+     "Label": "Height (cm)",
+     "Min": -100.0,
+     "Max": 200.0,
+     "Step": 10.0,
+     "Order": 21
+    },
+    "More": {
+     "Entry": "Lamp",
+     "Key": "More",
+     "Type": "Header",
+     "Label": "More",
+     "Min": 1.0,
+     "Order": 22
+    },
+    "LightKey": {
+     "Entry": "Lamp",
+     "Key": "LightKey",
+     "Type": "Key",
+     "Label": "Key for on/off",
+     "Order": 23
     },
     "Note": {
      "Entry": "Lamp",
      "Key": "Note",
      "Type": "Text",
      "Label": "Note",
-     "Order": 8
+     "Order": 24
     },
     "Reset": {
      "Entry": "Lamp",
      "Key": "Reset",
      "Type": "Button",
      "Label": "Back to the defaults",
-     "Order": 9
+     "Order": 25
     }
    }
   },

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""verify_styles.py - checks the cooked walk / run / idle style ABPs, the idle templates and the walk mod templates (docs/specs/2026-10-06-move-styles-design.md): the CDO of every
+"""verify_styles.py - checks the cooked walk / run / idle style ABPs, the idle templates and the walk mod templates (internal design notes): the CDO of every
 ABP_AltUIStyle_* may only carry the overridden loop players of Jodi_Anim, each with nothing but its new Sequence - anything else
 would overwrite the game's values (the child's CDO is a delta against the real Jodi_Anim at runtime). Needs COOKED (config.sh)."""
 import sys, os, json, subprocess

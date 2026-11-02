@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generates assets/28_ragdoll.json: BP_AltUIRagdoll, a copy of a character as a physics puppet (prototype, see
-docs/notes/2026-10-05-ragdolls-machbarkeit.md). No game logic of its own: Copy From takes over the mesh, materials and morph
+internal design notes). No game logic of its own: Copy From takes over the mesh, materials and morph
 values of a character and every visible mesh attached to it (clothes and hair follow the body via the master pose, static
 meshes sit at their socket); Go Ragdoll switches the body to physics like the game's own Enable Ragdoll Ex; Toggle Lock
 stiffens the joint between a bone and its parent in its current angle with a runtime PhysicsConstraintComponent (the game
@@ -799,7 +799,7 @@ def f_set_joint_states():
     return fn("Set Joint States", [param("locked", "name", "array"), param("loose", "name", "array")], graph=g)
 
 
-# ---- poses of their own (docs/specs/2026-10-07-ragdoll-poses-design.md): rotations per bone + the pelvis' tilt and height ----
+# ---- poses of their own (internal design notes): rotations per bone + the pelvis' tilt and height ----
 POSE_FLOOR = ["pelvis", "spine_01", "spine_02", "spine_03", "neck_01", "head", "upperarm_l", "upperarm_r", "lowerarm_l", "lowerarm_r", "hand_l", "hand_r",
               "thigh_l", "thigh_r", "calf_l", "calf_r", "foot_l", "foot_r", "ball_l", "ball_r"]   # the lowest of these stands on the floor (ik_ and helper bones lie anywhere)
 POSE_GAP_MAX = 15.0   # cm: a gap between the lowest bone and the floor up to this is flesh / sole; more (a figure lifted in the air) is dropped

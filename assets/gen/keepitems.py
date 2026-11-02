@@ -1,4 +1,4 @@
-"""Keep pieces through look / outfit changes (spec docs/superpowers/specs/2026-10-24-keep-items-design.md).
+"""Keep pieces through look / outfit changes (spec internal design notes).
 
 KeepItems: the pieces marked "keep" in the clothes context menu (saved; only the menu changes it). SnapWorn: worn pieces a
 look or an outfit put on (saved). Apply Snapshot with keep = true (looks, outfits) leaves every worn piece that is marked and

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Idle mod converter: a pak that replaces Jodi's Female_Idle -> IdleAltUI_<Name>.pak (docs/specs/2026-10-13-idle-styles-design.md),
+"""Idle mod converter: a pak that replaces Jodi's Female_Idle -> IdleAltUI_<Name>.pak (idle styles design, 2026-10-13),
 selectable in AltUI (Options > Move > Standing) next to the game's idles - and no longer a replacer: the game's own idle stays.
 
   idlepak.py <Replacer.pak> [--name Adjust] [--title "Display name"] [--out DIR] [--force] [--altui <AltUI.pak>]

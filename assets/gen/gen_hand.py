@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generates assets/29d_hand.json: BP_AltUIHand, the invisible hand with its own range and items per round
-(docs/specs/2026-10-25-invisible-hand-design.md). The game's InvisibleHand_Comp scans a fixed box (half 180 x 180 x 100 around
+(internal design notes). The game's InvisibleHand_Comp scans a fixed box (half 180 x 180 x 100 around
 the feet + 90 cm, a constant in its bytecode) and sends ONE item per round flying (FlyingItem_Comp -> Jodi.On Item Picked). While
 the option is on, this actor does the same scan with its own box and count, keeps the game's scan waiting (Hand.time far ahead)
 and gives it back (time 0) when it stops. Only items the game marks Can Be Auto Picked; the flag is never set here."""

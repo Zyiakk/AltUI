@@ -116,7 +116,7 @@ class RuntimeStart(unittest.TestCase):
 
 
 class RealClothes(unittest.TestCase):
-    """2026-10-12: the figure wears the game's clothes and hair (docs/specs/2026-10-12-follower-echte-kleidung-design.md). Heels come
+    """2026-10-12: the figure wears the game's clothes and hair (internal design notes). Heels come
     from Clothes_Comp.Wear again (the copy of 2026-10-10 is gone), Check Appearence is the game's, the bag gets its pieces before the start."""
     FOL = "/Game/Mod/AltUI/BP_AltUIFollower"
 

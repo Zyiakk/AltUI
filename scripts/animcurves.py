@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """animcurves.py - curves of a cooked UE 4.27 AnimSequence (codec CompressedRichCurve), e.g. MoveData_Speed / Rotation Speed of
-Jodi's walk (docs/specs/2026-10-06-anim-pipeline-design.md). umodel does not export curves; this reads them from the .uexp.
+Jodi's walk (animation pipeline design, 2026-10-06). umodel does not export curves; this reads them from the .uexp.
 
 Layout (FCompressedAnimSequence::SerializeCompressedData): ... CompressedCurveNames (int32 count, FName = name index + number) ...
 bone stream ... FString BoneCodecDDCHandle, FString CurveCodecPath, int32 NumCurveBytes, curve bytes. The curve bytes start with one

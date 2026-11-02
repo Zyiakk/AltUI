@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Walk / run mods - the single source for the generator (gen_move: template ABPs, BP_AltUIMove), the converter (walkpak) and the
-manager's scan (docs/specs/2026-10-27-walk-mods-design.md).
+manager's scan (walk mods design, 2026-10-27).
 
 A walk mod is a pak Mod/WalkAltUI_<Name>/ with the mod's Female_Walk and / or Female_Run (moved, not renamed) and child ABPs of
 Jodi_Anim copied from AltUI's templates, their placeholder imports pointed at the mod's animations. Three families:
@@ -17,7 +17,7 @@ GAME_WALK = "/Game/Project/Character/Jodi/Animations/Female_Walk"   # what a rep
 GAME_RUN = "/Game/Project/Character/Jodi/Animations/Female_Run"
 ANIM_WALK, ANIM_RUN = "Female_Walk", "Female_Run"          # object names of the moved animations (cooked objects keep their name)
 WALK_PREFIX, RUN_PREFIX, BOTH_PREFIX = "ABP_AltUIWalkTpl_", "ABP_AltUIRunTpl_", "ABP_AltUIWalkRunTpl_"
-# a loop the game can drive (docs/notes/2026-10-06-tempo.md): without MoveData_Speed she stands still, without Rotation Speed she cannot turn
+# a loop the game can drive (tempo notes, 2026-10-06): without MoveData_Speed she stands still, without Rotation Speed she cannot turn
 REQUIRED_CURVES = {"MoveData_Speed": "she would stand still", "Rotation Speed": "she could not turn"}
 WANTED_CURVES = ("Forward Moving Alpha", "MoveData_FootPhase", "Enable_LeanLR", "Upper Body Yaw Ratio")
 

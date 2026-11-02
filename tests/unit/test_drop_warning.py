@@ -1,4 +1,4 @@
-"""Warning before dropping very many pickup actors (docs/specs/2026-10-15-drop-warning-design.md): the number of actors
+"""Warning before dropping very many pickup actors (internal design notes): the number of actors
 "Discard all" creates, the threshold, the window and its three ways."""
 import json, os, sys, unittest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "assets", "gen"))
@@ -103,7 +103,7 @@ class DropWindow(DropManager):
 
     def test_esc_and_panel_close_take_it_along(self):
         ex = self.fns["Panel Key Close"]["graph"]["exec"]
-        self.assertIn(["entry", "dwo", "bdw", "cdw"], ex)              # Esc with the window open: only the window (Drop Warn Open is not pure)
+        self.assertIn(["bsh:else", "dwo", "bdw", "cdw"], ex)           # Esc with the window open: only the window (Drop Warn Open is not pure); the share window comes first (2026-10-31)
         self.assertTrue(self.calls("Close Panel", "Close Drop Warning"))
         self.assertTrue(self.calls("Close Drop Warning", "IsInViewport"))
 

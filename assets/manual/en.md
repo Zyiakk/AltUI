@@ -80,6 +80,7 @@ The game's saved outfits, the same ones the wardrobe and the mirror use.
 - An outfit without a name of its own is shown as "Outfit" with its place in the list.
 - The tile size and how many pieces a tile shows are set under Options › Tiles.
 - An outfit saved here keeps every colour slot of its pieces, as AltUI coloured them; the game itself keeps one colour per piece. An outfit saved at the mirror has only that one.
+- Share: right click → "Export (share)…" shows it as text – Ctrl+A, Ctrl+C and send it. "Import…" at the bottom right: paste with Ctrl+V, "Check" lists what is in it and which mods are missing (what is already saved here exactly like this is left out), then import everything or without the missing pieces. Photos are not shared – take a new one with "Update".
 
 ## Looks {#looks}
 
@@ -90,6 +91,7 @@ A look is everything at once: clothes with their colours, hairstyle and hair col
 - Right click: view content, rename, update (photo from the front or with the free camera), move, delete, add to or remove from the quick menu.
 - Right click also: "Spawn as ragdoll", "Spawn as follower", "Spawn as NPC", "Spawn as enemy" (see "Ragdolls" and "Followers").
 - Right click "Clean copy (without missing parts)" – only shown when the look holds pieces of a mod that is no longer installed, or make-up / eye rows no table has: a new look right after it without those entries, with the same photo. The original stays as it is; saving a look again never removes them by itself.
+- Share: right click → "Export (share)…" shows it as text – Ctrl+A, Ctrl+C and send it. "Import…" at the bottom right: paste with Ctrl+V, "Check" lists what is in it and which mods are missing (what is already saved here exactly like this is left out), then import everything or without the missing pieces. Photos are not shared – take a new one with "Update".
 
 ## Backpack {#bag}
 
@@ -169,6 +171,7 @@ Skin, every make-up type, eyes and the game's appearance presets.
 - Skin: "Oiled skin" above the skins makes her skin glossy, as wet skin in the game (the game's own wet skin is 50 %). Ticked = your value, also against the story; unticked = the game decides again. Only on Jodi. Looks and appearance presets keep the setting; older ones bring "the game decides".
 - Mutation: Jodi's mutated look from the story in parts – skin colour and glow as sliders (ticked = on), veins and eyes as switches, "Reset" turns everything off. Make-up stays visible on the discoloured skin, your own iris colour tints the mutated eye. "Story look" sets the cutscene's look: the story's own skin material, every row at full; you can take single rows back afterwards. Make-up and scars are not visible with it. While the story mutates Jodi herself, the story's look applies.
 - Presets: the "+" tile saves the current appearance with a photo. Right click: apply, view content, rename, update, move, delete, quick menu.
+- Share: right click a preset → "Export (share)…", "Import…" at the bottom right – as with looks. Without missing pieces, a missing hairstyle, skin or make-up row is left out. One text may mix looks, outfits, faces and every kind of preset; every page with "Import…" takes all of it.
 
 ## Body Shape {#body}
 
@@ -176,6 +179,8 @@ Skin, every make-up type, eyes and the game's appearance presets.
 - Chips switch between the game's body and every converted body mod.
 - Converted bodies also get bone-scale sliders: scale, bust, waist, glutes and hips, thighs, calves, arms, hands, feet. They are kept per body; "Reset shape" sets them back.
 - Breast and glutes & hips: jiggle (0 % = animation only) adjusts the game's physics and works on every body; a bra still dampens as in the game. The nipple slider only works while the chest is uncovered. Angle and hip width exist only on converted bodies; the angle shows the more, the less jiggle there is (not at all at 100 %).
+- Presets: above the sliders, "+" saves every slider of the page – the body's own and the game's breast and waist – with a photo as a preset of the selected body chip (upper half: photo from the front, lower half: free camera). Each body chip shows only its own presets. A click loads one; right click: apply, rename, update, move, delete, quick menu. From the quick menu a preset switches to its body first. "..." folds the presets away.
+- Share: right click a preset → "Export (share)…", "Import…" at the bottom right – as with looks. A preset goes to its body, even when that body is not here; it shows up once the body is converted.
 - Body replacer mods have to be converted with bodypak.pyz first; see the BODY_MODS guide on the mod's page.
 
 ## Face {#face}
@@ -187,12 +192,17 @@ Jodi's facial expression.
 - A ticked entry keeps its value, also in poses; an unticked one is left to the game's animation. "Fix all" and "All to the game" switch every entry at once.
 - Expressions are blended (together at most 100 %) or added up.
 - The "+" tile saves the current face with a photo. Right click: apply, view content, rename, update, move, delete.
+- Share: right click a face → "Export (share)…", "Import…" at the bottom right – as with looks.
 
 ## Mods {#mods}
 
 Settings of other mods that register with AltUI: their entries on the left, the chosen one's toggles, sliders, numbers, choices, colours, text fields, keys and buttons on the right.
 
+A mod can split its page into tabs: they look like the tabs at the top and sit above its fields, and what stands before the first tab stays visible on every tab. The fields of a tab and of every section lie on a light surface of their own, so you can see what belongs together. A heading with an arrow folds the fields below it with a click. AltUI remembers the chosen tab of every page and which sections are folded. Presets always hold the whole page, whichever tab is shown.
+
 Above the fields: presets of the page. The "+" tile saves the current settings with a photo (from the front or with the free camera); a click applies a preset. Right click: apply, view content, rename, update, move, delete, quick menu. "View content" lists the values with a check box each: only ticked values are applied, unticked ones stay stored. Presets a mod brings itself come first; they can be applied, renamed, given a photo of your own ("New photo") and their values ticked or unticked, not changed or deleted. Kept per mod in AltUI_ModPresets_<mod>.sav. Presets a mod brings can be hidden (right click "Hide"); "Show hidden presets" in the bar above the tiles brings this page's back. "..." in that bar folds the preset area of every mod page and opens it again.
+
+Share: right click an own preset → "Export (share)…", "Import…" at the bottom right – as with looks. Shipped ones come with the mod itself. An imported preset goes to its mod page, even when the mod is not installed; it shows up once it is.
 
 This tab only appears when such a mod is installed.
 
@@ -220,6 +230,7 @@ Your own display names for mods, groups, clothes, hairstyles, skins, make-up, po
 - Weapon mods are listed with the other mods.
 - "Usage" shows which mods are in use right now: per mod the pieces in use and where they are (Jodi now, outfits, looks, presets, favourites, followers, ragdoll scenes, standing idle, weapons, object scenes and positions, clothes drawers). Unused mods are listed below in grey, as are mods whose use AltUI cannot detect (maps, script mods). "View content" opens any of them. Pieces that are only in the wardrobe do not count as in use. Each mod is a tile with its shown name and its pak file; the places of a piece are summed up per kind (e.g. "Outfits 4–6, 8"). The list is collected when you open "Usage"; elsewhere the number on the left is the one from the last time (none before the first time).
 - Object scenes and saved object positions count as use too (models from mods).
+- "Share": every look, outfit, face, appearance preset, body preset and own mod preset on one page, grouped by kind ("all" / "none" per kind), with the body or the mod next to it. Tick them, then "Export (n)…" at the bottom right gives all ticked ones as one text; "Import…" next to it reads such a text. The ticks hold only while the page is open. Mod presets of mods that are not installed right now are not listed.
 
 ## Ragdolls {#ragdolls}
 
@@ -335,7 +346,7 @@ Figure in a pose: the quick menu group "Figure: favourite poses" holds each of y
 
 - Only shown when the current level has a TV (Jodi's office), or always with the switch under Options › General. With several TVs it controls the one nearest to Jodi.
 - Switch on / Switch off work like the E key on the TV. The TV reads its video list the first time it is switched on – until then the tab asks you to switch it on once.
-- Click a video to play it. A video started earlier carries on where it was left, as on the TV itself.
+- "Play" next to a video plays it; the one playing is highlighted. A video started earlier carries on where it was left, as on the TV itself.
 - Your own videos: put .mp4 files into the game folder TheKillingAntidote/Videos/TV/. They appear after the level is loaded again.
 
 ## Quick menu {#quick}

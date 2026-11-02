@@ -163,17 +163,20 @@ def event_graph():
 
 
 def build():
-    fields = {
+    fields = {   # a lead part (on every tab), the tabs "Light" and "Position", a section that starts folded (Min 1)
         "Header": {"Entry": "Lamp", "Key": "Header", "Type": "Header", "Label": "A lamp in front of Jodi", "Order": 0},
         "Status": {"Entry": "Lamp", "Key": "Status", "Type": "Info", "Label": "Now", "Order": 1},
         "Light": {"Entry": "Lamp", "Key": "Light", "Type": "Toggle", "Label": "Light", "Order": 2},
-        "LightKey": {"Entry": "Lamp", "Key": "LightKey", "Type": "Key", "Label": "Key for on/off", "Order": 3},
-        "Brightness": {"Entry": "Lamp", "Key": "Brightness", "Type": "Slider", "Label": "Brightness", "Min": 0.0, "Max": 20000.0, "Step": 500.0, "Order": 4},
-        "Height": {"Entry": "Lamp", "Key": "Height", "Type": "Number", "Label": "Height (cm)", "Min": -100.0, "Max": 200.0, "Step": 10.0, "Order": 5},
-        "Colour": {"Entry": "Lamp", "Key": "Colour", "Type": "Choice", "Label": "Colour", "Options": [c for c, _ in COLOURS] + ["Custom"], "Order": 6},
-        "CustomColor": {"Entry": "Lamp", "Key": "CustomColor", "Type": "Color", "Label": "Custom colour", "Order": 7},
-        "Note": {"Entry": "Lamp", "Key": "Note", "Type": "Text", "Label": "Note", "Order": 8},
-        "Reset": {"Entry": "Lamp", "Key": "Reset", "Type": "Button", "Label": "Back to the defaults", "Order": 9},
+        "TabLight": {"Entry": "Lamp", "Key": "TabLight", "Type": "Tab", "Label": "Light", "Order": 10},
+        "Brightness": {"Entry": "Lamp", "Key": "Brightness", "Type": "Slider", "Label": "Brightness", "Min": 0.0, "Max": 20000.0, "Step": 500.0, "Order": 11},
+        "Colour": {"Entry": "Lamp", "Key": "Colour", "Type": "Choice", "Label": "Colour", "Options": [c for c, _ in COLOURS] + ["Custom"], "Order": 12},
+        "CustomColor": {"Entry": "Lamp", "Key": "CustomColor", "Type": "Color", "Label": "Custom colour", "Order": 13},
+        "TabPlace": {"Entry": "Lamp", "Key": "TabPlace", "Type": "Tab", "Label": "Position", "Order": 20},
+        "Height": {"Entry": "Lamp", "Key": "Height", "Type": "Number", "Label": "Height (cm)", "Min": -100.0, "Max": 200.0, "Step": 10.0, "Order": 21},
+        "More": {"Entry": "Lamp", "Key": "More", "Type": "Header", "Label": "More", "Min": 1.0, "Order": 22},
+        "LightKey": {"Entry": "Lamp", "Key": "LightKey", "Type": "Key", "Label": "Key for on/off", "Order": 23},
+        "Note": {"Entry": "Lamp", "Key": "Note", "Type": "Text", "Label": "Note", "Order": 24},
+        "Reset": {"Entry": "Lamp", "Key": "Reset", "Type": "Button", "Label": "Back to the defaults", "Order": 25},
     }
     variables = [var(v, t, default=d or None) for v, t, d in STATE]
     return [

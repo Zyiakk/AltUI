@@ -1,5 +1,5 @@
 """Options page in categories (left list) and hideable tabs: data, settings, strings, widget tree, graphs
-(docs/specs/2026-10-03-options-categories-tabs-design.md)."""
+(internal design notes)."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen"))
 from strings import STRINGS, LANGS

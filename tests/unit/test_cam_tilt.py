@@ -1,4 +1,4 @@
-"""2026-10-25: camera distance mode, wheel-zoom switch, screen tilt (spec docs/superpowers/specs/2026-10-25-camera-distance-tilt-design.md)."""
+"""2026-10-25: camera distance mode, wheel-zoom switch, screen tilt (spec internal design notes)."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 import gen_manager, gen_widgets as gw

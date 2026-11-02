@@ -1,9 +1,9 @@
-"""Objects tab (docs/specs/2026-10-23-objects-tab-design.md): constants and the rules the manager's graphs follow (gen_manager_ui.py,
+"""Objects tab (internal design notes): constants and the rules the manager's graphs follow (gen_manager_ui.py,
 section "Objects tab"), written once in Python so the tests can check them.
 
 The catalogue comes from the asset registry at runtime - nothing of the game goes into the pak, only paths are kept. The game's
 own models are known to the registry (the game ships AssetRegistry.bin); mod paks are not (measured 2026-09-23, see
-docs/specs/2026-09-23-blueprint-loader-discovery.md). AltUI scans them folder by folder (the rows of DLC_MainTable), one folder per
+internal design notes). AltUI scans them folder by folder (the rows of DLC_MainTable), one folder per
 step, and keeps what it found in a save of its own, so only new mod folders are scanned at the next start (ui-test-148: one scan of
 all of /Game/Mod/ held the game ~33 s)."""
 import re

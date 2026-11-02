@@ -80,6 +80,7 @@ Die gespeicherten Outfits des Spiels – dieselben, die Kleiderschrank und Spieg
 - Ein Outfit ohne eigenen Namen heißt „Outfit“ mit seinem Platz in der Liste.
 - Kachelgröße und wie viele Teile eine Kachel zeigt, stehen unter Optionen › Kacheln.
 - Ein hier gespeichertes Outfit behält jeden Farbkanal seiner Teile, so wie AltUI sie gefärbt hat; das Spiel selbst kennt nur eine Farbe pro Teil. Ein am Spiegel gespeichertes Outfit hat nur diese eine.
+- Teilen: Rechtsklick → „Exportieren (teilen)…“ zeigt es als Text – Strg+A, Strg+C und verschicken. „Importieren…“ unten rechts: mit Strg+V einfügen, „Prüfen“ zeigt, was drin ist und welche Mods fehlen (was schon genau so gespeichert ist, bleibt draußen), dann alles importieren oder ohne die fehlenden Teile. Fotos werden nicht geteilt – mit „Aktualisieren“ ein neues machen.
 
 ## Looks {#looks}
 
@@ -90,6 +91,7 @@ Ein Look ist alles auf einmal: Kleidung mit ihren Farben, Frisur und Haarfarbe, 
 - Rechtsklick: Inhalt anzeigen, Umbenennen, Aktualisieren (Foto frontal oder mit freier Kamera), Verschieben, Löschen, ins Schnellmenü oder heraus.
 - Rechtsklick außerdem: „Als Ragdoll spawnen“, „Als Follower spawnen“, „Als NPC spawnen“, „Als Gegner spawnen“ (siehe „Ragdolls“ und „Follower“).
 - Rechtsklick „Bereinigte Kopie (ohne fehlende Teile)“ – nur, wenn der Look Teile einer nicht mehr installierten Mod oder Make-up-/Augen-Zeilen enthält, die keine Tabelle mehr kennt: ein neuer Look direkt dahinter ohne diese Einträge, mit demselben Foto. Das Original bleibt, wie es ist; Neuspeichern entfernt sie nie von selbst.
+- Teilen: Rechtsklick → „Exportieren (teilen)…“ zeigt es als Text – Strg+A, Strg+C und verschicken. „Importieren…“ unten rechts: mit Strg+V einfügen, „Prüfen“ zeigt, was drin ist und welche Mods fehlen (was schon genau so gespeichert ist, bleibt draußen), dann alles importieren oder ohne die fehlenden Teile. Fotos werden nicht geteilt – mit „Aktualisieren“ ein neues machen.
 
 ## Rucksack {#bag}
 
@@ -169,6 +171,7 @@ Haut, jede Make-up-Art, Augen und die Aussehen-Presets des Spiels.
 - Haut: „Geölte Haut“ über den Häuten lässt die Haut glänzen, wie nasse Haut im Spiel (nasse Haut des Spiels = 50 %). Haken an = dein Wert, auch gegen die Story; Haken aus = das Spiel entscheidet wieder. Nur bei Jodi. Looks und Aussehens-Presets merken sich die Einstellung; ältere bringen „Spiel entscheidet“.
 - Mutation: Jodis Mutations-Look aus der Story in Teilen – Hautfarbe und Glühen als Regler (Haken an = wirkt), Adern und Augen als Schalter, „Zurücksetzen“ schaltet alles ab. Make-up bleibt über der verfärbten Haut sichtbar, eine eigene Irisfarbe tönt das Mutations-Auge. „Story-Look“ stellt den Look der Cutscene her: Hautmaterial der Story, alle Zeilen auf voll; einzelne Zeilen lassen sich danach zurücknehmen. Dabei sind Make-up und Narben nicht zu sehen. Während die Story Jodi selbst mutieren lässt, gilt deren Aussehen.
 - Presets: Die „+“-Kachel speichert das aktuelle Aussehen mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen, Schnellmenü.
+- Teilen: Rechtsklick auf ein Preset → „Exportieren (teilen)…“, „Importieren…“ unten rechts – wie bei Looks. Ohne fehlende Teile fallen eine fehlende Frisur, Haut oder Make-up-Zeile weg. Ein Text darf Looks, Outfits, Gesichter und alle Presets mischen; jede Seite mit „Importieren…“ nimmt alles darin.
 
 ## Körperform {#body}
 
@@ -176,6 +179,8 @@ Haut, jede Make-up-Art, Augen und die Aussehen-Presets des Spiels.
 - Chips wechseln zwischen dem Körper des Spiels und jedem umgewandelten Body-Mod.
 - Umgewandelte Bodys haben zusätzlich Knochen-Regler: Größe, Brust, Taille, Gesäß und Hüfte, Oberschenkel, Waden, Arme, Hände, Füße. Sie gelten je Body; „Form zurücksetzen“ stellt sie zurück.
 - Brust und Po & Hüfte: Wackeln (0 % = nur Animation) stellt die Physik des Spiels ein und wirkt bei jedem Body; ein BH dämpft weiter wie im Spiel. Der Nippel-Regler wirkt nur, solange die Brust frei ist. Winkel und Hüftbreite gibt es nur bei umgewandelten Bodys; der Winkel wirkt umso stärker, je weniger es wackelt (bei 100 % gar nicht).
+- Presets: Über den Reglern speichert „+“ alle Regler der Seite – die des Bodys und Brust und Taille des Spiels – mit Foto als Preset des gewählten Body-Chips (obere Hälfte: Foto frontal, untere Hälfte: freie Kamera). Jeder Body-Chip zeigt nur seine eigenen Presets. Ein Klick lädt eines; Rechtsklick: Anwenden, Umbenennen, Aktualisieren, Verschieben, Löschen, Schnellmenü. Aus dem Schnellmenü wechselt ein Preset erst auf seinen Body. „...“ klappt die Presets weg.
+- Teilen: Rechtsklick auf ein Preset → „Exportieren (teilen)…“, „Importieren…“ unten rechts – wie bei Looks. Ein Preset landet bei seinem Body, auch wenn dieser Body hier fehlt; es erscheint, sobald er umgewandelt ist.
 - Body-Ersatz-Mods müssen erst mit bodypak.pyz umgewandelt werden; siehe die Anleitung BODY_MODS auf der Seite des Mods.
 
 ## Gesicht {#face}
@@ -187,12 +192,17 @@ Jodis Gesichtsausdruck.
 - Ein angehaktes Feld behält seinen Wert, auch in Posen; ein nicht angehaktes bestimmt die Animation des Spiels. „Alle festlegen“ und „Alle ans Spiel“ schalten alle auf einmal.
 - Ausdrücke werden überblendet (zusammen höchstens 100 %) oder addiert.
 - Die „+“-Kachel speichert das aktuelle Gesicht mit Foto. Rechtsklick: Anwenden, Inhalt anzeigen, Umbenennen, Aktualisieren, Verschieben, Löschen.
+- Teilen: Rechtsklick auf ein Gesicht → „Exportieren (teilen)…“, „Importieren…“ unten rechts – wie bei Looks.
 
 ## Mods {#mods}
 
 Einstellungen anderer Mods, die sich bei AltUI anmelden: links ihre Einträge, rechts Schalter, Regler, Zahlen, Auswahlen, Farben, Textfelder, Tasten und Knöpfe des gewählten.
 
+Eine Mod kann ihre Seite in Tabs teilen: Sie sehen aus wie die Tabs ganz oben und stehen über den Feldern, und was vor dem ersten Tab steht, bleibt auf jedem Tab sichtbar. Die Felder eines Tabs und jedes Abschnitts liegen auf einer eigenen hellen Fläche, so sieht man, was zusammengehört. Eine Überschrift mit Pfeil klappt die Felder darunter per Klick ein und aus. AltUI merkt sich den gewählten Tab jeder Seite und welche Abschnitte zugeklappt sind. Presets enthalten immer die ganze Seite, egal welcher Tab gezeigt wird.
+
 Über den Feldern: Presets der Seite. Die Kachel „+“ speichert die aktuellen Einstellungen mit Foto (frontal oder mit freier Kamera); ein Klick wendet ein Preset an. Rechtsklick: anwenden, Inhalt anzeigen, umbenennen, aktualisieren, verschieben, löschen, Schnellmenü. „Inhalt anzeigen“ listet die Werte mit je einem Häkchen: Nur angehakte Werte werden angewendet, nicht angehakte bleiben gespeichert. Presets, die eine Mod selbst mitbringt, stehen vorn; sie lassen sich anwenden, umbenennen, mit einem eigenen Foto versehen („Neues Foto“) und ihre Werte an- oder abhaken, nicht ändern oder löschen. Gespeichert pro Mod in AltUI_ModPresets_<Mod>.sav. Mitgelieferte Presets lassen sich ausblenden (Rechtsklick „Ausblenden“); „Ausgeblendete Presets zeigen“ in der Leiste über den Kacheln holt die dieser Seite zurück. „...“ in dieser Leiste klappt den Preset-Bereich aller Mod-Seiten zu und wieder auf.
+
+Teilen: Rechtsklick auf ein eigenes Preset → „Exportieren (teilen)…“, „Importieren…“ unten rechts – wie bei Looks. Mitgelieferte bringt die Mod selbst mit. Ein importiertes Preset landet bei seiner Mod-Seite, auch wenn die Mod fehlt; es erscheint, sobald sie installiert ist.
 
 Der Reiter erscheint nur, wenn ein solcher Mod installiert ist.
 
@@ -220,6 +230,7 @@ Eigene Anzeigenamen für Mods, Gruppen, Kleidung, Frisuren, Haut, Make-up, Posen
 - Waffen-Mods stehen bei den anderen Mods.
 - „Nutzung“ zeigt, welche Mods gerade in Gebrauch sind: je Mod die genutzten Teile und wo sie stecken (Jodi jetzt, Outfits, Looks, Presets, Favoriten, Follower, Ragdoll-Szenen, Stehen, Waffen, Objekt-Szenen und -Positionen, Kleidungs-Schubladen). Ungenutzte Mods stehen grau darunter, ebenso Mods, deren Nutzung AltUI nicht erkennen kann (Maps, Script-Mods). „Inhalt anzeigen“ öffnet jede Mod. Was nur im Kleiderschrank liegt, zählt nicht als Nutzung. Jede Mod ist eine Kachel mit Anzeigename und Pak-Datei; die Fundorte eines Teils stehen zusammengefasst je Art (z. B. „Outfits 4–6, 8“). Die Liste wird gesammelt, wenn du „Nutzung“ öffnest; sonst steht links die Zahl vom letzten Mal (vor dem ersten Mal keine).
 - Auch Objekt-Szenen und gespeicherte Objekt-Positionen zählen als Nutzung (Modelle aus Mods).
+- „Teilen“: alle Looks, Outfits, Gesichter, Aussehen-, Body- und eigenen Mod-Presets auf einer Seite, nach Art gruppiert („alle“ / „keine“ je Art), mit dem Body bzw. der Mod daneben. Anhaken, dann gibt „Exportieren (n)…“ unten rechts alle angehakten als einen Text; „Importieren…“ daneben liest so einen Text. Die Häkchen gelten nur, solange die Seite offen ist. Mod-Presets von Mods, die gerade nicht installiert sind, stehen nicht in der Liste.
 
 ## Ragdolls {#ragdolls}
 
@@ -335,7 +346,7 @@ Figur in Pose: Die Schnellmenü-Gruppe „Figur: Lieblingsposen“ enthält jede
 
 - Nur sichtbar, wenn im aktuellen Level ein Fernseher steht (Jodis Büro), oder immer mit dem Schalter unter Optionen › Allgemein. Bei mehreren Fernsehern gilt der, der Jodi am nächsten ist.
 - Einschalten / Ausschalten wirken wie die Taste E am Fernseher. Seine Videoliste liest der Fernseher beim ersten Einschalten – bis dahin bittet der Reiter, ihn einmal einzuschalten.
-- Ein Klick auf ein Video spielt es ab. Ein schon begonnenes Video läuft dort weiter, wo es aufgehört hat, wie am Fernseher selbst.
+- „Abspielen“ neben einem Video spielt es ab; das laufende ist hervorgehoben. Ein schon begonnenes Video läuft dort weiter, wo es aufgehört hat, wie am Fernseher selbst.
 - Eigene Videos: .mp4-Dateien in den Spielordner TheKillingAntidote/Videos/TV/ legen. Sie erscheinen, nachdem das Level neu geladen wurde.
 
 ## Schnellmenü {#quick}

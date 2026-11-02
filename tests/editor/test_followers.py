@@ -1,5 +1,5 @@
 """Followers: a record goes through AltUI_Followers.sav and comes back (Save Fol Save / Load Fol Save / Fol Index); the figure class
-is a child of NPC_Female and the game's Need to Save is overridden (docs/specs/2026-10-09-followers-design.md)."""
+is a child of NPC_Female and the game's Need to Save is overridden (internal design notes)."""
 import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import unreal
 from edtest_lib import *

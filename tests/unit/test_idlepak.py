@@ -1,4 +1,4 @@
-"""idlepak (docs/specs/2026-10-13-idle-styles-design.md, part 2): Female_Idle replacer -> IdleAltUI_<Name>."""
+"""idlepak (internal design notes, part 2): Female_Idle replacer -> IdleAltUI_<Name>."""
 import unittest, os, sys, tempfile, shutil
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "scripts"))
 import idlepak, idle_mods, bodypak

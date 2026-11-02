@@ -283,7 +283,7 @@ assets = [
     blueprint(P_JODI_BASE, P_CPB, variables=[var("Eye Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Eyelashes Material", "object:/Script/Engine.MaterialInstanceDynamic"), var("Makeup Tex", "object:/Script/Engine.TextureRenderTarget2D")],
               functions=[fn("Get Makeup Data", outputs=[param("Makeup Data", "object:" + P_MAKEUP_SAVE)]), fn("Update Makeup Texture"), fn("Load Player Makeup"),
                          fn("Update Makeup Texture Ex", [param("tex", "object:/Script/Engine.TextureRenderTarget2D"), param("makeup data", "name", "map", value_type="struct:" + P_MDATA_S, ref=True)])]),   # followers: a figure's own make-up target
-    # followers (docs/specs/2026-10-09-followers-design.md): NPC_Female and its parents, only what AltUI overrides or calls
+    # followers (internal design notes): NPC_Female and its parents, only what AltUI overrides or calls
     # Weapons (name -> weapon actor): on Character_Player_Base as in the game (the old kit had it on Jodi); Jodi and the followers inherit it
     # Check Appearence: the follower overrides it (it would put the game's default clothes on a figure without clothes components)
     # heels (Clothes_Comp.Wear of heeled shoes: Set Heel Height + Feet Additive; the anims read Heels Height Ratio / Feet Additive): the follower copies them
@@ -318,7 +318,7 @@ assets = [
     # Jason (story NPC): State > 0 starts him in On Begun Play (Init Jason: Jason_Controller), 1 = hammer, 2 = Glock
     blueprint(P_JASON, P_CNPC, variables=[var("State", "int")], functions=[fn("Got Glock")]),   # Got Glock: his own (Jason_Glock: his montages) - a given Glock becomes it
     blueprint(P_NPCF, P_CNPC, variables=[var("save order", "name"), var("Order Location", "struct:/Script/CoreUObject.Vector"),
-                                         var("Npc Name", "name")],   # Get Character Name -> VoiceTable row (Female_1..4): no name, no voice   # On Begun Play gives the controller these
+                                         var("Npc Name", "name"), var("breasts size", "float"), var("waist adjust", "float")],   # Get Character Name -> VoiceTable row (Female_1..4): no name, no voice   # On Begun Play gives the controller these
               functions=[fn("delay to mutant"), fn("Apply Npc Appearance"), fn("Init Npc Appearance")]),   # the follower applies its look in Apply, rolls nothing in Init
     blueprint(P_NPCCTRL, "/Script/AIModule.AIController", variables=[var("master", "object:" + P_JODI), var("Order Location", "struct:/Script/CoreUObject.Vector"),   # Fol Spawn: order + place straight to the controller
                                                                                    var("Current Order", "name"), var("walking state", "int"), var("is busy", "bool"),   # Current Order: Fol Sync (the game's NPC menu); the last two: ALTUI_FOLLOG

@@ -5,7 +5,7 @@ M = "/Game/Mod/AltUI"
 
 
 # storysave.Parse Save Worn: Save Player Clothes out of the ByteData of a story save's Player Save Data (tagged properties).
-# Built here the way UE writes them (docs/notes/2026-10-24-laden-story-stand.md); a real story save of the user is read too if present.
+# Built here the way UE writes them (internal design notes); a real story save of the user is read too if present.
 def fstr(s):
     try:
         b = s.encode("ascii") + b"\0"; return struct.pack("<i", len(b)) + b

@@ -46,7 +46,7 @@ def main():
     mgr.set_editor_property("LookSearchText", "skin"); expect("search + only favourites", count(mgr, "All", True), 1); mgr.set_editor_property("LookSearchText", "lips_0"); expect("search miss on favourites", count(mgr, "All", True), 0)
     mgr.set_editor_property("LookSearchText", ""); mgr.set_editor_property("LookOnlyFav", False)
     # "only worn" = Is Look Selected, which goes through Player.Get Makeup Data - there is no player in the editor, so only the
-    # switched-off case is checkable here; the positive one is point 8 of docs/checklists/ui-test-33.md.
+    # switched-off case is checkable here; the positive one is point 8 of internal design notes
     mgr.set_editor_property("LookOnlyWorn", False)
     expect("worn filter off changes nothing", (count(mgr, "All", True), count(mgr, "Skin", True)), (6, 1))
     # unhide: chip Hidden without a hidden row left -> All

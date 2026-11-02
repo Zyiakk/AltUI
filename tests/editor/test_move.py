@@ -48,7 +48,7 @@ def main():
     expect("want class game idle", wc("None", "None", "Afk2"), "ABP_AltUIStyle_Normal_Normal_Afk2_C")
     expect("want class normal", wc("None", "None", "None"), "Jodi_Anim_C")
     expect("want class missing idle mod = Jodi_Anim", wc("None", "None", "IdleAltUI_NotInstalled"), "Jodi_Anim_C")
-    # walk / run mods (docs/specs/2026-10-27-walk-mods-design.md): a test mod made of AltUI's own templates
+    # walk / run mods (internal design notes): a test mod made of AltUI's own templates
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "scripts")); import walk_mods as wm
     eal = unreal.EditorAssetLibrary; mod = "WalkAltUI_EdTest"; d = "/Game/Mod/" + mod
     for n in (wm.walk_tpl("Normal", "Normal"), wm.walk_tpl("Normal", "Afk1"), wm.run_tpl("Normal", "Normal"), wm.both_tpl("Normal")):

@@ -2,7 +2,7 @@
 """rag_detail_measure.py - where assets/gen/rag_detail.py comes from: the reference pose of finger and lid bones (game mesh
 Character/Jodi/Body/Female via bodybones.load_ref), finger curl axes / angles (Female_Idle_Grip) and the lid's closed rotation
 (Female_EyeClosed, additive). The .psa files: scripts/anim_extract.sh with ANIMS="Female_Idle_Grip Female_EyeClosed".
-psa keys -> UE local: (x, -y, z, w) (docs/notes/2026-10-06-tempo.md, assets/anim/blender/animlib.py).
+psa keys -> UE local: (x, -y, z, w) (internal design notes, assets/anim/blender/animlib.py).
   scripts/rag_detail_measure.py            prints REF_ROT, grip axes / angles, lid delta"""
 import os, sys, math, struct
 W = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

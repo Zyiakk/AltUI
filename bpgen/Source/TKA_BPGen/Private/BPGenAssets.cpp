@@ -869,7 +869,7 @@ static bool MakeAnimChild(const TSharedPtr<FJsonObject>& A, FString& Err) {
   return BPGenAssets::SaveAsset(BP);
 }
 
-// "animimport": an animation FBX (Blender, docs/specs/2026-10-06-anim-pipeline-design.md) onto an existing skeleton as AnimSequence, then
+// "animimport": an animation FBX (Blender, internal design notes) onto an existing skeleton as AnimSequence, then
 // the game's curves ({name: [[t, v], ...]}), sync markers ([[name, t]]) and notifies by name ([[name, t]], like the game's "Footstep" -
 // no notify class, Jodi_Anim handles AnimNotify_<name>). Logs pelvis / foot transforms at time 0 for the round trip check.
 static bool MakeAnimImport(const TSharedPtr<FJsonObject>& A, FString& Err) {

@@ -1,4 +1,4 @@
-"""Enemies tab: hostile zombies (spec docs/specs/2026-10-30-enemies-tab-design.md)."""
+"""Enemies tab: hostile zombies (spec internal design notes)."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 from test_options_cats import graph, calls

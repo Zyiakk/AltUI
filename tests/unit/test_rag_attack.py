@@ -1,4 +1,4 @@
-"""2026-10-25: attackable ragdolls via an invisible proxy figure (spec docs/superpowers/specs/2026-10-25-ragdoll-attackable-design.md)."""
+"""2026-10-25: attackable ragdolls via an invisible proxy figure (spec internal design notes)."""
 import unittest, os, sys
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 from test_fol_tab import mgr_graph, assets, asset, fn_graph, MGR

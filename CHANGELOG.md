@@ -1,5 +1,46 @@
 # Changelog
 
+## 2.11.0 – 2026-11-02
+
+* **Share as text.** Right click → "Export (share)…" on a look, an outfit, a saved face, an appearance preset, a body preset
+  or one of your own mod presets shows it as JSON to copy (Ctrl+A, Ctrl+C) and send to someone. "Import…" at the bottom
+  right of Looks, Outfits, Face, Appearance, Body Shape and Mods takes such a text (Ctrl+V). One text may mix every kind; any
+  "Import…" takes all of it. Body presets go to their body and mod presets to their mod's page, also when it is not installed.
+  "Check" lists what the text holds and which mods are missing – with their pieces and the entries that use them – and what
+  is already saved here exactly like this (left out); then "Import everything" or "Without missing pieces". Installed pieces
+  you do not own yet are named too. Photos are not shared: an imported entry gets a new one with "Update". A shared look
+  carries only the colours of the pieces it wears.
+  Manage → **Share**: everything on one page, grouped by kind with a check box each ("all" / "none"); "Export (n)…" gives the
+  ticked ones as one text.
+* Body Shape: **presets per body.** "+" above the sliders saves every slider of the page (the body's and the game's breast
+  and waist) with a photo as a preset of the selected body chip; each chip shows its own. A click loads one; right click:
+  rename, update, move, delete, quick menu (from there it switches to its body first). "..." folds them away.
+* **Mods tab: tabs and foldable sections.** A mod can split its page into tabs (a `Tab` row in its `AltUI_Fields`), drawn
+  like the panel's own tabs above the fields; what comes before the first tab stays visible on every tab. Every heading folds
+  the fields below it with a click; a mod can let a section start folded (`Min` 1). The fields of a tab and of every section
+  lie on a light surface of their own (the theme's area colours), so it shows what belongs together. AltUI remembers the tab
+  of every page and the folds; presets still hold the whole page. Mods need no change for the folding; MOD_UI.md describes
+  tabs. The example mod shows both.
+* TV tab: rows like in Navigation, each with a "Play" link; the video playing is highlighted, also when the TV goes on to the
+  next one by itself.
+* Changed: putting on a look or an outfit changes only the colours of the pieces it puts on and of its make-up – the colours
+  you gave other pieces stay (before, it replaced every colour of the save). Undo still restores everything as it was.
+* After putting on a look or outfit, pieces you do not own yet get their own line ("Not owned yet …") instead of "Not
+  available".
+* Fixed: the TV tab showed only as many videos as fit on the page (for example 17 of 50) and could not scroll to the others;
+  the same in the Navigation list. Both lists scroll now.
+* Fixed: on the Body Shape page the last sliders could run under the status bar (in a small window or at a low
+  resolution); the sliders scroll in their own area now.
+* Fixed: followers and NPCs made from a look did not take its breast and waist sliders (the game's own, Body Shape > Breast
+  / Waist); they always had the smallest breast. The figure now takes both from the look. A follower or NPC made with an
+  earlier version gets them with "New look" (or made anew).
+* Fixed: Body Shape wrote the breast / glutes physics blend weight every half second as soon as any of jiggle and nipple was
+  moved – also with both jiggle sliders at 100 %, which overrode mods that set their own (for example no jiggle under a piece
+  of clothing). With both jiggle sliders at 100 % AltUI leaves the blend weight alone now.
+* Fixed: with a walk / run mod chosen, Jodi facing a wall in a corner could not turn away any more - the mod's loop replaced the
+  game's turning start and pushed her into the wall. When the direction asked for is more than 45° away from where she faces, the
+  game's turning start plays now and the mod's walk takes over once she has turned.
+
 ## 2.10.0 – 2026-10-31
 
 * New tab **Enemies**: living, hostile zombies of every kind (tiles with their variants, as in the Ragdolls tab), spawned

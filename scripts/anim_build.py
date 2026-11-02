@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""anim_build.py - animation pipeline step 2 (docs/specs/2026-10-06-anim-pipeline-design.md): for every entry of assets/anim/anims.py
+"""anim_build.py - animation pipeline step 2 (internal design notes): for every entry of assets/anim/anims.py
 Blender builds the FBX (build_anim.py: source .psa on Jodi, optional modifier), and the game data of the source is carried over into
 build/anim/out/<name>.json for bpgen's animimport: curves (scripts/animcurves.py, sampled per frame), sync markers and Footstep notifies
 (scripts/uasset_props.py), all times scaled to the new length. Needs scripts/anim_extract.sh first.

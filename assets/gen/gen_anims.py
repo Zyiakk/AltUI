@@ -2,7 +2,7 @@
 """Generates assets/28b_anims.json: the pipeline's animations (scripts/anim_build.py -> build/anim/out/<name>.json + .fbx) as bpgen
 'animimport' entries under /Game/Mod/AltUI/Anims/ on Jodi's skeleton, with the game's curves, sync markers and Footstep notifies.
 Test animations (assets/anim/anims.py 'test') only with ALTUI_ANIMTEST=1. Missing build output = error: run scripts/anim_extract.sh
-and scripts/anim_build.py first (docs/specs/2026-10-06-anim-pipeline-design.md)."""
+and scripts/anim_build.py first (internal design notes)."""
 import os, sys, json, hashlib; sys.path[:0] = [os.path.dirname(__file__), os.path.join(os.path.dirname(__file__), "..", "anim")]
 from bpdsl import write, M
 from anims import ANIMS, enabled

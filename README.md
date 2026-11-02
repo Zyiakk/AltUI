@@ -94,17 +94,21 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Your own order: right click moves an outfit left, right, to the start or to the end.
 * An outfit saved in AltUI keeps the colour of every colour slot of its pieces; the game itself keeps one colour per
   piece, so an outfit saved at the mirror has only that one.
+* Share: right click → "Export (share)…" gives the outfit as text to copy; "Import…" reads such a text back (see Looks).
 
 ### Looks
 
 * A complete look: clothes with their colours, hairstyle and hair colour, make-up, eyes, skin, body sliders, body mod and
   face.
 * Saved with a full-body photo from the game, taken from the front or with the free camera, from wherever you fly it.
-* Apply, update, rename and delete; "View content" lists what a look holds.
+* Apply, update, rename and delete; "View content" lists what a look holds. Putting a look on changes only the colours of
+  the pieces it puts on and of its make-up; colours you gave other pieces stay.
 * Your own order: right click moves a look left, right, to the start or to the end.
 * Spawn a look as a ragdoll, a follower, an NPC or an enemy.
 * "Clean copy (without missing parts)": for a look that holds pieces of a mod no longer installed, a new look without
   them, right after the original, with the same photo. The original and later saves keep such entries.
+* Share looks as text: right click → "Export (share)…", copy it and send it; "Import…" (bottom right) pastes one, "Check" shows
+  which mods it needs that you do not have, then import everything or without the missing pieces. Photos are not shared.
 
 ### Backpack
 
@@ -172,6 +176,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   look.
 * Appearance presets with a photo: save, update, rename and delete.
 * Your own order: right click moves a preset left, right, to the start or to the end.
+* Share: right click → "Export (share)…" gives a preset as text, "Import…" reads one back (see Looks); without missing
+  pieces, a missing hairstyle, skin or make-up row is left out.
 * **Mutation** (under "Skin"): Jodi's mutated look from the story, in parts – skin colour and glow as sliders, veins and
   eyes as switches. Make-up stays visible on the discoloured skin; your own iris colour tints the mutated eye. "Story look"
   sets the cutscene's look in full (the story's own skin material) – without make-up and scars. Looks, presets, followers
@@ -187,6 +193,9 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   * jiggle – the game's physics, works on every body;
   * angle and hip width – converted bodies;
   * nipples – only while the chest is uncovered.
+* Presets per body chip: "+" saves every slider of the page (the body's and the game's breast and waist) with a
+  photo; a click loads it, right click renames, updates, moves, deletes or puts it into the quick menu.
+* Share presets as text (see Looks); an imported one goes to its body, also one not installed here.
 
 ### Face
 
@@ -198,6 +207,7 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   closed" for one eye, e.g. a wink in a pose.
 * Saved faces with a photo; "View content" lists their values.
 * Your own order: right click moves a saved face left, right, to the start or to the end.
+* Share saved faces as text (see Looks).
 
 ### Mods
 
@@ -208,8 +218,11 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   quick menu from the right-click menu. "View content" lists a preset's values with a check box each – only ticked ones
   are applied, so a preset can leave some settings alone. A mod can ship presets of its own; they can get a photo of
   yours. Kept per mod in `AltUI_ModPresets_<mod>.sav`.
+* A mod can split its page into tabs (drawn like the panel's tabs) and foldable sections; the fields of a tab and of each
+  section lie on a light surface of their own. AltUI remembers the tab and the folds of every page.
 * Shipped presets can be hidden (right click "Hide"); "Show hidden presets" brings them back. "..." in the bar above the
   tiles folds the preset area on every mod page.
+* Share your own presets as text (see Looks); an imported one goes to its mod's page, also when that mod is not installed.
 * Only shown when such a mod is installed – see [Settings of other mods](#settings-of-other-mods).
 
 ### Options
@@ -261,6 +274,8 @@ it then runs on that key with the panel closed, also in the free camera and the 
   Jodi now, outfits, looks, presets, favourites, followers, ragdoll scenes, standing idle, weapons, object scenes and
   positions, clothes drawers. Below, the unused
   mods and those whose use AltUI cannot detect (maps, script mods), each with "View content" – to see which mods can go.
+* Share: every look, outfit, face and preset on one page with a check box each ("all" / "none" per kind); "Export (n)…"
+  gives the ticked ones as one text, "Import…" reads one. Mod presets of mods not installed right now are not listed.
 
 ### Ragdolls
 
@@ -336,7 +351,7 @@ it then runs on that key with the panel closed, also in the free camera and the 
 
 ### TV
 
-* The videos of the TV in Jodi's office as a list: click one to play it; switch the TV on and off. A video started earlier
+* The videos of the TV in Jodi's office as a list: "Play" plays one; switch the TV on and off. A video started earlier
   goes on where it was left, as on the TV itself.
 * The tab is there only in a level with a TV (with several: the one nearest to Jodi), or always with *Options › General*.
 * The TV reads its list the first time it is switched on – until then the tab asks to switch it on once.
@@ -494,7 +509,8 @@ Mods that the player controls in the game can put their settings into AltUI inst
 **Mods** tab lists every mod that registered there and shows its settings - toggles, sliders, numbers, choices,
 colours, text fields, info lines, keys and buttons - in AltUI's style. The tab only appears when such a mod is installed.
 Every page has presets: the player saves its settings with a photo and applies them with a click, and a mod can ship
-ready-made ones in an optional third table - nothing else is needed from the mod.
+ready-made ones in an optional third table - nothing else is needed from the mod. A long page can be split into tabs and
+foldable sections with rows of the same table.
 
 **For mod authors.** A mod registers through two data tables in its own folder and an interface on its actor;
 [MOD_UI.md](MOD_UI.md) describes both, the assets are in [`uassets/`](uassets/), and a finished example to install and to

@@ -10,7 +10,8 @@ def main():
     mgr.set_editor_property("CurrentBody", "Body_TestBody"); mgr.call_method("Test Snapshot Body")
     expect("snapshot body", str(mgr.get_editor_property("TmpName")), "Body_TestBody")
     # looks save: fresh object, add, name, rename, delete, id never reused
-    mgr.set_editor_property("LooksSave", None); mgr.call_method("Test Load Looks")
+    # from an empty slot: Add Look saves, so other tests (test_share) leave their looks in the editor's slot
+    unreal.GameplayStatics.delete_game_in_slot("AltUI_Looks", 0); mgr.set_editor_property("LooksSave", None); mgr.call_method("Test Load Looks")
     ls = mgr.get_editor_property("LooksSave"); expect("looks save valid", ls is not None, True)
     mgr.call_method("Test Looks Count"); expect("no looks", mgr.get_editor_property("TmpI"), 0)
     mgr.call_method("Test Add Look"); mgr.call_method("Test Looks Count"); expect("one look", mgr.get_editor_property("TmpI"), 1)

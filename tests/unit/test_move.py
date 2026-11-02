@@ -1,4 +1,4 @@
-"""BP_AltUIMove (docs/specs/2026-10-06-move-speed-design.md): asset, functions, manifest."""
+"""BP_AltUIMove (internal design notes): asset, functions, manifest."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 import cfg
@@ -38,6 +38,14 @@ class MoveAsset(unittest.TestCase):
         g = json.dumps(next(f["graph"] for f in self.bp["functions"] if f["name"] == "Style Loop"))
         self.assertIn("ModWalkLoop", g); self.assertIn("ModRunLoop", g)
 
+    def test_start_loop_keeps_the_turning_starts(self):
+        """A loop only replaces a start while the input is within 45 deg of her facing: the game's 90 / 180 deg starts turn her on the
+        spot; a loop pushes her straight on, into the wall of a corner, and she could not turn (ui-test-189)."""
+        g = json.dumps(next(f["graph"] for f in self.bp["functions"] if f["name"] == "Apply Start Loop"))
+        for s in ("Actor Delta Yaw", "Abs", "Less_FloatFloat", "45.0"): self.assertIn(s, g, s)
+        aug = next(a for a in gen_move.build() if a["path"] == gen_move.JODI_ANIM and a.get("mode") == "augment")
+        self.assertIn("Actor Delta Yaw", {v["name"] for v in aug["variables"]})
+
     def test_no_tick_cycle(self):
         """Only 'this after Jodi': the engine ticks her CharacterMovement before her already (bTickBeforeOwner); CMC after this
         closed a cycle, the engine broke it at a changing edge and the movement ran before or after her camera update (pistol
@@ -72,7 +80,7 @@ class MoveOptions(unittest.TestCase):
         for k in ("Hint_RunModPaused", "Hint_IdleModPaused"): self.assertEqual(len(STRINGS[k]), len(LANGS), k)
 
     def test_walk_mod_chips(self):
-        """walk / run mods (docs/specs/2026-10-27-walk-mods-design.md): scanned, chips after the built-in styles, rows and hints in Rebuild Options."""
+        """walk / run mods (internal design notes): scanned, chips after the built-in styles, rows and hints in Rebuild Options."""
         import gen_manager_ui
         d = json.load(open(os.path.join(H, "..", "..", "assets", "50_manager_ui.json")))
         mgr = next(a for a in d["assets"] if a["path"].endswith("BP_AltUIManager"))
@@ -241,7 +249,7 @@ class IdlePose(unittest.TestCase):
 
 
 class WalkModTemplates(unittest.TestCase):
-    """walk / run mods (docs/specs/2026-10-27-walk-mods-design.md): three template families over the built-in styles."""
+    """walk / run mods (internal design notes): three template families over the built-in styles."""
     def test_families(self):
         import walk_mods as wm
         w, r, i = [k for k, _ in gen_move.WALK_STYLES], [k for k, _ in gen_move.RUN_STYLES], [k for k, _ in gen_move.IDLE_STYLES]

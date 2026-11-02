@@ -89,6 +89,10 @@
      "type": "object:/Script/Engine.AnimSequence"
     },
     {
+     "name": "Actor Delta Yaw",
+     "type": "float"
+    },
+    {
      "name": "In Hand Weapon",
      "type": "object:/Game/Project/Actors/Weapons/Weapon_Base"
     },
@@ -3678,10 +3682,45 @@
         }
        },
        {
+        "id": "gdy",
+        "kind": "get",
+        "var": "Actor Delta Yaw",
+        "class": "/Game/Project/Character/Jodi/Jodi_Anim"
+       },
+       {
+        "id": "ady",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Abs",
+        "in": {
+         "A": "@gdy.Actor Delta Yaw"
+        }
+       },
+       {
+        "id": "ldy",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Less_FloatFloat",
+        "in": {
+         "A": "@ady.ReturnValue",
+         "B": "45.0"
+        }
+       },
+       {
+        "id": "a4",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@a3.ReturnValue",
+         "B": "@ldy.ReturnValue"
+        }
+       },
+       {
         "id": "b",
         "kind": "branch",
         "in": {
-         "Condition": "@a3.ReturnValue"
+         "Condition": "@a4.ReturnValue"
         }
        },
        {
@@ -3703,6 +3742,10 @@
        [
         "ja.AsJodi Anim",
         "gms.self"
+       ],
+       [
+        "ja.AsJodi Anim",
+        "gdy.self"
        ]
       ],
       "exec": [

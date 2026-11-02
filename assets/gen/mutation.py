@@ -1,9 +1,9 @@
-"""Mutation look (spec docs/specs/2026-10-18-mutation-look-design.md): the story's mutated skin/eyes worn in parts.
+"""Mutation look (spec internal design notes): the story's mutated skin/eyes worn in parts.
 
 Colour: the skin row's diffuse drawn opaque into a render target of the figure's own, Mutations_D over it at alpha = Color;
 that target is MainTex (the make-up layer still lies above it in ShaderSkin). Glow: EmissiveTex Mutations_E and
 EmissiveColor = (GLOW_RED * Glow, 0, 0) as in Skin_Jodi_Mutanted. Veins: NormalTex Mutations_N. Eyes: Eyes_Jodi_Mutanted.
-Mutations_D/N/E are 4096^2 and share the UV of Jodi's skin (docs/notes/2026-10-18-mutation-look.md)."""
+Mutations_D/N/E are 4096^2 and share the UV of Jodi's skin (internal design notes)."""
 M = "/Game/Mod/AltUI"
 S_MUT = M + "/S_Mutation"
 S_ORIG = M + "/S_MutOrig"   # a skin instance's own MainTex / NormalTex before AltUI (Mutate Mesh puts them back)

@@ -1,4 +1,4 @@
-"""Ragdoll fingers and eyes (docs/specs/2026-10-26-ragdoll-finger-augen-design.md): data, figure, manager, tab, saving."""
+"""Ragdoll fingers and eyes (internal design notes): data, figure, manager, tab, saving."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 import cfg

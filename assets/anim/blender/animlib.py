@@ -1,7 +1,7 @@
-"""Blender helpers of the animation pipeline (docs/specs/2026-10-06-anim-pipeline-design.md): load Jodi from the kit FBX, put a
+"""Blender helpers of the animation pipeline (internal design notes): load Jodi from the kit FBX, put a
 .psa animation (umodel) on her skeleton as an action, sample bone positions.
 
-Conventions (measured against female.fbx, docs/notes/2026-10-06-tempo.md): the armature keeps the kit's centimetres under an object
+Conventions (measured against female.fbx, internal design notes): the armature keeps the kit's centimetres under an object
 scale of 0.01; Blender's bone-local rest transform equals the psa reference with Y negated and the quaternion as (w, -x, y, -z); the
 psa keys are mirrored in Y against that reference, so a key maps to the Blender bone-local transform as  position unchanged, quaternion
 conjugated. Bones not listed under [UseTranslationBoneNames] in umodel's .config keep their rest translation (bAnimRotationOnly)."""

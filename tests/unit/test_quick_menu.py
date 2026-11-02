@@ -1,4 +1,4 @@
-"""Quick menu (docs/specs/2026-10-03-quick-menu-design.md): data, strings, settings, graphs."""
+"""Quick menu (internal design notes): data, strings, settings, graphs."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen"))
 from strings import STRINGS, LANGS
@@ -24,7 +24,7 @@ class QuickData(unittest.TestCase):
     def test_find_covers_every_kind(self):
         g = graph("50_manager_ui.json", "Quick Find")
         kinds = {n["in"]["B"] for n in g["nodes"] if n.get("function") == "EqualEqual_StrStr" and n["id"].startswith("qe_")}
-        self.assertEqual(kinds, set(ui.QUICK_FIXED) | {"tab", "pose", "folpose", "modentry", "outfit", "look", "face", "preset", "modfield", "modaction", "modpreset", "enemy"})
+        self.assertEqual(kinds, set(ui.QUICK_FIXED) | {"tab", "pose", "folpose", "modentry", "outfit", "look", "face", "preset", "modfield", "modaction", "modpreset", "enemy", "bodypreset"})
 
 
     def test_run_calls(self):
@@ -32,7 +32,7 @@ class QuickData(unittest.TestCase):
         for kind, fns in (("freecam", ["Open Panel", "Start Free Cam"]), ("photo", ["Open Panel", "Start Photo Mode"]), ("panel", ["Open Panel"]),
                           ("posestop", ["Stop Pose"]), ("tab", ["Open Panel", "Select Page"]), ("pose", ["Pose Clicked"]),
                           ("modentry", ["Open Panel", "Select Page", "Select Mod Entry"]), ("outfit", ["On Outfit Clicked"]), ("look", ["Apply Look"]),
-                          ("face", ["On Face Clicked"]), ("preset", ["Preset Clicked"]), ("speedtoggle", ["Toggle Move"]), ("modpreset", ["Run Mod Preset"])):
+                          ("face", ["On Face Clicked"]), ("preset", ["Preset Clicked"]), ("speedtoggle", ["Toggle Move"]), ("modpreset", ["Run Mod Preset"]), ("bodypreset", ["Run Body Preset"])):
             reach = after(g, "qb_" + kind)
             for f in fns: self.assertTrue(any(n in reach for n in calls(g, f)), (kind, f))
 

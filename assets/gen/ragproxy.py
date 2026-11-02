@@ -1,4 +1,4 @@
-"""Attackable ragdolls (spec docs/superpowers/specs/2026-10-25-ragdoll-attackable-design.md). A ragdoll is an actor, not a character:
+"""Attackable ragdolls (spec internal design notes). A ragdoll is an actor, not a character:
 zombies take targets only from the game's character list. An attackable human ragdoll gets an invisible, undying proxy figure
 (BP_AltUIFollower without a look, its controller gone) at its pelvis; the proxy's lost health is a hit, passed to the ragdoll as a jolt."""
 from bpdsl import *

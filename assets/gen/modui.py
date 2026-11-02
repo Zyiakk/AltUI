@@ -27,7 +27,7 @@ ACTIONS_TABLE = "AltUI_Actions"
 ACTION_MEMBERS = [("Caption", "text", ""), ("Icon", "softobject:/Script/Engine.Texture2D", ""), ("Actor", "softclass:/Script/Engine.Actor", ""),
                   ("Key", "name", ""), ("Order", "int", "")]
 QUICK_TYPES = ["Button", "Toggle"]      # field types the quick menu offers
-TYPES = ["Header", "Button", "Toggle", "Slider", "Choice", "Number", "Color", "Text", "Info", "Key"]
+TYPES = ["Header", "Button", "Toggle", "Slider", "Choice", "Number", "Color", "Text", "Info", "Key", "Tab"]   # Tab: the fields after it are on that tab (needs a label)
 RANGED = ["Slider", "Number"]            # need Min < Max
 TEXTUAL = ["Text", "Info"]              # read with Get AltUI Text
 
@@ -45,13 +45,27 @@ TEST_ACTIONS = {"Later": {"Caption": "Later", "Actor": "/Script/Engine.PointLigh
 TEST_MOD = "AltUIMod_Test"
 TEST_ENTRIES = {"Second": {"Caption": "Second", "Actor": "/Script/Engine.PointLight", "Order": 2},
                 "First": {"Caption": "First", "Actor": "/Script/Engine.PointLight", "Order": 1},
-                "Empty": {"Caption": "Empty", "Actor": "/Script/Engine.PointLight", "Order": 3}}
+                "Empty": {"Caption": "Empty", "Actor": "/Script/Engine.PointLight", "Order": 3},
+                "Tabs": {"Caption": "Tabs", "Actor": "/Script/Engine.PointLight", "Order": 4}}
 TEST_FIELDS = {
     "F_Slider": {"Entry": "First", "Key": "Size", "Type": "Slider", "Label": "Size", "Min": 0.0, "Max": 10.0, "Step": 0.5, "Order": 2},
     "F_Header": {"Entry": "First", "Key": "Head", "Type": "Header", "Label": "Section", "Order": 1},
     "F_Toggle": {"Entry": "First", "Key": "On", "Type": "Toggle", "Label": "On", "Order": 3},
     "F_Choice": {"Entry": "Second", "Key": "Mode", "Type": "Choice", "Label": "Mode", "Options": ["A", "B"], "Order": 1},
     "F_Button": {"Entry": "Second", "Key": "Go", "Type": "Button", "Label": "Go", "Order": 2},
+    # tabs (internal design notes): lead field, tab A (header folded by default + field, open header + field),
+    # an empty tab, tab B, a tab without a label (left out: its field joins tab B). Ids: tabs A, E, #2; headers HA, #1
+    "T_Lead": {"Entry": "Tabs", "Key": "Lead", "Type": "Toggle", "Label": "Lead", "Order": 1},
+    "T_TabA": {"Entry": "Tabs", "Key": "A", "Type": "Tab", "Label": "Tab A", "Order": 2},
+    "T_HeadA": {"Entry": "Tabs", "Key": "HA", "Type": "Header", "Label": "Folded", "Min": 1.0, "Order": 3},
+    "T_InA": {"Entry": "Tabs", "Key": "InA", "Type": "Toggle", "Label": "In A", "Order": 4},
+    "T_HeadOpen": {"Entry": "Tabs", "Key": "None", "Type": "Header", "Label": "Open", "Order": 5},
+    "T_InA2": {"Entry": "Tabs", "Key": "InA2", "Type": "Toggle", "Label": "In A 2", "Order": 6},
+    "T_Empty": {"Entry": "Tabs", "Key": "E", "Type": "Tab", "Label": "Empty", "Order": 7},
+    "T_TabB": {"Entry": "Tabs", "Key": "None", "Type": "Tab", "Label": "Tab B", "Order": 8},
+    "T_InB": {"Entry": "Tabs", "Key": "InB", "Type": "Toggle", "Label": "In B", "Order": 9},
+    "T_NoLabel": {"Entry": "Tabs", "Key": "X", "Type": "Tab", "Label": "", "Order": 10},
+    "T_InB2": {"Entry": "Tabs", "Key": "InB2", "Type": "Toggle", "Label": "In B 2", "Order": 11},
     # left out: unknown type, choice without options, slider without range, unknown entry
     "X_Type": {"Entry": "First", "Key": "Bad1", "Type": "Colour", "Label": "x", "Order": 9},
     "X_NoOpts": {"Entry": "First", "Key": "Bad2", "Type": "Choice", "Label": "x", "Order": 9},
@@ -59,7 +73,7 @@ TEST_FIELDS = {
     "X_Entry": {"Entry": "Nowhere", "Key": "Bad4", "Type": "Toggle", "Label": "x", "Order": 9},
 }
 
-# presets for a mod page (docs/specs/2026-10-28-mod-presets-design.md): the player's own in Saved/SaveGames/<PRESET_SLOT_PREFIX><pak>.sav,
+# presets for a mod page (internal design notes): the player's own in Saved/SaveGames/<PRESET_SLOT_PREFIX><pak>.sav,
 # a mod's own in /Game/Mod/<Pak>/AltUI_Presets (row struct S_AltUIModPreset) - Values: field Key -> value as text, read by the field's type
 PRESET_STRUCT = M + "/S_AltUIModPreset"
 PRESETS_TABLE = "AltUI_Presets"

@@ -14,8 +14,8 @@ class BodyResetInStatus(unittest.TestCase):
         self.assertEqual(b["isbd"]["in"]["B"], "Body")
         self.assertEqual(b["bsi"]["in"]["action"], "BodyScReset"); self.assertEqual(b["abs"]["function"], "Add Status Right")
         chain = next(c for c in g["exec"] if "bbd" in c); i = chain.index("bbd")
-        self.assertEqual(chain[i:i + 6], ["bbd", "bsr_cr", "smbs", "bsi", "abs", "bth"])
-        self.assertIn(["bbd:else", "bth"], g["exec"])
+        self.assertEqual(chain[i:i + 6], ["bbd", "bsr_cr", "smbs", "bsi", "abs", "bsh"])   # then Looks / Outfits "Import…" (share as JSON, 2026-10-31)
+        self.assertIn(["bbd:else", "bsh"], g["exec"])
 
     def test_no_link_below_the_sliders(self):
         g = mgr_graph("Rebuild Body")

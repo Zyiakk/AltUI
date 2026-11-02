@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """animlook.py - one sheet of a walk cycle: rows = views (front, left, back, top with the midline), columns = phases; with --ref a
-second animation is drawn below for comparison (docs/howto/sichtpruefung.md for animations).
+second animation is drawn below for comparison (internal design notes for animations).
 
   scripts/animlook.py <anim.psa|anim.fbx> [--ref <anim.psa|fbx>] [--phases 8] [--views front,left,back,top] [--out file.png]
 A .psa needs umodel's .config next to it (translation bones). Body: build/kit/female.fbx (exported from the kit by scripts/anim_extract.sh). Prints the sheet path."""

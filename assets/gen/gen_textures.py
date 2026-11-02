@@ -323,6 +323,10 @@ def _curved(d, S, W, cw, box=(0.10, 0.18, 0.90, 0.98), start=205, end=335, width
 
 
 def tilt_right(d, S, W, C): _curved(d, S, W, True)        # tilt mode / "Image 1 degree right"
+def fold_open(d, S, W, C): d.polygon(_pts(S, [(0.14, 0.28), (0.86, 0.28), (0.5, 0.76)]), fill=W)     # mod page heading: section open (the font has no ▾)
+def fold_closed(d, S, W, C): d.polygon(_pts(S, [(0.28, 0.14), (0.76, 0.5), (0.28, 0.86)]), fill=W)   # section folded (no ▸ either)
+
+
 def tilt_left(d, S, W, C): _curved(d, S, W, False)
 
 
@@ -587,7 +591,7 @@ def build(assets_dir):
     inf_heart(os.path.join(assets_dir, "tex", "inf_life.png")); inf_ammo(os.path.join(assets_dir, "tex", "inf_ammo.png"))
     for k, f in TAB_ICON_DRAW.items(): _glyph(os.path.join(assets_dir, "tex", "tab_%s.png" % k.lower()), f)
     _glyph(os.path.join(assets_dir, "tex", "altui.png"), altui_panel)
-    for f, fn_ in (("arrow_up", arrow_up), ("arrow_down", arrow_down), ("camheight", cam_height), ("tilt_left", tilt_left), ("tilt_right", tilt_right), ("camtilt", cam_tilt), ("arrow_far", arrow_far), ("arrow_near", arrow_near), ("camdist", cam_dist)): _glyph(os.path.join(assets_dir, "tex", f + ".png"), fn_, size=64)
+    for f, fn_ in (("arrow_up", arrow_up), ("arrow_down", arrow_down), ("camheight", cam_height), ("tilt_left", tilt_left), ("tilt_right", tilt_right), ("camtilt", cam_tilt), ("arrow_far", arrow_far), ("arrow_near", arrow_near), ("camdist", cam_dist), ("fold_open", fold_open), ("fold_closed", fold_closed)): _glyph(os.path.join(assets_dir, "tex", f + ".png"), fn_, size=64)
     return [{"type": "texture", "path": T_ROUNDBOX, "file": "tex/roundbox.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_ROUNDFRAME, "file": "tex/roundframe.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_ON, "file": "tex/check_on.png", "props": TEX_PROPS},
@@ -623,6 +627,8 @@ def build(assets_dir):
             {"type": "texture", "path": M + "/T_CamTilt", "file": "tex/camtilt.png", "props": TEX_PROPS},
             {"type": "texture", "path": M + "/T_ArrowFar", "file": "tex/arrow_far.png", "props": TEX_PROPS},
             {"type": "texture", "path": M + "/T_ArrowNear", "file": "tex/arrow_near.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_FoldOpen", "file": "tex/fold_open.png", "props": TEX_PROPS},
+            {"type": "texture", "path": M + "/T_FoldClosed", "file": "tex/fold_closed.png", "props": TEX_PROPS},
             {"type": "texture", "path": M + "/T_CamDist", "file": "tex/camdist.png", "props": TEX_PROPS}] + \
            [{"type": "texture", "path": M + "/T_Tab" + k, "file": "tex/tab_%s.png" % k.lower(), "props": TEX_PROPS} for k in TAB_ICON_DRAW]
 

@@ -1,4 +1,4 @@
-"""Fingers and eyes of ragdoll figures (docs/specs/2026-10-26-ragdoll-finger-augen-design.md): data only, measured on the game's
+"""Fingers and eyes of ragdoll figures (internal design notes): data only, measured on the game's
 mesh Character/Jodi/Body/Female and its animations with scripts/rag_detail_measure.py.
 Left and right hand have the same local rotations (only positions are mirrored): one axis / angle serves both hands.
 Fingers curl about their local -Z (Female_Idle_Grip against the reference pose); thumb_01 about THUMB1_AXIS. A curl is applied in

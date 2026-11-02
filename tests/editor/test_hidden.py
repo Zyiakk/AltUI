@@ -37,7 +37,7 @@ def main():
     expect("fav toggle reloaded", mgr.get_editor_property("CachedOnlyFav"), False)
     mgr.call_method("Test Toggle Hidden", args=("Alpha_Neck",)); mgr.call_method("Test Save Settings")
     # tooltip: shown name, [Default: default when a custom name is set], "s: " slot label, origin (Vanilla / "PAK: " caption + "pak: " id),
-    # ["G: " group caption + "g: " id], "id: " row - the id lines always (since 2026-09-21), TipNoIds drops them  (spec docs/specs/2026-09-20-tooltip-prefixes-design.md)
+    # ["G: " group caption + "g: " id], "id: " row - the id lines always (since 2026-09-21), TipNoIds drops them  (spec internal design notes)
     def tip(name, kind="item", category=""):
         mgr.call_method("Test Item Tip", args=(name, kind, category)); return str(mgr.get_editor_property("TmpText")).split("\n")
     expect("tip lines", tip("Casual_Mina_Neck"), ["Casual_Mina_Neck", "s: Neck", "Vanilla", "G: KPOP", "g: Kpop", "id: Casual_Mina_Neck"])

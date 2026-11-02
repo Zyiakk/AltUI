@@ -6,7 +6,7 @@ import face as fc
 from strings import STRINGS
 
 ASSETS = os.path.join(H, "..", "..", "assets")
-# morph targets of /Game/Project/Character/Jodi/Body/Female (name table of the cooked mesh, docs/notes/2026-09-27-gesichtsausdruck-override.md)
+# morph targets of /Game/Project/Character/Jodi/Body/Female (name table of the cooked mesh, internal design notes)
 FEMALE_MORPHS = {"Face_Eye2Down", "Face_Eye2Left", "Face_Eye2Right", "Face_Eye2Up", "Face_Focus", "Face_Fright", "Face_Idle", "Face_Pain",
                  "Face_Smile", "Face_Sufferring01", "Face_Sufferring02", "Face_Tired", "Mouth_AH CDG KN", "Mouth_BPM", "Mouth_EE", "Mouth_FV",
                  "Mouth_TH L", "Mouth_UU OO", "Mouth_Zh Ch SH RI", "Nipple"}

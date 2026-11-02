@@ -1,4 +1,4 @@
-"""Photos with the free cam instead of "as seen" (docs/specs/2026-10-28-free-cam-photo-design.md): Capture Photo keeps a PhotoView
+"""Photos with the free cam instead of "as seen" (internal design notes): Capture Photo keeps a PhotoView
 job (Defer Shot), the left click in the free cam takes it from the free cam's pose (Take Shot), Esc / B the front photo (Shot Fallback)."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen"))

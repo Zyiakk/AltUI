@@ -16,7 +16,8 @@ class KeepScroll(unittest.TestCase):
         for name in KEEP:
             g = mgr_graph(name, wrapper=True); b = by_id(g)
             self.assertIn(["entry", "b", "rm", "in", "rs", "tm"], g["exec"], name); self.assertEqual(b["in"]["function"], name + " Body")
-            self.assertIn(["b:else", "in2"], g["exec"], name); self.assertEqual(b["tm"]["in"]["FunctionName"], "Restore Scrolls Later")
+            other = ["b:else", "css", "in2"] if name == "Select Page" else ["b:else", "in2"]   # another page: the ticks of Manage > Share go first
+            self.assertIn(other, g["exec"], name); self.assertEqual(b["tm"]["in"]["FunctionName"], "Restore Scrolls Later")
 
     def test_select_page_only_on_the_same_page(self):
         b = by_id(mgr_graph("Select Page", wrapper=True)); self.assertEqual(b["same"]["in"]["B"], "@entry.name"); self.assertEqual(b["b"]["in"]["Condition"], "@both.ReturnValue")

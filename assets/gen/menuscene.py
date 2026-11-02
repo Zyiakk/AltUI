@@ -1,4 +1,4 @@
-"""Main menu scene picker (docs/notes/2026-10-11-reply-discord-menu-animation.md): in the main menu's scenes and in the loading
+"""Main menu scene picker (internal design notes): in the main menu's scenes and in the loading
 scene opened from there, the panel key opens a small menu instead of the panel (there is no Jodi pawn): the three menu scenes and
 the loading scene to choose from, the next camera, and hiding the game's menu (Esc brings it back).
 

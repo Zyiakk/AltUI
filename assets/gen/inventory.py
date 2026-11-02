@@ -1,4 +1,4 @@
-"""Inventory tab (docs/specs/2026-10-07-inventory-tab-design.md): groups, item kinds and which actions a tile offers.
+"""Inventory tab (internal design notes): groups, item kinds and which actions a tile offers.
 The generators build the blueprint branches from these tables; the unit test checks them without the editor."""
 INV_GROUPS = ["Weapon", "Ammo", "Equipment", "Tool"]   # ItemTable.HyperBoxGroup, chip order; "None" = all
 ACTIONS = ["Store1", "StoreHalf", "StoreAll", "Take1", "TakeHalf", "TakeAll", "Use", "Check", "Drop1", "DropAll", "Shortcut1", "Shortcut2", "Unload",
@@ -42,7 +42,7 @@ def menu(box, kind):
     return list(MENUS[(box, kind)])
 
 
-# A chosen amount (docs/specs/2026-10-14-stack-amount-design.md): a slider + number row, then one row per target "<action> n".
+# A chosen amount (internal design notes): a slider + number row, then one row per target "<action> n".
 # Not for guns (one actor each), a stack of one, or a catalogue item that does not stack (the game gives one anyway).
 AMOUNT_ROWS = {"bag": ["StoreN"], "box": ["TakeN"], "cat": ["CatBagN", "CatBoxN"]}
 FOL_AMOUNT_ROWS = {"jodi": ["GiveN"], "fol": ["TakeN", "TakeBoxN"]}   # Followers tab: Jodi's backpack / box tile, a figure's tile
@@ -70,7 +70,7 @@ def amount_range(count, pick, catalog):
     return 1, count, (count + 1) // 2, count
 
 
-# "Discard all" (docs/specs/2026-10-15-drop-warning-design.md): Character_Player_Base.Drop Item throws min(count, NumberOfPick)
+# "Discard all" (internal design notes): Character_Player_Base.Drop Item throws min(count, NumberOfPick)
 # pieces as one physics pickup actor per call. From DROP_WARN_ACTORS actors on, a window asks first (50000 rounds crashed the game).
 DROP_WARN_ACTORS = 100
 

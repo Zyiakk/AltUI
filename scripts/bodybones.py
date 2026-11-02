@@ -3,7 +3,7 @@
 
 Some body mods were built against an older Female_Skeleton without the bones `Cam` and `Prop_R2` (80 instead of 82 bones:
 Silly Face, UN Dv1/Dv2/Dv3A). With such a body Jodi's left hand stays off a gun: the left-hand IK of Jodi_Anim (TwoBoneIK
-hand_l -> Prop_R_IK, alpha from the curve "Left Hand IK") does not take hold (docs/notes/2026-09-25-waffen-kacheln-und-skins.md).
+hand_l -> Prop_R_IK, alpha from the curve "Left Hand IK") does not take hold (weapon tiles and skins notes, 2026-09-25).
 This tool inserts every missing bone at the index it has in the game's mesh - name, parent and reference pose as there - and
 renumbers what follows: RawRefBoneInfo (parents), RawRefBonePose, RawNameToIndexMap, and in every LOD RequiredBones (the new
 bones are added: the game's mesh requires all its bones), the sections' BoneMaps and ActiveBoneIndices. Skin weights index into

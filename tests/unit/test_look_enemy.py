@@ -1,4 +1,4 @@
-"""A look as an enemy (docs/notes/2026-10-30-look-als-gegner.md): a follower record of MODE_ENEMY that the NPC AI turns on Jodi."""
+"""A look as an enemy (internal design notes): a follower record of MODE_ENEMY that the NPC AI turns on Jodi."""
 import json, os, sys, unittest
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen"))
 import followers as f

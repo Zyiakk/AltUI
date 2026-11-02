@@ -2,7 +2,7 @@
 
 A face is a map morph name -> weight. Only the morphs set on the tab are in it; a missing morph is left to the
 animation ("game"), an empty map is the game's own face. The values go onto Character.Mesh with SetMorphTarget, which the
-engine (4.27) applies after the animation curves - so they hold during poses too (docs/notes/2026-09-27-gesichtsausdruck-override.md).
+engine (4.27) applies after the animation curves - so they hold during poses too (internal design notes).
 A bipolar entry (gaze) is one slider over two morphs: negative -> the first at |v|, positive -> the second, the other at 0.
 """
 M = "/Game/Mod/AltUI"

@@ -3023,6 +3023,14 @@
     {
      "name": "Npc Name",
      "type": "name"
+    },
+    {
+     "name": "breasts size",
+     "type": "float"
+    },
+    {
+     "name": "waist adjust",
+     "type": "float"
     }
    ],
    "functions": [

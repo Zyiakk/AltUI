@@ -5,7 +5,7 @@ The game wears a piece in Character_Player_Base.Wear The Clothes: new Clothes_Co
 finds the old one. Wear Kept hides the slot's worn comps under HELD_TYPE for that one call and gives them their slot back after:
 everything else of the game's wearing (colour, damage, heels, body mask, Wear Clothes Last) stays. The game's own loads (Wear These
 Clothes) keep only one piece per slot - the callers put the others on again (Restore Multi Worn, the follower's Check Appearence).
-Notes: docs/notes/2026-10-18-mehrere-teile-pro-slot.md."""
+Notes: internal design notes"""
 from bpdsl import *
 
 HELD_TYPE = "AltUIHeld"   # no slot of the game's ClothesTypeTable

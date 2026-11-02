@@ -1,4 +1,4 @@
-"""2026-10-24: a follower / NPC figure in a pose via the quick menu (spec docs/superpowers/specs/2026-10-24-npc-pose-design.md).
+"""2026-10-24: a follower / NPC figure in a pose via the quick menu (spec internal design notes).
 The figure stays a real character: zombies find it (Character List, bCanBeDamaged, other Character Type) and attack it; the first
 hit ends the pose, the AI stays held until "Figure: stop pose"."""
 import unittest, os, sys

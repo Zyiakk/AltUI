@@ -1,4 +1,4 @@
-"""Actions tab: the quick menu settings in a tab of their own (docs/superpowers/specs/2026-10-26-actions-tab-design.md)."""
+"""Actions tab: the quick menu settings in a tab of their own (internal design notes)."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 from test_weapon_look_melee import function

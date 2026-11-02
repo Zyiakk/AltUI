@@ -80,6 +80,7 @@ Zapisane stroje gry – te same, których używają szafa i lustro.
 - Strój bez własnej nazwy jest pokazywany jako „Strój” z jego miejscem na liście.
 - Rozmiar kafelków i liczbę elementów na kafelku ustawia się w Opcje › Kafelki.
 - Strój zapisany tutaj zachowuje każdy kanał koloru swoich elementów, tak jak pokolorował je AltUI; sama gra pamięta jeden kolor na element. Strój zapisany przy lustrze ma tylko ten jeden.
+- Udostępnianie: prawy przycisk → „Eksportuj (udostępnij)…” pokazuje go jako tekst – Ctrl+A, Ctrl+C i wyślij. „Importuj…” w prawym dolnym rogu: wklej Ctrl+V, „Sprawdź” pokazuje zawartość i brakujące mody (to, co jest już zapisane dokładnie tak samo, zostaje pominięte), potem importuj wszystko albo bez brakujących części. Zdjęcia nie są udostępniane – zrób nowe przez „Aktualizuj”.
 
 ## Stylizacje {#looks}
 
@@ -90,6 +91,7 @@ Stylizacja to wszystko naraz: ubrania z kolorami, fryzura i kolor włosów, maki
 - Prawy przycisk: pokaż zawartość, zmień nazwę, aktualizuj (zdjęcie z przodu lub wolną kamerą), przesuń, usuń, dodaj do szybkiego menu lub usuń z niego.
 - Prawy przycisk także: „Utwórz jako ragdoll”, „Utwórz jako towarzysza”, „Utwórz jako NPC”, „Utwórz jako wroga” (zobacz „Ragdolle” i „Towarzysze”).
 - Prawy przycisk „Oczyszczona kopia (bez brakujących części)” – widoczne tylko, gdy wygląd zawiera części moda, którego już nie ma, albo wiersze makijażu / oczu, których nie zna żadna tabela: nowy wygląd tuż za nim bez tych wpisów, z tym samym zdjęciem. Oryginał zostaje bez zmian; ponowne zapisanie nigdy ich samo nie usuwa.
+- Udostępnianie: prawy przycisk → „Eksportuj (udostępnij)…” pokazuje go jako tekst – Ctrl+A, Ctrl+C i wyślij. „Importuj…” w prawym dolnym rogu: wklej Ctrl+V, „Sprawdź” pokazuje zawartość i brakujące mody (to, co jest już zapisane dokładnie tak samo, zostaje pominięte), potem importuj wszystko albo bez brakujących części. Zdjęcia nie są udostępniane – zrób nowe przez „Aktualizuj”.
 
 ## Plecak {#bag}
 
@@ -169,6 +171,7 @@ Skóra, każdy rodzaj makijażu, oczy i presety wyglądu z gry.
 - Skóra: „Naoliwiona skóra” nad skórami nadaje skórze połysk, jak mokra skóra w grze (mokra skóra gry = 50 %). Zaznaczone = twoja wartość, także wbrew fabule; odznaczone = znów decyduje gra. Tylko u Jodi. Looki i presety wyglądu zapamiętują to ustawienie; starsze przywracają „decyduje gra”.
 - Mutacja: zmutowany wygląd Jodi z fabuły w częściach – kolor skóry i poświata jako suwaki (zaznaczone = działa), żyły i oczy jako przełączniki, „Resetuj” wyłącza wszystko. Makijaż pozostaje widoczny na przebarwionej skórze, własny kolor tęczówki barwi zmutowane oko. „Wygląd z fabuły” ustawia wygląd z przerywnika: materiał skóry z fabuły, wszystkie wiersze na maksimum; potem można cofnąć pojedyncze wiersze. Makijaż i blizny nie są z nim widoczne. Gdy fabuła sama zmienia Jodi w mutanta, obowiązuje jej wygląd.
 - Presety: kafelek „+” zapisuje aktualny wygląd ze zdjęciem. Prawy przycisk: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń, szybkie menu.
+- Udostępnianie: prawy przycisk na presecie → „Eksportuj (udostępnij)…”, „Importuj…” w prawym dolnym rogu – jak przy lookach. Bez brakujących części odpada brakująca fryzura, skóra lub wiersz makijażu. Jeden tekst może łączyć looki, stroje, twarze i wszystkie presety; każda strona z „Importuj…” przyjmuje całość.
 
 ## Kształt ciała {#body}
 
@@ -176,6 +179,8 @@ Skóra, każdy rodzaj makijażu, oczy i presety wyglądu z gry.
 - Chipy przełączają między ciałem z gry a każdym przekonwertowanym modem ciała.
 - Przekonwertowane ciała mają dodatkowo suwaki kości: skala, biust, talia, pośladki i biodra, uda, łydki, ręce, dłonie, stopy. Są zapisywane dla każdego ciała; „Zresetuj kształt” je przywraca.
 - Piersi oraz pośladki i biodra: kołysanie (0 % = tylko animacja) zmienia fizykę gry i działa z każdym ciałem; biustonosz nadal tłumi jak w grze. Suwak sutków działa tylko, gdy piersi są odsłonięte. Kąt i szerokość bioder są tylko przy przekonwertowanych ciałach; kąt działa tym mocniej, im mniejsze kołysanie (przy 100 % wcale).
+- Presety: nad suwakami „+” zapisuje wszystkie suwaki strony – suwaki ciała oraz biust i talię z gry – ze zdjęciem jako preset wybranego chipa ciała (górna połowa: zdjęcie z przodu, dolna połowa: kamera swobodna). Każdy chip ciała pokazuje tylko swoje presety. Kliknięcie wczytuje preset; prawy przycisk: zastosuj, zmień nazwę, aktualizuj, przesuń, usuń, szybkie menu. Z szybkiego menu preset najpierw przełącza na swoje ciało. „...” zwija presety.
+- Udostępnianie: prawy przycisk na presecie → „Eksportuj (udostępnij)…”, „Importuj…” w prawym dolnym rogu – jak przy lookach. Preset trafia do swojego body, nawet gdy tego body tu brak; pojawi się, gdy body zostanie przekonwertowane.
 - Mody zastępujące ciało trzeba najpierw przekonwertować za pomocą bodypak.pyz; zob. poradnik BODY_MODS na stronie moda.
 
 ## Twarz {#face}
@@ -187,12 +192,17 @@ Mimika Jodi.
 - Zaznaczony wpis zachowuje swoją wartość, także w pozach; niezaznaczony ustala animacja gry. „Ustal wszystkie” i „Wszystko grze” przełączają wszystkie naraz.
 - Miny są mieszane (razem najwyżej 100 %) albo sumowane.
 - Kafelek „+” zapisuje aktualną twarz ze zdjęciem. Prawy przycisk: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń.
+- Udostępnianie: prawy przycisk na twarzy → „Eksportuj (udostępnij)…”, „Importuj…” w prawym dolnym rogu – jak przy lookach.
 
 ## Mody {#mods}
 
 Ustawienia innych modów, które rejestrują się w AltUI: po lewej ich wpisy, po prawej przełączniki, suwaki, liczby, wybory, kolory, pola tekstowe, klawisze i przyciski wybranego.
 
+Mod może podzielić swoją stronę na karty: wyglądają jak karty na samej górze i stoją nad polami, a to, co stoi przed pierwszą kartą, jest widoczne na każdej karcie. Pola karty i każdej sekcji leżą na własnej jasnej powierzchni, więc widać, co do siebie należy. Nagłówek ze strzałką po kliknięciu zwija i rozwija pola pod nim. AltUI zapamiętuje wybraną kartę każdej strony i zwinięte sekcje. Presety zawsze obejmują całą stronę, niezależnie od pokazanej karty.
+
 Nad polami: presety strony. Kafelek „+” zapisuje obecne ustawienia ze zdjęciem (z przodu lub wolną kamerą); kliknięcie stosuje preset. Prawy klik: zastosuj, pokaż zawartość, zmień nazwę, aktualizuj, przesuń, usuń, menu szybkie. „Pokaż zawartość” wypisuje wartości, każdą z polem wyboru: stosowane są tylko zaznaczone, niezaznaczone pozostają zapisane. Presety dostarczone przez mod są na początku; można je stosować, zmieniać ich nazwę, dodać własne zdjęcie („Nowe zdjęcie”) i zaznaczać ich wartości, ale nie edytować ani usuwać. Zapisywane osobno dla każdego moda w AltUI_ModPresets_<mod>.sav. Presety dostarczone przez mod można ukryć (prawy klik „Ukryj”); „Pokaż ukryte presety” na pasku nad kafelkami przywraca te z tej strony. „...” na tym pasku zwija obszar presetów na wszystkich stronach modów i rozwija go ponownie.
+
+Udostępnianie: prawy przycisk na własnym presecie → „Eksportuj (udostępnij)…”, „Importuj…” w prawym dolnym rogu – jak przy lookach. Dołączone przynosi sam mod. Zaimportowany preset trafia na stronę swojego moda, nawet gdy mod nie jest zainstalowany; pojawi się, gdy będzie.
 
 Ta karta pojawia się tylko wtedy, gdy taki mod jest zainstalowany.
 
@@ -220,6 +230,7 @@ Własne nazwy wyświetlane dla modów, grup, ubrań, fryzur, skór, makijażu, p
 - Mody broni są na liście razem z innymi modami.
 - „Użycie” pokazuje, które mody są teraz używane: dla każdego moda używane elementy i miejsca, w których są (Jodi teraz, stroje, stylizacje, presety, ulubione, towarzysze, sceny ragdolli, stanie, broń, sceny i pozycje obiektów, szuflady z ubraniami). Nieużywane mody są niżej na szaro, tak samo mody, których użycia AltUI nie potrafi ustalić (mapy, mody skryptowe). „Pokaż zawartość” otwiera każdy z nich. To, co leży tylko w szafie, nie liczy się jako użycie. Każdy mod to kafelek z nazwą wyświetlaną i plikiem pak; miejsca elementu są zebrane według rodzaju (np. „Stroje 4–6, 8”). Lista jest zbierana przy otwarciu „Użycie”; gdzie indziej liczba po lewej jest z ostatniego razu (przed pierwszym razem brak).
 - Sceny obiektów i zapisane pozycje obiektów też liczą się jako użycie (modele z modów).
+- „Udostępnianie”: wszystkie looki, stroje, twarze, presety wyglądu, ciała i własne presety modów na jednej stronie, pogrupowane według rodzaju („wszystkie” / „żadne” dla każdego), z body lub modem obok. Zaznacz je, a „Eksportuj (n)…” w prawym dolnym rogu poda zaznaczone jako jeden tekst; „Importuj…” obok czyta taki tekst. Zaznaczenia obowiązują tylko, dopóki strona jest otwarta. Presety modów, które nie są teraz zainstalowane, nie są na liście.
 
 ## Ragdolle {#ragdolls}
 
@@ -335,7 +346,7 @@ Postać w pozie: grupa szybkiego menu „Postać: ulubione pozy” zawiera każd
 
 - Widoczna tylko wtedy, gdy na bieżącym poziomie jest telewizor (biuro Jodi), albo zawsze – z przełącznikiem w Opcje › Ogólne. Przy kilku telewizorach sterowany jest ten najbliżej Jodi.
 - Włącz / Wyłącz działają jak klawisz E przy telewizorze. Listę filmów telewizor odczytuje przy pierwszym włączeniu – do tego czasu karta prosi, aby włączyć go raz.
-- Kliknięcie filmu odtwarza go. Film już rozpoczęty jest kontynuowany od miejsca, w którym został przerwany, tak jak na samym telewizorze.
+- „Odtwórz” obok filmu odtwarza go; odtwarzany film jest wyróżniony. Film już rozpoczęty jest kontynuowany od miejsca, w którym został przerwany, tak jak na samym telewizorze.
 - Własne filmy: włóż pliki .mp4 do folderu gry TheKillingAntidote/Videos/TV/. Pojawią się po ponownym wczytaniu poziomu.
 
 ## Szybkie menu {#quick}

@@ -31,6 +31,22 @@ def main():
     expect("older layout -> neutral", [round(x, 3) for x in mgr.get_editor_property("TmpFloats")], N)
     mgr.call_method("Test Vector Or One", args=(unreal.Vector(0, 0, 0),)); expect("zero default -> one", mgr.get_editor_property("TmpVector"), unreal.Vector(1, 1, 1))
     mgr.call_method("Test Vector Or One", args=(unreal.Vector(1.3, 1.2, 1.15),)); expect("real default kept", mgr.get_editor_property("TmpVector"), unreal.Vector(1.3, 1.2, 1.15))
+    # body presets: tiles of one body, a move stays among them, the quick menu item finds its preset
+    mgr.call_method("Test Body Presets Reset")
+    for body, name, i in (("Body_X", "A", 1), ("Body_Y", "B", 2), ("Body_X", "C", 3), ("Body_X", "D", 4)):
+        mgr.call_method("Test Add Body Preset Raw", args=(body, name, i))
+    mgr.call_method("Test Body Preset Tiles", args=("Body_X",))
+    expect("tiles of Body_X", list(mgr.get_editor_property("BodyPresetTiles")), [0, 2, 3])
+    mgr.call_method("Test Body Preset Move", args=(2, 0))   # D to the front of Body_X
+    mgr.call_method("Test Body Preset Tiles", args=("Body_X",))
+    mgr.call_method("Test Body Preset Names"); names = [str(x) for x in mgr.get_editor_property("TmpStrings")]   # S_BodyPreset members carry internal names
+    expect("move keeps other bodies in place", names, ["D", "A", "B", "C"])
+    mgr.call_method("Test Body Preset Move", args=(0, 2))   # D back to the end of Body_X
+    mgr.call_method("Test Body Preset Names"); names = [str(x) for x in mgr.get_editor_property("TmpStrings")]   # S_BodyPreset members carry internal names
+    expect("move right", names, ["A", "B", "C", "D"])
+    mgr.call_method("Test Body Preset Item", args=("bodypreset:3",))
+    expect("quick item index", mgr.get_editor_property("TmpI"), 2)
+    expect("quick item caption ends with the name", str(mgr.get_editor_property("TmpStr3")).endswith(" › C"), True)
     abp = cdo(M + "/ABP_BodyScale.ABP_BodyScale_C")
     expect("ABP default Breasts", abp.get_editor_property("Breasts"), unreal.Vector(1, 1, 1))
     expect("ABP default Waist", abp.get_editor_property("Waist"), unreal.Vector(1, 1, 1))

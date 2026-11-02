@@ -1,4 +1,4 @@
-"""Generates assets/29c_jason.json: BP_AltUIJason, the Jason prototype (docs/notes/2026-10-18-follower-munition-und-npc-typen.md).
+"""Generates assets/29c_jason.json: BP_AltUIJason, the Jason prototype (internal design notes).
 A child of the story's Jason (Character_NPC, Jason_Controller - a follower by build: he fights zombies and falls back to his
 master; without path points his controller waits and runs the NPC orders of Npc_Controller). The game never saves it, and
 his death skips Jason's own Character Die: that one spawns Camera_Death and turns the player's view onto him for good."""

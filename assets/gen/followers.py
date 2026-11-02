@@ -1,4 +1,4 @@
-"""Followers and NPCs from looks (docs/specs/2026-10-09-followers-design.md): the saved record per figure, the save game,
+"""Followers and NPCs from looks (internal design notes): the saved record per figure, the save game,
 names and constants the manager (gen_manager.py: signatures, structs; gen_manager_ui.py: bodies) and the panel share.
 
 A figure is a BP_AltUIFollower (gen_follower.py). AltUI keeps one S_Follower per figure in its own save AltUI_Followers.sav -
@@ -27,7 +27,7 @@ FOL_BRING_ROW = 5         # quick menu "all come to me": figures per row in fron
 FOL_BRING_GAP = 80.0      # ... side by side this far apart (cm, two capsules and a little air)
 FOL_BRING_ROWGAP = 90.0   # ... the next row this much further away from her (cm)
 
-# real clothes (docs/specs/2026-10-12-follower-echte-kleidung-design.md): a figure's pieces are bag entries of its own, as with
+# real clothes (internal design notes): a figure's pieces are bag entries of its own, as with
 # every NPC of the game. Tiles of the Followers tab: a piece the figure has / a piece in Jodi's backpack.
 TILE_FOL_CLOTHES = "folc:"   # folc:<id>:<piece>
 TILE_BAG_CLOTHES = "bagc:"   # bagc:<piece>
@@ -173,5 +173,8 @@ def structs():
                            param("Lost", "name", "array"),
                            # the look's outfit: what it wore when made / given a new look - "Restore outfit" puts exactly this on again;
                            # empty = an old record (restore then keeps what it wears and the torn-off pieces)
-                           param("Outfit", "name", "array")]),
+                           param("Outfit", "name", "array"),
+                           # the look's breast / waist (Makeup Data Boobs Size / Waist): set as the figure's breasts size / waist adjust, which its
+                           # anim reads (Get Boobs Size / Get Waist Adjust); 0 = an old record (as before: the follower rolls nothing in Init Npc Appearance)
+                           param("Boobs", "float"), param("Waist", "float")]),
             blueprint(SG_FOL, "/Script/Engine.SaveGame", variables=[var("Followers", "struct:" + S_FOL, "array"), var("Counter", "int")])]

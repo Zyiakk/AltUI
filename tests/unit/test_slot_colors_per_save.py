@@ -1,4 +1,4 @@
-"""Slot colours per save (spec docs/specs/2026-10-11-kleidungsfarben-pro-spielstand.md): they travel as AltUI#<piece>#<slot>
+"""Slot colours per save (spec internal design notes): they travel as AltUI#<piece>#<slot>
 entries in the game's Clothes Colors map, which the game saves with TKAPlayer, every story save and Level_<n>_End."""
 import unittest, os, json
 

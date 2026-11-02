@@ -1,4 +1,4 @@
-"""scripts/animcurves.py: curves of a cooked AnimSequence (docs/specs/2026-10-06-anim-pipeline-design.md). Needs the game's Female_Walk /
+"""scripts/animcurves.py: curves of a cooked AnimSequence (internal design notes). Needs the game's Female_Walk /
 Female_Run extracted to build/anim/src (scripts/anim_extract.sh); skipped otherwise."""
 import unittest, os, sys
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "scripts"))

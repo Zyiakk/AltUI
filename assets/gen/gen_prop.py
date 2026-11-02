@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generates assets/28c_prop.json: BP_AltUIProp, one model spawned from the Objects tab (spec docs/specs/2026-10-23-objects-tab-design.md).
+"""Generates assets/28c_prop.json: BP_AltUIProp, one model spawned from the Objects tab (spec internal design notes).
 The root is a box sized to the model's bounds; the model hangs under it as a static mesh (furniture, props, mod models) or a skeletal
 mesh (weapon models). Fixed: no physics, the box has no collision, the mesh blocks (clicks and figures hit it). Physics: the mesh
 simulates if it can; a mesh without a simple collision body (many decoration meshes, weapons without a physics asset) does not,

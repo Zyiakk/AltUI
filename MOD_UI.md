@@ -61,9 +61,9 @@ One row per field. The row name does not matter; what counts are the columns.
 |---|---|---|
 | `Entry` | Name | row name in your `AltUI_Entries` this field belongs to |
 | `Key` | Name | what your actor receives to tell the fields apart |
-| `Type` | Name | `Header`, `Info`, `Toggle`, `Slider`, `Number`, `Choice`, `Color`, `Text`, `Key` or `Button` |
-| `Label` | Text | the text beside the field (a header's text, a button's caption) |
-| `Min`, `Max` | Float | slider and number only: the range |
+| `Type` | Name | `Header`, `Info`, `Toggle`, `Slider`, `Number`, `Choice`, `Color`, `Text`, `Key`, `Button` or `Tab` |
+| `Label` | Text | the text beside the field (a header's text, a button's caption, a tab's name) |
+| `Min`, `Max` | Float | slider and number: the range; header: `Min` 1 starts its section folded |
 | `Step` | Float | slider: the value snaps to multiples of it from `Min`, 0 means continuous; number: what - and + change, 0 means 1 (a typed value is not snapped) |
 | `Options` | Array of Text | choice only: the options, shown one at a time with arrows |
 | `Order` | Integer | position within the entry; lower first |
@@ -72,7 +72,7 @@ What each type shows and which value it carries:
 
 | Type | Shows | Value |
 |---|---|---|
-| `Header` | a line of text above the fields that follow | none |
+| `Header` | a heading above the fields that follow; with an arrow it folds them, up to the next header or tab | none |
 | `Info` | a line of text your mod supplies, updated live - a state, a counter | text, read only |
 | `Toggle` | a checkbox | 0 or 1 |
 | `Slider` | a slider with the value beside it | a number from `Min` to `Max` |
@@ -82,9 +82,45 @@ What each type shows and which value it carries:
 | `Text` | a text field | text, reported when the player leaves the field or presses Enter |
 | `Key` | the bound key's name on a button; a click waits for the next key, a right click clears it | a key of the keyboard, reported when the player presses one; Esc or a click cancels. An empty key means none |
 | `Button` | a button carrying the label | always 1, when it is clicked |
+| `Tab` | a tab in the tab row above the fields (drawn like the panel's own tabs); the fields after it, up to the next tab, are on that tab | none |
 
 A field AltUI cannot draw is left out without a message: an unknown `Type`, a `Choice` without options, a `Slider`
-or `Number` whose `Min` is not below its `Max`, or an `Entry` that is not a row of your `AltUI_Entries`.
+or `Number` whose `Min` is not below its `Max`, a `Tab` without a label, or an `Entry` that is not a row of your
+`AltUI_Entries`.
+
+### Tabs and sections
+
+A page with many fields can be split into **tabs** and folding **sections**, both with rows of `AltUI_Fields` alone:
+
+* A `Tab` row starts a tab: its `Label` is the tab's name, and every field with a higher `Order` belongs to it, up to
+  the next `Tab`. The tabs look like the panel's own tabs at the top; the player clicks one to see its fields, which lie
+  on a light surface right below the tab row.
+* Fields before the first `Tab` are the page's **lead**: they stand above the tab row and stay visible on every tab - a
+  main switch, a status line.
+* A tab without fields is not shown. With only one tab left, there is no tab row: the fields stand one below the other.
+* Every `Header` folds: an arrow (▾ open, ▸ folded) in front of it, a click folds or opens the fields after it, up to
+  the next `Header` or `Tab`. A header with no field after it shows no arrow. Set `Min` to 1 for a section that starts
+  folded; 0 (the default) starts it open.
+  A header with fields and its fields lie on a light surface of their own (inside the tab's surface on a page with
+  tabs), so the player sees which fields belong to it.
+* AltUI remembers the chosen tab of every page and the player's folds, by the row's `Key` - so give tabs and headers a
+  key of their own. Without one, AltUI goes by their position on the page (`#0`, `#1`, ...), and a tab or header you
+  add later in front of it moves that.
+* Tabs and folds are only about what is shown. Presets still hold every field of the page, the quick menu still offers
+  every button and toggle, and your actor is asked and told exactly as before.
+
+The example mod's lamp has a lead (its state and the on/off switch), the tabs "Light" and "Position", and a section
+"More" that starts folded:
+
+| Row | Key | Type | Label | Min | Order |
+|---|---|---|---|---|---|
+| `Light` | `Light` | Toggle | Light | | 2 |
+| `TabLight` | `TabLight` | Tab | Light | | 10 |
+| `Brightness` | `Brightness` | Slider | Brightness | 0 | 11 |
+| `TabPlace` | `TabPlace` | Tab | Position | | 20 |
+| `Height` | `Height` | Number | Height (cm) | -100 | 21 |
+| `More` | `More` | Header | More | 1 | 22 |
+| `Note` | `Note` | Text | Note | | 24 |
 
 ## `BPI_AltUIMod`
 
@@ -98,9 +134,9 @@ of value. Fill in the ones your fields use; the others can stay empty.
 | `Text`, `Info` | `Get AltUI Text (Key) -> Text` (string) | `On AltUI Text Changed (Key, Text)` |
 | `Key` | `Get AltUI Key (Key) -> Pressed` (Key) | `On AltUI Key Changed (Key, Pressed)` |
 
-* The **Get** functions return the current value of the field with this key. AltUI calls them for every field while
-  its entry is shown, so keep them cheap: return a variable, do not compute anything heavy. For headers and buttons
-  nothing is read. A text field the player is typing in is not overwritten.
+* The **Get** functions return the current value of the field with this key. AltUI calls them for every field on screen
+  while its entry is shown (the shown tab, open sections; a preset asks for all of them), so keep them cheap: return a
+  variable, do not compute anything heavy. For headers, tabs and buttons nothing is read. A text field the player is typing in is not overwritten.
 * The **On … Changed** events tell you the player changed a field: apply the value. A button arrives in
   `On AltUI Changed` with the value 1; the key tells which button. A colour arrives while the player is still picking
   it in the palette, so your mod can show it live.
@@ -178,7 +214,7 @@ onto a key of its own. **Your mod does not need to do anything for this.**
 
 * **What a preset holds:** the value of every `Toggle`, `Slider`, `Number`, `Choice`, `Color` and `Text` field of the
   page, read with the Get functions, by the field's `Key`. `Key` fields (a key binding is not a mood), buttons, info
-  lines and headers are not part of a preset. A page without such a field gets no preset tiles.
+  lines, headers and tabs are not part of a preset. A page without such a field gets no preset tiles.
 * **Applying a preset** goes field by field, one `On AltUI … Changed` each - exactly as if the player had changed the
   fields in the panel, so your mod applies and saves them as it already does. First every `Color` and `Text` field, then
   the toggles, sliders, numbers and choices, each group in the fields' `Order`: a mod that switches a choice to "Custom"
@@ -239,6 +275,9 @@ project does not cook - and rename them afterwards in the editor's Content Brows
 The example's README lists the steps.
 
 ## Questions that come up
+
+**My page is long - can it have tabs?** Yes: `Tab` rows in `AltUI_Fields`, and every `Header` folds. See [Tabs and
+sections](#tabs-and-sections); your actor needs no change.
 
 **How do I trigger something with a button?** In `On AltUI Changed`: the button's key arrives with the value 1.
 Switch on the key and run what the button does - see [Reacting to a field](#reacting-to-a-field).

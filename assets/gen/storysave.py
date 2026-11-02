@@ -6,7 +6,7 @@
   (Plots_GameState.Story Mode Save Game Data): Player Save Data.ByteData = Jodi's SaveGame properties, tagged-property serialised.
 * Chapter start (Jodi_StoryMode, Plots_GameState.Prev Level End Save valid): that end state's Wear Clothes instead of TKAPlayer.
 * Otherwise TKAPlayer (Player_Save, Functions.Get Player Save Slot Name).
-Notes: docs/notes/2026-10-24-laden-story-stand.md."""
+Notes: internal design notes"""
 from bpdsl import *
 
 SAVE_PROP = "Save Player Clothes"

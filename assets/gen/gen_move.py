@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generates assets/29_move.json: BP_AltUIMove, Jodi's walk / run speed (docs/specs/2026-10-06-move-speed-design.md).
+"""Generates assets/29_move.json: BP_AltUIMove, Jodi's walk / run speed (internal design notes).
 The game takes her speed from the curve MoveData_Speed of the running animation (Jodi.Update Max Speed) and writes it to
 CharacterMovement.MaxWalkSpeed every tick (Update Move Input Vector). This actor ticks after Jodi and before her
 CharacterMovement (tick prerequisites both ways) and scales that value; the mesh's GlobalAnimRateScale follows while she
@@ -15,7 +15,7 @@ RATE_MIN_SPEED = "10.0"  # Speed 2d above which the animation rate follows the f
 RUN_TOGGLE_SPEED = "250.0"   # Jodi.On Input Action Run, RunMode 2: Get Speed > this -> stop running, else start
 E_INSET = "/Script/Engine.InputSettings"; S_ACTMAP = "/Script/Engine.InputActionKeyMapping"
 
-# walk / run styles (docs/specs/2026-10-06-move-styles-design.md): child ABPs of Jodi_Anim that swap the loop players. The kit has no
+# walk / run styles (internal design notes): child ABPs of Jodi_Anim that swap the loop players. The kit has no
 # Jodi_Anim: a stub at the game path carries the two players under the game's node names (the child's cooked CDO addresses them by
 # name), stand-in sequences cover the animations the kit lacks. Only the loop is swapped: starting off always plays the game's start
 # animations (Move Start picks them in code). A loop needs the game's movement curves: MoveData_Speed (speed), Rotation Speed (Rotate
@@ -30,7 +30,7 @@ RUN_STYLES = [("Normal", None)]
 # missing here plays Normal (Style Class / Style Loop: unknown = Normal), and the save keeps it until another one is picked
 WALK_STYLES = [(k, p) for k, p in WALK_STYLES if not p or anims.enabled(p.rsplit("/", 1)[1])]
 RUN_STYLES = [(k, p) for k, p in RUN_STYLES if not p or anims.enabled(p.rsplit("/", 1)[1])]
-# idle styles (docs/specs/2026-10-13-idle-styles-design.md): the game's standing loops, checked as loops in docs/notes/2026-10-13-idle-styles.md
+# idle styles (internal design notes): the game's standing loops, checked as loops in internal design notes
 # (Female_Idle_Disgust / _Tic are additive - out). Only the loop player _27 is swapped - SequenceEvaluator_31 (Female_Idle at time 0) stays.
 IDLE_STYLES = [("Normal", None), ("Afk1", J + "/Animations/Appearance/Female_Idle_Afk1"), ("Afk2", J + "/Animations/Appearance/Female_Idle_Afk2"),
                ("Afk3", J + "/Animations/Appearance/Female_Idle_Afk3"), ("Careful", J + "/Animations/Female_IdleCare"), ("Hurt", J + "/Animations/Female_Idle_Hurt"),
@@ -39,7 +39,7 @@ STYLE_ABPS = {"%s_%s_%s" % (w, r, i): M + "/ABP_AltUIStyle_%s_%s_%s" % (w, r, i)
               if (w, r, i) != ("Normal", "Normal", "Normal")}
 # idle mods (idlepak): one template per walk / run combination, its idle player on a placeholder the converter points at the mod's animation
 TEMPLATE_ABPS = {"%s_%s" % (w, r): idle_mods.TEMPLATE_DIR + "/" + idle_mods.template_name(w, r) for w, _ in WALK_STYLES for r, _ in RUN_STYLES}
-# walk / run mods (walkpak, docs/specs/2026-10-27-walk-mods-design.md): three families of templates, their mod side on a placeholder
+# walk / run mods (walkpak, internal design notes): three families of templates, their mod side on a placeholder
 
 
 def _walkmod_templates():
@@ -181,7 +181,7 @@ def try_mod_class(g, q, mod_pin, name_pin):
 
 def f_want_class():
     """The anim class for the current WalkStyle / RunStyle / IdleStyle - computed when the style is set, not every tick (it may load a class).
-    Walk / run mods (WalkAltUI_<Name>, docs/specs/2026-10-27-walk-mods-design.md), the walk beats the run beats the idle:
+    Walk / run mods (WalkAltUI_<Name>, internal design notes), the walk beats the run beats the idle:
       walk = run = mod X  -> X/ABP_AltUIWalkRunTpl_<idle>, then X/..._Normal, then as a walk mod
       walk = mod X        -> X/ABP_AltUIWalkTpl_<run>_<idle>, then X/..._Normal_Normal   (run = another mod -> <run> = Normal: it loses)
       run = mod Y         -> Y/ABP_AltUIRunTpl_<walk>_<idle>, then Y/..._Normal_Normal
@@ -282,7 +282,11 @@ def f_style_loop():
 
 def f_apply_start_loop():
     """While a style ABP runs: the game's start / walk <-> run animation in Jodi_Anim's 'Anim Move Start' (2 - 2.6 s of the normal walk
-    before the loop) is replaced by the style's loop for the current gait, so the style shows from the first step. Stops stay the game's."""
+    before the loop) is replaced by the style's loop for the current gait, so the style shows from the first step. Stops stay the game's.
+    Not while the input points more than 45 deg away from where she faces (Jodi_Anim's Actor Delta Yaw): there the game's turning start
+    (Female_WalkStart_F_90L / 180L / 90R / 180R) turns her on the spot; a loop pushes her straight ahead (Forward Moving Alpha 1), and facing
+    a wall in a corner she then never got moving, fell back to standing and could not turn (ui-test-189). Checked every tick, so the loop
+    takes over once she has turned to within 45 deg."""
     g = G(); g.get("gb", "Bound"); g.get("gm", "Mesh", cls=E_CHARACTER); g.link("gb.Bound", "gm.self")
     g.call("ai", E_SKELMESHCOMP, "GetAnimInstance", inp={"self": "@gm.Mesh"}); g.cast("ja", JODI_ANIM, "@ai.ReturnValue")
     g.call("vja", K_SYS, "IsValid", inp={"Object": "@ja.AsJodi Anim"})
@@ -292,7 +296,10 @@ def f_apply_start_loop():
     g.get("gms", "Anim Move Start", cls=JODI_ANIM); g.link("ja.AsJodi Anim", "gms.self"); g.call("vms", K_SYS, "IsValid", inp={"Object": "@gms.Anim Move Start"})
     g.call("ne", K_MATH, "NotEqual_ObjectObject", inp={"A": "@gms.Anim Move Start", "B": "@cs.AsAnim Sequence"})
     g.call("a1", K_MATH, "BooleanAND", inp={"A": "@vja.ReturnValue", "B": "@vl.ReturnValue"}); g.call("a2", K_MATH, "BooleanAND", inp={"A": "@a1.ReturnValue", "B": "@vms.ReturnValue"})
-    g.call("a3", K_MATH, "BooleanAND", inp={"A": "@a2.ReturnValue", "B": "@ne.ReturnValue"}); g.branch("b", "@a3.ReturnValue")
+    g.call("a3", K_MATH, "BooleanAND", inp={"A": "@a2.ReturnValue", "B": "@ne.ReturnValue"})
+    g.get("gdy", "Actor Delta Yaw", cls=JODI_ANIM); g.link("ja.AsJodi Anim", "gdy.self"); g.call("ady", K_MATH, "Abs", inp={"A": "@gdy.Actor Delta Yaw"})
+    g.call("ldy", K_MATH, "Less_FloatFloat", inp={"A": "@ady.ReturnValue", "B": "45.0"})
+    g.call("a4", K_MATH, "BooleanAND", inp={"A": "@a3.ReturnValue", "B": "@ldy.ReturnValue"}); g.branch("b", "@a4.ReturnValue")
     g.set("sms", "Anim Move Start", cls=JODI_ANIM, inp={"self": "@ja.AsJodi Anim", "Anim Move Start": "@cs.AsAnim Sequence"})
     g.chain("entry", "b", "sms")
     return fn("Apply Start Loop", graph=g)
@@ -430,7 +437,7 @@ def style_assets():
     out.append(animstub(JODI_ANIM, SKELETON, [(STYLE_NODES["walk"], seqs[0]), (STYLE_NODES["run"], seqs[1]), (STYLE_NODES["idle"], seqs[2])]))
     # Move Start / Move Change write the game's start and walk <-> run animations (2 - 2.6 s) into this variable; BP_AltUIMove puts the
     # style's loop there so a style shows from the first step
-    out.append(blueprint(JODI_ANIM, mode="augment", variables=[var("Anim Move Start", "object:/Script/Engine.AnimSequence"),
+    out.append(blueprint(JODI_ANIM, mode="augment", variables=[var("Anim Move Start", "object:/Script/Engine.AnimSequence"), var("Actor Delta Yaw", "float"),
                                                               var("In Hand Weapon", "object:" + P_WEAPON), var("Player Upper Body State", "name")]))   # the last two: read by ALTUI_ANIMLOG
     walk, run, idle = dict(WALK_STYLES), dict(RUN_STYLES), dict(IDLE_STYLES)
     for key, path in STYLE_ABPS.items():

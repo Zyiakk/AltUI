@@ -1,4 +1,4 @@
-"""Animation pipeline (docs/specs/2026-10-06-anim-pipeline-design.md): foot phase from sync markers, psa reader, style -> animation list."""
+"""Animation pipeline (internal design notes): foot phase from sync markers, psa reader, style -> animation list."""
 import unittest, os, sys
 H = os.path.dirname(os.path.abspath(__file__)); W = os.path.join(H, "..", "..")
 sys.path[:0] = [os.path.join(W, "scripts"), os.path.join(W, "assets", "anim"), os.path.join(W, "assets", "gen")]

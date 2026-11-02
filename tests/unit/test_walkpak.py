@@ -1,4 +1,4 @@
-"""walkpak (docs/specs/2026-10-27-walk-mods-design.md): Female_Walk / Female_Run replacer -> WalkAltUI_<Name>."""
+"""walkpak (internal design notes): Female_Walk / Female_Run replacer -> WalkAltUI_<Name>."""
 import unittest, os, sys, tempfile, shutil
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "scripts")); sys.path.insert(0, H)
 import walk_mods

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Animation pipeline step 1 (docs/specs/2026-10-06-anim-pipeline-design.md): the game's source animations + skeleton from the main pak
+# Animation pipeline step 1 (internal design notes): the game's source animations + skeleton from the main pak
 # (our extractor - umodel cannot read Oodle) into build/anim/src, bones as .psa (+ props.txt with sync markers / notifies) into
 # build/anim/psa. Curves: scripts/animcurves.py on the extracted .uasset.
 set -e; source "$(dirname "$0")/../config.sh"

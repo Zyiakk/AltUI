@@ -1,4 +1,4 @@
-"""A chosen amount of a stack (docs/specs/2026-10-14-stack-amount-design.md): which tiles get the amount block, its rows,
+"""A chosen amount of a stack (internal design notes): which tiles get the amount block, its rows,
 the slider / field range and the start value."""
 import os, sys, unittest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "assets", "gen"))

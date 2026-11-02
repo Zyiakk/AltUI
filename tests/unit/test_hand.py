@@ -1,4 +1,4 @@
-"""Invisible hand (docs/specs/2026-10-25-invisible-hand-design.md): stubs, BP_AltUIHand, manager, options."""
+"""Invisible hand (internal design notes): stubs, BP_AltUIHand, manager, options."""
 import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 import cfg

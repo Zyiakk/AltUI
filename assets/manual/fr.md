@@ -80,6 +80,7 @@ Les tenues enregistrées du jeu – les mêmes que celles de la garde-robe et du
 - Une tenue sans nom propre s'affiche comme « Tenue » suivie de sa place dans la liste.
 - La taille des tuiles et le nombre d'objets affichés par tuile se règlent dans Paramètres › Tuiles.
 - Une tenue enregistrée ici garde chaque canal de couleur de ses pièces, tel qu'AltUI les a colorées ; le jeu lui-même ne garde qu'une couleur par pièce. Une tenue enregistrée au miroir n'a que celle-là.
+- Partager : clic droit → « Exporter (partager)… » l'affiche en texte – Ctrl+A, Ctrl+C et envoyez-le. « Importer… » en bas à droite : collez avec Ctrl+V, « Vérifier » montre le contenu et les mods manquants (ce qui est déjà enregistré exactement ainsi est laissé de côté), puis importez tout ou sans les pièces manquantes. Les photos ne sont pas partagées – prenez-en une nouvelle avec « Mettre à jour ».
 
 ## Looks {#looks}
 
@@ -90,6 +91,7 @@ Un look, c'est tout à la fois : vêtements avec leurs couleurs, coiffure et cou
 - Clic droit : voir le contenu, renommer, mettre à jour (photo de face ou en caméra libre), déplacer, supprimer, ajouter au menu rapide ou l'en retirer.
 - Clic droit aussi : « Créer en ragdoll », « Créer en compagnon », « Créer en PNJ », « Créer en ennemi » (voir « Ragdolls » et « Compagnons »).
 - Clic droit « Copie nettoyée (sans les parties manquantes) » – affiché seulement si le look contient des pièces d'un mod qui n'est plus installé, ou des lignes de maquillage / d'yeux qu'aucune table ne connaît : un nouveau look juste après, sans ces entrées, avec la même photo. L'original reste tel quel ; réenregistrer un look ne les retire jamais de lui-même.
+- Partager : clic droit → « Exporter (partager)… » l'affiche en texte – Ctrl+A, Ctrl+C et envoyez-le. « Importer… » en bas à droite : collez avec Ctrl+V, « Vérifier » montre le contenu et les mods manquants (ce qui est déjà enregistré exactement ainsi est laissé de côté), puis importez tout ou sans les pièces manquantes. Les photos ne sont pas partagées – prenez-en une nouvelle avec « Mettre à jour ».
 
 ## Sac à dos {#bag}
 
@@ -169,6 +171,7 @@ Peau, chaque type de maquillage, yeux et préréglages d'apparence du jeu.
 - Peau : « Peau huilée » au-dessus des peaux rend la peau brillante, comme la peau mouillée du jeu (la peau mouillée du jeu = 50 %). Case cochée = votre valeur, même face à l'histoire ; décochée = le jeu décide à nouveau. Seulement sur Jodi. Les looks et les presets d'apparence gardent ce réglage ; les plus anciens reviennent à « le jeu décide ».
 - Mutation : l'apparence mutée de Jodi dans l'histoire, par parties – couleur de peau et lueur en curseurs (case cochée = actif), veines et yeux en interrupteurs, « Réinitialiser » désactive tout. Le maquillage reste visible sur la peau décolorée, votre couleur d'iris teinte l'œil muté. « Look de l'histoire » reproduit l'apparence de la cinématique : matériau de peau de l'histoire, toutes les lignes au maximum ; chaque ligne peut ensuite être réduite. Maquillage et cicatrices n'y sont pas visibles. Pendant que l'histoire fait muter Jodi elle-même, c'est son apparence qui s'applique.
 - Préréglages : la tuile « + » enregistre l'apparence actuelle avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer, menu rapide.
+- Partager : clic droit sur un preset → « Exporter (partager)… », « Importer… » en bas à droite – comme pour les looks. Sans les pièces manquantes, une coiffure, une peau ou une ligne de maquillage manquante est retirée. Un texte peut mêler looks, tenues, visages et tous les presets ; chaque page avec « Importer… » prend tout.
 
 ## Morphologie {#body}
 
@@ -176,6 +179,8 @@ Peau, chaque type de maquillage, yeux et préréglages d'apparence du jeu.
 - Les puces passent du corps du jeu à chaque mod de corps converti.
 - Les corps convertis ont en plus des curseurs d'os : échelle, buste, taille, fessiers et hanches, cuisses, mollets, bras, mains, pieds. Ils sont conservés par corps ; « Réinitialiser la forme » les remet à zéro.
 - Poitrine et fessiers et hanches : rebond (0 % = animation seule) règle la physique du jeu et fonctionne avec tous les corps ; un soutien-gorge amortit toujours comme dans le jeu. Le curseur des tétons n'agit que si la poitrine est découverte. Angle et largeur des hanches n'existent que pour les corps convertis ; l'angle agit d'autant plus qu'il y a moins de rebond (pas du tout à 100 %).
+- Préréglages : au-dessus des curseurs, « + » enregistre tous les curseurs de la page – ceux du corps ainsi que la poitrine et la taille du jeu – avec une photo comme préréglage de la puce de corps choisie (moitié haute : photo de face, moitié basse : caméra libre). Chaque puce de corps n'affiche que ses propres préréglages. Un clic en charge un ; clic droit : appliquer, renommer, mettre à jour, déplacer, supprimer, menu rapide. Depuis le menu rapide, un préréglage passe d'abord à son corps. « ... » replie les préréglages.
+- Partager : clic droit sur un preset → « Exporter (partager)… », « Importer… » en bas à droite – comme pour les looks. Un preset va à son body, même si ce body manque ici ; il apparaît dès que le body est converti.
 - Les mods qui remplacent le corps doivent d'abord être convertis avec bodypak.pyz ; voir le guide BODY_MODS sur la page du mod.
 
 ## Visage {#face}
@@ -187,12 +192,17 @@ L'expression du visage de Jodi.
 - Une entrée cochée garde sa valeur, même pendant les poses ; une entrée non cochée est laissée à l'animation du jeu. « Tout fixer » et « Tout au jeu » basculent toutes les entrées à la fois.
 - Les expressions sont mélangées (ensemble au plus 100 %) ou additionnées.
 - La tuile « + » enregistre le visage actuel avec une photo. Clic droit : appliquer, voir le contenu, renommer, mettre à jour, déplacer, supprimer.
+- Partager : clic droit sur un visage → « Exporter (partager)… », « Importer… » en bas à droite – comme pour les looks.
 
 ## Mods {#mods}
 
 Les réglages d'autres mods qui s'enregistrent auprès d'AltUI : à gauche leurs entrées, à droite les interrupteurs, curseurs, nombres, choix, couleurs, champs de texte, touches et boutons de celui qui est choisi.
 
+Un mod peut répartir sa page en onglets : ils ressemblent aux onglets du haut et se placent au-dessus des réglages, et ce qui précède le premier onglet reste visible sur chacun. Les réglages d'un onglet et de chaque section reposent sur une surface claire à part, on voit ainsi ce qui va ensemble. Un titre avec une flèche replie ou déplie d'un clic les réglages en dessous. AltUI retient l'onglet choisi de chaque page et les sections repliées. Les préréglages contiennent toujours la page entière, quel que soit l'onglet affiché.
+
 Au-dessus des réglages : les préréglages de la page. La tuile « + » enregistre les réglages actuels avec une photo (de face ou en caméra libre) ; un clic applique un préréglage. Clic droit : appliquer, afficher le contenu, renommer, mettre à jour, déplacer, supprimer, menu rapide. « Afficher le contenu » liste les valeurs, chacune avec une case : seules les valeurs cochées sont appliquées, les autres restent enregistrées. Les préréglages qu'un mod apporte lui-même viennent en premier ; on peut les appliquer, les renommer, leur donner sa propre photo (« Nouvelle photo ») et cocher ou décocher leurs valeurs, pas les modifier ni les supprimer. Enregistrés par mod dans AltUI_ModPresets_<mod>.sav. Les préréglages fournis par un mod peuvent être masqués (clic droit « Masquer ») ; « Afficher les préréglages masqués » dans la barre au-dessus des tuiles fait revenir ceux de cette page. « ... » dans cette barre replie la zone des préréglages de toutes les pages de mods et la rouvre.
+
+Partager : clic droit sur un preset personnel → « Exporter (partager)… », « Importer… » en bas à droite – comme pour les looks. Ceux fournis viennent avec le mod lui-même. Un preset importé va à la page de son mod, même si le mod manque ; il apparaît dès qu'il est installé.
 
 Cet onglet n'apparaît que si un tel mod est installé.
 
@@ -220,6 +230,7 @@ Vos propres noms d'affichage pour les mods, groupes, vêtements, coiffures, peau
 - Les mods d'armes figurent avec les autres mods.
 - « Utilisation » montre quels mods sont utilisés en ce moment : pour chaque mod, les pièces utilisées et où elles se trouvent (Jodi maintenant, tenues, looks, préréglages, favoris, compagnons, scènes de ragdolls, position debout, armes, scènes et positions d'objets, tiroirs de vêtements). Les mods inutilisés sont listés en gris en dessous, ainsi que les mods dont AltUI ne peut pas détecter l'utilisation (cartes, mods de script). « Voir le contenu » ouvre chacun d'eux. Ce qui se trouve seulement dans la garde-robe ne compte pas comme utilisé. Chaque mod est une tuile avec son nom affiché et son fichier pak ; les emplacements d'une pièce sont résumés par type (p. ex. « Tenues 4–6, 8 »). La liste est établie à l'ouverture de « Utilisation » ; ailleurs, le nombre à gauche est celui de la dernière fois (aucun avant la première).
 - Les scènes d'objets et les positions d'objets enregistrées comptent aussi comme utilisation (modèles de mods).
+- « Partager » : tous les looks, tenues, visages, préréglages d'apparence, du corps et vos préréglages de mods sur une page, groupés par type (« tous » / « aucun » par type), avec le body ou le mod à côté. Cochez-les, puis « Exporter (n)… » en bas à droite les donne en un seul texte ; « Importer… » à côté lit un tel texte. Les coches ne valent que tant que la page est ouverte. Les préréglages de mods non installés en ce moment ne sont pas listés.
 
 ## Ragdolls {#ragdolls}
 
@@ -335,7 +346,7 @@ Figure en pose : le groupe du menu rapide « Figure : poses favorites » contien
 
 - Visible seulement quand le niveau actuel a une télé (le bureau de Jodi), ou toujours avec l'interrupteur dans Paramètres › Général. S'il y a plusieurs télés, c'est la plus proche de Jodi qui est commandée.
 - Allumer / Éteindre agissent comme la touche E devant la télé. La télé lit sa liste de vidéos la première fois qu'elle est allumée – jusque-là, l'onglet vous demande de l'allumer une fois.
-- Cliquez sur une vidéo pour la lancer. Une vidéo déjà commencée reprend là où elle s'était arrêtée, comme sur la télé elle-même.
+- « Lire » à côté d'une vidéo la lance ; celle en cours est mise en évidence. Une vidéo déjà commencée reprend là où elle s'était arrêtée, comme sur la télé elle-même.
 - Vos propres vidéos : placez des fichiers .mp4 dans le dossier du jeu TheKillingAntidote/Videos/TV/. Elles apparaissent après le rechargement du niveau.
 
 ## Menu rapide {#quick}

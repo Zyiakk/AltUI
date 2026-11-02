@@ -80,6 +80,7 @@ Los conjuntos guardados del juego: los mismos que usan el armario y el espejo.
 - Un conjunto sin nombre propio aparece como «Conjunto» con su posición en la lista.
 - El tamaño de las casillas y cuántas prendas muestra cada una se ajustan en Opciones › Casillas.
 - Un conjunto guardado aquí conserva cada canal de color de sus prendas, tal como AltUI los coloreó; el juego en sí guarda un solo color por prenda. Un conjunto guardado en el espejo tiene solo ese.
+- Compartir: clic derecho → «Exportar (compartir)…» lo muestra como texto: Ctrl+A, Ctrl+C y envíalo. «Importar…» abajo a la derecha: pega con Ctrl+V, «Comprobar» muestra lo que contiene y qué mods faltan (lo que ya está guardado exactamente así se omite); luego importa todo o sin las piezas que faltan. Las fotos no se comparten: haz una nueva con «Actualizar».
 
 ## Looks {#looks}
 
@@ -90,6 +91,7 @@ Un look es todo a la vez: ropa con sus colores, peinado y color de pelo, maquill
 - Clic derecho: ver contenido, renombrar, actualizar (foto de frente o con cámara libre), mover, borrar, añadir al menú rápido o quitar de él.
 - Clic derecho también: «Crear como ragdoll», «Crear como seguidor», «Crear como PNJ», «Crear como enemigo» (ver «Ragdolls» y «Seguidores»).
 - Clic derecho «Copia limpia (sin partes que faltan)»: solo aparece si el look contiene prendas de un mod ya no instalado o filas de maquillaje / ojos que ninguna tabla tiene; crea un look nuevo justo detrás sin esas entradas, con la misma foto. El original queda como está; volver a guardar un look nunca las quita por sí solo.
+- Compartir: clic derecho → «Exportar (compartir)…» lo muestra como texto: Ctrl+A, Ctrl+C y envíalo. «Importar…» abajo a la derecha: pega con Ctrl+V, «Comprobar» muestra lo que contiene y qué mods faltan (lo que ya está guardado exactamente así se omite); luego importa todo o sin las piezas que faltan. Las fotos no se comparten: haz una nueva con «Actualizar».
 
 ## Mochila {#bag}
 
@@ -169,6 +171,7 @@ Piel, cada tipo de maquillaje, ojos y los presets de apariencia del juego.
 - Piel: «Piel aceitada» encima de las pieles hace brillar la piel, como la piel mojada del juego (la piel mojada del juego = 50 %). Casilla marcada = tu valor, también frente a la historia; desmarcada = vuelve a decidir el juego. Solo en Jodi. Los looks y los presets de apariencia guardan este ajuste; los anteriores vuelven a «decide el juego».
 - Mutación: el aspecto mutado de Jodi de la historia, por partes – color de piel y brillo como controles (casilla marcada = activo), venas y ojos como interruptores, «Restablecer» lo apaga todo. El maquillaje sigue visible sobre la piel descolorida y tu propio color de iris tiñe el ojo mutado. «Look de la historia» pone el aspecto de la cinemática: material de piel de la historia, todas las filas al máximo; después se puede bajar cada fila. Con él no se ven ni el maquillaje ni las cicatrices. Mientras la historia muta a la propia Jodi, se aplica su aspecto.
 - Presets: la casilla «+» guarda la apariencia actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar, menú rápido.
+- Compartir: clic derecho en un preset → «Exportar (compartir)…», «Importar…» abajo a la derecha, como con los looks. Sin las piezas que faltan se quitan un peinado, una piel o una fila de maquillaje que falten. Un texto puede mezclar looks, conjuntos, rostros y todos los presets; cada página con «Importar…» lo toma todo.
 
 ## Curvas {#body}
 
@@ -176,6 +179,8 @@ Piel, cada tipo de maquillaje, ojos y los presets de apariencia del juego.
 - Las fichas cambian entre el cuerpo del juego y cada mod de cuerpo convertido.
 - Los cuerpos convertidos tienen además controles de huesos: tamaño, busto, cintura, glúteos y caderas, muslos, pantorrillas, brazos, manos, pies. Se guardan por cuerpo; «Restablecer forma» los devuelve a su valor.
 - Pecho y glúteos y caderas: rebote (0 % = solo animación) ajusta la física del juego y funciona con cualquier cuerpo; un sujetador sigue amortiguando como en el juego. El deslizador de pezones solo actúa mientras el pecho está descubierto. Ángulo y ancho de cadera solo existen en cuerpos convertidos; el ángulo se nota más cuanto menos rebote hay (al 100 % nada).
+- Preajustes: encima de los controles, «+» guarda todos los controles de la página – los del cuerpo y el pecho y la cintura del juego – con una foto como preajuste de la ficha de cuerpo elegida (mitad superior: foto frontal, mitad inferior: cámara libre). Cada ficha de cuerpo muestra solo sus propios preajustes. Un clic carga uno; clic derecho: aplicar, renombrar, actualizar, mover, borrar, menú rápido. Desde el menú rápido, un preajuste cambia primero a su cuerpo. «...» pliega los preajustes.
+- Compartir: clic derecho en un preset → «Exportar (compartir)…», «Importar…» abajo a la derecha, como con los looks. Un preset va a su body aunque ese body falte aquí; aparece en cuanto se convierte.
 - Los mods que reemplazan el cuerpo deben convertirse antes con bodypak.pyz; consulta la guía BODY_MODS en la página del mod.
 
 ## Rostro {#face}
@@ -187,12 +192,17 @@ La expresión facial de Jodi.
 - Una entrada marcada conserva su valor, también en las poses; una sin marcar la decide la animación del juego. «Fijar todo» y «Todo al juego» cambian todas a la vez.
 - Las expresiones se mezclan (juntas como máximo 100 %) o se suman.
 - La casilla «+» guarda el rostro actual con una foto. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, borrar.
+- Compartir: clic derecho en un rostro → «Exportar (compartir)…», «Importar…» abajo a la derecha, como con los looks.
 
 ## Mods {#mods}
 
 Ajustes de otros mods que se registran en AltUI: a la izquierda sus entradas, a la derecha los interruptores, controles, números, opciones, colores, campos de texto, teclas y botones del elegido.
 
+Un mod puede dividir su página en pestañas: se ven como las pestañas de arriba y van encima de los campos, y lo que va antes de la primera pestaña sigue visible en todas. Los campos de una pestaña y de cada sección están sobre una superficie clara propia, así se ve qué va junto. Un título con flecha pliega y despliega con un clic los campos que tiene debajo. AltUI recuerda la pestaña elegida de cada página y qué secciones están plegadas. Los preajustes siempre guardan la página entera, se muestre la pestaña que se muestre.
+
 Encima de los campos: los preajustes de la página. La casilla «+» guarda los ajustes actuales con una foto (de frente o con cámara libre); un clic aplica un preajuste. Clic derecho: aplicar, ver contenido, renombrar, actualizar, mover, eliminar, menú rápido. «Ver contenido» lista los valores con una casilla cada uno: solo se aplican los marcados, los no marcados se conservan. Los preajustes que trae un mod van primero; se pueden aplicar, renombrar, darles una foto propia («Nueva foto») y marcar o desmarcar sus valores, no cambiar ni eliminar. Se guardan por mod en AltUI_ModPresets_<mod>.sav. Los preajustes que trae un mod se pueden ocultar (clic derecho «Ocultar»); «Mostrar preajustes ocultos» en la barra sobre las casillas recupera los de esta página. «...» en esa barra pliega la zona de preajustes de todas las páginas de mods y la vuelve a abrir.
+
+Compartir: clic derecho en un preset propio → «Exportar (compartir)…», «Importar…» abajo a la derecha, como con los looks. Los incluidos vienen con el propio mod. Un preset importado va a la página de su mod aunque el mod falte; aparece en cuanto se instala.
 
 Esta pestaña solo aparece cuando hay un mod así instalado.
 
@@ -220,6 +230,7 @@ Nombres propios para mods, grupos, ropa, peinados, pieles, maquillaje, poses y p
 - Los mods de armas aparecen con los demás mods.
 - «Uso» muestra qué mods están en uso ahora mismo: por mod, las piezas en uso y dónde están (Jodi ahora, conjuntos, looks, presets, favoritos, seguidores, escenas de ragdolls, de pie, armas, escenas y posiciones de objetos, cajones de ropa). Los mods sin usar aparecen debajo en gris, igual que los mods cuyo uso AltUI no puede detectar (mapas, mods de script). «Ver contenido» abre cualquiera de ellos. Lo que solo está en el armario no cuenta como uso. Cada mod es una ficha con su nombre visible y su archivo pak; los lugares de una pieza se resumen por tipo (p. ej. «Conjuntos 4–6, 8»). La lista se recopila al abrir «Uso»; en otros lugares el número de la izquierda es el de la última vez (ninguno antes de la primera).
 - Las escenas de objetos y las posiciones de objetos guardadas también cuentan como uso (modelos de mods).
+- «Compartir»: todos los looks, conjuntos, rostros, preajustes de apariencia, de cuerpo y tus preajustes de mods en una página, agrupados por tipo («todos» / «ninguno» por tipo), con el body o el mod al lado. Márcalos y «Exportar (n)…» abajo a la derecha los da como un solo texto; «Importar…» al lado lee un texto así. Las marcas solo valen mientras la página está abierta. No se listan los preajustes de mods que ahora no están instalados.
 
 ## Ragdolls {#ragdolls}
 
@@ -335,7 +346,7 @@ Figura en una pose: el grupo del menú rápido «Figura: poses favoritas» conti
 
 - Solo aparece cuando el nivel actual tiene un televisor (la oficina de Jodi), o siempre con el interruptor de Opciones › General. Con varios televisores se controla el más cercano a Jodi.
 - Encender / Apagar funcionan como la tecla E en el televisor. El televisor lee su lista de vídeos la primera vez que se enciende; hasta entonces la pestaña pide encenderlo una vez.
-- Haz clic en un vídeo para reproducirlo. Un vídeo ya empezado continúa donde se quedó, como en el propio televisor.
+- «Reproducir» junto a un vídeo lo reproduce; el que se está viendo aparece resaltado. Un vídeo ya empezado continúa donde se quedó, como en el propio televisor.
 - Tus propios vídeos: pon archivos .mp4 en la carpeta del juego TheKillingAntidote/Videos/TV/. Aparecen después de volver a cargar el nivel.
 
 ## Menú rápido {#quick}

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Walk / run mod converter: a pak that replaces Jodi's Female_Walk and / or Female_Run -> WalkAltUI_<Name>.pak
-(docs/specs/2026-10-27-walk-mods-design.md), selectable in AltUI (Options > Move > Walk style / Run style) next to the built-in
+(walk mods design, 2026-10-27), selectable in AltUI (Options > Move > Walk style / Run style) next to the built-in
 styles - and no longer a replacer: the game's own walk stays.
 
   walkpak.py <Replacer.pak> [--name Strut] [--title "Display name"] [--out DIR] [--force] [--altui <AltUI.pak>]

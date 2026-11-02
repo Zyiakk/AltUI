@@ -25,6 +25,24 @@ NATIVE_STRUCTS = {
     "SoftClassPath": None,
 }
 
+# Fewest bytes one element of an array / map of this type takes; a count that cannot fit the bytes left is refused.
+MIN_BYTES = {
+    "BoolProperty": 1, "ByteProperty": 1, "Int8Property": 1, "Int16Property": 2, "UInt16Property": 2,
+    "IntProperty": 4, "UInt32Property": 4, "FloatProperty": 4, "ObjectProperty": 4, "ClassProperty": 4,
+    "InterfaceProperty": 4, "StrProperty": 4, "TextProperty": 5, "Int64Property": 8, "UInt64Property": 8,
+    "DoubleProperty": 8, "NameProperty": 8, "EnumProperty": 8, "SoftObjectProperty": 12, "SoftClassProperty": 12,
+    "AssetObjectProperty": 12, "StructProperty": 1,
+}
+
+# Structs with their own serializer: the bytes are no tagged property list. FExpressionInput as cooked (UE 4.27):
+# OutputIndex, InputName, Mask, MaskR/G/B/A, ExpressionName = 40 bytes; FMaterialInput<T> adds bUseConstant (int32) and
+# Constant (T). Value: the type of Constant (None: no constant).
+MATERIAL_INPUTS = {
+    "ExpressionInput": None, "MaterialAttributesInput": None, "ScalarMaterialInput": "Float",
+    "ShadingModelMaterialInput": "UInt32", "ColorMaterialInput": "Color", "VectorMaterialInput": "Vector",
+    "Vector2MaterialInput": "Vector2D",
+}
+
 
 class Reader:
     def __init__(self, data, names, imports, exports):
@@ -33,6 +51,7 @@ class Reader:
         self.names = names
         self.imports = imports
         self.exports = exports
+        self.end = len(data)      # end of the property being read: counts and tags must fit before it
 
     def u8(self):
         v = self.d[self.p]; self.p += 1; return v
@@ -89,6 +108,7 @@ class Reader:
 
     # ---- tagged properties ----
     def tag(self):
+        pos = self.p
         name = self.fname()
         if name == "None":
             return None
@@ -96,6 +116,8 @@ class Reader:
         size = self.i32()
         idx = self.i32()
         t = {"name": name, "type": typ, "size": size, "index": idx}
+        if not typ.endswith("Property"):
+            raise ValueError("no property tag at %d: type %r" % (pos, typ))
         if typ == "StructProperty":
             t["struct"] = self.fname(); self.p += 16
         elif typ == "BoolProperty":
@@ -106,12 +128,20 @@ class Reader:
             t["inner"] = self.fname()
         elif typ == "MapProperty":
             t["key"] = self.fname(); t["value"] = self.fname()
+        for k in ("inner", "key", "value"):
+            if k in t and not t[k].endswith("Property"):
+                raise ValueError("no property tag at %d: %s type %r" % (pos, k, t[k]))
         if self.u8():
             self.p += 16
+        if size < 0 or size > self.end - self.p:
+            raise ValueError("property %s at %d: %d bytes, %d left" % (name, pos, size, self.end - self.p))
         return t
 
     def value(self, typ, size, t=None):
         start = self.p
+        outer_end = self.end
+        if size:
+            self.end = min(start + size, outer_end)
         try:
             if typ == "IntProperty": v = self.i32()
             elif typ == "UInt32Property": v = self.u32()
@@ -144,6 +174,8 @@ class Reader:
         except Exception as e:
             v = "<err %s: %s>" % (typ, e)
             self.p = start + size
+        finally:
+            self.end = outer_end
         if size and self.p != start + size and typ not in ("BoolProperty",):
             # resync on size
             self.p = start + size
@@ -157,7 +189,37 @@ class Reader:
         if sname in ("SoftObjectPath", "SoftClassPath"):
             v = self.fname(); sub = self.fstr()
             return v + (":" + sub if sub else "")
+        if sname in MATERIAL_INPUTS:
+            return self.material_input(sname, size)
         return self.props()
+
+    def material_input(self, sname, size):
+        start = self.p
+        v = {"OutputIndex": self.i32(), "InputName": self.fname(), "Mask": [self.i32() for _ in range(5)],
+             "ExpressionName": self.fname()}
+        c = MATERIAL_INPUTS[sname]
+        if c is not None:
+            v["UseConstant"] = bool(self.i32())
+            v["Constant"] = self.f32() if c == "Float" else self.u32() if c == "UInt32" else self.struct_value(c, 0)
+        if size and self.p - start != size:
+            raise ValueError("%s: %d bytes read, the tag says %d" % (sname, self.p - start, size))
+        return v
+
+    def count(self, n, unit, what):
+        """An element count from the stream; refused when n elements of at least unit bytes cannot fit the bytes left."""
+        left = self.end - self.p
+        if n < 0 or n * unit > left:
+            raise ValueError("%s: count %d does not fit the %d bytes left at %d" % (what, n, left, self.p))
+        return n
+
+    def element(self, typ, what):
+        """One array / map element (no size of its own). A failing element cannot be skipped - its length is unknown - so
+        the whole property becomes one <err> (the caller's value()) instead of one entry per unmoved read."""
+        at = self.p
+        v = self.value(typ, 0)
+        if self.p == at:
+            raise ValueError("%s: element %s" % (what, v if isinstance(v, str) else "does not advance"))
+        return v
 
     def array_value(self, inner, size, is_set=False):
         if is_set:
@@ -167,9 +229,13 @@ class Reader:
         if inner == "StructProperty":
             it = self.tag()  # inner tag with struct name
             sname = it.get("struct") if it else None
+            self.count(n, 1, "array of %s" % sname)
             for i in range(n):
                 out.append(self.struct_value(sname, 0))
             return out
+        if n and inner not in MIN_BYTES:
+            raise ValueError("array of %s: element size unknown" % inner)
+        self.count(n, MIN_BYTES.get(inner, 1), "array of %s" % inner)
         if inner == "BoolProperty":
             return [bool(self.u8()) for _ in range(n)]
         if inner == "ByteProperty":
@@ -178,16 +244,19 @@ class Reader:
                 return [self.fname() for _ in range(n)]
             return [self.u8() for _ in range(n)]
         for i in range(n):
-            out.append(self.value(inner, 0))
+            out.append(self.element(inner, "array of %s" % inner))
         return out
 
     def map_value(self, kt, vt, size):
         self.i32()  # remove count
         n = self.i32()
+        if n and (kt not in MIN_BYTES or vt not in MIN_BYTES):
+            raise ValueError("map of %s -> %s: element size unknown" % (kt, vt))
+        self.count(n, MIN_BYTES.get(kt, 1) + MIN_BYTES.get(vt, 1), "map of %s -> %s" % (kt, vt))
         out = []
         for i in range(n):
-            k = self.value(kt, 0)
-            v = self.value(vt, 0)
+            k = self.element(kt, "map key %s" % kt)
+            v = self.element(vt, "map value %s" % vt)
             out.append([k, v])
         return out
 
