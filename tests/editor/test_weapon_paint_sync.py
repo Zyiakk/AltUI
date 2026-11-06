@@ -41,6 +41,9 @@ def main():
     expect("new painted actor, no own choice: its paint taken over", state("UMP"), ("GunPaint_Red", "GunPaint_Red"))
     setup({}, {"UMP": "GunPaint_Blue"}); sync("UMP", "None", False)
     expect("new unpainted actor, no own choice: stays original", state("UMP"), (None, "None"))
+    # "Original" clicked: the entry is gone, the paint AltUI put on is still on this actor until the reset that follows
+    setup({}, {"UMP": "GunPaint_Pink"}); sync("UMP", "GunPaint_Pink")
+    expect("Original clicked on a painted weapon: stays original", state("UMP"), (None, "None"))
     setup({"UMP": "GunPaint_Blue"}, {"UMP": "GunPaint_Blue"}); sync("Glock", "GunPaint_Red")
     expect("other weapons untouched", state("UMP"), ("GunPaint_Blue", "GunPaint_Blue"))
     setup(keep_skins, keep_applied); mgr.call_method("Test Save Settings")   # Sync saved the test entries

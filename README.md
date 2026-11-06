@@ -122,6 +122,9 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Right click: half or all, use, inspect, discard, quick slot, unload ammo and accessories.
 * "Always auto-equip" (right click, also in the catalogue): after every level load the item is put into the backpack,
   made anew, up to the amount the tile had when marked; nothing is taken away. Marked tiles have a gold loop arrow and frame.
+  A marked gun comes back as it was when marked, with its attachments and a full magazine; carried with other attachments at a
+  level load, it is set back to them. Everything comes new, nothing is used from the backpack or the box. For a new setup, unmark
+  and mark it again. "Refill marked items in story mode too" (Options › General, on by default) switches it off on story levels.
 * A stack's menu ends with an amount: a slider and a number field, then one entry per target with that number.
 * "Discard all" asks first when it would put 100 or more objects on the ground – that many objects with physics at once
   can crash the game: cancel, destroy instead, or drop anyway.
@@ -239,7 +242,7 @@ In categories, chosen in a list on the left:
   without collision (through walls and Jodi) and at any distance from her.
 * **Controls:** panel key, scroll speed and how far the mouse wheel lifts a ragdoll.
 * **Movement:** Jodi's own walk and run speed (50–200 %; crouching and jumping stay as they are), slow motion and its
-  speed, and how she stands: the game's usual idle, six other idle animations of the game, or an idle mod converted with
+  speed, "Jumping in the office" (off by default; she can jump and climb there, and the Esc menu pauses), and how she stands: the game's usual idle, six other idle animations of the game, or an idle mod converted with
   `idlepak.pyz` – see [Idle mods](#idle-mods).
 * **Theme:** in sections –
   * colours and their opacity;
@@ -252,7 +255,7 @@ In categories, chosen in a list on the left:
   * themes saved under a name keep colours, opacities and pictures; "Reset colours" sits in the status bar.
 * **Slot conflicts:** free the game's slot pairs, such as bra and shirt, and let a slot hold several pieces (knee socks over
   tights) – for Jodi, looks and followers.
-* **Tabs:** switch tabs off; the tab bar shows text, icons or both, icon left or right of the text; "try to fit in one
+* **Tabs:** switch tabs off; right click a tab in the bar to move it, "Tab order" puts the default back; the tab bar shows text, icons or both, icon left or right of the text; "try to fit in one
   row" makes the captions smaller and shorter so the bar fits on one row where it can.
 
 ### Actions

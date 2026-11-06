@@ -59,7 +59,7 @@ class MoveOptions(unittest.TestCase):
     def test_rows(self):
         import gen_widgets
         # "reset to default" below the slow motion row: it resets that one too (tester report 2026-10-12)
-        self.assertEqual(gen_widgets.OPT_CAT_ROWS["Move"], ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "HintRunMod", "RowIdleStyle", "HintIdleMod", "RowSlowMoOn", "RowSlowMo", "MoveLinks"])
+        self.assertEqual(gen_widgets.OPT_CAT_ROWS["Move"], ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "HintRunMod", "RowIdleStyle", "HintIdleMod", "RowSlowMoOn", "RowSlowMo", "RowOfficeJump", "MoveLinks"])
         self.assertIn(("WalkSpeed", "Walk speed"), gen_widgets.OPTION_ROWS); self.assertIn(("RunSpeed", "Run speed"), gen_widgets.OPTION_ROWS)
 
     def test_reset_includes_slow_motion(self):

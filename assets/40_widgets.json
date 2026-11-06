@@ -74118,6 +74118,52 @@
         }
        },
        {
+        "id": "t_LblOfficeJump_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblOfficeJump_w",
+        "kind": "get",
+        "var": "LblOfficeJump"
+       },
+       {
+        "id": "t_LblOfficeJump",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblOfficeJump_w.LblOfficeJump",
+         "InColorAndOpacity": "@t_LblOfficeJump_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblInvAutoStory_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblInvAutoStory_w",
+        "kind": "get",
+        "var": "LblInvAutoStory"
+       },
+       {
+        "id": "t_LblInvAutoStory",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblInvAutoStory_w.LblInvAutoStory",
+         "InColorAndOpacity": "@t_LblInvAutoStory_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_LblImgThumbs_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -74322,6 +74368,29 @@
         "in": {
          "self": "@t_LblTabRow_w.LblTabRow",
          "InColorAndOpacity": "@t_LblTabRow_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblTabOrder_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblTabOrder_w",
+        "kind": "get",
+        "var": "LblTabOrder"
+       },
+       {
+        "id": "t_LblTabOrder",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblTabOrder_w.LblTabOrder",
+         "InColorAndOpacity": "@t_LblTabOrder_sc.SlateColor"
         }
        },
        {
@@ -75602,6 +75671,78 @@
         }
        },
        {
+        "id": "pckOptInvAutoStoryUnderw",
+        "kind": "get",
+        "var": "OptInvAutoStoryUnder"
+       },
+       {
+        "id": "pckOptInvAutoStoryUnderc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptInvAutoStoryUnderc",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptInvAutoStoryUnder",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptInvAutoStoryUnderw.OptInvAutoStoryUnder",
+         "InColorAndOpacity": "@pckOptInvAutoStoryUnderc.ColChipFrame"
+        }
+       },
+       {
+        "id": "pckOptInvAutoStoryFillw",
+        "kind": "get",
+        "var": "OptInvAutoStoryFill"
+       },
+       {
+        "id": "pckOptInvAutoStoryFillc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptInvAutoStoryFillc",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptInvAutoStoryFill",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptInvAutoStoryFillw.OptInvAutoStoryFill",
+         "InColorAndOpacity": "@pckOptInvAutoStoryFillc.ColChip"
+        }
+       },
+       {
+        "id": "pckOptInvAutoStoryw",
+        "kind": "get",
+        "var": "OptInvAutoStory"
+       },
+       {
+        "id": "pckOptInvAutoStorym",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptInvAutoStory",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Check Box",
+        "in": {
+         "self": "@pckOptInvAutoStorym.Manager",
+         "box": "@pckOptInvAutoStoryw.OptInvAutoStory"
+        }
+       },
+       {
         "id": "pckOptNoNoticesUnderw",
         "kind": "get",
         "var": "OptNoNoticesUnder"
@@ -76751,6 +76892,78 @@
         "in": {
          "self": "@pckOptSlowMoOnm.Manager",
          "box": "@pckOptSlowMoOnw.OptSlowMoOn"
+        }
+       },
+       {
+        "id": "pckOptOfficeJumpUnderw",
+        "kind": "get",
+        "var": "OptOfficeJumpUnder"
+       },
+       {
+        "id": "pckOptOfficeJumpUnderc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptOfficeJumpUnderc",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptOfficeJumpUnder",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptOfficeJumpUnderw.OptOfficeJumpUnder",
+         "InColorAndOpacity": "@pckOptOfficeJumpUnderc.ColChipFrame"
+        }
+       },
+       {
+        "id": "pckOptOfficeJumpFillw",
+        "kind": "get",
+        "var": "OptOfficeJumpFill"
+       },
+       {
+        "id": "pckOptOfficeJumpFillc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptOfficeJumpFillc",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptOfficeJumpFill",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptOfficeJumpFillw.OptOfficeJumpFill",
+         "InColorAndOpacity": "@pckOptOfficeJumpFillc.ColChip"
+        }
+       },
+       {
+        "id": "pckOptOfficeJumpw",
+        "kind": "get",
+        "var": "OptOfficeJump"
+       },
+       {
+        "id": "pckOptOfficeJumpm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptOfficeJump",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Check Box",
+        "in": {
+         "self": "@pckOptOfficeJumpm.Manager",
+         "box": "@pckOptOfficeJumpw.OptOfficeJump"
         }
        },
        {
@@ -78953,6 +79166,266 @@
         }
        },
        {
+        "id": "czbRowBgBreast_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgBreast",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgBreast_w",
+        "kind": "get",
+        "var": "RowBgBreast"
+       },
+       {
+        "id": "zbRowBgBreast",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgBreast_w.RowBgBreast",
+         "InBrushColor": "@czbRowBgBreast.ColArea"
+        }
+       },
+       {
+        "id": "czbRowBgScHeight_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgScHeight",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgScHeight_w",
+        "kind": "get",
+        "var": "RowBgScHeight"
+       },
+       {
+        "id": "zbRowBgScHeight",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgScHeight_w.RowBgScHeight",
+         "InBrushColor": "@czbRowBgScHeight.ColArea"
+        }
+       },
+       {
+        "id": "czbRowBgScBreast_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgScBreast",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgScBreast_w",
+        "kind": "get",
+        "var": "RowBgScBreast"
+       },
+       {
+        "id": "zbRowBgScBreast",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgScBreast_w.RowBgScBreast",
+         "InBrushColor": "@czbRowBgScBreast.ColArea"
+        }
+       },
+       {
+        "id": "czbRowBgScGlutes_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgScGlutes",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgScGlutes_w",
+        "kind": "get",
+        "var": "RowBgScGlutes"
+       },
+       {
+        "id": "zbRowBgScGlutes",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgScGlutes_w.RowBgScGlutes",
+         "InBrushColor": "@czbRowBgScGlutes.ColArea"
+        }
+       },
+       {
+        "id": "czbRowBgScCalves_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgScCalves",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgScCalves_w",
+        "kind": "get",
+        "var": "RowBgScCalves"
+       },
+       {
+        "id": "zbRowBgScCalves",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgScCalves_w.RowBgScCalves",
+         "InBrushColor": "@czbRowBgScCalves.ColArea"
+        }
+       },
+       {
+        "id": "czbRowBgScHands_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgScHands",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgScHands_w",
+        "kind": "get",
+        "var": "RowBgScHands"
+       },
+       {
+        "id": "zbRowBgScHands",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgScHands_w.RowBgScHands",
+         "InBrushColor": "@czbRowBgScHands.ColArea"
+        }
+       },
+       {
+        "id": "czbRowBgScBreastAngle_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgScBreastAngle",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgScBreastAngle_w",
+        "kind": "get",
+        "var": "RowBgScBreastAngle"
+       },
+       {
+        "id": "zbRowBgScBreastAngle",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgScBreastAngle_w.RowBgScBreastAngle",
+         "InBrushColor": "@czbRowBgScBreastAngle.ColArea"
+        }
+       },
+       {
+        "id": "czbRowBgScNipple_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgScNipple",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgScNipple_w",
+        "kind": "get",
+        "var": "RowBgScNipple"
+       },
+       {
+        "id": "zbRowBgScNipple",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgScNipple_w.RowBgScNipple",
+         "InBrushColor": "@czbRowBgScNipple.ColArea"
+        }
+       },
+       {
+        "id": "czbRowBgScPelvis_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgScPelvis",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgScPelvis_w",
+        "kind": "get",
+        "var": "RowBgScPelvis"
+       },
+       {
+        "id": "zbRowBgScPelvis",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgScPelvis_w.RowBgScPelvis",
+         "InBrushColor": "@czbRowBgScPelvis.ColArea"
+        }
+       },
+       {
+        "id": "czbRowBgScGlutesJiggle_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "czbRowBgScGlutesJiggle",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "zbRowBgScGlutesJiggle_w",
+        "kind": "get",
+        "var": "RowBgScGlutesJiggle"
+       },
+       {
+        "id": "zbRowBgScGlutesJiggle",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@zbRowBgScGlutesJiggle_w.RowBgScGlutesJiggle",
+         "InBrushColor": "@czbRowBgScGlutesJiggle.ColArea"
+        }
+       },
+       {
         "id": "ciwt_m",
         "kind": "get",
         "var": "Manager"
@@ -79928,7 +80401,7 @@
        {
         "id": "rg13",
         "kind": "get",
-        "var": "BgImageChips"
+        "var": "TabOrderChips"
        },
        {
         "id": "rc13",
@@ -79936,7 +80409,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg13.BgImageChips"
+         "self": "@rg13.TabOrderChips"
         }
        },
        {
@@ -79983,7 +80456,7 @@
        {
         "id": "rg14",
         "kind": "get",
-        "var": "BgFitChips"
+        "var": "BgImageChips"
        },
        {
         "id": "rc14",
@@ -79991,7 +80464,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg14.BgFitChips"
+         "self": "@rg14.BgImageChips"
         }
        },
        {
@@ -80038,7 +80511,7 @@
        {
         "id": "rg15",
         "kind": "get",
-        "var": "BgHAlignChips"
+        "var": "BgFitChips"
        },
        {
         "id": "rc15",
@@ -80046,7 +80519,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg15.BgHAlignChips"
+         "self": "@rg15.BgFitChips"
         }
        },
        {
@@ -80093,7 +80566,7 @@
        {
         "id": "rg16",
         "kind": "get",
-        "var": "BgVAlignChips"
+        "var": "BgHAlignChips"
        },
        {
         "id": "rc16",
@@ -80101,7 +80574,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg16.BgVAlignChips"
+         "self": "@rg16.BgHAlignChips"
         }
        },
        {
@@ -80148,7 +80621,7 @@
        {
         "id": "rg17",
         "kind": "get",
-        "var": "BtnImageChips"
+        "var": "BgVAlignChips"
        },
        {
         "id": "rc17",
@@ -80156,7 +80629,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg17.BtnImageChips"
+         "self": "@rg17.BgVAlignChips"
         }
        },
        {
@@ -80203,7 +80676,7 @@
        {
         "id": "rg18",
         "kind": "get",
-        "var": "BgInvChips"
+        "var": "BtnImageChips"
        },
        {
         "id": "rc18",
@@ -80211,7 +80684,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg18.BgInvChips"
+         "self": "@rg18.BtnImageChips"
         }
        },
        {
@@ -80258,7 +80731,7 @@
        {
         "id": "rg19",
         "kind": "get",
-        "var": "ImgThumbsChips"
+        "var": "BgInvChips"
        },
        {
         "id": "rc19",
@@ -80266,7 +80739,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg19.ImgThumbsChips"
+         "self": "@rg19.BgInvChips"
         }
        },
        {
@@ -80313,7 +80786,7 @@
        {
         "id": "rg20",
         "kind": "get",
-        "var": "BtnInvChips"
+        "var": "ImgThumbsChips"
        },
        {
         "id": "rc20",
@@ -80321,7 +80794,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg20.BtnInvChips"
+         "self": "@rg20.ImgThumbsChips"
         }
        },
        {
@@ -80368,7 +80841,7 @@
        {
         "id": "rg21",
         "kind": "get",
-        "var": "LangChips"
+        "var": "BtnInvChips"
        },
        {
         "id": "rc21",
@@ -80376,7 +80849,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg21.LangChips"
+         "self": "@rg21.BtnInvChips"
         }
        },
        {
@@ -80423,7 +80896,7 @@
        {
         "id": "rg22",
         "kind": "get",
-        "var": "KeyChips"
+        "var": "LangChips"
        },
        {
         "id": "rc22",
@@ -80431,7 +80904,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg22.KeyChips"
+         "self": "@rg22.LangChips"
         }
        },
        {
@@ -80478,7 +80951,7 @@
        {
         "id": "rg23",
         "kind": "get",
-        "var": "MultiSlotChips"
+        "var": "KeyChips"
        },
        {
         "id": "rc23",
@@ -80486,7 +80959,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg23.MultiSlotChips"
+         "self": "@rg23.KeyChips"
         }
        },
        {
@@ -80533,7 +81006,7 @@
        {
         "id": "rg24",
         "kind": "get",
-        "var": "StatusLinks"
+        "var": "MultiSlotChips"
        },
        {
         "id": "rc24",
@@ -80541,7 +81014,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg24.StatusLinks"
+         "self": "@rg24.MultiSlotChips"
         }
        },
        {
@@ -80554,7 +81027,7 @@
        {
         "id": "rx24",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "pure": true,
         "in": {
          "Object": "@rf24.Array Element"
@@ -80566,7 +81039,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx24.AsW_TextButton"
+         "Object": "@rx24.AsW_SubTab"
         }
        },
        {
@@ -80579,16 +81052,16 @@
        {
         "id": "rr24",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_TextButton",
+        "class": "/Game/Mod/AltUI/W_SubTab",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx24.AsW_TextButton"
+         "self": "@rx24.AsW_SubTab"
         }
        },
        {
         "id": "rg25",
         "kind": "get",
-        "var": "StatusRight"
+        "var": "StatusLinks"
        },
        {
         "id": "rc25",
@@ -80596,7 +81069,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg25.StatusRight"
+         "self": "@rg25.StatusLinks"
         }
        },
        {
@@ -80643,7 +81116,7 @@
        {
         "id": "rg26",
         "kind": "get",
-        "var": "ThemeCol0"
+        "var": "StatusRight"
        },
        {
         "id": "rc26",
@@ -80651,7 +81124,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg26.ThemeCol0"
+         "self": "@rg26.StatusRight"
         }
        },
        {
@@ -80664,7 +81137,7 @@
        {
         "id": "rx26",
         "kind": "cast",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_TextButton",
         "pure": true,
         "in": {
          "Object": "@rf26.Array Element"
@@ -80676,7 +81149,7 @@
         "class": "/Script/Engine.KismetSystemLibrary",
         "function": "IsValid",
         "in": {
-         "Object": "@rx26.AsW_ColorSwatch"
+         "Object": "@rx26.AsW_TextButton"
         }
        },
        {
@@ -80689,16 +81162,16 @@
        {
         "id": "rr26",
         "kind": "call",
-        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "class": "/Game/Mod/AltUI/W_TextButton",
         "function": "Refresh Theme",
         "in": {
-         "self": "@rx26.AsW_ColorSwatch"
+         "self": "@rx26.AsW_TextButton"
         }
        },
        {
         "id": "rg27",
         "kind": "get",
-        "var": "ThemeCol1"
+        "var": "ThemeCol0"
        },
        {
         "id": "rc27",
@@ -80706,7 +81179,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg27.ThemeCol1"
+         "self": "@rg27.ThemeCol0"
         }
        },
        {
@@ -80753,7 +81226,7 @@
        {
         "id": "rg28",
         "kind": "get",
-        "var": "ThemeCol2"
+        "var": "ThemeCol1"
        },
        {
         "id": "rc28",
@@ -80761,7 +81234,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg28.ThemeCol2"
+         "self": "@rg28.ThemeCol1"
         }
        },
        {
@@ -80808,7 +81281,7 @@
        {
         "id": "rg29",
         "kind": "get",
-        "var": "ThemeCol3"
+        "var": "ThemeCol2"
        },
        {
         "id": "rc29",
@@ -80816,7 +81289,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg29.ThemeCol3"
+         "self": "@rg29.ThemeCol2"
         }
        },
        {
@@ -80863,7 +81336,7 @@
        {
         "id": "rg30",
         "kind": "get",
-        "var": "ThemeCol4"
+        "var": "ThemeCol3"
        },
        {
         "id": "rc30",
@@ -80871,7 +81344,7 @@
         "class": "/Script/UMG.PanelWidget",
         "function": "GetAllChildren",
         "in": {
-         "self": "@rg30.ThemeCol4"
+         "self": "@rg30.ThemeCol3"
         }
        },
        {
@@ -80913,6 +81386,61 @@
         "function": "Refresh Theme",
         "in": {
          "self": "@rx30.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rg31",
+        "kind": "get",
+        "var": "ThemeCol4"
+       },
+       {
+        "id": "rc31",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "GetAllChildren",
+        "in": {
+         "self": "@rg31.ThemeCol4"
+        }
+       },
+       {
+        "id": "rf31",
+        "kind": "foreach",
+        "in": {
+         "Array": "@rc31.ReturnValue"
+        }
+       },
+       {
+        "id": "rx31",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "pure": true,
+        "in": {
+         "Object": "@rf31.Array Element"
+        }
+       },
+       {
+        "id": "rv31",
+        "kind": "call",
+        "class": "/Script/Engine.KismetSystemLibrary",
+        "function": "IsValid",
+        "in": {
+         "Object": "@rx31.AsW_ColorSwatch"
+        }
+       },
+       {
+        "id": "rb31",
+        "kind": "branch",
+        "in": {
+         "Condition": "@rv31.ReturnValue"
+        }
+       },
+       {
+        "id": "rr31",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_ColorSwatch",
+        "function": "Refresh Theme",
+        "in": {
+         "self": "@rx31.AsW_ColorSwatch"
         }
        }
       ],
@@ -81106,6 +81634,14 @@
         "pckOptInvAutoEquipFillc.self"
        ],
        [
+        "pckOptInvAutoStoryUnderc_m.Manager",
+        "pckOptInvAutoStoryUnderc.self"
+       ],
+       [
+        "pckOptInvAutoStoryFillc_m.Manager",
+        "pckOptInvAutoStoryFillc.self"
+       ],
+       [
         "pckOptNoNoticesUnderc_m.Manager",
         "pckOptNoNoticesUnderc.self"
        ],
@@ -81234,6 +81770,14 @@
         "pckOptSlowMoOnFillc.self"
        ],
        [
+        "pckOptOfficeJumpUnderc_m.Manager",
+        "pckOptOfficeJumpUnderc.self"
+       ],
+       [
+        "pckOptOfficeJumpFillc_m.Manager",
+        "pckOptOfficeJumpFillc.self"
+       ],
+       [
         "pckOptHandOnUnderc_m.Manager",
         "pckOptHandOnUnderc.self"
        ],
@@ -81344,6 +81888,46 @@
        [
         "cslFolSep_m.Manager",
         "cslFolSep.self"
+       ],
+       [
+        "czbRowBgBreast_m.Manager",
+        "czbRowBgBreast.self"
+       ],
+       [
+        "czbRowBgScHeight_m.Manager",
+        "czbRowBgScHeight.self"
+       ],
+       [
+        "czbRowBgScBreast_m.Manager",
+        "czbRowBgScBreast.self"
+       ],
+       [
+        "czbRowBgScGlutes_m.Manager",
+        "czbRowBgScGlutes.self"
+       ],
+       [
+        "czbRowBgScCalves_m.Manager",
+        "czbRowBgScCalves.self"
+       ],
+       [
+        "czbRowBgScHands_m.Manager",
+        "czbRowBgScHands.self"
+       ],
+       [
+        "czbRowBgScBreastAngle_m.Manager",
+        "czbRowBgScBreastAngle.self"
+       ],
+       [
+        "czbRowBgScNipple_m.Manager",
+        "czbRowBgScNipple.self"
+       ],
+       [
+        "czbRowBgScPelvis_m.Manager",
+        "czbRowBgScPelvis.self"
+       ],
+       [
+        "czbRowBgScGlutesJiggle_m.Manager",
+        "czbRowBgScGlutesJiggle.self"
        ],
        [
         "ciwt_m.Manager",
@@ -81587,6 +82171,8 @@
         "t_LblHandOn",
         "t_LblHandNoHand",
         "t_LblSlowMoOn",
+        "t_LblOfficeJump",
+        "t_LblInvAutoStory",
         "t_LblImgThumbs",
         "t_LblBgImage",
         "t_LblBgFit",
@@ -81596,6 +82182,7 @@
         "t_LblBtnImage",
         "t_LblBtnInv",
         "t_LblTabRow",
+        "t_LblTabOrder",
         "ss_light",
         "ss_fly",
         "ss_Scroll",
@@ -81666,6 +82253,9 @@
         "pckOptInvAutoEquipUnder",
         "pckOptInvAutoEquipFill",
         "pckOptInvAutoEquip",
+        "pckOptInvAutoStoryUnder",
+        "pckOptInvAutoStoryFill",
+        "pckOptInvAutoStory",
         "pckOptNoNoticesUnder",
         "pckOptNoNoticesFill",
         "pckOptNoNotices",
@@ -81714,6 +82304,9 @@
         "pckOptSlowMoOnUnder",
         "pckOptSlowMoOnFill",
         "pckOptSlowMoOn",
+        "pckOptOfficeJumpUnder",
+        "pckOptOfficeJumpFill",
+        "pckOptOfficeJump",
         "pckOptHandOnUnder",
         "pckOptHandOnFill",
         "pckOptHandOn",
@@ -81814,6 +82407,16 @@
         "slBtnPic",
         "slThemeSchemes",
         "slFolSep",
+        "zbRowBgBreast",
+        "zbRowBgScHeight",
+        "zbRowBgScBreast",
+        "zbRowBgScGlutes",
+        "zbRowBgScCalves",
+        "zbRowBgScHands",
+        "zbRowBgScBreastAngle",
+        "zbRowBgScNipple",
+        "zbRowBgScPelvis",
+        "zbRowBgScGlutesJiggle",
         "iwt",
         "rbaBtnPlus",
         "rbaBtnMinus",
@@ -82102,6 +82705,15 @@
         "rf30",
         "rb30",
         "rr30"
+       ],
+       [
+        "rf30:Completed",
+        "rf31"
+       ],
+       [
+        "rf31",
+        "rb31",
+        "rr31"
        ]
       ]
      }
@@ -93536,6 +94148,69 @@
      }
     },
     {
+     "name": "Clear Tab Order Chips",
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "TabOrderChips"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.PanelWidget",
+        "function": "ClearChildren",
+        "in": {
+         "self": "@g.TabOrderChips"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "c"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Add Tab Order Chip",
+     "inputs": [
+      {
+       "name": "widget",
+       "type": "object:/Script/UMG.Widget"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "TabOrderChips"
+       },
+       {
+        "id": "a",
+        "kind": "call",
+        "class": "/Script/UMG.WrapBox",
+        "function": "AddChildToWrapBox",
+        "in": {
+         "self": "@g.TabOrderChips",
+         "Content": "@entry.widget"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "a"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Clear BgImage Chips",
      "graph": {
       "nodes": [
@@ -101292,6 +101967,14 @@
       {
        "name": "handnohand",
        "type": "bool"
+      },
+      {
+       "name": "officejump",
+       "type": "bool"
+      },
+      {
+       "name": "invautostory",
+       "type": "bool"
       }
      ],
      "graph": {
@@ -101981,6 +102664,34 @@
         "in": {
          "self": "@gHandNoHand.OptHandNoHand"
         }
+       },
+       {
+        "id": "gOfficeJump",
+        "kind": "get",
+        "var": "OptOfficeJump"
+       },
+       {
+        "id": "vOfficeJump",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gOfficeJump.OptOfficeJump"
+        }
+       },
+       {
+        "id": "gInvAutoStory",
+        "kind": "get",
+        "var": "OptInvAutoStory"
+       },
+       {
+        "id": "vInvAutoStory",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gInvAutoStory.OptInvAutoStory"
+        }
        }
       ],
       "links": [
@@ -102179,6 +102890,14 @@
        [
         "vHandNoHand.ReturnValue",
         "return.handnohand"
+       ],
+       [
+        "vOfficeJump.ReturnValue",
+        "return.officejump"
+       ],
+       [
+        "vInvAutoStory.ReturnValue",
+        "return.invautostory"
        ]
       ],
       "exec": [
@@ -102278,6 +102997,14 @@
       },
       {
        "name": "handnohand",
+       "type": "bool"
+      },
+      {
+       "name": "officejump",
+       "type": "bool"
+      },
+      {
+       "name": "invautostory",
        "type": "bool"
       }
      ],
@@ -102612,6 +103339,36 @@
          "self": "@gHandNoHand.OptHandNoHand",
          "InIsChecked": "@entry.handnohand"
         }
+       },
+       {
+        "id": "gOfficeJump",
+        "kind": "get",
+        "var": "OptOfficeJump"
+       },
+       {
+        "id": "sOfficeJump",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gOfficeJump.OptOfficeJump",
+         "InIsChecked": "@entry.officejump"
+        }
+       },
+       {
+        "id": "gInvAutoStory",
+        "kind": "get",
+        "var": "OptInvAutoStory"
+       },
+       {
+        "id": "sInvAutoStory",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gInvAutoStory.OptInvAutoStory",
+         "InIsChecked": "@entry.invautostory"
+        }
        }
       ],
       "links": [],
@@ -102639,7 +103396,9 @@
         "sPlayWheelZoom",
         "sTiltPanelOff",
         "sHandOn",
-        "sHandNoHand"
+        "sHandNoHand",
+        "sOfficeJump",
+        "sInvAutoStory"
        ]
       ]
      }
@@ -104840,6 +105599,10 @@
        "type": "text"
       },
       {
+       "name": "taborder",
+       "type": "text"
+      },
+      {
        "name": "bgimage",
        "type": "text"
       },
@@ -105005,6 +105768,14 @@
       },
       {
        "name": "slowmoon",
+       "type": "text"
+      },
+      {
+       "name": "officejump",
+       "type": "text"
+      },
+      {
+       "name": "invautostory",
        "type": "text"
       },
       {
@@ -106508,6 +107279,21 @@
         }
        },
        {
+        "id": "gtaborder",
+        "kind": "get",
+        "var": "LblTabOrder"
+       },
+       {
+        "id": "staborder",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gtaborder.LblTabOrder",
+         "InText": "@entry.taborder"
+        }
+       },
+       {
         "id": "gbgimage",
         "kind": "get",
         "var": "LblBgImage"
@@ -107138,6 +107924,36 @@
         }
        },
        {
+        "id": "gofficejump",
+        "kind": "get",
+        "var": "LblOfficeJump"
+       },
+       {
+        "id": "sofficejump",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gofficejump.LblOfficeJump",
+         "InText": "@entry.officejump"
+        }
+       },
+       {
+        "id": "ginvautostory",
+        "kind": "get",
+        "var": "LblInvAutoStory"
+       },
+       {
+        "id": "sinvautostory",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@ginvautostory.LblInvAutoStory",
+         "InText": "@entry.invautostory"
+        }
+       },
+       {
         "id": "gfreenocollide",
         "kind": "get",
         "var": "LblFreeNoCollide"
@@ -107507,6 +108323,7 @@
         "stabstyle",
         "stabiconpos",
         "stabrow",
+        "staborder",
         "sbgimage",
         "sbgfit",
         "sbghalign",
@@ -107549,6 +108366,8 @@
         "shdrbtnpic",
         "shdrthemeschemes",
         "sslowmoon",
+        "sofficejump",
+        "sinvautostory",
         "sfreenocollide",
         "sfreenolimit",
         "splaywheelzoom",
@@ -124166,273 +124985,303 @@
               "name": "BodySliders",
               "children": [
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowBreast",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgBreast",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblBreastBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowBreast",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblBreast",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblBreastBox",
                     "props": {
-                     "Text": "Breast",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldBreastBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblBreast",
+                      "props": {
+                       "Text": "Breast",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldBreast",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldBreastBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValBreastBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValBreast",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldBreast",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValBreastBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValBreast",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowWaist",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgWaist",
+                "props": {
+                 "BrushColor": "(R=0,G=0,B=0,A=0)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblWaistBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowWaist",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblWaist",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblWaistBox",
                     "props": {
-                     "Text": "Waist",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldWaistBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblWaist",
+                      "props": {
+                       "Text": "Waist",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldWaist",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldWaistBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValWaistBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValWaist",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldWaist",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValWaistBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValWaist",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScHeight",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScHeight",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScHeightBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScHeight",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScHeight",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScHeightBox",
                     "props": {
-                     "Text": "Height",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScHeightBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScHeight",
+                      "props": {
+                       "Text": "Height",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScHeight",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScHeightBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScHeightBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScHeight",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScHeight",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScHeightBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScHeight",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
@@ -124452,728 +125301,808 @@
                 }
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScBreast",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScBreast",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScBreastBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScBreast",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScBreast",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScBreastBox",
                     "props": {
-                     "Text": "Breast",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScBreastBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScBreast",
+                      "props": {
+                       "Text": "Breast",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScBreast",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScBreastBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScBreastBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScBreast",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScBreast",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScBreastBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScBreast",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScWaist",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScWaist",
+                "props": {
+                 "BrushColor": "(R=0,G=0,B=0,A=0)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScWaistBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScWaist",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScWaist",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScWaistBox",
                     "props": {
-                     "Text": "Waist",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScWaistBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScWaist",
+                      "props": {
+                       "Text": "Waist",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScWaist",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScWaistBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScWaistBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScWaist",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScWaist",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScWaistBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScWaist",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScGlutes",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScGlutes",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScGlutesBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScGlutes",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScGlutes",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScGlutesBox",
                     "props": {
-                     "Text": "Glutes",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScGlutesBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScGlutes",
+                      "props": {
+                       "Text": "Glutes",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScGlutes",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScGlutesBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScGlutesBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScGlutes",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScGlutes",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScGlutesBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScGlutes",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScThighs",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScThighs",
+                "props": {
+                 "BrushColor": "(R=0,G=0,B=0,A=0)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScThighsBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScThighs",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScThighs",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScThighsBox",
                     "props": {
-                     "Text": "Thighs",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScThighsBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScThighs",
+                      "props": {
+                       "Text": "Thighs",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScThighs",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScThighsBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScThighsBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScThighs",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScThighs",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScThighsBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScThighs",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScCalves",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScCalves",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScCalvesBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScCalves",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScCalves",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScCalvesBox",
                     "props": {
-                     "Text": "Calves",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScCalvesBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScCalves",
+                      "props": {
+                       "Text": "Calves",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScCalves",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScCalvesBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScCalvesBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScCalves",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScCalves",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScCalvesBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScCalves",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScArms",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScArms",
+                "props": {
+                 "BrushColor": "(R=0,G=0,B=0,A=0)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScArmsBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScArms",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScArms",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScArmsBox",
                     "props": {
-                     "Text": "Arms",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScArmsBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScArms",
+                      "props": {
+                       "Text": "Arms",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScArms",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScArmsBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScArmsBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScArms",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScArms",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScArmsBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScArms",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScHands",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScHands",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScHandsBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScHands",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScHands",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScHandsBox",
                     "props": {
-                     "Text": "Hands",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScHandsBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScHands",
+                      "props": {
+                       "Text": "Hands",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScHands",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScHandsBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScHandsBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScHands",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScHands",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScHandsBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScHands",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScFeet",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScFeet",
+                "props": {
+                 "BrushColor": "(R=0,G=0,B=0,A=0)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScFeetBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScFeet",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScFeet",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScFeetBox",
                     "props": {
-                     "Text": "Feet",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScFeetBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScFeet",
+                      "props": {
+                       "Text": "Feet",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScFeet",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScFeetBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScFeetBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScFeet",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScFeet",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScFeetBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScFeet",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
@@ -125192,273 +126121,303 @@
                 }
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScBreastAngle",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScBreastAngle",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScBreastAngleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScBreastAngle",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScBreastAngle",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScBreastAngleBox",
                     "props": {
-                     "Text": "BreastAngle",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScBreastAngleBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScBreastAngle",
+                      "props": {
+                       "Text": "BreastAngle",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScBreastAngle",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScBreastAngleBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScBreastAngleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScBreastAngle",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScBreastAngle",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScBreastAngleBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScBreastAngle",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScBreastJiggle",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScBreastJiggle",
+                "props": {
+                 "BrushColor": "(R=0,G=0,B=0,A=0)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScBreastJiggleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScBreastJiggle",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScBreastJiggle",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScBreastJiggleBox",
                     "props": {
-                     "Text": "BreastJiggle",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScBreastJiggleBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScBreastJiggle",
+                      "props": {
+                       "Text": "BreastJiggle",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScBreastJiggle",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScBreastJiggleBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScBreastJiggleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScBreastJiggle",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScBreastJiggle",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScBreastJiggleBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScBreastJiggle",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScNipple",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScNipple",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScNippleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScNipple",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScNipple",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScNippleBox",
                     "props": {
-                     "Text": "Nipple",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScNippleBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScNipple",
+                      "props": {
+                       "Text": "Nipple",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScNipple",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScNippleBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScNippleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScNipple",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScNipple",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScNippleBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScNipple",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
@@ -125477,273 +126436,303 @@
                 }
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScPelvis",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScPelvis",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScPelvisBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScPelvis",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScPelvis",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScPelvisBox",
                     "props": {
-                     "Text": "Pelvis",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScPelvisBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScPelvis",
+                      "props": {
+                       "Text": "Pelvis",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScPelvis",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScPelvisBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScPelvisBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScPelvis",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScPelvis",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScPelvisBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScPelvis",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScGlutesAngle",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScGlutesAngle",
+                "props": {
+                 "BrushColor": "(R=0,G=0,B=0,A=0)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScGlutesAngleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScGlutesAngle",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScGlutesAngle",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScGlutesAngleBox",
                     "props": {
-                     "Text": "GlutesAngle",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScGlutesAngleBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScGlutesAngle",
+                      "props": {
+                       "Text": "GlutesAngle",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScGlutesAngle",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScGlutesAngleBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScGlutesAngleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScGlutesAngle",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScGlutesAngle",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScGlutesAngleBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScGlutesAngle",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
                 ]
                },
                {
-                "class": "/Script/UMG.HorizontalBox",
-                "name": "RowScGlutesJiggle",
-                "slot": {
-                 "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScGlutesJiggle",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
                  {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "LblScGlutesJiggleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 504,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScGlutesJiggle",
                   "slot": {
-                   "VerticalAlignment": "VAlign_Center"
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
                   },
                   "children": [
                    {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "LblScGlutesJiggle",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScGlutesJiggleBox",
                     "props": {
-                     "Text": "GlutesJiggle",
-                     "Font": "(Size=25)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
                      "VerticalAlignment": "VAlign_Center"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "SldScGlutesJiggleBox",
-                  "props": {
-                   "bOverride_MinDesiredWidth": true,
-                   "MinDesiredWidth": 228,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Size": "(SizeRule=Fill,Value=1)"
-                  },
-                  "children": [
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScGlutesJiggle",
+                      "props": {
+                       "Text": "GlutesJiggle",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
                    {
-                    "class": "/Script/UMG.Slider",
-                    "name": "SldScGlutesJiggle",
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScGlutesJiggleBox",
                     "props": {
-                     "Value": 0.5,
-                     "StepSize": 0.01,
-                     "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
-                     "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
-                     "WidgetStyle": "(BarThickness=5.0)"
-                    }
-                   }
-                  ]
-                 },
-                 {
-                  "class": "/Script/UMG.SizeBox",
-                  "name": "ValScGlutesJiggleBox",
-                  "props": {
-                   "bOverride_WidthOverride": true,
-                   "WidthOverride": 133,
-                   "bOverride_HeightOverride": true,
-                   "HeightOverride": 46
-                  },
-                  "slot": {
-                   "VerticalAlignment": "VAlign_Center",
-                   "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
-                  },
-                  "children": [
-                   {
-                    "class": "/Script/UMG.TextBlock",
-                    "name": "ValScGlutesJiggle",
-                    "props": {
-                     "Text": "50 %",
-                     "Font": "(Size=23)",
-                     "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
                     },
                     "slot": {
-                     "VerticalAlignment": "VAlign_Center"
-                    }
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScGlutesJiggle",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScGlutesJiggleBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScGlutesJiggle",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
                    }
                   ]
                  }
@@ -126222,6 +127211,74 @@
                     "name": "LblInvAutoEquip",
                     "props": {
                      "Text": "Auto-equip weapons",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowInvAutoStory",
+                  "slot": {
+                   "Padding": "(Left=0,Top=19,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.Overlay",
+                    "name": "OptInvAutoStoryOv",
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptInvAutoStoryUnder",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=1,G=1,B=1,A=0.25)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptInvAutoStoryFill",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckInner.T_CheckInner',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=0,G=0,B=0,A=0.55)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.CheckBox",
+                      "name": "OptInvAutoStory",
+                      "props": {
+                       "WidgetStyle": "(UncheckedImage=(ImageSize=(X=66,Y=66),DrawAs=NoDrawType),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "LblInvAutoStory",
+                    "props": {
+                     "Text": "Refill marked items in story mode too",
                      "Font": "(Size=25)",
                      "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
                     },
@@ -129139,6 +130196,74 @@
                  },
                  {
                   "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowOfficeJump",
+                  "slot": {
+                   "Padding": "(Left=0,Top=27,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.Overlay",
+                    "name": "OptOfficeJumpOv",
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptOfficeJumpUnder",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=1,G=1,B=1,A=0.25)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptOfficeJumpFill",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckInner.T_CheckInner',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=0,G=0,B=0,A=0.55)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.CheckBox",
+                      "name": "OptOfficeJump",
+                      "props": {
+                       "WidgetStyle": "(UncheckedImage=(ImageSize=(X=66,Y=66),DrawAs=NoDrawType),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "LblOfficeJump",
+                    "props": {
+                     "Text": "Jumping in the office",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
                   "name": "MoveLinks",
                   "slot": {
                    "Padding": "(Left=0,Top=19,Right=0,Bottom=0)"
@@ -131071,6 +132196,54 @@
                    {
                     "class": "/Script/UMG.WrapBox",
                     "name": "TabRowChips",
+                    "props": {
+                     "InnerSlotPadding": "(X=15,Y=11)"
+                    },
+                    "slot": {
+                     "Size": "(SizeRule=Fill,Value=1)",
+                     "VerticalAlignment": "VAlign_Top"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowTabOrder",
+                  "slot": {
+                   "Padding": "(Left=0,Top=0,Right=0,Bottom=23)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblTabOrderBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 570,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Top",
+                     "Padding": "(Left=0,Top=6,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblTabOrder",
+                      "props": {
+                       "Text": "Tab order",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.WrapBox",
+                    "name": "TabOrderChips",
                     "props": {
                      "InnerSlotPadding": "(X=15,Y=11)"
                     },

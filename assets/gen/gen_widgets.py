@@ -2595,11 +2595,13 @@ PANEL_TEXTS = [("search", "Search"), ("chipsearch", "ChipSearch"), ("onlyowned",
                ("scbreast", "LblScBreast"), ("scwaist", "LblScWaist"), ("scglutes", "LblScGlutes"), ("scthighs", "LblScThighs"), ("sccalves", "LblScCalves"), ("scarms", "LblScArms"), ("schands", "LblScHands"), ("scfeet", "LblScFeet"), ("scheight", "LblScHeight"),
                ("scroll", "LblScroll"), ("scale", "LblScale"), ("quickalpha", "LblQuickAlpha"), ("outfitscale", "LblOutfitScale"), ("lookscale", "LblLookScale"), ("ragscale", "LblRagScale"), ("invscale", "LblInvScale"), ("outfitcols", "LblOutfitCols"), ("outfitrows", "LblOutfitRows"), ("fov", "LblFov"), ("dist", "LblDist"), ("height", "LblHeight"), ("grouplen", "LblGroupLen"), ("chiph", "LblChipH"), ("unlimited", "LblUnlimited"), ("layout", "LblLayout"),
                ("language", "LblLanguage"), ("placeholder", "PlaceholderText"), ("pan", "LblPan"), ("camright", "LblCamRight"), ("nude", "LblNude"), ("merge", "LblMerge"), ("mergemods", "LblMergeMods"), ("chipsearchopt", "LblChipSearch"), ("tipnoprefix", "LblTipNoPrefix"), ("tipnoids", "LblTipNoIds"), ("kodexall", "LblKodexAll"), ("moveon", "LblMoveOn"), ("walkspeed", "LblWalkSpeed"), ("runspeed", "LblRunSpeed"), ("walkstyle", "LblWalkStyle"), ("runstyle", "LblRunStyle"), ("idlestyle", "LblIdleStyle"), ("conflicts", "LblConflicts"), ("conflictshint", "LblConflictsHint"), ("multislots", "LblMultiSlots"), ("multislotshint", "LblMultiSlotsHint"), ("unowned", "LblUnowned"), ("scalehint", "LblScaleHint"),
-               ("theme", "LblTheme"), ("bgalpha", "LblBgAlpha"), ("bgimgalpha", "LblBgImgAlpha"), ("tilealpha", "LblTileAlpha"), ("key", "LblKey"), ("onlymods", "LblOnlyMods"), ("casesens", "LblCaseSens"), ("managesearch", "ManageSearch"), ("looksearch", "LookSearch"), ("lookchipsearch", "LookChipSearch"), ("hdrname", "HdrName"), ("hdrdisplay", "HdrDisplay"), ("hdrorigin", "HdrOrigin"), ("hdrcontent", "HdrContent"), ("posesearch", "PoseSearch"), ("invsearch", "InvSearch"), ("posefavorites", "PoseFavHeader"), ("poseall", "PoseAllHeader"), ("weaponsearch", "WeaponSearch"), ("weaponfavorites", "WeaponFavHeader"), ("weaponall", "WeaponAllHeader"), ("weaponmodels", "WeaponModelHeader"), ("weaponsounds", "WeaponSoundHeader"), ("tabshint", "LblTabsHint"), ("quickkey", "LblQuickKey"), ("quickinwheel", "LblQuickInWheel"), ("tabstyle", "LblTabStyle"), ("tabiconpos", "LblTabIconPos"), ("tabrow", "LblTabRow"), ("bgimage", "LblBgImage"), ("bgfit", "LblBgFit"), ("bghalign", "LblBgHAlign"), ("bgvalign", "LblBgVAlign"), ("btnimage", "LblBtnImage"), ("bghue", "LblBgHue"), ("bgsepia", "LblBgSepia"), ("bginv", "LblBgInv"), ("imgthumbs", "LblImgThumbs"), ("btnhue", "LblBtnHue"), ("btnsepia", "LblBtnSepia"), ("btninv", "LblBtnInv"), ("themesave", "LblThemeSave"), ("themename", "ThemeNameEdit"), ("themepresets", "LblThemePresets"), ("themepresetshint", "ThemePresetsHint"), ("managechipsearch", "ManageChipSearch"), ("quickcontrol", "LblQuickControl"), ("quickkeywidth", "QuickKeyWidth"), ("invbag", "InvBagTitle"), ("folbag", "FolBagTitle"), ("folbox", "FolBoxTitle"), ("invbox", "InvBoxTitle"), ("invcat", "InvCatTitle"), ("invcatalog", "LblInvCatalog"), ("invautoequip", "LblInvAutoEquip"), ("weaponattach", "WeaponAttachHeader")]   # parameter of Set Strings -> widget name (order = gen_manager_ui.PANEL_STRINGS)
+               ("theme", "LblTheme"), ("bgalpha", "LblBgAlpha"), ("bgimgalpha", "LblBgImgAlpha"), ("tilealpha", "LblTileAlpha"), ("key", "LblKey"), ("onlymods", "LblOnlyMods"), ("casesens", "LblCaseSens"), ("managesearch", "ManageSearch"), ("looksearch", "LookSearch"), ("lookchipsearch", "LookChipSearch"), ("hdrname", "HdrName"), ("hdrdisplay", "HdrDisplay"), ("hdrorigin", "HdrOrigin"), ("hdrcontent", "HdrContent"), ("posesearch", "PoseSearch"), ("invsearch", "InvSearch"), ("posefavorites", "PoseFavHeader"), ("poseall", "PoseAllHeader"), ("weaponsearch", "WeaponSearch"), ("weaponfavorites", "WeaponFavHeader"), ("weaponall", "WeaponAllHeader"), ("weaponmodels", "WeaponModelHeader"), ("weaponsounds", "WeaponSoundHeader"), ("tabshint", "LblTabsHint"), ("quickkey", "LblQuickKey"), ("quickinwheel", "LblQuickInWheel"), ("tabstyle", "LblTabStyle"), ("tabiconpos", "LblTabIconPos"), ("tabrow", "LblTabRow"), ("taborder", "LblTabOrder"), ("bgimage", "LblBgImage"), ("bgfit", "LblBgFit"), ("bghalign", "LblBgHAlign"), ("bgvalign", "LblBgVAlign"), ("btnimage", "LblBtnImage"), ("bghue", "LblBgHue"), ("bgsepia", "LblBgSepia"), ("bginv", "LblBgInv"), ("imgthumbs", "LblImgThumbs"), ("btnhue", "LblBtnHue"), ("btnsepia", "LblBtnSepia"), ("btninv", "LblBtnInv"), ("themesave", "LblThemeSave"), ("themename", "ThemeNameEdit"), ("themepresets", "LblThemePresets"), ("themepresetshint", "ThemePresetsHint"), ("managechipsearch", "ManageChipSearch"), ("quickcontrol", "LblQuickControl"), ("quickkeywidth", "QuickKeyWidth"), ("invbag", "InvBagTitle"), ("folbag", "FolBagTitle"), ("folbox", "FolBoxTitle"), ("invbox", "InvBoxTitle"), ("invcat", "InvCatTitle"), ("invcatalog", "LblInvCatalog"), ("invautoequip", "LblInvAutoEquip"), ("weaponattach", "WeaponAttachHeader")]   # parameter of Set Strings -> widget name (order = gen_manager_ui.PANEL_STRINGS)
 PANEL_TEXTS += [("sc" + k.lower(), "LblSc" + k) for k in bg.SLIDER_ORDER[9:]] + [("scgrp" + h[len("Lbl_ScGrp"):].lower(), "LblScGrp" + h[len("Lbl_ScGrp"):]) for h in bg.GROUP_HEADS.values()]   # 2026-10-09 body-physics rows + group headings
 PANEL_TEXTS += [("ragwheel", "LblRagWheel"), ("slowmo", "LblSlowMo")]   # 2026-10-11 sliders
 PANEL_TEXTS += [("hdr" + k.lower(), "Hdr" + k) for k in ("ThemeColors", "BgPic", "BtnPic", "ThemeSchemes")]   # 2026-10-16 Options > Theme sections
 PANEL_TEXTS += [("slowmoon", "LblSlowMoOn")]
+PANEL_TEXTS += [("officejump", "LblOfficeJump")]
+PANEL_TEXTS += [("invautostory", "LblInvAutoStory")]
 PANEL_TEXTS += [("freenocollide", "LblFreeNoCollide"), ("freenolimit", "LblFreeNoLimit")]   # 2026-10-16 free camera options
 PANEL_TEXTS += [("playwheelzoom", "LblPlayWheelZoom"), ("tiltpaneloff", "LblTiltPanelOff")]   # 2026-10-25 camera in play
 PANEL_TEXTS += [("handon", "LblHandOn"), ("handnohand", "LblHandNoHand"), ("handrange", "LblHandRange"), ("handbatch", "LblHandBatch")]   # 2026-10-25 invisible hand
@@ -2611,7 +2613,7 @@ PANEL_TEXTS += [("objsearch", "ObjSearch")]   # 2026-10-23 search on the Objects
 PANEL_TEXTS += [("actsearch", "ActSearch")]   # 2026-10-26 search on the Actions tab
 PANEL_TEXTS += [("runmodhint", "HintRunMod"), ("idlemodhint", "HintIdleMod")]   # 2026-10-28 walk / run mods: paused sides
 THEME_COLS = 5   # theme grid: fixed columns (entries fill column-wise), the wrap box wraps whole columns on narrow panels
-THEME_REFRESH = [("TopTabs", W_TOP), ("TabChips", W_SUB), ("QuickKeyLinks", W_TXT), ("LayoutChips", W_SUB), ("UnownedChips", W_SUB), ("ThemePresetChips", W_SUB), ("ManageChips", W_SUB), ("ModTabChips", W_TOP), ("ManageChipSearchLinks", W_TXT), ("ThemeSaveLinks", W_TXT), ("TabStyleChips", W_SUB), ("TabIconPosChips", W_SUB), ("TabRowChips", W_SUB), ("BgImageChips", W_SUB), ("BgFitChips", W_SUB), ("BgHAlignChips", W_SUB), ("BgVAlignChips", W_SUB), ("BtnImageChips", W_SUB), ("BgInvChips", W_SUB), ("ImgThumbsChips", W_SUB), ("BtnInvChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("MultiSlotChips", W_SUB), ("StatusLinks", W_TXT), ("StatusRight", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
+THEME_REFRESH = [("TopTabs", W_TOP), ("TabChips", W_SUB), ("QuickKeyLinks", W_TXT), ("LayoutChips", W_SUB), ("UnownedChips", W_SUB), ("ThemePresetChips", W_SUB), ("ManageChips", W_SUB), ("ModTabChips", W_TOP), ("ManageChipSearchLinks", W_TXT), ("ThemeSaveLinks", W_TXT), ("TabStyleChips", W_SUB), ("TabIconPosChips", W_SUB), ("TabRowChips", W_SUB), ("TabOrderChips", W_SUB), ("BgImageChips", W_SUB), ("BgFitChips", W_SUB), ("BgHAlignChips", W_SUB), ("BgVAlignChips", W_SUB), ("BtnImageChips", W_SUB), ("BgInvChips", W_SUB), ("ImgThumbsChips", W_SUB), ("BtnInvChips", W_SUB), ("LangChips", W_SUB), ("KeyChips", W_SUB), ("MultiSlotChips", W_SUB), ("StatusLinks", W_TXT), ("StatusRight", W_TXT)] + [("ThemeCol%d" % i, W_SWATCH) for i in range(THEME_COLS)]
 BODY_PRESET_MAX_H = 176   # one row of square preset tiles (164) + padding: more scroll
 SUBTABS_MAX_H, SUBTABS_MAX_H_MAX = 112, 500   # default ~3.5 chip rows (80 showed 2.5); option range (unscaled units, x SC at runtime)
 SCROLL_PAGES = ["LeftScroll", "SubTabsScroll", "BodyChipsScroll", "BodyPresetScroll", "BodySliderScroll", "LookSubTabsScroll", "ManageSubTabsScroll", "ListScroll", "OutfitScroll", "LooksScroll", "ContentScroll", "BagScroll", "HairScroll", "LookCatScroll", "LookScroll", "OptionsScroll", "ManageCatScroll", "ManageScroll", "PoseCatScroll", "PoseSubTabsScroll", "PoseScroll", "WeaponCatScroll", "WeaponSubTabsScroll", "WeaponScroll", "FaceGroupScroll", "FaceScroll", "KodexCatScroll", "KodexScroll", "RagScroll", "InvBagScroll", "InvBoxScroll", "InvCatScroll", "FolBagScroll", "FolBoxScroll", "FolScroll", "TvScroll", "NavScroll", "EnemyScroll", "ObjScroll", "ObjCatScroll", "ActScroll", "ActCatScroll", "ModFieldScroll"]
@@ -2620,25 +2622,25 @@ PANEL_TEXT_COLORS = {"ColHead": ["HdrThemeColors", "HdrBgPic", "HdrBtnPic", "Hdr
                      "ColTextDim": ["ActHint", "FolHint", "FolBagNote", "InvBagNote", "InvWeightText", "RagHint", "RagPresetsHint", "ModHint", "FaceHint", "LblTabsHint", "ThemePresetsHint", "LblQuickKeyHint", "KeyBindHint", "AllHeader", "LookAllHeader", "HairAllHeader", "PoseAllHeader", "WeaponAllHeader", "WeaponModelHeader", "ListHint", "BagEmpty", "PlaceholderText", "HdrName", "HdrDisplay", "HdrOrigin", "LblConflictsHint", "LblMultiSlotsHint", "LblScaleHint"] + ["Val" + k for k, _ in OPTION_ROWS] + ["Val" + k for k, _ in BODY_ROWS] + ["Val" + k for k, _ in SCALE_ROWS],
                      "ColText": ["KodexBody", "LblRagKinds", "LblRagSave", "LblRagPresets", "LblQuickKey", "LblOwned", "LblFav", "LblVanilla", "LblOnlyWorn", "LblLookFav", "LblLookWorn", "LblOnlyMods", "LblCaseSens", "LblUnlimited", "LblPan", "LblCamRight", "LblNude", "LblMerge", "LblMergeMods", "LblChipSearch", "LblTipNoPrefix", "LblTipNoIds", "LblKodexAll", "LblMoveOn", "LblWalkStyle", "LblRunStyle", "LblIdleStyle", "LblUnowned", "LblTabStyle", "LblTabIconPos", "LblThemeSave", "LblThemePresets", "LblLayout", "LblLanguage", "LblKey"] + ["Lbl" + k for k, _ in OPTION_ROWS] + ["Lbl" + k for k, _ in BODY_ROWS] + ["Lbl" + k for k, _ in SCALE_ROWS] + ["LblScGrp" + h[len("Lbl_ScGrp"):] for h in bg.GROUP_HEADS.values()]}
 # 2026-10-19: labels that kept their colour from the widget tree (found by checking every text without a runtime colour)
-PANEL_TEXT_COLORS["ColText"] += ["ShareTitle", "ShareStatus", "LblEnemyCount", "LblEnemyDist", "LblTvAlways", "TvStatus", "ObjStatus", "LblInvCatalog", "LblInvAutoEquip", "LblNoNotices", "LblFreeNoCollide", "LblFreeNoLimit", "LblPlayWheelZoom", "LblTiltPanelOff", "LblHandOn", "LblHandNoHand", "LblSlowMoOn",
-                                 "LblImgThumbs", "LblBgImage", "LblBgFit", "LblBgHAlign", "LblBgVAlign", "LblBgInv", "LblBtnImage", "LblBtnInv", "LblTabRow"]
+PANEL_TEXT_COLORS["ColText"] += ["ShareTitle", "ShareStatus", "LblEnemyCount", "LblEnemyDist", "LblTvAlways", "TvStatus", "ObjStatus", "LblInvCatalog", "LblInvAutoEquip", "LblNoNotices", "LblFreeNoCollide", "LblFreeNoLimit", "LblPlayWheelZoom", "LblTiltPanelOff", "LblHandOn", "LblHandNoHand", "LblSlowMoOn", "LblOfficeJump", "LblInvAutoStory",
+                                 "LblImgThumbs", "LblBgImage", "LblBgFit", "LblBgHAlign", "LblBgVAlign", "LblBgInv", "LblBtnImage", "LblBtnInv", "LblTabRow", "LblTabOrder"]
 PANEL_TEXT_COLORS["ColTextDim"] += ["ShareHint", "ModPresetLabel", "BodyPresetLabel", "TvHint", "NavHint", "ValFlySpeed", "EnemyHint", "EnemyLive", "ValEnemyCount", "ValEnemyDist", "LblImgHint", "WeaponAttachHeader", "WeaponSoundHeader"]
 
 
 # Options page: which category block (OptCat_<key>) every row of the former single options list belongs to
-OPT_CAT_ROWS = {"General": ["RowLanguage", "RowLayout", "RowNude", "RowUnowned", "RowKodexAll", "RowInvCatalog", "RowInvAutoEquip", "RowNoNotices", "RowTvAlways"],
+OPT_CAT_ROWS = {"General": ["RowLanguage", "RowLayout", "RowNude", "RowUnowned", "RowKodexAll", "RowInvCatalog", "RowInvAutoEquip", "RowInvAutoStory", "RowNoNotices", "RowTvAlways"],
                 "Tiles": ["RowScale", "RowOutfitScale", "RowLookScale", "RowRagScale", "RowInvScale", "RowOutfitCols", "RowOutfitRows", "RowUnlimited", "RowTipNoPrefix", "RowTipNoIds"],
                 "Groups": ["RowMerge", "RowMergeMods", "RowGroupLen", "RowChipH", "RowChipSearch"],
                 "Camera": ["RowFov", "RowDist", "RowHeight", "RowPan", "RowFreeNoCollide", "RowFreeNoLimit", "RowPlayWheelZoom", "RowTiltPanelOff"],
                 "Controls": ["RowKey", "RowScroll", "RowCamRight", "RowRagWheel"],
-                "Move": ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "HintRunMod", "RowIdleStyle", "HintIdleMod", "RowSlowMoOn", "RowSlowMo", "MoveLinks"],   # reset below everything it resets
+                "Move": ["RowMoveOn", "RowWalkSpeed", "RowRunSpeed", "RowWalkStyle", "RowRunStyle", "HintRunMod", "RowIdleStyle", "HintIdleMod", "RowSlowMoOn", "RowSlowMo", "RowOfficeJump", "MoveLinks"],   # reset below everything it resets
                 "Hand": ["RowHandOn", "RowHandRange", "RowHandBatch", "RowHandNoHand", "HandLinks"],   # 2026-10-25 invisible hand (BP_AltUIHand)
                 "Theme": ["LblTheme", "SecThemeColors", "ThemeGrid", "RowBgAlpha", "RowTileAlpha",
                           "SecImgNote", "LblImgHint", "RowImgThumbs", "SecBgPic", "RowBgImage", "RowBgImgAlpha", "RowBgFit", "RowBgHAlign", "RowBgVAlign", "RowBgHue", "RowBgSepia", "RowBgInv",
                           "SecBtnPic", "RowBtnImage", "RowBtnHue", "RowBtnSepia", "RowBtnInv",
                           "SecThemeSchemes", "RowThemeSave", "RowThemePresets"],
                 "Conflicts": ["LblConflicts", "LblConflictsHint", "ConflictLinks", "ConflictRows", "LblMultiSlots", "LblMultiSlotsHint", "MultiSlotChips"],
-                "Tabs": ["RowTabStyle", "RowTabIconPos", "RowTabRow", "LblTabsHint", "TabChips"]}
+                "Tabs": ["RowTabStyle", "RowTabIconPos", "RowTabRow", "RowTabOrder", "LblTabsHint", "TabChips"]}
 OPT_CAT_TITLES = {"LblTheme", "LblConflicts"}   # former block headings: the left list names the category now
 
 
@@ -2654,6 +2656,13 @@ def theme_section(key, line=True, heading=True):
 ROUND_BUTTONS = ("BtnPlus", "BtnMinus", "BtnCam", "BtnPhoto", "BtnRag", "BtnLight", "BtnLightPower", "BtnLightColor")   # W_RoundButton in the panel (Init Buttons, Apply Theme)
 THEME_SECTIONS = ("ImgNote", "BtnPic", "ThemeSchemes", "FolSep")   # theme_section(..., line=True): their lines (ColLine, Apply Theme)
 PANEL_AREAS = ("InvBagArea", "InvBoxArea", "InvCatArea", "FolBagArea", "FolBoxArea")   # inv_area(): light surface (ColArea) + rim (ColAreaFrame)
+# Body Shape: zebra of the slider rows, first row tinted; the hint and each group heading start the count again (like W_ValueRow)
+BODY_TINTED = ["RowBg" + k for k, _ in (BODY_ROWS + SCALE_ROWS[:1])[::2]]
+_n = 0
+for _k, _cap in SCALE_ROWS[1:]:
+    _n = 0 if _cap in bg.GROUP_HEADS else _n
+    if _n % 2 == 0: BODY_TINTED.append("RowBg" + _k)
+    _n += 1
 PANEL_INPUTS = ("RagNameEdit", "ThemeNameEdit")   # text fields of the panel on a field background (ColInput); the rest are search fields
 
 
@@ -2763,6 +2772,12 @@ def body_row(key, caption, lbl_w=120, fill=False):
                 slot={"VerticalAlignment": "VAlign_Center"}),
         sizebox("Val%sBox" % key, VAL_W.get(key, 70), 24, [text("Val" + key, "50 %", 12, GREY, slot={"VerticalAlignment": "VAlign_Center"})], slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=%d,Top=0,Right=0,Bottom=0)" % sz(10)}),
     ])
+
+
+def body_stripe(key, caption):
+    """A Body Shape slider row on its stripe: tinted rows (BODY_TINTED) get the theme's light surface, the others stay clear."""
+    return w(E_BORDER, "RowBg" + key, props={"BrushColor": INV_AREA_TINT if "RowBg" + key in BODY_TINTED else COL_NONE, "Padding": "(Left=%d,Top=0,Right=%d,Bottom=0)" % (sz(6), sz(6))},
+             children=[body_row(key, caption, BODY_LBL_W, fill=True)])
 
 
 def round_btn(name, top):
@@ -3244,11 +3259,11 @@ def w_panel():
                         w(U_WRAP, "BodyPresetTiles", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(6) + 1, sz(6) + 1)})])]),
                 # the slider rows scroll in the rest of the page (2026-10-31: with the preset bar the last rows ran under the status bar)
                 w(U_SCROLL, "BodySliderScroll", props={"WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "BodySliders", children=
-              [body_row(k, cap, BODY_LBL_W, fill=True) for k, cap in BODY_ROWS] + [body_row(k, cap, BODY_LBL_W, fill=True) for k, cap in SCALE_ROWS[:1]] +   # "Height" scales the component: every body
+              [body_stripe(k, cap) for k, cap in BODY_ROWS] + [body_stripe(k, cap) for k, cap in SCALE_ROWS[:1]] +   # "Height" scales the component: every body
               [text("LblScaleHint", "", 11, GREY, wrap=True, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(4))})] +   # greyed-out rows need ABP_BodyScale (converted bodies)
               [x for k, cap in SCALE_ROWS[1:] for x in (
                   ([text("LblScGrp" + bg.GROUP_HEADS[cap][len("Lbl_ScGrp"):], "", 14, slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(14), sz(2))})] if cap in bg.GROUP_HEADS else [])
-                  + [body_row(k, cap, BODY_LBL_W, fill=True)])])])]),   # "Reset shape": status bar
+                  + [body_stripe(k, cap)])])])]),   # "Reset shape": status bar
             # Options: sliders (scroll speed, tile size, camera), checks, chips, theme block (scrollable: the theme block makes the page tall)
             options_page([body_row(k, cap, OPT_LBL_W, fill=True) for k, cap in OPTION_ROWS[:OPTION_ROWS_MAIN]] + [
                 w(U_HBOX, "RowUnlimited", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
@@ -3278,6 +3293,9 @@ def w_panel():
                 w(U_HBOX, "RowSlowMoOn", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(14), sz(6))}, children=[
                     w(E_CHECK, "OptSlowMoOn", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblSlowMoOn", "Slow motion on", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
+                w(U_HBOX, "RowOfficeJump", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(14), sz(6))}, children=[
+                    w(E_CHECK, "OptOfficeJump", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
+                    text("LblOfficeJump", "Jumping in the office", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
                 w(U_HBOX, "MoveLinks", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(10)}),
                 w(U_HBOX, "RowHandOn", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptHandOn", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
@@ -3323,6 +3341,9 @@ def w_panel():
                 w(U_HBOX, "RowInvAutoEquip", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptInvAutoEquip", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblInvAutoEquip", "Auto-equip weapons", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
+                w(U_HBOX, "RowInvAutoStory", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
+                    w(E_CHECK, "OptInvAutoStory", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
+                    text("LblInvAutoStory", "Refill marked items in story mode too", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
                 w(U_HBOX, "RowTipNoIds", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(6))}, children=[
                     w(E_CHECK, "OptTipNoIds", props={"WidgetStyle": check_style(CHECK_SIZE)}, slot={"VerticalAlignment": "VAlign_Center", "Padding": "(Left=0,Top=0,Right=%d,Bottom=0)" % sz(8)}),
                     text("LblTipNoIds", "Tooltips: display names only", 13, slot={"VerticalAlignment": "VAlign_Center"})]),
@@ -3408,6 +3429,9 @@ def w_panel():
                 w(U_HBOX, "RowTabRow", slot={"Padding": "(Left=0,Top=%d,Right=0,Bottom=%d)" % (sz(10), sz(12))}, children=[
                     sizebox("LblTabRowBox", OPT_LBL_W, 24, [text("LblTabRow", "Tab rows", 13, slot={"VerticalAlignment": "VAlign_Center"})], slot={"VerticalAlignment": "VAlign_Top", "Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)}),
                     w(U_WRAP, "TabRowChips", props=OPT_CHIP_WRAP, slot=OPT_CHIP_SLOT)]),
+                w(U_HBOX, "RowTabOrder", slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(12)}, children=[
+                    sizebox("LblTabOrderBox", OPT_LBL_W, 24, [text("LblTabOrder", "Tab order", 13, slot={"VerticalAlignment": "VAlign_Center"})], slot={"VerticalAlignment": "VAlign_Top", "Padding": "(Left=0,Top=%d,Right=0,Bottom=0)" % sz(3)}),
+                    w(U_WRAP, "TabOrderChips", props=OPT_CHIP_WRAP, slot=OPT_CHIP_SLOT)]),
                 text("LblTabsHint", "", 11, GREY, wrap=True, slot={"Padding": "(Left=0,Top=0,Right=0,Bottom=%d)" % sz(8)}),
                 w(U_WRAP, "TabChips", props={"InnerSlotPadding": "(X=%d,Y=%d)" % (sz(4) + 1, sz(4) + 1)})]),
             w(U_SCROLL, "BagScroll", props={"Visibility": "Collapsed", "WheelScrollMultiplier": 2.0}, slot=FILL, children=[w(U_VBOX, "BagVB", children=[
@@ -3965,7 +3989,7 @@ def w_panel():
     gov.get("gia", "OptInvAutoEquip"); gov.call("via", E_CHECK, "IsChecked", inp={"self": "@gia.OptInvAutoEquip"}); gov.link("via.ReturnValue", "return.invautoequip")
     gov.get("gmo", "OptMoveOn"); gov.call("vmo", E_CHECK, "IsChecked", inp={"self": "@gmo.OptMoveOn"}); gov.link("vmo.ReturnValue", "return.moveon")
     gov.get("gsmo", "OptSlowMoOn"); gov.call("vsmo", E_CHECK, "IsChecked", inp={"self": "@gsmo.OptSlowMoOn"}); gov.link("vsmo.ReturnValue", "return.slowmoon")
-    for k in ("FreeNoCollide", "FreeNoLimit", "NoNotices", "TvAlways", "PlayWheelZoom", "TiltPanelOff", "HandOn", "HandNoHand"):
+    for k in ("FreeNoCollide", "FreeNoLimit", "NoNotices", "TvAlways", "PlayWheelZoom", "TiltPanelOff", "HandOn", "HandNoHand", "OfficeJump", "InvAutoStory"):
         gov.get("g" + k, "Opt" + k); gov.call("v" + k, E_CHECK, "IsChecked", inp={"self": "@g%s.Opt%s" % (k, k)}); gov.link("v%s.ReturnValue" % k, "return." + k.lower())
     gov.chain("entry", "return")
     # static texts (language): search field hint + labels
@@ -3991,9 +4015,9 @@ def w_panel():
     su.get("g12", "OptInvCatalog"); su.call("s12", E_CHECK, "SetIsChecked", inp={"self": "@g12.OptInvCatalog", "InIsChecked": "@entry.invcatalog"})
     su.get("g13", "OptInvAutoEquip"); su.call("s13", E_CHECK, "SetIsChecked", inp={"self": "@g13.OptInvAutoEquip", "InIsChecked": "@entry.invautoequip"})
     su.get("g14", "OptSlowMoOn"); su.call("s14", E_CHECK, "SetIsChecked", inp={"self": "@g14.OptSlowMoOn", "InIsChecked": "@entry.slowmoon"})
-    for k in ("FreeNoCollide", "FreeNoLimit", "NoNotices", "TvAlways", "PlayWheelZoom", "TiltPanelOff", "HandOn", "HandNoHand"):
+    for k in ("FreeNoCollide", "FreeNoLimit", "NoNotices", "TvAlways", "PlayWheelZoom", "TiltPanelOff", "HandOn", "HandNoHand", "OfficeJump", "InvAutoStory"):
         su.get("g" + k, "Opt" + k); su.call("s" + k, E_CHECK, "SetIsChecked", inp={"self": "@g%s.Opt%s" % (k, k), "InIsChecked": "@entry." + k.lower()})
-    su.chain("entry", "s", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13", "s14", "sFreeNoCollide", "sFreeNoLimit", "sNoNotices", "sTvAlways", "sPlayWheelZoom", "sTiltPanelOff", "sHandOn", "sHandNoHand")
+    su.chain("entry", "s", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13", "s14", "sFreeNoCollide", "sFreeNoLimit", "sNoNotices", "sTvAlways", "sPlayWheelZoom", "sTiltPanelOff", "sHandOn", "sHandNoHand", "sOfficeJump", "sInvAutoStory")
     # keep the left side of the panel free: anchor of the background border (Minimum.X = fraction)
     la = G(); la.get("g", "Bg"); la.call("sl", "/Script/UMG.WidgetLayoutLibrary", "SlotAsCanvasSlot", inp={"Widget": "@g.Bg"})
     la.call("mk", K_MATH, "MakeVector2D", inp={"X": "@entry.fraction", "Y": "0.0"})
@@ -4132,6 +4156,7 @@ def w_panel():
         brush(at, "ar" + k, k, mcol(at, "car" + k, "ColArea"), tail)
         at.get("arw" + k, k + "OvRim"); at.call("arr" + k, E_IMAGE, "SetColorAndOpacity", inp={"self": "@arw%s.%sOvRim" % (k, k), "InColorAndOpacity": mcol(at, "carr" + k, "ColAreaFrame")}); tail.append("arr" + k)
     for k in THEME_SECTIONS: brush(at, "sl" + k, "SecLine" + k, mcol(at, "csl" + k, "ColLine"), tail)
+    for k in BODY_TINTED: brush(at, "zb" + k, k, mcol(at, "czb" + k, "ColArea"), tail)
     brush(at, "iwt", "InvWeightTrack", mcol(at, "ciwt", "ColChip"), tail)
     for b in ROUND_BUTTONS:
         at.get("rbw" + b, b); at.get("rbh" + b, b); at.call("rbi" + b, E_WIDGET, "IsHovered", inp={"self": "@rbh%s.%s" % (b, b)})
@@ -4414,6 +4439,7 @@ def w_panel():
              clear("Clear Tab Style Chips", "TabStyleChips"), add("Add Tab Style Chip", "TabStyleChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Tab Icon Pos Chips", "TabIconPosChips"), add("Add Tab Icon Pos Chip", "TabIconPosChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Tab Row Chips", "TabRowChips"), add("Add Tab Row Chip", "TabRowChips", U_WRAP, "AddChildToWrapBox"),
+             clear("Clear Tab Order Chips", "TabOrderChips"), add("Add Tab Order Chip", "TabOrderChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear BgImage Chips", "BgImageChips"), add("Add BgImage Chip", "BgImageChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear BgFit Chips", "BgFitChips"), add("Add BgFit Chip", "BgFitChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear BgHAlign Chips", "BgHAlignChips"), add("Add BgHAlign Chip", "BgHAlignChips", U_WRAP, "AddChildToWrapBox"),
@@ -4465,8 +4491,8 @@ def w_panel():
              fn("Get Pose Search", outputs=[param("text", "text")], graph=gps, pure=True), fn("Clear Pose Search", graph=cps), fn("Clear Hair Search", graph=chs),
              fn("Get Look Only Fav", outputs=[param("yes", "bool")], graph=glf, pure=True), fn("Set Look Only Fav", [param("yes", "bool")], graph=slf),
              fn("Get Look Only Worn", outputs=[param("yes", "bool")], graph=glw, pure=True), fn("Set Look Only Worn", [param("yes", "bool")], graph=slw),
-             fn("Get Option Values", outputs=[param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool"), param("freenocollide", "bool"), param("freenolimit", "bool"), param("nonotices", "bool"), param("tvalways", "bool"), param("playwheelzoom", "bool"), param("tiltpaneloff", "bool"), param("handon", "bool"), param("handnohand", "bool")], graph=gov),
-             fn("Set Option Checks", [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool"), param("freenocollide", "bool"), param("freenolimit", "bool"), param("nonotices", "bool"), param("tvalways", "bool"), param("playwheelzoom", "bool"), param("tiltpaneloff", "bool"), param("handon", "bool"), param("handnohand", "bool")], graph=su), fn("Set Left Free", [param("fraction", "float")], graph=la), fn("Set Cam Mode", [param("on", "bool")], graph=scm), fn("Set Palette Lock", [param("on", "bool")], graph=spl),
+             fn("Get Option Values", outputs=[param(k.lower(), "float") for k, _ in OPTION_ROWS] + [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool"), param("freenocollide", "bool"), param("freenolimit", "bool"), param("nonotices", "bool"), param("tvalways", "bool"), param("playwheelzoom", "bool"), param("tiltpaneloff", "bool"), param("handon", "bool"), param("handnohand", "bool"), param("officejump", "bool"), param("invautostory", "bool")], graph=gov),
+             fn("Set Option Checks", [param("unlimited", "bool"), param("pan", "bool"), param("nude", "bool"), param("merge", "bool"), param("mergemods", "bool"), param("chipsearch", "bool"), param("tipnoprefix", "bool"), param("tipnoids", "bool"), param("camright", "bool"), param("kodexall", "bool"), param("moveon", "bool"), param("invcatalog", "bool"), param("invautoequip", "bool"), param("slowmoon", "bool"), param("freenocollide", "bool"), param("freenolimit", "bool"), param("nonotices", "bool"), param("tvalways", "bool"), param("playwheelzoom", "bool"), param("tiltpaneloff", "bool"), param("handon", "bool"), param("handnohand", "bool"), param("officejump", "bool"), param("invautostory", "bool")], graph=su), fn("Set Left Free", [param("fraction", "float")], graph=la), fn("Set Cam Mode", [param("on", "bool")], graph=scm), fn("Set Palette Lock", [param("on", "bool")], graph=spl),
              clear("Clear Layout Chips", "LayoutChips"), add("Add Layout Chip", "LayoutChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Unowned Chips", "UnownedChips"), add("Add Unowned Chip", "UnownedChips", U_WRAP, "AddChildToWrapBox"),
              clear("Clear Conflict Rows", "ConflictRows"), add("Add Conflict Row", "ConflictRows", U_VBOX, "AddChildToVerticalBox"),

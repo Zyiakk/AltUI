@@ -86,6 +86,11 @@ def main():
     mgr.set_editor_property("InvNoAutoEquip", False); mgr.call_method("Test Load Settings")
     expect("no auto-equip survives the settings", mgr.get_editor_property("InvNoAutoEquip"), True)
     mgr.set_editor_property("InvNoAutoEquip", False); mgr.call_method("Test Save Settings")
+    # Options > General: marked items also on story levels - stored inverted (0 = never set = they are filled up)
+    mgr.set_editor_property("InvAutoNoStory", True); mgr.call_method("Test Save Settings")
+    mgr.set_editor_property("InvAutoNoStory", False); mgr.call_method("Test Load Settings")
+    expect("no story refill survives the settings", mgr.get_editor_property("InvAutoNoStory"), True)
+    mgr.set_editor_property("InvAutoNoStory", False); mgr.call_method("Test Save Settings")
 
 
 run(main)

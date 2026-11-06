@@ -22,7 +22,9 @@ class WeaponPaintActor(unittest.TestCase):
     def test_repaint_counts_only_on_the_same_actor(self):
         n = nodes(function("Sync Weapon Paint"))
         self.assertEqual(n["kch"]["in"], {"A": "@kch0.ReturnValue", "B": "@entry.same"})
-        self.assertEqual(n["u2"]["in"], {"A": "@nfs.ReturnValue", "B": "@pn.ReturnValue"})   # no own choice: any actor's paint
+        self.assertEqual(n["u2a"]["in"], {"A": "@nfs.ReturnValue", "B": "@pn.ReturnValue"})   # no own choice, painted
+        self.assertEqual(n["kac"]["in"], {"A": "@fa.ReturnValue", "B": "@entry.same"})   # ... not on the dressed actor: "Original" was clicked there
+        self.assertEqual(n["u2"]["in"], {"A": "@u2a.ReturnValue", "B": "@nka.ReturnValue"})
 
     def test_poll_takes_a_spray_paint_over_at_once(self):
         g = function("Poll Weapons"); n = nodes(g)

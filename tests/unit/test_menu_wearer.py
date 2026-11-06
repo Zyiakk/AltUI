@@ -56,7 +56,7 @@ class MenuWearer(unittest.TestCase):
         self.assertEqual(timers, {"Find Menu Wearer"})   # only the retry: the loading scene can be over in two seconds
         chain = next(c for c in g["exec"] if c and c[0] == "entry")
         order = [nodes[i].get("function") for i in chain if nodes.get(i, {}).get("kind") == "call_self"]
-        self.assertEqual(order, ["Apply Saved Body", "Restore Multi Worn", "Apply Saved Colors", "Apply Face"])   # body first: Apply Body re-applies the game's make-up
+        self.assertEqual(order, ["Apply Saved Body", "Fix Menu Underwear", "Restore Multi Worn", "Apply Saved Colors", "Apply Face"])   # body first: Apply Body re-applies the game's make-up
 
     def test_look_functions_do_not_read_player(self):
         for name in LOOK_FNS:

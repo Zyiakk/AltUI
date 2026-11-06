@@ -50,12 +50,12 @@ def calls(g, function):
 
 class TopTabs(unittest.TestCase):
     def test_every_tab_but_options_asks_tab_shown(self):
-        g = graph("50_manager_ui.json", "Rebuild TopTabs")
+        g = graph("50_manager_ui.json", "Add Top Tab")
         pages = sorted(n["in"]["page"] for n in g["nodes"] if n.get("function") == "Tab Shown")
         self.assertEqual(pages, sorted(p for p in ui.TOP_TABS if p != "Options"))
 
     def test_mod_scan_only_when_mods_shown(self):
-        g = graph("50_manager_ui.json", "Rebuild TopTabs"); i = ui.TOP_TABS.index("Mods")
+        g = graph("50_manager_ui.json", "Add Top Tab"); i = ui.TOP_TABS.index("Mods")
         scan = calls(g, "Scan Mod Entries"); self.assertEqual(len(scan), 1)
         self.assertIn(scan[0], after(g, "bs%d" % i)); self.assertNotIn(scan[0], after(g, "bs%d:else" % i))
 
@@ -137,7 +137,7 @@ class Manager(unittest.TestCase):
     def test_tab_chips(self):
         g = graph("50_manager_ui.json", "Rebuild Tab Chips")
         groups = sorted(v for n in g["nodes"] if n.get("function") == "Init" for k, v in n["in"].items() if k == "group")
-        self.assertEqual(groups, sorted(["Tab:" + p for p in ui.TOP_TABS if p != "Options"] + ["TabStyle0", "TabStyle1", "TabStyle2", "TabIconPos0", "TabIconPos1", "TabRow0", "TabRow1"]))
+        self.assertEqual(groups, sorted(["@gn.ReturnValue", "TabOrderReset", "TabStyle0", "TabStyle1", "TabStyle2", "TabIconPos0", "TabIconPos1", "TabRow0", "TabRow1"]))   # the tabs: "Tab:<page>" per entry of TabEff
 
     def test_tab_style_chips_reach_select_tab_style(self):
         """TabStyle<n> / TabIconPos<n> are caught before the "Tab:" prefix and before the layout fallback."""
@@ -146,7 +146,7 @@ class Manager(unittest.TestCase):
         self.assertIn(sts[0], after(g, "bts")); self.assertNotIn(calls(g, "Toggle Tab Hidden")[0], after(g, "bts"))
 
     def test_top_tab_gets_icon_style_side(self):
-        g = graph("50_manager_ui.json", "Rebuild TopTabs")
+        g = graph("50_manager_ui.json", "Add Top Tab")
         inits = [n for n in g["nodes"] if n.get("function") == "Init"]; self.assertEqual(len(inits), len(ui.TOP_TABS))
         for n in inits: self.assertTrue({"icon", "style", "right"} <= set(n["in"]), n["in"])
         self.assertEqual({n["in"]["icon"] for n in inits}, set(ui.TAB_ICONS.values()))

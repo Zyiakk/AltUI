@@ -18,7 +18,7 @@ class TvTab(unittest.TestCase):
         self.assertEqual(ui.TOP_TABS[-1], "TV")
 
     def test_tab_only_with_a_tv_or_the_option(self):
-        g = function("Rebuild TopTabs"); n = nodes(g)
+        g = function("Add Top Tab"); n = nodes(g)
         self.assertEqual(n["tvo"]["in"], {"A": "@tvv.ReturnValue", "B": "@gtal.TvAlways"})
         self.assertEqual(n["ftv"]["function"], "Find TV")
         i = ui.TOP_TABS.index("TV")

@@ -57,6 +57,7 @@ P_HAIR_SAVE = "/Game/Project/Classes/Save/Hairstyle_Save"
 P_PSAVE = "/Game/Project/Classes/Save/Player_Save"   # slot "TKAPlayer" (Functions.Get Player Save Slot Name)
 P_PSAVE_LE = "/Game/Project/Classes/Save/Player_Save_LevelEnd"   # a chapter's end state: the next story level starts from it (Plots_GameState.Prev Level End Save)
 P_TKASAVE = "/Game/Project/Classes/Save/TKA_Save"; S_ACTORSAVE = "struct:/Script/TheKillingAntidote.ActorSaveData"   # a story save (Level_<n>_<m>); the struct is native (kit stand-in: bpgen/Source/TheKillingAntidote)
+P_OFFICE = "/Game/Project/Classes/GameMode/JodiOffice_GameState"   # the office level: Allow Player Climbing And Jumping off in its class defaults
 P_PLOTS = "/Game/Project/Classes/GameMode/Plots_GameState"; P_JODI_SM = "/Game/Project/Character/Jodi/Jodi_StoryMode"   # story levels: their game state and player
 P_MAKEUP_SAVE = "/Game/Project/Classes/Save/Makeup_Save"
 P_HAIR_T = "/Game/Project/Hairstyle/HairstyleTable"; P_HAIR_S = "/Game/Project/Hairstyle/HairstyleStruct"
@@ -102,7 +103,7 @@ P_OUTFIT_S = "/Game/Project/Classes/Struct/Outfit_Struct"
 OUTFIT_MEMBER = "clothes"   # internal name in the game: clothes_5_E1AD9C5C4635FD04BF2E71A226121A33
 M = "/Game/Mod/AltUI"
 P_ABP = M + "/ABP_BodyScale"          # post-process ABP with the bone-scale variables (gen_bodyscale.py)
-S_BODYSCALE = M + "/S_BodyScale"; S_FLOATS = M + "/S_Floats"
+S_BODYSCALE = M + "/S_BodyScale"; S_FLOATS = M + "/S_Floats"; S_AUTOGUN = M + "/S_AutoGun"
 
 
 class G:

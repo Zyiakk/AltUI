@@ -133,6 +133,7 @@ assets = [
     # Gun Data: only the member AltUI reads (the game's paint, written by Change Gun Paint); the internal name must match the game
     struct(P_GUN_S, [param("PaintName", "name", internal_name="PaintName_29_FA1F96D44E7CE9841245EC85AD208267"),
                      param("GunName", "name", internal_name="GunName_20_398D82A0403D587DA0A681A117336AE6"),   # inventory tab: a gun in the storage box
+                     param("AmmoName", "name", internal_name="AmmoName_23_A21B2F924FC714E569ECE7A78DAEAE37"), param("AmmoinMag", "int", internal_name="AmmoinMag_19_B56A1298455CCC84DCE5F6A2B3524385"),   # Init Gun with Data: AmmoName None = Parts ignored; AmmoinMag -1 = full
                      param("Parts", "name", "array", internal_name="Parts_9_2957A5274990B0EE840FDB8AEC3E0EEA")]),   # its mounted attachments (GunEquipment rows)
     # Jodi's camera view (zoom in play): the internal names must match the game; the display names are those of the kit's own stub
     # ("arm length", "socket offset") - other names do not find the kit's members and add a second member with the same internal name
@@ -186,6 +187,7 @@ assets = [
     # TKA_Save's parent in the game is the native JodiSaveGame - for the one member read here SaveGame does.
     blueprint(P_TKASAVE, "/Script/Engine.SaveGame", variables=[var("Player Save Data", S_ACTORSAVE)]),
     blueprint(P_PSAVE_LE, P_PSAVE),
+    blueprint(P_OFFICE, P_GS2),
     blueprint(P_PLOTS, P_GS2, variables=[var("Story Mode Save Game Data", "object:" + P_TKASAVE), var("Prev Level End Save", "object:" + P_PSAVE_LE)]),
     blueprint(P_JODI_SM, P_JODI),
     blueprint(P_GI, "/Script/Engine.GameInstance", variables=[var("Hairstyles Save", "object:" + P_HAIR_SAVE), var("Level Name", "name")],   # Level Name: what Loading opens (menuscene.py)
@@ -329,7 +331,8 @@ assets = [
     blueprint(P_JASONCTRL, P_NPCCTRL),   # Jason's AI: the prototype's controller derives from it
     blueprint(P_ATTUI, E_USERWIDGET),   # pop(): moved above AltUI's panel (the game adds it to the player screen, under every viewport widget)
     blueprint(P_GS, mode="augment", functions=[fn("Get Wardrobe Data", outputs=[param("wardrobe data", "object:" + P_WD)]),
-                                               fn("Get Attention UI", outputs=[param("AttentionUI", "object:" + P_ATTUI)])]),
+                                               fn("Get Attention UI", outputs=[param("AttentionUI", "object:" + P_ATTUI)]),
+                                               fn("Set Nude Allowed", [param("allow", "bool")])]),   # Allow Naked; in game only reachable via a disabled cheat
     # Backpack: Bag_Comp (kit), PlayingHud/InventoryPanel (new, repair only), TKA_GameState (UserInterface, Default Underwear)
     blueprint(P_BAG, mode="augment", variables=[var("Clothes in bag", "name", "array"), var("bag Tools", "name", "map", value_type="int"),   # inventory tab: items, weight
                                                 var("total weight", "int"), var("weight capacity", "int"), var("Over weight ratio", "float")],
@@ -346,9 +349,8 @@ assets = [
     blueprint(P_HUD, E_USERWIDGET, variables=[var("InventoryPanel", "object:" + P_INV), var("InventoryNpc", "object:" + P_INVNPC)],
               functions=[fn("Show Item Detail with Name", [param("item name", "name"), param("button", "object:" + E_WIDGET), param("gun", "object:" + P_WEAPON)])]),
     blueprint(P_GS2, mode="augment", variables=[var("UserInterface", "object:" + P_HUD), var("Default Underwear", "name", "array"),
-                                                 var("photo mode camera", "object:/Script/Engine.Actor")],   # Camera_Free_C: held at real speed while AltUI stops time
-              functions=[fn("Set Nude Allowed", [param("allow", "bool")]),   # real function in TKA_GameState_Base (Allow Naked); in game only reachable via a disabled cheat
-                         # photo mode (Camera_Free + PhotoModeUI): entered from the game's pause menu; Is In Photo Mode = IsValid(photo mode camera)
+                                                 var("photo mode camera", "object:/Script/Engine.Actor"), var("Allow Player Climbing And Jumping", "bool")],   # Camera_Free_C: held at real speed while AltUI stops time
+              functions=[# photo mode (Camera_Free + PhotoModeUI): entered from the game's pause menu; Is In Photo Mode = IsValid(photo mode camera)
                          fn("Enter Photo Mode"), fn("Try Exit Photo Mode"), fn("Is In Photo Mode", outputs=[param("yes", "bool")]),
                          fn("Show UI", [param("show", "bool")]), fn("Is UI Visible", outputs=[param("yes", "bool")]),   # the HUD (UserInterface), as the photo mode hides it
                          fn("Get Note Save", outputs=[param("note save", "object:" + P_NOTE_SAVE)]),

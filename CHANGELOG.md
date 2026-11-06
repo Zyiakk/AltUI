@@ -1,5 +1,24 @@
 # Changelog
 
+## 2.12.0 – 2026-11-06
+
+* **Jumping in the office.** Options > Movement, off by default: Jodi can jump and climb in her office, where the game blocks
+  both. Side effect: the game uses the same switch for pausing, so while this is on, the Esc menu pauses the game in the office too,
+  as it does in the levels.
+* **Tabs can be moved.** Right click a tab in the bar: "Move left", "Move right", "Move to start", "Move to end". Options > Tabs
+  "Tab order" puts the default back. The default order swaps Weapons and Coiffure.
+* **"Always auto-equip" on guns.** A marked gun now comes back the way it was when you marked it, attachments included, with a full
+  magazine, instead of bare. If Jodi carries it with other attachments at a level load, they are set back to the marked ones;
+  parts taken off go into the backpack. Everything comes new: auto-equip uses nothing from the backpack or the box. For a new setup,
+  "Stop auto-equip" and mark it again. A gun marked in an earlier version comes back plain until you mark it again.
+* Options > General: "Refill marked items in story mode too", on by default. Off, marked items are not filled up on story levels.
+* Body Shape: the slider rows are zebra striped, so a row is easier to follow.
+* Inventory: a stored gun in the box shows the "always auto-equip" mark when it has the marked attachments. Marking another gun of the
+  type moves the mark and takes over its attachments.
+* Fixed: on the main menu and the loading scene the figure wore underwear the game had added (a dress in the Acc slot does not count
+  as covering), although "Underwear may be taken off" was on. It comes off there too now.
+* Fixed: the "Original" tile did nothing on a weapon with a game paint: the paint stayed and the tile did not become active.
+
 ## 2.11.0 – 2026-11-02
 
 * **Share as text.** Right click → "Export (share)…" on a look, an outfit, a saved face, an appearance preset, a body preset

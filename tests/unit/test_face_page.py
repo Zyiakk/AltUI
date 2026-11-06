@@ -8,7 +8,7 @@ from test_face_core import fn_graph, nodes, in_exec, load
 
 class FacePage(unittest.TestCase):
     def test_tab_and_page(self):
-        g = fn_graph("Rebuild TopTabs"); pages = [n["in"].get("page") for n in g["nodes"] if n.get("function") == "Init"]
+        g = fn_graph("Add Top Tab"); pages = [n["in"].get("page") for n in g["nodes"] if n.get("function") == "Init"]
         self.assertEqual(pages.index("Face"), pages.index("Body") + 1)
         self.assertTrue(nodes(fn_graph("Select Page"), kind="call_self", function="Rebuild Face Page"))
         self.assertTrue(nodes(fn_graph("Select Slot"), kind="call_self", function="Select Face Group"))

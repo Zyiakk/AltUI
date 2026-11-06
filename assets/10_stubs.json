@@ -900,6 +900,16 @@
      "internal_name": "GunName_20_398D82A0403D587DA0A681A117336AE6"
     },
     {
+     "name": "AmmoName",
+     "type": "name",
+     "internal_name": "AmmoName_23_A21B2F924FC714E569ECE7A78DAEAE37"
+    },
+    {
+     "name": "AmmoinMag",
+     "type": "int",
+     "internal_name": "AmmoinMag_19_B56A1298455CCC84DCE5F6A2B3524385"
+    },
+    {
      "name": "Parts",
      "type": "name",
      "container": "array",
@@ -1370,6 +1380,12 @@
    "path": "/Game/Project/Classes/Save/Player_Save_LevelEnd",
    "mode": "create",
    "parent": "/Game/Project/Classes/Save/Player_Save"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/GameMode/JodiOffice_GameState",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/GameMode/TKA_GameState"
   },
   {
    "type": "blueprint",
@@ -3147,6 +3163,15 @@
        "type": "object:/Game/Project/UserInterface/AttentionUI"
       }
      ]
+    },
+    {
+     "name": "Set Nude Allowed",
+     "inputs": [
+      {
+       "name": "allow",
+       "type": "bool"
+      }
+     ]
     }
    ]
   },
@@ -3386,18 +3411,13 @@
     {
      "name": "photo mode camera",
      "type": "object:/Script/Engine.Actor"
+    },
+    {
+     "name": "Allow Player Climbing And Jumping",
+     "type": "bool"
     }
    ],
    "functions": [
-    {
-     "name": "Set Nude Allowed",
-     "inputs": [
-      {
-       "name": "allow",
-       "type": "bool"
-      }
-     ]
-    },
     {
      "name": "Enter Photo Mode"
     },

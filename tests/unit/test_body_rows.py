@@ -36,6 +36,21 @@ class BodyRows(unittest.TestCase):
         self.assertEqual(len(fns["Get Body Scales"]["outputs"]), 15)   # 17 factors, two retired (softness)
         self.assertFalse({"SldScBreastSoft", "SldScGlutesSoft"} & names)
 
+    def test_rows_alternate(self):
+        """Every second slider row on the light surface; the first one tinted again below the hint and below each group heading."""
+        def order(node):
+            yield node["name"]
+            for c in node.get("children", []): yield from order(c)
+        names = list(order(asset("40_widgets.json", "/W_AltUI")["widget_tree"]))
+        js = json.dumps(asset("40_widgets.json", "/W_AltUI")["functions"])
+        tinted = None
+        for n in names[names.index("BodySliders"):]:
+            if n in ("LblScaleHint",) or n.startswith("LblScGrp"): tinted = True
+            if n.startswith("RowBg") and n[5:] in ("Breast", "Waist") or n.startswith("RowBgSc"):
+                tinted = True if tinted is None else tinted
+                self.assertEqual('"%s"' % n in js, tinted, n); tinted = not tinted
+        self.assertIn("RowBgBreast", names); self.assertNotIn('"RowBgWaist"', js); self.assertIn('"RowBgBreast"', js)
+
     def test_no_hip_string(self):
         self.assertNotIn("Lbl_Hip", STRINGS); self.assertIn("Lbl_Waist", STRINGS)
 
