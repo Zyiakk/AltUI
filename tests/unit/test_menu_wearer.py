@@ -27,27 +27,27 @@ class MenuWearer(unittest.TestCase):
         cls.eg = next(o for o in walk(cls.doc) if o.get("path", "").endswith("BP_AltUIManager"))["event_graph"]
 
     def test_menu_branch_loads_settings_then_looks_for_the_figure(self):
-        self.assertIn(["cj:CastFailed", "mlds", "mfind", "msi"], self.eg["exec"])   # msi: Scene Init (scene picker)
+        self.assertIn(["cj:CastFailed", "mxm", "mlds", "mfind", "msi"], self.eg["exec"])   # msi: Scene Init (scene picker)
         nodes = {n["id"]: n for n in self.eg["nodes"]}
         self.assertEqual(nodes["mlds"].get("function"), "Load Settings")
         self.assertEqual(nodes["mfind"].get("function"), "Find Menu Wearer")
 
     def test_game_branch_sets_wearer_and_goes_on_without_it(self):
         chain = next(c for c in self.eg["exec"] if c and c[0] == "bvg")   # BeginPlay goes on after the Version Gate
-        self.assertLess(chain.index("swr"), chain.index("isg"))
-        self.assertIn(["cjb:CastFailed", "isg"], self.eg["exec"])   # a failed Wearer cast must not cost the panel
+        self.assertLess(chain.index("swr"), chain.index("mxl")); self.assertLess(chain.index("mxl"), chain.index("isg"))   # Merge Extra Tables before the catalog is built
+        self.assertIn(["cjb:CastFailed", "mxl"], self.eg["exec"])   # a failed Wearer cast must not cost the panel (Merge Extra Tables, then the chain goes on at "isg")
 
     def test_level_applies_the_look_at_once(self):
         """No level-load timers any more: the game dresses Jodi in her own BeginPlay (and on possession), before the
         manager exists - the look goes on at the end of BeginPlay, in the order body, underwear, several pieces per slot, colours, face (then the walk
-        speed / style and the invisible hand, which need no look)."""
+        speed / style, the invisible hand and Foot IK, which need no look)."""
         nodes = {n["id"]: n for n in self.eg["nodes"]}
         timers = {n["in"].get("FunctionName") for n in self.eg["nodes"] if n.get("function") == "K2_SetTimer"}
         self.assertFalse(timers & {"Apply Saved Body", "Fix Loaded Underwear", "Apply Saved Colors", "Apply Face"})
         chain = next(c for c in self.eg["exec"] if c and c[0] == "bvg")   # BeginPlay goes on after the Version Gate
         order = [nodes[i].get("function") for i in chain if nodes.get(i, {}).get("kind") == "call_self"]
-        self.assertEqual(order[-7:], ["Apply Saved Body", "Fix Loaded Underwear", "Restore Multi Worn", "Apply Saved Colors", "Apply Face", "Apply Move", "Apply Hand"])
-        self.assertLess(order.index("Build Catalog"), order.index("Fix Loaded Underwear"))   # Worn In Slot needs the catalog
+        self.assertEqual(order[-8:], ["Apply Saved Body", "Fix Loaded Underwear", "Restore Multi Worn", "Apply Saved Colors", "Apply Face", "Apply Move", "Apply Hand", "Apply Foot IK"])
+        self.assertLess(order.index("Catalog Begin"), order.index("Fix Loaded Underwear"))   # Worn In Slot needs ItemSlot (Catalog Begin builds it at once)
 
     def test_find_menu_wearer_searches_jodi_base_and_retries(self):
         g = self.fns["Find Menu Wearer"]["graph"]; nodes = {n["id"]: n for n in g["nodes"]}
@@ -78,7 +78,11 @@ class MenuSpawn(unittest.TestCase):
         self.assertEqual(nodes["bm"]["in"]["Condition"], "@or.ReturnValue")
         self.assertIn(["cj:CastFailed", "lvl"], eg["exec"])
         self.assertIn(["lvl", "bm"], eg["exec"])   # GetCurrentLevelName is impure: off the exec chain it is pruned
-        self.assertIn(["bm", "ld"], eg["exec"])   # a menu scene goes on to the spawn like a Jodi pawn
+        self.assertIn(["bm", "bld"], eg["exec"])   # a menu scene goes on to the spawn like a Jodi pawn
+        # 2026-11-16: the manager class loads in the background from BeginPlay on; TryInit spawns once it is there
+        self.assertEqual(nodes["acl"]["kind"], "load_class_async"); self.assertIn(["acl:Completed", "acs", "acd"], eg["exec"])
+        self.assertIn(["bld", "br2"], eg["exec"]); self.assertEqual(nodes["cc"]["in"]["Class"], "@gmc.MgrClass")
+        self.assertFalse([n for n in eg["nodes"] if n.get("function") == "LoadClassAsset_Blocking" and "AltUIManager" in str(n.get("in"))])
 
     def test_loader_entry(self):
         self.check("60_bploader.json")

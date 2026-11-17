@@ -8,6 +8,7 @@ M = "/Game/Mod/AltUI"
 
 def main():
     mgr = cdo(M + "/BP_AltUIManager.BP_AltUIManager_C")
+    mgr.call_method("Test Mod File Index")   # the weapon scans read the mods that have their table from it (2026-11-16)
     mgr.call_method("Test Load Settings")
     keep_skins, keep_applied = dict(mgr.get_editor_property("WeaponSkins")), dict(mgr.get_editor_property("AppliedPaint"))
     def state(w):

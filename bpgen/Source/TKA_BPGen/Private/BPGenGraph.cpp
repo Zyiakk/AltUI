@@ -29,6 +29,7 @@
 #include "K2Node_FunctionResult.h"
 #include "K2Node_InputKey.h"
 #include "K2Node_GetDataTableRow.h"
+#include "K2Node_LoadAsset.h"
 #include "Engine/DataTable.h"
 #include "Blueprint/UserWidget.h"
 #include "WidgetBlueprint.h"
@@ -161,6 +162,10 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
         UEdGraphPin* TP = R->GetDataTablePin(); Schema->TrySetDefaultObject(*TP, DT); R->PinDefaultValueChanged(TP);
       }
       Node = R; }
+    else if (Kind == TEXT("load_class_async")) {   // Async Load Class Asset: exec "then" at once, "Completed" with pin "Class" once loaded (pin "AssetClass": soft class)
+      Node = NewNode<UK2Node_LoadAssetClass>(G, X, Y, nullptr); }
+    else if (Kind == TEXT("load_asset_async")) {   // Async Load Asset: exec "then" at once, "Completed" with pin "Object" once loaded (pin "Asset": soft object)
+      Node = NewNode<UK2Node_LoadAsset>(G, X, Y, nullptr); }
     else if (Kind == TEXT("macro")) { UEdGraph* M = FindMacro(JS(N, TEXT("name"))); if (!M) { Err = TEXT("macro not found ") + JS(N, TEXT("name")); return false; }
       Node = NewNode<UK2Node_MacroInstance>(G, X, Y, [&](UK2Node_MacroInstance* MI) { MI->SetMacroGraph(M); }); }
     else if (Kind == TEXT("call_self")) {

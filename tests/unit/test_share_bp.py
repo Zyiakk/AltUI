@@ -316,7 +316,7 @@ class AlreadyHere(unittest.TestCase):
 
 
 class PiecesWithoutRef(unittest.TestCase):
-    """Play test 2026-11-01 (outfit from Gonnor): "everything there", then "Not available" for four pieces - mod pieces the sender's
+    """Play test 2026-11-01 (a shared outfit): "everything there", then "Not available" for four pieces - mod pieces the sender's
     AltUI could not tell the mod of carry no reference; and installed pieces not owned could not be put on either."""
     def test_check_scans_pieces(self):
         g = fn_graph("Share Check"); self.assertTrue(nodes(g, kind="call_self", function="Share Scan Pieces"))
@@ -339,7 +339,7 @@ class PiecesWithoutRef(unittest.TestCase):
 
 
 class TypeCase(unittest.TestCase):
-    """Gonnor's outfit 2026-11-01: refs came as "Clothes" (the game's FName spelling); a case-sensitive compare matched no type."""
+    """A shared outfit 2026-11-01: refs came as "Clothes" (the game's FName spelling); a case-sensitive compare matched no type."""
     def test_ref_exists_ignores_case(self):
         g = fn_graph("Share Ref Exists"); self.assertFalse(nodes(g, function="EqualEqual_StrStr")); self.assertTrue(nodes(g, function="EqualEqual_StriStri"))
 

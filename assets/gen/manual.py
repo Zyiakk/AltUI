@@ -1,9 +1,12 @@
 """AltUI manual for the Kodex tab: assets/manual/<lang>.md -> Strings keys Man_<id>_T (title) / Man_<id>_B (text).
 A chapter starts with '## Title {#id}' (the id is the same in every language, order = en.md); the text runs to the
-next '## '. Paragraphs and '- ' lists only ('- ' becomes '• '); anything before the first chapter is ignored."""
+next '## '. Paragraphs and '- ' lists only ('- ' becomes '• '); anything before the first chapter is ignored.
+'### Heading' starts a section inside a chapter: it becomes SEP + heading + SEP, the manager (Rebuild Kodex) splits the text at SEP and
+shows each section as a heading with its text (W_ManualSection)."""
 import os, re
 DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "manual")
 HEAD = re.compile(r"^## (.+?)\s*\{#([a-z0-9]+)\}\s*$")
+SEP = "§§"
 
 
 def parse(text):
@@ -14,7 +17,9 @@ def parse(text):
             if not m: raise ValueError("chapter without {#id}: " + line)
             cur = [m.group(2), m.group(1), []]; out.append(cur)
         elif cur is not None:
-            cur[2].append("• " + line[2:] if line.startswith("- ") else line)
+            if SEP in line: raise ValueError("%s in the manual text: %s" % (SEP, line))
+            if line.startswith("### "): cur[2].append(SEP + line[4:].strip() + SEP)
+            else: cur[2].append("• " + line[2:] if line.startswith("- ") else line)
     return [(i, t, "\n".join(b).strip()) for i, t, b in out]
 
 

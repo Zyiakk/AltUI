@@ -70,6 +70,20 @@ def ptypes(f):
     return [re.sub(r"^(out |ref |const& )?[^:]*: ", "", p) for p in f["params"]] + (["-> " + f["ret"]] if f["ret"] else [])
 
 
+DECL_PRIM = {"int": "int", "float": "float", "bool": "bool", "name": "Name", "string": "String", "text": "Text", "int64": "int64", "byte": "byte"}
+
+
+def decl_type(spec):
+    """A type as 10_stubs.json declares it ("name", "object:/Script/Engine.SoundBase", "class:/Game/X/Y") in uasset_funcs' spelling
+    ("Name", "SoundBase", "Class<Y_C>"); None for kinds not mapped (structs, enums)."""
+    kind, _, arg = spec.partition(":")
+    if kind in DECL_PRIM: return DECL_PRIM[kind]
+    if kind in ("object", "class") and arg:
+        short = arg.rsplit(".", 1)[1] if arg.startswith("/Script/") else arg.rsplit("/", 1)[-1].split(".")[0] + "_C"
+        return short if kind == "object" else "Class<%s>" % short
+    return None
+
+
 def same_kind(a, b):
     """Two parameter types AltUI can pass interchangeably: equal, or both object references (a stub may name a subclass
     the game's function takes as its base class - Jodi_C for Jodi_Base_C)."""
@@ -144,7 +158,17 @@ def altui_calls(cooked, decls=()):
     return out
 
 
-def compare(kind, path, stub_file, game, decl, report):
+def altui_imported_packages(cooked):
+    """Every package path the cooked AltUI assets import (Mod/AltUI/*.uasset)."""
+    root = os.path.join(cooked, "Mod", "AltUI"); out = set()
+    for f in (os.listdir(root) if os.path.isdir(root) else []):
+        if not f.endswith(".uasset"): continue
+        _, _, imps, _, _ = uasset_props.read_summary(os.path.join(root, f))
+        out |= {on for cp, cn, outer, on in imps if cn == "Package"}
+    return out
+
+
+def compare(kind, path, stub_file, game, decl, report, imported=()):
     gf = os.path.join(game.tmp, "TheKillingAntidote", "Content", game_rel(path))
     if game.dump(path) is None and kind != "datatable":
         report["BROKEN"].append("%s: gone from the game" % path); return
@@ -154,7 +178,19 @@ def compare(kind, path, stub_file, game, decl, report):
         if want and got and want.rsplit("/", 1)[-1] != got.rsplit("/", 1)[-1]:
             report["BROKEN"].append("%s: row struct %s, AltUI expects %s" % (path, got, want))
         return
-    if kind == "enum": return
+    if kind in ("enum", "object_stub"): return
+    if kind == "blueprint" and not decl.get("variables"): return   # nothing below reads the cooked stub; existence in the game checked above, declared functions in check_calls
+    if kind == "blueprint" and not os.path.exists(stub_file + ".uasset") and path not in imported:
+        # a stub AltUI's own assets never reference (no cooked AltUI asset imports its path) is not cooked by its build (KillingEdge's
+        # notify classes): its declaration is what the stub is generated from, so check that against the game. One that IS imported must be
+        # cooked: missing then means a stale / missing cooked tree, reported below.
+        for v in decl.get("variables", []):
+            n, t = v["name"], decl_type(v["type"]) if not v.get("container") else None
+            gt = game.var(path, n)
+            if gt is None: report["BROKEN"].append("%s: variable '%s' gone" % (path, n))
+            elif t and not same_kind(gt, t): report["BROKEN"].append("%s: variable '%s' is %s, the stub declares %s" % (path, n, gt, t))
+            elif t and gt != t: report["NOTE"].append("%s: variable '%s' is %s, the stub declares %s" % (path, n, gt, t))
+        return
     if not os.path.exists(stub_file + ".uasset"):
         report["BROKEN"].append("%s: cooked stub missing (run ./build.sh)" % path); return
     s = uasset_funcs.dump(stub_file + ".uasset")
@@ -240,10 +276,10 @@ def main():
         report = {"BROKEN": [], "HOOK": [], "CHANGED": [], "NOTE": [], "ok": []}
         base = json.load(open(BASELINE)) if os.path.exists(BASELINE) else {}
         base_assets = {k: v for k, v in base.items() if k.startswith("/")}
-        hashes = {}
+        hashes = {}; imported = altui_imported_packages(cooked)
         for x in decls:
             p = x["path"]; gf = os.path.join(tmp, "TheKillingAntidote", "Content", game_rel(p))
-            n = len(report["BROKEN"]); compare(x["type"], p, os.path.join(cooked, game_rel(p)), game, x, report)
+            n = len(report["BROKEN"]); compare(x["type"], p, os.path.join(cooked, game_rel(p)), game, x, report, imported)
             if os.path.exists(gf + ".uasset"): hashes[p] = sha(gf)
             if len(report["BROKEN"]) == n:
                 (report["CHANGED"] if base.get(p) and hashes.get(p) != base[p] else report["ok"]).append(p)

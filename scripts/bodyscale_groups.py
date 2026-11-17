@@ -61,6 +61,9 @@ def descendants(bone):
 SOLE_BELOW_ORIGIN = 7.0   # S: sole depth below the mesh origin at scale 1
 ANKLE_TO_SOLE = 10.0      # A: ankle-to-sole distance in the scaled (y/z) foot axes
 SHIFTS = [("RootShift", ["root"]), ("FeetShift", ["foot_l", "foot_r"])]   # ABP vector variables (Z used) and the bones they translate
+# Leg spacing: the thigh joints sideways (X = Jodi's left), the whole leg moves along. Behind the scale nodes: pelvis' scale would scale a shift
+# made before it (children are derived again from their local transforms). No turning: it crosses the legs while walking (leg spacing notes, 2026-11-07)
+LATE_SHIFTS = [("LegShiftL", ["thigh_l"]), ("LegShiftR", ["thigh_r"])]
 
 
 def root_shift(h):
@@ -82,17 +85,42 @@ SLIDERS = [("Breast", ["Breasts"]), ("Glutes", ["GlutesHips"]), ("Thighs", ["Thi
            ("Pelvis", ["Pelvis", "PelvisSpine"]),
            ("BreastAngle", []), ("GlutesAngle", []),          # ABP rotation (ROTATIONS), degrees
            ("BreastJiggle", []), ("BreastSoft", []), ("GlutesJiggle", []), ("GlutesSoft", []),   # the game's physics (Apply Body Physics); *Soft: RETIRED
-           ("Nipple", [])]                                     # morph "Nipple", only while the chest is uncovered
+           ("Nipple", []),                                     # morph "Nipple", only while the chest is uncovered
+           ("LegSpacing", [])]                                 # 2026-11-07: ABP translation (LATE_SHIFTS), cm per side, right = wider
 N_SLIDERS = len(SLIDERS); HEIGHT_INDEX = 7
 OLDEST_PADDED = 8   # shortest saved array that is padded with NEUTRAL (from before the waist slider); shorter = another layout, ignored
-NEUTRAL = [1.0] * 10 + [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0]   # factor that changes nothing, per SLIDERS entry
+NEUTRAL = [1.0] * 10 + [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0]   # factor that changes nothing, per SLIDERS entry
 ROTATIONS = [("BreastAngle", ["Breast_L", "Breast_R"]), ("GlutesAngle", ["Hip_L", "Hip_R"])]   # ABP Rotator variables: Roll = degrees about component X (sideways)
 PHYS_BONES = {"Breast": ["Breast_L", "Breast_R"], "Glutes": ["Hip_L", "Hip_R"]}   # the game's simulated bodies (Character_Base.Enable Boobs Physics)
+# Options "Clothes follow the body shape" (2026-11-15): NvCloth scales the position of a garment's collision capsules with the bone,
+# never their radius (ClothingSimulationNv.cpp), so a grown body outgrows them and the cloth falls in. The switch shortens how far
+# simulated cloth may leave its skinned place (SetClothMaxDistanceScale on every mesh component of the wearer): 1 - growth * GAIN,
+# not below MIN; growth = the largest factor above 1 among these sliders (shrinking pulls the body away from the cloth).
+CLOTH_FIT_SLIDERS = ["Breast", "Glutes", "Thighs", "Waist", "Pelvis"]
+CLOTH_FIT_GAIN = 2.0; CLOTH_FIT_MIN = 0.2
 RETIRED = {"BreastSoft", "GlutesSoft"}   # 2026-10-10: mass scale changes nothing - UE 4.27 joint drives are acceleration drives (ConstraintDrives.cpp
                                         # bIsAccelerationDrive = true), mass-independent. Kept as array slots (neutral) so saved arrays keep their indices; no row.
 ALL_BODIES = {"Height", "BreastJiggle", "GlutesJiggle", "Nipple"}   # work without ABP_BodyScale (component / physics / morph)
-DISPLAY = {"BreastAngle": "deg", "GlutesAngle": "deg", "BreastJiggle": "pct", "GlutesJiggle": "pct", "Nipple": "num"}   # default "x" (x1.00)
+DISPLAY = {"BreastAngle": "deg", "GlutesAngle": "deg", "BreastJiggle": "pct", "GlutesJiggle": "pct", "Nipple": "num", "LegSpacing": "num"}   # default "x" (x1.00)
 GROUP_HEADS = {"BreastAngle": "Lbl_ScGrpBreast", "Pelvis": "Lbl_ScGrpGlutes"}   # a heading line above these rows
+
+
+def content_rows():
+    """The bone-scale rows of a content view (look / outfit / preset), laid out like the Body Shape page: SLIDER_ORDER with the
+    group headings, so "Angle" and "Jiggle" stand under "Breast" / "Glutes & hips" as they do there (2026-11-10: in SLIDERS order
+    without headings the two pairs could not be told apart). Entries (kind, string key, slider index): kind "row" = one value
+    (index into the factor array); "head" = a heading line, index = the smallest of its group's rows (shown once the saved
+    array reaches that row)."""
+    idx = {k: i for i, (k, _) in enumerate(SLIDERS)}
+    order = [k for k in SLIDER_ORDER if k not in RETIRED]
+    out = []
+    for n, k in enumerate(order):
+        if k in GROUP_HEADS:
+            ends = [m for m in range(n + 1, len(order)) if order[m] in GROUP_HEADS]
+            members = order[n:ends[0] if ends else len(order)]
+            out.append(("head", GROUP_HEADS[k], min(idx[m] for m in members)))
+        out.append(("row", "Lbl_Sc" + k, idx[k]))
+    return out
 
 
 def member_internal(i, name):
@@ -109,9 +137,9 @@ FACTOR_MIN, FACTOR_MAX = 0.5, 2.0
 RANGES = {"Height": (0.9, 1.2), "Feet": (0.8, 1.1), "Hands": (0.8, 1.3), "Arms": (0.7, 2.0), "Calves": (0.8, 1.8), "Thighs": (0.8, 1.8), "Breast": (0.7, 1.7),
           "Waist": (1.5, 0.6)}   # waist: reversed (left = wider) like the game's own waist slider; 0.6 on y = one more full vanilla morph
 RANGES.update({"Pelvis": (0.8, 1.3), "BreastAngle": (-15.0, 15.0), "GlutesAngle": (-15.0, 15.0), "BreastJiggle": (0.0, 1.0), "GlutesJiggle": (0.0, 1.0),
-               "Nipple": (-1.0, 1.0)})   # start values, tuned in the game test
+               "Nipple": (-1.0, 1.0), "LegSpacing": (-3.0, 3.0)})   # start values, tuned in the game test
 SLIDER_ORDER = ["Height", "Breast", "Waist", "Glutes", "Thighs", "Calves", "Arms", "Hands", "Feet",
-                "BreastAngle", "BreastJiggle", "Nipple", "Pelvis", "GlutesAngle", "GlutesJiggle"]   # rows on the Body Shape page (the factor array keeps SLIDERS' order)
+                "BreastAngle", "BreastJiggle", "Nipple", "Pelvis", "LegSpacing", "GlutesAngle", "GlutesJiggle"]   # rows on the Body Shape page (the factor array keeps SLIDERS' order)
 # The game's breast / waist values are the Alpha of an "Apply Additive" node in Jodi_Anim (Female_Morph_Breasts = scale of Breast_L/R,
 # Female_Morph_Waist = scale of Morph_Waist); FInputScaleBias::ApplyTo clamps that Alpha to 0..1 in the engine (InputScaleBias.cpp), so
 # values outside 0..1 change nothing (checked 2026-09-21, an extended -0.5..1.5 range had no visible effect). Beyond 100 % the bone

@@ -1639,35 +1639,35 @@
    "row_struct": "/Game/Mod/AltUI/S_AltUIModField",
    "composite": false,
    "rows": {
-    "Header": {
+    "Lamp_Header": {
      "Entry": "Lamp",
      "Key": "Header",
      "Type": "Header",
      "Label": "A lamp in front of Jodi",
      "Order": 0
     },
-    "Status": {
+    "Lamp_Status": {
      "Entry": "Lamp",
      "Key": "Status",
      "Type": "Info",
      "Label": "Now",
      "Order": 1
     },
-    "Light": {
+    "Lamp_Light": {
      "Entry": "Lamp",
      "Key": "Light",
      "Type": "Toggle",
      "Label": "Light",
      "Order": 2
     },
-    "TabLight": {
+    "Lamp_TabLight": {
      "Entry": "Lamp",
      "Key": "TabLight",
      "Type": "Tab",
      "Label": "Light",
      "Order": 10
     },
-    "Brightness": {
+    "Lamp_Brightness": {
      "Entry": "Lamp",
      "Key": "Brightness",
      "Type": "Slider",
@@ -1677,7 +1677,7 @@
      "Step": 500.0,
      "Order": 11
     },
-    "Colour": {
+    "Lamp_Colour": {
      "Entry": "Lamp",
      "Key": "Colour",
      "Type": "Choice",
@@ -1690,21 +1690,21 @@
      ],
      "Order": 12
     },
-    "CustomColor": {
+    "Lamp_CustomColor": {
      "Entry": "Lamp",
      "Key": "CustomColor",
      "Type": "Color",
      "Label": "Custom colour",
      "Order": 13
     },
-    "TabPlace": {
+    "Lamp_TabPlace": {
      "Entry": "Lamp",
      "Key": "TabPlace",
      "Type": "Tab",
      "Label": "Position",
      "Order": 20
     },
-    "Height": {
+    "Lamp_Height": {
      "Entry": "Lamp",
      "Key": "Height",
      "Type": "Number",
@@ -1714,7 +1714,7 @@
      "Step": 10.0,
      "Order": 21
     },
-    "More": {
+    "Lamp_More": {
      "Entry": "Lamp",
      "Key": "More",
      "Type": "Header",
@@ -1722,21 +1722,21 @@
      "Min": 1.0,
      "Order": 22
     },
-    "LightKey": {
+    "Lamp_LightKey": {
      "Entry": "Lamp",
      "Key": "LightKey",
      "Type": "Key",
      "Label": "Key for on/off",
      "Order": 23
     },
-    "Note": {
+    "Lamp_Note": {
      "Entry": "Lamp",
      "Key": "Note",
      "Type": "Text",
      "Label": "Note",
      "Order": 24
     },
-    "Reset": {
+    "Lamp_Reset": {
      "Entry": "Lamp",
      "Key": "Reset",
      "Type": "Button",

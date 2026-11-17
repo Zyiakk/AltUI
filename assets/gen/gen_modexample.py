@@ -178,6 +178,7 @@ def build():
         "Note": {"Entry": "Lamp", "Key": "Note", "Type": "Text", "Label": "Note", "Order": 24},
         "Reset": {"Entry": "Lamp", "Key": "Reset", "Type": "Button", "Label": "Back to the defaults", "Order": 25},
     }
+    fields = {"Lamp_" + k: v for k, v in fields.items()}   # row names unique across mods (MOD_UI.md, "Row names"); values go by Key
     variables = [var(v, t, default=d or None) for v, t, d in STATE]
     return [
         blueprint(SG_LAMP, "/Script/Engine.SaveGame", variables=[var(v, t, default=d or None) for v, t, d in STATE]),

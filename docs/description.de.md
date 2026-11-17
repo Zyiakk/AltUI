@@ -32,7 +32,7 @@ AltUI bringt eine Tabelle mit, die der Loader liest, und startet daraus das Pane
 3. In denselben *~mods*-Ordner wie oben kopieren.
 4. Spiel starten, in einem Level B drücken.
 
-Der Hook ersetzt *TKA_PlayerCameraManager* und startet von dort das Panel. Jeder Mod, der dasselbe Blueprint ersetzt, kollidiert mit ihm – der Blueprint Loader ist so einer, und genau dieses Paar ist die Ausnahme: sind beide installiert, gewinnt der Hook die Klasse und startet den Loader selbst, sodass Mods, die den Loader brauchen, weiterlaufen.
+Der Hook ersetzt *TKA_PlayerCameraManager* und startet von dort das Panel. Jeder Mod, der dasselbe Blueprint ersetzt, kollidiert mit ihm – der Blueprint Loader ist so einer, und genau dieses Paar ist die Ausnahme: sind beide installiert, gewinnt der Hook die Klasse und startet die Mods für den Loader selbst, mit einem eigenen Loader, der dieselben Tabellen liest, aber im Hintergrund lädt. Das Spiel steht nicht mehr still, während jeder installierte Mod durchsucht wird; dafür erscheinen diese Mods einen Moment nach dem Laden eines Levels oder des Hauptmenüs statt sofort. Den Blueprint Loader installiert lassen – diese Mods bauen auf ihm auf. Wer sie sofort geladen haben will, nimmt den Blueprint Loader ohne den Hook.
 
 **„Ich habe abonniert, aber B tut nichts“** → nichts hat das Panel gestartet: entweder fehlt die zweite Datei, oder sie liegt in *Mods* oder im Workshop-Ordner statt in *Content\Paks\~mods*.
 
@@ -119,7 +119,7 @@ Es sind keine Spiel-Assets enthalten; alles im Pak ist generiert.
 * **AltUI.pak allein** – nichts startet das Panel – B tut nichts.
 * **AltUI.pak + Blueprint Loader** – der Loader liest AltUIs Tabelle und startet das Panel. AltUI selbst ersetzt nichts am Spiel; der Loader ersetzt die Kameraklasse des Spiels, so arbeitet er.
 * **AltUI.pak + AltUI_Hook_P.pak** – der Hook ersetzt den Kamera-Manager des Spiels und startet das Panel.
-* **AltUI.pak + beides** – geht, und nichts geht verloren. Beide ersetzen dieselbe Spielklasse, nur eine der zwei Paks gewinnt sie – und welche auch immer: AltUI startet, über die Tabelle des Loaders oder über den Hook, der dann zusätzlich den Loader selbst startet, damit Mods für ihn weiterlaufen.
+* **AltUI.pak + beides** – geht, und nichts geht verloren. Beide ersetzen dieselbe Spielklasse, nur eine der zwei Paks gewinnt sie – und welche auch immer: AltUI startet, über die Tabelle des Loaders oder über den Hook, der dann zusätzlich die Mods für den Loader startet – im Hintergrund, sodass sie einen Moment nach dem Laden erscheinen.
 * **Hook oder Loader ohne AltUI.pak** – nichts – die Mod selbst fehlt.
 
 ## Was es nicht kann

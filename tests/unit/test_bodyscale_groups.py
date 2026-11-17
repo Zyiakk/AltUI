@@ -15,9 +15,9 @@ class Groups(unittest.TestCase):
 
     def test_sliders_cover_all_groups_once(self):
         vs = [v for _, vars_ in bg.SLIDERS for v in vars_]
-        self.assertEqual(sorted(vs), sorted(v for v, _, _ in bg.GROUPS)); self.assertEqual(len(bg.SLIDERS), 17); self.assertEqual(bg.N_SLIDERS, 17)
+        self.assertEqual(sorted(vs), sorted(v for v, _, _ in bg.GROUPS)); self.assertEqual(len(bg.SLIDERS), 18); self.assertEqual(bg.N_SLIDERS, 18)
         self.assertEqual(bg.SLIDERS[8], ("Waist", ["Waist"]))   # the first nine keep their index: saved arrays stay valid
-        self.assertEqual([k for k, _ in bg.SLIDERS[9:]], ["Pelvis", "BreastAngle", "GlutesAngle", "BreastJiggle", "BreastSoft", "GlutesJiggle", "GlutesSoft", "Nipple"])
+        self.assertEqual([k for k, _ in bg.SLIDERS[9:]], ["Pelvis", "BreastAngle", "GlutesAngle", "BreastJiggle", "BreastSoft", "GlutesJiggle", "GlutesSoft", "Nipple", "LegSpacing"])
         self.assertEqual(bg.SLIDERS[9], ("Pelvis", ["Pelvis", "PelvisSpine"]))
         self.assertEqual(bg.AXES["Thighs"], (0, 1, 1)); self.assertEqual(bg.AXES["Hands"], (1, 1, 1)); self.assertEqual(bg.AXES["Waist"], (0.25, 1, 0)); self.assertEqual(bg.SLIDERS[bg.HEIGHT_INDEX], ("Height", []))
         # the bust follows Female_Morph_Breasts (scale delta (0.2, 0.35, 0.35) per bone), the glutes have no morph to follow
@@ -28,7 +28,7 @@ class Groups(unittest.TestCase):
     def test_neutral_values(self):
         self.assertEqual(len(bg.NEUTRAL), bg.N_SLIDERS); self.assertEqual(bg.NEUTRAL[:10], [1.0] * 10)
         n = dict(zip([k for k, _ in bg.SLIDERS], bg.NEUTRAL))
-        self.assertEqual((n["BreastAngle"], n["GlutesAngle"], n["Nipple"]), (0.0, 0.0, 0.0))
+        self.assertEqual((n["BreastAngle"], n["GlutesAngle"], n["Nipple"], n["LegSpacing"]), (0.0, 0.0, 0.0, 0.0))
         self.assertEqual((n["BreastJiggle"], n["BreastSoft"], n["GlutesJiggle"], n["GlutesSoft"]), (1.0, 1.0, 1.0, 1.0))
         self.assertEqual(bg.OLDEST_PADDED, 8)
 
@@ -38,7 +38,13 @@ class Groups(unittest.TestCase):
         self.assertEqual(bg.ALL_BODIES, {"Height", "BreastJiggle", "GlutesJiggle", "Nipple"}); self.assertEqual(bg.RETIRED, {"BreastSoft", "GlutesSoft"})
         self.assertEqual(bg.PHYS_BONES, {"Breast": ["Breast_L", "Breast_R"], "Glutes": ["Hip_L", "Hip_R"]})
         self.assertEqual(bg.GROUP_HEADS, {"BreastAngle": "Lbl_ScGrpBreast", "Pelvis": "Lbl_ScGrpGlutes"})
-        o = bg.SLIDER_ORDER; self.assertEqual(o[9:], ["BreastAngle", "BreastJiggle", "Nipple", "Pelvis", "GlutesAngle", "GlutesJiggle"])   # retired keys: no row
+        o = bg.SLIDER_ORDER; self.assertEqual(o[9:], ["BreastAngle", "BreastJiggle", "Nipple", "Pelvis", "LegSpacing", "GlutesAngle", "GlutesJiggle"])   # retired keys: no row
+
+    def test_leg_spacing(self):
+        # cm per side, 0 = as before, right = wider (internal design notes); no group, the struct of a body pak stays as it is
+        self.assertEqual(bg.factor_range("LegSpacing"), (-3.0, 3.0)); self.assertEqual(bg.DISPLAY["LegSpacing"], "num")
+        self.assertEqual(dict(bg.SLIDERS)["LegSpacing"], []); self.assertNotIn("LegSpacing", bg.ALL_BODIES)
+        self.assertEqual(bg.LATE_SHIFTS, [("LegShiftL", ["thigh_l"]), ("LegShiftR", ["thigh_r"])])
 
     def test_internal_names_match_bpdsl(self):
         from bpdsl import struct, param

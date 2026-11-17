@@ -187,7 +187,13 @@
      "Caption": "Test Body"
     },
     "SomeMod": {
-     "Caption": "Some Mod"
+     "Caption": "Some Mod",
+     "Tables": [
+      "Clothes",
+      "Makeup",
+      "Eyes",
+      "Animations"
+     ]
     },
     "WeaponAltUI_SkinTest": {
      "Caption": "Test Skin Mod"
@@ -366,8 +372,93 @@
      "name": "InteractiveClass",
      "type": "class:/Script/Engine.Actor",
      "internal_name": "InteractiveClass_35_A72AD9944C232F519D9186A845495978"
+    },
+    {
+     "name": "Tag",
+     "type": "name",
+     "internal_name": "Tag_65_3C209FB24BC69D375605468D9D6132BD"
+    },
+    {
+     "name": "UnequipWeapon",
+     "type": "bool",
+     "internal_name": "UnequipWeapon_37_9775F98B40F265B90B30E6BCE5C093F5"
+    },
+    {
+     "name": "DefaultShortcutGroup",
+     "type": "int",
+     "internal_name": "DefaultShortcutGroup_53_C33577614C0A65CC8235708D6FAE7265"
+    },
+    {
+     "name": "Price",
+     "type": "int",
+     "internal_name": "Price_31_1AFBD9D34AB2BC6EFE028E994F2C32BF"
+    },
+    {
+     "name": "Level",
+     "type": "int",
+     "internal_name": "Level_68_E3CDD135402EBD719BC2A397CED3A358"
+    },
+    {
+     "name": "Description",
+     "type": "text",
+     "internal_name": "Description_5_5AF706DF436AEF38A6EC7287D4D94485"
     }
    ]
+  },
+  {
+   "type": "struct",
+   "path": "/Game/Project/Tables/WeaponStruct",
+   "members": [
+    {
+     "name": "Ammo",
+     "type": "name",
+     "internal_name": "Ammo_2_8BD83FAA48774BD5DA6E7C8B7D2E8C77"
+    },
+    {
+     "name": "DefaultMagSize",
+     "type": "int",
+     "internal_name": "DefaultMagSize_5_C77E448548C1D9FFD757B49BBB86B133"
+    },
+    {
+     "name": "Flag",
+     "type": "int",
+     "internal_name": "Flag_8_D8354BB043E0E17A3142828D1357FC71"
+    },
+    {
+     "name": "AmmoBoxSize",
+     "type": "int",
+     "internal_name": "AmmoBoxSize_14_D99879EE4AE93429FDAD62B2B6747A7C"
+    }
+   ]
+  },
+  {
+   "type": "datatable",
+   "path": "/Game/Project/Tables/WeaponTable",
+   "row_struct": "/Game/Project/Tables/WeaponStruct",
+   "composite": false
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Weapons/Weapon_Machete",
+   "mode": "create",
+   "parent": "/Game/Project/Actors/Weapons/Weapon_Base"
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/InteractiveActor/PickableActor_Base",
+   "mode": "augment",
+   "functions": [
+    {
+     "name": "on Begin Play",
+     "override": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Items/Item_Machete",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/InteractiveActor/PickableActor_Base"
   },
   {
    "type": "struct",
@@ -782,6 +873,10 @@
      "name": "Actors to Ignore Trace",
      "type": "object:/Script/Engine.Actor",
      "container": "array"
+    },
+    {
+     "name": "Owner Character",
+     "type": "object:/Game/Project/Classes/Character_Player_Base"
     }
    ],
    "functions": [
@@ -842,6 +937,115 @@
      ]
     }
    ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Actors/Weapons/Weapon_Machete",
+   "mode": "augment",
+   "functions": [
+    {
+     "name": "Get Player Montage",
+     "override": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Notify/MeleeAttack_NotifyState",
+   "mode": "create",
+   "parent": "/Script/Engine.AnimNotifyState",
+   "variables": [
+    {
+     "name": "BoneName",
+     "type": "name",
+     "instance_editable": true
+    },
+    {
+     "name": "DamageScale",
+     "type": "float",
+     "default": "1.0",
+     "instance_editable": true
+    },
+    {
+     "name": "Reset Check State",
+     "type": "bool",
+     "default": "true",
+     "instance_editable": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Notify/ComboAttack_NotifyState",
+   "mode": "create",
+   "parent": "/Script/Engine.AnimNotifyState",
+   "variables": [
+    {
+     "name": "Index",
+     "type": "int",
+     "instance_editable": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Notify/Shake_Notify",
+   "mode": "create",
+   "parent": "/Script/Engine.AnimNotify",
+   "variables": [
+    {
+     "name": "Shake Class",
+     "type": "class:/Script/Engine.CameraShakeBase",
+     "instance_editable": true
+    },
+    {
+     "name": "Force Feedback",
+     "type": "object:/Script/Engine.ForceFeedbackEffect",
+     "instance_editable": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Notify/Voice_Notify",
+   "mode": "create",
+   "parent": "/Script/Engine.AnimNotify",
+   "variables": [
+    {
+     "name": "Voice",
+     "type": "object:/Script/Engine.SoundBase",
+     "instance_editable": true
+    },
+    {
+     "name": "Voice Name",
+     "type": "name",
+     "instance_editable": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Notify/CharacterEvent_Notify",
+   "mode": "create",
+   "parent": "/Script/Engine.AnimNotify",
+   "variables": [
+    {
+     "name": "Event",
+     "type": "name",
+     "instance_editable": true
+    }
+   ]
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Project/Classes/Camera/CameraShake_MeleeAttack",
+   "mode": "create",
+   "parent": "/Script/GameplayCameras.DefaultCameraShakeBase"
+  },
+  {
+   "type": "object_stub",
+   "path": "/Game/Project/Sounds/Weapons/Weapon_Whip",
+   "class": "/Script/Engine.SoundCue"
   },
   {
    "type": "blueprint",
@@ -1746,6 +1950,16 @@
   },
   {
    "type": "datatable",
+   "path": "/Game/Mod/SomeMod/Mod_ExtraItemTable",
+   "row_struct": "/Game/Project/Tables/ItemStruct",
+   "composite": false,
+   "rows": {
+    "Medicine": {},
+    "SomeModExtra": {}
+   }
+  },
+  {
+   "type": "datatable",
    "path": "/Game/Mod/SomeMod/Mod_ClothesTable",
    "row_struct": "/Game/Project/Clothes/ClothesStruct",
    "composite": false,
@@ -1897,6 +2111,16 @@
     }
    ],
    "functions": [
+    {
+     "name": "is Lower Attack Target",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true
+    },
     {
      "name": "Wear The Clothes",
      "inputs": [
@@ -2429,6 +2653,10 @@
     {
      "name": "Can Be Auto Picked",
      "type": "bool"
+    },
+    {
+     "name": "Item Name",
+     "type": "name"
     }
    ]
   },

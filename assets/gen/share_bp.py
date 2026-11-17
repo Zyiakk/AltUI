@@ -611,7 +611,7 @@ def f_share_read_entry():
         g.get("gdp%d" % i, "ShDataPos"); g.set("sp%d" % i, "ShPos", inp={"ShPos": "@gdp%d.ShDataPos" % i}); return "bk%d" % i, "sp%d" % i
     # look
     bl, pl = kind_branch("look", 0); g.n("rs", "call_self", function="Sh R Snap")
-    g.get("gen", "ShEntryName"); g.make("mkl", S_LOOK_PATH, Name="@gen.ShEntryName", Id="0", Snap="@rs.v")
+    g.get("gen", "ShEntryName"); g.make("mkl", S_LOOK_PATH, Name="@gen.ShEntryName", Id="0", Snap="@rs.v", Created="0", Changed="0")   # staging only (a share file carries no dates): Import stamps anew
     g.get("gl", "ShLooks"); g.call("al", K_ARR, "Array_Add", inp={"TargetArray": "@gl.ShLooks", "NewItem": "@mkl.S_Look"}); g.chain(bl, pl, "rs", "al", "refs")
     # outfit
     bo, po = kind_branch("outfit", 1); g.n("ro", "call_self", function="Sh R Outfit"); g.brk("bo2", S_SHAREOUTFIT, "@ro.v")

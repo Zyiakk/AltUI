@@ -178,7 +178,7 @@ class OwnKeys(unittest.TestCase):
 
     def test_run_only_when_free(self):
         g = graph("50_manager_ui.json", "Bind Run")
-        self.assertEqual(calls(g, "Run Quick Item"), ["run"]); self.assertIn(["entry", "b", "sr", "run"], g["exec"])
+        self.assertEqual(calls(g, "Run Quick Item"), ["run"]); self.assertIn(["entry", "b", "sr", "ensc", "run"], g["exec"])   # ensc: the catalog complete before a run, not on every key
         ins = {n["id"]: n["in"] for n in g["nodes"] if "in" in n}
         self.assertEqual(ins["o1"], {"A": "@pnl.ReturnValue", "B": "@gqo.QuickOpen"}); self.assertEqual(ins["pnl"], {"A": "@gpo.PanelOpen", "B": "@cm0.ReturnValue"})   # camera modes: collapsed panel counts as closed
         self.assertEqual(ins["o2"]["B"], "@gso.SceneOn"); self.assertEqual(ins["o3"]["B"], "@ck.yes")

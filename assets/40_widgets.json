@@ -3555,7 +3555,8 @@
         "props": {
          "Text": "",
          "Font": "(Size=23)",
-         "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+         "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+         "WrapTextAt": 1216
         }
        }
       ]
@@ -27146,6 +27147,114 @@
      }
     },
     {
+     "name": "Set Tip",
+     "inputs": [
+      {
+       "name": "tip",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.tip"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@gop.ReturnValue"
+        }
+       },
+       {
+        "id": "ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "Manager": "@gmt.Manager"
+        }
+       },
+       {
+        "id": "tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "text": "@entry.tip"
+        }
+       },
+       {
+        "id": "gfr",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@gfr.Frame",
+         "Widget": "@ctc.AsW_Tooltip"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "be"
+       ],
+       [
+        "be:else",
+        "ctt",
+        "stm",
+        "tti",
+        "stt"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Begin Rename",
      "inputs": [
       {
@@ -29641,6 +29750,114 @@
         "spv",
         "l",
         "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Tip",
+     "inputs": [
+      {
+       "name": "tip",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.tip"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@gop.ReturnValue"
+        }
+       },
+       {
+        "id": "ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "Manager": "@gmt.Manager"
+        }
+       },
+       {
+        "id": "tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "text": "@entry.tip"
+        }
+       },
+       {
+        "id": "gfr",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@gfr.Frame",
+         "Widget": "@ctc.AsW_Tooltip"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "be"
+       ],
+       [
+        "be:else",
+        "ctt",
+        "stm",
+        "tti",
+        "stt"
        ]
       ]
      }
@@ -32146,6 +32363,114 @@
      }
     },
     {
+     "name": "Set Tip",
+     "inputs": [
+      {
+       "name": "tip",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.tip"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@gop.ReturnValue"
+        }
+       },
+       {
+        "id": "ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "Manager": "@gmt.Manager"
+        }
+       },
+       {
+        "id": "tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "text": "@entry.tip"
+        }
+       },
+       {
+        "id": "gfr",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@gfr.Frame",
+         "Widget": "@ctc.AsW_Tooltip"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "be"
+       ],
+       [
+        "be:else",
+        "ctt",
+        "stm",
+        "tti",
+        "stt"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Begin Rename",
      "inputs": [
       {
@@ -34646,6 +34971,114 @@
      }
     },
     {
+     "name": "Set Tip",
+     "inputs": [
+      {
+       "name": "tip",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.tip"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@gop.ReturnValue"
+        }
+       },
+       {
+        "id": "ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "Manager": "@gmt.Manager"
+        }
+       },
+       {
+        "id": "tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "text": "@entry.tip"
+        }
+       },
+       {
+        "id": "gfr",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@gfr.Frame",
+         "Widget": "@ctc.AsW_Tooltip"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "be"
+       ],
+       [
+        "be:else",
+        "ctt",
+        "stm",
+        "tti",
+        "stt"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Begin Rename",
      "inputs": [
       {
@@ -37141,6 +37574,114 @@
         "spv",
         "l",
         "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Tip",
+     "inputs": [
+      {
+       "name": "tip",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.tip"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@gop.ReturnValue"
+        }
+       },
+       {
+        "id": "ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "Manager": "@gmt.Manager"
+        }
+       },
+       {
+        "id": "tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "text": "@entry.tip"
+        }
+       },
+       {
+        "id": "gfr",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@gfr.Frame",
+         "Widget": "@ctc.AsW_Tooltip"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "be"
+       ],
+       [
+        "be:else",
+        "ctt",
+        "stm",
+        "tti",
+        "stt"
        ]
       ]
      }
@@ -39652,6 +40193,114 @@
         "spv",
         "l",
         "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Tip",
+     "inputs": [
+      {
+       "name": "tip",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.tip"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@gop.ReturnValue"
+        }
+       },
+       {
+        "id": "ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "Manager": "@gmt.Manager"
+        }
+       },
+       {
+        "id": "tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "text": "@entry.tip"
+        }
+       },
+       {
+        "id": "gfr",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@gfr.Frame",
+         "Widget": "@ctc.AsW_Tooltip"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "be"
+       ],
+       [
+        "be:else",
+        "ctt",
+        "stm",
+        "tti",
+        "stt"
        ]
       ]
      }
@@ -42655,6 +43304,114 @@
      }
     },
     {
+     "name": "Set Tip",
+     "inputs": [
+      {
+       "name": "tip",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "em",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "TextIsEmpty",
+        "in": {
+         "InText": "@entry.tip"
+        }
+       },
+       {
+        "id": "be",
+        "kind": "branch",
+        "in": {
+         "Condition": "@em.ReturnValue"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@gop.ReturnValue"
+        }
+       },
+       {
+        "id": "ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "Manager": "@gmt.Manager"
+        }
+       },
+       {
+        "id": "tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "text": "@entry.tip"
+        }
+       },
+       {
+        "id": "gfr",
+        "kind": "get",
+        "var": "Frame"
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@gfr.Frame",
+         "Widget": "@ctc.AsW_Tooltip"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "be"
+       ],
+       [
+        "be:else",
+        "ctt",
+        "stm",
+        "tti",
+        "stt"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Begin Rename",
      "inputs": [
       {
@@ -44740,6 +45497,52 @@
         }
        },
        {
+        "id": "btn",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "PointerEvent_GetEffectingButton",
+        "in": {
+         "Input": "@entry.MouseEvent"
+        }
+       },
+       {
+        "id": "isr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetInputLibrary",
+        "function": "EqualEqual_KeyKey",
+        "in": {
+         "A": "@btn.ReturnValue",
+         "B": "RightMouseButton"
+        }
+       },
+       {
+        "id": "br",
+        "kind": "branch",
+        "in": {
+         "Condition": "@isr.ReturnValue"
+        }
+       },
+       {
+        "id": "gm2",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ga2",
+        "kind": "get",
+        "var": "Action"
+       },
+       {
+        "id": "lc",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "On Link Context",
+        "in": {
+         "self": "@gm2.Manager",
+         "name": "@ga2.Action"
+        }
+       },
+       {
         "id": "h",
         "kind": "call",
         "class": "/Script/UMG.WidgetBlueprintLibrary",
@@ -44756,6 +45559,12 @@
        [
         "entry",
         "slb",
+        "br",
+        "lc",
+        "return"
+       ],
+       [
+        "br:else",
         "c",
         "return"
        ]
@@ -49608,6 +50417,177 @@
      }
     },
     {
+     "name": "Set Name Warning",
+     "inputs": [
+      {
+       "name": "tip",
+       "type": "string"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "gt",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "GetText",
+        "in": {
+         "self": "@gl.Label"
+        }
+       },
+       {
+        "id": "gts",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@gt.ReturnValue"
+        }
+       },
+       {
+        "id": "cat",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@gts.ReturnValue",
+         "B": " (?)"
+        }
+       },
+       {
+        "id": "ctx",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@cat.ReturnValue"
+        }
+       },
+       {
+        "id": "gl2",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl2.Label",
+         "InText": "@ctx.ReturnValue"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@gop.ReturnValue"
+        }
+       },
+       {
+        "id": "ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "Manager": "@gmt.Manager"
+        }
+       },
+       {
+        "id": "tt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@entry.tip"
+        }
+       },
+       {
+        "id": "tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "text": "@tt.ReturnValue"
+        }
+       },
+       {
+        "id": "gl3",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@gl3.Label",
+         "Widget": "@ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "gl4",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "vis",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gl4.Label",
+         "InVisibility": "Visible"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "st",
+        "ctt",
+        "stm",
+        "tti",
+        "stt",
+        "vis"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Compute Colors",
      "graph": {
       "nodes": [
@@ -54160,6 +55140,205 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Mod/AltUI/W_ManualSection",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "Manager",
+     "type": "object:/Game/Mod/AltUI/BP_AltUIManager"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Init",
+     "inputs": [
+      {
+       "name": "head",
+       "type": "text"
+      },
+      {
+       "name": "body",
+       "type": "text"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gHead",
+        "kind": "get",
+        "var": "Head"
+       },
+       {
+        "id": "sHead",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gHead.Head",
+         "InText": "@entry.head"
+        }
+       },
+       {
+        "id": "gBody",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "sBody",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gBody.Body",
+         "InText": "@entry.body"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call_self",
+        "function": "Compute Colors"
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "sHead",
+        "sBody",
+        "cc"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Compute Colors",
+     "graph": {
+      "nodes": [
+       {
+        "id": "cHead_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cHead",
+        "kind": "get",
+        "var": "ColHead",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tHead_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@cHead.ColHead"
+        }
+       },
+       {
+        "id": "tHead_w",
+        "kind": "get",
+        "var": "Head"
+       },
+       {
+        "id": "tHead",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tHead_w.Head",
+         "InColorAndOpacity": "@tHead_sc.SlateColor"
+        }
+       },
+       {
+        "id": "cBody_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cBody",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tBody_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@cBody.ColText"
+        }
+       },
+       {
+        "id": "tBody_w",
+        "kind": "get",
+        "var": "Body"
+       },
+       {
+        "id": "tBody",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tBody_w.Body",
+         "InColorAndOpacity": "@tBody_sc.SlateColor"
+        }
+       }
+      ],
+      "links": [
+       [
+        "cHead_m.Manager",
+        "cHead.self"
+       ],
+       [
+        "cBody_m.Manager",
+        "cBody.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "tHead",
+        "tBody"
+       ]
+      ]
+     }
+    }
+   ],
+   "widget_tree": {
+    "class": "/Script/UMG.VerticalBox",
+    "name": "Box",
+    "children": [
+     {
+      "class": "/Script/UMG.TextBlock",
+      "name": "Head",
+      "props": {
+       "Text": "",
+       "Font": "(Size=28)",
+       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+      },
+      "slot": {
+       "Padding": "(Left=0,Top=27,Right=0,Bottom=8)"
+      }
+     },
+     {
+      "class": "/Script/UMG.TextBlock",
+      "name": "Body",
+      "props": {
+       "Text": "",
+       "Font": "(Size=25)",
+       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))",
+       "LineHeightPercentage": 1.5,
+       "AutoWrapText": true
+      },
+      "slot": {
+       "Padding": "(Left=0,Top=0,Right=23,Bottom=8)"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Mod/AltUI/W_HairSwatch",
    "mode": "create",
    "parent": "/Script/UMG.UserWidget",
@@ -54533,6 +55712,10 @@
      "type": "name"
     },
     {
+     "name": "NoQuickMenu",
+     "type": "bool"
+    },
+    {
      "name": "Min",
      "type": "float"
     },
@@ -54651,6 +55834,14 @@
         "var": "Options",
         "in": {
          "Options": "@bf.Options"
+        }
+       },
+       {
+        "id": "sNoQuickMenu",
+        "kind": "set",
+        "var": "NoQuickMenu",
+        "in": {
+         "NoQuickMenu": "@bf.NoQuickMenu"
         }
        },
        {
@@ -55187,6 +56378,7 @@
         "sMax",
         "sStep",
         "sOptions",
+        "sNoQuickMenu",
         "stl",
         "sta",
         "sht",
@@ -59591,13 +60783,37 @@
         }
        },
        {
-        "id": "abt",
+        "id": "abt0",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "BooleanAND",
         "in": {
          "A": "@obt.ReturnValue",
          "B": "@isr.ReturnValue"
+        }
+       },
+       {
+        "id": "gnq",
+        "kind": "get",
+        "var": "NoQuickMenu"
+       },
+       {
+        "id": "nnq",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@gnq.NoQuickMenu"
+        }
+       },
+       {
+        "id": "abt",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@abt0.ReturnValue",
+         "B": "@nnq.ReturnValue"
         }
        },
        {
@@ -61808,6 +63024,10 @@
     {
      "name": "Switch",
      "type": "bool"
+    },
+    {
+     "name": "ConvertedOnly",
+     "type": "bool"
     }
    ],
    "functions": [
@@ -62373,6 +63593,220 @@
         "ss",
         "h1",
         "h2"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Supported",
+     "inputs": [
+      {
+       "name": "enabled",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "gnc",
+        "kind": "get",
+        "var": "ConvertedOnly"
+       },
+       {
+        "id": "bnc",
+        "kind": "branch",
+        "in": {
+         "Condition": "@gnc.ConvertedOnly"
+        }
+       },
+       {
+        "id": "cv_gw",
+        "kind": "get",
+        "var": "Row"
+       },
+       {
+        "id": "cv_en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@cv_gw.Row",
+         "bInIsEnabled": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cv_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cv_gw2",
+        "kind": "get",
+        "var": "Row"
+       },
+       {
+        "id": "cv_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cv_gw2.Row",
+         "InOpacity": "@cv_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cv_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cv_gt",
+        "kind": "get",
+        "var": "Bg"
+       },
+       {
+        "id": "cv_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cv_gt.Bg",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cv_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cv_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cv_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cv_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cv_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cv_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cv_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cv_ctc.AsW_Tooltip",
+         "Manager": "@cv_gmt.Manager"
+        }
+       },
+       {
+        "id": "cv_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cv_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cv_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cv_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cv_ctc.AsW_Tooltip",
+         "text": "@cv_tx.text"
+        }
+       },
+       {
+        "id": "cv_gt2",
+        "kind": "get",
+        "var": "Bg"
+       },
+       {
+        "id": "cv_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cv_gt2.Bg",
+         "Widget": "@cv_ctc.AsW_Tooltip"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "cv_en",
+        "cv_ro",
+        "cv_b"
+       ],
+       [
+        "cv_b:else",
+        "cv_ctt",
+        "cv_stm",
+        "cv_tti",
+        "cv_st"
+       ],
+       [
+        "cv_b",
+        "cv_nt"
+       ],
+       [
+        "entry",
+        "bnc",
+        "cv_en"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Mark Converted Only",
+     "graph": {
+      "nodes": [
+       {
+        "id": "s",
+        "kind": "set",
+        "var": "ConvertedOnly",
+        "in": {
+         "ConvertedOnly": "true"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s"
        ]
       ]
      }
@@ -64319,6 +65753,1021 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Mod/AltUI/W_MenuRandRow",
+   "mode": "create",
+   "parent": "/Script/UMG.UserWidget",
+   "variables": [
+    {
+     "name": "Manager",
+     "type": "object:/Game/Mod/AltUI/BP_AltUIManager"
+    },
+    {
+     "name": "RandSlot",
+     "type": "name"
+    },
+    {
+     "name": "LastU",
+     "type": "bool"
+    },
+    {
+     "name": "LastD",
+     "type": "bool"
+    }
+   ],
+   "functions": [
+    {
+     "name": "Init",
+     "inputs": [
+      {
+       "name": "slot",
+       "type": "name"
+      },
+      {
+       "name": "caption",
+       "type": "text"
+      },
+      {
+       "name": "head",
+       "type": "bool"
+      },
+      {
+       "name": "undress",
+       "type": "bool"
+      },
+      {
+       "name": "dress",
+       "type": "bool"
+      },
+      {
+       "name": "tinted",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "ss",
+        "kind": "set",
+        "var": "RandSlot",
+        "in": {
+         "RandSlot": "@entry.slot"
+        }
+       },
+       {
+        "id": "su",
+        "kind": "set",
+        "var": "LastU",
+        "in": {
+         "LastU": "@entry.undress"
+        }
+       },
+       {
+        "id": "sd",
+        "kind": "set",
+        "var": "LastD",
+        "in": {
+         "LastD": "@entry.dress"
+        }
+       },
+       {
+        "id": "gl",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "st",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gl.Label",
+         "InText": "@entry.caption"
+        }
+       },
+       {
+        "id": "gu",
+        "kind": "get",
+        "var": "ChkU"
+       },
+       {
+        "id": "scu",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gu.ChkU",
+         "InIsChecked": "@entry.undress"
+        }
+       },
+       {
+        "id": "gd",
+        "kind": "get",
+        "var": "ChkD"
+       },
+       {
+        "id": "scd",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gd.ChkD",
+         "InIsChecked": "@entry.dress"
+        }
+       },
+       {
+        "id": "car_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "car",
+        "kind": "get",
+        "var": "ColArea",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "bc",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "@car.ColArea",
+         "B": "(R=0,G=0,B=0,A=0)",
+         "bPickA": "@entry.tinted"
+        }
+       },
+       {
+        "id": "gb",
+        "kind": "get",
+        "var": "Bg"
+       },
+       {
+        "id": "sb",
+        "kind": "call",
+        "class": "/Script/UMG.Border",
+        "function": "SetBrushColor",
+        "in": {
+         "self": "@gb.Bg",
+         "InBrushColor": "@bc.ReturnValue"
+        }
+       },
+       {
+        "id": "cc",
+        "kind": "call_self",
+        "function": "Compute Colors"
+       },
+       {
+        "id": "bh",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.head"
+        }
+       },
+       {
+        "id": "gh0",
+        "kind": "get",
+        "var": "ChkUHead"
+       },
+       {
+        "id": "ht0_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ht0",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@ht0_m.Manager",
+         "key": "Rand_Undress"
+        }
+       },
+       {
+        "id": "sh0",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gh0.ChkUHead",
+         "InText": "@ht0.text"
+        }
+       },
+       {
+        "id": "gw0",
+        "kind": "get",
+        "var": "ChkUOv"
+       },
+       {
+        "id": "hw0",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gw0.ChkUOv",
+         "InVisibility": "Collapsed"
+        }
+       },
+       {
+        "id": "gh1",
+        "kind": "get",
+        "var": "ChkDHead"
+       },
+       {
+        "id": "ht1_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ht1",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@ht1_m.Manager",
+         "key": "Rand_Dress"
+        }
+       },
+       {
+        "id": "sh1",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gh1.ChkDHead",
+         "InText": "@ht1.text"
+        }
+       },
+       {
+        "id": "gw1",
+        "kind": "get",
+        "var": "ChkDOv"
+       },
+       {
+        "id": "hw1",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gw1.ChkDOv",
+         "InVisibility": "Collapsed"
+        }
+       }
+      ],
+      "links": [
+       [
+        "car_m.Manager",
+        "car.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "ss",
+        "su",
+        "sd",
+        "st",
+        "scu",
+        "scd",
+        "sb",
+        "cc",
+        "bh",
+        "sh0",
+        "hw0",
+        "sh1",
+        "hw1"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Compute Colors",
+     "graph": {
+      "nodes": [
+       {
+        "id": "ct_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ct",
+        "kind": "get",
+        "var": "ColText",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "tl_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@ct.ColText"
+        }
+       },
+       {
+        "id": "tl_w",
+        "kind": "get",
+        "var": "Label"
+       },
+       {
+        "id": "tl",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@tl_w.Label",
+         "InColorAndOpacity": "@tl_sc.SlateColor"
+        }
+       },
+       {
+        "id": "chChkU_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "chChkU",
+        "kind": "get",
+        "var": "ColHead",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "thChkU_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@chChkU.ColHead"
+        }
+       },
+       {
+        "id": "thChkU_w",
+        "kind": "get",
+        "var": "ChkUHead"
+       },
+       {
+        "id": "thChkU",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@thChkU_w.ChkUHead",
+         "InColorAndOpacity": "@thChkU_sc.SlateColor"
+        }
+       },
+       {
+        "id": "ckChkUUnderw",
+        "kind": "get",
+        "var": "ChkUUnder"
+       },
+       {
+        "id": "ckChkUUnderc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ckChkUUnderc",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "ckChkUUnder",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@ckChkUUnderw.ChkUUnder",
+         "InColorAndOpacity": "@ckChkUUnderc.ColChipFrame"
+        }
+       },
+       {
+        "id": "ckChkUFillw",
+        "kind": "get",
+        "var": "ChkUFill"
+       },
+       {
+        "id": "ckChkUFillc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ckChkUFillc",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "ckChkUFill",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@ckChkUFillw.ChkUFill",
+         "InColorAndOpacity": "@ckChkUFillc.ColChip"
+        }
+       },
+       {
+        "id": "ckChkUw",
+        "kind": "get",
+        "var": "ChkU"
+       },
+       {
+        "id": "ckChkUm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ckChkU",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Check Box",
+        "in": {
+         "self": "@ckChkUm.Manager",
+         "box": "@ckChkUw.ChkU"
+        }
+       },
+       {
+        "id": "chChkD_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "chChkD",
+        "kind": "get",
+        "var": "ColHead",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "thChkD_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@chChkD.ColHead"
+        }
+       },
+       {
+        "id": "thChkD_w",
+        "kind": "get",
+        "var": "ChkDHead"
+       },
+       {
+        "id": "thChkD",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@thChkD_w.ChkDHead",
+         "InColorAndOpacity": "@thChkD_sc.SlateColor"
+        }
+       },
+       {
+        "id": "ckChkDUnderw",
+        "kind": "get",
+        "var": "ChkDUnder"
+       },
+       {
+        "id": "ckChkDUnderc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ckChkDUnderc",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "ckChkDUnder",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@ckChkDUnderw.ChkDUnder",
+         "InColorAndOpacity": "@ckChkDUnderc.ColChipFrame"
+        }
+       },
+       {
+        "id": "ckChkDFillw",
+        "kind": "get",
+        "var": "ChkDFill"
+       },
+       {
+        "id": "ckChkDFillc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ckChkDFillc",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "ckChkDFill",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@ckChkDFillw.ChkDFill",
+         "InColorAndOpacity": "@ckChkDFillc.ColChip"
+        }
+       },
+       {
+        "id": "ckChkDw",
+        "kind": "get",
+        "var": "ChkD"
+       },
+       {
+        "id": "ckChkDm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "ckChkD",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Check Box",
+        "in": {
+         "self": "@ckChkDm.Manager",
+         "box": "@ckChkDw.ChkD"
+        }
+       }
+      ],
+      "links": [
+       [
+        "ct_m.Manager",
+        "ct.self"
+       ],
+       [
+        "chChkU_m.Manager",
+        "chChkU.self"
+       ],
+       [
+        "ckChkUUnderc_m.Manager",
+        "ckChkUUnderc.self"
+       ],
+       [
+        "ckChkUFillc_m.Manager",
+        "ckChkUFillc.self"
+       ],
+       [
+        "chChkD_m.Manager",
+        "chChkD.self"
+       ],
+       [
+        "ckChkDUnderc_m.Manager",
+        "ckChkDUnderc.self"
+       ],
+       [
+        "ckChkDFillc_m.Manager",
+        "ckChkDFillc.self"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "tl",
+        "thChkU",
+        "ckChkUUnder",
+        "ckChkUFill",
+        "ckChkU",
+        "thChkD",
+        "ckChkDUnder",
+        "ckChkDFill",
+        "ckChkD"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Tick",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "gChkU",
+        "kind": "get",
+        "var": "ChkU"
+       },
+       {
+        "id": "icChkU",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gChkU.ChkU"
+        }
+       },
+       {
+        "id": "glChkU",
+        "kind": "get",
+        "var": "LastU"
+       },
+       {
+        "id": "neChkU",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_BoolBool",
+        "in": {
+         "A": "@icChkU.ReturnValue",
+         "B": "@glChkU.LastU"
+        }
+       },
+       {
+        "id": "bChkU",
+        "kind": "branch",
+        "in": {
+         "Condition": "@neChkU.ReturnValue"
+        }
+       },
+       {
+        "id": "sChkU",
+        "kind": "set",
+        "var": "LastU",
+        "in": {
+         "LastU": "@icChkU.ReturnValue"
+        }
+       },
+       {
+        "id": "gmChkU",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gsChkU",
+        "kind": "get",
+        "var": "RandSlot"
+       },
+       {
+        "id": "rChkU",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Random Slot Changed",
+        "in": {
+         "self": "@gmChkU.Manager",
+         "slot": "@gsChkU.RandSlot",
+         "undress": "true",
+         "on": "@icChkU.ReturnValue"
+        }
+       },
+       {
+        "id": "gChkD",
+        "kind": "get",
+        "var": "ChkD"
+       },
+       {
+        "id": "icChkD",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gChkD.ChkD"
+        }
+       },
+       {
+        "id": "glChkD",
+        "kind": "get",
+        "var": "LastD"
+       },
+       {
+        "id": "neChkD",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "NotEqual_BoolBool",
+        "in": {
+         "A": "@icChkD.ReturnValue",
+         "B": "@glChkD.LastD"
+        }
+       },
+       {
+        "id": "bChkD",
+        "kind": "branch",
+        "in": {
+         "Condition": "@neChkD.ReturnValue"
+        }
+       },
+       {
+        "id": "sChkD",
+        "kind": "set",
+        "var": "LastD",
+        "in": {
+         "LastD": "@icChkD.ReturnValue"
+        }
+       },
+       {
+        "id": "gmChkD",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "gsChkD",
+        "kind": "get",
+        "var": "RandSlot"
+       },
+       {
+        "id": "rChkD",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Random Slot Changed",
+        "in": {
+         "self": "@gmChkD.Manager",
+         "slot": "@gsChkD.RandSlot",
+         "undress": "false",
+         "on": "@icChkD.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "bChkU",
+        "sChkU",
+        "rChkU",
+        "bChkD",
+        "sChkD",
+        "rChkD"
+       ],
+       [
+        "bChkU:else",
+        "bChkD"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "OnMouseButtonDown",
+     "override": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "h",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Handled"
+       }
+      ],
+      "links": [
+       [
+        "h.ReturnValue",
+        "return.ReturnValue"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    }
+   ],
+   "widget_tree": {
+    "class": "/Script/UMG.Border",
+    "name": "Bg",
+    "props": {
+     "BrushColor": "(R=0,G=0,B=0,A=0)",
+     "Padding": "(Left=44,Top=6,Right=32,Bottom=6)"
+    },
+    "children": [
+     {
+      "class": "/Script/UMG.HorizontalBox",
+      "name": "Row",
+      "children": [
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "LabelBox",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 285
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.TextBlock",
+          "name": "Label",
+          "props": {
+           "Text": "",
+           "Font": "(Size=23)",
+           "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+          },
+          "slot": {
+           "VerticalAlignment": "VAlign_Center"
+          }
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "ChkUCell",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 171,
+         "bOverride_HeightOverride": true,
+         "HeightOverride": 49
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.Overlay",
+          "name": "ChkUOv2",
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "ChkUHead",
+            "props": {
+             "Text": "",
+             "Font": "(Size=23)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+            },
+            "slot": {
+             "HorizontalAlignment": "HAlign_Center",
+             "VerticalAlignment": "VAlign_Center"
+            }
+           },
+           {
+            "class": "/Script/UMG.SizeBox",
+            "name": "ChkUWrap",
+            "props": {
+             "bOverride_WidthOverride": true,
+             "WidthOverride": 46,
+             "bOverride_HeightOverride": true,
+             "HeightOverride": 46
+            },
+            "slot": {
+             "HorizontalAlignment": "HAlign_Center",
+             "VerticalAlignment": "VAlign_Center"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.ScaleBox",
+              "name": "ChkUScale",
+              "props": {
+               "Stretch": "ScaleToFit"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Overlay",
+                "name": "ChkUOv",
+                "children": [
+                 {
+                  "class": "/Script/UMG.Image",
+                  "name": "ChkUUnder",
+                  "props": {
+                   "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                   "ColorAndOpacity": "(R=1,G=1,B=1,A=0.25)",
+                   "Visibility": "HitTestInvisible"
+                  },
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Fill",
+                   "VerticalAlignment": "VAlign_Fill"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.Image",
+                  "name": "ChkUFill",
+                  "props": {
+                   "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckInner.T_CheckInner',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                   "ColorAndOpacity": "(R=0,G=0,B=0,A=0.55)",
+                   "Visibility": "HitTestInvisible"
+                  },
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Fill",
+                   "VerticalAlignment": "VAlign_Fill"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.CheckBox",
+                  "name": "ChkU",
+                  "props": {
+                   "WidgetStyle": "(UncheckedImage=(ImageSize=(X=66,Y=66),DrawAs=NoDrawType),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                  },
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Fill",
+                   "VerticalAlignment": "VAlign_Fill"
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "class": "/Script/UMG.SizeBox",
+        "name": "ChkDCell",
+        "props": {
+         "bOverride_WidthOverride": true,
+         "WidthOverride": 171,
+         "bOverride_HeightOverride": true,
+         "HeightOverride": 49
+        },
+        "slot": {
+         "VerticalAlignment": "VAlign_Center"
+        },
+        "children": [
+         {
+          "class": "/Script/UMG.Overlay",
+          "name": "ChkDOv2",
+          "children": [
+           {
+            "class": "/Script/UMG.TextBlock",
+            "name": "ChkDHead",
+            "props": {
+             "Text": "",
+             "Font": "(Size=23)",
+             "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+            },
+            "slot": {
+             "HorizontalAlignment": "HAlign_Center",
+             "VerticalAlignment": "VAlign_Center"
+            }
+           },
+           {
+            "class": "/Script/UMG.SizeBox",
+            "name": "ChkDWrap",
+            "props": {
+             "bOverride_WidthOverride": true,
+             "WidthOverride": 46,
+             "bOverride_HeightOverride": true,
+             "HeightOverride": 46
+            },
+            "slot": {
+             "HorizontalAlignment": "HAlign_Center",
+             "VerticalAlignment": "VAlign_Center"
+            },
+            "children": [
+             {
+              "class": "/Script/UMG.ScaleBox",
+              "name": "ChkDScale",
+              "props": {
+               "Stretch": "ScaleToFit"
+              },
+              "children": [
+               {
+                "class": "/Script/UMG.Overlay",
+                "name": "ChkDOv",
+                "children": [
+                 {
+                  "class": "/Script/UMG.Image",
+                  "name": "ChkDUnder",
+                  "props": {
+                   "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                   "ColorAndOpacity": "(R=1,G=1,B=1,A=0.25)",
+                   "Visibility": "HitTestInvisible"
+                  },
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Fill",
+                   "VerticalAlignment": "VAlign_Fill"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.Image",
+                  "name": "ChkDFill",
+                  "props": {
+                   "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckInner.T_CheckInner',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                   "ColorAndOpacity": "(R=0,G=0,B=0,A=0.55)",
+                   "Visibility": "HitTestInvisible"
+                  },
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Fill",
+                   "VerticalAlignment": "VAlign_Fill"
+                  }
+                 },
+                 {
+                  "class": "/Script/UMG.CheckBox",
+                  "name": "ChkD",
+                  "props": {
+                   "WidgetStyle": "(UncheckedImage=(ImageSize=(X=66,Y=66),DrawAs=NoDrawType),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                  },
+                  "slot": {
+                   "HorizontalAlignment": "HAlign_Fill",
+                   "VerticalAlignment": "VAlign_Fill"
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Mod/AltUI/W_MenuAmount",
    "mode": "create",
    "parent": "/Script/UMG.UserWidget",
@@ -65721,6 +68170,26 @@
          "self": "@sb_w.Bg",
          "InBrushColor": "@cb.ColMenuBg"
         }
+       },
+       {
+        "id": "tswRowsScroll",
+        "kind": "get",
+        "var": "RowsScroll"
+       },
+       {
+        "id": "tsmRowsScroll",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "tsRowsScroll",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Scroll Box",
+        "in": {
+         "self": "@tsmRowsScroll.Manager",
+         "box": "@tswRowsScroll.RowsScroll"
+        }
        }
       ],
       "links": [
@@ -65737,7 +68206,8 @@
        [
         "entry",
         "sf",
-        "sb"
+        "sb",
+        "tsRowsScroll"
        ]
       ]
      }
@@ -65805,6 +68275,41 @@
         "function": "BreakVector2D",
         "in": {
          "InVec": "@vs.ReturnValue"
+        }
+       },
+       {
+        "id": "mh",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Subtract_FloatFloat",
+        "in": {
+         "A": "@bv.Y",
+         "B": "16.0"
+        }
+       },
+       {
+        "id": "mh0",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "FMax",
+        "in": {
+         "A": "@mh.ReturnValue",
+         "B": "100.0"
+        }
+       },
+       {
+        "id": "grb",
+        "kind": "get",
+        "var": "RowsBox"
+       },
+       {
+        "id": "smh",
+        "kind": "call",
+        "class": "/Script/UMG.SizeBox",
+        "function": "SetMaxDesiredHeight",
+        "in": {
+         "self": "@grb.RowsBox",
+         "InMaxDesiredHeight": "@mh0.ReturnValue"
         }
        },
        {
@@ -65904,8 +68409,9 @@
       "exec": [
        [
         "entry",
-        "fl",
         "vg",
+        "smh",
+        "fl",
         "sp"
        ]
       ]
@@ -65931,8 +68437,23 @@
       },
       "children": [
        {
-        "class": "/Script/UMG.VerticalBox",
-        "name": "Rows"
+        "class": "/Script/UMG.SizeBox",
+        "name": "RowsBox",
+        "children": [
+         {
+          "class": "/Script/UMG.ScrollBox",
+          "name": "RowsScroll",
+          "children": [
+           {
+            "class": "/Script/UMG.VerticalBox",
+            "name": "Rows"
+           }
+          ],
+          "props": {
+           "WidgetBarStyle": "(VerticalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),VerticalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackV.T_ScrollTrackV',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalTopSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),HorizontalBottomSlotImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollTrackH.T_ScrollTrackH',ImageSize=(X=8,Y=8),DrawAs=Image),NormalThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),HoveredThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)),DraggedThumbImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_ScrollThumb.T_ScrollThumb',ImageSize=(X=8,Y=8),DrawAs=Box,Margin=(Left=0.25,Top=0.25,Right=0.25,Bottom=0.25)))"
+          }
+         }
+        ]
        }
       ]
      }
@@ -71508,6 +74029,29 @@
         }
        },
        {
+        "id": "t_ValScLegSpacing_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_ValScLegSpacing_w",
+        "kind": "get",
+        "var": "ValScLegSpacing"
+       },
+       {
+        "id": "t_ValScLegSpacing",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_ValScLegSpacing_w.ValScLegSpacing",
+         "InColorAndOpacity": "@t_ValScLegSpacing_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_ValScGlutesAngle_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -71551,6 +74095,52 @@
         "in": {
          "self": "@t_ValScGlutesJiggle_w.ValScGlutesJiggle",
          "InColorAndOpacity": "@t_ValScGlutesJiggle_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_HintFootIK_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_HintFootIK_w",
+        "kind": "get",
+        "var": "HintFootIK"
+       },
+       {
+        "id": "t_HintFootIK",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_HintFootIK_w.HintFootIK",
+         "InColorAndOpacity": "@t_HintFootIK_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_HintClothFit_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColTextDim.ColTextDim"
+        }
+       },
+       {
+        "id": "t_HintClothFit_w",
+        "kind": "get",
+        "var": "HintClothFit"
+       },
+       {
+        "id": "t_HintClothFit",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_HintClothFit_w.HintClothFit",
+         "InColorAndOpacity": "@t_HintClothFit_sc.SlateColor"
         }
        },
        {
@@ -72114,6 +74704,29 @@
         "in": {
          "self": "@t_LblLookWorn_w.LblLookWorn",
          "InColorAndOpacity": "@t_LblLookWorn_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblObjLoad_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblObjLoad_w",
+        "kind": "get",
+        "var": "LblObjLoad"
+       },
+       {
+        "id": "t_LblObjLoad",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblObjLoad_w.LblObjLoad",
+         "InColorAndOpacity": "@t_LblObjLoad_sc.SlateColor"
         }
        },
        {
@@ -73635,6 +76248,29 @@
         }
        },
        {
+        "id": "t_LblScLegSpacing_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblScLegSpacing_w",
+        "kind": "get",
+        "var": "LblScLegSpacing"
+       },
+       {
+        "id": "t_LblScLegSpacing",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblScLegSpacing_w.LblScLegSpacing",
+         "InColorAndOpacity": "@t_LblScLegSpacing_sc.SlateColor"
+        }
+       },
+       {
         "id": "t_LblScGlutesAngle_sc",
         "kind": "make",
         "struct": "/Script/SlateCore.SlateColor",
@@ -74138,6 +76774,75 @@
         "in": {
          "self": "@t_LblOfficeJump_w.LblOfficeJump",
          "InColorAndOpacity": "@t_LblOfficeJump_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblFootIK_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblFootIK_w",
+        "kind": "get",
+        "var": "LblFootIK"
+       },
+       {
+        "id": "t_LblFootIK",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblFootIK_w.LblFootIK",
+         "InColorAndOpacity": "@t_LblFootIK_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblFootContact_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblFootContact_w",
+        "kind": "get",
+        "var": "LblFootContact"
+       },
+       {
+        "id": "t_LblFootContact",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblFootContact_w.LblFootContact",
+         "InColorAndOpacity": "@t_LblFootContact_sc.SlateColor"
+        }
+       },
+       {
+        "id": "t_LblClothFit_sc",
+        "kind": "make",
+        "struct": "/Script/SlateCore.SlateColor",
+        "in": {
+         "SpecifiedColor": "@c_ColText.ColText"
+        }
+       },
+       {
+        "id": "t_LblClothFit_w",
+        "kind": "get",
+        "var": "LblClothFit"
+       },
+       {
+        "id": "t_LblClothFit",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@t_LblClothFit_w.LblClothFit",
+         "InColorAndOpacity": "@t_LblClothFit_sc.SlateColor"
         }
        },
        {
@@ -75065,6 +77770,21 @@
         }
        },
        {
+        "id": "gs_ScLegSpacing",
+        "kind": "get",
+        "var": "SldScLegSpacing"
+       },
+       {
+        "id": "ss_ScLegSpacing",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetSliderBarColor",
+        "in": {
+         "self": "@gs_ScLegSpacing.SldScLegSpacing",
+         "InValue": "@c_slider.ColSlider"
+        }
+       },
+       {
         "id": "gs_ScGlutesAngle",
         "kind": "get",
         "var": "SldScGlutesAngle"
@@ -75383,6 +78103,78 @@
         }
        },
        {
+        "id": "pckObjLoadIconsUnderw",
+        "kind": "get",
+        "var": "ObjLoadIconsUnder"
+       },
+       {
+        "id": "pckObjLoadIconsUnderc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckObjLoadIconsUnderc",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckObjLoadIconsUnder",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckObjLoadIconsUnderw.ObjLoadIconsUnder",
+         "InColorAndOpacity": "@pckObjLoadIconsUnderc.ColChipFrame"
+        }
+       },
+       {
+        "id": "pckObjLoadIconsFillw",
+        "kind": "get",
+        "var": "ObjLoadIconsFill"
+       },
+       {
+        "id": "pckObjLoadIconsFillc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckObjLoadIconsFillc",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckObjLoadIconsFill",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckObjLoadIconsFillw.ObjLoadIconsFill",
+         "InColorAndOpacity": "@pckObjLoadIconsFillc.ColChip"
+        }
+       },
+       {
+        "id": "pckObjLoadIconsw",
+        "kind": "get",
+        "var": "ObjLoadIcons"
+       },
+       {
+        "id": "pckObjLoadIconsm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckObjLoadIcons",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Check Box",
+        "in": {
+         "self": "@pckObjLoadIconsm.Manager",
+         "box": "@pckObjLoadIconsw.ObjLoadIcons"
+        }
+       },
+       {
         "id": "pckOptNudeUnderw",
         "kind": "get",
         "var": "OptNudeUnder"
@@ -75452,6 +78244,78 @@
         "in": {
          "self": "@pckOptNudem.Manager",
          "box": "@pckOptNudew.OptNude"
+        }
+       },
+       {
+        "id": "pckOptClothFitUnderw",
+        "kind": "get",
+        "var": "OptClothFitUnder"
+       },
+       {
+        "id": "pckOptClothFitUnderc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptClothFitUnderc",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptClothFitUnder",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptClothFitUnderw.OptClothFitUnder",
+         "InColorAndOpacity": "@pckOptClothFitUnderc.ColChipFrame"
+        }
+       },
+       {
+        "id": "pckOptClothFitFillw",
+        "kind": "get",
+        "var": "OptClothFitFill"
+       },
+       {
+        "id": "pckOptClothFitFillc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptClothFitFillc",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptClothFitFill",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptClothFitFillw.OptClothFitFill",
+         "InColorAndOpacity": "@pckOptClothFitFillc.ColChip"
+        }
+       },
+       {
+        "id": "pckOptClothFitw",
+        "kind": "get",
+        "var": "OptClothFit"
+       },
+       {
+        "id": "pckOptClothFitm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptClothFit",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Check Box",
+        "in": {
+         "self": "@pckOptClothFitm.Manager",
+         "box": "@pckOptClothFitw.OptClothFit"
         }
        },
        {
@@ -76964,6 +79828,150 @@
         "in": {
          "self": "@pckOptOfficeJumpm.Manager",
          "box": "@pckOptOfficeJumpw.OptOfficeJump"
+        }
+       },
+       {
+        "id": "pckOptFootIKUnderw",
+        "kind": "get",
+        "var": "OptFootIKUnder"
+       },
+       {
+        "id": "pckOptFootIKUnderc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptFootIKUnderc",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptFootIKUnder",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptFootIKUnderw.OptFootIKUnder",
+         "InColorAndOpacity": "@pckOptFootIKUnderc.ColChipFrame"
+        }
+       },
+       {
+        "id": "pckOptFootIKFillw",
+        "kind": "get",
+        "var": "OptFootIKFill"
+       },
+       {
+        "id": "pckOptFootIKFillc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptFootIKFillc",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptFootIKFill",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptFootIKFillw.OptFootIKFill",
+         "InColorAndOpacity": "@pckOptFootIKFillc.ColChip"
+        }
+       },
+       {
+        "id": "pckOptFootIKw",
+        "kind": "get",
+        "var": "OptFootIK"
+       },
+       {
+        "id": "pckOptFootIKm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptFootIK",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Check Box",
+        "in": {
+         "self": "@pckOptFootIKm.Manager",
+         "box": "@pckOptFootIKw.OptFootIK"
+        }
+       },
+       {
+        "id": "pckOptFootContactUnderw",
+        "kind": "get",
+        "var": "OptFootContactUnder"
+       },
+       {
+        "id": "pckOptFootContactUnderc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptFootContactUnderc",
+        "kind": "get",
+        "var": "ColChipFrame",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptFootContactUnder",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptFootContactUnderw.OptFootContactUnder",
+         "InColorAndOpacity": "@pckOptFootContactUnderc.ColChipFrame"
+        }
+       },
+       {
+        "id": "pckOptFootContactFillw",
+        "kind": "get",
+        "var": "OptFootContactFill"
+       },
+       {
+        "id": "pckOptFootContactFillc_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptFootContactFillc",
+        "kind": "get",
+        "var": "ColChip",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager"
+       },
+       {
+        "id": "pckOptFootContactFill",
+        "kind": "call",
+        "class": "/Script/UMG.Image",
+        "function": "SetColorAndOpacity",
+        "in": {
+         "self": "@pckOptFootContactFillw.OptFootContactFill",
+         "InColorAndOpacity": "@pckOptFootContactFillc.ColChip"
+        }
+       },
+       {
+        "id": "pckOptFootContactw",
+        "kind": "get",
+        "var": "OptFootContact"
+       },
+       {
+        "id": "pckOptFootContactm",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "pckOptFootContact",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "Theme Check Box",
+        "in": {
+         "self": "@pckOptFootContactm.Manager",
+         "box": "@pckOptFootContactw.OptFootContact"
         }
        },
        {
@@ -79400,29 +82408,29 @@
         }
        },
        {
-        "id": "czbRowBgScGlutesJiggle_m",
+        "id": "czbRowBgScGlutesAngle_m",
         "kind": "get",
         "var": "Manager"
        },
        {
-        "id": "czbRowBgScGlutesJiggle",
+        "id": "czbRowBgScGlutesAngle",
         "kind": "get",
         "var": "ColArea",
         "class": "/Game/Mod/AltUI/BP_AltUIManager"
        },
        {
-        "id": "zbRowBgScGlutesJiggle_w",
+        "id": "zbRowBgScGlutesAngle_w",
         "kind": "get",
-        "var": "RowBgScGlutesJiggle"
+        "var": "RowBgScGlutesAngle"
        },
        {
-        "id": "zbRowBgScGlutesJiggle",
+        "id": "zbRowBgScGlutesAngle",
         "kind": "call",
         "class": "/Script/UMG.Border",
         "function": "SetBrushColor",
         "in": {
-         "self": "@zbRowBgScGlutesJiggle_w.RowBgScGlutesJiggle",
-         "InBrushColor": "@czbRowBgScGlutesJiggle.ColArea"
+         "self": "@zbRowBgScGlutesAngle_w.RowBgScGlutesAngle",
+         "InBrushColor": "@czbRowBgScGlutesAngle.ColArea"
         }
        },
        {
@@ -81602,12 +84610,28 @@
         "pckCaseSensFillc.self"
        ],
        [
+        "pckObjLoadIconsUnderc_m.Manager",
+        "pckObjLoadIconsUnderc.self"
+       ],
+       [
+        "pckObjLoadIconsFillc_m.Manager",
+        "pckObjLoadIconsFillc.self"
+       ],
+       [
         "pckOptNudeUnderc_m.Manager",
         "pckOptNudeUnderc.self"
        ],
        [
         "pckOptNudeFillc_m.Manager",
         "pckOptNudeFillc.self"
+       ],
+       [
+        "pckOptClothFitUnderc_m.Manager",
+        "pckOptClothFitUnderc.self"
+       ],
+       [
+        "pckOptClothFitFillc_m.Manager",
+        "pckOptClothFitFillc.self"
        ],
        [
         "pckOptKodexAllUnderc_m.Manager",
@@ -81778,6 +84802,22 @@
         "pckOptOfficeJumpFillc.self"
        ],
        [
+        "pckOptFootIKUnderc_m.Manager",
+        "pckOptFootIKUnderc.self"
+       ],
+       [
+        "pckOptFootIKFillc_m.Manager",
+        "pckOptFootIKFillc.self"
+       ],
+       [
+        "pckOptFootContactUnderc_m.Manager",
+        "pckOptFootContactUnderc.self"
+       ],
+       [
+        "pckOptFootContactFillc_m.Manager",
+        "pckOptFootContactFillc.self"
+       ],
+       [
         "pckOptHandOnUnderc_m.Manager",
         "pckOptHandOnUnderc.self"
        ],
@@ -81926,8 +84966,8 @@
         "czbRowBgScPelvis.self"
        ],
        [
-        "czbRowBgScGlutesJiggle_m.Manager",
-        "czbRowBgScGlutesJiggle.self"
+        "czbRowBgScGlutesAngle_m.Manager",
+        "czbRowBgScGlutesAngle.self"
        ],
        [
         "ciwt_m.Manager",
@@ -82058,8 +85098,11 @@
         "t_ValScBreastJiggle",
         "t_ValScNipple",
         "t_ValScPelvis",
+        "t_ValScLegSpacing",
         "t_ValScGlutesAngle",
         "t_ValScGlutesJiggle",
+        "t_HintFootIK",
+        "t_HintClothFit",
         "t_ShareHint",
         "t_ModPresetLabel",
         "t_BodyPresetLabel",
@@ -82084,6 +85127,7 @@
         "t_LblOnlyWorn",
         "t_LblLookFav",
         "t_LblLookWorn",
+        "t_LblObjLoad",
         "t_LblOnlyMods",
         "t_LblCaseSens",
         "t_LblUnlimited",
@@ -82150,6 +85194,7 @@
         "t_LblScBreastJiggle",
         "t_LblScNipple",
         "t_LblScPelvis",
+        "t_LblScLegSpacing",
         "t_LblScGlutesAngle",
         "t_LblScGlutesJiggle",
         "t_LblScGrpBreast",
@@ -82172,6 +85217,9 @@
         "t_LblHandNoHand",
         "t_LblSlowMoOn",
         "t_LblOfficeJump",
+        "t_LblFootIK",
+        "t_LblFootContact",
+        "t_LblClothFit",
         "t_LblInvAutoStory",
         "t_LblImgThumbs",
         "t_LblBgImage",
@@ -82227,6 +85275,7 @@
         "ss_ScBreastJiggle",
         "ss_ScNipple",
         "ss_ScPelvis",
+        "ss_ScLegSpacing",
         "ss_ScGlutesAngle",
         "ss_ScGlutesJiggle",
         "pckLookOnlyFavUnder",
@@ -82241,9 +85290,15 @@
         "pckCaseSensUnder",
         "pckCaseSensFill",
         "pckCaseSens",
+        "pckObjLoadIconsUnder",
+        "pckObjLoadIconsFill",
+        "pckObjLoadIcons",
         "pckOptNudeUnder",
         "pckOptNudeFill",
         "pckOptNude",
+        "pckOptClothFitUnder",
+        "pckOptClothFitFill",
+        "pckOptClothFit",
         "pckOptKodexAllUnder",
         "pckOptKodexAllFill",
         "pckOptKodexAll",
@@ -82307,6 +85362,12 @@
         "pckOptOfficeJumpUnder",
         "pckOptOfficeJumpFill",
         "pckOptOfficeJump",
+        "pckOptFootIKUnder",
+        "pckOptFootIKFill",
+        "pckOptFootIK",
+        "pckOptFootContactUnder",
+        "pckOptFootContactFill",
+        "pckOptFootContact",
         "pckOptHandOnUnder",
         "pckOptHandOnFill",
         "pckOptHandOn",
@@ -82416,7 +85477,7 @@
         "zbRowBgScBreastAngle",
         "zbRowBgScNipple",
         "zbRowBgScPelvis",
-        "zbRowBgScGlutesJiggle",
+        "zbRowBgScGlutesAngle",
         "iwt",
         "rbaBtnPlus",
         "rbaBtnMinus",
@@ -92043,6 +95104,36 @@
          "Texture": "@entry.tex",
          "bMatchSize": "true"
         }
+       },
+       {
+        "id": "gib",
+        "kind": "get",
+        "var": "ObjSelImgBox"
+       },
+       {
+        "id": "vis",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gib.ObjSelImgBox",
+         "InVisibility": "Visible"
+        }
+       },
+       {
+        "id": "gib2",
+        "kind": "get",
+        "var": "ObjSelImgBox"
+       },
+       {
+        "id": "col",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetVisibility",
+        "in": {
+         "self": "@gib2.ObjSelImgBox",
+         "InVisibility": "Collapsed"
+        }
        }
       ],
       "links": [],
@@ -92063,7 +95154,12 @@
         "sl4",
         "sl5",
         "bt",
+        "vis",
         "si"
+       ],
+       [
+        "bt:else",
+        "col"
        ],
        [
         "b:else",
@@ -101665,6 +104761,160 @@
      }
     },
     {
+     "name": "Get Obj Load",
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "pure": true,
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjLoadIcons"
+       },
+       {
+        "id": "c",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@g.ObjLoadIcons"
+        }
+       }
+      ],
+      "links": [
+       [
+        "c.ReturnValue",
+        "return.yes"
+       ]
+      ],
+      "exec": []
+     }
+    },
+    {
+     "name": "Set Obj Load",
+     "inputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "g",
+        "kind": "get",
+        "var": "ObjLoadIcons"
+       },
+       {
+        "id": "s",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@g.ObjLoadIcons",
+         "InIsChecked": "@entry.yes"
+        }
+       },
+       {
+        "id": "gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@gop.ReturnValue"
+        }
+       },
+       {
+        "id": "ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "Manager": "@gmt.Manager"
+        }
+       },
+       {
+        "id": "tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@tx_m.Manager",
+         "key": "Tip_ObjLoad"
+        }
+       },
+       {
+        "id": "tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@ctc.AsW_Tooltip",
+         "text": "@tx.text"
+        }
+       },
+       {
+        "id": "gr",
+        "kind": "get",
+        "var": "ObjLoadRow"
+       },
+       {
+        "id": "stt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@gr.ObjLoadRow",
+         "Widget": "@ctc.AsW_Tooltip"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "entry",
+        "s",
+        "ctt",
+        "stm",
+        "tti",
+        "stt"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Set Look Only Fav",
      "inputs": [
       {
@@ -101974,6 +105224,18 @@
       },
       {
        "name": "invautostory",
+       "type": "bool"
+      },
+      {
+       "name": "footik",
+       "type": "bool"
+      },
+      {
+       "name": "footcontact",
+       "type": "bool"
+      },
+      {
+       "name": "clothfit",
        "type": "bool"
       }
      ],
@@ -102692,6 +105954,48 @@
         "in": {
          "self": "@gInvAutoStory.OptInvAutoStory"
         }
+       },
+       {
+        "id": "gFootIK",
+        "kind": "get",
+        "var": "OptFootIK"
+       },
+       {
+        "id": "vFootIK",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gFootIK.OptFootIK"
+        }
+       },
+       {
+        "id": "gFootContact",
+        "kind": "get",
+        "var": "OptFootContact"
+       },
+       {
+        "id": "vFootContact",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gFootContact.OptFootContact"
+        }
+       },
+       {
+        "id": "gClothFit",
+        "kind": "get",
+        "var": "OptClothFit"
+       },
+       {
+        "id": "vClothFit",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "IsChecked",
+        "in": {
+         "self": "@gClothFit.OptClothFit"
+        }
        }
       ],
       "links": [
@@ -102898,6 +106202,18 @@
        [
         "vInvAutoStory.ReturnValue",
         "return.invautostory"
+       ],
+       [
+        "vFootIK.ReturnValue",
+        "return.footik"
+       ],
+       [
+        "vFootContact.ReturnValue",
+        "return.footcontact"
+       ],
+       [
+        "vClothFit.ReturnValue",
+        "return.clothfit"
        ]
       ],
       "exec": [
@@ -103005,6 +106321,18 @@
       },
       {
        "name": "invautostory",
+       "type": "bool"
+      },
+      {
+       "name": "footik",
+       "type": "bool"
+      },
+      {
+       "name": "footcontact",
+       "type": "bool"
+      },
+      {
+       "name": "clothfit",
        "type": "bool"
       }
      ],
@@ -103369,6 +106697,51 @@
          "self": "@gInvAutoStory.OptInvAutoStory",
          "InIsChecked": "@entry.invautostory"
         }
+       },
+       {
+        "id": "gFootIK",
+        "kind": "get",
+        "var": "OptFootIK"
+       },
+       {
+        "id": "sFootIK",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gFootIK.OptFootIK",
+         "InIsChecked": "@entry.footik"
+        }
+       },
+       {
+        "id": "gFootContact",
+        "kind": "get",
+        "var": "OptFootContact"
+       },
+       {
+        "id": "sFootContact",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gFootContact.OptFootContact",
+         "InIsChecked": "@entry.footcontact"
+        }
+       },
+       {
+        "id": "gClothFit",
+        "kind": "get",
+        "var": "OptClothFit"
+       },
+       {
+        "id": "sClothFit",
+        "kind": "call",
+        "class": "/Script/UMG.CheckBox",
+        "function": "SetIsChecked",
+        "in": {
+         "self": "@gClothFit.OptClothFit",
+         "InIsChecked": "@entry.clothfit"
+        }
        }
       ],
       "links": [],
@@ -103398,7 +106771,10 @@
         "sHandOn",
         "sHandNoHand",
         "sOfficeJump",
-        "sInvAutoStory"
+        "sInvAutoStory",
+        "sFootIK",
+        "sFootContact",
+        "sClothFit"
        ]
       ]
      }
@@ -105727,6 +109103,10 @@
        "type": "text"
       },
       {
+       "name": "sclegspacing",
+       "type": "text"
+      },
+      {
        "name": "scglutesangle",
        "type": "text"
       },
@@ -105772,6 +109152,26 @@
       },
       {
        "name": "officejump",
+       "type": "text"
+      },
+      {
+       "name": "footik",
+       "type": "text"
+      },
+      {
+       "name": "footcontact",
+       "type": "text"
+      },
+      {
+       "name": "footikhint",
+       "type": "text"
+      },
+      {
+       "name": "clothfit",
+       "type": "text"
+      },
+      {
+       "name": "clothfithint",
        "type": "text"
       },
       {
@@ -105836,6 +109236,10 @@
       },
       {
        "name": "objsearch",
+       "type": "text"
+      },
+      {
+       "name": "objload",
        "type": "text"
       },
       {
@@ -107759,6 +111163,21 @@
         }
        },
        {
+        "id": "gsclegspacing",
+        "kind": "get",
+        "var": "LblScLegSpacing"
+       },
+       {
+        "id": "ssclegspacing",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gsclegspacing.LblScLegSpacing",
+         "InText": "@entry.sclegspacing"
+        }
+       },
+       {
         "id": "gscglutesangle",
         "kind": "get",
         "var": "LblScGlutesAngle"
@@ -107936,6 +111355,81 @@
         "in": {
          "self": "@gofficejump.LblOfficeJump",
          "InText": "@entry.officejump"
+        }
+       },
+       {
+        "id": "gfootik",
+        "kind": "get",
+        "var": "LblFootIK"
+       },
+       {
+        "id": "sfootik",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gfootik.LblFootIK",
+         "InText": "@entry.footik"
+        }
+       },
+       {
+        "id": "gfootcontact",
+        "kind": "get",
+        "var": "LblFootContact"
+       },
+       {
+        "id": "sfootcontact",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gfootcontact.LblFootContact",
+         "InText": "@entry.footcontact"
+        }
+       },
+       {
+        "id": "gfootikhint",
+        "kind": "get",
+        "var": "HintFootIK"
+       },
+       {
+        "id": "sfootikhint",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gfootikhint.HintFootIK",
+         "InText": "@entry.footikhint"
+        }
+       },
+       {
+        "id": "gclothfit",
+        "kind": "get",
+        "var": "LblClothFit"
+       },
+       {
+        "id": "sclothfit",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gclothfit.LblClothFit",
+         "InText": "@entry.clothfit"
+        }
+       },
+       {
+        "id": "gclothfithint",
+        "kind": "get",
+        "var": "HintClothFit"
+       },
+       {
+        "id": "sclothfithint",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gclothfithint.HintClothFit",
+         "InText": "@entry.clothfithint"
         }
        },
        {
@@ -108179,6 +111673,21 @@
         }
        },
        {
+        "id": "gobjload",
+        "kind": "get",
+        "var": "LblObjLoad"
+       },
+       {
+        "id": "sobjload",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gobjload.LblObjLoad",
+         "InText": "@entry.objload"
+        }
+       },
+       {
         "id": "gactsearch",
         "kind": "get",
         "var": "ActSearch"
@@ -108355,6 +111864,7 @@
         "sscbreastjiggle",
         "sscnipple",
         "sscpelvis",
+        "ssclegspacing",
         "sscglutesangle",
         "sscglutesjiggle",
         "sscgrpbreast",
@@ -108367,6 +111877,11 @@
         "shdrthemeschemes",
         "sslowmoon",
         "sofficejump",
+        "sfootik",
+        "sfootcontact",
+        "sfootikhint",
+        "sclothfit",
+        "sclothfithint",
         "sinvautostory",
         "sfreenocollide",
         "sfreenolimit",
@@ -108383,6 +111898,7 @@
         "skeybinds",
         "shairsearch",
         "sobjsearch",
+        "sobjload",
         "sactsearch",
         "srunmodhint",
         "sidlemodhint"
@@ -114135,6 +117651,10 @@
        "type": "float"
       },
       {
+       "name": "legspacing",
+       "type": "float"
+      },
+      {
        "name": "glutesangle",
        "type": "float"
       },
@@ -114328,6 +117848,20 @@
         }
        },
        {
+        "id": "gScLegSpacing",
+        "kind": "get",
+        "var": "SldScLegSpacing"
+       },
+       {
+        "id": "vScLegSpacing",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "GetValue",
+        "in": {
+         "self": "@gScLegSpacing.SldScLegSpacing"
+        }
+       },
+       {
         "id": "gScGlutesAngle",
         "kind": "get",
         "var": "SldScGlutesAngle"
@@ -114410,6 +117944,10 @@
         "return.pelvis"
        ],
        [
+        "vScLegSpacing.ReturnValue",
+        "return.legspacing"
+       ],
+       [
         "vScGlutesAngle.ReturnValue",
         "return.glutesangle"
        ],
@@ -114479,6 +118017,10 @@
       },
       {
        "name": "pelvis",
+       "type": "float"
+      },
+      {
+       "name": "legspacing",
        "type": "float"
       },
       {
@@ -115656,6 +119198,95 @@
         }
        },
        {
+        "id": "gScLegSpacing",
+        "kind": "get",
+        "var": "SldScLegSpacing"
+       },
+       {
+        "id": "sScLegSpacing",
+        "kind": "call",
+        "class": "/Script/UMG.Slider",
+        "function": "SetValue",
+        "in": {
+         "self": "@gScLegSpacing.SldScLegSpacing",
+         "InValue": "@entry.legspacing"
+        }
+       },
+       {
+        "id": "mScLegSpacing",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Multiply_FloatFloat",
+        "in": {
+         "A": "@entry.legspacing",
+         "B": "6.0"
+        }
+       },
+       {
+        "id": "aScLegSpacing",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "@mScLegSpacing.ReturnValue",
+         "B": "-3.0"
+        }
+       },
+       {
+        "id": "tScLegSpacing_f",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_FloatToText",
+        "in": {
+         "Value": "@aScLegSpacing.ReturnValue",
+         "MinimumFractionalDigits": "2",
+         "MaximumFractionalDigits": "2"
+        }
+       },
+       {
+        "id": "tScLegSpacing_s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@tScLegSpacing_f.ReturnValue"
+        }
+       },
+       {
+        "id": "tScLegSpacing_c",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "",
+         "B": "@tScLegSpacing_s.ReturnValue"
+        }
+       },
+       {
+        "id": "tScLegSpacing",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@tScLegSpacing_c.ReturnValue"
+        }
+       },
+       {
+        "id": "gvScLegSpacing",
+        "kind": "get",
+        "var": "ValScLegSpacing"
+       },
+       {
+        "id": "stScLegSpacing",
+        "kind": "call",
+        "class": "/Script/UMG.TextBlock",
+        "function": "SetText",
+        "in": {
+         "self": "@gvScLegSpacing.ValScLegSpacing",
+         "InText": "@tScLegSpacing.ReturnValue"
+        }
+       },
+       {
         "id": "gScGlutesAngle",
         "kind": "get",
         "var": "SldScGlutesAngle"
@@ -115870,6 +119501,8 @@
         "stScNipple",
         "sScPelvis",
         "stScPelvis",
+        "sScLegSpacing",
+        "stScLegSpacing",
         "sScGlutesAngle",
         "stScGlutesAngle",
         "sScGlutesJiggle",
@@ -115889,186 +119522,2801 @@
      "graph": {
       "nodes": [
        {
-        "id": "gScBreast",
+        "id": "cScBreast_gw",
         "kind": "get",
-        "var": "SldScBreast"
+        "var": "RowScBreast"
        },
        {
-        "id": "eScBreast",
+        "id": "cScBreast_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScBreast.SldScBreast",
+         "self": "@cScBreast_gw.RowScBreast",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScWaist",
-        "kind": "get",
-        "var": "SldScWaist"
+        "id": "cScBreast_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScWaist",
+        "id": "cScBreast_gw2",
+        "kind": "get",
+        "var": "RowScBreast"
+       },
+       {
+        "id": "cScBreast_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScBreast_gw2.RowScBreast",
+         "InOpacity": "@cScBreast_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScBreast_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScBreast_gt",
+        "kind": "get",
+        "var": "RowBgScBreast"
+       },
+       {
+        "id": "cScBreast_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScBreast_gt.RowBgScBreast",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScBreast_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScBreast_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScBreast_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScBreast_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScBreast_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScBreast_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScBreast_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScBreast_ctc.AsW_Tooltip",
+         "Manager": "@cScBreast_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScBreast_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScBreast_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScBreast_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScBreast_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScBreast_ctc.AsW_Tooltip",
+         "text": "@cScBreast_tx.text"
+        }
+       },
+       {
+        "id": "cScBreast_gt2",
+        "kind": "get",
+        "var": "RowBgScBreast"
+       },
+       {
+        "id": "cScBreast_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScBreast_gt2.RowBgScBreast",
+         "Widget": "@cScBreast_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScWaist_gw",
+        "kind": "get",
+        "var": "RowScWaist"
+       },
+       {
+        "id": "cScWaist_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScWaist.SldScWaist",
+         "self": "@cScWaist_gw.RowScWaist",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScGlutes",
-        "kind": "get",
-        "var": "SldScGlutes"
+        "id": "cScWaist_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScGlutes",
+        "id": "cScWaist_gw2",
+        "kind": "get",
+        "var": "RowScWaist"
+       },
+       {
+        "id": "cScWaist_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScWaist_gw2.RowScWaist",
+         "InOpacity": "@cScWaist_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScWaist_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScWaist_gt",
+        "kind": "get",
+        "var": "RowBgScWaist"
+       },
+       {
+        "id": "cScWaist_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScWaist_gt.RowBgScWaist",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScWaist_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScWaist_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScWaist_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScWaist_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScWaist_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScWaist_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScWaist_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScWaist_ctc.AsW_Tooltip",
+         "Manager": "@cScWaist_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScWaist_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScWaist_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScWaist_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScWaist_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScWaist_ctc.AsW_Tooltip",
+         "text": "@cScWaist_tx.text"
+        }
+       },
+       {
+        "id": "cScWaist_gt2",
+        "kind": "get",
+        "var": "RowBgScWaist"
+       },
+       {
+        "id": "cScWaist_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScWaist_gt2.RowBgScWaist",
+         "Widget": "@cScWaist_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScGlutes_gw",
+        "kind": "get",
+        "var": "RowScGlutes"
+       },
+       {
+        "id": "cScGlutes_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScGlutes.SldScGlutes",
+         "self": "@cScGlutes_gw.RowScGlutes",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScThighs",
-        "kind": "get",
-        "var": "SldScThighs"
+        "id": "cScGlutes_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScThighs",
+        "id": "cScGlutes_gw2",
+        "kind": "get",
+        "var": "RowScGlutes"
+       },
+       {
+        "id": "cScGlutes_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScGlutes_gw2.RowScGlutes",
+         "InOpacity": "@cScGlutes_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScGlutes_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScGlutes_gt",
+        "kind": "get",
+        "var": "RowBgScGlutes"
+       },
+       {
+        "id": "cScGlutes_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScGlutes_gt.RowBgScGlutes",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScGlutes_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScGlutes_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScGlutes_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScGlutes_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScGlutes_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScGlutes_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScGlutes_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScGlutes_ctc.AsW_Tooltip",
+         "Manager": "@cScGlutes_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScGlutes_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScGlutes_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScGlutes_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScGlutes_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScGlutes_ctc.AsW_Tooltip",
+         "text": "@cScGlutes_tx.text"
+        }
+       },
+       {
+        "id": "cScGlutes_gt2",
+        "kind": "get",
+        "var": "RowBgScGlutes"
+       },
+       {
+        "id": "cScGlutes_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScGlutes_gt2.RowBgScGlutes",
+         "Widget": "@cScGlutes_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScThighs_gw",
+        "kind": "get",
+        "var": "RowScThighs"
+       },
+       {
+        "id": "cScThighs_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScThighs.SldScThighs",
+         "self": "@cScThighs_gw.RowScThighs",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScCalves",
-        "kind": "get",
-        "var": "SldScCalves"
+        "id": "cScThighs_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScCalves",
+        "id": "cScThighs_gw2",
+        "kind": "get",
+        "var": "RowScThighs"
+       },
+       {
+        "id": "cScThighs_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScThighs_gw2.RowScThighs",
+         "InOpacity": "@cScThighs_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScThighs_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScThighs_gt",
+        "kind": "get",
+        "var": "RowBgScThighs"
+       },
+       {
+        "id": "cScThighs_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScThighs_gt.RowBgScThighs",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScThighs_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScThighs_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScThighs_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScThighs_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScThighs_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScThighs_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScThighs_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScThighs_ctc.AsW_Tooltip",
+         "Manager": "@cScThighs_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScThighs_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScThighs_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScThighs_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScThighs_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScThighs_ctc.AsW_Tooltip",
+         "text": "@cScThighs_tx.text"
+        }
+       },
+       {
+        "id": "cScThighs_gt2",
+        "kind": "get",
+        "var": "RowBgScThighs"
+       },
+       {
+        "id": "cScThighs_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScThighs_gt2.RowBgScThighs",
+         "Widget": "@cScThighs_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScCalves_gw",
+        "kind": "get",
+        "var": "RowScCalves"
+       },
+       {
+        "id": "cScCalves_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScCalves.SldScCalves",
+         "self": "@cScCalves_gw.RowScCalves",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScArms",
-        "kind": "get",
-        "var": "SldScArms"
+        "id": "cScCalves_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScArms",
+        "id": "cScCalves_gw2",
+        "kind": "get",
+        "var": "RowScCalves"
+       },
+       {
+        "id": "cScCalves_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScCalves_gw2.RowScCalves",
+         "InOpacity": "@cScCalves_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScCalves_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScCalves_gt",
+        "kind": "get",
+        "var": "RowBgScCalves"
+       },
+       {
+        "id": "cScCalves_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScCalves_gt.RowBgScCalves",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScCalves_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScCalves_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScCalves_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScCalves_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScCalves_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScCalves_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScCalves_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScCalves_ctc.AsW_Tooltip",
+         "Manager": "@cScCalves_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScCalves_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScCalves_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScCalves_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScCalves_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScCalves_ctc.AsW_Tooltip",
+         "text": "@cScCalves_tx.text"
+        }
+       },
+       {
+        "id": "cScCalves_gt2",
+        "kind": "get",
+        "var": "RowBgScCalves"
+       },
+       {
+        "id": "cScCalves_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScCalves_gt2.RowBgScCalves",
+         "Widget": "@cScCalves_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScArms_gw",
+        "kind": "get",
+        "var": "RowScArms"
+       },
+       {
+        "id": "cScArms_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScArms.SldScArms",
+         "self": "@cScArms_gw.RowScArms",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScHands",
-        "kind": "get",
-        "var": "SldScHands"
+        "id": "cScArms_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScHands",
+        "id": "cScArms_gw2",
+        "kind": "get",
+        "var": "RowScArms"
+       },
+       {
+        "id": "cScArms_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScArms_gw2.RowScArms",
+         "InOpacity": "@cScArms_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScArms_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScArms_gt",
+        "kind": "get",
+        "var": "RowBgScArms"
+       },
+       {
+        "id": "cScArms_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScArms_gt.RowBgScArms",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScArms_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScArms_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScArms_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScArms_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScArms_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScArms_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScArms_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScArms_ctc.AsW_Tooltip",
+         "Manager": "@cScArms_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScArms_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScArms_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScArms_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScArms_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScArms_ctc.AsW_Tooltip",
+         "text": "@cScArms_tx.text"
+        }
+       },
+       {
+        "id": "cScArms_gt2",
+        "kind": "get",
+        "var": "RowBgScArms"
+       },
+       {
+        "id": "cScArms_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScArms_gt2.RowBgScArms",
+         "Widget": "@cScArms_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScHands_gw",
+        "kind": "get",
+        "var": "RowScHands"
+       },
+       {
+        "id": "cScHands_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScHands.SldScHands",
+         "self": "@cScHands_gw.RowScHands",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScFeet",
-        "kind": "get",
-        "var": "SldScFeet"
+        "id": "cScHands_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScFeet",
+        "id": "cScHands_gw2",
+        "kind": "get",
+        "var": "RowScHands"
+       },
+       {
+        "id": "cScHands_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScHands_gw2.RowScHands",
+         "InOpacity": "@cScHands_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScHands_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScHands_gt",
+        "kind": "get",
+        "var": "RowBgScHands"
+       },
+       {
+        "id": "cScHands_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScHands_gt.RowBgScHands",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScHands_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScHands_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScHands_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScHands_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScHands_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScHands_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScHands_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScHands_ctc.AsW_Tooltip",
+         "Manager": "@cScHands_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScHands_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScHands_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScHands_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScHands_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScHands_ctc.AsW_Tooltip",
+         "text": "@cScHands_tx.text"
+        }
+       },
+       {
+        "id": "cScHands_gt2",
+        "kind": "get",
+        "var": "RowBgScHands"
+       },
+       {
+        "id": "cScHands_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScHands_gt2.RowBgScHands",
+         "Widget": "@cScHands_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScFeet_gw",
+        "kind": "get",
+        "var": "RowScFeet"
+       },
+       {
+        "id": "cScFeet_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScFeet.SldScFeet",
+         "self": "@cScFeet_gw.RowScFeet",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScBreastAngle",
-        "kind": "get",
-        "var": "SldScBreastAngle"
+        "id": "cScFeet_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScBreastAngle",
+        "id": "cScFeet_gw2",
+        "kind": "get",
+        "var": "RowScFeet"
+       },
+       {
+        "id": "cScFeet_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScFeet_gw2.RowScFeet",
+         "InOpacity": "@cScFeet_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScFeet_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScFeet_gt",
+        "kind": "get",
+        "var": "RowBgScFeet"
+       },
+       {
+        "id": "cScFeet_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScFeet_gt.RowBgScFeet",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScFeet_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScFeet_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScFeet_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScFeet_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScFeet_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScFeet_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScFeet_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScFeet_ctc.AsW_Tooltip",
+         "Manager": "@cScFeet_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScFeet_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScFeet_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScFeet_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScFeet_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScFeet_ctc.AsW_Tooltip",
+         "text": "@cScFeet_tx.text"
+        }
+       },
+       {
+        "id": "cScFeet_gt2",
+        "kind": "get",
+        "var": "RowBgScFeet"
+       },
+       {
+        "id": "cScFeet_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScFeet_gt2.RowBgScFeet",
+         "Widget": "@cScFeet_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScBreastAngle_gw",
+        "kind": "get",
+        "var": "RowScBreastAngle"
+       },
+       {
+        "id": "cScBreastAngle_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScBreastAngle.SldScBreastAngle",
+         "self": "@cScBreastAngle_gw.RowScBreastAngle",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScPelvis",
-        "kind": "get",
-        "var": "SldScPelvis"
+        "id": "cScBreastAngle_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScPelvis",
+        "id": "cScBreastAngle_gw2",
+        "kind": "get",
+        "var": "RowScBreastAngle"
+       },
+       {
+        "id": "cScBreastAngle_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScBreastAngle_gw2.RowScBreastAngle",
+         "InOpacity": "@cScBreastAngle_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScBreastAngle_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScBreastAngle_gt",
+        "kind": "get",
+        "var": "RowBgScBreastAngle"
+       },
+       {
+        "id": "cScBreastAngle_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScBreastAngle_gt.RowBgScBreastAngle",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScBreastAngle_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScBreastAngle_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScBreastAngle_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScBreastAngle_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScBreastAngle_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScBreastAngle_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScBreastAngle_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScBreastAngle_ctc.AsW_Tooltip",
+         "Manager": "@cScBreastAngle_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScBreastAngle_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScBreastAngle_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScBreastAngle_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScBreastAngle_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScBreastAngle_ctc.AsW_Tooltip",
+         "text": "@cScBreastAngle_tx.text"
+        }
+       },
+       {
+        "id": "cScBreastAngle_gt2",
+        "kind": "get",
+        "var": "RowBgScBreastAngle"
+       },
+       {
+        "id": "cScBreastAngle_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScBreastAngle_gt2.RowBgScBreastAngle",
+         "Widget": "@cScBreastAngle_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScPelvis_gw",
+        "kind": "get",
+        "var": "RowScPelvis"
+       },
+       {
+        "id": "cScPelvis_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScPelvis.SldScPelvis",
+         "self": "@cScPelvis_gw.RowScPelvis",
          "bInIsEnabled": "@entry.enabled"
         }
        },
        {
-        "id": "gScGlutesAngle",
-        "kind": "get",
-        "var": "SldScGlutesAngle"
+        "id": "cScPelvis_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
        },
        {
-        "id": "eScGlutesAngle",
+        "id": "cScPelvis_gw2",
+        "kind": "get",
+        "var": "RowScPelvis"
+       },
+       {
+        "id": "cScPelvis_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScPelvis_gw2.RowScPelvis",
+         "InOpacity": "@cScPelvis_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScPelvis_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScPelvis_gt",
+        "kind": "get",
+        "var": "RowBgScPelvis"
+       },
+       {
+        "id": "cScPelvis_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScPelvis_gt.RowBgScPelvis",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScPelvis_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScPelvis_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScPelvis_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScPelvis_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScPelvis_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScPelvis_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScPelvis_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScPelvis_ctc.AsW_Tooltip",
+         "Manager": "@cScPelvis_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScPelvis_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScPelvis_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScPelvis_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScPelvis_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScPelvis_ctc.AsW_Tooltip",
+         "text": "@cScPelvis_tx.text"
+        }
+       },
+       {
+        "id": "cScPelvis_gt2",
+        "kind": "get",
+        "var": "RowBgScPelvis"
+       },
+       {
+        "id": "cScPelvis_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScPelvis_gt2.RowBgScPelvis",
+         "Widget": "@cScPelvis_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScLegSpacing_gw",
+        "kind": "get",
+        "var": "RowScLegSpacing"
+       },
+       {
+        "id": "cScLegSpacing_en",
         "kind": "call",
         "class": "/Script/UMG.Widget",
         "function": "SetIsEnabled",
         "in": {
-         "self": "@gScGlutesAngle.SldScGlutesAngle",
+         "self": "@cScLegSpacing_gw.RowScLegSpacing",
          "bInIsEnabled": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScLegSpacing_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScLegSpacing_gw2",
+        "kind": "get",
+        "var": "RowScLegSpacing"
+       },
+       {
+        "id": "cScLegSpacing_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScLegSpacing_gw2.RowScLegSpacing",
+         "InOpacity": "@cScLegSpacing_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScLegSpacing_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScLegSpacing_gt",
+        "kind": "get",
+        "var": "RowBgScLegSpacing"
+       },
+       {
+        "id": "cScLegSpacing_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScLegSpacing_gt.RowBgScLegSpacing",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScLegSpacing_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScLegSpacing_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScLegSpacing_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScLegSpacing_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScLegSpacing_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScLegSpacing_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScLegSpacing_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScLegSpacing_ctc.AsW_Tooltip",
+         "Manager": "@cScLegSpacing_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScLegSpacing_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScLegSpacing_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScLegSpacing_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScLegSpacing_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScLegSpacing_ctc.AsW_Tooltip",
+         "text": "@cScLegSpacing_tx.text"
+        }
+       },
+       {
+        "id": "cScLegSpacing_gt2",
+        "kind": "get",
+        "var": "RowBgScLegSpacing"
+       },
+       {
+        "id": "cScLegSpacing_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScLegSpacing_gt2.RowBgScLegSpacing",
+         "Widget": "@cScLegSpacing_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_gw",
+        "kind": "get",
+        "var": "RowScGlutesAngle"
+       },
+       {
+        "id": "cScGlutesAngle_en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@cScGlutesAngle_gw.RowScGlutesAngle",
+         "bInIsEnabled": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_gw2",
+        "kind": "get",
+        "var": "RowScGlutesAngle"
+       },
+       {
+        "id": "cScGlutesAngle_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@cScGlutesAngle_gw2.RowScGlutesAngle",
+         "InOpacity": "@cScGlutesAngle_op.ReturnValue"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_gt",
+        "kind": "get",
+        "var": "RowBgScGlutesAngle"
+       },
+       {
+        "id": "cScGlutesAngle_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScGlutesAngle_gt.RowBgScGlutesAngle",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "cScGlutesAngle_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@cScGlutesAngle_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@cScGlutesAngle_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScGlutesAngle_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@cScGlutesAngle_ctc.AsW_Tooltip",
+         "Manager": "@cScGlutesAngle_gmt.Manager"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "cScGlutesAngle_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@cScGlutesAngle_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@cScGlutesAngle_ctc.AsW_Tooltip",
+         "text": "@cScGlutesAngle_tx.text"
+        }
+       },
+       {
+        "id": "cScGlutesAngle_gt2",
+        "kind": "get",
+        "var": "RowBgScGlutesAngle"
+       },
+       {
+        "id": "cScGlutesAngle_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@cScGlutesAngle_gt2.RowBgScGlutesAngle",
+         "Widget": "@cScGlutesAngle_ctc.AsW_Tooltip"
         }
        }
       ],
       "links": [],
       "exec": [
        [
+        "cScBreast_en",
+        "cScBreast_ro",
+        "cScBreast_b"
+       ],
+       [
+        "cScBreast_b:else",
+        "cScBreast_ctt",
+        "cScBreast_stm",
+        "cScBreast_tti",
+        "cScBreast_st"
+       ],
+       [
+        "cScBreast_b",
+        "cScBreast_nt"
+       ],
+       [
+        "cScWaist_en",
+        "cScWaist_ro",
+        "cScWaist_b"
+       ],
+       [
+        "cScWaist_b:else",
+        "cScWaist_ctt",
+        "cScWaist_stm",
+        "cScWaist_tti",
+        "cScWaist_st"
+       ],
+       [
+        "cScWaist_b",
+        "cScWaist_nt"
+       ],
+       [
+        "cScGlutes_en",
+        "cScGlutes_ro",
+        "cScGlutes_b"
+       ],
+       [
+        "cScGlutes_b:else",
+        "cScGlutes_ctt",
+        "cScGlutes_stm",
+        "cScGlutes_tti",
+        "cScGlutes_st"
+       ],
+       [
+        "cScGlutes_b",
+        "cScGlutes_nt"
+       ],
+       [
+        "cScThighs_en",
+        "cScThighs_ro",
+        "cScThighs_b"
+       ],
+       [
+        "cScThighs_b:else",
+        "cScThighs_ctt",
+        "cScThighs_stm",
+        "cScThighs_tti",
+        "cScThighs_st"
+       ],
+       [
+        "cScThighs_b",
+        "cScThighs_nt"
+       ],
+       [
+        "cScCalves_en",
+        "cScCalves_ro",
+        "cScCalves_b"
+       ],
+       [
+        "cScCalves_b:else",
+        "cScCalves_ctt",
+        "cScCalves_stm",
+        "cScCalves_tti",
+        "cScCalves_st"
+       ],
+       [
+        "cScCalves_b",
+        "cScCalves_nt"
+       ],
+       [
+        "cScArms_en",
+        "cScArms_ro",
+        "cScArms_b"
+       ],
+       [
+        "cScArms_b:else",
+        "cScArms_ctt",
+        "cScArms_stm",
+        "cScArms_tti",
+        "cScArms_st"
+       ],
+       [
+        "cScArms_b",
+        "cScArms_nt"
+       ],
+       [
+        "cScHands_en",
+        "cScHands_ro",
+        "cScHands_b"
+       ],
+       [
+        "cScHands_b:else",
+        "cScHands_ctt",
+        "cScHands_stm",
+        "cScHands_tti",
+        "cScHands_st"
+       ],
+       [
+        "cScHands_b",
+        "cScHands_nt"
+       ],
+       [
+        "cScFeet_en",
+        "cScFeet_ro",
+        "cScFeet_b"
+       ],
+       [
+        "cScFeet_b:else",
+        "cScFeet_ctt",
+        "cScFeet_stm",
+        "cScFeet_tti",
+        "cScFeet_st"
+       ],
+       [
+        "cScFeet_b",
+        "cScFeet_nt"
+       ],
+       [
+        "cScBreastAngle_en",
+        "cScBreastAngle_ro",
+        "cScBreastAngle_b"
+       ],
+       [
+        "cScBreastAngle_b:else",
+        "cScBreastAngle_ctt",
+        "cScBreastAngle_stm",
+        "cScBreastAngle_tti",
+        "cScBreastAngle_st"
+       ],
+       [
+        "cScBreastAngle_b",
+        "cScBreastAngle_nt"
+       ],
+       [
+        "cScPelvis_en",
+        "cScPelvis_ro",
+        "cScPelvis_b"
+       ],
+       [
+        "cScPelvis_b:else",
+        "cScPelvis_ctt",
+        "cScPelvis_stm",
+        "cScPelvis_tti",
+        "cScPelvis_st"
+       ],
+       [
+        "cScPelvis_b",
+        "cScPelvis_nt"
+       ],
+       [
+        "cScLegSpacing_en",
+        "cScLegSpacing_ro",
+        "cScLegSpacing_b"
+       ],
+       [
+        "cScLegSpacing_b:else",
+        "cScLegSpacing_ctt",
+        "cScLegSpacing_stm",
+        "cScLegSpacing_tti",
+        "cScLegSpacing_st"
+       ],
+       [
+        "cScLegSpacing_b",
+        "cScLegSpacing_nt"
+       ],
+       [
+        "cScGlutesAngle_en",
+        "cScGlutesAngle_ro",
+        "cScGlutesAngle_b"
+       ],
+       [
+        "cScGlutesAngle_b:else",
+        "cScGlutesAngle_ctt",
+        "cScGlutesAngle_stm",
+        "cScGlutesAngle_tti",
+        "cScGlutesAngle_st"
+       ],
+       [
+        "cScGlutesAngle_b",
+        "cScGlutesAngle_nt"
+       ],
+       [
         "entry",
-        "eScBreast",
-        "eScWaist",
-        "eScGlutes",
-        "eScThighs",
-        "eScCalves",
-        "eScArms",
-        "eScHands",
-        "eScFeet",
-        "eScBreastAngle",
-        "eScPelvis",
-        "eScGlutesAngle"
+        "cScBreast_en"
+       ],
+       [
+        "cScBreast_nt",
+        "cScWaist_en"
+       ],
+       [
+        "cScBreast_st",
+        "cScWaist_en"
+       ],
+       [
+        "cScWaist_nt",
+        "cScGlutes_en"
+       ],
+       [
+        "cScWaist_st",
+        "cScGlutes_en"
+       ],
+       [
+        "cScGlutes_nt",
+        "cScThighs_en"
+       ],
+       [
+        "cScGlutes_st",
+        "cScThighs_en"
+       ],
+       [
+        "cScThighs_nt",
+        "cScCalves_en"
+       ],
+       [
+        "cScThighs_st",
+        "cScCalves_en"
+       ],
+       [
+        "cScCalves_nt",
+        "cScArms_en"
+       ],
+       [
+        "cScCalves_st",
+        "cScArms_en"
+       ],
+       [
+        "cScArms_nt",
+        "cScHands_en"
+       ],
+       [
+        "cScArms_st",
+        "cScHands_en"
+       ],
+       [
+        "cScHands_nt",
+        "cScFeet_en"
+       ],
+       [
+        "cScHands_st",
+        "cScFeet_en"
+       ],
+       [
+        "cScFeet_nt",
+        "cScBreastAngle_en"
+       ],
+       [
+        "cScFeet_st",
+        "cScBreastAngle_en"
+       ],
+       [
+        "cScBreastAngle_nt",
+        "cScPelvis_en"
+       ],
+       [
+        "cScBreastAngle_st",
+        "cScPelvis_en"
+       ],
+       [
+        "cScPelvis_nt",
+        "cScLegSpacing_en"
+       ],
+       [
+        "cScPelvis_st",
+        "cScLegSpacing_en"
+       ],
+       [
+        "cScLegSpacing_nt",
+        "cScGlutesAngle_en"
+       ],
+       [
+        "cScLegSpacing_st",
+        "cScGlutesAngle_en"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "Set Foot IK Enabled",
+     "inputs": [
+      {
+       "name": "enabled",
+       "type": "bool"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "oFootIK_gw",
+        "kind": "get",
+        "var": "OptFootIK"
+       },
+       {
+        "id": "oFootIK_en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@oFootIK_gw.OptFootIK",
+         "bInIsEnabled": "@entry.enabled"
+        }
+       },
+       {
+        "id": "oFootIK_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
+       },
+       {
+        "id": "oFootIK_gw2",
+        "kind": "get",
+        "var": "OptFootIK"
+       },
+       {
+        "id": "oFootIK_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@oFootIK_gw2.OptFootIK",
+         "InOpacity": "@oFootIK_op.ReturnValue"
+        }
+       },
+       {
+        "id": "oFootIK_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "oFootIK_gt",
+        "kind": "get",
+        "var": "RowFootIK"
+       },
+       {
+        "id": "oFootIK_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@oFootIK_gt.RowFootIK",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "oFootIK_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "oFootIK_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@oFootIK_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "oFootIK_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@oFootIK_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "oFootIK_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "oFootIK_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@oFootIK_ctc.AsW_Tooltip",
+         "Manager": "@oFootIK_gmt.Manager"
+        }
+       },
+       {
+        "id": "oFootIK_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "oFootIK_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@oFootIK_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "oFootIK_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@oFootIK_ctc.AsW_Tooltip",
+         "text": "@oFootIK_tx.text"
+        }
+       },
+       {
+        "id": "oFootIK_gt2",
+        "kind": "get",
+        "var": "RowFootIK"
+       },
+       {
+        "id": "oFootIK_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@oFootIK_gt2.RowFootIK",
+         "Widget": "@oFootIK_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "lFootIK_gw",
+        "kind": "get",
+        "var": "LblFootIK"
+       },
+       {
+        "id": "lFootIK_en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@lFootIK_gw.LblFootIK",
+         "bInIsEnabled": "@entry.enabled"
+        }
+       },
+       {
+        "id": "lFootIK_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
+       },
+       {
+        "id": "lFootIK_gw2",
+        "kind": "get",
+        "var": "LblFootIK"
+       },
+       {
+        "id": "lFootIK_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@lFootIK_gw2.LblFootIK",
+         "InOpacity": "@lFootIK_op.ReturnValue"
+        }
+       },
+       {
+        "id": "oFootContact_gw",
+        "kind": "get",
+        "var": "OptFootContact"
+       },
+       {
+        "id": "oFootContact_en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@oFootContact_gw.OptFootContact",
+         "bInIsEnabled": "@entry.enabled"
+        }
+       },
+       {
+        "id": "oFootContact_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
+       },
+       {
+        "id": "oFootContact_gw2",
+        "kind": "get",
+        "var": "OptFootContact"
+       },
+       {
+        "id": "oFootContact_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@oFootContact_gw2.OptFootContact",
+         "InOpacity": "@oFootContact_op.ReturnValue"
+        }
+       },
+       {
+        "id": "oFootContact_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "oFootContact_gt",
+        "kind": "get",
+        "var": "RowFootContact"
+       },
+       {
+        "id": "oFootContact_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@oFootContact_gt.RowFootContact",
+         "Widget": "None"
+        }
+       },
+       {
+        "id": "oFootContact_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "oFootContact_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@oFootContact_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "oFootContact_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@oFootContact_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "oFootContact_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "oFootContact_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@oFootContact_ctc.AsW_Tooltip",
+         "Manager": "@oFootContact_gmt.Manager"
+        }
+       },
+       {
+        "id": "oFootContact_tx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "oFootContact_tx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@oFootContact_tx_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "oFootContact_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@oFootContact_ctc.AsW_Tooltip",
+         "text": "@oFootContact_tx.text"
+        }
+       },
+       {
+        "id": "oFootContact_gt2",
+        "kind": "get",
+        "var": "RowFootContact"
+       },
+       {
+        "id": "oFootContact_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@oFootContact_gt2.RowFootContact",
+         "Widget": "@oFootContact_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "lFootContact_gw",
+        "kind": "get",
+        "var": "LblFootContact"
+       },
+       {
+        "id": "lFootContact_en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@lFootContact_gw.LblFootContact",
+         "bInIsEnabled": "@entry.enabled"
+        }
+       },
+       {
+        "id": "lFootContact_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
+       },
+       {
+        "id": "lFootContact_gw2",
+        "kind": "get",
+        "var": "LblFootContact"
+       },
+       {
+        "id": "lFootContact_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@lFootContact_gw2.LblFootContact",
+         "InOpacity": "@lFootContact_op.ReturnValue"
+        }
+       },
+       {
+        "id": "oClothFit_gw",
+        "kind": "get",
+        "var": "OptClothFit"
+       },
+       {
+        "id": "oClothFit_en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@oClothFit_gw.OptClothFit",
+         "bInIsEnabled": "@entry.enabled"
+        }
+       },
+       {
+        "id": "oClothFit_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
+       },
+       {
+        "id": "oClothFit_gw2",
+        "kind": "get",
+        "var": "OptClothFit"
+       },
+       {
+        "id": "oClothFit_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@oClothFit_gw2.OptClothFit",
+         "InOpacity": "@oClothFit_op.ReturnValue"
+        }
+       },
+       {
+        "id": "oClothFit_b",
+        "kind": "branch",
+        "in": {
+         "Condition": "@entry.enabled"
+        }
+       },
+       {
+        "id": "oClothFit_egop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "oClothFit_ectt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@oClothFit_egop.ReturnValue"
+        }
+       },
+       {
+        "id": "oClothFit_ectc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@oClothFit_ectt.ReturnValue"
+        }
+       },
+       {
+        "id": "oClothFit_egmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "oClothFit_estm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@oClothFit_ectc.AsW_Tooltip",
+         "Manager": "@oClothFit_egmt.Manager"
+        }
+       },
+       {
+        "id": "oClothFit_etx_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "oClothFit_etx",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@oClothFit_etx_m.Manager",
+         "key": "Tip_ClothFit"
+        }
+       },
+       {
+        "id": "oClothFit_etti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@oClothFit_ectc.AsW_Tooltip",
+         "text": "@oClothFit_etx.text"
+        }
+       },
+       {
+        "id": "oClothFit_gt",
+        "kind": "get",
+        "var": "RowClothFit"
+       },
+       {
+        "id": "oClothFit_nt",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@oClothFit_gt.RowClothFit",
+         "Widget": "@oClothFit_ectc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "oClothFit_gop",
+        "kind": "call",
+        "class": "/Script/UMG.UserWidget",
+        "function": "GetOwningPlayer"
+       },
+       {
+        "id": "oClothFit_ctt",
+        "kind": "call",
+        "class": "/Script/UMG.WidgetBlueprintLibrary",
+        "function": "Create",
+        "in": {
+         "WidgetType": "/Game/Mod/AltUI/W_Tooltip",
+         "OwningPlayer": "@oClothFit_gop.ReturnValue"
+        }
+       },
+       {
+        "id": "oClothFit_ctc",
+        "kind": "cast",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "pure": true,
+        "in": {
+         "Object": "@oClothFit_ctt.ReturnValue"
+        }
+       },
+       {
+        "id": "oClothFit_gmt",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "oClothFit_stm",
+        "kind": "set",
+        "var": "Manager",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "in": {
+         "self": "@oClothFit_ctc.AsW_Tooltip",
+         "Manager": "@oClothFit_gmt.Manager"
+        }
+       },
+       {
+        "id": "oClothFit_dco_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "oClothFit_dco",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@oClothFit_dco_m.Manager",
+         "key": "Tip_ConvertedOnly"
+        }
+       },
+       {
+        "id": "oClothFit_dco_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@oClothFit_dco.text"
+        }
+       },
+       {
+        "id": "oClothFit_dc1",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@oClothFit_dco_2s.ReturnValue",
+         "B": "\n\n"
+        }
+       },
+       {
+        "id": "oClothFit_dfu_m",
+        "kind": "get",
+        "var": "Manager"
+       },
+       {
+        "id": "oClothFit_dfu",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/BP_AltUIManager",
+        "function": "T",
+        "in": {
+         "self": "@oClothFit_dfu_m.Manager",
+         "key": "Tip_ClothFit"
+        }
+       },
+       {
+        "id": "oClothFit_dfu_2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_TextToString",
+        "in": {
+         "InText": "@oClothFit_dfu.text"
+        }
+       },
+       {
+        "id": "oClothFit_dc2",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Concat_StrStr",
+        "in": {
+         "A": "@oClothFit_dc1.ReturnValue",
+         "B": "@oClothFit_dfu_2s.ReturnValue"
+        }
+       },
+       {
+        "id": "oClothFit_dct",
+        "kind": "call",
+        "class": "/Script/Engine.KismetTextLibrary",
+        "function": "Conv_StringToText",
+        "in": {
+         "InString": "@oClothFit_dc2.ReturnValue"
+        }
+       },
+       {
+        "id": "oClothFit_tti",
+        "kind": "call",
+        "class": "/Game/Mod/AltUI/W_Tooltip",
+        "function": "Init",
+        "in": {
+         "self": "@oClothFit_ctc.AsW_Tooltip",
+         "text": "@oClothFit_dct.ReturnValue"
+        }
+       },
+       {
+        "id": "oClothFit_gt2",
+        "kind": "get",
+        "var": "RowClothFit"
+       },
+       {
+        "id": "oClothFit_st",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetToolTip",
+        "in": {
+         "self": "@oClothFit_gt2.RowClothFit",
+         "Widget": "@oClothFit_ctc.AsW_Tooltip"
+        }
+       },
+       {
+        "id": "lClothFit_gw",
+        "kind": "get",
+        "var": "LblClothFit"
+       },
+       {
+        "id": "lClothFit_en",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetIsEnabled",
+        "in": {
+         "self": "@lClothFit_gw.LblClothFit",
+         "bInIsEnabled": "@entry.enabled"
+        }
+       },
+       {
+        "id": "lClothFit_op",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "1.0",
+         "B": "0.4",
+         "bPickA": "@entry.enabled"
+        }
+       },
+       {
+        "id": "lClothFit_gw2",
+        "kind": "get",
+        "var": "LblClothFit"
+       },
+       {
+        "id": "lClothFit_ro",
+        "kind": "call",
+        "class": "/Script/UMG.Widget",
+        "function": "SetRenderOpacity",
+        "in": {
+         "self": "@lClothFit_gw2.LblClothFit",
+         "InOpacity": "@lClothFit_op.ReturnValue"
+        }
+       }
+      ],
+      "links": [],
+      "exec": [
+       [
+        "oFootIK_en",
+        "oFootIK_ro",
+        "oFootIK_b"
+       ],
+       [
+        "oFootIK_b:else",
+        "oFootIK_ctt",
+        "oFootIK_stm",
+        "oFootIK_tti",
+        "oFootIK_st"
+       ],
+       [
+        "oFootIK_b",
+        "oFootIK_nt"
+       ],
+       [
+        "lFootIK_en",
+        "lFootIK_ro"
+       ],
+       [
+        "oFootContact_en",
+        "oFootContact_ro",
+        "oFootContact_b"
+       ],
+       [
+        "oFootContact_b:else",
+        "oFootContact_ctt",
+        "oFootContact_stm",
+        "oFootContact_tti",
+        "oFootContact_st"
+       ],
+       [
+        "oFootContact_b",
+        "oFootContact_nt"
+       ],
+       [
+        "lFootContact_en",
+        "lFootContact_ro"
+       ],
+       [
+        "oClothFit_b",
+        "oClothFit_ectt",
+        "oClothFit_estm",
+        "oClothFit_etti",
+        "oClothFit_nt"
+       ],
+       [
+        "oClothFit_en",
+        "oClothFit_ro",
+        "oClothFit_b"
+       ],
+       [
+        "oClothFit_b:else",
+        "oClothFit_ctt",
+        "oClothFit_stm",
+        "oClothFit_tti",
+        "oClothFit_st"
+       ],
+       [
+        "lClothFit_en",
+        "lClothFit_ro"
+       ],
+       [
+        "entry",
+        "oFootIK_en"
+       ],
+       [
+        "oFootIK_nt",
+        "lFootIK_en"
+       ],
+       [
+        "oFootIK_st",
+        "lFootIK_en"
+       ],
+       [
+        "lFootIK_ro",
+        "oFootContact_en"
+       ],
+       [
+        "oFootContact_nt",
+        "lFootContact_en"
+       ],
+       [
+        "oFootContact_st",
+        "lFootContact_en"
+       ],
+       [
+        "lFootContact_ro",
+        "oClothFit_en"
+       ],
+       [
+        "oClothFit_nt",
+        "lClothFit_en"
+       ],
+       [
+        "oClothFit_st",
+        "lClothFit_en"
        ]
       ]
      }
@@ -122258,7 +128506,7 @@
                   "class": "/Script/UMG.WrapBox",
                   "name": "ModTabChips",
                   "props": {
-                   "InnerSlotPadding": "(X=0,Y=11)",
+                   "InnerSlotPadding": "(X=9,Y=9)",
                    "Visibility": "Collapsed"
                   },
                   "slot": {
@@ -123907,6 +130155,98 @@
                     ]
                    }
                   ]
+                 }
+                ]
+               },
+               {
+                "class": "/Script/UMG.HorizontalBox",
+                "name": "ObjLoadRow",
+                "props": {
+                 "Visibility": "Visible"
+                },
+                "slot": {
+                 "VerticalAlignment": "VAlign_Center"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.SizeBox",
+                  "name": "ObjLoadBox",
+                  "props": {
+                   "bOverride_WidthOverride": true,
+                   "WidthOverride": 65,
+                   "bOverride_HeightOverride": true,
+                   "HeightOverride": 65
+                  },
+                  "slot": {
+                   "Padding": "(Left=30,Top=0,Right=10,Bottom=0)",
+                   "VerticalAlignment": "VAlign_Center"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.ScaleBox",
+                    "name": "ObjLoadScale",
+                    "props": {
+                     "Stretch": "ScaleToFit"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Overlay",
+                      "name": "ObjLoadIconsOv",
+                      "children": [
+                       {
+                        "class": "/Script/UMG.Image",
+                        "name": "ObjLoadIconsUnder",
+                        "props": {
+                         "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                         "ColorAndOpacity": "(R=1,G=1,B=1,A=0.25)",
+                         "Visibility": "HitTestInvisible"
+                        },
+                        "slot": {
+                         "HorizontalAlignment": "HAlign_Fill",
+                         "VerticalAlignment": "VAlign_Fill"
+                        }
+                       },
+                       {
+                        "class": "/Script/UMG.Image",
+                        "name": "ObjLoadIconsFill",
+                        "props": {
+                         "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckInner.T_CheckInner',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                         "ColorAndOpacity": "(R=0,G=0,B=0,A=0.55)",
+                         "Visibility": "HitTestInvisible"
+                        },
+                        "slot": {
+                         "HorizontalAlignment": "HAlign_Fill",
+                         "VerticalAlignment": "VAlign_Fill"
+                        }
+                       },
+                       {
+                        "class": "/Script/UMG.CheckBox",
+                        "name": "ObjLoadIcons",
+                        "props": {
+                         "WidgetStyle": "(UncheckedImage=(ImageSize=(X=66,Y=66),DrawAs=NoDrawType),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                        },
+                        "slot": {
+                         "HorizontalAlignment": "HAlign_Fill",
+                         "VerticalAlignment": "VAlign_Fill"
+                        }
+                       }
+                      ]
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "LblObjLoad",
+                  "props": {
+                   "Text": "Load",
+                   "Font": "(Size=21)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                  },
+                  "slot": {
+                   "VerticalAlignment": "VAlign_Center"
+                  }
                  }
                 ]
                }
@@ -126538,9 +132878,110 @@
                },
                {
                 "class": "/Script/UMG.Border",
-                "name": "RowBgScGlutesAngle",
+                "name": "RowBgScLegSpacing",
                 "props": {
                  "BrushColor": "(R=0,G=0,B=0,A=0)",
+                 "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
+                },
+                "children": [
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowScLegSpacing",
+                  "slot": {
+                   "Padding": "(Left=0,Top=11,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "LblScLegSpacingBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 504,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "LblScLegSpacing",
+                      "props": {
+                       "Text": "LegSpacing",
+                       "Font": "(Size=25)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "SldScLegSpacingBox",
+                    "props": {
+                     "bOverride_MinDesiredWidth": true,
+                     "MinDesiredWidth": 228,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Size": "(SizeRule=Fill,Value=1)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Slider",
+                      "name": "SldScLegSpacing",
+                      "props": {
+                       "Value": 0.5,
+                       "StepSize": 0.01,
+                       "SliderBarColor": "(R=0.35,G=0.42,B=0.55,A=1)",
+                       "SliderHandleColor": "(R=1,G=1,B=1,A=1)",
+                       "WidgetStyle": "(BarThickness=5.0)"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.SizeBox",
+                    "name": "ValScLegSpacingBox",
+                    "props": {
+                     "bOverride_WidthOverride": true,
+                     "WidthOverride": 133,
+                     "bOverride_HeightOverride": true,
+                     "HeightOverride": 46
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=19,Top=0,Right=0,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.TextBlock",
+                      "name": "ValScLegSpacing",
+                      "props": {
+                       "Text": "50 %",
+                       "Font": "(Size=23)",
+                       "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))"
+                      },
+                      "slot": {
+                       "VerticalAlignment": "VAlign_Center"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "class": "/Script/UMG.Border",
+                "name": "RowBgScGlutesAngle",
+                "props": {
+                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
                  "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
@@ -126641,7 +133082,7 @@
                 "class": "/Script/UMG.Border",
                 "name": "RowBgScGlutesJiggle",
                 "props": {
-                 "BrushColor": "(R=1,G=1,B=1,A=0.05)",
+                 "BrushColor": "(R=0,G=0,B=0,A=0)",
                  "Padding": "(Left=11,Top=0,Right=11,Bottom=0)"
                 },
                 "children": [
@@ -126967,6 +133408,87 @@
                     }
                    }
                   ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowClothFit",
+                  "slot": {
+                   "Padding": "(Left=0,Top=19,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.Overlay",
+                    "name": "OptClothFitOv",
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptClothFitUnder",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=1,G=1,B=1,A=0.25)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptClothFitFill",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckInner.T_CheckInner',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=0,G=0,B=0,A=0.55)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.CheckBox",
+                      "name": "OptClothFit",
+                      "props": {
+                       "WidgetStyle": "(UncheckedImage=(ImageSize=(X=66,Y=66),DrawAs=NoDrawType),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "LblClothFit",
+                    "props": {
+                     "Text": "Clothes follow the body shape",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "HintClothFit",
+                  "props": {
+                   "Text": "Swinging cloth (skirts, dresses, tops) stays closer to bigger thighs and breasts. Hardly helps with the glutes. Only on bodies converted for AltUI - details in the tooltip.",
+                   "Font": "(Size=23)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+                   "AutoWrapText": true
+                  },
+                  "slot": {
+                   "Padding": "(Left=81,Top=0,Right=0,Bottom=11)"
+                  }
                  },
                  {
                   "class": "/Script/UMG.HorizontalBox",
@@ -130261,6 +136783,155 @@
                     }
                    }
                   ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowFootIK",
+                  "slot": {
+                   "Padding": "(Left=0,Top=27,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.Overlay",
+                    "name": "OptFootIKOv",
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptFootIKUnder",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=1,G=1,B=1,A=0.25)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptFootIKFill",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckInner.T_CheckInner',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=0,G=0,B=0,A=0.55)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.CheckBox",
+                      "name": "OptFootIK",
+                      "props": {
+                       "WidgetStyle": "(UncheckedImage=(ImageSize=(X=66,Y=66),DrawAs=NoDrawType),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "LblFootIK",
+                    "props": {
+                     "Text": "Feet follow the ground",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.HorizontalBox",
+                  "name": "RowFootContact",
+                  "slot": {
+                   "Padding": "(Left=0,Top=0,Right=0,Bottom=11)"
+                  },
+                  "children": [
+                   {
+                    "class": "/Script/UMG.Overlay",
+                    "name": "OptFootContactOv",
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center",
+                     "Padding": "(Left=0,Top=0,Right=15,Bottom=0)"
+                    },
+                    "children": [
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptFootContactUnder",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=1,G=1,B=1,A=0.25)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.Image",
+                      "name": "OptFootContactFill",
+                      "props": {
+                       "Brush": "(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckInner.T_CheckInner',ImageSize=(X=66,Y=66),DrawAs=Image)",
+                       "ColorAndOpacity": "(R=0,G=0,B=0,A=0.55)",
+                       "Visibility": "HitTestInvisible"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     },
+                     {
+                      "class": "/Script/UMG.CheckBox",
+                      "name": "OptFootContact",
+                      "props": {
+                       "WidgetStyle": "(UncheckedImage=(ImageSize=(X=66,Y=66),DrawAs=NoDrawType),UncheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),UncheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckFill.T_CheckFill',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=0.10))),CheckedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOn.T_CheckOn',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedHoveredImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),CheckedPressedImage=(ResourceObject=Texture2D'/Game/Mod/AltUI/T_CheckOnHover.T_CheckOnHover',ImageSize=(X=66,Y=66),DrawAs=Image,TintColor=(SpecifiedColor=(R=1,G=1,B=1,A=1))),Padding=(Left=0,Top=0,Right=0,Bottom=0),ForegroundColor=(SpecifiedColor=(R=1,G=1,B=1,A=1)))"
+                      },
+                      "slot": {
+                       "HorizontalAlignment": "HAlign_Fill",
+                       "VerticalAlignment": "VAlign_Fill"
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "class": "/Script/UMG.TextBlock",
+                    "name": "LblFootContact",
+                    "props": {
+                     "Text": "Knees and hands follow the ground",
+                     "Font": "(Size=25)",
+                     "ColorAndOpacity": "(SpecifiedColor=(R=1,G=1,B=1,A=1))"
+                    },
+                    "slot": {
+                     "VerticalAlignment": "VAlign_Center"
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "class": "/Script/UMG.TextBlock",
+                  "name": "HintFootIK",
+                  "props": {
+                   "Text": "Only on bodies converted for AltUI.",
+                   "Font": "(Size=23)",
+                   "ColorAndOpacity": "(SpecifiedColor=(R=0.6,G=0.6,B=0.6,A=1))",
+                   "AutoWrapText": true
+                  },
+                  "slot": {
+                   "Padding": "(Left=81,Top=0,Right=0,Bottom=11)"
+                  }
                  },
                  {
                   "class": "/Script/UMG.HorizontalBox",

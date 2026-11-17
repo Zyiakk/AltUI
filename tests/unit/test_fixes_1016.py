@@ -12,7 +12,7 @@ def calls(g, f): return [n for n in g["nodes"] if n.get("function") == f]
 
 class LookMissing(unittest.TestCase):
     def test_update_keeps_what_she_could_not_put_on(self):
-        g = mgr_graph("Update Look"); self.assertIn(["entry", "sid", "ts", "km", "stl", "set", "rmi", "sv", "cap", "rl"], g["exec"])
+        g = mgr_graph("Update Look"); self.assertIn(["entry", "sid", "ts", "km", "nw", "nw_s", "stl", "set", "sv", "bk", "rl"], g["exec"]); self.assertIn(["bk:else", "rmi", "cap", "rl"], g["exec"])
         self.assertEqual(by_id(g)["mk"]["in"]["Snap"], "@km.snap")
         k = mgr_graph("Keep Missing"); self.assertTrue(calls(k, "Can Wear")); self.assertTrue(calls(k, "Find Item"))
 
@@ -168,4 +168,4 @@ class MercenaryCopy(unittest.TestCase):
         self.assertEqual(by_id(g)["att2"]["in"]["SocketName"], "@gsb2.RagSockTmp")
 
     def test_no_ai_while_waiting(self):
-        g = mgr_graph("Look Ragdoll Poll"); self.assertIn(["entry", "bzp", "zpa", "bzg", "zdc", "c0"], g["exec"])
+        g = mgr_graph("Look Ragdoll Poll"); self.assertIn(["entry", "ensc", "bzp", "zpa", "bzg", "zdc", "c0"], g["exec"])   # ensc: the catalog complete (2026-11-16)

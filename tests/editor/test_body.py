@@ -16,10 +16,13 @@ def main():
     N = list(bg.NEUTRAL)
     mgr.call_method("Test Body Scales", args=("Body_Nope",))
     expect("missing body -> neutral", [round(x, 3) for x in mgr.get_editor_property("TmpFloats")], N)
-    full = [1.2, 1.0, 0.8, 1.0, 1.0, 1.5, 0.7, 1.1, 0.9, 1.1, 5.0, -5.0, 0.5, 2.0, 0.0, 3.0, -0.5]
+    full = [1.2, 1.0, 0.8, 1.0, 1.0, 1.5, 0.7, 1.1, 0.9, 1.1, 5.0, -5.0, 0.5, 2.0, 0.0, 3.0, -0.5, -2.0]
     mgr.call_method("Test Set Body Scales", args=("Body_X", full))
     mgr.call_method("Test Body Scales", args=("Body_X",))
     expect("saved factors returned", [round(x, 3) for x in mgr.get_editor_property("TmpFloats")], full)
+    mgr.call_method("Test Set Body Scales", args=("Body_17", full[:17]))   # saved before the leg spacing slider
+    mgr.call_method("Test Body Scales", args=("Body_17",))
+    expect("17 entries -> neutral leg spacing", [round(x, 3) for x in mgr.get_editor_property("TmpFloats")], full[:17] + N[17:])
     mgr.call_method("Test Set Body Scales", args=("Body_Nine", full[:9]))   # saved before 2026-10-09 -> new sliders neutral
     mgr.call_method("Test Body Scales", args=("Body_Nine",))
     expect("nine entries -> neutral tail", [round(x, 3) for x in mgr.get_editor_property("TmpFloats")], full[:9] + N[9:])

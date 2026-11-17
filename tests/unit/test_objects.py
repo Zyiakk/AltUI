@@ -306,3 +306,62 @@ class World(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def reach(g, start):
+    """Exec nodes reachable from start ('id' or 'id:pin') over the graph's exec chains."""
+    nxt = {}
+    for ch in g["exec"]:
+        for a, b in zip(ch, ch[1:]): nxt.setdefault(a, []).append(b)
+    seen, todo = set(), [start]
+    while todo:
+        x = todo.pop()
+        for y in nxt.get(x, []):
+            base = y.split(":")[0]
+            if base in seen: continue
+            seen.add(base); todo += [base] + [k for k in nxt if k.startswith(base + ":")]
+    return seen
+
+
+class LoadIcons(unittest.TestCase):
+    """2026-11-13 (spec 2026-11-13-panel-load-time-design §1): tile pictures only with "Load" ticked (ObjLoadIcons)."""
+    def test_setting_saved(self):
+        import gen_manager as gm
+        src = open(gm.__file__).read()
+        self.assertIn('("ObjLoadIcons", "ObjLoadIcons", "copy", None)', src); self.assertEqual(src.count('var("ObjLoadIcons", "bool")'), 2)
+
+    def test_off_reads_nothing(self):
+        g = mgr_graph("Obj Icon"); ids = {n["id"]: n for n in g["nodes"]}
+        self.assertEqual(g["exec"][0][:2], ["entry", "bld"]); self.assertEqual(ids["gld"]["var"], "ObjLoadIcons")
+        off = reach(g, "bld:else")
+        self.assertFalse([i for i in off if ids.get(i, {}).get("function") in ("ImportFileAsTexture2D", "Map_Find", "Map_Add")], off)
+
+    def test_missing_not_searched_again(self):
+        g = mgr_graph("Obj Icon"); ids = {n["id"]: n for n in g["nodes"]}
+        imp = [n["id"] for n in calls(g, "ImportFileAsTexture2D")][0]
+        self.assertIn(imp, reach(g, "bm:else")); self.assertNotIn(imp, reach(g, "bm"))
+        self.assertTrue([n for n in calls(g, "Map_Contains") if "ObjIconMissing" in str(n["in"])] or ids["gim"]["var"] == "ObjIconMissing")
+        self.assertIn("adm", reach(g, "bv:else"))
+        self.assertTrue(calls(mgr_graph("Obj Icon Done"), "Map_Remove"))
+
+    def test_no_photo_when_off(self):
+        g = mgr_graph("Obj Next Icon"); ids = {n["id"]: n for n in g["nodes"]}
+        self.assertIn("ObjLoadIcons", [n.get("var") for n in g["nodes"] if n.get("kind") == "get"])
+        self.assertNotIn("cap", reach(g, "b:else"))
+
+    def test_toggle(self):
+        g = mgr_graph("Set Obj Load Icons"); f = fns(g)
+        self.assertTrue({"Save Settings", "Rebuild Obj Tiles"} <= f); self.assertTrue(calls(g, "Array_Clear"))
+
+    def test_strings(self):
+        import strings, strings_fr
+        self.assertEqual(len(strings.STRINGS["Lbl_ObjLoad"]), 7); self.assertIn("Lbl_ObjLoad", open(strings_fr.__file__).read())
+
+    def test_tooltip(self):
+        """ui-test-207 feedback: "Load" explains itself and warns about the many picture files (W_Tooltip on ObjLoadRow)."""
+        import strings, strings_fr, gen_widgets
+        sg = [f for f in gen_widgets.obj_load_fns() if f["name"] == "Set Obj Load"][0]["graph"]
+        nodes = sg["nodes"] if isinstance(sg, dict) else sg.nodes
+        self.assertIn("SetToolTip", [n.get("function") for n in nodes]); self.assertIn("ObjLoadRow", [n.get("var") for n in nodes])
+        self.assertIn("Tip_ObjLoad", json.dumps(nodes)); self.assertEqual(len(strings.STRINGS["Tip_ObjLoad"]), 7)
+        self.assertIn("Tip_ObjLoad", open(strings_fr.__file__).read())

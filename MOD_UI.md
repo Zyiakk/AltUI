@@ -43,6 +43,25 @@ Your assets store these by their path, and in the game they are loaded from `Alt
 them in your pak**: a pak that brings its own copy replaces AltUI's for everyone who installs it. A table built on a
 structure at any other path is not read at all.
 
+### Row names: start them with your mod's name
+
+Give every row of your AltUI tables (`AltUI_Entries`, `AltUI_Fields`, `AltUI_Actions`, `AltUI_Presets`) a name no other
+mod uses: a short prefix from your mod's name in front, `VP_Size` instead of `Size`.
+
+The reason is the texts. Every text cell of a table carries an ID the engine uses for translations, and the engine
+keeps one text per ID. When rows are imported from a JSON or CSV file - the Unreal editor's import as well - the ID is
+built from the table's name and the row and column: `AltUI_Fields` / `Size_Label`. Every mod names its tables the
+same, so two mods with a row `Size` share one ID, and both show the label of whichever mod the game loaded last. Rows
+you add by hand in the editor's table editor get a random ID and are not affected.
+
+In a JSON or CSV file you can also give a single text its own ID: `NSLOCTEXT("<your mod>", "<key>", "Size")`, or
+`INVTEXT("Size")` for a text that is never translated.
+
+A mod that is already out can rename its `AltUI_Fields` rows freely: AltUI keeps values, presets and quick menu
+entries by the field's `Key`. The row names of `AltUI_Entries`, `AltUI_Actions` and `AltUI_Presets` are where the
+player's own presets, remembered tabs and folds, quick menu choices and unticked preset values hang; renaming those
+loses them. For those rows, give the texts their own IDs instead.
+
 ## `AltUI_Entries`
 
 One row per entry in the list. The row name is yours to choose; the fields refer to it.
@@ -55,7 +74,7 @@ One row per entry in the list. The row name is yours to choose; the fields refer
 
 ## `AltUI_Fields`
 
-One row per field. The row name does not matter; what counts are the columns.
+One row per field. The row name is not shown anywhere, but it must be [your own](#row-names-start-them-with-your-mods-name); what counts are the columns.
 
 | Column | Type | Meaning |
 |---|---|---|
@@ -67,6 +86,7 @@ One row per field. The row name does not matter; what counts are the columns.
 | `Step` | Float | slider: the value snaps to multiples of it from `Min`, 0 means continuous; number: what - and + change, 0 means 1 (a typed value is not snapped) |
 | `Options` | Array of Text | choice only: the options, shown one at a time with arrows |
 | `Order` | Integer | position within the entry; lower first |
+| `NoQuickMenu` | Boolean | `Button` and `Toggle` only: true keeps the field out of the [quick menu](#the-quick-menu); it stays in the panel. Unticked (the default) offers it there as before. New after AltUI 2.12; tables built with an older struct copy leave it unticked |
 
 What each type shows and which value it carries:
 
@@ -114,13 +134,13 @@ The example mod's lamp has a lead (its state and the on/off switch), the tabs "L
 
 | Row | Key | Type | Label | Min | Order |
 |---|---|---|---|---|---|
-| `Light` | `Light` | Toggle | Light | | 2 |
-| `TabLight` | `TabLight` | Tab | Light | | 10 |
-| `Brightness` | `Brightness` | Slider | Brightness | 0 | 11 |
-| `TabPlace` | `TabPlace` | Tab | Position | | 20 |
-| `Height` | `Height` | Number | Height (cm) | -100 | 21 |
-| `More` | `More` | Header | More | 1 | 22 |
-| `Note` | `Note` | Text | Note | | 24 |
+| `Lamp_Light` | `Light` | Toggle | Light | | 2 |
+| `Lamp_TabLight` | `TabLight` | Tab | Light | | 10 |
+| `Lamp_Brightness` | `Brightness` | Slider | Brightness | 0 | 11 |
+| `Lamp_TabPlace` | `TabPlace` | Tab | Position | | 20 |
+| `Lamp_Height` | `Height` | Number | Height (cm) | -100 | 21 |
+| `Lamp_More` | `More` | Header | More | 1 | 22 |
+| `Lamp_Note` | `Note` | Text | Note | | 24 |
 
 ## `BPI_AltUIMod`
 
@@ -181,7 +201,8 @@ closes on the item under the mouse. In the *Actions* tab the player ticks what g
 can be part of it in two ways, and neither needs a change to your actor or to `BPI_AltUIMod`.
 
 **Your buttons and toggles, automatically.** Every `Button` and `Toggle` field of your `AltUI_Fields` is offered,
-named "<entry caption> › <field label>". From the wheel, a button arrives exactly as from the panel:
+named "<entry caption> › <field label>" - unless you tick its `NoQuickMenu` column: such a field stays in the panel only,
+and one the player had put into the wheel before shows there as missing. From the wheel, a button arrives exactly as from the panel:
 `On AltUI Changed` with its key and the value 1. A toggle is flipped: AltUI reads it with `Get AltUI Value` and sends
 `On AltUI Changed` with the opposite value (0 or 1).
 
@@ -322,6 +343,11 @@ mod](#shipping-presets-with-your-mod). Without one, players still save presets o
 
 **Does my mod have to do anything for presets?** No. AltUI reads the values with your Get functions and applies a
 preset through your `On AltUI … Changed` events - the same calls the panel makes.
+
+**A label shows the text of another mod** (or another mod shows yours). Both mods have a row of the same name in
+the same AltUI table, imported from JSON or CSV, so the two texts share one ID and the one loaded last wins. Rename
+your rows with a prefix of your own - see [Row names](#row-names-start-them-with-your-mods-name). Mods built with
+AltUI's own generator (BPGen) since 2026-11-15 give every table its own IDs and are not affected.
 
 **My entry is shown, but greyed out.** The actor of the entry's `Actor` class is not in the level - check that the
 Blueprint Loader is installed and your loader row names that class.

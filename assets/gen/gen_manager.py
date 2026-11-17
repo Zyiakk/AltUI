@@ -35,7 +35,9 @@ S_RAGPOSE = M + "/S_RagPose"   # a pose of its own (per figure type), in SG_Ragd
 S_THEMEP = M + "/S_ThemePreset"   # a saved colour scheme: the THEME base colours in order + both opacities (Settings.ThemePresets by name)
 S_PRESETCOL = M + "/S_PresetColors"   # AltUI's own eye / make-up colours of a make-up preset (the game's preset struct has no room for them)
 SG_DRAWERS = M + "/SG_Drawers"; DRAWERS_SLOT = "AltUI_Drawers"; S_DRAWER = M + "/S_Drawer"   # clothes drawers (spec 2026-10-20-drawers-design): Saved/SaveGames/AltUI_Drawers.sav
-SG_NAMES = M + "/SG_Names"; NAMES_SLOT = "AltUI_Names"; NAMES_VERSION = 1   # custom display names: Saved/SaveGames/AltUI_Names.sav (scripts/altui_names.py exports/imports it)
+SG_NAMES = M + "/SG_Names"; NAMES_SLOT = "AltUI_Names"; NAMES_VERSION = 1
+KEEP_TABLE = M + "/AltUI_KeepLoaded"; KEEP_ROW = "AltUI_Keep"   # Keep Loaded: ItemTable row whose ActorClass holds the manager class for the whole game
+SG_MODSCAN = M + "/SG_ModScan"; MODSCAN_SLOT = "AltUI_ModScan"; MODSCAN_VERSION = 1   # Scan Mod Items' result between game starts: Saved/SaveGames/AltUI_ModScan.sav   # custom display names: Saved/SaveGames/AltUI_Names.sav (scripts/altui_names.py exports/imports it)
 NAME_KINDS = ["mod", "group", "item", "hair", "skin", "makeup", "preset"]
 SG_LOG = M + "/SG_Log"; LOG_SLOT = "AltUI_Log"; LOG_MAX = 30000   # debug log: Saved/SaveGames/AltUI_Log.sav, one FString per line (4000 let the weapon-model chatter push the tile captures out)
 T_ITEM = "struct:" + S_ITEM
@@ -161,7 +163,10 @@ def f_display_name():
 # possibly different mods (2026-10-10: Iris eyes 1..20 showed as brefg's poses). "look:<row>" is the appearance page's view of skin,
 # eye and make-up rows, which it tells apart by row name only (Look Type Of: SkinTable, then EyeTable, then MakeupTable):
 # a mod row gets it only when no table earlier in that order has a row of that name.
-MOD_TABLES = [("Mod_ClothesTable", "item"), ("Mod_HairstyleTable", "hair"), ("Mod_SkinTable", "skin"), ("Mod_MakeupTable", "makeup"), ("Mod_EyesTable", "eye"), ("Mod_AnimationTable", "pose")]
+# Third column: the name in the mod's DLC row (DLC_Struct.Tables) under which the game's loader (TKA_GameInstance.Load DLC, map
+# "dlc tables") merges that table; a table that is not listed there is never merged, so its rows are not in the game.
+MOD_TABLES = [("Mod_ClothesTable", "item", "Clothes"), ("Mod_HairstyleTable", "hair", "Hairstyle"), ("Mod_SkinTable", "skin", "Skin"),
+              ("Mod_MakeupTable", "makeup", "Makeup"), ("Mod_EyesTable", "eye", "Eyes"), ("Mod_AnimationTable", "pose", "Animations")]
 LOOK_BEFORE = {"skin": [], "eye": [P_SKIN_T], "makeup": [P_SKIN_T, P_EYE_T]}   # tables that win over a row of this kind on the appearance page
 
 
@@ -179,16 +184,20 @@ def f_scan_mod_items():
     g.call("sel", K_MATH, "SelectString", inp={"A": "@n2s.ReturnValue", "B": "@cs.ReturnValue", "bPickA": "@ce.ReturnValue"}); g.call("ct", K_TXT, "Conv_StringToText", inp={"InString": "@sel.ReturnValue"})
     g.set("stt", "TmpText", inp={"TmpText": "@ct.ReturnValue"}); g.set("sf", "TmpFound", inp={"TmpFound": "false"})
     g.chain("fe", "row", "stt", "sf"); g.chain("row:Row Not Found", "stt"); prev = "sf"
-    for i, (tbl, kind) in enumerate(MOD_TABLES):
-        g.call("c1%d" % i, K_STR, "Concat_StrStr", inp={"A": "/Game/Mod/", "B": "@n2s.ReturnValue"}); g.call("c2%d" % i, K_STR, "Concat_StrStr", inp={"A": "@c1%d.ReturnValue" % i, "B": "/%s.%s" % (tbl, tbl)})
-        g.call("sp%d" % i, K_SYS, "MakeSoftObjectPath", inp={"PathString": "@c2%d.ReturnValue" % i}); g.call("sr%d" % i, K_SYS, "Conv_SoftObjPathToSoftObjRef", inp={"SoftObjectPath": "@sp%d.ReturnValue" % i})
-        g.call("ld%d" % i, K_SYS, "LoadAsset_Blocking", inp={"Asset": "@sr%d.ReturnValue" % i}); g.cast("ck%d" % i, E_DATATABLE, "@ld%d.ReturnValue" % i, pure=False)
-        g.call("rows%d" % i, K_DT, "GetDataTableRowNames", inp={"Table": "@ck%d.AsData Table" % i}); g.foreach("fr%d" % i, "@rows%d.OutRowNames" % i)
+    # a table is loaded only when the mod's DLC row lists it, as the game's loader does: ~700 mods x 6 load attempts (most of them
+    # for files that do not exist) were ~2.5 s of every level start, a FileExists before each still 1.5 s (2026-11-14)
+    for i, (tbl, kind, key) in enumerate(MOD_TABLES):
+        p = "t%d" % i; bx, ck, dt = p + "_bx", p + "_ck", "@%s_ck.AsData Table" % p
+        g.call(p + "_has", K_ARR, "Array_Contains", inp={"TargetArray": "@br.Tables", "ItemToFind": g.lit_name(p + "_k", key)}); g.branch(bx, "@%s_has.ReturnValue" % p)
+        g.call(p + "_c1", K_STR, "Concat_StrStr", inp={"A": "/Game/Mod/", "B": "@n2s.ReturnValue"}); g.call(p + "_c2", K_STR, "Concat_StrStr", inp={"A": "@%s_c1.ReturnValue" % p, "B": "/%s.%s" % (tbl, tbl)})
+        g.call(p + "_sp", K_SYS, "MakeSoftObjectPath", inp={"PathString": "@%s_c2.ReturnValue" % p}); g.call(p + "_sr", K_SYS, "Conv_SoftObjPathToSoftObjRef", inp={"SoftObjectPath": "@%s_sp.ReturnValue" % p})
+        g.call(p + "_ld", K_SYS, "LoadAsset_Blocking", inp={"Asset": "@%s_sr.ReturnValue" % p}); g.cast(ck, E_DATATABLE, "@%s_ld.ReturnValue" % p, pure=False); g.chain(bx, p + "_ld", ck)
+        g.call("rows%d" % i, K_DT, "GetDataTableRowNames", inp={"Table": dt}); g.foreach("fr%d" % i, "@rows%d.OutRowNames" % i)
         g.call("rs%d" % i, K_STR, "Conv_NameToString", inp={"InName": "@fr%d.Array Element" % i}); g.call("ks%d" % i, K_STR, "Concat_StrStr", inp={"A": kind + ":", "B": "@rs%d.ReturnValue" % i})
         g.call("kn%d" % i, K_STR, "Conv_StringToName", inp={"InString": "@ks%d.ReturnValue" % i})
         g.get("go%d" % i, "ItemOriginMod"); g.call("ma%d" % i, K_MAP, "Map_Add", inp={"TargetMap": "@go%d.ItemOriginMod" % i, "Key": "@kn%d.ReturnValue" % i, "Value": "@fe.Array Element"})
         g.set("sf%d" % i, "TmpFound", inp={"TmpFound": "true"})
-        g.chain(prev, "ld%d" % i, "ck%d" % i, "sf%d" % i, "rows%d" % i, "fr%d" % i); g.chain("fr%d" % i, "ma%d" % i)
+        g.chain(prev, bx); g.chain(ck, "sf%d" % i, "rows%d" % i, "fr%d" % i); g.chain("fr%d" % i, "ma%d" % i)
         if kind in LOOK_BEFORE:
             g.call("ls%d" % i, K_STR, "Concat_StrStr", inp={"A": "look:", "B": "@rs%d.ReturnValue" % i}); g.call("ln%d" % i, K_STR, "Conv_StringToName", inp={"InString": "@ls%d.ReturnValue" % i})
             g.get("glo%d" % i, "ItemOriginMod"); g.call("lma%d" % i, K_MAP, "Map_Add", inp={"TargetMap": "@glo%d.ItemOriginMod" % i, "Key": "@ln%d.ReturnValue" % i, "Value": "@fe.Array Element"})
@@ -197,8 +206,8 @@ def f_scan_mod_items():
                 x = "dx%d_%d" % (i, j); g.call(x, K_DT, "DoesDataTableRowExist", inp={"Table": t, "RowName": "@fr%d.Array Element" % i}); ex.append(x)
                 g.call(x + "n", K_MATH, "Not_PreBool", inp={"A": "@%s.ReturnValue" % x}); g.call(x + "a", K_MATH, "BooleanAND", inp={"A": ok, "B": "@%sn.ReturnValue" % x}); ok = "@%sa.ReturnValue" % x
             g.branch("bl%d" % i, ok); g.chain("ma%d" % i, *ex, "bl%d" % i, "lma%d" % i)
-        nxt = "ld%d" % (i + 1) if i + 1 < len(MOD_TABLES) else "bf"
-        g.chain("ck%d:CastFailed" % i, nxt)   # mod without this table -> next table kind
+        nxt = "t%d_bx" % (i + 1) if i + 1 < len(MOD_TABLES) else "bf"
+        g.chain(bx + ":else", nxt); g.chain(ck + ":CastFailed", nxt)   # table not listed / not loadable -> next table kind
         prev = "fr%d:Completed" % i
     # mod had at least one table -> ModList + ModCaption. A weapon mod (ws.MOD_PREFIXES; skins / models / sounds, scanned by the
     # Weapons tab) has none of these tables but belongs in the list as well - Manage › Mods names it, "Rename mod…" of a weapon tile jumps there
@@ -211,7 +220,240 @@ def f_scan_mod_items():
     g.get("gl2", "ModList"); g.call("la", K_ARR, "Array_Add", inp={"TargetArray": "@gl2.ModList", "NewItem": "@fe.Array Element"})
     g.get("gc2", "ModCaption"); g.get("gtt", "TmpText"); g.call("ca", K_MAP, "Map_Add", inp={"TargetMap": "@gc2.ModCaption", "Key": "@fe.Array Element", "Value": "@gtt.TmpText"})
     g.chain("entry", "mc", "cc", "lc", "rn", "fe"); g.chain(prev, "bf", "la", "ca")
+    # 2026-11-14 measuring: table loads and row entries summed; listed in Build Catalog's acc lines
+    perf_acc(g, spans=[("t%d_ld" % i, "t%d_ld" % i, "smi load " + t[2]) for i, t in enumerate(MOD_TABLES)] + [("ma%d" % i, "ma%d" % i, "smi rows") for i in range(len(MOD_TABLES))])
     return fn("Scan Mod Items", graph=g)
+
+
+# ---------------- Mod Origins(): Scan Mod Items' result from AltUI_ModScan.sav while the mods are the same ----------------
+# 2026-11-15: the mods' tables are not in memory at a level start (the game copies their rows into its own tables at game start and
+# lets them go), so Scan Mod Items loaded several hundred packages per level (0.9-1.3 s). The result only changes with the mods:
+# it is kept with what it was made from and used again while all of that is unchanged -
+#  * the mod list: per DLC row its name, caption, version and Tables (ModScanSig),
+#  * every row name of the six game tables the mods' rows go into, in order (a new, removed or renamed piece),
+#  * how many clothes rows have a mesh in a mod folder (a mod that takes over a vanilla row under its name).
+# Anything else: Manage › "Read mods again" (Mod Rescan).
+GAME_ROW_TABLES = [("item", P_CT), ("hair", P_HAIR_T), ("skin", P_SKIN_T), ("makeup", P_MAKEUP_T), ("eye", P_EYE_T), ("pose", P_ANIM_T)]
+
+
+def f_mod_scan_sig():
+    """ModScanSig = one line per DLC row "<row>|<caption>|<version>|<table>,<table>..." (the installed mods as the game lists them)."""
+    g = G()
+    g.get("gs", "ModScanSig"); g.call("sc", K_ARR, "Array_Clear", inp={"TargetArray": "@gs.ModScanSig"})
+    g.call("rn", K_DT, "GetDataTableRowNames", inp={"Table": P_DLC_T}); g.foreach("fe", "@rn.OutRowNames")
+    g.n("row", "get_row", table=P_DLC_T, inp={"RowName": "@fe.Array Element"}, miss="ignore"); g.brk("br", P_DLC_S, "@row.OutRow")
+    g.call("n2s", K_STR, "Conv_NameToString", inp={"InName": "@fe.Array Element"}); g.call("cs", K_TXT, "Conv_TextToString", inp={"InText": "@br.Caption"})
+    g.call("vs", K_STR, "Conv_FloatToString", inp={"InFloat": "@br.Version"})
+    g.call("c1", K_STR, "Concat_StrStr", inp={"A": "@n2s.ReturnValue", "B": "|"}); g.call("c2", K_STR, "Concat_StrStr", inp={"A": "@c1.ReturnValue", "B": "@cs.ReturnValue"})
+    g.call("c3", K_STR, "Concat_StrStr", inp={"A": "@c2.ReturnValue", "B": "|"}); g.call("c4", K_STR, "Concat_StrStr", inp={"A": "@c3.ReturnValue", "B": "@vs.ReturnValue"})
+    g.call("c5", K_STR, "Concat_StrStr", inp={"A": "@c4.ReturnValue", "B": "|"}); g.set("st", "ModScanTmp", inp={"ModScanTmp": "@c5.ReturnValue"})
+    g.foreach("ft", "@br.Tables"); g.call("tn", K_STR, "Conv_NameToString", inp={"InName": "@ft.Array Element"})
+    g.get("gt", "ModScanTmp"); g.call("t1", K_STR, "Concat_StrStr", inp={"A": "@gt.ModScanTmp", "B": "@tn.ReturnValue"}); g.call("t2", K_STR, "Concat_StrStr", inp={"A": "@t1.ReturnValue", "B": ","})
+    g.set("st2", "ModScanTmp", inp={"ModScanTmp": "@t2.ReturnValue"})
+    g.get("gs2", "ModScanSig"); g.get("gt2", "ModScanTmp"); g.call("sa", K_ARR, "Array_Add", inp={"TargetArray": "@gs2.ModScanSig", "NewItem": "@gt2.ModScanTmp"})
+    g.chain("entry", "sc", "rn", "fe"); g.chain("fe", "row", "st", "ft"); g.chain("row:Row Not Found", "st"); g.chain("ft", "st2"); g.chain("ft:Completed", "sa")
+    return fn("Mod Scan Sig", graph=g)
+
+
+def f_mod_mesh_count():
+    """ModScanMeshN = clothes rows whose mesh lies in a mod folder (catches a mod that takes over a vanilla row under its name)."""
+    g = G()
+    g.set("m0", "ModScanMeshN", inp={"ModScanMeshN": "0"})
+    g.call("cr", K_DT, "GetDataTableRowNames", inp={"Table": P_CT}); g.foreach("fc", "@cr.OutRowNames")
+    g.n("crow", "get_row", table=P_CT, inp={"RowName": "@fc.Array Element"}, miss="ignore"); g.brk("bc", P_CS, "@crow.OutRow")
+    g.call("pn", K_SYS, "GetPathName", inp={"Object": "@bc.Mesh"}); g.call("sw", K_STR, "StartsWith", inp={"SourceString": "@pn.ReturnValue", "InPrefix": "/Game/Mod/", "SearchCase": "IgnoreCase"})
+    g.branch("bm", "@sw.ReturnValue"); g.get("gm", "ModScanMeshN"); g.call("inc", K_MATH, "Add_IntInt", inp={"A": "@gm.ModScanMeshN", "B": "1"}); g.set("m1", "ModScanMeshN", inp={"ModScanMeshN": "@inc.ReturnValue"})
+    g.chain("entry", "m0", "cr", "fc"); g.chain("fc", "crow", "bm", "m1")
+    return fn("Mod Mesh Count", graph=g)
+
+
+def f_mod_origins():
+    """ItemOriginMod / ModCaption / ModList: from AltUI_ModScan.sav when it was made from the same mods and rows (see above), else Scan Mod Items
+    and the result saved."""
+    g = G()
+    g.get("gsq", "ModScanSig"); g.call("sqn", K_ARR, "Array_Length", inp={"TargetArray": "@gsq.ModScanSig"}); g.call("sq0", K_MATH, "EqualEqual_IntInt", inp={"A": "@sqn.ReturnValue", "B": "0"})
+    g.branch("bsq", "@sq0.ReturnValue"); g.n("sig", "call_self", function="Mod Scan Sig"); g.n("mmc", "call_self", function="Mod Mesh Count")   # the sig: Mod File Index made it at BeginPlay
+    g.get("gmv", "ModScan"); g.call("mv", K_SYS, "IsValid", inp={"Object": "@gmv.ModScan"}); g.branch("bmv", "@mv.ReturnValue")   # loaded there too
+    g.call("ex", K_GS, "DoesSaveGameExist", inp={"SlotName": MODSCAN_SLOT, "UserIndex": "0"}); g.branch("bex", "@ex.ReturnValue")
+    g.call("ld", K_GS, "LoadGameFromSlot", inp={"SlotName": MODSCAN_SLOT, "UserIndex": "0"}); g.cast("cl", SG_MODSCAN, "@ld.ReturnValue", pure=False)
+    g.set("sm", "ModScan", inp={"ModScan": "@cl.AsSG_ModScan"})
+    def sg(id, var):
+        g.get(id, var, cls=SG_MODSCAN); g.get(id + "_o", "ModScan"); g.link(id + "_o.ModScan", id + ".self"); return "@%s.%s" % (id, var)
+    # version, number of mods, clothes rows with a mod mesh
+    g.call("veq", K_MATH, "EqualEqual_IntInt", inp={"A": sg("gv", "SaveVersion"), "B": str(MODSCAN_VERSION)})
+    g.call("sl1", K_ARR, "Array_Length", inp={"TargetArray": sg("gsg", "Sig")}); g.get("gms", "ModScanSig"); g.call("sl2", K_ARR, "Array_Length", inp={"TargetArray": "@gms.ModScanSig"})
+    g.call("leq", K_MATH, "EqualEqual_IntInt", inp={"A": "@sl1.ReturnValue", "B": "@sl2.ReturnValue"})
+    g.get("gmn", "ModScanMeshN"); g.call("meq", K_MATH, "EqualEqual_IntInt", inp={"A": sg("gmn2", "MeshN"), "B": "@gmn.ModScanMeshN"})
+    g.call("a1", K_MATH, "BooleanAND", inp={"A": "@veq.ReturnValue", "B": "@leq.ReturnValue"}); g.call("a2", K_MATH, "BooleanAND", inp={"A": "@a1.ReturnValue", "B": "@meq.ReturnValue"})
+    g.set("ok0", "ModScanOk", inp={"ModScanOk": "@a2.ReturnValue"}); g.get("gok0", "ModScanOk"); g.branch("bok0", "@gok0.ModScanOk")
+    # every mod line the same (case-sensitive)
+    g.get("gms2", "ModScanSig"); g.foreach("fs", "@gms2.ModScanSig")
+    g.call("sge", K_ARR, "Array_Get", inp={"TargetArray": sg("gsg2", "Sig"), "Index": "@fs.Array Index"})
+    g.call("sne", K_STR, "NotEqual_StrStr", inp={"A": "@sge.Item", "B": "@fs.Array Element"}); g.branch("bsn", "@sne.ReturnValue")
+    g.set("okf", "ModScanOk", inp={"ModScanOk": "false"}); g.chain("bsn", "okf")   # no early exit: equal lists are the normal case
+    g.set("okr", "ModScanOk", inp={"ModScanOk": "false"})
+    g.chain("entry", "bsq", "sig", "mmc"); g.chain("bsq:else", "mmc"); g.chain("mmc", "okr", "bmv", "ok0"); g.chain("bmv:else", "ex", "bex", "ld", "cl", "sm", "ok0")
+    g.chain("ok0", "bok0", "fs"); g.chain("fs", "bsn")
+    if PERFLOG:   # which check sent it to the scan: first mismatch only
+        def lg(tag, parts):
+            expr = parts[0]
+            for i, x in enumerate(parts[1:]):
+                g.call("dc%s_%d" % (tag, i), K_STR, "Concat_StrStr", inp={"A": expr, "B": x}); expr = "@dc%s_%d.ReturnValue" % (tag, i)
+            g.n("dl" + tag, "call_self", function="Log Line", inp={"text": expr}); return "dl" + tag
+        def ins(a, b, *ids):   # a -> ids -> b in the chain that has a -> b
+            for c in g.exec:
+                for k in range(len(c) - 1):
+                    if c[k] == a and c[k + 1] == b: c[k + 1:k + 1] = list(ids); return
+            raise AssertionError((a, b))
+        def i2s(tag, e): g.call("di" + tag, K_STR, "Conv_IntToString", inp={"InInt": e}); return "@di%s.ReturnValue" % tag
+        def b2s(tag, e): g.call("db" + tag, K_STR, "Conv_BoolToString", inp={"InBool": e}); return "@db%s.ReturnValue" % tag
+        d0 = lg("0", ["modscan ver=", b2s("v", "@veq.ReturnValue"), " sig saved=", i2s("s1", "@sl1.ReturnValue"), " now=", i2s("s2", "@sl2.ReturnValue"),
+                      " mesh saved=", i2s("m1", "@gmn2.MeshN"), " now=", i2s("m2", "@gmn.ModScanMeshN")])
+        ins("ok0", "bok0", d0)
+        g.get("dgs", "ModScanOk"); g.branch("dbs", "@dgs.ModScanOk")
+        ds = lg("s", ["modscan sig i=", i2s("si", "@fs.Array Index"), " saved=", "@sge.Item", " now=", "@fs.Array Element"])
+        ins("bsn", "okf", "dbs", ds); g.chain("dbs:else", "okf")
+    prev = "fs:Completed"
+    # every row name of the six game tables, in order
+    for i, (kind, tbl) in enumerate(GAME_ROW_TABLES):
+        p = "r%d" % i
+        g.get(p + "_go", "ModScanOk"); g.branch(p + "_b", "@%s_go.ModScanOk" % p)
+        if prev: g.chain(prev, p + "_b")
+        g.call(p + "_rn", K_DT, "GetDataTableRowNames", inp={"Table": tbl})
+        g.call(p + "_mf", K_MAP, "Map_Find", inp={"TargetMap": sg(p + "_gr", "Rows"), "Key": g.lit_name(p + "_k", kind)}); g.brk(p + "_br", S_NAMES, "@%s_mf.Value" % p)
+        g.set(p + "_sn", "ModScanNames", inp={"ModScanNames": "@%s_br.Names" % p})   # once: a pure Map_Find would copy the list for every row
+        g.get(p + "_gn", "ModScanNames"); g.call(p + "_l1", K_ARR, "Array_Length", inp={"TargetArray": "@%s_gn.ModScanNames" % p}); g.call(p + "_l2", K_ARR, "Array_Length", inp={"TargetArray": "@%s_rn.OutRowNames" % p})
+        g.call(p + "_le", K_MATH, "EqualEqual_IntInt", inp={"A": "@%s_l1.ReturnValue" % p, "B": "@%s_l2.ReturnValue" % p})
+        g.call(p + "_ok", K_MATH, "BooleanAND", inp={"A": "@%s_mf.ReturnValue" % p, "B": "@%s_le.ReturnValue" % p}); g.set(p + "_so", "ModScanOk", inp={"ModScanOk": "@%s_ok.ReturnValue" % p})
+        g.get(p + "_go2", "ModScanOk"); g.branch(p + "_b2", "@%s_go2.ModScanOk" % p)
+        g.foreach(p + "_fe", "@%s_rn.OutRowNames" % p)
+        g.get(p + "_gn2", "ModScanNames"); g.call(p + "_ge", K_ARR, "Array_Get", inp={"TargetArray": "@%s_gn2.ModScanNames" % p, "Index": "@%s_fe.Array Index" % p})
+        g.call(p + "_ne", K_MATH, "NotEqual_NameName", inp={"A": "@%s_ge.Item" % p, "B": "@%s_fe.Array Element" % p}); g.branch(p + "_bn", "@%s_ne.ReturnValue" % p)
+        # "HutaoHair_1" read back from the save is HutaoHair + number 1, the table's row keeps the whole text: unequal as names -> compare the text
+        g.call(p + "_s1", K_STR, "Conv_NameToString", inp={"InName": "@%s_ge.Item" % p}); g.call(p + "_s2", K_STR, "Conv_NameToString", inp={"InName": "@%s_fe.Array Element" % p})
+        g.call(p + "_se", K_STR, "NotEqual_StriStri", inp={"A": "@%s_s1.ReturnValue" % p, "B": "@%s_s2.ReturnValue" % p}); g.branch(p + "_bs", "@%s_se.ReturnValue" % p)
+        g.set(p + "_sf", "ModScanOk", inp={"ModScanOk": "false"})
+        g.chain(p + "_b", p + "_rn", p + "_sn", p + "_so", p + "_b2", p + "_fe"); g.chain(p + "_fe", p + "_bn", p + "_bs", p + "_sf")
+        if PERFLOG:
+            dl = lg(p + "l", ["modscan rows ", kind, " found=", b2s(p + "f", "@%s_mf.ReturnValue" % p), " saved=", i2s(p + "1", "@%s_l1.ReturnValue" % p), " now=", i2s(p + "2", "@%s_l2.ReturnValue" % p)])
+            ins(p + "_so", p + "_b2", dl)
+            g.get(p + "_dg", "ModScanOk"); g.branch(p + "_db", "@%s_dg.ModScanOk" % p)
+            dr = lg(p + "r", ["modscan row ", kind, " i=", i2s(p + "i", "@%s_fe.Array Index" % p), " saved=", "@%s_s1.ReturnValue" % p, " now=", "@%s_s2.ReturnValue" % p])
+            ins(p + "_bs", p + "_sf", p + "_db", dr); g.chain(p + "_db:else", p + "_sf")
+        nxt = "r%d_b" % (i + 1) if i + 1 < len(GAME_ROW_TABLES) else "fin"
+        g.chain(p + "_b:else", nxt); g.chain(p + "_b2:else", nxt); g.chain(p + "_fe:Completed", nxt)
+        prev = None
+    # all the same -> the saved result; else scan and save
+    g.get("gokf", "ModScanOk"); g.branch("fin", "@gokf.ModScanOk")
+    g.set("uo", "ItemOriginMod", inp={"ItemOriginMod": sg("gio", "ItemOriginMod")}); g.set("uc", "ModCaption", inp={"ModCaption": sg("gmc", "ModCaption")}); g.set("ul", "ModList", inp={"ModList": sg("gml", "ModList")})
+    g.n("scan", "call_self", function="Scan Mod Items"); g.n("save", "call_self", function="Save Mod Scan")
+    g.chain("fin", "uo", "uc", "ul"); g.chain("fin:else", "scan", "save")
+    g.chain("bex:else", "scan"); g.chain("cl:CastFailed", "scan"); g.chain("bok0:else", "scan")
+    return fn("Mod Origins", graph=g)
+
+
+def f_save_mod_scan():
+    """Scan Mod Items' result with what it was made from (Mod Scan Sig, the game tables' row names) -> AltUI_ModScan.sav."""
+    g = G()
+    g.get("gmv", "ModScan"); g.call("mv", K_SYS, "IsValid", inp={"Object": "@gmv.ModScan"}); g.branch("bmv", "@mv.ReturnValue")   # Mod File Index's part stays
+    g.call("cr", K_GS, "CreateSaveGameObject", inp={"SaveGameClass": SG_MODSCAN}); g.cast("cc", SG_MODSCAN, "@cr.ReturnValue"); g.set("sm", "ModScan", inp={"ModScan": "@cc.AsSG_ModScan"})
+    sets = []
+    def put(id, var, val):
+        g.get(id + "_o", "ModScan"); g.n(id, "set", var=var, cls=SG_MODSCAN, inp={"self": "@%s_o.ModScan" % id, var: val}); sets.append(id)
+    g.get("gs", "ModScanSig"); g.get("gm", "ModScanMeshN"); g.get("gi", "ItemOriginMod"); g.get("gc", "ModCaption"); g.get("gl", "ModList")
+    put("v", "SaveVersion", str(MODSCAN_VERSION)); put("s", "Sig", "@gs.ModScanSig"); put("m", "MeshN", "@gm.ModScanMeshN")
+    put("io", "ItemOriginMod", "@gi.ItemOriginMod"); put("mc", "ModCaption", "@gc.ModCaption"); put("ml", "ModList", "@gl.ModList")
+    for i, (kind, tbl) in enumerate(GAME_ROW_TABLES):
+        p = "r%d" % i
+        g.call(p + "_rn", K_DT, "GetDataTableRowNames", inp={"Table": tbl}); g.make(p + "_mk", S_NAMES, Names="@%s_rn.OutRowNames" % p)
+        g.get(p + "_gr", "Rows", cls=SG_MODSCAN); g.get(p + "_o", "ModScan"); g.link(p + "_o.ModScan", p + "_gr.self")
+        g.call(p + "_ad", K_MAP, "Map_Add", inp={"TargetMap": "@%s_gr.Rows" % p, "Key": g.lit_name(p + "_k", kind), "Value": "@%s_mk.S_NameList" % p}); sets += [p + "_rn", p + "_ad"]
+    g.get("go", "ModScan"); g.call("sv", K_GS, "SaveGameToSlot", inp={"SaveGameObject": "@go.ModScan", "SlotName": MODSCAN_SLOT, "UserIndex": "0"})
+    g.chain("entry", "bmv", sets[0]); g.chain("bmv:else", "cr", "sm", sets[0]); g.chain(*sets, "sv")
+    return fn("Save Mod Scan", graph=g)
+
+
+# files a mod may have that AltUI looks for at every level start (Merge Extra Tables, Game Fingerprint, Scan Mod Entries)
+MOD_FILES = ["Mod_ExtraItemTable", "Mod_ExtraWeaponTable", mu.ENTRIES_TABLE, mu.ACTIONS_TABLE]
+WEAPON_FILES = [ws.TABLE_NAME, ws.MODEL_TABLE_NAME, ws.SOUND_TABLE_NAME]   # only looked for in mods named WeaponAltUI_* (ws.MOD_PREFIXES)
+MOD_FILES += WEAPON_FILES
+MT_LANES = 6   # Load Mod Tables (gen_manager_ui): loads in flight at once, one async load node and MtPath<k> per lane
+MOD_FILES_TAG = "files=" + ",".join(MOD_FILES)   # last line of FileSig: another list of files -> the saved index is not used
+
+
+def f_mod_file_index():
+    """ModFiles[<table>] = the mods that have Content/Mod/<mod>/<table>.uasset. A FileExists per mod and file was ~0.25 ms, with ~700 mods
+    0.6 s of every level start and 0.3 s of the main menu (2026-11-15); kept in AltUI_ModScan.sav (FileSig, Files) while the mod list
+    (Mod Scan Sig) is the same, else looked up anew and saved. BeginPlay, before anything that reads it."""
+    g = G()
+    g.n("sig", "call_self", function="Mod Scan Sig")
+    g.call("ex", K_GS, "DoesSaveGameExist", inp={"SlotName": MODSCAN_SLOT, "UserIndex": "0"}); g.branch("bex", "@ex.ReturnValue")
+    g.call("ld", K_GS, "LoadGameFromSlot", inp={"SlotName": MODSCAN_SLOT, "UserIndex": "0"}); g.cast("cl", SG_MODSCAN, "@ld.ReturnValue", pure=False)
+    g.set("sm", "ModScan", inp={"ModScan": "@cl.AsSG_ModScan"})
+    g.call("cr", K_GS, "CreateSaveGameObject", inp={"SaveGameClass": SG_MODSCAN}); g.cast("cc", SG_MODSCAN, "@cr.ReturnValue"); g.set("sm2", "ModScan", inp={"ModScan": "@cc.AsSG_ModScan"})
+    def sg(id, var):
+        g.get(id, var, cls=SG_MODSCAN); g.get(id + "_o", "ModScan"); g.link(id + "_o.ModScan", id + ".self"); return "@%s.%s" % (id, var)
+    # the same mods: every line of the saved list equal
+    # FileSig = the mod list (Mod Scan Sig) + MOD_FILES_TAG
+    g.get("gmss", "ModScanSig"); g.set("smfs", "ModFileSig", inp={"ModFileSig": "@gmss.ModScanSig"})
+    g.get("gmfs", "ModFileSig"); g.call("amfs", K_ARR, "Array_Add", inp={"TargetArray": "@gmfs.ModFileSig", "NewItem": g.lit_str("lmft", MOD_FILES_TAG)})
+    g.get("gms", "ModFileSig"); g.call("l1", K_ARR, "Array_Length", inp={"TargetArray": sg("gfs", "FileSig")}); g.call("l2", K_ARR, "Array_Length", inp={"TargetArray": "@gms.ModFileSig"})
+    g.call("leq", K_MATH, "EqualEqual_IntInt", inp={"A": "@l1.ReturnValue", "B": "@l2.ReturnValue"}); g.set("ok0", "ModFileOk", inp={"ModFileOk": "@leq.ReturnValue"})
+    g.get("gok0", "ModFileOk"); g.branch("bok0", "@gok0.ModFileOk")
+    g.get("gms2", "ModFileSig"); g.foreach("fs", "@gms2.ModFileSig")
+    g.call("sge", K_ARR, "Array_Get", inp={"TargetArray": sg("gfs2", "FileSig"), "Index": "@fs.Array Index"})
+    g.call("sne", K_STR, "NotEqual_StrStr", inp={"A": "@sge.Item", "B": "@fs.Array Element"}); g.branch("bsn", "@sne.ReturnValue")
+    g.set("okf", "ModFileOk", inp={"ModFileOk": "false"})
+    g.get("gokf", "ModFileOk"); g.branch("fin", "@gokf.ModFileOk")
+    g.set("use", "ModFiles", inp={"ModFiles": sg("gfl", "Files")})
+    # anew: one FileExists per mod and file
+    g.get("gmf", "ModFiles"); g.call("mfc", K_MAP, "Map_Clear", inp={"TargetMap": "@gmf.ModFiles"})
+    g.call("rn", K_DT, "GetDataTableRowNames", inp={"Table": P_DLC_T}); g.foreach("fe", "@rn.OutRowNames")
+    g.call("n2s", K_STR, "Conv_NameToString", inp={"InName": "@fe.Array Element"})
+    g.call("pcd", K_PATHS, "ProjectContentDir"); g.call("d1", K_STR, "Concat_StrStr", inp={"A": "@pcd.ReturnValue", "B": "Mod/"})
+    g.call("d2", K_STR, "Concat_StrStr", inp={"A": "@d1.ReturnValue", "B": "@n2s.ReturnValue"}); g.call("d3", K_STR, "Concat_StrStr", inp={"A": "@d2.ReturnValue", "B": "/"})
+    body = []
+    for i, tbl in enumerate(MOD_FILES):
+        p = "f%d" % i
+        g.call(p + "_p", K_STR, "Concat_StrStr", inp={"A": "@d3.ReturnValue", "B": tbl + ".uasset"}); g.call(p + "_x", K_PATHS, "FileExists", inp={"InPath": "@%s_p.ReturnValue" % p})
+        g.branch(p + "_b", "@%s_x.ReturnValue" % p)
+        g.get(p + "_g", "ModFiles"); g.call(p + "_f", K_MAP, "Map_Find", inp={"TargetMap": "@%s_g.ModFiles" % p, "Key": g.lit_name(p + "_k", tbl)}); g.brk(p + "_br", S_NAMES, "@%s_f.Value" % p)
+        g.set(p + "_t", "ModFileTmp", inp={"ModFileTmp": "@%s_br.Names" % p})
+        g.get(p + "_g2", "ModFileTmp"); g.call(p + "_a", K_ARR, "Array_Add", inp={"TargetArray": "@%s_g2.ModFileTmp" % p, "NewItem": "@fe.Array Element"})
+        g.get(p + "_g3", "ModFileTmp"); g.make(p + "_mk", S_NAMES, Names="@%s_g3.ModFileTmp" % p)
+        g.get(p + "_g4", "ModFiles"); g.call(p + "_m", K_MAP, "Map_Add", inp={"TargetMap": "@%s_g4.ModFiles" % p, "Key": g.lit_name(p + "_k2", tbl), "Value": "@%s_mk.S_NameList" % p})
+        g.chain(p + "_b", p + "_t", p + "_a", p + "_m"); body.append(p)
+    # the weapon tables only in a weapon mod: no file checks for the other ~700 mods
+    conds = []
+    for i, pref in enumerate(ws.MOD_PREFIXES):
+        g.call("wp%d" % i, K_STR, "StartsWith", inp={"SourceString": "@n2s.ReturnValue", "InPrefix": pref, "SearchCase": "CaseSensitive"}); conds.append("@wp%d.ReturnValue" % i)
+    cond = conds[0]
+    for i, c in enumerate(conds[1:]):
+        g.call("wo%d" % i, K_MATH, "BooleanOR", inp={"A": cond, "B": c}); cond = "@wo%d.ReturnValue" % i
+    g.branch("wpb", cond)
+    heads = ["wpb" if tbl == WEAPON_FILES[0] else p + "_b" for p, tbl in zip(body, MOD_FILES)]
+    for a, b in zip(body, heads[1:]):
+        g.chain(a + "_m", b); g.chain(a + "_b:else", b)
+    g.chain("wpb", body[MOD_FILES.index(WEAPON_FILES[0])] + "_b")
+    # into the save: the loaded one keeps Scan Mod Items' part
+    def put(id, var, val):
+        g.get(id + "_o", "ModScan"); g.n(id, "set", var=var, cls=SG_MODSCAN, inp={"self": "@%s_o.ModScan" % id, var: val})
+    g.get("gs3", "ModFileSig"); put("pfs", "FileSig", "@gs3.ModFileSig"); g.get("gmf2", "ModFiles"); put("pfl", "Files", "@gmf2.ModFiles")
+    g.get("gsv", "ModScan"); g.call("sv", K_GS, "SaveGameToSlot", inp={"SaveGameObject": "@gsv.ModScan", "SlotName": MODSCAN_SLOT, "UserIndex": "0"})
+    g.chain("entry", "sig", "smfs", "amfs", "ex", "bex", "ld", "cl", "sm", "ok0"); g.chain("bex:else", "cr", "sm2", "ok0"); g.chain("cl:CastFailed", "cr")
+    g.chain("ok0", "bok0", "fs"); g.chain("fs", "bsn", "okf"); g.chain("fs:Completed", "fin", "use")
+    g.chain("bok0:else", "mfc"); g.chain("fin:else", "mfc"); g.chain("mfc", "rn", "fe"); g.chain("fe", body[0] + "_b")
+    put("pwok", "WOk", "false")   # another mod list: the weapon names are read anew (Ensure Weapon Assets)
+    g.n("nst", "call_self", function="Now Stamp"); put("prd", "ReadAt", "@nst.t")   # Manage › Overview: "Mods last read"
+    g.chain("fe:Completed", "pfs", "pfl", "pwok", "nst", "prd", "sv")
+    return fn("Mod File Index", graph=g)
+
+
+def mod_file_list(g, p, table, var):
+    """The mods that have <table> (Mod File Index) into var (a name array of the caller's own): returns (exec node, array pin) for a ForEachLoop."""
+    g.get(p + "_g", "ModFiles"); g.call(p + "_f", K_MAP, "Map_Find", inp={"TargetMap": "@%s_g.ModFiles" % p, "Key": g.lit_name(p + "_k", table)}); g.brk(p + "_br", S_NAMES, "@%s_f.Value" % p)
+    g.set(p + "_s", var, inp={var: "@%s_br.Names" % p}); g.get(p + "_l", var)
+    return p + "_s", "@%s_l.%s" % (p, var)
 
 
 def f_origin_mod():
@@ -284,57 +526,128 @@ def f_mod_caption():
 BSEARCH_STEPS = 13   # ForLoop with a fixed bound instead of WhileLoop: 2^13 > any slot; a shipping build has no runaway-loop guard
 
 
-def f_build_catalog():
+PERFLOG = os.environ.get("ALTUI_PERFLOG") == "1"
+
+
+def perf_acc(g, nodes=(), spans=(), dump_after=None, title=""):
+    """ALTUI_PERFLOG: time summed over all passes of a loop. nodes: exec node ids, each timed on its own (pure functions it pulls
+    count to it); spans: (first id, last id, label) timed from before first to after last; dump_after: node id after which one
+    "acc <title>/<label> <ms>" line per label is logged (Perf Acc Dump). Only plain nodes: the default exec output is taken."""
+    if not PERFLOG: return
+    k = [0]
+    def ins(before, after_, label):
+        k[0] += 1; s0 = "pas%d" % k[0]; s1 = "paa%d" % k[0]
+        g.n(s0, "call_self", function="Perf Acc Start"); g.n(s1, "call_self", function="Perf Acc", inp={"label": label})
+        out = []
+        for ch in g.exec:
+            new = []
+            for i, x in enumerate(ch):
+                if x == before and i > 0: new.append(s0)
+                new.append(x)
+                if x == after_ and i < len(ch) - 1: new.append(s1)
+            if ch and ch[-1] == after_ and len(ch) > 1: new.append(s1)
+            out.append(new)
+        g.exec = out
+    for n in nodes: ins(n, n, n)
+    for a, b, label in spans: ins(a, b, label)
+    if dump_after:
+        g.n("padump", "call_self", function="Perf Acc Dump", inp={"title": title})
+        g.exec = [ch + ["padump"] if ch and ch[-1] == dump_after else ch for ch in g.exec]
+
+
+CAT_ROWS_PER_TICK = 200   # Catalog Tick: pass-1 rows per frame (~0.07 ms each)
+CAT_CLEARED = ("Catalog", "ItemSlot", "ItemByName", "SlotCounts", "SlotNames", "ColorSlotsOf")
+
+
+def slot_of_row(g, p, row_pin, brk):
+    """Slot name of a ClothesTable row (break brk): its TypeName if Init Slot Groups knows it, else Unknown. Returns the name pin."""
+    g.get(p + "gsg", "SlotGroup"); g.call(p + "kn", K_MAP, "Map_Contains", inp={"TargetMap": "@%sgsg.SlotGroup" % p, "Key": "@%s.TypeName" % brk})
+    g.call(p + "tns", K_STR, "Conv_NameToString", inp={"InName": "@%s.TypeName" % brk})
+    g.call(p + "sel", K_MATH, "SelectString", inp={"A": "@%stns.ReturnValue" % p, "B": "Unknown", "bPickA": "@%skn.ReturnValue" % p})
+    g.call(p + "slot", K_STR, "Conv_StringToName", inp={"InString": "@%ssel.ReturnValue" % p}); return "@%sslot.ReturnValue" % p
+
+
+def f_catalog_begin():
+    """The catalog's start, at once (level start, and the first step of Build Catalog): the maps cleared, the mods' origins (Mod Origins),
+    the slot order, and ItemSlot complete - Item Slot is read everywhere (wearing, outfits, Fix Loaded Underwear at level start).
+    The rest (display names, sort keys, the per-slot lists) follows in Catalog Rows / Catalog Slot: in the background from Catalog
+    Tick, or at once in Build Catalog / Ensure Catalog. 2026-11-16: Build Catalog was ~0.7 s of every level start."""
     g = G()
-    # ColorSlotsOf goes with the catalog: which pieces exist (and which mod supplies their meshes) can change between builds
-    CLEARED = ("Catalog", "ItemSlot", "ItemByName", "SlotCounts", "SlotNames", "ColorSlotsOf")
-    for i, m in enumerate(CLEARED):
+    for i, m in enumerate(CAT_CLEARED):
         g.get("gm%d" % i, m); g.call("clr%d" % i, K_MAP, "Map_Clear", inp={"TargetMap": "@gm%d.%s" % (i, m)})
+    g.set("srd", "CatalogReady", inp={"CatalogReady": "false"})
     g.call("rt", K_DT, "GetDataTableRowNames", inp={"Table": P_CTT})
     g.n("os", "call_self", function="Order Slots", inp={"rows": "@rt.OutRowNames"})
     g.call("ra", K_DT, "GetDataTableRowNames", inp={"Table": P_CT})
     g.call("lena", K_ARR, "Array_Length", inp={"TargetArray": "@ra.OutRowNames"})
-    g.set("scr", "CatalogRows", inp={"CatalogRows": "@lena.ReturnValue"})
-    # ---- pass 1: rows -> items
-    g.foreach("fe", "@ra.OutRowNames")
+    g.set("scr", "CatalogRows", inp={"CatalogRows": "@lena.ReturnValue"}); g.set("scn", "CatNames", inp={"CatNames": "@ra.OutRowNames"})
+    g.set("si0", "CatIdx", inp={"CatIdx": "0"}); g.set("ss0", "CatSlotIdx", inp={"CatSlotIdx": "0"}); g.set("st1", "CatStep", inp={"CatStep": "1"})
+    g.get("gcn", "CatNames"); g.foreach("fe", "@gcn.CatNames")
     g.call("rn2s", K_STR, "Conv_NameToString", inp={"InName": "@fe.Array Element"})
     g.call("ign", K_STR, "StartsWith", inp={"SourceString": "@rn2s.ReturnValue", "InPrefix": "TKAIgnore", "SearchCase": "IgnoreCase"})
+    g.call("nign", K_MATH, "Not_PreBool", inp={"A": "@ign.ReturnValue"}); g.branch("bign", "@nign.ReturnValue")   # as pass 1: no slot for an ignored row
+    g.n("row", "get_row", table=P_CT, inp={"RowName": "@fe.Array Element"}, miss="ignore"); g.brk("bc", P_CS, "@row.OutRow")
+    slot = slot_of_row(g, "so", "@fe.Array Element", "bc")
+    g.get("gis", "ItemSlot"); g.call("madd", K_MAP, "Map_Add", inp={"TargetMap": "@gis.ItemSlot", "Key": "@fe.Array Element", "Value": slot})
+    g.n("smi", "call_self", function="Mod Origins")   # Scan Mod Items, or its saved result while the mods are the same
+    g.chain("entry", "smi", *["clr%d" % i for i in range(len(CAT_CLEARED))], "srd", "rt", "os", "ra", "scr", "scn", "si0", "ss0", "st1", "fe")
+    g.chain("fe", "bign", "row", "madd")
+    return fn("Catalog Begin", graph=g)
+
+
+def f_catalog_rows():
+    """Pass 1 for CatNames[first..last]: the item of each row (display name, sort keys, colour slots, vanilla or mod) into ItemByName,
+    its name into SlotNames of its slot. Rows named TKAIgnore* stay out."""
+    g = G()
+    g.n("fl", "macro", name="ForLoop", inp={"First Index": "@entry.first", "Last Index": "@entry.last"})
+    g.get("gcn", "CatNames"); g.call("ag", K_ARR, "Array_Get", inp={"TargetArray": "@gcn.CatNames", "Index": "@fl.Index"}); g.set("srn", "CatRow", inp={"CatRow": "@ag.Item"})
+    g.get("grw", "CatRow")
+    g.call("rn2s", K_STR, "Conv_NameToString", inp={"InName": "@grw.CatRow"})
+    g.call("ign", K_STR, "StartsWith", inp={"SourceString": "@rn2s.ReturnValue", "InPrefix": "TKAIgnore", "SearchCase": "IgnoreCase"})
     g.call("nign", K_MATH, "Not_PreBool", inp={"A": "@ign.ReturnValue"}); g.branch("bign", "@nign.ReturnValue")
-    g.n("row", "get_row", table=P_CT, inp={"RowName": "@fe.Array Element"}, miss="ignore")   # row names of the same table
+    g.n("row", "get_row", table=P_CT, inp={"RowName": "@grw.CatRow"}, miss="ignore")
     g.brk("bc", P_CS, "@row.OutRow")
     # display name / slot frozen in TmpStr2 / TmpName: pure nodes are evaluated once per consumer (Display Name = 2 string-table lookups)
-    g.n("dn", "call_self", function="Display Name", inp={"kind": "item", "row": "@fe.Array Element"}); g.set("sdn", "TmpStr2", inp={"TmpStr2": "@dn.s"}); g.get("gdn", "TmpStr2")
+    g.n("dn", "call_self", function="Display Name", inp={"kind": "item", "row": "@grw.CatRow"}); g.set("sdn", "TmpStr2", inp={"TmpStr2": "@dn.s"}); g.get("gdn", "TmpStr2")
     g.n("sk", "call_self", function="Sort Key", inp={"s": "@gdn.TmpStr2"})
     g.call("sub2", K_STR, "GetSubstring", inp={"SourceString": "@gdn.TmpStr2", "StartIndex": "12", "Length": "12"})
     g.n("sk2", "call_self", function="Sort Key", inp={"s": "@sub2.ReturnValue"})
-    g.n("inmod", "call_self", function="Item Mod", inp={"row": "@fe.Array Element"}); g.call("van", K_MATH, "Not_PreBool", inp={"A": "@inmod.found"})
-    g.get("gsg", "SlotGroup"); g.call("known", K_MAP, "Map_Contains", inp={"TargetMap": "@gsg.SlotGroup", "Key": "@bc.TypeName"})
-    g.call("tns", K_STR, "Conv_NameToString", inp={"InName": "@bc.TypeName"})
-    g.call("ssel", K_MATH, "SelectString", inp={"A": "@tns.ReturnValue", "B": "Unknown", "bPickA": "@known.ReturnValue"})
-    g.call("slot", K_STR, "Conv_StringToName", inp={"InString": "@ssel.ReturnValue"}); g.set("sslot", "TmpName", inp={"TmpName": "@slot.ReturnValue"}); g.get("gslot", "TmpName")
+    g.n("inmod", "call_self", function="Item Mod", inp={"row": "@grw.CatRow"}); g.call("van", K_MATH, "Not_PreBool", inp={"A": "@inmod.found"})
+    slot = slot_of_row(g, "so", "@grw.CatRow", "bc"); g.set("sslot", "TmpName", inp={"TmpName": slot}); g.get("gslot", "TmpName")
     # colourable = the table flag or a material of the piece that takes MainColor (the flag is off on most jewellery)
-    g.n("cs", "call_self", function="Item Color Slots", inp={"name": "@fe.Array Element"}); g.brk("bcs", S_COLSLOTS, "@cs.slots")
+    g.n("cs", "call_self", function="Item Color Slots", inp={"name": "@grw.CatRow"}); g.brk("bcs", S_COLSLOTS, "@cs.slots")
     g.call("nsl", K_ARR, "Array_Length", inp={"TargetArray": "@bcs.Idx"})
     g.call("hassl", K_MATH, "Greater_IntInt", inp={"A": "@nsl.ReturnValue", "B": "0"})
     g.call("colok", K_MATH, "BooleanOR", inp={"A": "@bc.ColorAdjustable", "B": "@hassl.ReturnValue"})
-    g.make("mi", S_ITEM, Name="@fe.Array Element", Slot="@gslot.TmpName", DisplayName="@gdn.TmpStr2", SortKey="@sk.key", SortKey2="@sk2.key",
+    g.make("mi", S_ITEM, Name="@grw.CatRow", Slot="@gslot.TmpName", DisplayName="@gdn.TmpStr2", SortKey="@sk.key", SortKey2="@sk2.key",
            Icon="@bc.Icon", ColorAdjustable="@colok.ReturnValue", Group="@bc.Group", IsVanilla="@van.ReturnValue")
-    g.get("gis2", "ItemSlot"); g.call("madd", K_MAP, "Map_Add", inp={"TargetMap": "@gis2.ItemSlot", "Key": "@fe.Array Element", "Value": "@gslot.TmpName"})
-    g.get("gib2", "ItemByName"); g.call("madd2", K_MAP, "Map_Add", inp={"TargetMap": "@gib2.ItemByName", "Key": "@fe.Array Element", "Value": "@mi.S_ClothesItem"})
+    g.get("gib2", "ItemByName"); g.call("madd2", K_MAP, "Map_Add", inp={"TargetMap": "@gib2.ItemByName", "Key": "@grw.CatRow", "Value": "@mi.S_ClothesItem"})
     g.get("gsn", "SlotNames"); g.call("snf", K_MAP, "Map_Find", inp={"TargetMap": "@gsn.SlotNames", "Key": "@gslot.TmpName"}); g.brk("snb", S_NAMES, "@snf.Value")
-    g.set("sn1", "TmpNames", inp={"TmpNames": "@snb.Names"}); g.get("gtn", "TmpNames"); g.call("sna", K_ARR, "Array_Add", inp={"TargetArray": "@gtn.TmpNames", "NewItem": "@fe.Array Element"})
+    g.set("sn1", "TmpNames", inp={"TmpNames": "@snb.Names"}); g.get("gtn", "TmpNames"); g.call("sna", K_ARR, "Array_Add", inp={"TargetArray": "@gtn.TmpNames", "NewItem": "@grw.CatRow"})
     g.get("gtn2", "TmpNames"); g.make("snm", S_NAMES, Names="@gtn2.TmpNames"); g.get("gsn2", "SlotNames"); g.call("snadd", K_MAP, "Map_Add", inp={"TargetMap": "@gsn2.SlotNames", "Key": "@gslot.TmpName", "Value": "@snm.S_NameList"})
-    # after pass 1: append the Unknown slot if populated
+    g.chain("entry", "fl"); g.chain("fl", "srn", "bign", "row", "sdn", "sslot", "sk", "sk2", "cs", "madd2", "sn1", "sna", "snadd")   # row: "Row Found" is the first exec output
+    return fn("Catalog Rows", [param("first", "int"), param("last", "int")], graph=g)
+
+
+def f_catalog_after_rows():
+    """After pass 1: the Unknown slot appended if populated; AllItems emptied for pass 2."""
+    g = G()
     unk = g.lit_name("unk", "Unknown"); acc = g.lit_name("acc", "Accessories")
     g.get("gsn3", "SlotNames"); g.call("hasu", K_MAP, "Map_Contains", inp={"TargetMap": "@gsn3.SlotNames", "Key": unk}); g.branch("bu", "@hasu.ReturnValue")
-    g.get("gsl", "Slots"); g.call("addu", K_ARR, "Array_Add", inp={"TargetArray": "@gsl.Slots", "NewItem": unk})
+    g.get("gsl", "Slots"); g.call("addu", K_ARR, "Array_AddUnique", inp={"TargetArray": "@gsl.Slots", "NewItem": unk})
     g.get("gsg2", "SlotGroup"); g.call("maddu", K_MAP, "Map_Add", inp={"TargetMap": "@gsg2.SlotGroup", "Key": unk, "Value": acc})
-    # ---- pass 2: per slot, sorted insert by binary search
     g.get("ga0", "AllItems"); g.call("aclr", K_ARR, "Array_Clear", inp={"TargetArray": "@ga0.AllItems"})
-    g.get("gsl2", "Slots"); g.foreach("fa", "@gsl2.Slots")
+    g.chain("entry", "bu", "addu", "maddu", "aclr"); g.chain("bu:else", "aclr")
+    return fn("Catalog After Rows", graph=g)
+
+
+def f_catalog_slot():
+    """Pass 2 for Slots[index]: its items sorted by sort key (binary search insert) -> Catalog, SlotCounts, appended to AllItems."""
+    g = G()
+    g.get("gsl", "Slots"); g.call("sg", K_ARR, "Array_Get", inp={"TargetArray": "@gsl.Slots", "Index": "@entry.index"}); g.set("sfa", "CatSlot", inp={"CatSlot": "@sg.Item"}); g.get("gfa", "CatSlot")
     for i, arr in enumerate(("TmpItems", "TmpKeys", "TmpKeys2")):
         g.get("gt%d" % i, arr); g.call("tclr%d" % i, K_ARR, "Array_Clear", inp={"TargetArray": "@gt%d.%s" % (i, arr)})
-    g.get("gsn4", "SlotNames"); g.call("snf2", K_MAP, "Map_Find", inp={"TargetMap": "@gsn4.SlotNames", "Key": "@fa.Array Element"}); g.brk("snb2", S_NAMES, "@snf2.Value")
+    g.get("gsn4", "SlotNames"); g.call("snf2", K_MAP, "Map_Find", inp={"TargetMap": "@gsn4.SlotNames", "Key": "@gfa.CatSlot"}); g.brk("snb2", S_NAMES, "@snf2.Value")
     g.set("sn2", "TmpNames", inp={"TmpNames": "@snb2.Names"}); g.get("gtn3", "TmpNames"); g.foreach("fn", "@gtn3.TmpNames")
     g.get("gib3", "ItemByName"); g.call("ibf", K_MAP, "Map_Find", inp={"TargetMap": "@gib3.ItemByName", "Key": "@fn.Array Element"}); g.set("sti", "TmpItem", inp={"TmpItem": "@ibf.Value"})
     g.get("gti", "TmpItem"); g.brk("bti", S_ITEM, "@gti.TmpItem")
@@ -354,24 +667,81 @@ def f_build_catalog():
     g.get("gk3", "TmpKeys"); g.get("gky3", "TmpKey1"); g.call("insk", K_ARR, "Array_Insert", inp={"TargetArray": "@gk3.TmpKeys", "NewItem": "@gky3.TmpKey1", "Index": "@gidx.TmpIdx"})
     g.get("gk4", "TmpKeys2"); g.get("gky4", "TmpKey2"); g.call("insk2", K_ARR, "Array_Insert", inp={"TargetArray": "@gk4.TmpKeys2", "NewItem": "@gky4.TmpKey2", "Index": "@gidx.TmpIdx"})
     # slot done: Catalog, SlotCounts, AllItems
-    g.get("gt4", "TmpItems"); g.make("ml", S_LIST, Items="@gt4.TmpItems"); g.get("gc2", "Catalog"); g.call("cadd", K_MAP, "Map_Add", inp={"TargetMap": "@gc2.Catalog", "Key": "@fa.Array Element", "Value": "@ml.S_ItemList"})
+    g.get("gt4", "TmpItems"); g.make("ml", S_LIST, Items="@gt4.TmpItems"); g.get("gc2", "Catalog"); g.call("cadd", K_MAP, "Map_Add", inp={"TargetMap": "@gc2.Catalog", "Key": "@gfa.CatSlot", "Value": "@ml.S_ItemList"})
     g.get("gt5", "TmpItems"); g.call("slen", K_ARR, "Array_Length", inp={"TargetArray": "@gt5.TmpItems"})
-    g.get("gsc", "SlotCounts"); g.call("scadd", K_MAP, "Map_Add", inp={"TargetMap": "@gsc.SlotCounts", "Key": "@fa.Array Element", "Value": "@slen.ReturnValue"})
+    g.get("gsc", "SlotCounts"); g.call("scadd", K_MAP, "Map_Add", inp={"TargetMap": "@gsc.SlotCounts", "Key": "@gfa.CatSlot", "Value": "@slen.ReturnValue"})
     g.get("ga1", "AllItems"); g.get("gt6", "TmpItems"); g.call("app", K_ARR, "Array_Append", inp={"TargetArray": "@ga1.AllItems", "SourceArray": "@gt6.TmpItems"})
-    # pseudo slot "All": all slot lists in slot order (for "All" / search across everything)
+    g.chain("entry", "sfa", "tclr0", "tclr1", "tclr2", "sn2", "fn"); g.chain("fn", "sti", "sk1", "sk2s", "lo0", "hi0", "bs")
+    g.chain("bs", "bopen", "bless", "hi1"); g.chain("bless:else", "lo1"); g.chain("bs:Completed", "ins", "insk", "insk2")
+    g.chain("fn:Completed", "cadd", "scadd", "app")
+    return fn("Catalog Slot", [param("index", "int")], graph=g)
+
+
+def f_catalog_end():
+    """The pseudo slot "All" (all slot lists in slot order), the mods' groups and the group aliases; CatalogReady."""
+    g = G()
     g.get("ga2", "AllItems"); g.make("mall", S_LIST, Items="@ga2.AllItems")
     alln = g.lit_name("alln", "All"); g.get("gc4", "Catalog"); g.call("madda", K_MAP, "Map_Add", inp={"TargetMap": "@gc4.Catalog", "Key": alln, "Value": "@mall.S_ItemList"})
     g.get("ga3", "AllItems"); g.call("alen", K_ARR, "Array_Length", inp={"TargetArray": "@ga3.AllItems"})
     g.get("gsc2", "SlotCounts"); g.call("scadda", K_MAP, "Map_Add", inp={"TargetMap": "@gsc2.SlotCounts", "Key": alln, "Value": "@alen.ReturnValue"})
-    g.n("smi", "call_self", function="Scan Mod Items")
-    g.chain("entry", "smi", *["clr%d" % i for i in range(len(CLEARED))], "rt", "os", "ra", "scr", "fe")   # from the list: a clear that is not in the chain is pruned
-    g.chain("fe", "bign", "row", "sdn", "sslot", "sk", "sk2", "cs", "madd", "madd2", "sn1", "sna", "snadd")      # row: "Row Found" is the first exec output
-    g.chain("fe:Completed", "bu", "addu", "maddu", "aclr", "fa"); g.chain("bu:else", "aclr")
-    g.chain("fa", "tclr0", "tclr1", "tclr2", "sn2", "fn"); g.chain("fn", "sti", "sk1", "sk2s", "lo0", "hi0", "bs")
-    g.chain("bs", "bopen", "bless", "hi1"); g.chain("bless:else", "lo1"); g.chain("bs:Completed", "ins", "insk", "insk2")
     g.n("smg", "call_self", function="Scan Mod Groups"); g.n("bga", "call_self", function="Build Group Aliases")
-    g.chain("fn:Completed", "cadd", "scadd", "app"); g.chain("fa:Completed", "madda", "scadda", "smg", "bga")
+    g.set("srd", "CatalogReady", inp={"CatalogReady": "true"}); g.set("st0", "CatStep", inp={"CatStep": "0"})
+    g.chain("entry", "madda", "scadda", "smg", "bga", "srd", "st0")
+    return fn("Catalog End", graph=g)
+
+
+def f_catalog_finish():
+    """Whatever of the catalog is still missing, at once: pass 1 from CatIdx on, then every slot from CatSlotIdx on, then the end."""
+    g = G()
+    g.get("gst", "CatStep"); g.call("is1", K_MATH, "EqualEqual_IntInt", inp={"A": "@gst.CatStep", "B": "1"}); g.branch("b1", "@is1.ReturnValue")
+    g.get("gi", "CatIdx"); g.get("gcr", "CatNames"); g.call("cl", K_ARR, "Array_Length", inp={"TargetArray": "@gcr.CatNames"}); g.call("last", K_MATH, "Subtract_IntInt", inp={"A": "@cl.ReturnValue", "B": "1"})
+    g.n("rows", "call_self", function="Catalog Rows", inp={"first": "@gi.CatIdx", "last": "@last.ReturnValue"}); g.n("aft", "call_self", function="Catalog After Rows")
+    g.set("si", "CatIdx", inp={"CatIdx": "@cl.ReturnValue"}); g.set("st2", "CatStep", inp={"CatStep": "2"})
+    g.get("gsi", "CatSlotIdx"); g.get("gsl", "Slots"); g.call("sl", K_ARR, "Array_Length", inp={"TargetArray": "@gsl.Slots"}); g.call("slast", K_MATH, "Subtract_IntInt", inp={"A": "@sl.ReturnValue", "B": "1"})
+    g.n("fs", "macro", name="ForLoop", inp={"First Index": "@gsi.CatSlotIdx", "Last Index": "@slast.ReturnValue"})
+    g.n("slot", "call_self", function="Catalog Slot", inp={"index": "@fs.Index"})
+    g.n("end", "call_self", function="Catalog End")
+    g.chain("entry", "b1", "rows", "aft", "si", "st2", "fs"); g.chain("b1:else", "fs"); g.chain("fs", "slot"); g.chain("fs:Completed", "end")
+    return fn("Catalog Finish", graph=g)
+
+
+def f_build_catalog():
+    """The whole catalog at once (Rebuild Catalog If Dirty, Read mods again, tests); a level start uses Catalog Begin + Catalog Tick."""
+    g = G(); g.n("cb", "call_self", function="Catalog Begin"); g.n("cf", "call_self", function="Catalog Finish")
+    g.chain("entry", "cb", "cf")
     return fn("Build Catalog", graph=g)
+
+
+def f_ensure_catalog():
+    """Before anything reads the catalog beyond ItemSlot (panel, quick menu, own keys): the background build finished at once."""
+    g = G(); g.get("gr", "CatalogReady"); g.branch("b", "@gr.CatalogReady")
+    g.get("gst", "CatStep"); g.call("run", K_MATH, "Greater_IntInt", inp={"A": "@gst.CatStep", "B": "0"}); g.branch("br", "@run.ReturnValue")
+    g.n("cf", "call_self", function="Catalog Finish"); g.n("bc", "call_self", function="Build Catalog")   # never started: the whole of it
+    g.chain("entry", "b"); g.chain("b:else", "br", "cf"); g.chain("br:else", "bc")
+    return fn("Ensure Catalog", graph=g)
+
+
+def f_catalog_tick():
+    """Per frame while the background build runs: CAT_ROWS_PER_TICK rows of pass 1, then one slot of pass 2 per frame, then the end."""
+    g = G()
+    g.get("gst", "CatStep"); g.call("is1", K_MATH, "EqualEqual_IntInt", inp={"A": "@gst.CatStep", "B": "1"}); g.branch("b1", "@is1.ReturnValue")
+    g.get("gst2", "CatStep"); g.call("is2", K_MATH, "EqualEqual_IntInt", inp={"A": "@gst2.CatStep", "B": "2"}); g.branch("b2", "@is2.ReturnValue")
+    # pass 1
+    g.get("gi", "CatIdx"); g.get("gcr", "CatNames"); g.call("cl", K_ARR, "Array_Length", inp={"TargetArray": "@gcr.CatNames"})
+    g.call("nx", K_MATH, "Add_IntInt", inp={"A": "@gi.CatIdx", "B": str(CAT_ROWS_PER_TICK)}); g.call("mn", K_MATH, "Min", inp={"A": "@nx.ReturnValue", "B": "@cl.ReturnValue"})
+    g.call("last", K_MATH, "Subtract_IntInt", inp={"A": "@mn.ReturnValue", "B": "1"})
+    g.n("rows", "call_self", function="Catalog Rows", inp={"first": "@gi.CatIdx", "last": "@last.ReturnValue"})
+    g.set("si", "CatIdx", inp={"CatIdx": "@mn.ReturnValue"}); g.get("gi2", "CatIdx"); g.call("dn", K_MATH, "GreaterEqual_IntInt", inp={"A": "@gi2.CatIdx", "B": "@cl.ReturnValue"}); g.branch("bdn", "@dn.ReturnValue")
+    g.n("aft", "call_self", function="Catalog After Rows"); g.set("st2", "CatStep", inp={"CatStep": "2"})
+    g.chain("entry", "b1", "rows", "si", "bdn", "aft", "st2"); g.chain("b1:else", "b2")
+    # pass 2: one slot per frame, the end after the last
+    g.get("gsi", "CatSlotIdx"); g.get("gsl", "Slots"); g.call("sl", K_ARR, "Array_Length", inp={"TargetArray": "@gsl.Slots"})
+    g.call("more", K_MATH, "Less_IntInt", inp={"A": "@gsi.CatSlotIdx", "B": "@sl.ReturnValue"}); g.branch("bmore", "@more.ReturnValue")
+    g.n("slot", "call_self", function="Catalog Slot", inp={"index": "@gsi.CatSlotIdx"})
+    g.get("gsi2", "CatSlotIdx"); g.call("inc", K_MATH, "Add_IntInt", inp={"A": "@gsi2.CatSlotIdx", "B": "1"}); g.set("ssi", "CatSlotIdx", inp={"CatSlotIdx": "@inc.ReturnValue"})
+    g.n("end", "call_self", function="Catalog End")
+    g.chain("b2", "bmore", "slot", "ssi"); g.chain("bmore:else", "end")
+    return fn("Catalog Tick", graph=g)
 
 
 # ---------------- Scan Mod Groups(): ModGroupPairs = unique "<mod>|<group>" in catalog order, GroupModCount[group] = mods using it, VanillaGroups = groups with a vanilla piece,
@@ -1010,7 +1380,7 @@ SETTINGS = [("Favorites", "Favorites", "copy", None), ("HiddenItems", "HiddenIte
             ("Unlimited", "Unlimited", "copy", None), ("LeftFree", "LeftFree", "int2", 1), ("SubTabsCollapsed", "SubTabsCollapsed", "copy", None), ("LookOnlyFav", "LookOnlyFav", "copy", None), ("LookOnlyWorn", "LookOnlyWorn", "copy", None), ("LookChipsCollapsed", "LookChipsCollapsed", "copy", None), ("PoseChipsCollapsed", "PoseChipsCollapsed", "copy", None), ("PoseKind", "PoseKind", "copy", None), ("PoseMoving", "PoseMoving", "copy", None), ("PoseManual", "PoseManual", "copy", None), ("WeaponSkins", "WeaponSkins", "copy", None), ("AppliedPaint", "AppliedPaint", "copy", None), ("WeaponModels", "WeaponModels", "copy", None), ("WeaponSounds", "WeaponSounds", "copy", None), ("SkinChipsCollapsed", "SkinChipsCollapsed", "copy", None), ("GroupLen", "GroupLen", "copy", None), ("ChipH", "ChipH", "copy", None),
             ("CamFov", "CamFov", "float0", 0.8), ("CamDist", "CamDist", "float0", 1.0), ("PlayDist", "PlayDist", "pos0", 1.0), ("PlayHeight", "PlayHeight", "copy", None), ("CamHeight", "CamHeight", "copy", None), ("CamRightHeight", "CamRightHeight", "copy", None), ("IconOwn", "IconOwn", "copy", None), ("ForceSkin", "ForceSkin", "copy", None), ("ForceSkipMag", "ForceSkipMag", "copy", None), ("ForceSkipOptics", "ForceSkipOptics", "copy", None), ("ForceSkipBarrel", "ForceSkipBarrel", "copy", None), ("ForceSkipGrip", "ForceSkipGrip", "copy", None),
             ("BodyVariant", "BodyVariant", "copy", None), ("BodyScales", "BodyScales", "copy", None), ("LangChoice", "LangChoice", "copy", None),
-            ("PanToSlot", "PanToSlot", "copy", None), ("FreeNoCollide", "FreeNoCollide", "copy", None), ("FreeNoLimit", "FreeNoLimit", "copy", None), ("PlayWheelZoom", "PlayWheelZoom", "copy", None), ("TiltPanelOff", "TiltPanelOff", "copy", None), ("OfficeJump", "OfficeJump", "copy", None), ("NoNotices", "NoNotices", "copy", None), ("TvAlways", "TvAlways", "copy", None), ("RagMarkersOff", "RagMarkersOff", "copy", None), ("AllowNude", "AllowNude", "copy", None), ("OnlyModsNames", "OnlyModsNames", "copy", None), ("CaseSensitiveNames", "CaseSensitiveNames", "copy", None), ("MergeGroups", "MergeGroups", "copy", None), ("MergeMods", "MergeMods", "copy", None), ("ChipSearchShown", "ChipSearchShown", "copy", None), ("TipNoPrefix", "TipNoPrefix", "copy", None), ("TipNoIds", "TipNoIds", "copy", None), ("FreedConflicts", "FreedConflicts", "copy", None), ("MultiSlots", "MultiSlots", "copy", None), ("KeepItems", "KeepItems", "copy", None), ("SnapWorn", "SnapWorn", "copy", None), ("HairSwatchesOpen", "HairSwatchesOpen", "copy", None),
+            ("PanToSlot", "PanToSlot", "copy", None), ("FreeNoCollide", "FreeNoCollide", "copy", None), ("FreeNoLimit", "FreeNoLimit", "copy", None), ("PlayWheelZoom", "PlayWheelZoom", "copy", None), ("TiltPanelOff", "TiltPanelOff", "copy", None), ("OfficeJump", "OfficeJump", "copy", None), ("FootIKOn", "FootIKOn", "copy", None), ("FootContactOn", "FootContactOn", "copy", None), ("ClothFitOn", "ClothFitOn", "copy", None), ("NoNotices", "NoNotices", "copy", None), ("TvAlways", "TvAlways", "copy", None), ("RagMarkersOff", "RagMarkersOff", "copy", None), ("AllowNude", "AllowNude", "copy", None), ("OnlyModsNames", "OnlyModsNames", "copy", None), ("CaseSensitiveNames", "CaseSensitiveNames", "copy", None), ("MergeGroups", "MergeGroups", "copy", None), ("MergeMods", "MergeMods", "copy", None), ("ChipSearchShown", "ChipSearchShown", "copy", None), ("TipNoPrefix", "TipNoPrefix", "copy", None), ("TipNoIds", "TipNoIds", "copy", None), ("FreedConflicts", "FreedConflicts", "copy", None), ("RandNoUndress", "RandNoUndress", "copy", None), ("LooksSort", "LooksSort", "copy", None), ("RandNoDress", "RandNoDress", "copy", None), ("MultiSlots", "MultiSlots", "copy", None), ("KeepItems", "KeepItems", "copy", None), ("SnapWorn", "SnapWorn", "copy", None), ("HairSwatchesOpen", "HairSwatchesOpen", "copy", None),
             ("UnownedMode", "UnownedMode", "copy", None), ("LegacySlotColors", "SlotColors", "copy", None), ("SlotColorsPerSave", "SlotColorsPerSave", "copy", None), ("OutfitSlotColors", "OutfitSlotColors", "copy", None), ("ModEntry", "ModEntry", "copy", None), ("ModTab", "ModTab", "copy", None), ("ModFolded", "ModFolded", "copy", None), ("Page", "LastPage", "name", None), ("LookCat", "LastLookCat", "name", None),
             ("PoseCat", "LastPoseCat", "name", None), ("CurrentWeapon", "LastWeapon", "name", None),   # where the panel was left (the clothes slot: LastSlot below)
             ("EyeColors", "EyeColors", "copy", None), ("MakeupColors", "MakeupColors", "copy", None),
@@ -1018,7 +1388,7 @@ SETTINGS = [("Favorites", "Favorites", "copy", None), ("HiddenItems", "HiddenIte
             ("PresetColors", "PresetColors", "copy", None), ("ToggleKey", "ToggleKey", "name", None),
             ("OptionsCat", "LastOptionsCat", "name", None), ("ActCat", "LastActCat", "name", None), ("KodexSel", "LastKodex", "name", None), ("InvGroup", "LastInvGroup", "name", None), ("KodexAll", "KodexAll", "copy", None), ("InvCatalog", "InvCatalog", "copy", None), ("InvNoAutoEquip", "InvNoAutoEquip", "copy", None), ("InvAutoNoStory", "InvAutoNoStory", "copy", None),("AutoItems", "AutoItems", "copy", None), ("AutoGuns", "AutoGuns", "copy", None), ("InvFoldBag", "InvFoldBag", "copy", None), ("InvFoldBox", "InvFoldBox", "copy", None), ("InvFoldCat", "InvFoldCat", "copy", None), ("InvMax", "InvMax", "name", None), ("FolFoldBag", "FolFoldBag", "copy", None), ("FolFoldBox", "FolFoldBox", "copy", None), ("FolFoldRows", "FolFoldRows", "copy", None), ("FolShow", "FolShow", "copy", None), ("RagKey", "RagKey", "name", None), ("HiddenTabs", "HiddenTabs", "copy", None), ("TabOrder", "TabOrder", "copy", None),
             ("QuickKey", "QuickKey", "name", None), ("QuickItems", "QuickItems", "copy", None), ("KeyBindKeys", "KeyBindKeys", "copy", None), ("KeyBindItems", "KeyBindItems", "copy", None),
-            ("TabStyle", "TabStyle", "copy", None), ("TabIconRight", "TabIconRight", "copy", None), ("TabOneRow", "TabOneRow", "copy", None), ("BgImage", "BgImage", "copy", None), ("BgFit", "BgFit", "copy", None), ("BgHAlign", "BgHAlign", "copy", None), ("BgVAlign", "BgVAlign", "copy", None), ("BtnImage", "BtnImage", "copy", None), ("BgHue", "BgHue", "copy", None), ("BgSepia", "BgSepia", "copy", None), ("BgInvert", "BgInvert", "copy", None), ("ImgThumbs", "ImgThumbs", "copy", None), ("BtnHue", "BtnHue", "copy", None), ("BtnSepia", "BtnSepia", "copy", None), ("BtnInvert", "BtnInvert", "copy", None), ("ThemePresets", "ThemePresets", "copy", None),
+            ("TabStyle", "TabStyle", "copy", None), ("TabIconRight", "TabIconRight", "copy", None), ("TabOneRow", "TabOneRow", "copy", None), ("BgImage", "BgImage", "copy", None), ("BgFit", "BgFit", "copy", None), ("BgHAlign", "BgHAlign", "copy", None), ("BgVAlign", "BgVAlign", "copy", None), ("BtnImage", "BtnImage", "copy", None), ("BgHue", "BgHue", "copy", None), ("BgSepia", "BgSepia", "copy", None), ("BgInvert", "BgInvert", "copy", None), ("ImgThumbs", "ImgThumbs", "copy", None), ("ObjLoadIcons", "ObjLoadIcons", "copy", None), ("BtnHue", "BtnHue", "copy", None), ("BtnSepia", "BtnSepia", "copy", None), ("BtnInvert", "BtnInvert", "copy", None), ("ThemePresets", "ThemePresets", "copy", None),
             ("ManageChipsCollapsed", "ManageChipsCollapsed", "copy", None), ("ModPresetsFolded", "ModPresetsFolded", "copy", None), ("BodyPresetsFolded", "BodyPresetsFolded", "copy", None), ("QuickAlpha", "QuickAlpha", "copy", None), ("MoveOn", "MoveOn", "copy", None), ("WalkSpeedPct", "WalkSpeedPct", "copy", None), ("RunSpeedPct", "RunSpeedPct", "copy", None), ("WalkStyle", "WalkStyle", "name", None), ("RunStyle", "RunStyle", "name", None), ("IdleStyle", "IdleStyle", "name", None), ("IdlePose", "IdlePose", "name", None), ("PoseLoop", "PoseLoop", "copy", None), ("NoRenderedIcons", "NoRenderedIcons", "copy", None), ("RagWheelCm", "RagWheelCm", "copy", None), ("SlowMoPct", "SlowMoPct", "copy", None), ("FlySpeed", "FlySpeed", "copy", None), ("EnemyCount", "EnemyCount", "copy", None), ("EnemyDist", "EnemyDistM", "copy", None), ("EnemyMode", "EnemyMode", "copy", None), ("EnemyActiveMode", "EnemyActiveMode", "copy", None), ("HandOn", "HandOn", "copy", None), ("HandRange", "HandRange", "copy", None), ("HandBatch", "HandBatch", "copy", None), ("HandNoHand", "HandNoHand", "copy", None), ("AcceptedFingerprint", "AcceptedFingerprint", "copy", None), ("OutfitScale", "OutfitScale", "copy", None), ("LookScale", "LookScale", "copy", None), ("RagScale", "RagScale", "copy", None), ("InvScale", "InvScale", "copy", None), ("OutfitCols", "OutfitCols", "copy", None), ("OutfitRows", "OutfitRows", "copy", None),
             ("LightOn", "LightOn", "copy", None), ("LightColor", "LightColor", "copy", None), ("LightPower", "LightPower", "copy", None),
             ("CurrentDrawer", "CurrentDrawer", "copy", None)]   # 0 = never set: tile size / 3 x 3
@@ -1373,7 +1743,7 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     fn("Select SubTab", [param("name", "name")]), fn("On Search Changed", [param("text", "text")]),
     fn("On Chip Search Changed", [param("text", "text")]), fn("Chip Shown", [param("group", "name")], [param("yes", "bool")], pure=True),
     fn("On Look Chip Search Changed", [param("text", "text")]), fn("Look Chip Shown", [param("group", "name")], [param("yes", "bool")], pure=True),
-    fn("On Menu Action", [param("name", "name")]), fn("Close Menu"),
+    fn("On Menu Action", [param("name", "name")]), fn("On Link Context", [param("name", "name")]), fn("Random Slot Changed", [param("slot", "name"), param("undress", "bool"), param("on", "bool")]), fn("Close Menu"),
     # Outfits (vanilla data: Outfits_Save in slot "Outfits")
     fn("Load Outfits"), fn("Save Outfits"), fn("Rebuild TopTabs"), fn("Rebuild Outfits"),] + ([fn("Select Page Inner", [param("name", "name")])] if os.environ.get("ALTUI_TABLOG") == "1" else []) + [ fn("Select Page", [param("name", "name")]),
     fn("On Outfit Clicked", [param("index", "int")]), fn("On Outfit Context", [param("index", "int")]), fn("Delete Outfit", [param("index", "int")]),
@@ -1386,7 +1756,7 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     fn("Join Names", [param("names", "name", "array")], [param("key", "string")]),
     fn("Outfit Key", [param("index", "int")], [param("key", "string")]), fn("Outfit Old Key", [param("index", "int")], [param("key", "string")]), fn("Migrate Outfit Keys"), fn("Rebuild Kodex Cats"), fn("Select Kodex", [param("name", "name")]), fn("Rebuild Kodex"), fn("Kodex Unlocked Rows", [param("notes", "string", "array")]), fn("Kodex Archive Rows"), fn("Kodex Tile Clicked", [param("index", "int")]), fn("Kodex Noop Rename", [param("index", "int"), param("name", "string")]), fn("Kodex Back"), fn("Kodex Place Text", [param("dist", "float"), param("dz", "float")], [param("text", "string")], pure=True), fn("Collect Kodex Locks"), fn("Kodex Toggle Code", [param("index", "int")]), fn("Spawn Ragdoll Copy"), fn("Remove Ragdolls"), fn("Ragdoll Grab Update"), fn("Spawn Look Ragdoll", [param("index", "int")]), fn("Finish Look Ragdoll"), fn("Spawn Zombie Ragdoll", [param("index", "int")]), fn("Finish Zombie Ragdoll"), fn("Rag Kind Name", [param("index", "int")], [param("name", "string")]), fn("Rag Kind Clicked", [param("index", "int")]), fn("Enemy Kind Clicked", [param("index", "int")]), fn("Rebuild Enemies"), fn("Poll Enemies"), fn("Poll Tv"), fn("Tv Status"), fn("Enemy Action", [param("name", "name")]), fn("Enemy Mode Chip", [param("name", "name")]), fn("Enemy Prune", outputs=[param("n", "int")]), fn("Enemy Set Mode", [param("mode", "int")]), fn("Enemy Remove All"), fn("Enemy Remove Nearest"), fn("Enemy Kill All"), fn("Enemy Toggle Passive"), fn("Enemy Item", [param("item", "string")], [param("ok", "bool"), param("caption", "string"), param("tex", "object:" + E_TEX2D)]), fn("Run Enemy Item", [param("item", "string")]), fn("Enemy Spawn", [param("index", "int")]), fn("Enemy Spawn One", [param("cls", "class:/Script/Engine.Actor"), param("spot", "struct:/Script/CoreUObject.Vector"), param("face", "struct:/Script/CoreUObject.Vector")], [param("ok", "bool")]), fn("Enemy Apply Mode", [param("actor", "object:/Script/Engine.Actor"), param("mode", "int")]), fn("Look Ragdoll Poll"), fn("Rebuild Ragdolls"), fn("Ragdoll Action", [param("name", "name")]), fn("Rag Refresh"), fn("Rag Lift", [param("notches", "float"), param("ctrl", "bool")]), fn("Rag Turn Update"), fn("Rag Pin Grab"), fn("Start Ragdoll Mode"), fn("Ragdoll Mode Step", [param("dt", "float")]), fn("Toggle Aimed Ragdoll", [param("cursor", "bool")]), fn("Load Rag Save"), fn("Save Rag Preset", [param("name", "string")]), fn("Load Rag Preset", [param("index", "int")]), fn("Delete Rag Preset", [param("index", "int")]), fn("Rag Pose Type", [param("kind", "string")], [param("type", "string")], pure=True), fn("Store Rag Pose", [param("pose", "struct:" + S_RAGPOSE)]), fn("Save Rag Pose", [param("figure", "int"), param("name", "string")]), fn("Load Rag Pose", [param("figure", "int"), param("pose", "int")]), fn("Delete Rag Pose", [param("pose", "int")]), fn("Rag Load Next"), fn("Rag Load Place"), fn("Rag Load Apply"), fn("Rag Load Zombie"), fn("Rag Save Click"), fn("Context Chip Apply", [param("name", "name")]), fn("Context Chip Delete", [param("name", "name")]), fn("Rag Move Update", [param("dx", "float"), param("rotate", "bool")]), fn("Toggle Ragdolls Active"), fn("Kodex Valid", [param("name", "name")], [param("yes", "bool")], pure=True), fn("Sync Weapon Paint", [param("weapon", "name"), param("paint", "name")]),
     fn("Mod Field Valid", [param("field", "struct:" + mu.FIELD_STRUCT)], [param("yes", "bool")]), fn("Mod Entry Pos", [param("order", "int")], [param("index", "int")]),
-    fn("Add Mod Field", [param("key", "name"), param("field", "struct:" + mu.FIELD_STRUCT)]), fn("Scan Mod Entries"),
+    fn("Add Mod Field", [param("key", "name"), param("field", "struct:" + mu.FIELD_STRUCT)]), fn("Flush Mod Fields"), fn("Scan Mod Entries"),
     fn("Mod Item Id", [param("key", "name"), param("n", "int")], [param("id", "name")]), fn("Mod Section Folded", [param("sec", "name"), param("min", "float")], [param("yes", "bool")]),
     fn("Mod Page Layout"), fn("Select Mod Tab", [param("name", "name")]), fn("Mod Fold Flip", [param("section", "name")]), fn("Toggle Mod Section", [param("section", "name")]),
     fn("Mod Field Changed", [param("key", "name"), param("value", "float")]),
@@ -1437,7 +1807,7 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     fn("Set Body Scale Factors", [param("name", "name"), param("factors", "float", "array"), param("defer", "bool")]), fn("Save Settings Soon"), fn("Settings Save Step", [param("dt", "float")]), fn("Reset Body Scales"), fn("Poll Body Scales"),
     fn("Select Language", [param("choice", "int")]), fn("Apply Strings"),
     fn("Focus Code", outputs=[param("code", "int")]), fn("Update Focus"),
-    fn("Hair Reset Color", [param("name", "name")]), fn("On Hair Context", [param("name", "name")]), fn("Apply Nude"), fn("Apply Office Jump"), fn("Fix Loaded Underwear"), fn("Fix Menu Underwear"), fn("Apply Saved Colors"), fn("Find Menu Wearer"),
+    fn("Hair Reset Color", [param("name", "name")]), fn("On Hair Context", [param("name", "name")]), fn("Apply Nude"), fn("Apply Office Jump"), fn("Apply Foot IK"), fn("Fix Loaded Underwear"), fn("Fix Menu Underwear"), fn("Apply Saved Colors"), fn("Find Menu Wearer"),
     fn("Rebuild Options"), fn("Poll Options"), fn("Apply Options"), fn("Apply Theme"), fn("Open Theme Color", [param("key", "name")]),
     fn("Theme Edit Box", [param("box", "object:" + E_EDIT), param("bg", S_LINCOLOR)]), fn("Theme Multi Edit Box", [param("box", "object:/Script/UMG.MultiLineEditableTextBox")]), fn("Theme Check Box", [param("box", "object:" + E_CHECK)]),
     fn("Theme Scroll Box", [param("box", "object:/Script/UMG.ScrollBox")]),
@@ -1452,9 +1822,9 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     fn("Start Free Cam"), fn("Stop Free Cam"),
     fn("Free Cam Look", [param("delta", "struct:/Script/CoreUObject.Vector2D")]), fn("Free Cam Wheel", [param("delta", "float")]), fn("Free Cam Step", [param("dt", "float"), param("rag", "bool")]),
     fn("Cam Tick", [param("dt", "float")]), fn("Wheel Dist", [param("dt", "float")]), fn("Play Zoom"), fn("Nudge Tilt", [param("deg", "float")]), fn("Tilt Tick"), fn("Start Play Wheel", [param("mode", "int")]), fn("End Play Wheel"), fn("Begin Jodi Drag", [param("right", "bool"), param("shift", "bool")], [param("yes", "bool")]), fn("Jodi Drag", [param("dx", "float"), param("dy", "float"), param("shift", "bool")]), fn("End Jodi Drag"), fn("Start Photo Mode"), fn("End Photo Mode"),
-    fn("Can Wear", [param("name", "name")], [param("yes", "bool")]), fn("Select Unowned", [param("name", "name")]),
+    fn("Can Wear", [param("name", "name")], [param("yes", "bool")]), fn("Random Candidates", [param("slot", "name")]), fn("Select Unowned", [param("name", "name")]),
     fn("Take Snapshot", outputs=[param("snap", "struct:" + S_SNAP)]), fn("Push History"), fn("Apply Snapshot", [param("snap", "struct:" + S_SNAP), param("keep", "bool")]), fn("Undo"), fn("Redo"),
-    fn("Load Looks"), fn("Save Looks"), fn("Log Line", [param("text", "string")]), fn("Looks Count", outputs=[param("n", "int")]), fn("Add Look"), fn("Update Look", [param("index", "int")]), fn("Delete Look", [param("index", "int")]),
+    fn("Load Looks"), fn("Save Looks"), fn("Log Line", [param("text", "string")]), fn("Looks Count", outputs=[param("n", "int")]), fn("Look Order"), fn("Look Before", [param("a", "int"), param("b", "int")], [param("before", "bool")]), fn("Now Stamp", outputs=[param("t", "int64")]), fn("Stamp Date", [param("t", "int64")], [param("s", "string")]), fn("Rebuild Manage Overview"), fn("Build Name Dupes"), fn("Name Dupe Tip", [param("kind", "name"), param("default", "string")], [param("tip", "string")]), fn("Look Date Tip", [param("index", "int")], [param("s", "string")]), fn("Add Look"), fn("Update Look", [param("index", "int")]), fn("Delete Look", [param("index", "int")]),
     fn("Look Name", [param("index", "int")], [param("name", "string")]), fn("Set Look Name", [param("index", "int"), param("name", "string")]), fn("Apply Look", [param("index", "int"), param("keep", "bool")]),
     fn("Rebuild Looks"), fn("On Look Clicked", [param("index", "int")]), fn("On Look Context", [param("index", "int")]), fn("Start Look Rename", [param("index", "int")]),
     fn("Look Icon", [param("id", "int")], [param("tex", "object:" + E_TEX2D)]), fn("Capture Look Photo", [param("id", "int")]),
@@ -1470,7 +1840,7 @@ UI_SIGNATURES = ([fn("Makeup Probe")] if os.environ.get("ALTUI_MAKEUPPROBE") == 
     fn("Quick Item Kind", [param("item", "string")], [param("kind", "string"), param("id", "string")], pure=True), fn("Quick Index Outfits"), fn("Quick Find", [param("item", "string")], [param("ok", "bool"), param("index", "int")]),
     fn("Quick Item Caption", [param("item", "string")], [param("caption", "text")]), fn("Quick Item Icon", [param("item", "string")], [param("tex", "object:" + E_TEX2D)]),
     fn("Quick Add", [param("item", "string")]), fn("Run Quick Item", [param("item", "string")]), fn("Start Next Snapshot"), fn("Open Quick Wheel"), fn("Quick Lock", [param("on", "bool")]), fn("Quick Hover", [param("dx", "float"), param("dy", "float"), param("radius", "float")]),
-    fn("Close Quick Wheel"), fn("Quick Release"), fn("Quick Cancel"), fn("Rebuild Quick Options"), fn("Quick Noop"), fn("Perf Mark", [param("label", "string")]), fn("Focus Panel"), fn("Quick Context Toggle"), fn("Tab Context", [param("name", "name")]), fn("Mod Entry Context", [param("name", "name")]), fn("Mod Field Context", [param("key", "name")]), *vl.signatures("Ofl"), *vl.signatures("Clo"), *vl.signatures("Qa"), fn("Rebuild Quick Available"), fn("Init Outfit Tile", [param("tile", "object:/Script/UMG.UserWidget"), param("index", "int")]), fn("Quick Toggle", [param("item", "string")]), fn("Bind Begin", [param("item", "string")]), fn("Bind Run", [param("key", mu.KEY_TYPE)]), fn("Quick Action", [param("name", "name")]),
+    fn("Close Quick Wheel"), fn("Quick Release"), fn("Quick Cancel"), fn("Rebuild Quick Options"), fn("Quick Noop"), fn("Perf Mark", [param("label", "string")]), fn("Mod Rescan"), fn("Perf Acc Start"), fn("Perf Acc", [param("label", "string")]), fn("Perf Acc Dump", [param("title", "string")]), fn("Focus Panel"), fn("Quick Context Toggle"), fn("Tab Context", [param("name", "name")]), fn("Mod Entry Context", [param("name", "name")]), fn("Mod Field Context", [param("key", "name")]), *vl.signatures("Ofl"), *vl.signatures("Clo"), *vl.signatures("Qa"), fn("Rebuild Quick Available"), fn("Init Outfit Tile", [param("tile", "object:/Script/UMG.UserWidget"), param("index", "int")]), fn("Quick Toggle", [param("item", "string")]), fn("Bind Begin", [param("item", "string")]), fn("Bind Run", [param("key", mu.KEY_TYPE)]), fn("Quick Action", [param("name", "name")]),
     fn("Quick Key Captured", [param("pressed", mu.KEY_TYPE)]), fn("Mod Action Pos", [param("order", "int")], [param("index", "int")]), fn("Mod Shipped Pos", [param("order", "int")], [param("index", "int")]),
     # mod presets (gen_manager_ui.py, "Mod presets")
     fn("Mod Key Split", [param("key", "name")], [param("pak", "name"), param("row", "name")], pure=True), fn("Mod Preset Slot", [param("pak", "name")], [param("slot", "string")], pure=True),
@@ -1582,6 +1952,10 @@ assets = [
     datatable("/Game/Mod/%s/%s" % (mu.TEST_MOD, mu.FIELDS_TABLE), mu.FIELD_STRUCT, rows=mu.TEST_FIELDS),
     datatable("/Game/Mod/%s/%s" % (mu.TEST_MOD, mu.ACTIONS_TABLE), mu.ACTION_STRUCT, rows=mu.TEST_ACTIONS),
     datatable("/Game/Mod/%s/%s" % (mu.TEST_MOD, mu.PRESETS_TABLE), mu.PRESET_STRUCT, rows=mu.TEST_PRESETS),
+    datatable("/Game/Mod/%s/%s" % (mu.TEST_MOD2, mu.FIELDS_TABLE), mu.FIELD_STRUCT, rows=mu.TEST_FIELDS2),   # editor test test_text_ids
+    struct(mu.TEXTID_INNER, [param("Note", "text")]),
+    struct(mu.TEXTID_STRUCT, [param("Caption", "text"), param("Words", "text", "array"), param("Inner", "struct:" + mu.TEXTID_INNER), param("ByName", "name", "map", value_type="text")]),
+    datatable(mu.TEXTID_TABLE, mu.TEXTID_STRUCT, rows=mu.TEXTID_ROWS), datatable(mu.TEXTID_KEPT, mu.TEXTID_STRUCT, rows=mu.TEXTID_ROWS, keep_text_ids=True),
     struct(S_FLOATS, [param("Values", "float", "array")]),
     struct(S_AUTOGUN, [param("AmmoName", "name"), param("Parts", "name", "array")]),   # a gun marked "always auto-equip", as it was when marked (Settings.AutoGuns by weapon)
     # colourable material slots of a piece: index in the mesh + slot name for the menu row (map values take no arrays)
@@ -1616,7 +1990,9 @@ assets = [
                              param("Boobs", "float"), param("Waist", "float")]),
     blueprint(bp.SG_BODYPRESETS, "/Script/Engine.SaveGame", variables=[var("Version", "int", default=str(bp.VERSION)), var("NextId", "int", default="1"),
                                                                        var("Presets", "struct:" + bp.S_BODYPRESET, "array")]),
-    struct(S_LOOK, [param("Name", "string"), param("Id", "int"), param("Snap", "struct:" + S_SNAP)]),
+    struct(S_LOOK, [param("Name", "string"), param("Id", "int"), param("Snap", "struct:" + S_SNAP),
+                    # Unix seconds UTC (Now Stamp); appended: an older look brings 0 = unknown
+                    param("Created", "int64"), param("Changed", "int64")]),
     # a make-up preset's own colours, by the preset's IconNumber (Settings.PresetColors); a preset without an entry brings the factory colours
     struct(S_PRESETCOL, [param("EyeColors", "name", "map", value_type=S_LINCOLOR), param("MakeupColors", "name", "map", value_type=S_LINCOLOR),
                          param("Mutation", "struct:" + mutn.S_MUT),   # its mutation look (appended); an older preset brings zeros = none
@@ -1640,6 +2016,12 @@ assets = [
     blueprint(SG_RAG, "/Script/Engine.SaveGame", variables=[var("Presets", "struct:" + S_RAGPRE, "array"), var("Poses", "struct:" + S_RAGPOSE, "array")]),
     blueprint(SG_LOG, "/Script/Engine.SaveGame", variables=[var("Lines", "string", "array")]),
     blueprint(SG_NAMES, "/Script/Engine.SaveGame", variables=[var("SaveVersion", "int"), var("Names", "name", "map", value_type="string")]),
+    blueprint(SG_MODSCAN, "/Script/Engine.SaveGame", variables=[var("SaveVersion", "int"), var("Sig", "string", "array", instance_editable=True), var("MeshN", "int", instance_editable=True),   # editable: tests/editor/test_origin.py changes them
+                                                               var("Rows", "name", "map", value_type="struct:" + S_NAMES, instance_editable=True),
+                                                               var("ItemOriginMod", "name", "map", value_type="name"), var("ModCaption", "name", "map", value_type="text"), var("ModList", "name", "array"),
+                                                               var("FileSig", "string", "array", instance_editable=True), var("Files", "name", "map", value_type="struct:" + S_NAMES), var("ReadAt", "int64"),   # Unix seconds of the last look-up (Mod File Index anew), Manage › Overview; 0 = before 2026-11-16
+                                                               var("MeshPaths", "string", "array", instance_editable=True),
+                                                               var("WOk", "bool", instance_editable=True), var("WSkinOwner", "name", "map", value_type="name"), var("WSkinWeapon", "name", "map", value_type="name"), var("WSkinList", "name", "array"), var("WSkinHasMat", "name", "array"), var("WModelOwner", "name", "map", value_type="name"), var("WModelWeapon", "name", "map", value_type="name"), var("WModelList", "name", "array"), var("WSoundOwner", "name", "map", value_type="name"), var("WSoundWeapon", "name", "map", value_type="name"), var("WSoundList", "name", "array")]),   # weapon mods' names (Ensure Weapon Scans) while the file index holds   # weapon model meshes once loaded: preloaded at a level start
     struct(S_DRAWER, [param("Id", "int"), param("Name", "string"), param("Items", "name", "array")]),
     blueprint(SG_DRAWERS, "/Script/Engine.SaveGame", variables=[var("Drawers", "struct:" + S_DRAWER, "array"), var("NextId", "int")]),
     struct(S_STR, [param(l, "text") for l in LANGS]),
@@ -1647,25 +2029,29 @@ assets = [
     # one row, as every mod pak has: the game's loader merges it into DLC_MainTable under the pak name, and only a pak
     # with a row is a mod the game knows about - it is what the mod list shows and the only list of installed mods a
     # Blueprint can read (TKA_GameInstance keeps none). The table shipped empty until now, so AltUI was in neither.
+    # Keep Loaded (2026-11-16, appended below: after the manager, whose class the row names): one ItemTable row whose ActorClass is the manager class - ItemTable lives until the game ends, so the
+    # class with all it references stays loaded and every later main menu / level spawns it without loading ~16 MB of Blueprint
+    # again (that load was the 2-3 s hang under the fade). Price 0 and group None: the game's vending, hyper box and bag lists skip it.
     datatable(M + "/TKA_Mod_Table", "/Game/Project/Tables/DLC_Struct",
               rows={"AltUI": {"Caption": "AltUI", "Desc": "Wardrobe and appearance panel, opens with B", "Version": 1.4, "Tables": []}}),
     blueprint(M + "/SG_AltUI", "/Script/Engine.SaveGame",
               variables=[var("Favorites", "name", "array"), var("HiddenItems", "name", "array"), var("OnlyOwned", "bool"), var("OnlyFav", "bool"), var("OnlyVanilla", "bool"), var("OnlyWorn", "bool"), var("SubTabsCollapsed", "bool"), var("LookOnlyFav", "bool"), var("LookOnlyWorn", "bool"), var("LookChipsCollapsed", "bool"), var("PoseChipsCollapsed", "bool"), var("PoseKind", "name", "map", value_type="name"), var("PoseMoving", "name", "map", value_type="bool"), var("PoseManual", "name", "map", value_type="bool"), var("WeaponSkins", "name", "map", value_type="name"), var("AppliedPaint", "name", "map", value_type="name"), var("WeaponModels", "name", "map", value_type="name"), var("WeaponSounds", "name", "map", value_type="name"), var("SkinChipsCollapsed", "bool"), var("GroupLen", "int"), var("ChipH", "int"), var("LastSlot", "name"),
                          var("ScrollMult", "float", default="0"), var("TileScale", "float", default="0"),   # 0 = never set -> default
-                         var("Unlimited", "bool"), var("LeftFree", "int", default="1"), var("CamFov", "float", default="0"), var("CamDist", "float", default="0"), var("PlayDist", "float"), var("PlayHeight", "float"), var("CamHeight", "float"), var("CamRightHeight", "bool"), var("IconOwn", "name", "array"), var("IconRedo", "name", "array"), var("ForceSkin", "name", "array"), var("ForceSkipMag", "name", "array"), var("ForceSkipOptics", "name", "array"), var("ForceSkipBarrel", "name", "array"), var("ForceSkipGrip", "name", "array"), var("OnlyModsNames", "bool", default="true"), var("CaseSensitiveNames", "bool"), var("MergeGroups", "bool"), var("MergeMods", "bool"), var("ChipSearchShown", "bool", default="true"), var("TipNoPrefix", "bool"), var("TipNoIds", "bool"), var("FreedConflicts", "name", "array"), var("MultiSlots", "name", "array"), *ki.saved_variables(), var("HairSwatchesOpen", "bool"), var("BodyVariant", "name"), var("LangChoice", "int"), var("PanToSlot", "bool"), var("FreeNoCollide", "bool"), var("FreeNoLimit", "bool"), var("PlayWheelZoom", "bool"), var("TiltPanelOff", "bool"), var("OfficeJump", "bool"), var("NoNotices", "bool"), var("TvAlways", "bool"), var("RagMarkersOff", "bool"), var("AllowNude", "bool"), var("OutfitNames", "string", "map", value_type="string"), var("OutfitKeysColor", "bool"), var("OutfitColors", "string", "map", value_type=S_LINCOLOR), var("OutfitIdsDone", "bool"),
+                         var("Unlimited", "bool"), var("LeftFree", "int", default="1"), var("CamFov", "float", default="0"), var("CamDist", "float", default="0"), var("PlayDist", "float"), var("PlayHeight", "float"), var("CamHeight", "float"), var("CamRightHeight", "bool"), var("IconOwn", "name", "array"), var("IconRedo", "name", "array"), var("ForceSkin", "name", "array"), var("ForceSkipMag", "name", "array"), var("ForceSkipOptics", "name", "array"), var("ForceSkipBarrel", "name", "array"), var("ForceSkipGrip", "name", "array"), var("OnlyModsNames", "bool", default="true"), var("CaseSensitiveNames", "bool"), var("MergeGroups", "bool"), var("MergeMods", "bool"), var("ChipSearchShown", "bool", default="true"), var("TipNoPrefix", "bool"), var("TipNoIds", "bool"), var("FreedConflicts", "name", "array"), var("RandNoUndress", "name", "array"), var("RandNoDress", "name", "array"), var("MultiSlots", "name", "array"), var("LooksSort", "int"), *ki.saved_variables(), var("HairSwatchesOpen", "bool"), var("BodyVariant", "name"), var("LangChoice", "int"), var("PanToSlot", "bool"), var("FreeNoCollide", "bool"), var("FreeNoLimit", "bool"), var("PlayWheelZoom", "bool"), var("TiltPanelOff", "bool"), var("OfficeJump", "bool"), var("FootIKOn", "bool"), var("FootContactOn", "bool"), var("ClothFitOn", "bool"), var("NoNotices", "bool"), var("TvAlways", "bool"), var("RagMarkersOff", "bool"), var("AllowNude", "bool"), var("OutfitNames", "string", "map", value_type="string"), var("OutfitKeysColor", "bool"), var("OutfitColors", "string", "map", value_type=S_LINCOLOR), var("OutfitIdsDone", "bool"),
                          var("UnownedMode", "int"),
                          var("BodyScales", "name", "map", value_type="struct:" + S_FLOATS),
                          var("LightOn", "bool"), var("LightColor", S_LINCOLOR, default=LIGHT_COLOR), var("LightPower", "float", default="0.5"), var("CurrentDrawer", "int"),   # camera light (absent in older files -> these defaults)
                          var("ThemeSet", "bool"), var("BgAlpha", "float", default="0"), var("TileAlpha", "float", default="0"), var("BgImgAlpha", "float", default="0"), var("ToggleKey", "name"), var("ModEntry", "name"), var("ModTab", "name", "map", value_type="name"), var("ModFolded", "name", "map", value_type="bool"), var("LastPage", "name"), var("LastLookCat", "name"), var("LastPoseCat", "name"), var("LastWeapon", "name"),
                          var("SlotColors", "name", "map", value_type=S_LINCOLOR), var("GameColorSeen", "name", "map", value_type=S_LINCOLOR), var("SlotColorsPerSave", "bool"), var("EyeColors", "name", "map", value_type=S_LINCOLOR), var("MakeupColors", "name", "map", value_type=S_LINCOLOR), var("OutfitSlotColors", "name", "map", value_type=S_LINCOLOR),
-                         var("SaveVersion", "int"), var("PresetColors", "int", "map", value_type="struct:" + S_PRESETCOL), var("Face", "name", "map", value_type="float"), var("LastFaceGroup", "name"), var("FaceAdd", "bool"), var("Mutation", "struct:" + mutn.S_MUT), var("SkinOil", "float", default="-1.0"), var("LastOptionsCat", "name"), var("LastActCat", "name"), var("LastInvGroup", "name"), var("LastKodex", "name"), var("KodexAll", "bool"), var("InvCatalog", "bool"), var("InvNoAutoEquip", "bool"), var("InvAutoNoStory", "bool"),var("AutoItems", "name", "map", value_type="int"), var("AutoGuns", "name", "map", value_type="struct:" + S_AUTOGUN), var("InvFoldBag", "bool"), var("InvFoldBox", "bool"), var("InvFoldCat", "bool"), var("InvMax", "name"), var("FolFoldBag", "bool"), var("FolFoldBox", "bool"), var("FolFoldRows", "name", "array"), var("FolShow", "int"), var("RagKey", "name"), var("HiddenTabs", "name", "array"), var("TabOrder", "name", "array"), var("QuickKey", "name"), var("QuickItems", "string", "array"), var("KeyBindKeys", "name", "array"), var("KeyBindItems", "string", "array"), var("TabStyle", "int"), var("TabIconRight", "bool"), var("TabOneRow", "bool"), var("BgImage", "string"), var("BgFit", "int"), var("BgHAlign", "int", default="1"), var("BgVAlign", "int", default="1"), var("BtnImage", "string"), var("BgHue", "float"), var("BgSepia", "float"), var("BgInvert", "bool"), var("ImgThumbs", "bool"), var("BtnHue", "float"), var("BtnSepia", "float"), var("BtnInvert", "bool"), var("ThemePresets", "name", "map", value_type="struct:" + S_THEMEP),
+                         var("SaveVersion", "int"), var("PresetColors", "int", "map", value_type="struct:" + S_PRESETCOL), var("Face", "name", "map", value_type="float"), var("LastFaceGroup", "name"), var("FaceAdd", "bool"), var("Mutation", "struct:" + mutn.S_MUT), var("SkinOil", "float", default="-1.0"), var("LastOptionsCat", "name"), var("LastActCat", "name"), var("LastInvGroup", "name"), var("LastKodex", "name"), var("KodexAll", "bool"), var("InvCatalog", "bool"), var("InvNoAutoEquip", "bool"), var("InvAutoNoStory", "bool"),var("AutoItems", "name", "map", value_type="int"), var("AutoGuns", "name", "map", value_type="struct:" + S_AUTOGUN), var("InvFoldBag", "bool"), var("InvFoldBox", "bool"), var("InvFoldCat", "bool"), var("InvMax", "name"), var("FolFoldBag", "bool"), var("FolFoldBox", "bool"), var("FolFoldRows", "name", "array"), var("FolShow", "int"), var("RagKey", "name"), var("HiddenTabs", "name", "array"), var("TabOrder", "name", "array"), var("QuickKey", "name"), var("QuickItems", "string", "array"), var("KeyBindKeys", "name", "array"), var("KeyBindItems", "string", "array"), var("TabStyle", "int"), var("TabIconRight", "bool"), var("TabOneRow", "bool"), var("BgImage", "string"), var("BgFit", "int"), var("BgHAlign", "int", default="1"), var("BgVAlign", "int", default="1"), var("BtnImage", "string"), var("BgHue", "float"), var("BgSepia", "float"), var("BgInvert", "bool"), var("ImgThumbs", "bool"), var("ObjLoadIcons", "bool"), var("BtnHue", "float"), var("BtnSepia", "float"), var("BtnInvert", "bool"), var("ThemePresets", "name", "map", value_type="struct:" + S_THEMEP),
                          var("OutfitScale", "float"), var("LookScale", "float"), var("RagScale", "float"), var("InvScale", "float"), var("OutfitCols", "int"), var("OutfitRows", "int"), var("ManageChipsCollapsed", "bool"), var("ModPresetsFolded", "bool"), var("BodyPresetsFolded", "bool"), var("QuickAlpha", "float"), var("MoveOn", "bool"), var("WalkSpeedPct", "float"), var("RunSpeedPct", "float"), var("WalkStyle", "name"), var("RunStyle", "name"), var("IdleStyle", "name"), var("IdlePose", "name"), var("PoseLoop", "bool"), var("NoRenderedIcons", "bool"), var("RagWheelCm", "float"), var("SlowMoPct", "float"), var("FlySpeed", "float"), var("EnemyCount", "int", default="1"), var("EnemyDistM", "float", default="2.0"), var("EnemyMode", "int", default="4"), var("EnemyActiveMode", "int", default="4"), var("HandOn", "bool"), var("HandRange", "float"), var("HandBatch", "float"), var("HandNoHand", "bool"), var("AcceptedFingerprint", "string")] + [var("Theme" + k, S_LINCOLOR) for k, _, _ in THEME]),   # SaveVersion 0 = save from before the versioning (0 = "never set" for floats)
     blueprint(MGR, E_ACTOR,
               variables=[var("Player", "object:" + P_JODI), var("Wearer", "object:" + P_JODI_BASE), var("MenuTries", "int"), var("PC", "object:" + P_PC), var("ControlDisabled", "bool"),
                          var("Names", "object:" + SG_NAMES), var("CatalogDirty", "bool"),
                          var("CurrentDrawer", "int"), var("DrawerSet", "name", "map", value_type="bool"), var("DrawerCounts", "name", "map", value_type="int"),   # 0 = Default (all)
-                         var("ItemOriginMod", "name", "map", value_type="name"), var("ModCaption", "name", "map", value_type="text"), var("ModList", "name", "array"),
-                         var("ViewMod", "name"), var("UsageWhere", "name", "map", value_type="string"), var("UsageMods", "name", "map", value_type="struct:" + S_NAMES), var("UsageKeys", "name", "array"), var("UsageList", "name", "array"), var("UsageModTmp", "name"), var("UsageKey", "name"), var("UsageUsed", "name", "array"), var("UsageUnused", "name", "array"), var("UsageUnknown", "name", "array"), var("UsageMeasurable", "name", "array"), var("UsageStr", "string"), var("UsageHit", "bool"), var("UsageList2", "name", "array"), var("UsageToks", "string", "array"), var("UsageCat", "string"), var("UsageNames", "string"), var("UsageOut", "string"), var("UsageCnt", "int"), var("UsageRunA", "int"), var("UsageRunB", "int"), var("UsageRows", "int"), var("UsageScanned", "bool"), var("ModViewItems", T_ITEM, "array"), var("ModViewPoses", "name", "array"), var("ContentFrom", "name"), var("ManageCat", "name", default="Mods"), var("ManageSub", "name"), var("ManageSubCounts", "name", "map", value_type="int"), var("ManageSubFiltered", "name", "map", value_type="int"), var("ManageSearchActive", "bool"), var("LookSearchText", "string"), var("ChipSearchText", "string"), var("LookChipSearchText", "string"), var("TmpRest", "string"), var("TmpRest2", "text"), var("TmpMod", "name"), var("ConflictPairs", "name", "array"), var("TmpConflicts", "name", "array"), *ms.held_vars(), *ss.variables(), *ki.variables(), var("TmpSubSave", "name"), var("OnlyModsNames", "bool", default="true"), var("CaseSensitiveNames", "bool"), var("MergeGroups", "bool"), var("MergeMods", "bool"), var("ChipSearchShown", "bool", default="true"), var("ModAlias", "name", "map", value_type="name"), var("TipNoPrefix", "bool"), var("TipNoIds", "bool"), var("FreedConflicts", "name", "array"), var("MultiSlots", "name", "array"), var("HairSwatchesOpen", "bool"),
+                         var("ItemOriginMod", "name", "map", value_type="name"), var("ModCaption", "name", "map", value_type="text"), var("ModList", "name", "array"), var("ModScan", "object:" + SG_MODSCAN), var("ModScanSig", "string", "array"), var("ModScanTmp", "string"), var("ModScanMeshN", "int"), var("ModScanOk", "bool"), var("ModScanNames", "name", "array"), var("ModFiles", "name", "map", value_type="struct:" + S_NAMES), var("ModFileOk", "bool"), var("ModFileTmp", "name", "array"),
+                         var("ModFilesMerge", "name", "array"), var("CatalogReady", "bool"), var("TkS", "float"), var("TkS2", "float"), var("PerfLine", "string"), var("MfKeys", "name", "array"), var("MfFields", "struct:" + mu.FIELD_STRUCT, "array"), var("MfDone", "name", "array"), var("MfOrd", "int", "array"), var("MfPos", "int"), var("MfKey", "name"), var("MfField", "struct:" + mu.FIELD_STRUCT), var("ModFileSig", "string", "array"), var("ModFilesWeapon", "name", "array"), var("MtDone", "int"), var("FolTableWait", "int"), var("MtBusy", "bool"), var("MtScan", "bool"), *[var("MtPath%d" % k, "string") for k in range(MT_LANES)], var("MtPaths", "string", "array"), var("MtIdx", "int"), var("MtHeld", "object:/Script/CoreUObject.Object", "array"), var("CatStep", "int"), var("CatIdx", "int"), var("CatSlotIdx", "int"), var("CatNames", "name", "array"), var("CatRow", "name"), var("CatSlot", "name"), var("ModFilesFp", "name", "array"), var("ModFilesEntries", "name", "array"), var("ModFilesActions", "name", "array"),
+                         var("ViewMod", "name"), var("UsageWhere", "name", "map", value_type="string"), var("UsageMods", "name", "map", value_type="struct:" + S_NAMES), var("UsageKeys", "name", "array"), var("UsageList", "name", "array"), var("UsageModTmp", "name"), var("UsageKey", "name"), var("UsageUsed", "name", "array"), var("UsageUnused", "name", "array"), var("UsageUnknown", "name", "array"), var("UsageMeasurable", "name", "array"), var("UsageStr", "string"), var("UsageHit", "bool"), var("UsageList2", "name", "array"), var("UsageToks", "string", "array"), var("UsageCat", "string"), var("UsageNames", "string"), var("UsageOut", "string"), var("UsageCnt", "int"), var("UsageRunA", "int"), var("UsageRunB", "int"), var("UsageRows", "int"), var("UsageScanned", "bool"), var("ModViewItems", T_ITEM, "array"), var("ModViewPoses", "name", "array"), var("ContentFrom", "name"), var("ManageCat", "name", default="Mods"), var("ManageSub", "name"), var("ManageSubCounts", "name", "map", value_type="int"), var("ManageSubFiltered", "name", "map", value_type="int"), var("ManageSearchActive", "bool"), var("LookSearchText", "string"), var("ChipSearchText", "string"), var("LookChipSearchText", "string"), var("TmpRest", "string"), var("TmpRest2", "text"), var("TmpMod", "name"), var("ConflictPairs", "name", "array"), var("TmpConflicts", "name", "array"), *ms.held_vars(), *ss.variables(), *ki.variables(), var("TmpSubSave", "name"), var("OnlyModsNames", "bool", default="true"), var("CaseSensitiveNames", "bool"), var("MergeGroups", "bool"), var("MergeMods", "bool"), var("ChipSearchShown", "bool", default="true"), var("ModAlias", "name", "map", value_type="name"), var("TipNoPrefix", "bool"), var("TipNoIds", "bool"), var("FreedConflicts", "name", "array"), var("RandNoUndress", "name", "array"), var("RandNoDress", "name", "array"), var("MultiSlots", "name", "array"), var("LooksSort", "int"), var("HairSwatchesOpen", "bool"),
                          var("UnownedMode", "int"),
                          var("ManageSearchText", "string"), var("ContextKind", "name"), var("TmpNames3", "name", "array"), var("TmpStr3", "string"),
                          var("ModGroupPairs", "name", "array"), var("ModGroupsOf", "name", "map", value_type="struct:" + S_NAMES), var("GroupModsOf", "name", "map", value_type="struct:" + S_NAMES), var("TmpPairNames", "name", "array"), var("TmpModGroups", "name", "array"), var("TmpGroupMods", "name", "array"), var("VanillaGroups", "name", "array"), var("GroupModCount", "name", "map", value_type="int"), var("GroupAlias", "name", "map", value_type="name"), var("TmpCaptionOwner", "string", "map", value_type="name"), var("ManageRowWidgets", "object:" + E_USERWIDGET, "array"), var("RenameTile", "object:" + E_WIDGET), var("TmpParentMod", "name"), var("TmpTex", "object:" + E_TEX2D), var("TmpStrings2", "string", "array"), var("TmpVector", "struct:/Script/CoreUObject.Vector"),
@@ -1673,7 +2059,7 @@ assets = [
                          var("Catalog", "name", "map", value_type=T_LIST), var("ItemSlot", "name", "map", value_type="name"),
                          var("CatalogRows", "int"), var("Worn", "name", "array"), var("Owned", "name", "array"), var("OwnedSet", "name", "set"), var("SlotCounts", "name", "map", value_type="int"), var("SlotNames", "name", "map", value_type="struct:" + S_NAMES),
                          var("Alphabet", "string", default="0123456789abcdefghijklmnopqrstuvwxyz"),
-                         var("TmpI", "int"), var("TmpKey", "int64"), var("TmpKey1", "int64"), var("TmpKey2", "int64"), var("TmpKeys", "int64", "array"), var("TmpKeys2", "int64", "array"), var("TmpStr", "string"), var("TmpItems", T_ITEM, "array"), var("TmpItems3", T_ITEM, "array"), var("FilteredCounts", "name", "map", value_type="int"),
+                         var("TmpI", "int"), var("TmpKey", "int64"), var("NowSpan", "struct:/Script/CoreUObject.Timespan"), var("TmpKey1", "int64"), var("TmpKey2", "int64"), var("TmpKeys", "int64", "array"), var("TmpKeys2", "int64", "array"), var("TmpStr", "string"), var("TmpItems", T_ITEM, "array"), var("TmpItems3", T_ITEM, "array"), var("FilteredCounts", "name", "map", value_type="int"),
                          var("TmpIdx", "int"), var("TmpFound", "bool"), var("TmpName", "name"), var("TmpNames", "name", "array"), var("TmpItem", T_ITEM),
                          var("TmpGroup", "name"), var("PanelOpen", "bool"),
                          var("CurrentSlot", "name"), var("CurrentGroup", "name"), var("SearchText", "string"), var("LockStrategy", "int", default="0"),
@@ -1681,8 +2067,8 @@ assets = [
                          var("ItemByName", "name", "map", value_type=T_ITEM), var("TmpSlotItems", T_ITEM, "array"), var("AllItems", T_ITEM, "array"), var("Outfits", "object:" + P_OUTFITS), var("Page", "name", default="Clothes"), var("ContextOutfit", "int"),
                          var("LookCat", "name", default="Skin"), var("LookCatSave", "name"), var("LookGroup", "name"), var("LookOnlyFav", "bool"), var("LookOnlyWorn", "bool"), var("LookChipsCollapsed", "bool"), var("LookRowKinds", "name", "array"), var("LookRows", "name", "array"), var("PoseRows", "name", "array"), var("PoseTiles", "object:/Script/UMG.UserWidget", "array"), var("PoseCounts", "name", "map", value_type="int"), var("PoseCountsF", "name", "map", value_type="int"), var("PoseGroup", "name"), var("PoseChipsCollapsed", "bool"), var("PoseSearchText", "string"), var("HairSearchText", "string"), var("PoseMod", "name"), var("PoseKind", "name", "map", value_type="name"), var("PoseMoving", "name", "map", value_type="bool"), var("PoseManual", "name", "map", value_type="bool"), var("PoseCat", "name"), var("PoseSection", "name", "map", value_type="name"), var("PoseSections", "name", "array"), var("MeasureRow", "name"), var("MeasureTime", "float"), var("MeasureRun", "float"), var("MeasureMin", "struct:/Script/CoreUObject.Vector"), var("MeasureMax", "struct:/Script/CoreUObject.Vector"), var("MeasureSum", "float"), var("MeasureN", "int"), var("ScanWait", "float"), var("MeasurePos", "struct:/Script/CoreUObject.Vector"), var("ScanRows", "name", "array"), var("ScanIndex", "int"), var("Scanning", "bool"), var("PoseKnown", "object:/Script/Engine.Actor", "array"), var("TmpActors", "object:/Script/Engine.Actor", "array"), var("TmpActors2", "object:/Script/Engine.Actor", "array"), var("WeaponSkins", "name", "map", value_type="name"), var("AppliedPaint", "name", "map", value_type="name"), var("WeaponModels", "name", "map", value_type="name"), var("ModelOwner", "name", "map", value_type="name"), var("ModelWeapon", "name", "map", value_type="name"), var("ModelList", "name", "array"), var("ModelIconOf", "name", "map", value_type="object:" + E_TEX2D), var("WeaponSounds", "name", "map", value_type="name"), var("SoundOwner", "name", "map", value_type="name"), var("SoundWeapon", "name", "map", value_type="name"), var("SoundList", "name", "array"), var("SoundOf", "name", "map", value_type="object:/Script/Engine.SoundBase"), var("SoundRows", "name", "array"), var("OrigSound", "object:/Script/CoreUObject.Object", "map", value_type="object:/Script/Engine.SoundBase"), var("TmpSound", "object:/Script/Engine.SoundBase"), var("IconOwn", "name", "array"), var("IconRedo", "name", "array"), var("IconSpawnWait", "int"), var("IconReach", "float"), var("IconBeam", "bool"), var("IconLen", "float"), var("IconMuzzleComp", "object:/Script/Engine.SceneComponent"), var("ForceSkin", "name", "array"), var("ForceSkipMag", "name", "array"), var("ForceSkipOptics", "name", "array"), var("ForceSkipBarrel", "name", "array"), var("ForceSkipGrip", "name", "array"), var("SkinTakes", "bool", default="true"), var("SkinTakesOf", "name", "map", value_type="bool"), var("OrigMat", "object:/Script/CoreUObject.Object", "map", value_type="object:/Script/Engine.MaterialInterface"), var("OrigMats", "object:/Script/CoreUObject.Object", "map", value_type="struct:" + S_MATS), var("TmpMats", "struct:" + S_MATS), var("ModelRows", "name", "array"), var("OrigMesh", "object:/Script/CoreUObject.Object", "map", value_type="object:/Script/CoreUObject.Object"), var("TmpSkelComps", "object:/Script/Engine.ActorComponent", "array"), var("TmpStatComps", "object:/Script/Engine.ActorComponent", "array"), var("TmpSkelMeshes", "object:/Script/Engine.SkeletalMesh", "array"), var("TmpStatMeshes", "object:/Script/Engine.StaticMesh", "array"), var("TmpMesh", "object:/Script/CoreUObject.Object"), var("SkinOwner", "name", "map", value_type="name"), var("SkinMatOf", "name", "map", value_type="object:/Script/Engine.MaterialInterface"), var("SkinWeapon", "name", "map", value_type="name"), var("SkinList", "name", "array"), var("SkinRows", "name", "array"), var("SkinKinds", "name", "array"), var("TmpSkin", "struct:" + ws.STRUCT_PATH), var("TmpModel", "struct:" + ws.MODEL_STRUCT_PATH), var("TmpModelMiss", "name"), var("TmpComps", "object:/Script/Engine.ActorComponent", "array"), var("ScopeComps", "object:/Script/Engine.ActorComponent", "array"), var("TmpComps2", "object:/Script/Engine.ActorComponent", "array"), var("TmpComp", "object:/Script/Engine.SceneComponent"), var("TmpRot", "struct:/Script/CoreUObject.Rotator"), var("CurrentWeapon", "name", default="UMP45"), var("SkinGroup", "name"), var("SkinChipsCollapsed", "bool"), var("WeaponSearchText", "string"), var("FocusHeight", "float"), var("ViewFace", "int", default="-1"), var("ThemePresets", "name", "map", value_type="struct:" + S_THEMEP), var("ThemeColorsTmp", S_LINCOLOR, "array"), var("ThemePresetKeys", "name", "array"), var("ThemeSaveOk", "bool"), var("OutfitScale", "float"), var("LookScale", "float"), var("RagScale", "float"), var("InvScale", "float"), var("OutfitCols", "int"), var("OutfitRows", "int"),
                          var("ManageGroup", "name"), var("QStripe", "int"), var("ManageChipsCollapsed", "bool"), var("ManageCountTmp", "int"), var("ManageChipSearchText", "string"), var("ManageNoGroup", "bool"), var("ManageInGroup", "bool"), var("ManageGroupKeys", "string", "array"),
-                         var("ManageGroupList", "name", "array"), var("ManageChipOrder", "name", "array"), var("ManageGroupTmp", "name"), var("ManageChipCap", "text"), var("QuickAlpha", "float"), var("OptQuickAlpha", "float"), var("OptBgImgAlpha", "float"), var("OptBgHue", "float"), var("OptBgSepia", "float"), var("OptBtnHue", "float"), var("OptBtnSepia", "float"), var("MoveOn", "bool"), var("WalkSpeedPct", "float"), var("RunSpeedPct", "float"), var("Move", "object:/Game/Mod/AltUI/BP_AltUIMove"), var("Hand", "object:/Game/Mod/AltUI/BP_AltUIHand"), var("OptHandRange", "float"), var("OptHandBatch", "float"), var("WalkStyle", "name"), var("RunStyle", "name"), var("IdleStyle", "name"), var("IdleMods", "name", "array"), var("IdleCaptions", "name", "map", value_type="text"), var("WalkMods", "name", "array"), var("WalkCaptions", "name", "map", value_type="text"), var("WalkModWalk", "name", "array"), var("WalkModRun", "name", "array"), var("IdlePose", "name"), var("PoseLoop", "bool"), var("IdlePoseStill", "float"), var("IdlePoseOn", "bool"), var("IdlePoseMod", "name"), var("IdlePoseKnown", "object:/Script/Engine.Actor", "array"), var("AnimLogLast", "string"), var("FocusLogLast", "string"), var("FocusLogFrames", "int"), var("FocusLogRefocus", "int"), var("NoRenderedIcons", "bool"), var("RagWheelCm", "float"), var("SlowMoPct", "float"), var("HandOn", "bool"), var("HandRange", "float"), var("HandBatch", "float"), var("HandNoHand", "bool"), var("AcceptedFingerprint", "string"), var("PendingFingerprint", "string"), var("OptRagWheel", "float"), var("OptSlowMo", "float"), var("SlowMoOn", "bool"), var("FreezeOn", "bool"), var("TimeSet", "float"), var("JodiHidden", "bool"), var("OptWalkSpeed", "float"), var("OptRunSpeed", "float"), var("OptOutfitScale", "float"), var("OptLookScale", "float"), var("OptRagScale", "float"), var("OptInvScale", "float"), var("OptOutfitCols", "float"), var("OptOutfitRows", "float"), var("WCntFilter", "bool"), var("WCntRows", "name", "array"), var("WCntAll", "int"), var("WCntHit", "int"), var("WCntM", "string"), var("WCntS", "string"), var("SortOut", "name", "array"), var("SortHead", "name", "array"), var("SortTail", "name", "array"), var("SortK1", "int64", "array"), var("SortK2", "int64", "array"),
-                         var("SortKey1", "int64"), var("SortKey2", "int64"), var("SortLo", "int"), var("SortHi", "int"), var("SortStr", "string"), var("ChipOrder", "name", "array"), var("WeaponActors", "name", "map", value_type="object:" + P_WEAPON), var("PaintSameActor", "bool"), var("TvActor", "object:" + P_TV), var("TvDist", "float"), var("NavBeds", "object:" + P_BED, "array"), var("NavDist", "float", "array"), var("NavDistTmp", "float"), var("NavIdx", "int"), var("NavOk", "bool"), var("NavFolHave", "bool"), var("NavFolSpot", "struct:/Script/CoreUObject.Vector"), var("NavKey", "float", "array"), var("NavDistRaw", "float"), var("NavNear", "int"), var("NavMinD", "float"), var("NavSigns", "object:/Script/Engine.Actor", "array"), var("NavN1D", "float"), var("NavN2D", "float"), var("NavN1T", "string"), var("NavN2T", "string"), var("NavBestD", "float"), var("NavBestLoc", "struct:/Script/CoreUObject.Vector"), var("NavFound", "bool"), var("FlyOn", "bool"), var("FlySpeed", "float"), var("EnemyCount", "int", default="1"), var("EnemyDist", "float", default="2.0"), var("EnemyMode", "int", default="4"), var("EnemyActiveMode", "int", default="4"), var("EnemyActors", "object:/Script/Engine.Actor", "array"), var("EnemyBodies", "object:/Script/Engine.Actor", "array"), var("OptEnemyCount", "float"), var("OptEnemyDist", "float"), var("EnemyLiveN", "int"), var("EnemyView", "int"), var("EnemyKindOf", "object:/Script/Engine.Actor", "map", value_type="int"), var("EnemyModeOf", "object:/Script/Engine.Actor", "map", value_type="int"), var("FolPage", "name", default="Followers"), var("EnemyRowN", "int"), var("EnemyBest", "object:/Script/Engine.Actor"), var("EnemyBestD", "float"), var("EnemyMade", "int"), var("EnItemTex", "object:" + E_TEX2D), var("OptFlySpeed", "float"), var("FlyOldMax", "float"), var("FlyOldBrake", "float"), var("FlyOldAccel", "float"), var("FlyInput", "object:/Script/Engine.Actor"), var("WeaponPollKeys", "name", "array"), var("LookTypes", "name", "array"), var("MakeupDirty", "bool"), var("BoobsChanged", "bool"), var("ColorMode", "name", default="Clothes"),
+                         var("ManageGroupList", "name", "array"), var("ManageChipOrder", "name", "array"), var("ManageGroupTmp", "name"), var("NameDupes", "string", "map", value_type="string"), var("OvwCounts", "name", "map", value_type="int"), var("ManageScrollRow", "object:/Script/UMG.UserWidget"), var("ManageChipCap", "text"), var("QuickAlpha", "float"), var("OptQuickAlpha", "float"), var("OptBgImgAlpha", "float"), var("OptBgHue", "float"), var("OptBgSepia", "float"), var("OptBtnHue", "float"), var("OptBtnSepia", "float"), var("MoveOn", "bool"), var("WalkSpeedPct", "float"), var("RunSpeedPct", "float"), var("Move", "object:/Game/Mod/AltUI/BP_AltUIMove"), var("Hand", "object:/Game/Mod/AltUI/BP_AltUIHand"), var("OptHandRange", "float"), var("OptHandBatch", "float"), var("WalkStyle", "name"), var("RunStyle", "name"), var("IdleStyle", "name"), var("IdleMods", "name", "array"), var("IdleCaptions", "name", "map", value_type="text"), var("WalkMods", "name", "array"), var("WalkCaptions", "name", "map", value_type="text"), var("WalkModWalk", "name", "array"), var("WalkModRun", "name", "array"), var("IdlePose", "name"), var("PoseLoop", "bool"), var("IdlePoseStill", "float"), var("IdlePoseOn", "bool"), var("IdlePoseMod", "name"), var("IdlePoseKnown", "object:/Script/Engine.Actor", "array"), var("AnimLogLast", "string"), var("FocusLogLast", "string"), var("FocusLogFrames", "int"), var("FocusLogRefocus", "int"), var("NoRenderedIcons", "bool"), var("RagWheelCm", "float"), var("SlowMoPct", "float"), var("HandOn", "bool"), var("HandRange", "float"), var("HandBatch", "float"), var("HandNoHand", "bool"), var("AcceptedFingerprint", "string"), var("PendingFingerprint", "string"), var("FpExtraRows", "int"), var("OptRagWheel", "float"), var("OptSlowMo", "float"), var("SlowMoOn", "bool"), var("FreezeOn", "bool"), var("TimeSet", "float"), var("JodiHidden", "bool"), var("OptWalkSpeed", "float"), var("OptRunSpeed", "float"), var("OptOutfitScale", "float"), var("OptLookScale", "float"), var("OptRagScale", "float"), var("OptInvScale", "float"), var("OptOutfitCols", "float"), var("OptOutfitRows", "float"), var("WCntFilter", "bool"), var("WCntRows", "name", "array"), var("WCntAll", "int"), var("WCntHit", "int"), var("WCntM", "string"), var("WCntS", "string"), var("SortOut", "name", "array"), var("SortHead", "name", "array"), var("SortTail", "name", "array"), var("SortK1", "int64", "array"), var("SortK2", "int64", "array"),
+                         var("SortKey1", "int64"), var("SortKey2", "int64"), var("SortLo", "int"), var("SortHi", "int"), var("SortStr", "string"), var("ChipOrder", "name", "array"), var("WeaponActors", "name", "map", value_type="object:" + P_WEAPON), var("PaintSameActor", "bool"), var("TvActor", "object:" + P_TV), var("TvDist", "float"), var("NavBeds", "object:" + P_BED, "array"), var("NavDist", "float", "array"), var("NavDistTmp", "float"), var("NavIdx", "int"), var("NavOk", "bool"), var("NavFolHave", "bool"), var("NavFolSpot", "struct:/Script/CoreUObject.Vector"), var("NavKey", "float", "array"), var("NavDistRaw", "float"), var("NavNear", "int"), var("NavMinD", "float"), var("NavSigns", "object:/Script/Engine.Actor", "array"), var("NavN1D", "float"), var("NavN2D", "float"), var("NavN1T", "string"), var("NavN2T", "string"), var("NavBestD", "float"), var("NavBestLoc", "struct:/Script/CoreUObject.Vector"), var("NavFound", "bool"), var("FlyOn", "bool"), var("FlySpeed", "float"), var("EnemyCount", "int", default="1"), var("EnemyDist", "float", default="2.0"), var("EnemyMode", "int", default="4"), var("EnemyActiveMode", "int", default="4"), var("EnemyActors", "object:/Script/Engine.Actor", "array"), var("EnemyBodies", "object:/Script/Engine.Actor", "array"), var("OptEnemyCount", "float"), var("OptEnemyDist", "float"), var("EnemyLiveN", "int"), var("EnemyView", "int"), var("EnemyKindOf", "object:/Script/Engine.Actor", "map", value_type="int"), var("EnemyModeOf", "object:/Script/Engine.Actor", "map", value_type="int"), var("FolPage", "name", default="Followers"), var("EnemyRowN", "int"), var("EnemyBest", "object:/Script/Engine.Actor"), var("EnemyBestD", "float"), var("EnemyMade", "int"), var("EnItemTex", "object:" + E_TEX2D), var("OptFlySpeed", "float"), var("FlyOldMax", "float"), var("FlyOldBrake", "float"), var("FlyOldAccel", "float"), var("FlyInput", "object:/Script/Engine.Actor"), var("WeaponPollKeys", "name", "array"), var("LookTypes", "name", "array"), var("LookOrder", "int", "array"), var("LookOrdI", "int"), var("LookBef", "bool"), var("LookKeys1", "int64", "array"), var("LookKeys2", "int64", "array"), var("TmpInts", "int", "array"), var("MakeupDirty", "bool"), var("BoobsChanged", "bool"), var("ColorMode", "name", default="Clothes"),
                          var("ColorSlot", "int"), var("ColorRow", "name"), var("MakeupBak", "name", "map", value_type="struct:" + P_MDATA_S), var("ColorProbe", "bool"), var("ColorSlotsTmp", "struct:" + S_COLSLOTS), var("TmpMat", "object:" + E_MID_PATH),
                          var("ColorMat", "object:/Script/CoreUObject.Object", "map", value_type="bool"),
                          var("ColorSlotsOf", "name", "map", value_type="struct:" + S_COLSLOTS),
@@ -1693,7 +2079,7 @@ assets = [
                          var("ShTokK", "int", "array"), var("ShTokS", "string", "array"), var("ShTokN", "float", "array"), var("ShTokP", "int", "array"),
                          var("ShSegs", "string", "array"), var("ShPieces", "string", "array"), var("ShInStr", "bool"), var("ShLastSeg", "bool"), var("ShPieceOff", "int"), var("ShPieceVal", "int"), var("ShCur", "int"), var("ShStrPos", "int"), var("ShBuf", "string"), var("ShEsc", "bool"), var("ShSkip", "int"),
                          var("ShOk", "bool"), var("ShErr", "string"), var("ShErrPos", "int"), var("ShPos", "int"), var("ShOut", "string", "array"), var("ShT0", "float"), var("ShRS", "string"), var("ShRN", "float"), var("ShRB", "bool"), *sbp.field_vars(), *sbp.DOCUMENT_VARS, var("TmpLook", "struct:" + S_LOOK), var("ContextLook", "int"), var("LookIcons", "int", "map", value_type="object:" + E_TEX2D),
-                         var("PhotoRT", "object:/Script/Engine.TextureRenderTarget2D"), var("PhotoKind", "name"), var("PhotoView", "bool"), var("PhotoFace", "bool"),
+                         var("PhotoRT", "object:/Script/Engine.TextureRenderTarget2D"), var("PhotoKind", "name"), var("PhotoView", "bool"), var("PhotoKeep", "bool"), var("PhotoFace", "bool"),
                          *SHOT_VARS, var("WeaponIcons", "name", "map", value_type="object:" + E_TEX2D), var("PhotoWeapon", "name"), var("PhotoSkin", "name"), var("PhotoModel", "name"), var("IconWeaponActor", "object:/Script/Engine.Actor"), var("PhotoOnly", "object:/Script/Engine.Actor"), var("PhotoDir", "string"), var("PhotoFile", "string"), var("ScrollMult", "float", default="4.0"), var("TileScale", "float", default="1.0"), var("OptScroll", "float"), var("OptScale", "float"),
                          var("Presets", "object:" + P_PRESET_SAVE), 
                          var("TickCount", "int"), var("TabP0", "float"), var("LogSave", "object:" + SG_LOG), var("IconFrames", "int"), var("IconActor", "object:/Script/Engine.SceneCapture2D"), var("IconNumber", "int"),
@@ -1711,10 +2097,10 @@ assets = [
                          var("BodyMesh", "object:" + E_SKELMESH), var("CurrentBody", "name"), var("BodyVariant", "name"),
                          var("WearQueue", "name", "array"), var("WearWait", "int"), var("PendingSnap", "struct:" + S_SNAP), var("SnapPending", "bool"), var("PendingMissing", "string", "array"), var("PendingUnowned", "string", "array"), var("NoticeLines", "string", "array"),
                          var("NextSnap", "struct:" + S_SNAP), var("NextPending", "bool"),
-                         var("BodyScales", "name", "map", value_type="struct:" + S_FLOATS), var("BodyDefaults", "struct:" + S_BODYSCALE), var("ScaleActive", "bool"), var("LastPostProcess", "object:/Script/Engine.AnimInstance"), var("BodyPhysTimer", "float"), var("PhysApplied", "bool"), var("JiggleApplied", "bool"),
-                         var("BodyScaleVals", "float", "array"), var("TmpFloats", "float", "array"), var("LastHeight", "float", default="1.0"),
+                         var("BodyScales", "name", "map", value_type="struct:" + S_FLOATS), var("BodyDefaults", "struct:" + S_BODYSCALE), var("ScaleActive", "bool"), var("BodySupportShown", "bool"), var("LastPostProcess", "object:/Script/Engine.AnimInstance"), var("BodyPhysTimer", "float"), var("PhysApplied", "bool"), var("JiggleApplied", "bool"),
+                         var("BodyScaleVals", "float", "array"), var("TmpFloats", "float", "array"), var("PadFloats", "float", "array"), var("LastHeight", "float", default="1.0"),
                          var("Lang", "int"), var("LangChoice", "int"), var("Strings", "name", "map", value_type="text"),
-                         var("PanToSlot", "bool"), var("FreeNoCollide", "bool"), var("FreeNoLimit", "bool"), var("PlayWheelZoom", "bool"), var("TiltPanelOff", "bool"), var("OfficeJump", "bool"), var("NoNotices", "bool"), var("TvAlways", "bool"), var("RagMarkersOff", "bool"), var("AllowNude", "bool"), var("FocusOn", "bool"), var("FocusZ", "float"), var("FocusZoom", "float", default="1.0"), var("TmpFloat", "float"),
+                         var("PanToSlot", "bool"), var("FreeNoCollide", "bool"), var("FreeNoLimit", "bool"), var("PlayWheelZoom", "bool"), var("TiltPanelOff", "bool"), var("OfficeJump", "bool"), var("FootIKOn", "bool"), var("FootContactOn", "bool"), var("ClothFitOn", "bool"), var("ClothFitApplied", "bool"), var("NoNotices", "bool"), var("TvAlways", "bool"), var("RagMarkersOff", "bool"), var("AllowNude", "bool"), var("FocusOn", "bool"), var("FocusZ", "float"), var("FocusZoom", "float", default="1.0"), var("TmpFloat", "float"),
                          var("CamMode", "int"), var("FreeCam", "object:/Script/Engine.CameraActor"), var("CamInput", "object:" + E_ACTOR), var("FreeCtrlRot", "struct:/Script/CoreUObject.Rotator"), var("JodiDrag", "bool"), var("JodiDragRight", "bool"), var("JodiDragZ0", "float"), var("JodiMeshRot", "struct:/Script/CoreUObject.Rotator"), var("FreeYaw", "float"), var("FreePitch", "float"), var("FreeSpeed", "float", default="200.0"),
                          var("ThemeVersion", "int"), var("ToggleKey", "name", default="B"), var("BgAlpha", "float", default=str(BG_ALPHA)), var("TileAlpha", "float", default=str(TILE_ALPHA)), var("BgImgAlpha", "float", default="1.0"), var("ThemeKey", "name")]
                         + [var("Theme" + k, S_LINCOLOR) for k, _, _ in THEME] + [var(n, S_LINCOLOR) for n in DERIVED_NAMES]
@@ -1724,8 +2110,8 @@ assets = [
                            var("MutTexD", "object:/Script/Engine.Texture"), var("MutTexN", "object:/Script/Engine.Texture"), var("MutTexE", "object:/Script/Engine.Texture"), var("MutEyeMat", "object:/Script/Engine.MaterialInterface"),
                            var("MutStoryMat", "object:/Script/Engine.MaterialInterface"), var("MutStoryMID", "object:/Script/Engine.MaterialInstanceDynamic"),
                            var("MutGlowComp", "object:/Script/Engine.SkeletalMeshComponent"), var("MutOrig", "object:/Script/Engine.MaterialInstanceDynamic", "map", value_type="struct:" + mutn.S_ORIG), var("MutBase", "struct:" + mutn.S_ORIG), var("MutHasBase", "bool"), var("MutColorOn", "bool"), var("MutGlowTmp", "object:/Script/Engine.SkeletalMeshComponent")]
-                        + [var("FaceValues", "name", "map", value_type="float"),var("FaceGroup", "name", default=fc.GROUPS[0]), var("OptionsCat", "name", default="General"), var("ActCat", "name", default="All"), var("ActSearchText", "string"), var("KodexSel", "name", default=KODEX_DEFAULT), var("InvGroup", "name"), var("KodexAll", "bool"), var("InvCatalog", "bool"), var("InvNoAutoEquip", "bool"), var("InvAutoNoStory", "bool"),var("AutoItems", "name", "map", value_type="int"), var("AutoGuns", "name", "map", value_type="struct:" + S_AUTOGUN), var("InvFoldBag", "bool"), var("InvFoldBox", "bool"), var("InvFoldCat", "bool"), var("InvMax", "name"), var("FolFoldBag", "bool"), var("FolFoldBox", "bool"), var("FolFoldRows", "name", "array"), var("FolShow", "int"), var("RagKey", "name", default="G"), var("RagLookDrag", "bool"), var("RagMouseX", "float"), var("RagMouseY", "float"), var("RagMidLook", "bool"), var("RagMidX", "float"), var("RagMidY", "float"), var("RagZombie", "object:" + E_ACTOR), var("RagZombieIdx", "int"), var("RagAttached", "object:" + E_ACTOR, "array"), var("RagSockTmp", "name"), var("RagNameTmp", "string"), var("RagPartsTmp", "struct:/Game/Mod/AltUI/S_RagPart", "array"), var("KodexRows", "name", "array"), var("KodexOpen", "int", default="-1"), var("KodexNotes", "string", "array"), var("KodexLocks", "object:" + P_PWCOMP, "array"), var("KodexLockDist", "float", "array"), var("KodexShown", "int", "array"), var("KodexIdx", "int"), var("KodexDistTmp", "float"), var("RagClick", "bool"), var("RagGrab", "bool"), var("RagGrabDist", "float"), var("RagHandle", "object:/Script/Engine.PhysicsHandleComponent"), var("Ragdolls", "object:/Game/Mod/AltUI/BP_AltUIRagdoll", "array"), var("RagPose", "struct:/Script/Engine.PoseSnapshot"), var("RagWaitN", "int"), var("RagWaitCount", "int"), var("RagWaitSame", "int"), var("RagCnt", "int"), var("RagNextName", "string"), var("RagLoop", "object:/Game/Mod/AltUI/BP_AltUIRagdoll", "array"), var("RagCounter", "int"), var("RagMove", "bool"), var("RagRotate", "bool"), var("RagTurn", "bool"), var("RagLimb", "bool"), var("RagCurl", "bool"), var("RagCurlFinger", "int"), var("RagCurlStart", "float"), var("RagCurlPos0", "struct:/Script/CoreUObject.Vector2D"), var("RagCurlDir", "struct:/Script/CoreUObject.Vector2D"), var("RagEye", "bool"), var("RagEyeWhich", "int"), var("RagLooks", "object:/Game/Mod/AltUI/BP_AltUIRagdoll", "map", value_type="struct:" + S_SNAP), var("RagSave", "object:" + SG_RAG), var("RagJodiSnap", "struct:" + S_SNAP), var("RagLoadQueue", "struct:" + S_RAGFIG, "array"), var("RagLoadIdx", "int"), var("RagLoading", "bool"), var("RagFigTmp", "struct:" + S_RAGFIG, "array"), var("RagFound", "int"), var("RagLevel", "string"), var("RagReactivate", "bool"), var("RagMoveActor", "object:/Game/Mod/AltUI/BP_AltUIRagdoll"), var("RagGrabActor", "object:/Game/Mod/AltUI/BP_AltUIRagdoll"), var("RagGrabBone", "name"), var("RagPickActor", "object:/Game/Mod/AltUI/BP_AltUIRagdoll"), var("RagPickBone", "name"), var("RagPickPoint", "struct:/Script/CoreUObject.Vector"), var("RagMoveZ", "float"), var("RagMoveOffset", "struct:/Script/CoreUObject.Vector"), var("HiddenTabs", "name", "array"), var("TabOrder", "name", "array"), var("TabEff", "name", "array"), var("TabBar", "name", "array"), var("TabDefaults", "name", "array"), var("TabAt", "int"), var("TabFirst", "name"), var("TabStyle", "int"), var("TabIconRight", "bool"), var("TabOneRow", "bool"), var("BgImage", "string"), var("BgFit", "int"), var("BgHAlign", "int", default="1"), var("BgVAlign", "int", default="1"), var("BtnImage", "string"), var("BgHue", "float"), var("BgSepia", "float"), var("BgInvert", "bool"), var("ImgThumbs", "bool"), var("BtnHue", "float"), var("BtnSepia", "float"), var("BtnInvert", "bool"), var("ButtonOn", "bool"), var("ButtonBrush", "struct:/Script/SlateCore.SlateBrush"), var("QuickKey", "name", default="4"), var("QuickItems", "string", "array"), var("KeyBindKeys", "name", "array"), var("KeyBindItems", "string", "array"),   # own keys: key display name -> quick menu item
-                          var("BindCapture", "string"), var("BindHint", "text"), var("KbLoop", "string", "array"), var("QuickOpen", "bool"), var("QuickShown", "string", "array"), var("QuickMarked", "int", default="-1"), var("QOk", "bool"), var("QIdx", "int"), var("QOutfitIdx", "string", "map", value_type="int"), var("TileKeys", "name", "array"), *vl.state_vars("Ofl"), *vl.state_vars("Clo"), *vl.state_vars("Qa"), var("QaItems", "string", "array"), var("QPaks", "name", "array"), var("ContextQuick", "string"), var("CamClosePanel", "bool"), var("QaTint", "bool", "array"), var("QaHeads", "string", "array"), var("QcItems", "string", "array"), var("QcCat", "name", "array"), var("QcCap", "string", "array"), var("QcCurCat", "name"), var("QcCurHead", "string"), var("ActCats", "name", "array"), var("ActCatHead", "name", "map", value_type="string"), var("ActCatN", "name", "map", value_type="int"), var("ActHitN", "name", "map", value_type="int"), var("ActPrev", "name"), var("ActModHead", "bool"), var("ActHits", "int"), var("ActAnchorKey", "name", "map", value_type="string"), var("ActAnchorOff", "name", "map", value_type="float"), var("ActAnchorTmp", "string"), var("CloItems", T_ITEM, "array"), var("CloFavIdx", "int", "array"), var("PerfT", "float"), var("PerfMs", "float"), var("QStr", "string"), var("QTex", "object:" + E_TEX2D), var("QNames", "name", "array"), var("QLoop", "name", "array"), var("QItemsLoop", "string", "array"), var("QRowFields", "struct:" + mu.FIELD_STRUCT, "array"), var("QModOk", "bool"), var("QModCaption", "string"), var("SnapUnder", "name", "array"), var("QRun", "string"), var("QStr2", "string"), var("QuickCapture", "bool"), var("QuickKeyHint", "text"),
+                        + [var("FaceValues", "name", "map", value_type="float"),var("FaceGroup", "name", default=fc.GROUPS[0]), var("OptionsCat", "name", default="General"), var("ActCat", "name", default="All"), var("ActSearchText", "string"), var("KodexSel", "name", default=KODEX_DEFAULT), var("InvGroup", "name"), var("KodexAll", "bool"), var("InvCatalog", "bool"), var("InvNoAutoEquip", "bool"), var("InvAutoNoStory", "bool"),var("AutoItems", "name", "map", value_type="int"), var("AutoGuns", "name", "map", value_type="struct:" + S_AUTOGUN), var("InvFoldBag", "bool"), var("InvFoldBox", "bool"), var("InvFoldCat", "bool"), var("InvMax", "name"), var("FolFoldBag", "bool"), var("FolFoldBox", "bool"), var("FolFoldRows", "name", "array"), var("FolShow", "int"), var("RagKey", "name", default="G"), var("RagLookDrag", "bool"), var("RagMouseX", "float"), var("RagMouseY", "float"), var("RagMidLook", "bool"), var("RagMidX", "float"), var("RagMidY", "float"), var("RagZombie", "object:" + E_ACTOR), var("RagZombieIdx", "int"), var("RagAttached", "object:" + E_ACTOR, "array"), var("RagSockTmp", "name"), var("RagNameTmp", "string"), var("RagPartsTmp", "struct:/Game/Mod/AltUI/S_RagPart", "array"), var("KodexRows", "name", "array"), var("KodexOpen", "int", default="-1"), var("KodexNotes", "string", "array"), var("KodexParts", "string", "array"), var("KodexLocks", "object:" + P_PWCOMP, "array"), var("KodexLockDist", "float", "array"), var("KodexShown", "int", "array"), var("KodexIdx", "int"), var("KodexDistTmp", "float"), var("RagClick", "bool"), var("RagGrab", "bool"), var("RagGrabDist", "float"), var("RagHandle", "object:/Script/Engine.PhysicsHandleComponent"), var("Ragdolls", "object:/Game/Mod/AltUI/BP_AltUIRagdoll", "array"), var("RagPose", "struct:/Script/Engine.PoseSnapshot"), var("RagWaitN", "int"), var("RagWaitCount", "int"), var("RagWaitSame", "int"), var("RagCnt", "int"), var("RagNextName", "string"), var("RagLoop", "object:/Game/Mod/AltUI/BP_AltUIRagdoll", "array"), var("RagCounter", "int"), var("RagMove", "bool"), var("RagRotate", "bool"), var("RagTurn", "bool"), var("RagLimb", "bool"), var("RagCurl", "bool"), var("RagCurlFinger", "int"), var("RagCurlStart", "float"), var("RagCurlPos0", "struct:/Script/CoreUObject.Vector2D"), var("RagCurlDir", "struct:/Script/CoreUObject.Vector2D"), var("RagEye", "bool"), var("RagEyeWhich", "int"), var("RagLooks", "object:/Game/Mod/AltUI/BP_AltUIRagdoll", "map", value_type="struct:" + S_SNAP), var("RagSave", "object:" + SG_RAG), var("RagJodiSnap", "struct:" + S_SNAP), var("RagLoadQueue", "struct:" + S_RAGFIG, "array"), var("RagLoadIdx", "int"), var("RagLoading", "bool"), var("RagFigTmp", "struct:" + S_RAGFIG, "array"), var("RagFound", "int"), var("RagLevel", "string"), var("RagReactivate", "bool"), var("RagMoveActor", "object:/Game/Mod/AltUI/BP_AltUIRagdoll"), var("RagGrabActor", "object:/Game/Mod/AltUI/BP_AltUIRagdoll"), var("RagGrabBone", "name"), var("RagPickActor", "object:/Game/Mod/AltUI/BP_AltUIRagdoll"), var("RagPickBone", "name"), var("RagPickPoint", "struct:/Script/CoreUObject.Vector"), var("RagMoveZ", "float"), var("RagMoveOffset", "struct:/Script/CoreUObject.Vector"), var("HiddenTabs", "name", "array"), var("TabOrder", "name", "array"), var("TabEff", "name", "array"), var("TabBar", "name", "array"), var("TabDefaults", "name", "array"), var("TabAt", "int"), var("TabFirst", "name"), var("TabStyle", "int"), var("TabIconRight", "bool"), var("TabOneRow", "bool"), var("BgImage", "string"), var("BgFit", "int"), var("BgHAlign", "int", default="1"), var("BgVAlign", "int", default="1"), var("BtnImage", "string"), var("BgHue", "float"), var("BgSepia", "float"), var("BgInvert", "bool"), var("ImgThumbs", "bool"), var("ObjLoadIcons", "bool"), var("BtnHue", "float"), var("BtnSepia", "float"), var("BtnInvert", "bool"), var("ButtonOn", "bool"), var("ButtonBrush", "struct:/Script/SlateCore.SlateBrush"), var("QuickKey", "name", default="4"), var("QuickItems", "string", "array"), var("KeyBindKeys", "name", "array"), var("KeyBindItems", "string", "array"),   # own keys: key display name -> quick menu item
+                          var("BindCapture", "string"), var("BindHint", "text"), var("KbLoop", "string", "array"), var("QuickOpen", "bool"), var("QuickShown", "string", "array"), var("QuickMarked", "int", default="-1"), var("QOk", "bool"), var("QIdx", "int"), var("QOutfitIdx", "string", "map", value_type="int"), var("TileKeys", "name", "array"), *vl.state_vars("Ofl"), *vl.state_vars("Clo"), *vl.state_vars("Qa"), var("QaItems", "string", "array"), var("QPaks", "name", "array"), var("ContextQuick", "string"), var("CamClosePanel", "bool"), var("QaTint", "bool", "array"), var("QaHeads", "string", "array"), var("QcItems", "string", "array"), var("QcCat", "name", "array"), var("QcCap", "string", "array"), var("QcCurCat", "name"), var("QcCurHead", "string"), var("ActCats", "name", "array"), var("ActCatHead", "name", "map", value_type="string"), var("ActCatN", "name", "map", value_type="int"), var("ActHitN", "name", "map", value_type="int"), var("ActPrev", "name"), var("ActModHead", "bool"), var("ActHits", "int"), var("ActAnchorKey", "name", "map", value_type="string"), var("ActAnchorOff", "name", "map", value_type="float"), var("ActAnchorTmp", "string"), var("CloItems", T_ITEM, "array"), var("CloFavIdx", "int", "array"), var("PerfT", "float"), var("PerfFrameT", "float"), var("LstT0", "float"), var("LstOn", "bool"), var("LstTrace", "string"), var("LstW0", "float"), var("LstW1", "float"), var("LstGc", "bool"), var("LstTk0", "float", default="-1.0"), var("LstF0", "int64"), var("LstF1", "int64"), var("PerfAccT", "float"), var("PerfAcc", "string", "map", value_type="float"), var("PerfMs", "float"), var("QStr", "string"), var("QTex", "object:" + E_TEX2D), var("QNames", "name", "array"), var("QLoop", "name", "array"), var("QItemsLoop", "string", "array"), var("QRowFields", "struct:" + mu.FIELD_STRUCT, "array"), var("QModOk", "bool"), var("QModCaption", "string"), var("SnapUnder", "name", "array"), var("QRun", "string"), var("QStr2", "string"), var("QuickCapture", "bool"), var("QuickKeyHint", "text"),
                          var("ModActions", "name", "map", value_type="struct:" + mu.ACTION_STRUCT), var("ModActionKeys", "name", "array"), var("QFields", "struct:" + mu.FIELD_STRUCT, "array"),
                          # mod presets (internal design notes): saves per pak, shipped rows "<pak>|<row>" in Order, the tiles
                          # of the shown page ("ship:<row>" or "<Id>"), photos "<pak>|<Id>"; MP* = the page's pak / row / save and scratch
@@ -1733,7 +2119,7 @@ assets = [
                          var("ModShippedKeys", "name", "array"), var("ModPresetTiles", "string", "array"), var("ModPresetIcons", "string", "map", value_type="object:" + E_TEX2D),
                          var("ContextModPreset", "int"), var("TmpModPreset", "struct:" + mu.S_MODPRESET), var("MPSave", "object:" + mu.SG_MODPRESETS), var("MPPak", "name"), var("MPRow", "name"),
                          var("MPFields", "struct:" + mu.FIELD_STRUCT, "array"), var("MPValues", "name", "map", value_type="float"), var("MPColors", "name", "map", value_type=S_LINCOLOR),
-                         var("MPTexts", "name", "map", value_type="string"), var("ModPresetsFolded", "bool"), var("MPHiddenN", "int"), var("MPKeep", "name", "array"), var("MPKeys", "name", "array"), var("MPType", "name"), var("MPNum", "float"), var("MPStr", "string"), var("MPLoad", "object:" + mu.SG_MODPRESETS), var("MPRunEntry", "name"), var("MPRunShip", "name"), var("MPRunActor", "object:/Script/Engine.Actor"), var("MPItemShip", "name"), var("MPPresetsTmp", "struct:" + mu.S_MODPRESET, "array"), var("MPIdx", "int"), var("MPOwn", "bool"), var("MPHas", "bool"), var("MPShipN", "int"), var("MPShipTo", "int"), var("MPFrom", "int"), var("MPItemPre", "string"), var("MPOffTmp", "name", "array"), var("MPPhotoStem", "string"), var("ViewMPTile", "int", default="-1"),
+                         var("MPTexts", "name", "map", value_type="string"), var("ModPresetsFolded", "bool"), var("MPHiddenN", "int"), var("MPKeep", "name", "array"), var("MPKeys", "name", "array"), var("MPType", "name"), var("MPNum", "float"), var("MPStr", "string"), var("MPHdrTab", "text"), var("MPHdrSub", "text"), var("MPLoad", "object:" + mu.SG_MODPRESETS), var("MPRunEntry", "name"), var("MPRunShip", "name"), var("MPRunActor", "object:/Script/Engine.Actor"), var("MPItemShip", "name"), var("MPPresetsTmp", "struct:" + mu.S_MODPRESET, "array"), var("MPIdx", "int"), var("MPOwn", "bool"), var("MPHas", "bool"), var("MPShipN", "int"), var("MPShipTo", "int"), var("MPFrom", "int"), var("MPItemPre", "string"), var("MPOffTmp", "name", "array"), var("MPPhotoStem", "string"), var("ViewMPTile", "int", default="-1"),
                          var("QModCls", "softclass:/Script/Engine.Actor"), var("QModKey", "name"), var("QModToggle", "bool"), var("QModIcon", "softobject:/Script/Engine.Texture2D"),
                            var("FacesSave", "object:" + fc.SG_FACES),
                            var("BodyPresetSave", "object:" + bp.SG_BODYPRESETS), var("BodyPresetTiles", "int", "array"),
@@ -1741,10 +2127,11 @@ assets = [
                            var("TmpBodyPreset", "struct:" + bp.S_BODYPRESET), var("BodyPresetsFolded", "bool"),
                            var("BPIdx", "int"), var("BPOk", "bool"), var("BPCaption", "string"), var("BPLive", "bool"), var("ContextFace", "int"), var("FaceIcons", "int", "map", value_type="object:" + E_TEX2D), var("TmpFace", "struct:" + fc.S_FACE),
                            var("FaceDirty", "bool"), var("FaceAdd", "bool"), var("PresetColors", "int", "map", value_type="struct:" + S_PRESETCOL)],   # FaceAdd: expressions added up instead of blended (default off = blended)
-              functions=[f_init_slot_groups(), f_order_slots(), f_sort_key(), f_display_name(), f_scan_mod_items(), f_build_catalog(),
+              functions=[f_init_slot_groups(), f_order_slots(), f_sort_key(), f_display_name(), f_scan_mod_items(), f_mod_scan_sig(), f_mod_mesh_count(), f_mod_origins(), f_save_mod_scan(), f_mod_file_index(), f_catalog_begin(), f_catalog_rows(), f_catalog_after_rows(), f_catalog_slot(), f_catalog_end(), f_catalog_finish(), f_build_catalog(), f_ensure_catalog(), f_catalog_tick(),
                          f_items_for_slot(), f_slot_count(), f_filtered_counts(), f_cut_caption(), f_chip_caption(), f_item_slot(), f_is_worn(), f_is_owned(), f_worn_in_slot(),
                          f_shown_owned(), f_refresh_state(), f_build_conflicts(), f_pair_in(), f_conflicts_with(), f_is_freed(), f_set_freed(), f_conflicting_slots(), f_conflicting_worn_slots(), f_keep_in_slot()] + ms.functions() + ki.functions() + [f_save_worn(), f_wear(), f_take_off(), f_debug_status(), f_find_item(), f_is_favorite(), f_filtered_items(),
                          f_groups_of_slot(), f_group_caption_default(), f_group_caption(), f_scan_mod_groups(), f_index_mod_group_pairs(), f_build_mod_aliases(), f_build_group_aliases(), f_group_alias(), f_mod_alias(), f_item_tip(), f_load_settings(), f_save_settings(), f_default_name(), f_origin_mod(), f_row_mod(), f_item_mod(), f_hair_mod(), f_look_mod(), f_pose_mod(), f_context_mod(), f_mod_caption(), f_name_key(), f_custom_name(), f_shown_name(), f_set_custom_name(), f_load_names(), f_save_names(), f_toggle_favorite(), f_is_item_hidden(), f_toggle_item_hidden(), f_t(), f_detect_language(), f_init_strings(),
                          f_reset_theme(), f_theme_color(), f_set_theme_color(), f_layout_fraction(), f_free_cam_dir(), f_free_cam_keys(), f_free_cam_clamp()] + UI_SIGNATURES),
 ]
+assets.append(datatable(KEEP_TABLE, P_ITEM_S, rows={KEEP_ROW: {"HyperBoxGroup": "None", "Price": 0, "ActorClass": MGR + ".BP_AltUIManager_C"}}))   # Keep Loaded
 write(os.path.join(os.path.dirname(__file__), "..", "30_manager.json"), assets)

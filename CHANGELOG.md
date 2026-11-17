@@ -1,5 +1,77 @@
 # Changelog
 
+## 3.0.0 – 2026-11-17
+
+* **Faster level start and main menu.** The image no longer hangs for seconds under the dark layer after loading. Measured
+  with ~700 mods: AltUI's part of a level start went from 3-5 s in one frame to ~0.3 s plus a few short frames, the main menu
+  from ~2.2 s to no frame over 0.25 s. The hook pak changed for this.
+  * AltUI loads in the background and stays loaded until the game ends, so only the first main menu after a game start loads it.
+  * With the hook pak and the Blueprint Loader (Nexus 994) both installed, the hook starts the mods built for the loader with
+    a loader of its own: it reads the same tables but loads only the mods it finds, in the background, instead of trying every
+    installed mod with the game standing still (~2 s at every main menu and level start). In return these mods appear a
+    moment after loading instead of at once. Keep the Blueprint Loader installed, those mods are built on it. Without the hook
+    nothing changes: the Blueprint Loader starts them as before, at once.
+  * What AltUI learns about the mods (which mod each piece, hairstyle, skin, make-up, eye, pose and weapon skin / model /
+    sound comes from, which mods have tables for AltUI) is kept in `AltUI_ModScan.sav` while the installed mods stay the same.
+    After a mod was updated under the same name, Manage › Overview › "Read mods again" reads everything anew.
+  * The clothes catalogue, the mods' AltUI tables and the weapon mods are prepared in the background after the level start.
+    All weapon mods' pictures, materials and sounds are loaded when the Weapons tab first opens in a level (about a second,
+    once). Followers come once the tables are there.
+  * Tabs that are switched off in the options cost nothing.
+* **Random outfit.** Clothes, bottom right: "Random outfit" puts on one random piece per slot, out of what the slot shows
+  (drawer, hidden pieces and "not owned items" respected), with AltUI's colours kept; Undo brings back what she wore. Right
+  click opens a table with "Undress" and "Dress" per slot: keep the shoes, never add a coat, and so on. The choice is saved.
+* **Sort looks.** Looks, bottom right: "Sort: …" with seven orders (own order, name, created, changed, each way round). Moving
+  looks works in the own order. A look's tooltip shows when it was created and last changed (for looks saved from now on).
+* **Body Shape: leg spacing.** A new slider under hip width moves the whole leg sideways, -3 to +3 cm per side, on converted
+  bodies. Hip width pushes the legs apart as well; at 1.3×, about -2 cm brings them back, at the cost of a little hip width.
+* **Feet follow the ground** (Foot IK), by BenenG47. Options > Movement, two switches, both off by default, converted bodies only:
+  "Feet follow the ground" puts each foot on its own surface while Jodi stands still (steps, slopes), the knee follows a raised
+  foot and the hips drop so the low foot reaches; sitting, kneeling and crouching have their own rules, lying has none.
+  "Knees and hands follow the ground" settles knees and hands on the floor in floor poses.
+* **Clothes follow the body shape.** Options > General, off by default, converted bodies only: swinging cloth stays closer to
+  bigger thighs and breasts instead of falling into them, and swings less. It works only where the cloth hangs on a bone a
+  slider makes bigger - most skirts and dresses on the thighs, many tops on the breasts, a few pieces on waist and hip width;
+  with the glutes almost never (skirts hang on the pelvis). Clothes without cloth physics are not affected. The tooltip says
+  where it works.
+* **Manage › Overview**, the new first category: how many mods there are, their clothing pieces, hairstyles, skins / make-up /
+  eyes, poses and weapon skins, models and sounds, when the mods were last read, and "Read mods again".
+* Manage: a mod or group name that other mods show too gets "(?)" and a tooltip. Mods that share a text ID show one name for
+  all of them; the tooltip lists the others, and the identifier on the right is always exact.
+* **Outfits can be updated:** right click an outfit, "Update with what she wears". Name, place, quick menu entry and own key
+  stay; the colours are the ones she wears now.
+* **"Update (keep photo)"** in the right click menu of looks, make-up presets, own mod presets, faces and body presets: saves the
+  current state and keeps the photo.
+* Objects: a "Load" box decides whether the tiles show pictures. Without it nothing is read or photographed; with it missing
+  pictures are taken one by one and saved as one file per object (many files with many mods, the tooltip says so).
+* Tooltips of Objects "Load" and of the free camera and ragdoll mode buttons are laid out as a title and one control per line.
+* Rows that only work on converted bodies are greyed out and can not be used while Jodi wears any other body, with a tooltip
+  that says why: the bone sliders on Body Shape (before only the slider was greyed), "Eyes closed" and the single eye rows on
+  Face (before they looked usable and did nothing), the foot IK switches and "Clothes follow the body shape".
+* Long tooltips wrap into lines of about 80 characters instead of running off the screen.
+* Context menus taller than the screen (the drawer submenu with many drawers) now scroll instead of running off the bottom.
+* Codex manual: every chapter is laid out the same way now - a short intro, then sections by topic with short lists instead of
+  long paragraphs. Nothing was left out; in all seven languages. "Removing AltUI" lists every save file AltUI writes.
+* Mods tab: the tabs of a mod page are spaced like the main tabs.
+* Fixed: "View content" of a look showed "Angle (with less jiggle)" and "Jiggle" twice each, with no way to tell breast from
+  glutes. The body values are now listed like on the Body Shape page, under its headings "Breast" and "Glutes & hips".
+  "View content" of a mod preset also shows the tabs and headings of the mod page above their values.
+* Fixed: a ragdoll copy of Jodi (and a look spawned as ragdoll) came out at normal size when her Scale slider was set.
+* Fixed: a follower made from a look saved by a much older AltUI version ignored the look's body sliders.
+* Fixed: "Rename mod…" opened Manage › Mods at the top instead of at the mod's row.
+* Fixed: two mods with a row of the same name in their AltUI tables showed one label for both.
+
+For modders:
+
+* Mods can add **extra weapons**: AltUI appends the rows of a mod's `Mod_ExtraItemTable` and `Mod_ExtraWeaponTable` to the
+  game's item and weapon tables each time AltUI starts, in the main menu and in each level, after the game version check
+  (existing rows stay as they are). The tables must use exactly `ItemStruct` and `WeaponStruct`.
+* Mods tab: a `Button` or `Toggle` field can stay out of the quick menu with the new `NoQuickMenu` column of `S_AltUIModField`
+  (see `MOD_UI.md`).
+* Table rows: mods built with BPGen give every table its own text IDs. `MOD_UI.md` asks every mod to start its row names with
+  its own prefix and explains why (section "Row names", FAQ); the example mod's rows are now `Lamp_…`. `scripts/mod_ui_check.py`
+  lists text IDs that two installed mods share in their AltUI tables.
+
 ## 2.12.0 – 2026-11-06
 
 * **Jumping in the office.** Options > Movement, off by default: Jodi can jump and climb in her office, where the game blocks

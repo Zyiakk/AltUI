@@ -34,7 +34,7 @@ class MenuScene(unittest.TestCase):
         self.assertIn(["bson:else", "bkey", "bk", "tp"], self.eg["exec"])
 
     def test_scene_init_runs_in_the_menu_branch_only(self):
-        self.assertIn(["cj:CastFailed", "mlds", "mfind", "msi"], self.eg["exec"])
+        self.assertIn(["cj:CastFailed", "mxm", "mlds", "mfind", "msi"], self.eg["exec"])
         calls = [n.get("function") for n in self.eg["nodes"] if n.get("kind") == "call_self"]
         self.assertEqual(calls.count("Scene Init"), 1)
 

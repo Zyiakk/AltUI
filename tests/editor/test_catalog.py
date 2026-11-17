@@ -7,8 +7,21 @@ def items(mgr, slot):
     mgr.call_method("Test Items", args=(slot,))
     return [str(n) for n in mgr.get_editor_property("TmpNames")]
 
+def snapshot(mgr):
+    slots = [str(s) for s in mgr.get_editor_property("Slots")]
+    counts = {str(k): v for k, v in mgr.get_editor_property("SlotCounts").items()}
+    return slots, {s: items(mgr, s) for s in slots + ["All"]}, counts, mgr.get_editor_property("CatalogReady")
+
 def main():
     mgr = cdo(M + "/BP_AltUIManager.BP_AltUIManager_C")
+    # 2026-11-16: the catalog built in the background (level start) must equal the one built at once
+    mgr.call_method("Test Build"); whole = snapshot(mgr)
+    for ticks in (0, 1, 3, 200):   # opened at once, during the rows, during the slots, after the end
+        mgr.call_method("Test Build Ticked", args=(ticks,)); ticked = snapshot(mgr); t = "ticked %d: " % ticks
+        expect(t + "ready", ticked[3], True)
+        expect(t + "slots", ticked[0], whole[0])
+        expect(t + "items", ticked[1], whole[1])
+        expect(t + "counts", ticked[2], whole[2])
     mgr.call_method("Test Build")
     slots = [str(s) for s in mgr.get_editor_property("Slots")]
     expect("slots first", slots[:3], ["Bra", "Shirt", "Top"])

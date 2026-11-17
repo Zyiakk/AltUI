@@ -32,7 +32,7 @@ AltUI incluye una tabla que el cargador lee, y a partir de ella el cargador lanz
 3. Cópialo en la misma carpeta *~mods* de arriba.
 4. Inicia el juego y pulsa B en un nivel.
 
-El hook sustituye *TKA_PlayerCameraManager* y lanza el panel desde ahí. Cualquier mod que sustituya ese mismo blueprint entra en conflicto con él – el Blueprint Loader es uno de ellos, y justo esa pareja es la excepción: con los dos instalados el hook se queda con la clase y lanza el cargador él mismo, así que los mods que necesitan el cargador siguen funcionando.
+El hook sustituye *TKA_PlayerCameraManager* y lanza el panel desde ahí. Cualquier mod que sustituya ese mismo blueprint entra en conflicto con él – el Blueprint Loader es uno de ellos, y justo esa pareja es la excepción: con los dos instalados el hook se queda con la clase y lanza él mismo los mods hechos para el cargador, con un cargador propio que lee las mismas tablas pero carga en segundo plano. El juego ya no se queda parado mientras se revisa cada mod instalado; a cambio, esos mods aparecen un momento después de cargar un nivel o el menú principal, en vez de al instante. Deja instalado el Blueprint Loader: esos mods se basan en él. Si quieres que carguen al instante, usa el Blueprint Loader sin el hook.
 
 **«Me he suscrito pero B no hace nada»** → nada ha lanzado el panel: o falta el segundo archivo, o está en *Mods* o en la carpeta del Workshop en lugar de *Content\Paks\~mods*.
 
@@ -119,7 +119,7 @@ No se incluye ningún recurso del juego; todo lo que hay en el pak está generad
 * **Sólo AltUI.pak** – nada arranca el panel: B no hace nada.
 * **AltUI.pak + Blueprint Loader** – el cargador lee la tabla de AltUI y abre el panel. AltUI en sí no reemplaza nada del juego; el cargador sí reemplaza la clase del gestor de cámara, que es como funciona.
 * **AltUI.pak + AltUI_Hook_P.pak** – el hook reemplaza el gestor de cámara del juego y abre el panel.
-* **AltUI.pak + ambos** – funciona y no se pierde nada. Ambos reemplazan la misma clase del juego, así que sólo uno de los dos paks la gana, y sea cual sea, AltUI arranca: por la tabla del cargador o por el hook, que además arranca el cargador para que los mods hechos para él sigan funcionando.
+* **AltUI.pak + ambos** – funciona y no se pierde nada. Ambos reemplazan la misma clase del juego, así que sólo uno de los dos paks la gana, y sea cual sea, AltUI arranca: por la tabla del cargador o por el hook, que además arranca los mods hechos para el cargador – en segundo plano, así que aparecen un momento después de cargar.
 * **El hook o el cargador sin AltUI.pak** – nada: falta el mod en sí.
 
 ## Lo que no puede hacer

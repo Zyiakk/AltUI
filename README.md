@@ -28,7 +28,7 @@ aside, and mods built for the loader would stay dead.
 | `AltUI.pak` | `TheKillingAntidote/Mods/` |
 | `AltUI_Hook_P.pak` | `TheKillingAntidote/Content/Paks/~mods/` (create the folder; the name starts with a tilde) |
 
-The hook replaces the game's `TKA_PlayerCameraManager` blueprint and starts the panel from there. Any mod that replaces the same blueprint conflicts with it – the Blueprint Loader is one of them, and that pair is the exception: with both installed the hook wins the class and starts the loader itself, so mods that need the loader keep working.
+The hook replaces the game's `TKA_PlayerCameraManager` blueprint and starts the panel from there. Any mod that replaces the same blueprint conflicts with it – the Blueprint Loader is one of them, and that pair is the exception: with both installed the hook wins the class and starts the mods built for the loader itself, with a loader of its own that reads the same tables but loads in the background. The game no longer stands still while every installed mod is searched; in return these mods appear a moment after a level or the main menu has loaded instead of at once. Keep the Blueprint Loader installed – those mods are built on it. If you want them to load at once, use the Blueprint Loader without the hook.
 
 **What each combination does**
 
@@ -37,7 +37,7 @@ The hook replaces the game's `TKA_PlayerCameraManager` blueprint and starts the 
 | `AltUI.pak` alone | nothing starts the panel – **B does nothing** |
 | `AltUI.pak` + Blueprint Loader | the loader reads AltUI's table and starts the panel; AltUI replaces nothing of the game (the loader replaces the camera manager class, which is how it works) |
 | `AltUI.pak` + `AltUI_Hook_P.pak` | the hook replaces the game's camera manager and starts the panel |
-| `AltUI.pak` + both | fine, and nothing is lost. Both replace the same game class, so only one of the two paks wins it – and whichever it is, AltUI starts: through the loader's table, or through the hook, which then also starts the loader itself so that mods built for it keep running |
+| `AltUI.pak` + both | fine, and nothing is lost. Both replace the same game class, so only one of the two paks wins it – and whichever it is, AltUI starts: through the loader's table, or through the hook, which then also starts the mods built for the loader – in the background, so they appear a moment after loading |
 | the hook or the loader without `AltUI.pak` | nothing – the mod itself is missing |
 
 Either way: start the game, press **B** in a level.
@@ -84,6 +84,9 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Slot colours are kept per save game.
 * Into the backpack and out of it.
 * Right click: only this group, view the mod's content and a damage slider (0–100 %).
+* **Random outfit** (bottom right): one random piece per slot out of what the slot shows (drawer, hidden pieces and "not
+  owned items" respected), AltUI's colours kept; Undo brings back what she wore. Right click opens a table with "Undress"
+  and "Dress" per slot – keep the shoes, never add a coat; the choice is saved.
 * **Drawers:** your own collections of clothes in a bar above the list ("Default" = everything, "+" = a new one). A drawer shows
   the same page with only its pieces; right click on a piece › "Drawer ›" puts it in or takes it out, a piece can be in any
   number of drawers. Drawers can be renamed, moved and deleted (`AltUI_Drawers.sav`).
@@ -91,6 +94,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 ### Outfits
 
 * The game's outfit presets, with names; right click renames.
+* Right click → "Update with what she wears": name, place, quick menu entry and own key stay, the colours are the ones she
+  wears now.
 * Your own order: right click moves an outfit left, right, to the start or to the end.
 * An outfit saved in AltUI keeps the colour of every colour slot of its pieces; the game itself keeps one colour per
   piece, so an outfit saved at the mirror has only that one.
@@ -104,6 +109,9 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Apply, update, rename and delete; "View content" lists what a look holds. Putting a look on changes only the colours of
   the pieces it puts on and of its make-up; colours you gave other pieces stay.
 * Your own order: right click moves a look left, right, to the start or to the end.
+* "Sort: …" (bottom right): own order, name, created or changed, each way round; a look's tooltip shows when it was created
+  and last changed. "Update (keep photo)" saves the current state and keeps the photo – also for make-up presets, mod
+  presets, faces and body presets.
 * Spawn a look as a ragdoll, a follower, an NPC or an enemy.
 * "Clean copy (without missing parts)": for a look that holds pieces of a mod no longer installed, a new look without
   them, right after the original, with the same photo. The original and later saves keep such entries.
@@ -194,7 +202,7 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   hands and feet.
 * For breast and for glutes & hips:
   * jiggle – the game's physics, works on every body;
-  * angle and hip width – converted bodies;
+  * angle, hip width and leg spacing – converted bodies;
   * nipples – only while the chest is uncovered.
 * Presets per body chip: "+" saves every slider of the page (the body's and the game's breast and waist) with a
   photo; a click loads it, right click renames, updates, moves, deletes or puts it into the quick menu.
@@ -235,6 +243,9 @@ In categories, chosen in a list on the left:
 * **General:** language, the share of the screen kept free for Jodi, "underwear may be taken off", pieces you do not own
   locked / greyed / like owned, all encyclopedia entries in the Codex, the "All items" catalogue and auto-equip for the
   Inventory tab, "No notices" – neither AltUI's notices nor the game's own – and "Always show the TV tab".
+  "Clothes follow the body shape" (off by default, converted bodies): swinging cloth stays closer to bigger thighs and
+  breasts and swings less; it works only where the cloth hangs on a bone a slider makes bigger, almost never on the glutes
+  (skirts hang on the pelvis) – the tooltip says where.
 * **Tiles:** tile size, and an own size for outfit, look, ragdoll and inventory tiles; how many pieces an outfit tile
   shows; tooltip options.
 * **Groups:** merge groups / mods with the same name, length of group names, height of the chip area and chip search.
@@ -244,6 +255,8 @@ In categories, chosen in a list on the left:
 * **Movement:** Jodi's own walk and run speed (50–200 %; crouching and jumping stay as they are), slow motion and its
   speed, "Jumping in the office" (off by default; she can jump and climb there, and the Esc menu pauses), and how she stands: the game's usual idle, six other idle animations of the game, or an idle mod converted with
   `idlepak.pyz` – see [Idle mods](#idle-mods).
+  "Feet follow the ground" (by BenenG47, off by default, converted bodies): each foot on its own surface while Jodi stands
+  still; "Knees and hands follow the ground" settles them on the floor in floor poses.
 * **Theme:** in sections –
   * colours and their opacity;
   * a background picture behind the panel: fill, fit, stretch or tile, aligned left / centre / right and top / middle /
@@ -266,12 +279,17 @@ it then runs on that key with the panel closed, also in the free camera and the 
 
 ### Manage
 
+* **Overview** (the first category): how many mods there are, their clothing pieces, hairstyles, skins / make-up / eyes,
+  poses and weapon skins, models and sounds, when the mods were last read, and "Read mods again" (needed after a mod was
+  updated under the same name; added or removed mods are noticed by themselves).
 * Your own display names for mods (weapon mods included), groups (mod and vanilla), clothes, hairstyles, skins, make-up,
   poses and appearance presets.
 * The names are used everywhere in the panel and by the search.
 * Filter "only mods", search; chips filter the list by mod or group, as in Clothes, and a search field narrows down the
   chips.
 * Revert per row.
+* "(?)" behind a name: other mods or groups show the same name – either chosen twice by their authors, or the mods share a
+  text ID and the game shows one name for all of them. The tooltip lists them; the identifier on the right is always exact.
 * Export and import as JSON with `altui_names.pyz` – see [Custom names](#custom-names).
 * **Usage:** which mods are in use right now – per mod (shown name and pak file) its pieces in use and where they are:
   Jodi now, outfits, looks, presets, favourites, followers, ragdoll scenes, standing idle, weapons, object scenes and

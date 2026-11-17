@@ -61,4 +61,23 @@ def main():
     expect("runs once", cols(), {})
     for key in (k, k + "~1"): mgr.call_method("Test Set Outfit Name", args=(key, ""))
     mgr.set_editor_property("OutfitSlotColors", {}); mgr.set_editor_property("QuickItems", []); mgr.set_editor_property("KeyBindKeys", []); mgr.set_editor_property("KeyBindItems", [])
+
+    # update with what she wears (2026-11-09): outfits now A,B | C | A,B (ids k, kc, k~1). The second A,B becomes D: name, quick
+    # item and own key follow it to its new id, its old slot colours go, the other A,B keeps its own
+    mgr.call_method("Test Set Outfit Name", args=(k + "~1", "Second")); mgr.call_method("Test Set Outfit Name", args=(k, "First"))
+    mgr.call_method("Test Set Outfit Colors", args=({k + ">A#0": lc(0.1), k + "~1>A#0": lc(0.2), k + "~1>B#0": lc(0.3)},))
+    mgr.set_editor_property("QuickItems", ["outfit:" + k + "~1"]); mgr.set_editor_property("KeyBindKeys", ["F6"]); mgr.set_editor_property("KeyBindItems", ["outfit:" + k + "~1"])
+    kd = "D=" + W
+    mgr.call_method("Test Replace Outfit", args=(2, ["D"]))
+    expect("update: ids", [oid(i) for i in range(3)], [k, kc, kd])
+    count = lambda: len(mgr.get_editor_property("Outfits").get_editor_property("outfits"))
+    expect("update: no outfit added", count(), 3)
+    expect("update: name follows", [name(kd), name(k), name(k + "~1")], ["Second", "First", ""])
+    expect("update: old slot colours gone, the other keeps its own", cols(), {k + ">A#0": 0.1})
+    expect("update: quick item follows", list(mgr.get_editor_property("QuickItems")), ["outfit:" + kd])
+    expect("update: own key follows", list(mgr.get_editor_property("KeyBindItems")), ["outfit:" + kd])
+    mgr.call_method("Test Replace Outfit", args=(5, ["E"]))   # no such outfit: the appended one goes again, nothing else changes
+    expect("update of a missing outfit", (count(), [oid(i) for i in range(3)]), (3, [k, kc, kd]))
+    for key in (k, kd): mgr.call_method("Test Set Outfit Name", args=(key, ""))
+    mgr.call_method("Test Set Outfit Colors", args=({},)); mgr.set_editor_property("QuickItems", []); mgr.set_editor_property("KeyBindKeys", []); mgr.set_editor_property("KeyBindItems", [])
 run(main)

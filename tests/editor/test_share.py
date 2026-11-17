@@ -121,8 +121,8 @@ def main():
     nr = sf.encode({"altui": "share", "version": 1, "entries": [{"kind": "outfit", "name": "From afar", "data": {"Pieces": {"NoRefPiece": [1, 2, 3, 255]}, "SlotColors": {}}}], "mods": {}})
     mgr.call_method("Test Share Check", args=(nr,)); summary = str(mgr.get_editor_property("TmpStr")); unreal.log_warning("EDTEST info summary noref: %r" % summary)
     expect("piece without ref: missing", (mgr.get_editor_property("TmpI"), "AltUI could not name" in summary, "NoRefPiece" in summary, "From afar" in summary), (1, True, True, True))
-    # a reference typed "Clothes" (an FName in the game keeps its first spelling - Gonnor's outfit 2026-11-01): still checked
-    cap = sf.encode({"altui": "share", "version": 1, "entries": [{"kind": "outfit", "name": "Gonnor", "data": {"Pieces": {"CapPiece": [1, 2, 3, 255]}, "SlotColors": {}},
+    # a reference typed "Clothes" (an FName in the game keeps its first spelling - a shared outfit 2026-11-01): still checked
+    cap = sf.encode({"altui": "share", "version": 1, "entries": [{"kind": "outfit", "name": "Shared", "data": {"Pieces": {"CapPiece": [1, 2, 3, 255]}, "SlotColors": {}},
                      "refs": [{"type": "Clothes", "item": "CapPiece", "label": "CapPiece", "mod": "CapMod"}]}], "mods": {"CapMod": "Cap Mod"}})
     mgr.call_method("Test Share Check", args=(cap,)); summary = str(mgr.get_editor_property("TmpStr"))
     expect("type 'Clothes': missing", (mgr.get_editor_property("TmpI"), "Cap Mod" in summary), (1, True))

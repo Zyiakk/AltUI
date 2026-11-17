@@ -32,7 +32,7 @@ AltUI niesie tabelę, którą loader czyta, i uruchamia z niej panel. Ten sam lo
 3. Skopiuj do tego samego folderu *~mods* co wyżej.
 4. Uruchom grę, w poziomie naciśnij B.
 
-Hook podmienia *TKA_PlayerCameraManager* i stamtąd uruchamia panel. Każdy mod, który podmienia ten sam blueprint, jest z nim w konflikcie – Blueprint Loader jest właśnie takim modem i akurat ta para jest wyjątkiem: przy obu zainstalowanych hook wygrywa klasę i sam uruchamia loadera, więc mody wymagające loadera działają dalej.
+Hook podmienia *TKA_PlayerCameraManager* i stamtąd uruchamia panel. Każdy mod, który podmienia ten sam blueprint, jest z nim w konflikcie – Blueprint Loader jest właśnie takim modem i akurat ta para jest wyjątkiem: przy obu zainstalowanych hook wygrywa klasę i sam uruchamia mody zrobione pod loader – własnym loaderem, który czyta te same tabele, ale ładuje w tle. Gra nie stoi już w miejscu, gdy przeszukiwany jest każdy zainstalowany mod; w zamian te mody pojawiają się chwilę po wczytaniu poziomu lub menu głównego, a nie od razu. Zostaw Blueprint Loader zainstalowany – te mody są na nim oparte. Jeśli chcesz, żeby ładowały się od razu, używaj Blueprint Loadera bez hooka.
 
 **„Zasubskrybowałem, ale B nic nie robi”** → nic nie uruchomiło panelu: albo brakuje drugiego pliku, albo leży on w *Mods* lub w folderze Warsztatu zamiast w *Content\Paks\~mods*.
 
@@ -119,7 +119,7 @@ Sam Blueprint Loader niczego nie potrzebuje: jest osobnym modem i aktualizuje si
 * **Sam AltUI.pak** – nic nie uruchamia panelu – B nic nie robi.
 * **AltUI.pak + Blueprint Loader** – loader czyta tabelę AltUI i uruchamia panel. Sam AltUI niczego w grze nie podmienia; loader podmienia klasę menedżera kamery – tak właśnie działa.
 * **AltUI.pak + AltUI_Hook_P.pak** – hook podmienia menedżera kamery gry i uruchamia panel.
-* **AltUI.pak + oba** – działa i nic nie ginie. Oba podmieniają tę samą klasę gry, więc wygrywa tylko jeden z paków – a niezależnie który, AltUI wystartuje: przez tabelę loadera albo przez hook, który dodatkowo uruchamia sam loader, by mody dla niego działały dalej.
+* **AltUI.pak + oba** – działa i nic nie ginie. Oba podmieniają tę samą klasę gry, więc wygrywa tylko jeden z paków – a niezależnie który, AltUI wystartuje: przez tabelę loadera albo przez hook, który dodatkowo uruchamia mody zrobione pod loader – w tle, więc pojawiają się chwilę po wczytaniu.
 * **Hook albo loader bez AltUI.pak** – nic – brakuje samego moda.
 
 ## Czego nie potrafi

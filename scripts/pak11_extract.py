@@ -25,10 +25,14 @@ _KEYS = {}   # (exe, size, mtime) -> key
 
 
 def game_exe(pak_path):
-    """The Shipping exe of the game a pak in <game>/TheKillingAntidote/Content/Paks/ belongs to, else None."""
-    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(pak_path))))
-    exes = sorted(glob.glob(os.path.join(root, "Binaries", "Win64", "*-Shipping.exe")))
-    return exes[0] if exes else None
+    """The Shipping exe of the game a pak in <game>/TheKillingAntidote/Content/Paks/ or <game>/TheKillingAntidote/Mods/ belongs to,
+    else None (encrypted mod paks in Mods/ use the game's key as well)."""
+    d = os.path.dirname(os.path.abspath(pak_path))
+    for root in (os.path.dirname(os.path.dirname(d)), os.path.dirname(d)):
+        exes = sorted(glob.glob(os.path.join(root, "Binaries", "Win64", "*-Shipping.exe")))
+        if exes:
+            return exes[0]
+    return None
 
 
 def key_candidates(code):

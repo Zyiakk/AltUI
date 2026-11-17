@@ -2674,6 +2674,25 @@
         "function": "Setup Body"
        },
        {
+        "id": "wsc",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "K2_GetComponentScale",
+        "in": {
+         "self": "@gm.Mesh"
+        }
+       },
+       {
+        "id": "sws",
+        "kind": "call",
+        "class": "/Script/Engine.SceneComponent",
+        "function": "SetWorldScale3D",
+        "in": {
+         "self": "@gb.Body",
+         "NewScale": "@wsc.ReturnValue"
+        }
+       },
+       {
         "id": "b_ms",
         "kind": "call",
         "class": "/Script/Engine.MeshComponent",
@@ -2911,7 +2930,7 @@
         }
        },
        {
-        "id": "idtf32",
+        "id": "idtf34",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "MakeTransform",
@@ -2929,7 +2948,7 @@
         "in": {
          "Class": "/Script/Engine.SkeletalMeshComponent",
          "bManualAttachment": "false",
-         "RelativeTransform": "@idtf32.ReturnValue",
+         "RelativeTransform": "@idtf34.ReturnValue",
          "bDeferredFinish": "false"
         }
        },
@@ -3077,7 +3096,7 @@
         }
        },
        {
-        "id": "idtf50",
+        "id": "idtf52",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
         "function": "MakeTransform",
@@ -3095,7 +3114,7 @@
         "in": {
          "Class": "/Script/Engine.StaticMeshComponent",
          "bManualAttachment": "true",
-         "RelativeTransform": "@idtf50.ReturnValue",
+         "RelativeTransform": "@idtf52.ReturnValue",
          "bDeferredFinish": "false"
         }
        },
@@ -3347,6 +3366,7 @@
        [
         "entry",
         "ssk",
+        "sws",
         "sb",
         "b_fm"
        ],

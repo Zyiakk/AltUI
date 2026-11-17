@@ -41,7 +41,7 @@ assets = [
     # two lenses and one pair of lashes: the eye colours are kept per row, so the tests need more than one of each
     datatable(P_EYE_T, P_EYE_S, rows={"Eye_1": {"Type": "Eye"}, "Eye_2": {"Type": "Eye"}, "Eyelashes_1": {"Type": "Eyelashes"}}),
     datatable(P_MTYPE_T, P_MTYPE_S, rows={"Eyebrow": {"Single": True}, "Eye": {"Single": True, "EyeTable": True}, "Eyelashes": {"Single": True, "EyeTable": True}, "Lips": {"Single": True, "Caption": "Lippen", "CameraPosition": 983}, "Cheeks": {"Single": False}}),
-    datatable(P_DLC_T, P_DLC_S, rows={"Body_TestBody": {"Caption": "Test Body"}, "SomeMod": {"Caption": "Some Mod"}, "WeaponAltUI_SkinTest": {"Caption": "Test Skin Mod"}, "WeaponAltUI_ModelTest": {"Caption": "Test Weapon Mod"}, "WeaponAltUI_SoundTest": {"Caption": "Test Sound Mod"}, "AltUIMod_Test": {"Caption": "Test Mods Tab"}}),   # editor test: filter on prefix Body_
+    datatable(P_DLC_T, P_DLC_S, rows={"Body_TestBody": {"Caption": "Test Body"}, "SomeMod": {"Caption": "Some Mod", "Tables": ["Clothes", "Makeup", "Eyes", "Animations"]}, "WeaponAltUI_SkinTest": {"Caption": "Test Skin Mod"}, "WeaponAltUI_ModelTest": {"Caption": "Test Weapon Mod"}, "WeaponAltUI_SoundTest": {"Caption": "Test Sound Mod"}, "AltUIMod_Test": {"Caption": "Test Mods Tab"}}),   # editor test: filter on prefix Body_
     # Poses: AnimationTable (Animation_Struct) + a mod table for the origin test (Dressup_* rows are skipped by Collect Pose Rows)
     struct(P_ANIM_S, [param("Title", "text", internal_name="Title_5_5208877E43BB2E535DB3DFAF646E90DA"),
                       param("Montage", "object:/Script/Engine.AnimMontage", internal_name="Montage_2_99AB9F0E40D705D77C9E079E70FA0B9B"),
@@ -72,7 +72,23 @@ assets = [
                       param("HyperBoxGroup", "name", internal_name="HyperBoxGroup_47_F0D9C7BD4E11CB25AAFEDB863D1DF840"),
                       param("ActorClass", "class:" + E_ACTOR, internal_name="ActorClass_40_78EE9EE441407DEB19724494C04B03D6"),
                       # the weapon actor (Weapon_UMP45_C ...): unlike the pickup actor it carries the skeletal mesh with magazine and optics
-                      param("InteractiveClass", "class:" + E_ACTOR, internal_name="InteractiveClass_35_A72AD9944C232F519D9186A845495978")]),
+                      param("InteractiveClass", "class:" + E_ACTOR, internal_name="InteractiveClass_35_A72AD9944C232F519D9186A845495978"),
+                      param("Tag", "name", internal_name="Tag_65_3C209FB24BC69D375605468D9D6132BD"),
+                      # for rows of extra weapons (KillingEdge): the game's weapon rows all set them, and the defaults (false, -1) change how the game treats the weapon
+                      param("UnequipWeapon", "bool", internal_name="UnequipWeapon_37_9775F98B40F265B90B30E6BCE5C093F5"),   # Use Item From Bag: holster first
+                      param("DefaultShortcutGroup", "int", internal_name="DefaultShortcutGroup_53_C33577614C0A65CC8235708D6FAE7265"),   # Put Item to Bag: on the shortcut wheel
+                      param("Price", "int", internal_name="Price_31_1AFBD9D34AB2BC6EFE028E994F2C32BF"),
+                      param("Level", "int", internal_name="Level_68_E3CDD135402EBD719BC2A397CED3A358"),
+                      param("Description", "text", internal_name="Description_5_5AF706DF436AEF38A6EC7287D4D94485")]),
+    # WeaponTable: ammo type and magazine; "Icon" stays out (the kit has no Paper2D)
+    struct(P_WEAPONTBL_S, [param("Ammo", "name", internal_name="Ammo_2_8BD83FAA48774BD5DA6E7C8B7D2E8C77"),
+                           param("DefaultMagSize", "int", internal_name="DefaultMagSize_5_C77E448548C1D9FFD757B49BBB86B133"),
+                           param("Flag", "int", internal_name="Flag_8_D8354BB043E0E17A3142828D1357FC71"),
+                           param("AmmoBoxSize", "int", internal_name="AmmoBoxSize_14_D99879EE4AE93429FDAD62B2B6747A7C")]),
+    datatable(P_WEAPONTBL_T, P_WEAPONTBL_S),
+    blueprint(P_MACHETE, P_WEAPON),
+    blueprint(P_PICKABLE_ACTOR, mode="augment", functions=[fn("on Begin Play", override=True)]),   # the game defines it on this very class too: an override's SuperStruct must name it here
+    blueprint(P_ITEM_MACHETE, P_PICKABLE_ACTOR),
     struct(P_PAINT_S, [param("Guns", "name", "map", value_type="object:/Script/Engine.MaterialInterface", internal_name="Guns_4_974505F844690AA9345864A13AD9C39D"),
                        param("Flag", "int", internal_name="Flag_7_1EFEACDB4FF292F408E2F4AF64A1289A")]),
     datatable(P_ITEM_T, P_ITEM_S, rows={"UMP45": {"HyperBoxGroup": "Weapon", "Caption": "UMP45"}, "HK416": {"HyperBoxGroup": "Weapon", "Caption": "HK416"}, "Medicine": {"HyperBoxGroup": "Item"},
@@ -117,12 +133,29 @@ assets = [
                          fn("Change Ai Mode", [param("mode", "enum:" + P_ZOMBIE_AIMODE)])]),   # Enemies: straight to the controller (the zombie's own needs its Ai Controller variable)
     blueprint(P_ZOMBIECTRL, P_AICTRL, functions=[fn("Stop Following Path")]),
     # the mesh components are reached with GetComponentsByClass (a stub variable named SkeletalMesh is refused - it collides with the engine class)
-    blueprint(P_WEAPON, E_ACTOR, variables=[var("Actors to Ignore Trace", "object:/Script/Engine.Actor", "array")],   # an NPC's weapon holds Jodi here (Character_NPC.Create a Weapon With Class): its shots fly through her
+    blueprint(P_WEAPON, E_ACTOR, variables=[var("Actors to Ignore Trace", "object:/Script/Engine.Actor", "array"),
+                                            var("Owner Character", "object:" + P_CPB)],   # KillingEdge: Get Player Montage asks it Is Crouching / is Lower Attack Target, as the machete does   # an NPC's weapon holds Jodi here (Character_NPC.Create a Weapon With Class): its shots fly through her
               functions=[fn("Get Weapon Name", outputs=[param("name", "name")], pure=True),
                                             fn("Unload Ammo", outputs=[param("succeed", "bool")]),   # inventory tab: "Unload"
                                             fn("Attach to Hand"), fn("Set Visible", [param("visible", "bool")]),
                                             fn("Get Ammo Name", outputs=[param("ammo name", "name")], pure=True),   # followers: infinite ammo (Count Weapon Ammo)
                                             fn("Get Player Montage", [param("montage name", "name")], [param("montage", "object:/Script/Engine.AnimMontage")])]),   # Jason: which montage is which   # body switch: the weapon in hand back on its socket
+    # KillingEdge (own attack montages): the kit lacks Weapon_Machete's own Get Player Montage - without it a call_parent from a child binds to
+    # Weapon_Base's empty one (not virtual), and Equip / Unequip / throw would get no montage in game. The game defines it on this class.
+    blueprint(P_MACHETE, mode="augment", functions=[fn("Get Player Montage", override=True)]),
+    # the game's notify classes the melee montages use, with the game's variables (names, types, editable, defaults: an object's value equal to
+    # the stub's default is not cooked, so the defaults must be the game's), the shake class and the swing sound they name. Editor only.
+    blueprint(N_MELEE, "/Script/Engine.AnimNotifyState", variables=[var("BoneName", "name", instance_editable=True),
+                                                                   var("DamageScale", "float", default="1.0", instance_editable=True),
+                                                                   var("Reset Check State", "bool", default="true", instance_editable=True)]),
+    blueprint(N_COMBO, "/Script/Engine.AnimNotifyState", variables=[var("Index", "int", instance_editable=True)]),
+    blueprint(N_SHAKE, "/Script/Engine.AnimNotify", variables=[var("Shake Class", "class:/Script/Engine.CameraShakeBase", instance_editable=True),
+                                                              var("Force Feedback", "object:/Script/Engine.ForceFeedbackEffect", instance_editable=True)]),
+    blueprint(N_VOICE, "/Script/Engine.AnimNotify", variables=[var("Voice", "object:/Script/Engine.SoundBase", instance_editable=True),
+                                                              var("Voice Name", "name", instance_editable=True)]),
+    blueprint(N_CHAREVENT, "/Script/Engine.AnimNotify", variables=[var("Event", "name", instance_editable=True)]),
+    blueprint(P_CAMSHAKE_MELEE, "/Script/GameplayCameras.DefaultCameraShakeBase"),
+    object_stub(P_WHIP, "/Script/Engine.SoundCue"),
     # Gun_Equipment_Base_C derives from StaticMeshComponent, so the magazine is a component of the weapon - Mount Mag hangs
     # one of the given class on it. A freshly spawned weapon actor has none; only the game's own equip flow puts it there.
     blueprint(P_EQUIPBASE, "/Script/Engine.StaticMeshComponent"),   # magazine, optics, suppressor, grip all derive from this
@@ -208,6 +241,7 @@ assets = [
     # followers wear the game's hair: Change Hairstyle Ex makes these, AltUI colours them with the look's hair colour
     blueprint(P_HAIRC, "/Script/Engine.SkeletalMeshComponent", functions=[fn("Change Color", [param("color", S_LINCOLOR, ref=True)])]),
     datatable(P_CTV, P_CS, rows=test_clothes),
+    datatable("/Game/Mod/SomeMod/Mod_ExtraItemTable", P_ITEM_S, rows={"Medicine": {}, "SomeModExtra": {}}),   # editor test (test_fingerprint): a row the table has counts out, one it has not stays in
     datatable("/Game/Mod/SomeMod/Mod_ClothesTable", P_CS, rows={"ModThing": row("Top", "SomeGroup")}),   # editor test: item origin = mod "SomeMod" (loader row in DLC_MainTable), group for the Manage tab
     datatable(P_CT, P_CS, composite=True, parent_tables=[P_CTV, "/Game/Mod/SomeMod/Mod_ClothesTable"]),
     struct(P_CTS, [param("CameraFocus", "int", internal_name="CameraFocus_17_DE98CCDE4FA8319FE550EC814F334C53"),
@@ -219,6 +253,7 @@ assets = [
     datatable(P_CGV, P_CGS, rows={"Lace": {"GroupName": "Spitze", "Owning": False}, "Kpop": {"GroupName": "KPOP", "Owning": False}}),
     datatable(P_CG, P_CGS, composite=True, parent_tables=[P_CGV]),
     blueprint(P_CPB, mode="augment", functions=[
+        fn("is Lower Attack Target", outputs=[param("yes", "bool")], pure=True),   # KillingEdge: the machete's low stab when the camera looks down (Jodi overrides it)
         fn("Wear The Clothes", [param("name", "name"), param("check covering", "bool"), param("update mask", "bool"), param("ignore compatible", "bool")], [param("successed", "bool")]),
         fn("Try to Destruct Clothing"),   # tears the most fragile worn piece off (Damage > 0.95): out of the bag for good - BP_AltUIFollower notes it
         fn("Take off this clothes", [param("clothes name", "name")]),
@@ -262,7 +297,7 @@ assets = [
     # the invisible hand (catalog item): Jodi.Put Item to Bag sets its power from the hands in the bag, nothing else does - Hand Watch keeps it in step
     blueprint(P_IHC, "/Script/Engine.SceneComponent", variables=[var("Number", "int"), var("interval", "float"), var("time", "float"), var("Jodi", "object:" + P_JODI)],
               functions=[fn("Update Power", [param("Number", "int")])]),   # BP_AltUIHand: time (next scan), interval, Jodi (FlyingItem_Comp picks for her)
-    blueprint(P_PICKABLE, mode="augment", variables=[var("Can Be Auto Picked", "bool")]),
+    blueprint(P_PICKABLE, mode="augment", variables=[var("Can Be Auto Picked", "bool"), var("Item Name", "name")]),
     blueprint(P_FLYING, "/Script/Engine.ActorComponent", variables=[var("Invisible Comp", "object:" + P_IHC)],
               functions=[fn("Init", [param("invisible Comp", "object:" + P_IHC)])]),
     blueprint(P_JODI, mode="augment", variables=[var("InvisibleHand_Comp", "object:" + P_IHC), var("View Data Unarmed ", "struct:" + P_WVS), var("need update camera view data", "bool"),   # zoom in play (the game's name ends in a space)

@@ -58,6 +58,14 @@ Worth knowing before you build a skin: it is applied by setting `MainTex`, `Norm
 
 Two routes, as for bodies: convert a replacer with `weaponpak.pyz` – the players' guide is [installing weapon mods](../../WEAPON_MODS.md) – or build the mod in the editor against the three structs in [uassets/](../../uassets/README.md), where a finished example sits in [examples/WeaponAltUI_Example/](../../examples/WeaponAltUI_Example/). Either way it works only with AltUI installed: a second file beside your replacer, not a replacement for it.
 
+### Extra weapons
+
+*Tested so far in the game: the weapon appears and can be held and swung. Saving, loading and the storage box are not tested yet.*
+
+A new weapon, one that replaces none of the game's, is a pair of row tables in your mod folder: `Mod_ExtraItemTable` (row structure `ItemStruct`) and `Mod_ExtraWeaponTable` (row structure `WeaponStruct`). AltUI appends their rows to the game's `ItemTable` and `WeaponTable` each time it starts, in the main menu and at the start of each level, after its game version check has passed. A row that already exists stays as it is. So prefix your row names: a name that matches one of the game's rows or another mod's is not added, and AltUI's game version check then reports an unknown game version. After that the weapon is an ordinary item. It works only with AltUI installed, and `Tables` in your `TKA_Mod_Table` stays empty.
+
+**Use exactly `ItemStruct` and `WeaponStruct` as row structures.** Nothing checks this: the game's native function copies a row with the layout of the destination table without comparing the structures, so a table with any other row structure is read with the wrong layout and may corrupt memory. This was read from the disassembly of the game, not observed in the game.
+
 ## Where it goes wrong
 
 * **Rows without a mod table.** The pieces work, but they look vanilla in the panel: no chip, no filter, no attribution.

@@ -13,5 +13,6 @@
 29d_hand.json
 30_manager.json
 40_widgets.json
+45_footik.json
 50_manager_ui.json
 60_bploader.json

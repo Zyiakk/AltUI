@@ -12,6 +12,7 @@
 #include "Engine/UserDefinedStruct.h"
 #include "Engine/DataTable.h"
 #include "Engine/CompositeDataTable.h"
+#include "Internationalization/TextNamespaceUtil.h"
 #include "Engine/Texture2D.h"
 #include "Exporters/Exporter.h"
 #include "AssetExportTask.h"
@@ -37,6 +38,7 @@
 #include "ClothLODData.h"
 #include "PointWeightMap.h"
 #include "ClothConfigNv.h"
+#include "PhysicsEngine/PhysicsAsset.h"
 #include "ClothingAssetFactoryInterface.h"
 #include "ClothingSystemEditorInterfaceModule.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -72,6 +74,7 @@
 #include "AnimGraphNode_LocalToComponentSpace.h"
 #include "AnimGraphNode_ComponentToLocalSpace.h"
 #include "AnimGraphNode_ModifyBone.h"
+#include "AnimGraphNode_TwoBoneIK.h"
 #include "AnimGraphNode_PoseSnapshot.h"
 #include "AnimGraphNode_SequencePlayer.h"
 #include "AnimGraphNode_TwoWayBlend.h"
@@ -175,6 +178,43 @@ static FString ResolveMemberName(UScriptStruct* Struct, const FString& Key) {
 }
 
 // ---------- datatable ----------
+// Text IDs of imported rows (2026-11-15, spec 2026-11-15-mod-table-text-ids): the JSON import gives every text cell the namespace
+// <table name> [+ package marker, which the cook strips] and the key <row>_<column> (UDataTable::OnPostDataImported). Every mod's
+// AltUI_Fields has the same name, the engine keeps one display string per ID, so equal row names in two mods share one label
+// ("Moon size" on VelvetPaws' size slider, from JodisSky). Re-key those cells to the package path as namespace (kept by the cook,
+// still localizable); the key stays. Cells with an own namespace (NSLOCTEXT in the JSON) and culture-invariant ones are left alone.
+static void UniqueTextIdsForProperty(FProperty* P, void* Data, const FString& OldNs, const FString& NewNs, int32& Changed);
+static void UniqueTextIdsForStruct(UStruct* S, void* Data, const FString& OldNs, const FString& NewNs, int32& Changed) {
+  for (TFieldIterator<FProperty> It(S); It; ++It) UniqueTextIdsForProperty(*It, It->ContainerPtrToValuePtr<void>(Data), OldNs, NewNs, Changed);
+}
+static void UniqueTextIdsForProperty(FProperty* P, void* Data, const FString& OldNs, const FString& NewNs, int32& Changed) {
+  if (FTextProperty* TP = CastField<FTextProperty>(P)) {
+    for (int32 I = 0; I < TP->ArrayDim; ++I) {
+      FText* T = TP->GetPropertyValuePtr((uint8*)Data + TP->ElementSize * I);
+      const TOptional<FString> Ns = FTextInspector::GetNamespace(*T), Key = FTextInspector::GetKey(*T);
+      if (!Ns.IsSet() || !Key.IsSet() || T->IsCultureInvariant() || TextNamespaceUtil::StripPackageNamespace(Ns.GetValue()) != OldNs) continue;
+      const FString Pkg = TextNamespaceUtil::ExtractPackageNamespace(Ns.GetValue());
+      *T = FText::ChangeKey(Pkg.IsEmpty() ? NewNs : TextNamespaceUtil::BuildFullNamespace(NewNs, Pkg, true), Key.GetValue(), *T); ++Changed;
+    }
+  } else if (FStructProperty* SP = CastField<FStructProperty>(P)) {
+    for (int32 I = 0; I < SP->ArrayDim; ++I) UniqueTextIdsForStruct(SP->Struct, (uint8*)Data + SP->ElementSize * I, OldNs, NewNs, Changed);
+  } else if (FArrayProperty* AP = CastField<FArrayProperty>(P)) {
+    FScriptArrayHelper H(AP, Data);
+    for (int32 I = 0; I < H.Num(); ++I) UniqueTextIdsForProperty(AP->Inner, H.GetRawPtr(I), OldNs, NewNs, Changed);
+  } else if (FSetProperty* SetP = CastField<FSetProperty>(P)) {
+    FScriptSetHelper H(SetP, Data); const int32 Before = Changed;
+    for (int32 I = 0; I < H.GetMaxIndex(); ++I) if (H.IsValidIndex(I)) UniqueTextIdsForProperty(SetP->ElementProp, H.GetElementPtr(I), OldNs, NewNs, Changed);
+    if (Changed != Before) H.Rehash();
+  } else if (FMapProperty* MP = CastField<FMapProperty>(P)) {
+    FScriptMapHelper H(MP, Data); const int32 Before = Changed;
+    for (int32 I = 0; I < H.GetMaxIndex(); ++I) if (H.IsValidIndex(I)) {
+      int32 KeyChanged = 0; UniqueTextIdsForProperty(MP->KeyProp, H.GetKeyPtr(I), OldNs, NewNs, KeyChanged); Changed += KeyChanged;
+      UniqueTextIdsForProperty(MP->ValueProp, H.GetValuePtr(I), OldNs, NewNs, Changed);
+    }
+    if (Changed != Before) H.Rehash();
+  }
+}
+
 static bool MakeDataTable(const TSharedPtr<FJsonObject>& A, FString& Err) {
   FString Name; UPackage* Pkg = BPGenAssets::MakePackage(JStr(A, TEXT("path")), Name);
   UScriptStruct* Row = Cast<UScriptStruct>(BPGenTypes::LoadObj(JStr(A, TEXT("row_struct"))));
@@ -201,6 +241,14 @@ static bool MakeDataTable(const TSharedPtr<FJsonObject>& A, FString& Err) {
       UE_LOG(LogBPGen, Warning, TEXT("BPGEN rows: %s"), *P); ++Hard;
     }
     if (Hard) { Err = TEXT("rows import problems in ") + Name; return false; }
+    // own namespace per table package; not for a table that replaces one of the game's (outside /Game/Mod/: the game's translations
+    // hang on its IDs) or when the asset asks to keep the import's IDs
+    const FString PkgPath = Pkg->GetName();
+    if (PkgPath.StartsWith(TEXT("/Game/Mod/")) && !JBool(A, TEXT("keep_text_ids"))) {
+      int32 Changed = 0;
+      for (const TPair<FName, uint8*>& R : DT->GetRowMap()) UniqueTextIdsForStruct(Row, R.Value, Name, PkgPath, Changed);
+      UE_LOG(LogBPGen, Display, TEXT("BPGEN text ids %s: %d cells -> namespace %s"), *Name, Changed, *PkgPath);
+    }
   }
   const TArray<TSharedPtr<FJsonValue>>* Parents = JArr(A, TEXT("parent_tables"));
   if (Parents) {
@@ -482,23 +530,57 @@ static bool MakeAnimBlueprint(const TSharedPtr<FJsonObject>& A, FString& Err) {
   UEdGraphNode* Prev = L2C;
   if (const auto* Nodes = JArr(A, TEXT("nodes"))) for (const auto& NV : *Nodes) {
     const TSharedPtr<FJsonObject> N = NV->AsObject(); X += 300;
-    FGraphNodeCreator<UAnimGraphNode_ModifyBone> CM(*G); UAnimGraphNode_ModifyBone* M = CM.CreateNode(); M->NodePosX = X;
-    M->Node.BoneToModify.BoneName = FName(*JStr(N, TEXT("bone")));
     const FString Kind = JStr(N, TEXT("kind"));
-    const bool bTranslate = Kind == TEXT("translate");   // "translate": additive component-space translation from the variable instead of a scale
-    const bool bRotate = Kind == TEXT("rotate");         // "rotate": additive component-space rotation (Rotator variable)
-    M->Node.TranslationMode = bTranslate ? BMM_Additive : BMM_Ignore; M->Node.RotationMode = bRotate ? BMM_Additive : BMM_Ignore;
-    M->Node.ScaleMode = (bTranslate || bRotate) ? BMM_Ignore : (JStr(N, TEXT("mode")) == TEXT("Replace") ? BMM_Replace : BMM_Additive);
-    M->Node.TranslationSpace = BCS_ComponentSpace; M->Node.RotationSpace = BCS_ComponentSpace; M->Node.ScaleSpace = BCS_ComponentSpace;
-    CM.Finalize();
-    if (!Schema->TryCreateConnection(PosePin(Prev, EGPD_Output), PosePin(M, EGPD_Input))) { Err = TEXT("animblueprint: pose link failed at ") + JStr(N, TEXT("bone")); return false; }
-    UEdGraphPin* ScalePin = M->FindPin(bTranslate ? TEXT("Translation") : (bRotate ? TEXT("Rotation") : TEXT("Scale")));
-    if (!ScalePin) { Err = TEXT("animblueprint: ModifyBone has no Scale / Translation / Rotation pin (PinShownByDefault expected)"); return false; }
-    FGraphNodeCreator<UK2Node_VariableGet> CG(*G); UK2Node_VariableGet* GetV = CG.CreateNode(); GetV->NodePosX = X; GetV->NodePosY = 300;
-    GetV->VariableReference.SetSelfMember(FName(*JStr(N, TEXT("var")))); CG.Finalize();
-    UEdGraphPin* Out = nullptr; for (UEdGraphPin* P : GetV->Pins) if (P->Direction == EGPD_Output) Out = P;
-    if (!Out || !Schema->TryCreateConnection(Out, ScalePin)) { Err = TEXT("animblueprint: variable->Scale link failed: ") + JStr(N, TEXT("var")); return false; }
-    Prev = M;
+    const FString BoneS = JStr(N, TEXT("bone"));
+    const FString AlphaVar = JStr(N, TEXT("alpha_var"));   // optional: float variable -> the node's Alpha pin
+    UAnimGraphNode_Base* Made = nullptr; FString ValuePin, LogLine;
+    // optional on twoboneik (Foot IK round 3): joint_var = Vector variable -> JointTargetLocation pin; joint_space = "bone"
+    // (default, offset from joint_bone in its own space) or "component" (an absolute component-space position)
+    const FString JointVar = JStr(N, TEXT("joint_var")); FString JointSpace = JStr(N, TEXT("joint_space"));
+    if (JointSpace.IsEmpty()) JointSpace = TEXT("bone");
+    if (Kind != TEXT("twoboneik") && (!JointVar.IsEmpty() || N->HasField(TEXT("joint_space")))) { Err = TEXT("animblueprint: joint_var / joint_space only on twoboneik at ") + BoneS; return false; }
+    if (JointSpace != TEXT("bone") && JointSpace != TEXT("component")) { Err = TEXT("animblueprint: unknown joint_space '") + JointSpace + TEXT("' at ") + BoneS; return false; }
+    if (Kind == TEXT("twoboneik")) {
+      // "twoboneik" (Foot IK, 2026-11-08): Two Bone IK on bone (its parent + grandparent = the chain). Effector = the variable,
+      // an offset in the IK bone's OWN space (relative to this frame's animated bone); joint target = joint_bone itself (bone
+      // space, location 0) -> the middle joint bends in its animated plane; no stretching; the end bone keeps its rotation.
+      const FName Bone(*BoneS), Joint(*JStr(N, TEXT("joint_bone")));
+      FGraphNodeCreator<UAnimGraphNode_TwoBoneIK> CT(*G); UAnimGraphNode_TwoBoneIK* T = CT.CreateNode(); T->NodePosX = X;
+      T->Node.IKBone.BoneName = Bone;
+      T->Node.EffectorLocationSpace = BCS_BoneSpace; T->Node.EffectorTarget = FBoneSocketTarget(Bone); T->Node.EffectorLocation = FVector::ZeroVector;
+      T->Node.JointTargetLocationSpace = JointSpace == TEXT("component") ? BCS_ComponentSpace : BCS_BoneSpace;
+      T->Node.JointTarget = FBoneSocketTarget(Joint); T->Node.JointTargetLocation = FVector::ZeroVector;
+      T->Node.bAllowStretching = false; T->Node.bTakeRotationFromEffectorSpace = false; T->Node.bMaintainEffectorRelRot = false;
+      CT.Finalize(); Made = T; ValuePin = TEXT("EffectorLocation");
+      LogLine = FString::Printf(TEXT("BPGEN node TwoBoneIK %s joint=%s"), *BoneS, *Joint.ToString());
+    } else if (Kind.IsEmpty() || Kind == TEXT("scale") || Kind == TEXT("translate") || Kind == TEXT("rotate")) {
+      FGraphNodeCreator<UAnimGraphNode_ModifyBone> CM(*G); UAnimGraphNode_ModifyBone* M = CM.CreateNode(); M->NodePosX = X;
+      M->Node.BoneToModify.BoneName = FName(*BoneS);
+      const bool bTranslate = Kind == TEXT("translate");   // "translate": additive component-space translation from the variable instead of a scale
+      const bool bRotate = Kind == TEXT("rotate");         // "rotate": additive component-space rotation (Rotator variable)
+      M->Node.TranslationMode = bTranslate ? BMM_Additive : BMM_Ignore; M->Node.RotationMode = bRotate ? BMM_Additive : BMM_Ignore;
+      M->Node.ScaleMode = (bTranslate || bRotate) ? BMM_Ignore : (JStr(N, TEXT("mode")) == TEXT("Replace") ? BMM_Replace : BMM_Additive);
+      M->Node.TranslationSpace = BCS_ComponentSpace; M->Node.RotationSpace = BCS_ComponentSpace; M->Node.ScaleSpace = BCS_ComponentSpace;
+      CM.Finalize(); Made = M;
+      ValuePin = bTranslate ? TEXT("Translation") : (bRotate ? TEXT("Rotation") : TEXT("Scale"));
+      LogLine = FString::Printf(TEXT("BPGEN node ModifyBone %s %s"), *BoneS, bTranslate ? TEXT("translate") : (bRotate ? TEXT("rotate") : TEXT("scale")));
+    } else { Err = TEXT("animblueprint: unknown node kind '") + Kind + TEXT("' at ") + BoneS; return false; }
+    if (!Schema->TryCreateConnection(PosePin(Prev, EGPD_Output), PosePin(Made, EGPD_Input))) { Err = TEXT("animblueprint: pose link failed at ") + BoneS; return false; }
+    // variable Get -> pin (value pin, then the optional Alpha pin)
+    auto LinkVar = [&](const FString& VarName, const FString& PinName, int32 Y) -> bool {
+      UEdGraphPin* Pin = Made->FindPin(*PinName);
+      if (!Pin) { Err = TEXT("animblueprint: node has no pin ") + PinName + TEXT(" (PinShownByDefault expected) at ") + BoneS; return false; }
+      FGraphNodeCreator<UK2Node_VariableGet> CG(*G); UK2Node_VariableGet* GetV = CG.CreateNode(); GetV->NodePosX = X; GetV->NodePosY = Y;
+      GetV->VariableReference.SetSelfMember(FName(*VarName)); CG.Finalize();
+      UEdGraphPin* Out = nullptr; for (UEdGraphPin* P : GetV->Pins) if (P->Direction == EGPD_Output) Out = P;
+      if (!Out || !Schema->TryCreateConnection(Out, Pin)) { Err = TEXT("animblueprint: variable->") + PinName + TEXT(" link failed: ") + VarName; return false; }
+      return true;
+    };
+    if (!LinkVar(JStr(N, TEXT("var")), ValuePin, 300)) return false;
+    if (!AlphaVar.IsEmpty()) { if (!LinkVar(AlphaVar, TEXT("Alpha"), 450)) return false; LogLine += TEXT(" alpha=") + AlphaVar; }
+    if (!JointVar.IsEmpty()) { if (!LinkVar(JointVar, TEXT("JointTargetLocation"), 600)) return false; LogLine += TEXT(" jointvar=") + JointVar + TEXT(" space=") + JointSpace; }
+    UE_LOG(LogBPGen, Display, TEXT("%s"), *LogLine);
+    Prev = Made;
   }
   X += 300;
   FGraphNodeCreator<UAnimGraphNode_ComponentToLocalSpace> CC2L(*G); UAnimGraphNode_ComponentToLocalSpace* C2L = CC2L.CreateNode(); C2L->NodePosX = X; CC2L.Finalize();
@@ -593,7 +675,12 @@ static void LogClothBinding(USkeletalMesh* M, const TCHAR* Where) {
 }
 
 // "skeletalmesh": FBX onto an existing skeleton, no materials/textures/physics from the file; "materials" maps every
-// material slot name of the FBX to a material (a slot without an entry is an error - nothing stays on a default)
+// material slot name of the FBX to a material (a slot without an entry is an error - nothing stays on a default).
+// Optional "normals": "compute" (default, the editor's setting: UE recomputes the normals from the smoothing groups) or
+// "import" (the FBX's own normals, e.g. Blender's custom normals: hair-like fringe cards shaded with the cloth's normal,
+// Frayed Denim 2026-11-15 - UE's computed normal of a leaning card faced down and read grey). Tangents are always
+// computed by UE with MikkTSpace from those normals and the UVs: the same tangent space Blender bakes and shows normal
+// maps in, so importing them as well would add nothing.
 static bool MakeSkeletalMesh(const TSharedPtr<FJsonObject>& A, FString& Err) {
   const FString Path = JStr(A, TEXT("path")); FString Dir, Name;
   Path.Split(TEXT("/"), &Dir, &Name, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
@@ -610,6 +697,17 @@ static bool MakeSkeletalMesh(const TSharedPtr<FJsonObject>& A, FString& Err) {
   UI->bImportMaterials = false; UI->bImportTextures = false; UI->bAutomatedImportShouldDetectType = false;
   UI->SkeletalMeshImportData->bImportMorphTargets = false;
   UI->SkeletalMeshImportData->bUseT0AsRefPose = false;
+  const FString Normals = JStr(A, TEXT("normals"), TEXT("compute"));
+  if (Normals == TEXT("import")) {
+    UI->SkeletalMeshImportData->NormalImportMethod = FBXNIM_ImportNormals;
+    UI->SkeletalMeshImportData->NormalGenerationMethod = EFBXNormalGenerationMethod::MikkTSpace;
+  } else if (Normals != TEXT("compute")) { Err = TEXT("skeletalmesh: normals must be compute or import, not ") + Normals; return false; }
+  {
+    const EFBXNormalImportMethod NM = UI->SkeletalMeshImportData->NormalImportMethod;
+    UE_LOG(LogBPGen, Display, TEXT("BPGEN skeletalmesh %s normals=%s method=%s tangents=%s"), *Name, *Normals,
+      NM == FBXNIM_ImportNormals ? TEXT("import") : NM == FBXNIM_ImportNormalsAndTangents ? TEXT("import+tangents") : TEXT("compute"),
+      NM == FBXNIM_ImportNormalsAndTangents ? TEXT("import") : UI->SkeletalMeshImportData->NormalGenerationMethod == EFBXNormalGenerationMethod::MikkTSpace ? TEXT("mikktspace") : TEXT("builtin"));
+  }
   UAssetImportTask* T = NewObject<UAssetImportTask>(); T->AddToRoot();
   T->Filename = File; T->DestinationPath = Dir; T->DestinationName = Name;
   T->bReplaceExisting = true; T->bAutomated = true; T->bSave = false; T->Factory = F; T->Options = UI;
@@ -657,7 +755,13 @@ static bool MakeSkeletalMesh(const TSharedPtr<FJsonObject>& A, FString& Err) {
 // "cloth": {"slot": <material slot>, "max_distance": <cm>} - that slot's section becomes cloth (UE's clothing tool, as
 // "Create Clothing Data from Section" in the editor does). How far each point may leave its skinned position comes from
 // the vertex colour's red (0..255 -> 0..max_distance): the mesh author paints the hinge 0 and the free end 255.
-// Stiff (metal pull tabs): all constraints at full stiffness, little damping of the swing.
+// Optional "stiffness" (0..1, bend and shear constraints) and "damping" (all axes): without them everything is stiff
+// (metal pull tabs: all constraints 1, damping 0.2); a soft cord sets them lower. Vertical/horizontal stay 1 always,
+// else the piece stretches.
+// Optional "physics_asset" (object path, e.g. /Game/Project/Character/Jodi/Body/Female_PhysicsAsset.Female_PhysicsAsset):
+// the clothing asset collides with its bodies (spheres, capsules; NvCloth adds the config's CollisionThickness), as the
+// game's own cloth does (Witch02_Skirt: Jodi's body physics asset; the dresses: Dress_PhysicsAsset). A reference to the
+// game's asset, nothing copied; without it no collision (the backstop only).
 static bool MakeCloth(USkeletalMesh* M, const TSharedPtr<FJsonObject>& C, FString& Err) {
   const FString Slot = JStr(C, TEXT("slot"));
   double MaxDist = 1.0; C->TryGetNumberField(TEXT("max_distance"), MaxDist);
@@ -676,6 +780,12 @@ static bool MakeCloth(USkeletalMesh* M, const TSharedPtr<FJsonObject>& C, FStrin
   FSkeletalMeshClothBuildParams P; P.LodIndex = 0; P.SourceSection = Sec; P.AssetName = TEXT("Cloth_") + Slot; P.bRemoveFromMesh = false;
   UClothingAssetCommon* CA = Cast<UClothingAssetCommon>(F->CreateFromSkeletalMesh(M, P));
   if (!CA) { Err = TEXT("cloth: CreateFromSkeletalMesh failed for slot ") + Slot; return false; }
+  FString PhysPath; C->TryGetStringField(TEXT("physics_asset"), PhysPath);
+  if (!PhysPath.IsEmpty()) {
+    UPhysicsAsset* PA = LoadObject<UPhysicsAsset>(nullptr, *PhysPath);
+    if (!PA) { Err = TEXT("cloth: physics asset not found ") + PhysPath; return false; }
+    CA->PhysicsAsset = PA;
+  }
   M->AddClothingAsset(CA);
   FClothLODDataCommon& LD = CA->LodData[0];
   const TArray<FVector>& PV = LD.PhysicalMeshData.Vertices;
@@ -703,7 +813,7 @@ static bool MakeCloth(USkeletalMesh* M, const TSharedPtr<FJsonObject>& C, FStrin
   for (int32 t = 0; t + 2 < PM.Indices.Num(); t += 3)
     for (int32 k = 1; k < 3; ++k) Root[Find(PM.Indices[t + k])] = Find(PM.Indices[t]);
   TMap<int32, FVector> Out; TMap<int32, float> Low;
-  for (int32 i = 0; i < PV.Num(); ++i) Out.FindOrAdd(Find(i)) += Top[i] ? PM.Normals[i] : -PM.Normals[i];
+  for (int32 i = 0; i < PV.Num(); ++i) Out.FindOrAdd(Find(i), FVector::ZeroVector) += Top[i] ? PM.Normals[i] : -PM.Normals[i];
   for (auto& KV : Out) KV.Value = KV.Value.GetSafeNormal();
   for (int32 i = 0; i < PV.Num(); ++i) { float& Lo = Low.FindOrAdd(Find(i), MAX_FLT); Lo = FMath::Min(Lo, FVector::DotProduct(PV[i], Out[Find(i)])); }
   const float BackR = 100.f;                         // cm; flat enough: a tab flipped over (4 cm off) is 0.8 mm off the plane
@@ -719,11 +829,11 @@ static bool MakeCloth(USkeletalMesh* M, const TSharedPtr<FJsonObject>& C, FStrin
   if (Bad) { Err = FString::Printf(TEXT("cloth: %d points without an outward normal (vertex colour green: outer face 1, inner 0)"), Bad); return false; }
   LD.PointWeightMaps.Add(BD); LD.PointWeightMaps.Add(BR);
   CA->ApplyParameterMasks();
+  double Stiff = 1.0, Damp = 0.2; C->TryGetNumberField(TEXT("stiffness"), Stiff); C->TryGetNumberField(TEXT("damping"), Damp);
   if (UClothConfigNv* Cfg = CA->GetClothConfig<UClothConfigNv>()) {
-    for (FClothConstraintSetupNv* K : {&Cfg->VerticalConstraint, &Cfg->HorizontalConstraint, &Cfg->BendConstraint, &Cfg->ShearConstraint}) {
-      K->Stiffness = 1.f; K->StiffnessMultiplier = 1.f;
-    }
-    Cfg->Damping = FVector(0.2f);
+    for (FClothConstraintSetupNv* K : {&Cfg->VerticalConstraint, &Cfg->HorizontalConstraint}) { K->Stiffness = 1.f; K->StiffnessMultiplier = 1.f; }
+    for (FClothConstraintSetupNv* K : {&Cfg->BendConstraint, &Cfg->ShearConstraint}) { K->Stiffness = (float)Stiff; K->StiffnessMultiplier = 1.f; }
+    Cfg->Damping = FVector((float)Damp);
   }
   // Bind and record the binding in the section's user data inside ONE outer edit scope, as the editor's "Apply
   // Clothing" does. BindToSkeletalMesh opens its own scope; alone, the rebuild at its end ran before the user data
@@ -739,7 +849,7 @@ static bool MakeCloth(USkeletalMesh* M, const TSharedPtr<FJsonObject>& C, FStrin
     U.ClothingData.AssetGuid = CA->GetAssetGuid();
     U.ClothingData.AssetLodIndex = 0;
   }
-  UE_LOG(LogBPGen, Display, TEXT("BPGEN cloth %s slot=%s section=%d particles=%d free=%d max=%.2fcm pieces=%d"), *M->GetName(), *Slot, Sec, PV.Num(), Free, MaxDist, Out.Num());
+  UE_LOG(LogBPGen, Display, TEXT("BPGEN cloth %s slot=%s section=%d particles=%d free=%d max=%.2fcm pieces=%d stiff=%.2f damp=%.2f phys=%s"), *M->GetName(), *Slot, Sec, PV.Num(), Free, MaxDist, Out.Num(), Stiff, Damp, CA->PhysicsAsset ? *CA->PhysicsAsset->GetPathName() : TEXT("-"));
   return true;
 }
 
@@ -870,8 +980,8 @@ static bool MakeAnimChild(const TSharedPtr<FJsonObject>& A, FString& Err) {
 }
 
 // "animimport": an animation FBX (Blender, internal design notes) onto an existing skeleton as AnimSequence, then
-// the game's curves ({name: [[t, v], ...]}), sync markers ([[name, t]]) and notifies by name ([[name, t]], like the game's "Footstep" -
-// no notify class, Jodi_Anim handles AnimNotify_<name>). Logs pelvis / foot transforms at time 0 for the round trip check.
+// the game's curves ({name: [[t, v], ...]}), sync markers ([[name, t]]) and notifies: by name ([[name, t]], like the game's "Footstep" -
+// no notify class, Jodi_Anim handles AnimNotify_<name>) or with a class and values ({time, class, duration, values}, BPGenAnim.cpp). Logs pelvis / foot transforms at time 0 for the round trip check.
 static bool MakeAnimImport(const TSharedPtr<FJsonObject>& A, FString& Err) {
   const FString Path = JStr(A, TEXT("path")); FString Dir, Name;
   Path.Split(TEXT("/"), &Dir, &Name, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
@@ -897,6 +1007,8 @@ static bool MakeAnimImport(const TSharedPtr<FJsonObject>& A, FString& Err) {
   T->RemoveFromRoot(); F->RemoveFromRoot();
   if (!S) { Err = TEXT("animimport: no AnimSequence from ") + File; return false; }
   if (S->GetName() != Name) { Err = TEXT("animimport: imported as ") + S->GetPathName() + TEXT(", expected ") + Path; return false; }
+  // a re-import replaces the asset but keeps its notifies: clear them (and their tracks) so a second run does not stack a second set
+  S->Notifies.Empty(); S->AnimNotifyTracks.Empty(); S->RefreshCacheData();
   // curves (the game's movement data); every key time clamped into the sequence
   const TSharedPtr<FJsonObject>* Curves = nullptr;
   if (A->TryGetObjectField(TEXT("curves"), Curves)) for (const auto& KV : (*Curves)->Values) {
@@ -913,13 +1025,9 @@ static bool MakeAnimImport(const TSharedPtr<FJsonObject>& A, FString& Err) {
     UAnimationBlueprintLibrary::AddAnimationNotifyTrack(S, TEXT("Markers"));
     for (const auto& M : *Markers) { const auto& P = M->AsArray(); UAnimationBlueprintLibrary::AddAnimationSyncMarker(S, FName(*P[0]->AsString()), (float)P[1]->AsNumber(), TEXT("Markers")); }
   }
-  if (const auto* Notes = JArr(A, TEXT("notifies"))) {
+  if (const auto* Notes = JArr(A, TEXT("notifies"))) {   // [name, t] by name, or {time, class, duration, values, ...} (BPGenAnim.cpp AddNotifies)
     if (S->AnimNotifyTracks.Num() == 0) S->AnimNotifyTracks.Add(FAnimNotifyTrack(TEXT("1"), FLinearColor::White));
-    for (const auto& M : *Notes) {
-      const auto& P = M->AsArray(); FAnimNotifyEvent E; E.NotifyName = FName(*P[0]->AsString());
-      E.Link(S, (float)P[1]->AsNumber()); E.TriggerTimeOffset = GetTriggerTimeOffsetForType(S->CalculateOffsetForNotify(E.GetTime()));
-      E.TrackIndex = 0; S->Notifies.Add(E);
-    }
+    if (!BPGenAssets::AddNotifies(S, *Notes, Err)) return false;
     S->RefreshCacheData();
   }
   S->MarkPackageDirty(); S->PostEditChange();
@@ -934,6 +1042,49 @@ static bool MakeAnimImport(const TSharedPtr<FJsonObject>& A, FString& Err) {
   UE_LOG(LogBPGen, Display, TEXT("BPGEN animimport %s len=%.4f frames=%d curves=%d markers=%d notifies=%d%s"), *Name, S->SequenceLength, S->GetRawNumberOfFrames(),
     S->RawCurveData.FloatCurves.Num(), S->AuthoredSyncMarkers.Num(), S->Notifies.Num(), *Probe);
   return BPGenAssets::SaveAsset(S);
+}
+
+// ---------- subobject_defaults (class defaults of a component a native parent creates, e.g. a Character's capsule) ----------
+// The component is found by the parent's object property of that name (CapsuleComponent, CharacterMovement, Mesh) or by its subobject
+// name; values are ImportText strings on the class default object's instance of it, saved with the blueprint package. JSON numbers
+// with an integral value are written without a fraction (an int or enum property takes them as well as a float one).
+bool BPGenAssets::MakeSubobjectDefaults(const TSharedPtr<FJsonObject>& A, FString& Err) {
+  static const TSet<FString> Keys = {TEXT("type"), TEXT("path"), TEXT("component"), TEXT("properties")};
+  for (const auto& KV : A->Values) if (!Keys.Contains(KV.Key)) { Err = TEXT("subobject_defaults: unknown key \"") + KV.Key + TEXT("\""); return false; }
+  const FString Path = JStr(A, TEXT("path")), Comp = JStr(A, TEXT("component"));
+  if (Comp.IsEmpty()) { Err = TEXT("subobject_defaults: no component for ") + Path; return false; }
+  UBlueprint* BP = LoadObject<UBlueprint>(nullptr, *(Path + TEXT(".") + FPackageName::GetShortName(Path)));
+  if (!BP || !BP->GeneratedClass) { Err = TEXT("subobject_defaults: blueprint not found ") + Path; return false; }
+  UObject* CDO = BP->GeneratedClass->GetDefaultObject();
+  UObject* Sub = nullptr;
+  if (FObjectProperty* OP = CastField<FObjectProperty>(BP->GeneratedClass->FindPropertyByName(FName(*Comp)))) Sub = OP->GetObjectPropertyValue_InContainer(CDO);
+  if (!Sub) Sub = CDO->GetDefaultSubobjectByName(FName(*Comp));
+  if (!Sub) { Err = TEXT("subobject_defaults: component not found ") + Comp + TEXT(" in ") + Path; return false; }
+  const TSharedPtr<FJsonObject>* Props = nullptr;
+  if (!A->TryGetObjectField(TEXT("properties"), Props) || (*Props)->Values.Num() == 0) { Err = TEXT("subobject_defaults: no properties for ") + Comp; return false; }
+  // every name and value checked before anything is changed
+  TArray<TPair<FProperty*, FString>> Todo;
+  for (const auto& KV : (*Props)->Values) {
+    FProperty* P = Sub->GetClass()->FindPropertyByName(*KV.Key);
+    if (!P) { Err = TEXT("subobject_defaults: property not found ") + Comp + TEXT(".") + KV.Key; return false; }
+    const EJson T = KV.Value.IsValid() ? KV.Value->Type : EJson::None;
+    FString Val;
+    if (T == EJson::String) Val = KV.Value->AsString();
+    else if (T == EJson::Boolean) Val = KV.Value->AsBool() ? TEXT("true") : TEXT("false");
+    else if (T == EJson::Number) {
+      const double N = KV.Value->AsNumber();
+      Val = (FMath::Frac(N) == 0.0 && FMath::Abs(N) < 9.0e15) ? FString::Printf(TEXT("%lld"), (long long)N) : FString::SanitizeFloat(N);
+    } else { Err = TEXT("subobject_defaults: value of ") + Comp + TEXT(".") + KV.Key + TEXT(" must be a number, bool or string"); return false; }
+    Todo.Add(TPair<FProperty*, FString>(P, Val));
+  }
+  Sub->Modify();
+  for (const auto& PV : Todo) {
+    if (!PV.Key->ImportText(*PV.Value, PV.Key->ContainerPtrToValuePtr<void>(Sub), PPF_None, Sub)) {
+      Err = TEXT("subobject_defaults: import failed ") + Comp + TEXT(".") + PV.Key->GetName() + TEXT("=") + PV.Value; return false; }
+  }
+  Sub->PostEditChange(); CDO->MarkPackageDirty(); BP->MarkPackageDirty();
+  UE_LOG(LogBPGen, Display, TEXT("BPGEN subobject_defaults %s %s n=%d"), *BP->GetName(), *Comp, Todo.Num());
+  return SaveAsset(BP);
 }
 
 bool BPGenAssets::Process(const TSharedPtr<FJsonObject>& A, FString& Err) {
@@ -951,6 +1102,11 @@ bool BPGenAssets::Process(const TSharedPtr<FJsonObject>& A, FString& Err) {
   if (Type == TEXT("animstub")) return MakeAnimStub(A, Err);
   if (Type == TEXT("animchild")) return MakeAnimChild(A, Err);
   if (Type == TEXT("animimport")) return MakeAnimImport(A, Err);
+  if (Type == TEXT("montage")) return MakeMontage(A, Err);
+  if (Type == TEXT("blendspace1d")) return MakeBlendSpace1D(A, Err);
+  if (Type == TEXT("animplayer")) return MakeAnimPlayer(A, Err);
+  if (Type == TEXT("object_stub")) return MakeObjectStub(A, Err);
+  if (Type == TEXT("subobject_defaults")) return MakeSubobjectDefaults(A, Err);
   if (Type == TEXT("blueprint")) { UBlueprint* BP = EnsureBlueprint(A, Err); return BP && SaveAsset(BP); }
   Err = TEXT("unknown asset type ") + Type; return false;
 }

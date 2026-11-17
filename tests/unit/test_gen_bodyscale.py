@@ -2,6 +2,7 @@ import unittest, os, sys, json
 H = os.path.dirname(os.path.abspath(__file__)); W = os.path.join(H, "..", "..")
 sys.path.insert(0, os.path.join(W, "assets", "gen")); sys.path.insert(0, os.path.join(W, "scripts"))
 import bodyscale_groups as bg
+import footik
 
 
 class GenBodyScale(unittest.TestCase):
@@ -13,14 +14,25 @@ class GenBodyScale(unittest.TestCase):
     def test_asset(self):
         self.assertEqual(self.a["type"], "animblueprint"); self.assertEqual(self.a["path"], bg.ABP_PATH)
         self.assertEqual(self.a["skeleton"], "/Game/Project/Character/Jodi/Body/Female_Skeleton")
-        self.assertEqual([v["name"] for v in self.a["variables"]], [v for v, _, _ in bg.GROUPS] + [v for v, _ in bg.SHIFTS] + [v for v, _ in bg.ROTATIONS] + ["EyeClosedL", "EyeClosedR"])
-        for v in self.a["variables"]:
+        variables = self.a["variables"][:-len(footik.ABP_VARS)]
+        self.assertEqual([v["name"] for v in variables], [v for v, _, _ in bg.GROUPS] + [v for v, _ in bg.SHIFTS] + [v for v, _ in bg.LATE_SHIFTS] + [v for v, _ in bg.ROTATIONS] + ["EyeClosedL", "EyeClosedR"])
+        for v in variables:
             if v["name"] in ("EyeClosedL", "EyeClosedR"):
                 self.assertEqual((v["type"], v["default"]), ("float", "0.0")); continue
             if v["name"] in dict(bg.ROTATIONS):
                 self.assertEqual(v["type"], "struct:/Script/CoreUObject.Rotator"); self.assertEqual(v["default"], "(P=0,Y=0,R=0)"); continue
             self.assertEqual(v["type"], "struct:/Script/CoreUObject.Vector")
-            self.assertEqual(v["default"], "(X=0,Y=0,Z=0)" if v["name"] in dict(bg.SHIFTS) else "(X=1,Y=1,Z=1)")
+            self.assertEqual(v["default"], "(X=0,Y=0,Z=0)" if v["name"] in dict(bg.SHIFTS + bg.LATE_SHIFTS) else "(X=1,Y=1,Z=1)")
+
+    def test_foot_ik_last(self):
+        """Foot IK (2026-11-09): BenenG47's 15 nodes after the rotations; IK reads the scaled, shifted pose."""
+        n = len(footik.abp_nodes())
+        self.assertEqual(n, 15)
+        self.assertEqual(self.a["nodes"][-n:], footik.abp_nodes())
+        self.assertEqual(self.a["nodes"][-n - len(bg.ROTATIONS) * 2:-n], [{"bone": b, "kind": "rotate", "var": v} for v, bs in bg.ROTATIONS for b in bs])
+        ik = {v["name"]: v for v in self.a["variables"][-len(footik.ABP_VARS):]}
+        self.assertEqual([(k, v["type"], v["default"]) for k, v in ik.items()], footik.ABP_VARS)
+        self.assertTrue(all(d in ("(X=0,Y=0,Z=0)", "(P=0,Y=0,R=0)", "0.0") for _, _, d in footik.ABP_VARS))
 
     def test_eyes_closed(self):
         """Face tab "Eyes closed" / one eye: the game's additive blink animation on top of the pose, once per lid (limited to its bone),
@@ -31,8 +43,10 @@ class GenBodyScale(unittest.TestCase):
         self.assertEqual(self.stubs, [{"type": "animsequence_stub", "path": eye, "skeleton": self.a["skeleton"], "additive": True}])
 
     def test_nodes(self):
-        # translation nodes first, then the scale nodes (23), then the rotation nodes (4)
-        nodes = self.a["nodes"]; shifts = [n for n in nodes if n.get("kind") == "translate"]; rots = [n for n in nodes if n.get("kind") == "rotate"]
+        # floor compensation first, then the scale nodes (23), the leg shift, the rotation nodes (4)
+        nodes = self.a["nodes"][:-15]; late = nodes[-len(bg.ROTATIONS) * 2 - 2:-len(bg.ROTATIONS) * 2]
+        self.assertEqual(late, [{"bone": "thigh_l", "kind": "translate", "var": "LegShiftL"}, {"bone": "thigh_r", "kind": "translate", "var": "LegShiftR"}])   # behind pelvis' scale, which would scale the shift
+        nodes = [n for n in nodes if n not in late]; shifts = [n for n in nodes if n.get("kind") == "translate"]; rots = [n for n in nodes if n.get("kind") == "rotate"]
         scales = [n for n in nodes if n.get("kind") not in ("translate", "rotate")]
         self.assertEqual(nodes[:len(shifts)], shifts); self.assertEqual(len(scales), 23); self.assertEqual(nodes[-len(rots):], rots)
         self.assertEqual([(n["bone"], n["var"]) for n in shifts], [(b, v) for v, bs in bg.SHIFTS for b in bs])

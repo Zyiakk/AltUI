@@ -9,6 +9,14 @@
     {
      "name": "Spawned",
      "type": "bool"
+    },
+    {
+     "name": "MgrClass",
+     "type": "class:/Script/CoreUObject.Object"
+    },
+    {
+     "name": "MgrLoaded",
+     "type": "bool"
     }
    ],
    "event_graph": {
@@ -128,13 +136,44 @@
       }
      },
      {
-      "id": "ld",
-      "kind": "call",
-      "class": "/Script/Engine.KismetSystemLibrary",
-      "function": "LoadClassAsset_Blocking",
+      "id": "acl",
+      "kind": "load_class_async",
       "in": {
        "AssetClass": "/Game/Mod/AltUI/BP_AltUIManager.BP_AltUIManager_C"
       }
+     },
+     {
+      "id": "acs",
+      "kind": "set",
+      "var": "MgrClass",
+      "in": {
+       "MgrClass": "@acl.Class"
+      }
+     },
+     {
+      "id": "acd",
+      "kind": "set",
+      "var": "MgrLoaded",
+      "in": {
+       "MgrLoaded": "true"
+      }
+     },
+     {
+      "id": "gml",
+      "kind": "get",
+      "var": "MgrLoaded"
+     },
+     {
+      "id": "bld",
+      "kind": "branch",
+      "in": {
+       "Condition": "@gml.MgrLoaded"
+      }
+     },
+     {
+      "id": "gmc",
+      "kind": "get",
+      "var": "MgrClass"
      },
      {
       "id": "cc",
@@ -142,7 +181,7 @@
       "pure": true,
       "class": "/Script/Engine.Actor",
       "in": {
-       "Class": "@ld.ReturnValue"
+       "Class": "@gmc.MgrClass"
       }
      },
      {
@@ -272,8 +311,21 @@
       "bm"
      ],
      [
-      "bp",
+      "acl:Completed",
+      "acs",
+      "acd"
+     ],
+     [
+      "acl",
       "tm"
+     ],
+     [
+      "bld",
+      "br2"
+     ],
+     [
+      "bp",
+      "acl"
      ],
      [
       "ev",
@@ -282,7 +334,9 @@
      [
       "br:else",
       "cj",
-      "ld",
+      "bld"
+     ],
+     [
       "br2",
       "all",
       "br3",
@@ -294,7 +348,7 @@
      ],
      [
       "bm",
-      "ld"
+      "bld"
      ],
      [
       "br3:else",
@@ -305,6 +359,764 @@
      [
       "br2:else",
       "ct2"
+     ]
+    ]
+   }
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUI/BP_AltUIModLoader",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "variables": [
+    {
+     "name": "SpT",
+     "type": "float"
+    },
+    {
+     "name": "State",
+     "type": "int"
+    },
+    {
+     "name": "Rows",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "Idx",
+     "type": "int"
+    },
+    {
+     "name": "Hits",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "HitIdx",
+     "type": "int"
+    },
+    {
+     "name": "Busy",
+     "type": "bool"
+    }
+   ],
+   "event_graph": {
+    "nodes": [
+     {
+      "id": "bp",
+      "kind": "event",
+      "class": "/Script/Engine.Actor",
+      "name": "ReceiveBeginPlay"
+     },
+     {
+      "id": "me",
+      "kind": "self"
+     },
+     {
+      "id": "tm",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_SetTimer",
+      "in": {
+       "Object": "@me.self",
+       "FunctionName": "Step",
+       "Time": "0.02",
+       "bLooping": "true"
+      }
+     },
+     {
+      "id": "st",
+      "kind": "custom_event",
+      "name": "Step",
+      "inputs": []
+     },
+     {
+      "id": "gs0",
+      "kind": "get",
+      "var": "State"
+     },
+     {
+      "id": "e0",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_IntInt",
+      "in": {
+       "A": "@gs0.State",
+       "B": "0"
+      }
+     },
+     {
+      "id": "b0",
+      "kind": "branch",
+      "in": {
+       "Condition": "@e0.ReturnValue"
+      }
+     },
+     {
+      "id": "gs1",
+      "kind": "get",
+      "var": "State"
+     },
+     {
+      "id": "e1",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_IntInt",
+      "in": {
+       "A": "@gs1.State",
+       "B": "1"
+      }
+     },
+     {
+      "id": "b1",
+      "kind": "branch",
+      "in": {
+       "Condition": "@e1.ReturnValue"
+      }
+     },
+     {
+      "id": "gs2",
+      "kind": "get",
+      "var": "State"
+     },
+     {
+      "id": "e2",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "EqualEqual_IntInt",
+      "in": {
+       "A": "@gs2.State",
+       "B": "2"
+      }
+     },
+     {
+      "id": "b2",
+      "kind": "branch",
+      "in": {
+       "Condition": "@e2.ReturnValue"
+      }
+     },
+     {
+      "id": "rn",
+      "kind": "call",
+      "class": "/Script/Engine.DataTableFunctionLibrary",
+      "function": "GetDataTableRowNames",
+      "in": {
+       "Table": "/Game/Project/Tables/DLC_MainTable"
+      }
+     },
+     {
+      "id": "rl",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Length",
+      "in": {
+       "TargetArray": "@rn.OutRowNames"
+      }
+     },
+     {
+      "id": "rg",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Greater_IntInt",
+      "in": {
+       "A": "@rl.ReturnValue",
+       "B": "0"
+      }
+     },
+     {
+      "id": "brl",
+      "kind": "branch",
+      "in": {
+       "Condition": "@rg.ReturnValue"
+      }
+     },
+     {
+      "id": "sr",
+      "kind": "set",
+      "var": "Rows",
+      "in": {
+       "Rows": "@rn.OutRowNames"
+      }
+     },
+     {
+      "id": "s1",
+      "kind": "set",
+      "var": "State",
+      "in": {
+       "State": "1"
+      }
+     },
+     {
+      "id": "gi",
+      "kind": "get",
+      "var": "Idx"
+     },
+     {
+      "id": "gr",
+      "kind": "get",
+      "var": "Rows"
+     },
+     {
+      "id": "len",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Length",
+      "in": {
+       "TargetArray": "@gr.Rows"
+      }
+     },
+     {
+      "id": "ib",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Add_IntInt",
+      "in": {
+       "A": "@gi.Idx",
+       "B": "40"
+      }
+     },
+     {
+      "id": "mn",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Min",
+      "in": {
+       "A": "@ib.ReturnValue",
+       "B": "@len.ReturnValue"
+      }
+     },
+     {
+      "id": "last",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Subtract_IntInt",
+      "in": {
+       "A": "@mn.ReturnValue",
+       "B": "1"
+      }
+     },
+     {
+      "id": "fl",
+      "kind": "macro",
+      "name": "ForLoop",
+      "in": {
+       "First Index": "@gi.Idx",
+       "Last Index": "@last.ReturnValue"
+      }
+     },
+     {
+      "id": "gr2",
+      "kind": "get",
+      "var": "Rows"
+     },
+     {
+      "id": "ag",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Get",
+      "in": {
+       "TargetArray": "@gr2.Rows",
+       "Index": "@fl.Index"
+      }
+     },
+     {
+      "id": "n2s",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "Conv_NameToString",
+      "in": {
+       "InName": "@ag.Item"
+      }
+     },
+     {
+      "id": "pcd",
+      "kind": "call",
+      "class": "/Script/Engine.BlueprintPathsLibrary",
+      "function": "ProjectContentDir"
+     },
+     {
+      "id": "f1",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "Concat_StrStr",
+      "in": {
+       "A": "@pcd.ReturnValue",
+       "B": "Mod/"
+      }
+     },
+     {
+      "id": "f2",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "Concat_StrStr",
+      "in": {
+       "A": "@f1.ReturnValue",
+       "B": "@n2s.ReturnValue"
+      }
+     },
+     {
+      "id": "f3",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "Concat_StrStr",
+      "in": {
+       "A": "@f2.ReturnValue",
+       "B": "/TKA_BlueprintLoader.uasset"
+      }
+     },
+     {
+      "id": "fx",
+      "kind": "call",
+      "class": "/Script/Engine.BlueprintPathsLibrary",
+      "function": "FileExists",
+      "in": {
+       "InPath": "@f3.ReturnValue"
+      }
+     },
+     {
+      "id": "na",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "NotEqual_NameName",
+      "in": {
+       "A": "@ag.Item",
+       "B": "AltUI"
+      }
+     },
+     {
+      "id": "fxa",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "BooleanAND",
+      "in": {
+       "A": "@fx.ReturnValue",
+       "B": "@na.ReturnValue"
+      }
+     },
+     {
+      "id": "bfx",
+      "kind": "branch",
+      "in": {
+       "Condition": "@fxa.ReturnValue"
+      }
+     },
+     {
+      "id": "gh",
+      "kind": "get",
+      "var": "Hits"
+     },
+     {
+      "id": "ah",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Add",
+      "in": {
+       "TargetArray": "@gh.Hits",
+       "NewItem": "@ag.Item"
+      }
+     },
+     {
+      "id": "gi2",
+      "kind": "get",
+      "var": "Idx"
+     },
+     {
+      "id": "ni",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Add_IntInt",
+      "in": {
+       "A": "@gi2.Idx",
+       "B": "40"
+      }
+     },
+     {
+      "id": "si",
+      "kind": "set",
+      "var": "Idx",
+      "in": {
+       "Idx": "@ni.ReturnValue"
+      }
+     },
+     {
+      "id": "gi3",
+      "kind": "get",
+      "var": "Idx"
+     },
+     {
+      "id": "gr3",
+      "kind": "get",
+      "var": "Rows"
+     },
+     {
+      "id": "len3",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Length",
+      "in": {
+       "TargetArray": "@gr3.Rows"
+      }
+     },
+     {
+      "id": "dn",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "GreaterEqual_IntInt",
+      "in": {
+       "A": "@gi3.Idx",
+       "B": "@len3.ReturnValue"
+      }
+     },
+     {
+      "id": "bdn",
+      "kind": "branch",
+      "in": {
+       "Condition": "@dn.ReturnValue"
+      }
+     },
+     {
+      "id": "s2",
+      "kind": "set",
+      "var": "State",
+      "in": {
+       "State": "2"
+      }
+     },
+     {
+      "id": "gbz",
+      "kind": "get",
+      "var": "Busy"
+     },
+     {
+      "id": "bbz",
+      "kind": "branch",
+      "in": {
+       "Condition": "@gbz.Busy"
+      }
+     },
+     {
+      "id": "ghi",
+      "kind": "get",
+      "var": "HitIdx"
+     },
+     {
+      "id": "gh2",
+      "kind": "get",
+      "var": "Hits"
+     },
+     {
+      "id": "hl",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Length",
+      "in": {
+       "TargetArray": "@gh2.Hits"
+      }
+     },
+     {
+      "id": "hd",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "GreaterEqual_IntInt",
+      "in": {
+       "A": "@ghi.HitIdx",
+       "B": "@hl.ReturnValue"
+      }
+     },
+     {
+      "id": "bhd",
+      "kind": "branch",
+      "in": {
+       "Condition": "@hd.ReturnValue"
+      }
+     },
+     {
+      "id": "me2",
+      "kind": "self"
+     },
+     {
+      "id": "ct",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_ClearTimer",
+      "in": {
+       "Object": "@me2.self",
+       "FunctionName": "Step"
+      }
+     },
+     {
+      "id": "s3",
+      "kind": "set",
+      "var": "State",
+      "in": {
+       "State": "3"
+      }
+     },
+     {
+      "id": "sb",
+      "kind": "set",
+      "var": "Busy",
+      "in": {
+       "Busy": "true"
+      }
+     },
+     {
+      "id": "gh3",
+      "kind": "get",
+      "var": "Hits"
+     },
+     {
+      "id": "ghi2",
+      "kind": "get",
+      "var": "HitIdx"
+     },
+     {
+      "id": "hg",
+      "kind": "call",
+      "class": "/Script/Engine.KismetArrayLibrary",
+      "function": "Array_Get",
+      "in": {
+       "TargetArray": "@gh3.Hits",
+       "Index": "@ghi2.HitIdx"
+      }
+     },
+     {
+      "id": "hs",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "Conv_NameToString",
+      "in": {
+       "InName": "@hg.Item"
+      }
+     },
+     {
+      "id": "p1",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "Concat_StrStr",
+      "in": {
+       "A": "/Game/Mod/",
+       "B": "@hs.ReturnValue"
+      }
+     },
+     {
+      "id": "p2",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "Concat_StrStr",
+      "in": {
+       "A": "@p1.ReturnValue",
+       "B": "/TKA_BlueprintLoader.TKA_BlueprintLoader"
+      }
+     },
+     {
+      "id": "sp",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "MakeSoftObjectPath",
+      "in": {
+       "PathString": "@p2.ReturnValue"
+      }
+     },
+     {
+      "id": "sr2",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "Conv_SoftObjPathToSoftObjRef",
+      "in": {
+       "SoftObjectPath": "@sp.ReturnValue"
+      }
+     },
+     {
+      "id": "la",
+      "kind": "load_asset_async",
+      "in": {
+       "Asset": "@sr2.ReturnValue"
+      }
+     },
+     {
+      "id": "ck",
+      "kind": "cast",
+      "class": "/Script/Engine.DataTable",
+      "pure": false,
+      "in": {
+       "Object": "@la.Object"
+      }
+     },
+     {
+      "id": "rn2",
+      "kind": "call",
+      "class": "/Script/Engine.DataTableFunctionLibrary",
+      "function": "GetDataTableRowNames",
+      "in": {
+       "Table": "@ck.AsData Table"
+      }
+     },
+     {
+      "id": "fr",
+      "kind": "foreach",
+      "in": {
+       "Array": "@rn2.OutRowNames"
+      }
+     },
+     {
+      "id": "row",
+      "kind": "get_row",
+      "in": {
+       "DataTable": "@ck.AsData Table",
+       "RowName": "@fr.Array Element"
+      },
+      "miss": "ignore"
+     },
+     {
+      "id": "brk",
+      "kind": "break",
+      "struct": "/Game/Mod/TKA_BlueprintLoader/BlueprintToLoad_Struct",
+      "in": {
+       "BlueprintToLoad_Struct": "@row.OutRow"
+      }
+     },
+     {
+      "id": "iv",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "IsValidClass",
+      "in": {
+       "Class": "@brk.Actor Class"
+      }
+     },
+     {
+      "id": "bv",
+      "kind": "branch",
+      "in": {
+       "Condition": "@iv.ReturnValue"
+      }
+     },
+     {
+      "id": "tr",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "MakeTransform",
+      "in": {
+       "Scale": "1,1,1"
+      }
+     },
+     {
+      "id": "spw",
+      "kind": "spawn",
+      "in": {
+       "SpawnTransform": "@tr.ReturnValue",
+       "Class": "@brk.Actor Class"
+      }
+     },
+     {
+      "id": "ghi3",
+      "kind": "get",
+      "var": "HitIdx"
+     },
+     {
+      "id": "hi",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Add_IntInt",
+      "in": {
+       "A": "@ghi3.HitIdx",
+       "B": "1"
+      }
+     },
+     {
+      "id": "shi",
+      "kind": "set",
+      "var": "HitIdx",
+      "in": {
+       "HitIdx": "@hi.ReturnValue"
+      }
+     },
+     {
+      "id": "sb0",
+      "kind": "set",
+      "var": "Busy",
+      "in": {
+       "Busy": "false"
+      }
+     }
+    ],
+    "links": [],
+    "exec": [
+     [
+      "bp",
+      "tm"
+     ],
+     [
+      "st",
+      "b0"
+     ],
+     [
+      "b0:else",
+      "b1"
+     ],
+     [
+      "b1:else",
+      "b2"
+     ],
+     [
+      "b0",
+      "rn",
+      "brl",
+      "sr",
+      "s1"
+     ],
+     [
+      "b1",
+      "fl"
+     ],
+     [
+      "fl",
+      "bfx",
+      "ah"
+     ],
+     [
+      "fl:Completed",
+      "si",
+      "bdn",
+      "s2"
+     ],
+     [
+      "b2",
+      "bbz"
+     ],
+     [
+      "bbz:else",
+      "bhd",
+      "ct",
+      "s3"
+     ],
+     [
+      "bhd:else",
+      "sb",
+      "la"
+     ],
+     [
+      "la:Completed",
+      "ck",
+      "rn2",
+      "fr"
+     ],
+     [
+      "fr",
+      "row",
+      "bv",
+      "spw"
+     ],
+     [
+      "fr:Completed",
+      "shi",
+      "sb0"
+     ],
+     [
+      "ck:CastFailed",
+      "shi"
      ]
     ]
    }

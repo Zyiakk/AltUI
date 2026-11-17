@@ -29,12 +29,21 @@ class BodyRows(unittest.TestCase):
 
     def test_new_shape_rows(self):
         names = set(widget_names(asset("40_widgets.json", "/W_AltUI")["widget_tree"]))
-        for k in ("BreastAngle", "BreastJiggle", "Nipple", "Pelvis", "GlutesAngle", "GlutesJiggle"):
+        for k in ("BreastAngle", "BreastJiggle", "Nipple", "Pelvis", "LegSpacing", "GlutesAngle", "GlutesJiggle"):
             self.assertIn("SldSc" + k, names); self.assertIn("Lbl_Sc" + k, STRINGS)
         self.assertTrue({"LblScGrpBreast", "LblScGrpGlutes"} <= names); self.assertIn("Lbl_ScGrpBreast", STRINGS)
         fns = {f["name"]: f for f in asset("40_widgets.json", "/W_AltUI")["functions"]}
-        self.assertEqual(len(fns["Get Body Scales"]["outputs"]), 15)   # 17 factors, two retired (softness)
+        self.assertEqual(len(fns["Get Body Scales"]["outputs"]), 16)   # 18 factors, two retired (softness)
         self.assertFalse({"SldScBreastSoft", "SldScGlutesSoft"} & names)
+
+    def test_follower_factors_are_padded(self):
+        """A follower's record from before a new slider keeps its values: the slider's neutral value is added, the record is not ignored."""
+        fns = {f["name"]: f for f in asset("50_manager_ui.json", "/BP_AltUIManager")["functions"]}
+        text = json.dumps(fns["Apply Body Scales On"])
+        self.assertIn("PadFloats", text); self.assertIn("Array_Add", text); self.assertNotIn("EqualEqual_IntInt", text)
+        ex = fns["Apply Body Scales On"]["graph"]["exec"]   # entry -> length check -> pad -> height ...: the padded array is what gets read
+        self.assertIn(["entry", "fac"], ex); self.assertIn(["fac", "spf", "pb8"], ex)
+        self.assertIn(["pb17", "pa17", "srs"], ex); self.assertIn(["pb17:else", "srs"], ex)
 
     def test_rows_alternate(self):
         """Every second slider row on the light surface; the first one tinted again below the hint and below each group heading."""
@@ -42,7 +51,7 @@ class BodyRows(unittest.TestCase):
             yield node["name"]
             for c in node.get("children", []): yield from order(c)
         names = list(order(asset("40_widgets.json", "/W_AltUI")["widget_tree"]))
-        js = json.dumps(asset("40_widgets.json", "/W_AltUI")["functions"])
+        js = json.dumps([f for f in asset("40_widgets.json", "/W_AltUI")["functions"] if f["name"] != "Set Body Scales Enabled"])   # that one names every stripe (its tooltip)
         tinted = None
         for n in names[names.index("BodySliders"):]:
             if n in ("LblScaleHint",) or n.startswith("LblScGrp"): tinted = True

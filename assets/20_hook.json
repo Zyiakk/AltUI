@@ -9,6 +9,26 @@
     {
      "name": "Spawned",
      "type": "bool"
+    },
+    {
+     "name": "MgrClass",
+     "type": "class:/Script/CoreUObject.Object"
+    },
+    {
+     "name": "MgrLoaded",
+     "type": "bool"
+    },
+    {
+     "name": "MgrTries",
+     "type": "int"
+    },
+    {
+     "name": "MlRetry",
+     "type": "bool"
+    },
+    {
+     "name": "MlTries",
+     "type": "int"
     }
    ],
    "event_graph": {
@@ -20,41 +40,93 @@
       "name": "ReceiveBeginPlay"
      },
      {
-      "id": "ldl",
+      "id": "pcd",
       "kind": "call",
-      "class": "/Script/Engine.KismetSystemLibrary",
-      "function": "LoadClassAsset_Blocking",
+      "class": "/Script/Engine.BlueprintPathsLibrary",
+      "function": "ProjectContentDir"
+     },
+     {
+      "id": "hsp",
+      "kind": "call",
+      "class": "/Script/Engine.KismetStringLibrary",
+      "function": "Concat_StrStr",
       "in": {
-       "AssetClass": "/Game/Mod/TKA_BlueprintLoader/BlueprintLoader.BlueprintLoader_C"
+       "A": "@pcd.ReturnValue",
+       "B": "Mod/TKA_BlueprintLoader/BlueprintToLoad_Struct.uasset"
       }
      },
      {
-      "id": "ccl",
+      "id": "hsx",
+      "kind": "call",
+      "class": "/Script/Engine.BlueprintPathsLibrary",
+      "function": "FileExists",
+      "in": {
+       "InPath": "@hsp.ReturnValue"
+      }
+     },
+     {
+      "id": "bhs",
+      "kind": "branch",
+      "in": {
+       "Condition": "@hsx.ReturnValue"
+      }
+     },
+     {
+      "id": "me5",
+      "kind": "self"
+     },
+     {
+      "id": "tml",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_SetTimer",
+      "in": {
+       "Object": "@me5.self",
+       "FunctionName": "Load Mod Loader",
+       "Time": "0.01",
+       "bLooping": "false"
+      }
+     },
+     {
+      "id": "lml",
+      "kind": "custom_event",
+      "name": "Load Mod Loader",
+      "inputs": []
+     },
+     {
+      "id": "mlc",
+      "kind": "load_class_async",
+      "in": {
+       "AssetClass": "/Game/Mod/AltUI/BP_AltUIModLoader.BP_AltUIModLoader_C"
+      }
+     },
+     {
+      "id": "mlcc",
       "kind": "class_cast",
       "pure": true,
       "class": "/Script/Engine.Actor",
       "in": {
-       "Class": "@ldl.ReturnValue"
+       "Class": "@mlc.Class"
       }
      },
      {
-      "id": "ivl",
+      "id": "mliv",
       "kind": "call",
       "class": "/Script/Engine.KismetSystemLibrary",
       "function": "IsValidClass",
       "in": {
-       "Class": "@ccl.AsActor"
+       "Class": "@mlcc.AsActor"
       }
      },
      {
-      "id": "brl",
+      "id": "mlb",
       "kind": "branch",
       "in": {
-       "Condition": "@ivl.ReturnValue"
+       "Condition": "@mliv.ReturnValue"
       }
      },
      {
-      "id": "trl",
+      "id": "mlt",
       "kind": "call",
       "class": "/Script/Engine.KismetMathLibrary",
       "function": "MakeTransform",
@@ -63,11 +135,19 @@
       }
      },
      {
-      "id": "spl",
+      "id": "mls",
       "kind": "spawn",
       "in": {
-       "SpawnTransform": "@trl.ReturnValue",
-       "Class": "@ccl.AsActor"
+       "SpawnTransform": "@mlt.ReturnValue",
+       "Class": "@mlcc.AsActor"
+      }
+     },
+     {
+      "id": "mlr1",
+      "kind": "set",
+      "var": "MlRetry",
+      "in": {
+       "MlRetry": "true"
       }
      },
      {
@@ -102,6 +182,90 @@
       "kind": "branch",
       "in": {
        "Condition": "@gsp.Spawned"
+      }
+     },
+     {
+      "id": "gmr",
+      "kind": "get",
+      "var": "MlRetry"
+     },
+     {
+      "id": "gmt",
+      "kind": "get",
+      "var": "MlTries"
+     },
+     {
+      "id": "mlt2",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Less_IntInt",
+      "in": {
+       "A": "@gmt.MlTries",
+       "B": "20"
+      }
+     },
+     {
+      "id": "mla",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "BooleanAND",
+      "in": {
+       "A": "@gmr.MlRetry",
+       "B": "@mlt2.ReturnValue"
+      }
+     },
+     {
+      "id": "bmr",
+      "kind": "branch",
+      "in": {
+       "Condition": "@mla.ReturnValue"
+      }
+     },
+     {
+      "id": "mlr0",
+      "kind": "set",
+      "var": "MlRetry",
+      "in": {
+       "MlRetry": "false"
+      }
+     },
+     {
+      "id": "gmt2",
+      "kind": "get",
+      "var": "MlTries"
+     },
+     {
+      "id": "mli",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Add_IntInt",
+      "in": {
+       "A": "@gmt2.MlTries",
+       "B": "1"
+      }
+     },
+     {
+      "id": "mlts",
+      "kind": "set",
+      "var": "MlTries",
+      "in": {
+       "MlTries": "@mli.ReturnValue"
+      }
+     },
+     {
+      "id": "me6",
+      "kind": "self"
+     },
+     {
+      "id": "tml2",
+      "kind": "call",
+      "class": "/Script/Engine.KismetSystemLibrary",
+      "function": "K2_SetTimer",
+      "in": {
+       "Object": "@me6.self",
+       "FunctionName": "Load Mod Loader",
+       "Time": "0.01",
+       "bLooping": "false"
       }
      },
      {
@@ -176,13 +340,44 @@
       }
      },
      {
-      "id": "ld",
-      "kind": "call",
-      "class": "/Script/Engine.KismetSystemLibrary",
-      "function": "LoadClassAsset_Blocking",
+      "id": "acl",
+      "kind": "load_class_async",
       "in": {
        "AssetClass": "/Game/Mod/AltUI/BP_AltUIManager.BP_AltUIManager_C"
       }
+     },
+     {
+      "id": "acs",
+      "kind": "set",
+      "var": "MgrClass",
+      "in": {
+       "MgrClass": "@acl.Class"
+      }
+     },
+     {
+      "id": "acd",
+      "kind": "set",
+      "var": "MgrLoaded",
+      "in": {
+       "MgrLoaded": "true"
+      }
+     },
+     {
+      "id": "gml",
+      "kind": "get",
+      "var": "MgrLoaded"
+     },
+     {
+      "id": "bld",
+      "kind": "branch",
+      "in": {
+       "Condition": "@gml.MgrLoaded"
+      }
+     },
+     {
+      "id": "gmc",
+      "kind": "get",
+      "var": "MgrClass"
      },
      {
       "id": "cc",
@@ -190,7 +385,7 @@
       "pure": true,
       "class": "/Script/Engine.Actor",
       "in": {
-       "Class": "@ld.ReturnValue"
+       "Class": "@gmc.MgrClass"
       }
      },
      {
@@ -285,6 +480,59 @@
       }
      },
      {
+      "id": "gmt3",
+      "kind": "get",
+      "var": "MgrTries"
+     },
+     {
+      "id": "mgl",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Less_IntInt",
+      "in": {
+       "A": "@gmt3.MgrTries",
+       "B": "20"
+      }
+     },
+     {
+      "id": "bmg",
+      "kind": "branch",
+      "in": {
+       "Condition": "@mgl.ReturnValue"
+      }
+     },
+     {
+      "id": "gmt4",
+      "kind": "get",
+      "var": "MgrTries"
+     },
+     {
+      "id": "mgi",
+      "kind": "call",
+      "class": "/Script/Engine.KismetMathLibrary",
+      "function": "Add_IntInt",
+      "in": {
+       "A": "@gmt4.MgrTries",
+       "B": "1"
+      }
+     },
+     {
+      "id": "mgts",
+      "kind": "set",
+      "var": "MgrTries",
+      "in": {
+       "MgrTries": "@mgi.ReturnValue"
+      }
+     },
+     {
+      "id": "mgl0",
+      "kind": "set",
+      "var": "MgrLoaded",
+      "in": {
+       "MgrLoaded": "false"
+      }
+     },
+     {
       "id": "me3",
       "kind": "self"
      },
@@ -316,28 +564,74 @@
     "links": [],
     "exec": [
      [
+      "lml",
+      "mlc"
+     ],
+     [
+      "mlc:Completed",
+      "mlb",
+      "mls"
+     ],
+     [
+      "mlb:else",
+      "mlr1"
+     ],
+     [
+      "bp",
+      "bhs",
+      "tml",
+      "acl"
+     ],
+     [
+      "bhs:else",
+      "acl"
+     ],
+     [
+      "ev",
+      "bmr",
+      "mlr0",
+      "mlts",
+      "tml2",
+      "br"
+     ],
+     [
+      "bmr:else",
+      "br"
+     ],
+     [
       "lvl",
       "bm"
      ],
      [
-      "bp",
-      "ldl",
-      "brl",
-      "spl",
+      "acl:Completed",
+      "acs",
+      "acd"
+     ],
+     [
+      "acl",
       "tm"
      ],
      [
-      "brl:else",
-      "tm"
+      "bld",
+      "br2"
      ],
      [
-      "ev",
-      "br"
+      "br2:else",
+      "bmg",
+      "mgts",
+      "mgl0",
+      "acl"
+     ],
+     [
+      "bmg:else",
+      "ct2"
      ],
      [
       "br:else",
       "cj",
-      "ld",
+      "bld"
+     ],
+     [
       "br2",
       "all",
       "br3",
@@ -349,17 +643,13 @@
      ],
      [
       "bm",
-      "ld"
+      "bld"
      ],
      [
       "br3:else",
       "sp",
       "ssp",
       "ct"
-     ],
-     [
-      "br2:else",
-      "ct2"
      ]
     ]
    },

@@ -34,4 +34,41 @@ def main():
     for k in ("eye:Twin", "look:Twin", "pose:Twin", "item:Twin", "hair:Twin"): del origin[k]
     mgr.set_editor_property("ItemOriginMod", origin)
     mgr.call_method("Test Context Mod", args=("item", "None"))   # ContextOriginKind back to its default
+    # AltUI_ModScan.sav (Test Build scanned and saved it): the same mods -> the saved origins, without a scan
+    origin = mgr.get_editor_property("ItemOriginMod"); n0 = len(origin)
+    mgr.set_editor_property("ItemOriginMod", {})
+    mgr.call_method("Test Mod Origins")
+    expect("saved scan used", mgr.get_editor_property("TmpBool"), True)
+    expect("saved origins", (len(mgr.get_editor_property("ItemOriginMod")), om("item", "ModThing")), (n0, (True, "SomeMod")))
+    # a changed mod line (e.g. a mod's caption, version or Tables) -> scan again, then the new result is saved
+    sv = unreal.GameplayStatics.load_game_from_slot("AltUI_ModScan", 0)
+    sig = list(sv.get_editor_property("Sig")); sig[0] = sig[0] + "x"; sv.set_editor_property("Sig", sig)
+    unreal.GameplayStatics.save_game_to_slot(sv, "AltUI_ModScan", 0)
+    mgr.call_method("Test Mod Origins")
+    expect("changed mod line: scanned", (mgr.get_editor_property("TmpBool"), om("item", "ModThing")), (False, (True, "SomeMod")))
+    mgr.call_method("Test Mod Origins")
+    expect("rescan saved", mgr.get_editor_property("TmpBool"), True)
+    # a changed row list of a game table -> scan again
+    sv = unreal.GameplayStatics.load_game_from_slot("AltUI_ModScan", 0)
+    rows = sv.get_editor_property("Rows"); rows[unreal.Name("pose")] = rows[unreal.Name("eye")]; sv.set_editor_property("Rows", rows)   # other row names
+    unreal.GameplayStatics.save_game_to_slot(sv, "AltUI_ModScan", 0)
+    mgr.call_method("Test Mod Origins")
+    expect("changed rows: scanned", mgr.get_editor_property("TmpBool"), False)
+    # a changed number of clothes rows with a mod mesh -> scan again
+    sv = unreal.GameplayStatics.load_game_from_slot("AltUI_ModScan", 0); sv.set_editor_property("MeshN", sv.get_editor_property("MeshN") + 1)
+    unreal.GameplayStatics.save_game_to_slot(sv, "AltUI_ModScan", 0)
+    mgr.call_method("Test Mod Origins")
+    expect("changed mod meshes: scanned", mgr.get_editor_property("TmpBool"), False)
+    # the mods' file index (Mod File Index, 2026-11-15): kept while the mod list is the same, the origins' saves leave it in the file
+    mgr.call_method("Test Mod File Index")
+    expect("file index from the save", mgr.get_editor_property("TmpBool"), True)
+    sv = unreal.GameplayStatics.load_game_from_slot("AltUI_ModScan", 0)
+    fs = list(sv.get_editor_property("FileSig")); fs[0] = fs[0] + "x"; sv.set_editor_property("FileSig", fs)
+    unreal.GameplayStatics.save_game_to_slot(sv, "AltUI_ModScan", 0)
+    mgr.call_method("Test Mod File Index")
+    expect("changed mod list: files looked up again", mgr.get_editor_property("TmpBool"), False)
+    mgr.call_method("Test Mod File Index")
+    expect("new file index saved", mgr.get_editor_property("TmpBool"), True)
+    mgr.call_method("Test Mod Origins")
+    expect("origins kept beside it", mgr.get_editor_property("TmpBool"), True)
 run(main)

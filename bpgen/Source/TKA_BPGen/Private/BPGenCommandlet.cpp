@@ -155,6 +155,11 @@ int32 UBPGenCommandlet::Main(const FString& Params) {
     TArray<FString> Paths; ClothArg.ParseIntoArray(Paths, TEXT(","), true);
     for (const FString& P : Paths) BPGenAssets::DumpCloth(P);
   }
+  FString AnimArg;
+  if (FParse::Value(*Params, TEXT("-dumpanim="), AnimArg, false)) {     // sequences / montages, comma separated (DUMPANIM lines)
+    TArray<FString> Paths; AnimArg.ParseIntoArray(Paths, TEXT(","), true);
+    for (const FString& P : Paths) BPGenAssets::DumpAnim(P);
+  }
   FString SimArg;
   if (FParse::Value(*Params, TEXT("-simcloth="), SimArg, false)) {      // skeletal meshes, comma separated
     TArray<FString> Paths; SimArg.ParseIntoArray(Paths, TEXT(","), true);

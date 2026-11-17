@@ -19,14 +19,14 @@ FIELDS_TABLE = "AltUI_Fields"
 ENTRY_MEMBERS = [("Caption", "text", ""), ("Actor", "softclass:/Script/Engine.Actor", ""), ("Order", "int", "")]
 FIELD_MEMBERS = [("Entry", "name", ""), ("Key", "name", ""), ("Type", "name", ""), ("Label", "text", ""),
                  ("Min", "float", ""), ("Max", "float", ""), ("Step", "float", ""), ("Options", "text", "array"),
-                 ("Order", "int", "")]
+                 ("Order", "int", ""), ("NoQuickMenu", "bool", "")]   # NoQuickMenu (2026-11-16): a Button / Toggle field the quick menu does not offer
 # quick menu: a mod's actions of its own (AltUI_Actions, row struct S_AltUIModAction) - run as On AltUI Changed(Key, 1) on the
 # actor of class Actor; Button and Toggle fields of AltUI_Fields are offered as well (a toggle flips: 1 - Get AltUI Value)
 ACTION_STRUCT = M + "/S_AltUIModAction"
 ACTIONS_TABLE = "AltUI_Actions"
 ACTION_MEMBERS = [("Caption", "text", ""), ("Icon", "softobject:/Script/Engine.Texture2D", ""), ("Actor", "softclass:/Script/Engine.Actor", ""),
                   ("Key", "name", ""), ("Order", "int", "")]
-QUICK_TYPES = ["Button", "Toggle"]      # field types the quick menu offers
+QUICK_TYPES = ["Button", "Toggle"]      # field types the quick menu offers (unless the field has NoQuickMenu)
 TYPES = ["Header", "Button", "Toggle", "Slider", "Choice", "Number", "Color", "Text", "Info", "Key", "Tab"]   # Tab: the fields after it are on that tab (needs a label)
 RANGED = ["Slider", "Number"]            # need Min < Max
 TEXTUAL = ["Text", "Info"]              # read with Get AltUI Text
@@ -41,6 +41,15 @@ KEY_TYPE = "struct:/Script/InputCore.Key"
 TEST_ACTIONS = {"Later": {"Caption": "Later", "Actor": "/Script/Engine.PointLight", "Key": "B", "Order": 2},
                 "Sooner": {"Caption": "Sooner", "Actor": "/Script/Engine.PointLight", "Key": "A", "Order": 1}}
 
+# editor test test_text_ids (2026-11-15): a second stub mod whose field row is named like one of AltUIMod_Test's, with other
+# texts, and a table with text in every kind of column (own namespace per package; NSLOCTEXT cells keep theirs)
+TEST_MOD2 = "AltUIMod_Twin"
+TEST_FIELDS2 = {"F_Slider": {"Entry": "Twin", "Key": "Size", "Type": "Choice", "Label": "Twin size", "Options": ["Small", "Big"], "Order": 1}}
+TEXTID_INNER = "/Game/Mod/%s/S_TextIdInner" % TEST_MOD2; TEXTID_STRUCT = "/Game/Mod/%s/S_TextId" % TEST_MOD2
+TEXTID_TABLE = "/Game/Mod/%s/TextIdTable" % TEST_MOD2; TEXTID_KEPT = "/Game/Mod/%s/TextIdKept" % TEST_MOD2
+TEXTID_ROWS = {"R1": {"Caption": "One", "Words": ["w0", "w1"], "Inner": {"Note": "inner"}, "ByName": {"a": "va"}},
+               "R2": {"Caption": 'NSLOCTEXT("OwnNs", "OwnKey", "Own")', "Words": [], "Inner": {"Note": 'INVTEXT("fixed")'}, "ByName": {}}}
+
 # editor tests: a stub mod with entries in reverse order and one field for every rule of what is left out
 TEST_MOD = "AltUIMod_Test"
 TEST_ENTRIES = {"Second": {"Caption": "Second", "Actor": "/Script/Engine.PointLight", "Order": 2},
@@ -53,6 +62,7 @@ TEST_FIELDS = {
     "F_Toggle": {"Entry": "First", "Key": "On", "Type": "Toggle", "Label": "On", "Order": 3},
     "F_Choice": {"Entry": "Second", "Key": "Mode", "Type": "Choice", "Label": "Mode", "Options": ["A", "B"], "Order": 1},
     "F_Button": {"Entry": "Second", "Key": "Go", "Type": "Button", "Label": "Go", "Order": 2},
+    "F_Quiet": {"Entry": "Second", "Key": "Quiet", "Type": "Button", "Label": "Quiet", "Order": 3, "NoQuickMenu": True},   # in the panel, not in the quick menu
     # tabs (internal design notes): lead field, tab A (header folded by default + field, open header + field),
     # an empty tab, tab B, a tab without a label (left out: its field joins tab B). Ids: tabs A, E, #2; headers HA, #1
     "T_Lead": {"Entry": "Tabs", "Key": "Lead", "Type": "Toggle", "Label": "Lead", "Order": 1},

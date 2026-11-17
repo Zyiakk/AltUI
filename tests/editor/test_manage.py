@@ -18,6 +18,7 @@ def origin3(mgr, kind, row):
 
 def main():
     mgr = cdo(M + "/BP_AltUIManager.BP_AltUIManager_C")
+    mgr.call_method("Test Mod File Index")   # the weapon scans read the mods that have their table from it (2026-11-16)
     mgr.call_method("Test Build"); mgr.call_method("Test Strings", args=(1,)); mgr.call_method("Test Load Names")
     mgr.call_method("Test Set Custom Name", args=("item", "ModThing", "")); mgr.call_method("Test Set Custom Name", args=("group", "SomeGroup", ""))
     # Mods: header, then its groups (indented rows); vanilla has no header

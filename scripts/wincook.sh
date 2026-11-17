@@ -11,7 +11,7 @@ import json; d=json.load(open('$UPROJECT')); d['Plugins']=[p for p in d['Plugins
 json.dump(d, open('$C/TheKillingAntidote.uproject','w'), indent=1)"
 rm -rf "$C/Config"; cp -r "$KIT/Config" "$C/Config"; ln -sfn "$KIT/Content" "$C/Content"
 # the project as drive W: - Windows paths end at 260 characters, and Z:<long path>/Saved/Cooked/WindowsNoEditor/<game>/Content
-# plus the deep folders of some mods (P&P: Mod/PiercedAndPoised/PiercedAndPoised4/PiercedAndPoised3/MatPath/Main/…) did not fit
+# plus the deep folders of some mods did not fit
 ln -sfn "$C" "$WINE_UE_PREFIX/dosdevices/w:"
 ARGS=(); for a in "$@"; do case "$a" in -cookdir=*) ARGS+=("-cookdir=W:/Content/${a#-cookdir=}");; *) ARGS+=("$a");; esac; done
 # mshtml off: no Wine-Gecko install dialog. mscoree must stay: UE4Editor-SwarmInterface.dll imports it (without it the

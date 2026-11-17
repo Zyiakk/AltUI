@@ -87,6 +87,16 @@
      "default": "(X=0,Y=0,Z=0)"
     },
     {
+     "name": "LegShiftL",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "LegShiftR",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
      "name": "BreastAngle",
      "type": "struct:/Script/CoreUObject.Rotator",
      "default": "(P=0,Y=0,R=0)"
@@ -103,6 +113,116 @@
     },
     {
      "name": "EyeClosedR",
+     "type": "float",
+     "default": "0.0"
+    },
+    {
+     "name": "IKPelvis",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "EffL",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "EffR",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "FwdEffL",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "FwdEffR",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "FwdJL",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "FwdJR",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "HandEffL",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "HandEffR",
+     "type": "struct:/Script/CoreUObject.Vector",
+     "default": "(X=0,Y=0,Z=0)"
+    },
+    {
+     "name": "TiltL",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "TiltR",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "KneeRotL",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "KneeRotR",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "KneeFootL",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "KneeFootR",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "HandTiltL",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "HandTiltR",
+     "type": "struct:/Script/CoreUObject.Rotator",
+     "default": "(P=0,Y=0,R=0)"
+    },
+    {
+     "name": "ALeg",
+     "type": "float",
+     "default": "0.0"
+    },
+    {
+     "name": "AFwdL",
+     "type": "float",
+     "default": "0.0"
+    },
+    {
+     "name": "AFwdR",
+     "type": "float",
+     "default": "0.0"
+    },
+    {
+     "name": "AKnee",
+     "type": "float",
+     "default": "0.0"
+    },
+    {
+     "name": "AHand",
      "type": "float",
      "default": "0.0"
     }
@@ -239,6 +359,16 @@
      "var": "PelvisSpine"
     },
     {
+     "bone": "thigh_l",
+     "kind": "translate",
+     "var": "LegShiftL"
+    },
+    {
+     "bone": "thigh_r",
+     "kind": "translate",
+     "var": "LegShiftR"
+    },
+    {
      "bone": "Breast_L",
      "kind": "rotate",
      "var": "BreastAngle"
@@ -257,6 +387,106 @@
      "bone": "Hip_R",
      "kind": "rotate",
      "var": "GlutesAngle"
+    },
+    {
+     "bone": "pelvis",
+     "kind": "translate",
+     "var": "IKPelvis",
+     "alpha_var": "ALeg"
+    },
+    {
+     "bone": "foot_l",
+     "kind": "rotate",
+     "var": "TiltL",
+     "alpha_var": "ALeg"
+    },
+    {
+     "bone": "foot_r",
+     "kind": "rotate",
+     "var": "TiltR",
+     "alpha_var": "ALeg"
+    },
+    {
+     "bone": "foot_l",
+     "kind": "twoboneik",
+     "joint_bone": "calf_l",
+     "var": "EffL",
+     "alpha_var": "ALeg"
+    },
+    {
+     "bone": "foot_r",
+     "kind": "twoboneik",
+     "joint_bone": "calf_r",
+     "var": "EffR",
+     "alpha_var": "ALeg"
+    },
+    {
+     "bone": "foot_l",
+     "kind": "twoboneik",
+     "joint_bone": "calf_l",
+     "var": "FwdEffL",
+     "alpha_var": "AFwdL",
+     "joint_var": "FwdJL",
+     "joint_space": "component"
+    },
+    {
+     "bone": "foot_r",
+     "kind": "twoboneik",
+     "joint_bone": "calf_r",
+     "var": "FwdEffR",
+     "alpha_var": "AFwdR",
+     "joint_var": "FwdJR",
+     "joint_space": "component"
+    },
+    {
+     "bone": "thigh_l",
+     "kind": "rotate",
+     "var": "KneeRotL",
+     "alpha_var": "AKnee"
+    },
+    {
+     "bone": "foot_l",
+     "kind": "rotate",
+     "var": "KneeFootL",
+     "alpha_var": "AKnee"
+    },
+    {
+     "bone": "thigh_r",
+     "kind": "rotate",
+     "var": "KneeRotR",
+     "alpha_var": "AKnee"
+    },
+    {
+     "bone": "foot_r",
+     "kind": "rotate",
+     "var": "KneeFootR",
+     "alpha_var": "AKnee"
+    },
+    {
+     "bone": "hand_l",
+     "kind": "rotate",
+     "var": "HandTiltL",
+     "alpha_var": "AHand"
+    },
+    {
+     "bone": "hand_r",
+     "kind": "rotate",
+     "var": "HandTiltR",
+     "alpha_var": "AHand"
+    },
+    {
+     "bone": "hand_l",
+     "kind": "twoboneik",
+     "joint_bone": "lowerarm_l",
+     "var": "HandEffL",
+     "alpha_var": "AHand"
+    },
+    {
+     "bone": "hand_r",
+     "kind": "twoboneik",
+     "joint_bone": "lowerarm_r",
+     "var": "HandEffR",
+     "alpha_var": "AHand"
     }
    ],
    "additive": [

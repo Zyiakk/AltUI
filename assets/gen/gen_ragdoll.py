@@ -81,6 +81,11 @@ def f_copy_from():
     g.get("gb", "Body"); body = "@gb.Body"
     g.get("gsk", "SkeletalMesh", cls=E_SKIN); g.link("gm.Mesh", "gsk.self")
     g.call("ssk", E_SKIN, "SetSkeletalMesh", inp={"self": body, "NewMesh": "@gsk.SkeletalMesh", "bReinitPose": "true"}); g.n("sb", "call_self", function="Setup Body")
+    # the source mesh's world scale: AltUI's height slider ("Scale") scales Jodi's mesh component (Apply Body Scales: SetRelativeScale3D),
+    # not a bone - the pose snapshot carries the bone shapes, the component scale it does not (a Jodi copy came out at 1.0, 2026-11-10).
+    # Spawned at the source's world transform (zombies), this changes nothing.
+    g.call("wsc", E_SCENEC, "K2_GetComponentScale", inp={"self": src})
+    g.call("sws", E_SCENEC, "SetWorldScale3D", inp={"self": body, "NewScale": "@wsc.ReturnValue"})
     mh, mt = copy_materials(g, "b_", src, body)
     # morph targets: every one the source mesh knows, at the value the source has now (face, body mods)
     g.call("mn", E_SKMESH, "K2_GetAllMorphTargetNames", inp={"self": "@gsk.SkeletalMesh"}); g.foreach("fmn", "@mn.ReturnValue")
@@ -114,7 +119,7 @@ def f_copy_from():
     g.call("srl", E_SCENEC, "K2_SetRelativeLocationAndRotation", inp={"self": ns, "NewLocation": "@grl.RelativeLocation", "NewRotation": "@grr.RelativeRotation", "bSweep": "false", "bTeleport": "true"})
     g.call("srs", E_SCENEC, "SetRelativeScale3D", inp={"self": ns, "NewScale3D": "@grs.RelativeScale3D"})
     sh, st = copy_materials(g, "s_", "@cst.AsStatic Mesh Component", ns)
-    g.chain("entry", "ssk", "sb", mh); g.chain(mt, "fmn"); g.chain("fmn", "smv"); g.chain("fmn:Completed", "scmp", "fc")   # morph names and the component list are pure
+    g.chain("entry", "ssk", "sws", "sb", mh); g.chain(mt, "fmn"); g.chain("fmn", "smv"); g.chain("fmn:Completed", "scmp", "fc")   # morph names and the component list are pure
     g.chain("fc", "bok", "bk", "nk", "ksk", "kmp", kh); g.chain("bk:else", "bst", "ns", "ssm", "att", "srl", "srs", sh)
     return fn("Copy From", [param("source", "object:" + E_CHAR)], graph=g)
 
