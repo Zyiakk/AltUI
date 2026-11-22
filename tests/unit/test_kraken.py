@@ -1,10 +1,9 @@
 """scripts/oodle_kraken.py (pure-Python Oodle Kraken decoder) against hand-made streams, fixtures and – when
-tools/ooz/libooz.so and the mod archive exist – the ooz reference decoder."""
+tools/ooz/libooz.so and the real mod paks (realmods.py) exist – the ooz reference decoder."""
 import unittest, os, sys, json, glob, hashlib, time
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "scripts"))
 FX = os.path.join(H, "fixtures")
-import cfg
-A = cfg.path("TKA_MOD_ARCHIVE")
+import cfg, realmods
 OOZ = os.path.join(H, "..", "..", "tools", "ooz", "libooz.so")
 import oodle_kraken
 from oodle_kraken import OodleError
@@ -119,10 +118,10 @@ class Blocks(unittest.TestCase):
         t = time.time(); decode_entry(os.path.join(FX, "kraken_fixture.pak"), "/big.bin")
         self.assertLess(time.time() - t, 2.0)
 
-    @unittest.skipUnless(cfg.real_file(A + "/Mods/TKA_Workshop_EscapefromRC.pak"), "no mod archive (TKA_MOD_ARCHIVE) or only placeholders")
+    @unittest.skipUnless(realmods.have("TKA_Workshop_EscapefromRC.pak"), "real mod pak missing (TKA_MOD_STORE / TKA_MOD_ARCHIVE)")
     def test_runtime_largest_uasset(self):
         # 410 KB, the largest Oodle-compressed .uasset in the archive
-        p = A + "/Mods/TKA_Workshop_EscapefromRC.pak"; key = "ModernCityEnvironment01/Blueprints/BP_MBuilding04.uasset"
+        p = realmods.find("TKA_Workshop_EscapefromRC.pak"); key = "ModernCityEnvironment01/Blueprints/BP_MBuilding04.uasset"
         t = time.time(); data = decode_entry(p, key)
         self.assertLess(time.time() - t, 6.0); self.assertEqual(len(data), 410140)
 
@@ -153,18 +152,22 @@ class Native(unittest.TestCase):
             pak11_extract._native = oodle_native
 
 
-@unittest.skipUnless(os.path.exists(OOZ) and cfg.real_file(A + "/Mods/HMs_Shoes.pak"), "libooz.so (tools/fetch_ooz.sh) or the mod archive is missing")
+@unittest.skipUnless(os.path.exists(OOZ) and realmods.have("HMs_Shoes.pak"), "libooz.so (tools/fetch_ooz.sh) or the real mod paks are missing")
 class Reference(unittest.TestCase):
     """Python decoder == ooz on the archive: every .uasset of a sample of paks (all entries of all paks with KRAKEN_FULL=1)."""
-    SAMPLE = ["Mods/TKA-UN_Dv1-fix1.3d.pak", "nexus/783/Jodithicctest4_P.pak", "Mods/HMs_Shoes.pak", "Mods/Car_Dealer.pak",
-              "Mods/Bikini_Bottom.pak", "Mods/Cat_ear_headphones.pak", "Mods/Racing_Suit.pak", "Mods/Brefg_Poses.pak",
-              "Mods/LowPolyJunglePack.pak", "Mods/Lost_in_Abandoned_Factory.pak"]
+    SAMPLE = ["TKA-UN_Dv1-fix1.3d.pak", "Jodithicctest4_P.pak", "HMs_Shoes.pak", "Car_Dealer.pak", "Bikini_Bottom.pak",
+              "Cat_ear_headphones.pak", "Racing_Suit.pak", "Brefg_Poses.pak", "LowPolyJunglePack.pak",
+              "Lost_in_Abandoned_Factory.pak"]
 
     def test_matches_ooz(self):
         full = os.environ.get("KRAKEN_FULL") == "1"
-        paks = sorted(glob.glob(A + "/**/*.pak", recursive=True)) if full else [os.path.join(A, p) for p in self.SAMPLE]
-        paks = [p for p in paks if cfg.real_file(p)]   # placeholders (copies without the mod files) carry no data
-        if not paks: self.skipTest("only placeholders in the mod archive")
+        if full:
+            paks = realmods.every_pak()
+        else:   # the whole sample or a visible skip: a missing pak must not quietly shrink it
+            missing = [n for n in self.SAMPLE if not realmods.find(n)]
+            if missing: self.skipTest("real mod paks missing: " + ", ".join(missing))
+            paks = [realmods.find(n) for n in self.SAMPLE]
+        if not paks: self.skipTest("no real mod paks")
         n = 0
         for p in paks:
             try:

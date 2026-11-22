@@ -22,7 +22,7 @@ class FollowerBreast(unittest.TestCase):
         with open(os.path.join(ASSETS, "30_manager.json")) as fh:
             st = next(a for a in json.load(fh)["assets"] if a.get("path", "").endswith("/S_Follower"))
         names = [m["name"] for m in st.get("members", st.get("fields", []))]
-        self.assertEqual(names[-2:], ["Boobs", "Waist"])   # appended: older records keep their layout
+        self.assertEqual(names[-3:], ["Boobs", "Waist", "SlotMats"])   # appended: older records keep their layout
 
     def test_taken_from_the_look(self):
         js = json.dumps(graph("Finish Look Follower"))

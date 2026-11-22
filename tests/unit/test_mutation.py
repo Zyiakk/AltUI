@@ -24,8 +24,8 @@ class Data(unittest.TestCase):
         self.assertEqual(fields(mutn.S_MUT), ["Color", "Glow", "Veins", "Eyes", "Skin", "Story"])
 
     def test_appended_last(self):
-        self.assertEqual(fields("/Game/Mod/AltUI/S_Snapshot")[-3:], ["Mutation", "OilOn", "Oil"])   # oiled skin appended after it (2026-10-23)
-        self.assertEqual(fields("/Game/Mod/AltUI/S_Follower")[-5:], ["Mutation", "Lost", "Outfit", "Boobs", "Waist"])   # torn-off pieces, the look's outfit (2026-10-30), breast / waist (2026-10-31) appended after it
+        self.assertEqual(fields("/Game/Mod/AltUI/S_Snapshot")[-4:], ["Mutation", "OilOn", "Oil", "SlotMats"])   # oiled skin appended after it (2026-10-23), swapped materials after that
+        self.assertEqual(fields("/Game/Mod/AltUI/S_Follower")[-6:], ["Mutation", "Lost", "Outfit", "Boobs", "Waist", "SlotMats"])   # torn-off pieces, the look's outfit (2026-10-30), breast / waist (2026-10-31) appended after it
 
     def test_snapshot_round_trip(self):
         mk = [n for n in mgr_graph("Take Snapshot")["nodes"] if n.get("kind") == "make"][0]

@@ -615,7 +615,7 @@ def f_share_read_entry():
     g.get("gl", "ShLooks"); g.call("al", K_ARR, "Array_Add", inp={"TargetArray": "@gl.ShLooks", "NewItem": "@mkl.S_Look"}); g.chain(bl, pl, "rs", "al", "refs")
     # outfit
     bo, po = kind_branch("outfit", 1); g.n("ro", "call_self", function="Sh R Outfit"); g.brk("bo2", S_SHAREOUTFIT, "@ro.v")
-    g.get("gen2", "ShEntryName"); g.make("mko", S_SHAREOUTFIT, Name="@gen2.ShEntryName", Pieces="@bo2.Pieces", SlotColors="@bo2.SlotColors")
+    g.get("gen2", "ShEntryName"); g.make("mko", S_SHAREOUTFIT, Name="@gen2.ShEntryName", Pieces="@bo2.Pieces", SlotColors="@bo2.SlotColors", SlotMats="@bo2.SlotMats")
     g.get("go", "ShOutfits"); g.call("ao", K_ARR, "Array_Add", inp={"TargetArray": "@go.ShOutfits", "NewItem": "@mko.S_ShareOutfit"}); g.chain(bo, po, "ro", "ao", "refs"); g.chain(bl + ":else", bo)
     prev = bo + ":else"
     for i, (kind, sname, path, var_, sch) in enumerate(KIND_STAGING, start=2):
@@ -682,7 +682,7 @@ DOCUMENT_VARS = [var("ShDupN", "name", "map", value_type="int"), var("ShDupNames
                  var("ShExists", "bool"), var("ShMissFlag", "bool"), var("ShMissMods", "name", "array"), var("ShMissItems", "name", "map", value_type="string"),
                  var("ShMissIn", "name", "map", value_type="string"), var("ShMissSeen", "string", "array"), var("ShMissN", "int"), var("ShLines", "string", "array"), var("ShSummary", "string"),
                  var("ShImpL", "int"), var("ShImpO", "int"), var("ShImpSnap", "struct:" + S_SNAP_PATH), var("ShImpPieces", "name", "map", value_type=S_COLOR),
-                 var("ShImpSC", "name", "map", value_type=S_LINCOLOR),
+                 var("ShImpSC", "name", "map", value_type=S_LINCOLOR), var("ShImpSM", "name", "map", value_type="string"),
                  var("ShLkSlot", "name", "map", value_type=S_LINCOLOR), var("ShLkMk", "name", "map", value_type=S_LINCOLOR), var("ShLkRows", "name", "array"), var("ShLkSnap", "struct:" + S_SNAP_PATH),
                  *[var(v, "struct:" + path, "array") for _, _, path, v, _ in KIND_STAGING], var("ShParts", "string", "array"), var("ShImpN", "name", "map", value_type="int"),
                  var("ShImpApp", "struct:" + S_SHAREAPP), var("ShImpPaks", "name", "array"), var("ShImpPak", "name"), var("ShImpRow", "name"), var("ShIconN", "int"), var("ShIconUsed", "bool"),

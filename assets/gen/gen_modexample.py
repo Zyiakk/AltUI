@@ -2,7 +2,7 @@
 way MOD_UI.md describes. A lamp in front of Jodi with one field of every type: a toggle (light on/off), a key (the key
 that switches the light in the game), a slider (brightness), a number (height), a choice (colour: Warm, Cold, Red,
 Custom), a colour (the custom colour), a text (a note), an info line (state and note) and a button (back to the
-defaults), under one header, and a quick menu action of its own (AltUI_Actions: the next colour, with an icon). The mod keeps its values
+defaults) - the brightness greyed out while the light is off (Get AltUI Greyed) - under one header, and a quick menu action of its own (AltUI_Actions: the next colour, with an icon). The mod keeps its values
 in a SaveGame of its own (loaded at BeginPlay, saved after every change) - AltUI only shows and reports them.
 
 The actor is started by the Blueprint Loader (a TKA_BlueprintLoader row in the mod's own folder) and implements
@@ -55,6 +55,14 @@ def f_get_key():
     """Get AltUI Key(Key): the key that switches the light (the only key field)."""
     g = G(); g.get("gk", "LightKey"); g.link("gk.LightKey", "return.Pressed"); g.chain("entry", "return")
     return fn(mu.GET_KEY, graph=g)
+
+
+def f_get_greyed():
+    """Get AltUI Greyed(Key): the brightness does nothing while the light is off - AltUI shows that field greyed then."""
+    g = G(); g.get("gon", "LightOn"); g.call("off", K_MATH, "Not_PreBool", inp={"A": "@gon.LightOn"})
+    g.call("gr", K_MATH, "BooleanAND", inp={"A": key_is(g, "kb", "@entry.Key", "Brightness"), "B": "@off.ReturnValue"})
+    g.link("gr.ReturnValue", "return.Greyed"); g.chain("entry", "return")
+    return fn(mu.GET_GREYED, graph=g)
 
 
 def f_get_text():
@@ -184,7 +192,7 @@ def build():
         blueprint(SG_LAMP, "/Script/Engine.SaveGame", variables=[var(v, t, default=d or None) for v, t, d in STATE]),
         blueprint(BP, E_ACTOR, interfaces=[mu.INTERFACE],
                   variables=[var("Light", "object:" + E_PLIGHT)] + variables,
-                  functions=[f_get_value(), f_get_color(), f_get_text(), f_get_key(), f_apply(), f_save()], event_graph=event_graph()),
+                  functions=[f_get_value(), f_get_color(), f_get_text(), f_get_key(), f_get_greyed(), f_apply(), f_save()], event_graph=event_graph()),
         datatable(MOD + "/" + mu.ENTRIES_TABLE, mu.ENTRY_STRUCT, rows={"Lamp": {"Caption": "Example lamp", "Actor": BP_CLASS, "Order": 0}}),
         datatable(MOD + "/" + mu.FIELDS_TABLE, mu.FIELD_STRUCT, rows=fields),
         # the quick menu: an action that is no field - with an icon of its own (the toggle "Light" is offered there anyway)

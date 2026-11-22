@@ -6,6 +6,7 @@ Get AltUI Value and reports every change with On AltUI Changed. One number per f
 number its value, a choice the option index, a button always 1. Color fields go through Get AltUI Color / On AltUI Color
 Changed, Text fields through Get AltUI Text / On AltUI Text Changed, Info fields only read Get AltUI Text, and Key
 fields go through Get AltUI Key / On AltUI Key Changed (the key the player pressed in the panel; an empty key = none).
+Get AltUI Greyed tells AltUI which fields to show greyed and locked (2026-11-17).
 """
 M = "/Game/Mod/AltUI"
 ENTRY_STRUCT = M + "/S_AltUIModEntry"
@@ -37,6 +38,10 @@ GET_COLOR = "Get AltUI Color"; ON_COLOR = "On AltUI Color Changed"   # Color fie
 GET_TEXT = "Get AltUI Text"; ON_TEXT = "On AltUI Text Changed"       # Text (both) and Info (read only) fields
 GET_KEY = "Get AltUI Key"; ON_KEY = "On AltUI Key Changed"          # Key fields: parameter Pressed (a Key)
 KEY_TYPE = "struct:/Script/InputCore.Key"
+# 2026-11-17 (internal design notes): the mod greys out a field - asked with the values, for every
+# field type but GREYED_SKIP; added last to BPI_AltUIMod: an older copy has no such function, the answer is false = not greyed
+GET_GREYED = "Get AltUI Greyed"                                      # parameter Key, output Greyed (bool)
+GREYED_SKIP = ["Header", "Info", "Tab"]                               # no value, nothing to grey
 
 TEST_ACTIONS = {"Later": {"Caption": "Later", "Actor": "/Script/Engine.PointLight", "Key": "B", "Order": 2},
                 "Sooner": {"Caption": "Sooner", "Actor": "/Script/Engine.PointLight", "Key": "A", "Order": 1}}
@@ -49,6 +54,10 @@ TEXTID_INNER = "/Game/Mod/%s/S_TextIdInner" % TEST_MOD2; TEXTID_STRUCT = "/Game/
 TEXTID_TABLE = "/Game/Mod/%s/TextIdTable" % TEST_MOD2; TEXTID_KEPT = "/Game/Mod/%s/TextIdKept" % TEST_MOD2
 TEXTID_ROWS = {"R1": {"Caption": "One", "Words": ["w0", "w1"], "Inner": {"Note": "inner"}, "ByName": {"a": "va"}},
                "R2": {"Caption": 'NSLOCTEXT("OwnNs", "OwnKey", "Own")', "Words": [], "Inner": {"Note": 'INVTEXT("fixed")'}, "ByName": {}}}
+
+# editor test test_modui_greyed: an actor of the stub mod that implements BPI_AltUIMod like a mod from before Get AltUI Greyed - it
+# fills Get AltUI Value only (TEST_NOGREY_VALUE for every key); Get AltUI Greyed must answer false for it
+TEST_NOGREY = "/Game/Mod/AltUIMod_Test/BP_ModNoGreyed"; TEST_NOGREY_VALUE = "7.0"
 
 # editor tests: a stub mod with entries in reverse order and one field for every rule of what is left out
 TEST_MOD = "AltUIMod_Test"

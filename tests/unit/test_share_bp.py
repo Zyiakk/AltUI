@@ -80,7 +80,7 @@ class Schemas(unittest.TestCase):
 
     def test_outfit_struct(self):
         st = [a for a in json.load(open(os.path.join(ASSETS, "30_manager.json")))["assets"] if a.get("path", "").endswith("/S_ShareOutfit")][0]
-        self.assertEqual([m["name"] for m in st.get("members", st.get("fields", []))], ["Name", "Pieces", "SlotColors"])
+        self.assertEqual([m["name"] for m in st.get("members", st.get("fields", []))], ["Name", "Pieces", "SlotColors", "SlotMats"])
 
 
 class Document(unittest.TestCase):

@@ -82,6 +82,11 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
 * Every piece that can take a colour gets one, jewellery included – and one colour per material slot, so a dress can
   wear one colour on the fabric and another on the trim.
 * Slot colours are kept per save game.
+* **Material swap:** right click a worn piece › "Material…" puts the material of any other piece (also from mods, also
+  pieces Jodi does not own) on one of its slots – pick the slot at the top, click a piece to unfold its materials, click one
+  to put it on at once. "✕" on a slot or "Reset material" brings the original back, Undo works. Swaps are kept per save
+  and go along with looks, outfits, shared files, followers and "look as enemy"; a swapped material can still be coloured.
+  Prints and logos sit where the other piece had them, so plain fabrics, leather or metal work best.
 * Into the backpack and out of it.
 * Right click: only this group, view the mod's content and a damage slider (0–100 %).
 * **Random outfit** (bottom right): one random piece per slot out of what the slot shows (drawer, hidden pieces and "not
@@ -231,6 +236,8 @@ The panel has one tab per topic. Tabs you do not use can be switched off under *
   yours. Kept per mod in `AltUI_ModPresets_<mod>.sav`.
 * A mod can split its page into tabs (drawn like the panel's tabs) and foldable sections; the fields of a tab and of each
   section lie on a light surface of their own. AltUI remembers the tab and the folds of every page.
+* Long field names wrap instead of running over the slider; a mod can grey out fields that do nothing at the moment (a
+  "Second colour" while the pattern is "Solid").
 * Shipped presets can be hidden (right click "Hide"); "Show hidden presets" brings them back. "..." in the bar above the
   tiles folds the preset area on every mod page.
 * Share your own presets as text (see Looks); an imported one goes to its mod's page, also when that mod is not installed.
@@ -247,11 +254,14 @@ In categories, chosen in a list on the left:
   breasts and swings less; it works only where the cloth hangs on a bone a slider makes bigger, almost never on the glutes
   (skirts hang on the pelvis) – the tooltip says where.
 * **Tiles:** tile size, and an own size for outfit, look, ragdoll and inventory tiles; how many pieces an outfit tile
-  shows; tooltip options.
+  shows; tooltip options; "Show favourites on top of everything" (on by default) – off, the lists have no favourites block
+  at the top. With "only favourites" the block is the whole list.
 * **Groups:** merge groups / mods with the same name, length of group names, height of the chip area and chip search.
 * **Camera:** field of view, distance and height of the view beside the panel; the camera follows the slot; a free camera
   without collision (through walls and Jodi) and at any distance from her.
 * **Controls:** panel key, scroll speed and how far the mouse wheel lifts a ragdoll.
+* **Map:** the map on / off (off: nothing is recorded or drawn), the legend, the minimap with its corner, shape, size,
+  distance from the edge and view, and "Only take pictures for the active map style" for lighter recording.
 * **Movement:** Jodi's own walk and run speed (50–200 %; crouching and jumping stay as they are), slow motion and its
   speed, "Jumping in the office" (off by default; she can jump and climb there, and the Esc menu pauses), and how she stands: the game's usual idle, six other idle animations of the game, or an idle mod converted with
   `idlepak.pyz` – see [Idle mods](#idle-mods).
@@ -387,6 +397,15 @@ it then runs on that key with the panel closed, also in the free camera and the 
   Jodi next to the bed, facing it; saving works as usual by using the bed. Followers that follow her come along.
 * A teleport skips everything on the way: story steps the game starts when Jodi walks through an area happen only when she
   walks into them later. Jodi's office, Level 3 and the shooting range have no such beds.
+* **Map:** a map of the level, made from pictures AltUI takes from above while Jodi walks – only where she has been, per
+  floor. The pictures are saved (`Saved/SaveGames/AltUI/Map`), so the map is there again next time; around Jodi they are
+  taken anew once per session, on their own. The wheel zooms, dragging moves it, "Up" / "Down" change the
+  floor, a click sets a target to teleport to (a click on a bed goes to that bed). Markers for beds, vending machines,
+  followers, other people, zombies, Jason and the dead, with a legend under the map; a click on a legend entry hides that
+  kind. Three styles (base colour, lit, surfaces), "Retake" takes the pictures around Jodi again, "Fullscreen" fills the
+  screen – also as an action for a key or the wheel.
+* **Minimap:** in a corner of the screen, square or round, turned with the camera. Corner, shape, size, distance from the
+  edge and view are set under *Options › Map*.
 
 ### Objects
 

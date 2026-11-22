@@ -88,9 +88,24 @@ def f_with_kept_colors():
     return fn("With Kept Colors", [param("next", "name", "map", value_type=S_LINCOLOR)], [param("colors", "name", "map", value_type=S_LINCOLOR)], graph=g)
 
 
+def f_with_kept_mats():
+    """The look's swapped materials plus those of the kept pieces from SlotMats now ("name#slot" keys), as With Kept Colors."""
+    g = G(); g.set("s0", "KeepMats", inp={"KeepMats": "@entry.next"})
+    g.get("gsm", "SlotMats"); g.call("keys", K_MAP, "Map_Keys", inp={"TargetMap": "@gsm.SlotMats"}); g.foreach("fk", "@keys.Keys")
+    g.call("k2s", K_STR, "Conv_NameToString", inp={"InName": "@fk.Array Element"})
+    g.call("sp", K_STR, "Split", inp={"SourceString": "@k2s.ReturnValue", "InStr": "#", "SearchCase": "CaseSensitive", "SearchDir": "FromStart"})
+    g.call("n2n", K_STR, "Conv_StringToName", inp={"InString": "@sp.LeftS"})
+    g.get("gk", "KeptOn"); g.call("in", K_ARR, "Array_Contains", inp={"TargetArray": "@gk.KeptOn", "ItemToFind": "@n2n.ReturnValue"}); g.branch("bin", "@in.ReturnValue")
+    g.get("gsm2", "SlotMats"); g.call("cf", K_MAP, "Map_Find", inp={"TargetMap": "@gsm2.SlotMats", "Key": "@fk.Array Element"})
+    g.get("gkm", "KeepMats"); g.call("add", K_MAP, "Map_Add", inp={"TargetMap": "@gkm.KeepMats", "Key": "@fk.Array Element", "Value": "@cf.Value"})
+    g.get("gkm2", "KeepMats"); g.link("gkm2.KeepMats", "return.mats")
+    g.chain("entry", "s0", "keys", "fk"); g.chain("fk", "bin", "add"); g.chain("fk:Completed", "return")
+    return fn("With Kept Mats", [param("next", "name", "map", value_type="string")], [param("mats", "name", "map", value_type="string")], graph=g)
+
+
 def variables():
     return [var("KeepItems", "name", "array"), var("SnapWorn", "name", "array"), var("KeptOn", "name", "array"), var("KeepTmp", "name", "array"),
-            var("KeepHit", "bool"), var("KeepColors", "name", "map", value_type=S_LINCOLOR), var("PendingKept", "string", "array"),
+            var("KeepHit", "bool"), var("KeepColors", "name", "map", value_type=S_LINCOLOR), var("KeepMats", "name", "map", value_type="string"), var("PendingKept", "string", "array"),
             var("PendingKeep", "bool"), var("NextKeep", "bool"),
             var("SnapMkOwn", "bool"), var("PendingMkOwn", "bool"), var("NextMkOwn", "bool")]   # the snapshot's make-up is Jodi's own (an outfit): no "not available" for it
 
@@ -101,4 +116,4 @@ def saved_variables():
 
 
 def functions():
-    return [f_is_kept_item(), f_toggle_keep_item(), f_note_self_worn(), f_collect_kept(), f_blocked_by_kept(), f_with_kept_colors()]
+    return [f_is_kept_item(), f_toggle_keep_item(), f_note_self_worn(), f_collect_kept(), f_blocked_by_kept(), f_with_kept_colors(), f_with_kept_mats()]

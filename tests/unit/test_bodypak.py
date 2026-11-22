@@ -5,16 +5,15 @@ import bodypak
 import bodyscale_groups as bg
 from pak11_extract import Pak, rstr
 from pakio import open_pak
-import cfg
-A = cfg.path("TKA_MOD_ARCHIVE")
-DV1 = A + "/Mods/TKA-UN_Dv1-fix1.3d.pak"; PUSSY = A + "/workshop/3612645999/Jodi_New_Pussy.pak"
-OG = A + "/workshop/3432791726/FemaleOGMORPH-0.6_P.pak"; SHOES = A + "/Mods/HMs_Shoes.pak"
-THICC = A + "/nexus/783/Jodithicctest4_P.pak"   # mesh + PostProcessAnimBlueprint TESTABP (bone scaling) in the same pak
-CUSTOM = A + "/other/JodiCustomWIP_P.pak"   # versioned cook (UE4 522) with its own Female_Skeleton + Female_PhysicsAsset
+import cfg, realmods
+DV1 = realmods.find("TKA-UN_Dv1-fix1.3d.pak"); PUSSY = realmods.find("Jodi_New_Pussy.pak")
+OG = realmods.find("FemaleOGMORPH-0.6_P.pak"); SHOES = realmods.find("HMs_Shoes.pak")
+THICC = realmods.find("Jodithicctest4_P.pak")   # mesh + PostProcessAnimBlueprint TESTABP (bone scaling) in the same pak
+CUSTOM = realmods.find("JodiCustomWIP_P.pak")   # versioned cook (UE4 522) with its own Female_Skeleton + Female_PhysicsAsset
 UNREALPAK = cfg.path("UNREALPAK", "UnrealPak")
-# the paks of real mods are not part of the repository: without TKA_MOD_ARCHIVE those tests skip
-NEED_ARCHIVE = unittest.skipUnless(os.path.isdir(A) and all(cfg.real_file(p) for p in (DV1, PUSSY, OG, SHOES, THICC, CUSTOM)),
-                                    "no mod archive (TKA_MOD_ARCHIVE) or only placeholders")
+# the paks of real mods are not part of the repository (realmods.py): without them those tests skip
+NEED_ARCHIVE = unittest.skipUnless(all((DV1, PUSSY, OG, SHOES, THICC, CUSTOM)),
+                                    "real mod paks missing (TKA_MOD_STORE / TKA_MOD_ARCHIVE)")
 NEED_UNREALPAK = unittest.skipUnless(os.path.exists(UNREALPAK), "UnrealPak not found (UNREALPAK)")
 
 

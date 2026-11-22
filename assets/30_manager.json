@@ -636,6 +636,21 @@
        "type": "struct:/Script/InputCore.Key"
       }
      ]
+    },
+    {
+     "name": "Get AltUI Greyed",
+     "inputs": [
+      {
+       "name": "Key",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "Greyed",
+       "type": "bool"
+      }
+     ]
     }
    ]
   },
@@ -666,6 +681,46 @@
      "Order": 4
     }
    }
+  },
+  {
+   "type": "blueprint",
+   "path": "/Game/Mod/AltUIMod_Test/BP_ModNoGreyed",
+   "mode": "create",
+   "parent": "/Script/Engine.Actor",
+   "interfaces": [
+    "/Game/Mod/AltUI/BPI_AltUIMod"
+   ],
+   "functions": [
+    {
+     "name": "Get AltUI Value",
+     "graph": {
+      "nodes": [
+       {
+        "id": "v",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Add_FloatFloat",
+        "in": {
+         "A": "7.0",
+         "B": "0.0"
+        }
+       }
+      ],
+      "links": [
+       [
+        "v.ReturnValue",
+        "return.Value"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    }
+   ]
   },
   {
    "type": "datatable",
@@ -1227,6 +1282,13 @@
      "name": "Oil",
      "type": "float",
      "internal_name": "Oil_38_FD11FCEBBC8E7CDC14A0481544F13421"
+    },
+    {
+     "name": "SlotMats",
+     "type": "name",
+     "container": "map",
+     "value_type": "string",
+     "internal_name": "SlotMats_40_3ACAFDCAF9C22C2EF11FBAFFEF929BF1"
     }
    ]
   },
@@ -1406,6 +1468,13 @@
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor",
      "internal_name": "SlotColors_6_BA5125164383CEF5904B7922391D6BB1"
+    },
+    {
+     "name": "SlotMats",
+     "type": "name",
+     "container": "map",
+     "value_type": "string",
+     "internal_name": "SlotMats_8_40CE7C139BCA8ACAF330CAA5ECB35099"
     }
    ]
   },
@@ -1843,6 +1912,13 @@
      "name": "Waist",
      "type": "float",
      "internal_name": "Waist_72_7B18B289281EECF459E7E6649FC9ED8D"
+    },
+    {
+     "name": "SlotMats",
+     "type": "name",
+     "container": "map",
+     "value_type": "string",
+     "internal_name": "SlotMats_74_861A0C8DB2772BDC0319577761135294"
     }
    ]
   },
@@ -4349,6 +4425,42 @@
      "es": "Color...",
      "pl": "Kolor...",
      "fr": "Couleur..."
+    },
+    "Menu_Material": {
+     "en": "Material...",
+     "de": "Material...",
+     "zh": "材质...",
+     "ru": "Материал...",
+     "es": "Material...",
+     "pl": "Materiał...",
+     "fr": "Matériau..."
+    },
+    "Menu_MaterialReset": {
+     "en": "Reset material (default)",
+     "de": "Material zurücksetzen (Standard)",
+     "zh": "重置材质（默认）",
+     "ru": "Сбросить материал (по умолчанию)",
+     "es": "Restablecer material (predeterminado)",
+     "pl": "Przywróć materiał (domyślny)",
+     "fr": "Réinitialiser le matériau (par défaut)"
+    },
+    "Menu_MatFor": {
+     "en": "Material for: %s",
+     "de": "Material für: %s",
+     "zh": "材质用于：%s",
+     "ru": "Материал для: %s",
+     "es": "Material para: %s",
+     "pl": "Materiał dla: %s",
+     "fr": "Matériau pour : %s"
+    },
+    "MatFrom": {
+     "en": "%s, from %s",
+     "de": "%s, aus %s",
+     "zh": "%s，来自 %s",
+     "ru": "%s, из %s",
+     "es": "%s, de %s",
+     "pl": "%s, z %s",
+     "fr": "%s, de %s"
     },
     "Menu_PutInBag": {
      "en": "Put in backpack",
@@ -11316,6 +11428,438 @@
      "pl": "Przeszukaj mody ponownie",
      "fr": "Rechercher à nouveau dans les mods"
     },
+    "OptCat_Map": {
+     "en": "Map",
+     "de": "Karte",
+     "zh": "地图",
+     "ru": "Карта",
+     "es": "Mapa",
+     "pl": "Mapa",
+     "fr": "Carte"
+    },
+    "Lbl_MapOn": {
+     "en": "Level map (Navigation tab)",
+     "de": "Levelkarte (Reiter Navigation)",
+     "zh": "关卡地图（导航页）",
+     "ru": "Карта уровня (вкладка «Навигация»)",
+     "es": "Mapa del nivel (pestaña Navegación)",
+     "pl": "Mapa poziomu (karta Nawigacja)",
+     "fr": "Carte du niveau (onglet Navigation)"
+    },
+    "Hint_MapOn": {
+     "en": "Off: no pictures are taken and nothing is drawn.",
+     "de": "Aus: Es werden keine Bilder aufgenommen und nichts gezeichnet.",
+     "zh": "关闭：不拍摄图像，也不绘制任何内容。",
+     "ru": "Выкл.: снимки не делаются, ничего не рисуется.",
+     "es": "Desactivado: no se toman imágenes ni se dibuja nada.",
+     "pl": "Wyłączone: nie są robione zdjęcia ani nic nie jest rysowane.",
+     "fr": "Désactivée : aucune image n'est prise et rien n'est dessiné."
+    },
+    "Lbl_MiniOn": {
+     "en": "Minimap",
+     "de": "Minikarte",
+     "zh": "小地图",
+     "ru": "Мини-карта",
+     "es": "Minimapa",
+     "pl": "Minimapa",
+     "fr": "Mini-carte"
+    },
+    "Lbl_MiniCorner": {
+     "en": "Corner",
+     "de": "Ecke",
+     "zh": "角落",
+     "ru": "Угол",
+     "es": "Esquina",
+     "pl": "Róg",
+     "fr": "Coin"
+    },
+    "Lbl_MiniSize": {
+     "en": "Minimap size",
+     "de": "Größe der Minikarte",
+     "zh": "小地图大小",
+     "ru": "Размер мини-карты",
+     "es": "Tamaño del minimapa",
+     "pl": "Rozmiar minimapy",
+     "fr": "Taille de la mini-carte"
+    },
+    "Lbl_MiniMargin": {
+     "en": "Distance from the edge",
+     "de": "Abstand zum Rand",
+     "zh": "与边缘的距离",
+     "ru": "Отступ от края",
+     "es": "Distancia al borde",
+     "pl": "Odstęp od krawędzi",
+     "fr": "Distance au bord"
+    },
+    "Lbl_MiniZoom": {
+     "en": "Minimap view (metres across)",
+     "de": "Ausschnitt (Meter breit)",
+     "zh": "小地图范围（米）",
+     "ru": "Обзор мини-карты (метров в ширину)",
+     "es": "Vista del minimapa (metros de ancho)",
+     "pl": "Widok minimapy (metrów szerokości)",
+     "fr": "Vue de la mini-carte (mètres de large)"
+    },
+    "Mini_TopLeft": {
+     "en": "Top left",
+     "de": "Oben links",
+     "zh": "左上",
+     "ru": "Слева сверху",
+     "es": "Arriba a la izquierda",
+     "pl": "Lewy górny",
+     "fr": "En haut à gauche"
+    },
+    "Mini_TopRight": {
+     "en": "Top right",
+     "de": "Oben rechts",
+     "zh": "右上",
+     "ru": "Справа сверху",
+     "es": "Arriba a la derecha",
+     "pl": "Prawy górny",
+     "fr": "En haut à droite"
+    },
+    "Mini_BottomLeft": {
+     "en": "Bottom left",
+     "de": "Unten links",
+     "zh": "左下",
+     "ru": "Слева снизу",
+     "es": "Abajo a la izquierda",
+     "pl": "Lewy dolny",
+     "fr": "En bas à gauche"
+    },
+    "Mini_BottomRight": {
+     "en": "Bottom right",
+     "de": "Unten rechts",
+     "zh": "右下",
+     "ru": "Справа снизу",
+     "es": "Abajo a la derecha",
+     "pl": "Prawy dolny",
+     "fr": "En bas à droite"
+    },
+    "Map_Floor": {
+     "en": "Floor: %s",
+     "de": "Stockwerk: %s",
+     "zh": "楼层：%s",
+     "ru": "Этаж: %s",
+     "es": "Planta: %s",
+     "pl": "Piętro: %s",
+     "fr": "Étage : %s"
+    },
+    "Map_FloorJodi": {
+     "en": "Jodi's",
+     "de": "Jodis",
+     "zh": "Jodi 所在",
+     "ru": "этаж Джоди",
+     "es": "la de Jodi",
+     "pl": "Jodi",
+     "fr": "celui de Jodi"
+    },
+    "Map_Outside": {
+     "en": "Outside",
+     "de": "Draußen",
+     "zh": "室外",
+     "ru": "Снаружи",
+     "es": "Exterior",
+     "pl": "Na zewnątrz",
+     "fr": "Dehors"
+    },
+    "Map_Inside": {
+     "en": "Inside",
+     "de": "Drinnen",
+     "zh": "室内",
+     "ru": "Внутри",
+     "es": "Interior",
+     "pl": "Wewnątrz",
+     "fr": "Dedans"
+    },
+    "Map_Up": {
+     "en": "Up",
+     "de": "Hoch",
+     "zh": "上",
+     "ru": "Выше",
+     "es": "Arriba",
+     "pl": "W górę",
+     "fr": "Monter"
+    },
+    "Map_Down": {
+     "en": "Down",
+     "de": "Runter",
+     "zh": "下",
+     "ru": "Ниже",
+     "es": "Abajo",
+     "pl": "W dół",
+     "fr": "Descendre"
+    },
+    "Map_Center": {
+     "en": "Center on Jodi",
+     "de": "Auf Jodi",
+     "zh": "以 Jodi 为中心",
+     "ru": "К Джоди",
+     "es": "Centrar en Jodi",
+     "pl": "Wyśrodkuj na Jodi",
+     "fr": "Centrer sur Jodi"
+    },
+    "Map_RecOn": {
+     "en": "Recording: on",
+     "de": "Aufzeichnen: an",
+     "zh": "记录：开",
+     "ru": "Запись: вкл",
+     "es": "Grabar: sí",
+     "pl": "Zapis: wł.",
+     "fr": "Enregistrer : oui"
+    },
+    "Map_RecOff": {
+     "en": "Recording: off",
+     "de": "Aufzeichnen: aus",
+     "zh": "记录：关",
+     "ru": "Запись: выкл",
+     "es": "Grabar: no",
+     "pl": "Zapis: wył.",
+     "fr": "Enregistrer : non"
+    },
+    "Map_Style": {
+     "en": "Style: %s",
+     "de": "Stil: %s",
+     "zh": "样式：%s",
+     "ru": "Стиль: %s",
+     "es": "Estilo: %s",
+     "pl": "Styl: %s",
+     "fr": "Style : %s"
+    },
+    "Map_StyleBase": {
+     "en": "base colour",
+     "de": "Grundfarbe",
+     "zh": "基础色",
+     "ru": "базовый цвет",
+     "es": "color base",
+     "pl": "kolor bazowy",
+     "fr": "couleur de base"
+    },
+    "Map_StyleLit": {
+     "en": "lit",
+     "de": "beleuchtet",
+     "zh": "光照",
+     "ru": "с освещением",
+     "es": "iluminado",
+     "pl": "oświetlony",
+     "fr": "éclairé"
+    },
+    "Map_StyleFlat": {
+     "en": "surfaces",
+     "de": "Flächen",
+     "zh": "表面",
+     "ru": "поверхности",
+     "es": "superficies",
+     "pl": "powierzchnie",
+     "fr": "surfaces"
+    },
+    "Map_NoSpot": {
+     "en": "No walkable spot there.",
+     "de": "Dort ist kein begehbarer Punkt.",
+     "zh": "那里没有可行走的位置。",
+     "ru": "Там некуда встать.",
+     "es": "No hay un punto transitable ahí.",
+     "pl": "Tam nie ma miejsca do chodzenia.",
+     "fr": "Aucun endroit praticable ici."
+    },
+    "Map_Leg_Jodi": {
+     "en": "Jodi",
+     "de": "Jodi",
+     "zh": "Jodi",
+     "ru": "Джоди",
+     "es": "Jodi",
+     "pl": "Jodi",
+     "fr": "Jodi"
+    },
+    "Map_Leg_Bed": {
+     "en": "Beds",
+     "de": "Betten",
+     "zh": "床",
+     "ru": "Кровати",
+     "es": "Camas",
+     "pl": "Łóżka",
+     "fr": "Lits"
+    },
+    "Map_Leg_Vend": {
+     "en": "Vending machines",
+     "de": "Automaten",
+     "zh": "自动售货机",
+     "ru": "Автоматы",
+     "es": "Máquinas expendedoras",
+     "pl": "Automaty",
+     "fr": "Distributeurs"
+    },
+    "Map_Leg_Fol": {
+     "en": "Followers",
+     "de": "Begleiter",
+     "zh": "追随者",
+     "ru": "Спутники",
+     "es": "Acompañantes",
+     "pl": "Towarzysze",
+     "fr": "Compagnons"
+    },
+    "Map_Leg_Npc": {
+     "en": "People",
+     "de": "Menschen",
+     "zh": "人物",
+     "ru": "Люди",
+     "es": "Personas",
+     "pl": "Ludzie",
+     "fr": "Personnes"
+    },
+    "Map_Leg_Zombie": {
+     "en": "Zombies",
+     "de": "Zombies",
+     "zh": "僵尸",
+     "ru": "Зомби",
+     "es": "Zombis",
+     "pl": "Zombie",
+     "fr": "Zombies"
+    },
+    "Map_Leg_Hostile": {
+     "en": "Hostile people",
+     "de": "Feindliche Menschen",
+     "zh": "敌对人物",
+     "ru": "Враждебные люди",
+     "es": "Personas hostiles",
+     "pl": "Wrodzy ludzie",
+     "fr": "Humains hostiles"
+    },
+    "Map_Leg_Dead": {
+     "en": "Dead",
+     "de": "Tot",
+     "zh": "死亡",
+     "ru": "Мёртвые",
+     "es": "Muertos",
+     "pl": "Martwi",
+     "fr": "Morts"
+    },
+    "Map_Leg_Unexplored": {
+     "en": "Unexplored",
+     "de": "Unerkundet",
+     "zh": "未探索",
+     "ru": "Не исследовано",
+     "es": "Sin explorar",
+     "pl": "Niezbadane",
+     "fr": "Inexploré"
+    },
+    "Map_Leg_Lower": {
+     "en": "Lower",
+     "de": "Tiefer",
+     "zh": "较低处",
+     "ru": "Ниже",
+     "es": "Más abajo",
+     "pl": "Niżej",
+     "fr": "Plus bas"
+    },
+    "Map_LegTip": {
+     "en": "Click to hide / show",
+     "de": "Klicken zum Aus- / Einblenden",
+     "zh": "点击隐藏 / 显示",
+     "ru": "Нажмите, чтобы скрыть / показать",
+     "es": "Clic para ocultar / mostrar",
+     "pl": "Kliknij, aby ukryć / pokazać",
+     "fr": "Cliquer pour masquer / afficher"
+    },
+    "Lbl_FavTop": {
+     "en": "Show favourites on top of everything",
+     "de": "Favoriten über allem anzeigen",
+     "zh": "在最上方显示收藏",
+     "ru": "Показывать избранное над всем остальным",
+     "es": "Mostrar los favoritos encima de todo",
+     "pl": "Pokazuj ulubione nad wszystkim",
+     "fr": "Afficher les favoris au-dessus de tout"
+    },
+    "Lbl_MapOneStyle": {
+     "en": "Only take pictures for the active map style",
+     "de": "Nur Bilder für den aktiven Kartenstil aufnehmen",
+     "zh": "仅为当前地图样式拍摄图像",
+     "ru": "Снимать только для активного стиля карты",
+     "es": "Tomar imágenes solo para el estilo de mapa activo",
+     "pl": "Rób obrazy tylko dla aktywnego stylu mapy",
+     "fr": "Ne prendre des images que pour le style de carte actif"
+    },
+    "Hint_MapOneStyle": {
+     "en": "After a style switch the map shows only what was recorded in that style.",
+     "de": "Nach einem Stilwechsel zeigt die Karte nur, was in diesem Stil aufgenommen wurde.",
+     "zh": "切换样式后，地图只显示以该样式记录的部分。",
+     "ru": "После смены стиля карта показывает только то, что было записано в этом стиле.",
+     "es": "Tras cambiar de estilo, el mapa solo muestra lo grabado en ese estilo.",
+     "pl": "Po zmianie stylu mapa pokazuje tylko to, co nagrano w tym stylu.",
+     "fr": "Après un changement de style, la carte ne montre que ce qui a été enregistré dans ce style."
+    },
+    "Lbl_MapLegend": {
+     "en": "Show legend",
+     "de": "Legende anzeigen",
+     "zh": "显示图例",
+     "ru": "Показывать легенду",
+     "es": "Mostrar leyenda",
+     "pl": "Pokaż legendę",
+     "fr": "Afficher la légende"
+    },
+    "Map_Full": {
+     "en": "Fullscreen",
+     "de": "Vollbild",
+     "zh": "全屏",
+     "ru": "Во весь экран",
+     "es": "Pantalla completa",
+     "pl": "Pełny ekran",
+     "fr": "Plein écran"
+    },
+    "Map_Retake": {
+     "en": "Retake",
+     "de": "Neu aufnehmen",
+     "zh": "重新拍摄",
+     "ru": "Переснять",
+     "es": "Volver a capturar",
+     "pl": "Nagraj ponownie",
+     "fr": "Reprendre"
+    },
+    "Map_Close": {
+     "en": "Close",
+     "de": "Schließen",
+     "zh": "关闭",
+     "ru": "Закрыть",
+     "es": "Cerrar",
+     "pl": "Zamknij",
+     "fr": "Fermer"
+    },
+    "Quick_MapFull": {
+     "en": "Map (fullscreen)",
+     "de": "Karte (Vollbild)",
+     "zh": "地图（全屏）",
+     "ru": "Карта (во весь экран)",
+     "es": "Mapa (pantalla completa)",
+     "pl": "Mapa (pełny ekran)",
+     "fr": "Carte (plein écran)"
+    },
+    "Lbl_MiniShape": {
+     "en": "Shape",
+     "de": "Form",
+     "zh": "形状",
+     "ru": "Форма",
+     "es": "Forma",
+     "pl": "Kształt",
+     "fr": "Forme"
+    },
+    "Mini_Square": {
+     "en": "Square",
+     "de": "Eckig",
+     "zh": "方形",
+     "ru": "Квадрат",
+     "es": "Cuadrado",
+     "pl": "Kwadrat",
+     "fr": "Carrée"
+    },
+    "Mini_Round": {
+     "en": "Round",
+     "de": "Rund",
+     "zh": "圆形",
+     "ru": "Круг",
+     "es": "Redondo",
+     "pl": "Okrągły",
+     "fr": "Ronde"
+    },
     "Hair_Black": {
      "en": "Black",
      "de": "Schwarz",
@@ -12279,6 +12823,12 @@
      "value_type": "struct:/Script/CoreUObject.LinearColor"
     },
     {
+     "name": "OutfitMats",
+     "type": "string",
+     "container": "map",
+     "value_type": "string"
+    },
+    {
      "name": "OutfitIdsDone",
      "type": "bool"
     },
@@ -12741,6 +13291,69 @@
     {
      "name": "AcceptedFingerprint",
      "type": "string"
+    },
+    {
+     "name": "MapNoRecord",
+     "type": "bool"
+    },
+    {
+     "name": "MapStyle",
+     "type": "int"
+    },
+    {
+     "name": "MapOff",
+     "type": "bool"
+    },
+    {
+     "name": "MiniOn",
+     "type": "bool"
+    },
+    {
+     "name": "MiniCorner",
+     "type": "int",
+     "default": "1"
+    },
+    {
+     "name": "MiniSize",
+     "type": "float",
+     "default": "25.0"
+    },
+    {
+     "name": "MiniMargin",
+     "type": "float",
+     "default": "2.0"
+    },
+    {
+     "name": "MiniZoom",
+     "type": "float",
+     "default": "60.0"
+    },
+    {
+     "name": "MapNoLegend",
+     "type": "bool"
+    },
+    {
+     "name": "MiniRound",
+     "type": "bool"
+    },
+    {
+     "name": "MapOneStyle",
+     "type": "bool"
+    },
+    {
+     "name": "MapHidden",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "MapLitGain",
+     "type": "string",
+     "container": "map",
+     "value_type": "float"
+    },
+    {
+     "name": "NoFavBlock",
+     "type": "bool"
     },
     {
      "name": "ThemeBg",
@@ -13306,6 +13919,12 @@
      "type": "name",
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "KeepMats",
+     "type": "name",
+     "container": "map",
+     "value_type": "string"
     },
     {
      "name": "PendingKept",
@@ -14679,6 +15298,69 @@
      "container": "array"
     },
     {
+     "name": "MapNoRecord",
+     "type": "bool"
+    },
+    {
+     "name": "MapStyle",
+     "type": "int"
+    },
+    {
+     "name": "MapOff",
+     "type": "bool"
+    },
+    {
+     "name": "MiniOn",
+     "type": "bool"
+    },
+    {
+     "name": "MiniCorner",
+     "type": "int",
+     "default": "1"
+    },
+    {
+     "name": "MiniSize",
+     "type": "float",
+     "default": "25.0"
+    },
+    {
+     "name": "MiniMargin",
+     "type": "float",
+     "default": "2.0"
+    },
+    {
+     "name": "MiniZoom",
+     "type": "float",
+     "default": "60.0"
+    },
+    {
+     "name": "MapNoLegend",
+     "type": "bool"
+    },
+    {
+     "name": "MiniRound",
+     "type": "bool"
+    },
+    {
+     "name": "MapOneStyle",
+     "type": "bool"
+    },
+    {
+     "name": "MapHidden",
+     "type": "name",
+     "container": "array"
+    },
+    {
+     "name": "MapLitGain",
+     "type": "string",
+     "container": "map",
+     "value_type": "float"
+    },
+    {
+     "name": "NoFavBlock",
+     "type": "bool"
+    },
+    {
      "name": "NavDist",
      "type": "float",
      "container": "array"
@@ -14942,6 +15624,10 @@
      "type": "object:/Script/Engine.MaterialInstanceDynamic"
     },
     {
+     "name": "GameMIDTmp",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic"
+    },
+    {
      "name": "ColorMat",
      "type": "object:/Script/CoreUObject.Object",
      "container": "map",
@@ -14952,6 +15638,75 @@
      "type": "name",
      "container": "map",
      "value_type": "struct:/Game/Mod/AltUI/S_ColorSlots"
+    },
+    {
+     "name": "SlotMats",
+     "type": "name",
+     "container": "map",
+     "value_type": "string"
+    },
+    {
+     "name": "MatPickTarget",
+     "type": "name"
+    },
+    {
+     "name": "MatPickSlot",
+     "type": "int"
+    },
+    {
+     "name": "MatPickBack",
+     "type": "name"
+    },
+    {
+     "name": "MatPickBackSlot",
+     "type": "name"
+    },
+    {
+     "name": "MatPickBackGroup",
+     "type": "name"
+    },
+    {
+     "name": "MatPickScrolls",
+     "type": "float",
+     "container": "array"
+    },
+    {
+     "name": "MatSlotsOf",
+     "type": "name",
+     "container": "map",
+     "value_type": "struct:/Game/Mod/AltUI/S_ColorSlots"
+    },
+    {
+     "name": "MatSlotsTmp",
+     "type": "struct:/Game/Mod/AltUI/S_ColorSlots"
+    },
+    {
+     "name": "MatSlotMat",
+     "type": "object:/Script/Engine.MaterialInterface"
+    },
+    {
+     "name": "MatTmp",
+     "type": "object:/Script/Engine.MaterialInterface"
+    },
+    {
+     "name": "MatOkTmp",
+     "type": "bool"
+    },
+    {
+     "name": "OwnMatTmp",
+     "type": "object:/Script/Engine.MaterialInterface"
+    },
+    {
+     "name": "MatBaseTmp",
+     "type": "object:/Script/Engine.MaterialInterface"
+    },
+    {
+     "name": "MatDriftTmp",
+     "type": "bool"
+    },
+    {
+     "name": "MatResetAny",
+     "type": "bool"
     },
     {
      "name": "SlotColors",
@@ -14977,6 +15732,10 @@
     },
     {
      "name": "SlotColorsLoaded",
+     "type": "bool"
+    },
+    {
+     "name": "SlotMatsLoaded",
      "type": "bool"
     },
     {
@@ -15043,6 +15802,12 @@
      "type": "string",
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "OidMats",
+     "type": "string",
+     "container": "map",
+     "value_type": "string"
     },
     {
      "name": "OidKeys",
@@ -15343,6 +16108,12 @@
      "type": "float"
     },
     {
+     "name": "ShFSnap_SlotMats",
+     "type": "name",
+     "container": "map",
+     "value_type": "string"
+    },
+    {
      "name": "ShFMut_Color",
      "type": "float"
     },
@@ -15377,6 +16148,12 @@
      "type": "name",
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "ShFOutfit_SlotMats",
+     "type": "name",
+     "container": "map",
+     "value_type": "string"
     },
     {
      "name": "ShFFace_Values",
@@ -15682,6 +16459,12 @@
      "type": "name",
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "ShImpSM",
+     "type": "name",
+     "container": "map",
+     "value_type": "string"
     },
     {
      "name": "ShLkSlot",
@@ -16330,6 +17113,12 @@
      "type": "name",
      "container": "map",
      "value_type": "struct:/Script/CoreUObject.LinearColor"
+    },
+    {
+     "name": "OutfitSM",
+     "type": "name",
+     "container": "map",
+     "value_type": "string"
     },
     {
      "name": "OutfitPieces",
@@ -26317,6 +27106,20 @@
         }
        },
        {
+        "id": "gm6",
+        "kind": "get",
+        "var": "MatSlotsOf"
+       },
+       {
+        "id": "clr6",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Clear",
+        "in": {
+         "TargetMap": "@gm6.MatSlotsOf"
+        }
+       },
+       {
         "id": "srd",
         "kind": "set",
         "var": "CatalogReady",
@@ -26541,6 +27344,7 @@
         "clr3",
         "clr4",
         "clr5",
+        "clr6",
         "srd",
         "rt",
         "os",
@@ -31457,6 +32261,169 @@
        [
         "gkc2.KeepColors",
         "return.colors"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "s0",
+        "keys",
+        "fk"
+       ],
+       [
+        "fk",
+        "bin",
+        "add"
+       ],
+       [
+        "fk:Completed",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "With Kept Mats",
+     "inputs": [
+      {
+       "name": "next",
+       "type": "name",
+       "container": "map",
+       "value_type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "mats",
+       "type": "name",
+       "container": "map",
+       "value_type": "string"
+      }
+     ],
+     "graph": {
+      "nodes": [
+       {
+        "id": "s0",
+        "kind": "set",
+        "var": "KeepMats",
+        "in": {
+         "KeepMats": "@entry.next"
+        }
+       },
+       {
+        "id": "gsm",
+        "kind": "get",
+        "var": "SlotMats"
+       },
+       {
+        "id": "keys",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Keys",
+        "in": {
+         "TargetMap": "@gsm.SlotMats"
+        }
+       },
+       {
+        "id": "fk",
+        "kind": "foreach",
+        "in": {
+         "Array": "@keys.Keys"
+        }
+       },
+       {
+        "id": "k2s",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_NameToString",
+        "in": {
+         "InName": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "sp",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Split",
+        "in": {
+         "SourceString": "@k2s.ReturnValue",
+         "InStr": "#",
+         "SearchCase": "CaseSensitive",
+         "SearchDir": "FromStart"
+        }
+       },
+       {
+        "id": "n2n",
+        "kind": "call",
+        "class": "/Script/Engine.KismetStringLibrary",
+        "function": "Conv_StringToName",
+        "in": {
+         "InString": "@sp.LeftS"
+        }
+       },
+       {
+        "id": "gk",
+        "kind": "get",
+        "var": "KeptOn"
+       },
+       {
+        "id": "in",
+        "kind": "call",
+        "class": "/Script/Engine.KismetArrayLibrary",
+        "function": "Array_Contains",
+        "in": {
+         "TargetArray": "@gk.KeptOn",
+         "ItemToFind": "@n2n.ReturnValue"
+        }
+       },
+       {
+        "id": "bin",
+        "kind": "branch",
+        "in": {
+         "Condition": "@in.ReturnValue"
+        }
+       },
+       {
+        "id": "gsm2",
+        "kind": "get",
+        "var": "SlotMats"
+       },
+       {
+        "id": "cf",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Find",
+        "in": {
+         "TargetMap": "@gsm2.SlotMats",
+         "Key": "@fk.Array Element"
+        }
+       },
+       {
+        "id": "gkm",
+        "kind": "get",
+        "var": "KeepMats"
+       },
+       {
+        "id": "add",
+        "kind": "call",
+        "class": "/Script/Engine.BlueprintMapLibrary",
+        "function": "Map_Add",
+        "in": {
+         "TargetMap": "@gkm.KeepMats",
+         "Key": "@fk.Array Element",
+         "Value": "@cf.Value"
+        }
+       },
+       {
+        "id": "gkm2",
+        "kind": "get",
+        "var": "KeepMats"
+       }
+      ],
+      "links": [
+       [
+        "gkm2.KeepMats",
+        "return.mats"
        ]
       ],
       "exec": [
@@ -39535,6 +40502,272 @@
         }
        },
        {
+        "id": "lg165_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg165",
+        "kind": "get",
+        "var": "MapNoRecord",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls165",
+        "kind": "set",
+        "var": "MapNoRecord",
+        "in": {
+         "MapNoRecord": "@lg165.MapNoRecord"
+        }
+       },
+       {
+        "id": "lg166_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg166",
+        "kind": "get",
+        "var": "MapStyle",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls166",
+        "kind": "set",
+        "var": "MapStyle",
+        "in": {
+         "MapStyle": "@lg166.MapStyle"
+        }
+       },
+       {
+        "id": "lg167_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg167",
+        "kind": "get",
+        "var": "MapOff",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls167",
+        "kind": "set",
+        "var": "MapOff",
+        "in": {
+         "MapOff": "@lg167.MapOff"
+        }
+       },
+       {
+        "id": "lg168_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg168",
+        "kind": "get",
+        "var": "MiniOn",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls168",
+        "kind": "set",
+        "var": "MiniOn",
+        "in": {
+         "MiniOn": "@lg168.MiniOn"
+        }
+       },
+       {
+        "id": "lg169_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg169",
+        "kind": "get",
+        "var": "MiniCorner",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls169",
+        "kind": "set",
+        "var": "MiniCorner",
+        "in": {
+         "MiniCorner": "@lg169.MiniCorner"
+        }
+       },
+       {
+        "id": "lg170_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg170",
+        "kind": "get",
+        "var": "MiniSize",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls170",
+        "kind": "set",
+        "var": "MiniSize",
+        "in": {
+         "MiniSize": "@lg170.MiniSize"
+        }
+       },
+       {
+        "id": "lg171_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg171",
+        "kind": "get",
+        "var": "MiniMargin",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls171",
+        "kind": "set",
+        "var": "MiniMargin",
+        "in": {
+         "MiniMargin": "@lg171.MiniMargin"
+        }
+       },
+       {
+        "id": "lg172_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg172",
+        "kind": "get",
+        "var": "MiniZoom",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls172",
+        "kind": "set",
+        "var": "MiniZoom",
+        "in": {
+         "MiniZoom": "@lg172.MiniZoom"
+        }
+       },
+       {
+        "id": "lg173_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg173",
+        "kind": "get",
+        "var": "MapNoLegend",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls173",
+        "kind": "set",
+        "var": "MapNoLegend",
+        "in": {
+         "MapNoLegend": "@lg173.MapNoLegend"
+        }
+       },
+       {
+        "id": "lg174_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg174",
+        "kind": "get",
+        "var": "MiniRound",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls174",
+        "kind": "set",
+        "var": "MiniRound",
+        "in": {
+         "MiniRound": "@lg174.MiniRound"
+        }
+       },
+       {
+        "id": "lg175_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg175",
+        "kind": "get",
+        "var": "MapOneStyle",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls175",
+        "kind": "set",
+        "var": "MapOneStyle",
+        "in": {
+         "MapOneStyle": "@lg175.MapOneStyle"
+        }
+       },
+       {
+        "id": "lg176_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg176",
+        "kind": "get",
+        "var": "MapHidden",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls176",
+        "kind": "set",
+        "var": "MapHidden",
+        "in": {
+         "MapHidden": "@lg176.MapHidden"
+        }
+       },
+       {
+        "id": "lg177_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg177",
+        "kind": "get",
+        "var": "MapLitGain",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls177",
+        "kind": "set",
+        "var": "MapLitGain",
+        "in": {
+         "MapLitGain": "@lg177.MapLitGain"
+        }
+       },
+       {
+        "id": "lg178_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg178",
+        "kind": "get",
+        "var": "NoFavBlock",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "ls178",
+        "kind": "set",
+        "var": "NoFavBlock",
+        "in": {
+         "NoFavBlock": "@lg178.NoFavBlock"
+        }
+       },
+       {
         "id": "goq",
         "kind": "get",
         "var": "OptionsCat"
@@ -39583,566 +40816,6 @@
         }
        },
        {
-        "id": "lg165_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg165",
-        "kind": "get",
-        "var": "ThemeBg",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz165",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg165.ThemeBg",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld165",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=0.02,G=0.02,B=0.03,A=1)",
-         "B": "@lg165.ThemeBg",
-         "bPickA": "@lz165.ReturnValue"
-        }
-       },
-       {
-        "id": "ls165",
-        "kind": "set",
-        "var": "ThemeBg",
-        "in": {
-         "ThemeBg": "@ld165.ReturnValue"
-        }
-       },
-       {
-        "id": "lg166_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg166",
-        "kind": "get",
-        "var": "ThemeAccent",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz166",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg166.ThemeAccent",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld166",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=0.75,G=0.1,B=0.1,A=1)",
-         "B": "@lg166.ThemeAccent",
-         "bPickA": "@lz166.ReturnValue"
-        }
-       },
-       {
-        "id": "ls166",
-        "kind": "set",
-        "var": "ThemeAccent",
-        "in": {
-         "ThemeAccent": "@ld166.ReturnValue"
-        }
-       },
-       {
-        "id": "lg167_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg167",
-        "kind": "get",
-        "var": "ThemeFill",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz167",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg167.ThemeFill",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld167",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=0.02,G=0.02,B=0.03,A=1)",
-         "B": "@lg167.ThemeFill",
-         "bPickA": "@lz167.ReturnValue"
-        }
-       },
-       {
-        "id": "ls167",
-        "kind": "set",
-        "var": "ThemeFill",
-        "in": {
-         "ThemeFill": "@ld167.ReturnValue"
-        }
-       },
-       {
-        "id": "lg168_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg168",
-        "kind": "get",
-        "var": "ThemeFrame",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz168",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg168.ThemeFrame",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld168",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg168.ThemeFrame",
-         "bPickA": "@lz168.ReturnValue"
-        }
-       },
-       {
-        "id": "ls168",
-        "kind": "set",
-        "var": "ThemeFrame",
-        "in": {
-         "ThemeFrame": "@ld168.ReturnValue"
-        }
-       },
-       {
-        "id": "lg169_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg169",
-        "kind": "get",
-        "var": "ThemeWorn",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz169",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg169.ThemeWorn",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld169",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=0.2,G=0.8,B=0.3,A=1)",
-         "B": "@lg169.ThemeWorn",
-         "bPickA": "@lz169.ReturnValue"
-        }
-       },
-       {
-        "id": "ls169",
-        "kind": "set",
-        "var": "ThemeWorn",
-        "in": {
-         "ThemeWorn": "@ld169.ReturnValue"
-        }
-       },
-       {
-        "id": "lg170_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg170",
-        "kind": "get",
-        "var": "ThemeRow",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz170",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg170.ThemeRow",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld170",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=0,G=0,B=0,A=1)",
-         "B": "@lg170.ThemeRow",
-         "bPickA": "@lz170.ReturnValue"
-        }
-       },
-       {
-        "id": "ls170",
-        "kind": "set",
-        "var": "ThemeRow",
-        "in": {
-         "ThemeRow": "@ld170.ReturnValue"
-        }
-       },
-       {
-        "id": "lg171_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg171",
-        "kind": "get",
-        "var": "ThemeText",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz171",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg171.ThemeText",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld171",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg171.ThemeText",
-         "bPickA": "@lz171.ReturnValue"
-        }
-       },
-       {
-        "id": "ls171",
-        "kind": "set",
-        "var": "ThemeText",
-        "in": {
-         "ThemeText": "@ld171.ReturnValue"
-        }
-       },
-       {
-        "id": "lg172_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg172",
-        "kind": "get",
-        "var": "ThemeHead",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz172",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg172.ThemeHead",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld172",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=0.85,G=0.75,B=0.4,A=1)",
-         "B": "@lg172.ThemeHead",
-         "bPickA": "@lz172.ReturnValue"
-        }
-       },
-       {
-        "id": "ls172",
-        "kind": "set",
-        "var": "ThemeHead",
-        "in": {
-         "ThemeHead": "@ld172.ReturnValue"
-        }
-       },
-       {
-        "id": "lg173_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg173",
-        "kind": "get",
-        "var": "ThemeLink",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz173",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg173.ThemeLink",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld173",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=0.62,G=0.76,B=1,A=1)",
-         "B": "@lg173.ThemeLink",
-         "bPickA": "@lz173.ReturnValue"
-        }
-       },
-       {
-        "id": "ls173",
-        "kind": "set",
-        "var": "ThemeLink",
-        "in": {
-         "ThemeLink": "@ld173.ReturnValue"
-        }
-       },
-       {
-        "id": "lg174_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg174",
-        "kind": "get",
-        "var": "ThemeLine",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz174",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg174.ThemeLine",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld174",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg174.ThemeLine",
-         "bPickA": "@lz174.ReturnValue"
-        }
-       },
-       {
-        "id": "ls174",
-        "kind": "set",
-        "var": "ThemeLine",
-        "in": {
-         "ThemeLine": "@ld174.ReturnValue"
-        }
-       },
-       {
-        "id": "lg175_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg175",
-        "kind": "get",
-        "var": "ThemeInput",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz175",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg175.ThemeInput",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld175",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=0.1,G=0.1,B=0.12,A=1)",
-         "B": "@lg175.ThemeInput",
-         "bPickA": "@lz175.ReturnValue"
-        }
-       },
-       {
-        "id": "ls175",
-        "kind": "set",
-        "var": "ThemeInput",
-        "in": {
-         "ThemeInput": "@ld175.ReturnValue"
-        }
-       },
-       {
-        "id": "lg176_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg176",
-        "kind": "get",
-        "var": "ThemeArea",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz176",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg176.ThemeArea",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld176",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg176.ThemeArea",
-         "bPickA": "@lz176.ReturnValue"
-        }
-       },
-       {
-        "id": "ls176",
-        "kind": "set",
-        "var": "ThemeArea",
-        "in": {
-         "ThemeArea": "@ld176.ReturnValue"
-        }
-       },
-       {
-        "id": "lg177_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg177",
-        "kind": "get",
-        "var": "ThemeWarn",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz177",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg177.ThemeWarn",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld177",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=1,G=0.6,B=0.3,A=1)",
-         "B": "@lg177.ThemeWarn",
-         "bPickA": "@lz177.ReturnValue"
-        }
-       },
-       {
-        "id": "ls177",
-        "kind": "set",
-        "var": "ThemeWarn",
-        "in": {
-         "ThemeWarn": "@ld177.ReturnValue"
-        }
-       },
-       {
-        "id": "lg178_s",
-        "kind": "get",
-        "var": "Settings"
-       },
-       {
-        "id": "lg178",
-        "kind": "get",
-        "var": "ThemeScroll",
-        "class": "/Game/Mod/AltUI/SG_AltUI"
-       },
-       {
-        "id": "lz178",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "EqualEqual_LinearColorLinearColor",
-        "in": {
-         "A": "@lg178.ThemeScroll",
-         "B": "(R=0,G=0,B=0,A=0)"
-        }
-       },
-       {
-        "id": "ld178",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectColor",
-        "in": {
-         "A": "(R=1,G=1,B=1,A=1)",
-         "B": "@lg178.ThemeScroll",
-         "bPickA": "@lz178.ReturnValue"
-        }
-       },
-       {
-        "id": "ls178",
-        "kind": "set",
-        "var": "ThemeScroll",
-        "in": {
-         "ThemeScroll": "@ld178.ReturnValue"
-        }
-       },
-       {
         "id": "lg179_s",
         "kind": "get",
         "var": "Settings"
@@ -40150,46 +40823,36 @@
        {
         "id": "lg179",
         "kind": "get",
-        "var": "BgAlpha",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "lz179",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
+        "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg179.BgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv179",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz179.ReturnValue"
+         "A": "@lg179.ThemeBg",
+         "B": "(R=0,G=0,B=0,A=0)"
         }
        },
        {
         "id": "ld179",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
+        "function": "SelectColor",
         "in": {
-         "A": "@lg179.BgAlpha",
-         "B": "0.88",
-         "bPickA": "@lv179.ReturnValue"
+         "A": "(R=0.02,G=0.02,B=0.03,A=1)",
+         "B": "@lg179.ThemeBg",
+         "bPickA": "@lz179.ReturnValue"
         }
        },
        {
         "id": "ls179",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeBg",
         "in": {
-         "BgAlpha": "@ld179.ReturnValue"
+         "ThemeBg": "@ld179.ReturnValue"
         }
        },
        {
@@ -40200,46 +40863,36 @@
        {
         "id": "lg180",
         "kind": "get",
-        "var": "TileAlpha",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "lz180",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
+        "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg180.TileAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv180",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz180.ReturnValue"
+         "A": "@lg180.ThemeAccent",
+         "B": "(R=0,G=0,B=0,A=0)"
         }
        },
        {
         "id": "ld180",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
+        "function": "SelectColor",
         "in": {
-         "A": "@lg180.TileAlpha",
-         "B": "1.0",
-         "bPickA": "@lv180.ReturnValue"
+         "A": "(R=0.75,G=0.1,B=0.1,A=1)",
+         "B": "@lg180.ThemeAccent",
+         "bPickA": "@lz180.ReturnValue"
         }
        },
        {
         "id": "ls180",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "ThemeAccent",
         "in": {
-         "TileAlpha": "@ld180.ReturnValue"
+         "ThemeAccent": "@ld180.ReturnValue"
         }
        },
        {
@@ -40250,46 +40903,626 @@
        {
         "id": "lg181",
         "kind": "get",
-        "var": "BgImgAlpha",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI"
        },
        {
         "id": "lz181",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
-        "function": "Greater_FloatFloat",
+        "function": "EqualEqual_LinearColorLinearColor",
         "in": {
-         "A": "@lg181.BgImgAlpha",
-         "B": "0.0"
-        }
-       },
-       {
-        "id": "lv181",
-        "kind": "call",
-        "class": "/Script/Engine.KismetMathLibrary",
-        "function": "BooleanOR",
-        "in": {
-         "A": "@ver.ReturnValue",
-         "B": "@lz181.ReturnValue"
+         "A": "@lg181.ThemeFill",
+         "B": "(R=0,G=0,B=0,A=0)"
         }
        },
        {
         "id": "ld181",
         "kind": "call",
         "class": "/Script/Engine.KismetMathLibrary",
-        "function": "SelectFloat",
+        "function": "SelectColor",
         "in": {
-         "A": "@lg181.BgImgAlpha",
-         "B": "1.0",
-         "bPickA": "@lv181.ReturnValue"
+         "A": "(R=0.02,G=0.02,B=0.03,A=1)",
+         "B": "@lg181.ThemeFill",
+         "bPickA": "@lz181.ReturnValue"
         }
        },
        {
         "id": "ls181",
         "kind": "set",
+        "var": "ThemeFill",
+        "in": {
+         "ThemeFill": "@ld181.ReturnValue"
+        }
+       },
+       {
+        "id": "lg182_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg182",
+        "kind": "get",
+        "var": "ThemeFrame",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz182",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg182.ThemeFrame",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld182",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg182.ThemeFrame",
+         "bPickA": "@lz182.ReturnValue"
+        }
+       },
+       {
+        "id": "ls182",
+        "kind": "set",
+        "var": "ThemeFrame",
+        "in": {
+         "ThemeFrame": "@ld182.ReturnValue"
+        }
+       },
+       {
+        "id": "lg183_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg183",
+        "kind": "get",
+        "var": "ThemeWorn",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz183",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg183.ThemeWorn",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld183",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=0.2,G=0.8,B=0.3,A=1)",
+         "B": "@lg183.ThemeWorn",
+         "bPickA": "@lz183.ReturnValue"
+        }
+       },
+       {
+        "id": "ls183",
+        "kind": "set",
+        "var": "ThemeWorn",
+        "in": {
+         "ThemeWorn": "@ld183.ReturnValue"
+        }
+       },
+       {
+        "id": "lg184_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg184",
+        "kind": "get",
+        "var": "ThemeRow",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz184",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg184.ThemeRow",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld184",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=0,G=0,B=0,A=1)",
+         "B": "@lg184.ThemeRow",
+         "bPickA": "@lz184.ReturnValue"
+        }
+       },
+       {
+        "id": "ls184",
+        "kind": "set",
+        "var": "ThemeRow",
+        "in": {
+         "ThemeRow": "@ld184.ReturnValue"
+        }
+       },
+       {
+        "id": "lg185_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg185",
+        "kind": "get",
+        "var": "ThemeText",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz185",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg185.ThemeText",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld185",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg185.ThemeText",
+         "bPickA": "@lz185.ReturnValue"
+        }
+       },
+       {
+        "id": "ls185",
+        "kind": "set",
+        "var": "ThemeText",
+        "in": {
+         "ThemeText": "@ld185.ReturnValue"
+        }
+       },
+       {
+        "id": "lg186_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg186",
+        "kind": "get",
+        "var": "ThemeHead",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz186",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg186.ThemeHead",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld186",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=0.85,G=0.75,B=0.4,A=1)",
+         "B": "@lg186.ThemeHead",
+         "bPickA": "@lz186.ReturnValue"
+        }
+       },
+       {
+        "id": "ls186",
+        "kind": "set",
+        "var": "ThemeHead",
+        "in": {
+         "ThemeHead": "@ld186.ReturnValue"
+        }
+       },
+       {
+        "id": "lg187_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg187",
+        "kind": "get",
+        "var": "ThemeLink",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz187",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg187.ThemeLink",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld187",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=0.62,G=0.76,B=1,A=1)",
+         "B": "@lg187.ThemeLink",
+         "bPickA": "@lz187.ReturnValue"
+        }
+       },
+       {
+        "id": "ls187",
+        "kind": "set",
+        "var": "ThemeLink",
+        "in": {
+         "ThemeLink": "@ld187.ReturnValue"
+        }
+       },
+       {
+        "id": "lg188_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg188",
+        "kind": "get",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz188",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg188.ThemeLine",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld188",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg188.ThemeLine",
+         "bPickA": "@lz188.ReturnValue"
+        }
+       },
+       {
+        "id": "ls188",
+        "kind": "set",
+        "var": "ThemeLine",
+        "in": {
+         "ThemeLine": "@ld188.ReturnValue"
+        }
+       },
+       {
+        "id": "lg189_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg189",
+        "kind": "get",
+        "var": "ThemeInput",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz189",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg189.ThemeInput",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld189",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=0.1,G=0.1,B=0.12,A=1)",
+         "B": "@lg189.ThemeInput",
+         "bPickA": "@lz189.ReturnValue"
+        }
+       },
+       {
+        "id": "ls189",
+        "kind": "set",
+        "var": "ThemeInput",
+        "in": {
+         "ThemeInput": "@ld189.ReturnValue"
+        }
+       },
+       {
+        "id": "lg190_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg190",
+        "kind": "get",
+        "var": "ThemeArea",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz190",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg190.ThemeArea",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld190",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg190.ThemeArea",
+         "bPickA": "@lz190.ReturnValue"
+        }
+       },
+       {
+        "id": "ls190",
+        "kind": "set",
+        "var": "ThemeArea",
+        "in": {
+         "ThemeArea": "@ld190.ReturnValue"
+        }
+       },
+       {
+        "id": "lg191_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg191",
+        "kind": "get",
+        "var": "ThemeWarn",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz191",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg191.ThemeWarn",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld191",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=1,G=0.6,B=0.3,A=1)",
+         "B": "@lg191.ThemeWarn",
+         "bPickA": "@lz191.ReturnValue"
+        }
+       },
+       {
+        "id": "ls191",
+        "kind": "set",
+        "var": "ThemeWarn",
+        "in": {
+         "ThemeWarn": "@ld191.ReturnValue"
+        }
+       },
+       {
+        "id": "lg192_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg192",
+        "kind": "get",
+        "var": "ThemeScroll",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz192",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_LinearColorLinearColor",
+        "in": {
+         "A": "@lg192.ThemeScroll",
+         "B": "(R=0,G=0,B=0,A=0)"
+        }
+       },
+       {
+        "id": "ld192",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectColor",
+        "in": {
+         "A": "(R=1,G=1,B=1,A=1)",
+         "B": "@lg192.ThemeScroll",
+         "bPickA": "@lz192.ReturnValue"
+        }
+       },
+       {
+        "id": "ls192",
+        "kind": "set",
+        "var": "ThemeScroll",
+        "in": {
+         "ThemeScroll": "@ld192.ReturnValue"
+        }
+       },
+       {
+        "id": "lg193_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg193",
+        "kind": "get",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz193",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg193.BgAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv193",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz193.ReturnValue"
+        }
+       },
+       {
+        "id": "ld193",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg193.BgAlpha",
+         "B": "0.88",
+         "bPickA": "@lv193.ReturnValue"
+        }
+       },
+       {
+        "id": "ls193",
+        "kind": "set",
+        "var": "BgAlpha",
+        "in": {
+         "BgAlpha": "@ld193.ReturnValue"
+        }
+       },
+       {
+        "id": "lg194_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg194",
+        "kind": "get",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz194",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg194.TileAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv194",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz194.ReturnValue"
+        }
+       },
+       {
+        "id": "ld194",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg194.TileAlpha",
+         "B": "1.0",
+         "bPickA": "@lv194.ReturnValue"
+        }
+       },
+       {
+        "id": "ls194",
+        "kind": "set",
+        "var": "TileAlpha",
+        "in": {
+         "TileAlpha": "@ld194.ReturnValue"
+        }
+       },
+       {
+        "id": "lg195_s",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "lg195",
+        "kind": "get",
+        "var": "BgImgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI"
+       },
+       {
+        "id": "lz195",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Greater_FloatFloat",
+        "in": {
+         "A": "@lg195.BgImgAlpha",
+         "B": "0.0"
+        }
+       },
+       {
+        "id": "lv195",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanOR",
+        "in": {
+         "A": "@ver.ReturnValue",
+         "B": "@lz195.ReturnValue"
+        }
+       },
+       {
+        "id": "ld195",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "SelectFloat",
+        "in": {
+         "A": "@lg195.BgImgAlpha",
+         "B": "1.0",
+         "bPickA": "@lv195.ReturnValue"
+        }
+       },
+       {
+        "id": "ls195",
+        "kind": "set",
         "var": "BgImgAlpha",
         "in": {
-         "BgImgAlpha": "@ld181.ReturnValue"
+         "BgImgAlpha": "@ld195.ReturnValue"
         }
        },
        {
@@ -41009,10 +42242,6 @@
         "lg164.self"
        ],
        [
-        "gth_s.Settings",
-        "gth.self"
-       ],
-       [
         "lg165_s.Settings",
         "lg165.self"
        ],
@@ -41069,6 +42298,10 @@
         "lg178.self"
        ],
        [
+        "gth_s.Settings",
+        "gth.self"
+       ],
+       [
         "lg179_s.Settings",
         "lg179.self"
        ],
@@ -41079,6 +42312,62 @@
        [
         "lg181_s.Settings",
         "lg181.self"
+       ],
+       [
+        "lg182_s.Settings",
+        "lg182.self"
+       ],
+       [
+        "lg183_s.Settings",
+        "lg183.self"
+       ],
+       [
+        "lg184_s.Settings",
+        "lg184.self"
+       ],
+       [
+        "lg185_s.Settings",
+        "lg185.self"
+       ],
+       [
+        "lg186_s.Settings",
+        "lg186.self"
+       ],
+       [
+        "lg187_s.Settings",
+        "lg187.self"
+       ],
+       [
+        "lg188_s.Settings",
+        "lg188.self"
+       ],
+       [
+        "lg189_s.Settings",
+        "lg189.self"
+       ],
+       [
+        "lg190_s.Settings",
+        "lg190.self"
+       ],
+       [
+        "lg191_s.Settings",
+        "lg191.self"
+       ],
+       [
+        "lg192_s.Settings",
+        "lg192.self"
+       ],
+       [
+        "lg193_s.Settings",
+        "lg193.self"
+       ],
+       [
+        "lg194_s.Settings",
+        "lg194.self"
+       ],
+       [
+        "lg195_s.Settings",
+        "lg195.self"
        ],
        [
         "gls.Settings",
@@ -42327,6 +43616,104 @@
         "ls164"
        ],
        [
+        "ls164",
+        "ls165"
+       ],
+       [
+        "ls165"
+       ],
+       [
+        "ls165",
+        "ls166"
+       ],
+       [
+        "ls166"
+       ],
+       [
+        "ls166",
+        "ls167"
+       ],
+       [
+        "ls167"
+       ],
+       [
+        "ls167",
+        "ls168"
+       ],
+       [
+        "ls168"
+       ],
+       [
+        "ls168",
+        "ls169"
+       ],
+       [
+        "ls169"
+       ],
+       [
+        "ls169",
+        "ls170"
+       ],
+       [
+        "ls170"
+       ],
+       [
+        "ls170",
+        "ls171"
+       ],
+       [
+        "ls171"
+       ],
+       [
+        "ls171",
+        "ls172"
+       ],
+       [
+        "ls172"
+       ],
+       [
+        "ls172",
+        "ls173"
+       ],
+       [
+        "ls173"
+       ],
+       [
+        "ls173",
+        "ls174"
+       ],
+       [
+        "ls174"
+       ],
+       [
+        "ls174",
+        "ls175"
+       ],
+       [
+        "ls175"
+       ],
+       [
+        "ls175",
+        "ls176"
+       ],
+       [
+        "ls176"
+       ],
+       [
+        "ls176",
+        "ls177"
+       ],
+       [
+        "ls177"
+       ],
+       [
+        "ls177",
+        "ls178"
+       ],
+       [
+        "ls178"
+       ],
+       [
         "entry",
         "ex",
         "b",
@@ -42345,7 +43732,7 @@
         "cr"
        ],
        [
-        "ls164",
+        "ls178",
         "boq"
        ],
        [
@@ -42359,23 +43746,23 @@
        ],
        [
         "bth",
-        "ls165",
-        "ls166",
-        "ls167",
-        "ls168",
-        "ls169",
-        "ls170",
-        "ls171",
-        "ls172",
-        "ls173",
-        "ls174",
-        "ls175",
-        "ls176",
-        "ls177",
-        "ls178",
         "ls179",
         "ls180",
         "ls181",
+        "ls182",
+        "ls183",
+        "ls184",
+        "ls185",
+        "ls186",
+        "ls187",
+        "ls188",
+        "ls189",
+        "ls190",
+        "ls191",
+        "ls192",
+        "ls193",
+        "ls194",
+        "ls195",
         "ath"
        ],
        [
@@ -45753,16 +47140,16 @@
        {
         "id": "g165",
         "kind": "get",
-        "var": "ThemeBg"
+        "var": "MapNoRecord"
        },
        {
         "id": "w165",
         "kind": "set",
-        "var": "ThemeBg",
+        "var": "MapNoRecord",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs165.Settings",
-         "ThemeBg": "@g165.ThemeBg"
+         "MapNoRecord": "@g165.MapNoRecord"
         }
        },
        {
@@ -45773,16 +47160,16 @@
        {
         "id": "g166",
         "kind": "get",
-        "var": "ThemeAccent"
+        "var": "MapStyle"
        },
        {
         "id": "w166",
         "kind": "set",
-        "var": "ThemeAccent",
+        "var": "MapStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs166.Settings",
-         "ThemeAccent": "@g166.ThemeAccent"
+         "MapStyle": "@g166.MapStyle"
         }
        },
        {
@@ -45793,16 +47180,16 @@
        {
         "id": "g167",
         "kind": "get",
-        "var": "ThemeFill"
+        "var": "MapOff"
        },
        {
         "id": "w167",
         "kind": "set",
-        "var": "ThemeFill",
+        "var": "MapOff",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs167.Settings",
-         "ThemeFill": "@g167.ThemeFill"
+         "MapOff": "@g167.MapOff"
         }
        },
        {
@@ -45813,16 +47200,16 @@
        {
         "id": "g168",
         "kind": "get",
-        "var": "ThemeFrame"
+        "var": "MiniOn"
        },
        {
         "id": "w168",
         "kind": "set",
-        "var": "ThemeFrame",
+        "var": "MiniOn",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs168.Settings",
-         "ThemeFrame": "@g168.ThemeFrame"
+         "MiniOn": "@g168.MiniOn"
         }
        },
        {
@@ -45833,16 +47220,16 @@
        {
         "id": "g169",
         "kind": "get",
-        "var": "ThemeWorn"
+        "var": "MiniCorner"
        },
        {
         "id": "w169",
         "kind": "set",
-        "var": "ThemeWorn",
+        "var": "MiniCorner",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs169.Settings",
-         "ThemeWorn": "@g169.ThemeWorn"
+         "MiniCorner": "@g169.MiniCorner"
         }
        },
        {
@@ -45853,16 +47240,16 @@
        {
         "id": "g170",
         "kind": "get",
-        "var": "ThemeRow"
+        "var": "MiniSize"
        },
        {
         "id": "w170",
         "kind": "set",
-        "var": "ThemeRow",
+        "var": "MiniSize",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs170.Settings",
-         "ThemeRow": "@g170.ThemeRow"
+         "MiniSize": "@g170.MiniSize"
         }
        },
        {
@@ -45873,16 +47260,16 @@
        {
         "id": "g171",
         "kind": "get",
-        "var": "ThemeText"
+        "var": "MiniMargin"
        },
        {
         "id": "w171",
         "kind": "set",
-        "var": "ThemeText",
+        "var": "MiniMargin",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs171.Settings",
-         "ThemeText": "@g171.ThemeText"
+         "MiniMargin": "@g171.MiniMargin"
         }
        },
        {
@@ -45893,16 +47280,16 @@
        {
         "id": "g172",
         "kind": "get",
-        "var": "ThemeHead"
+        "var": "MiniZoom"
        },
        {
         "id": "w172",
         "kind": "set",
-        "var": "ThemeHead",
+        "var": "MiniZoom",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs172.Settings",
-         "ThemeHead": "@g172.ThemeHead"
+         "MiniZoom": "@g172.MiniZoom"
         }
        },
        {
@@ -45913,16 +47300,16 @@
        {
         "id": "g173",
         "kind": "get",
-        "var": "ThemeLink"
+        "var": "MapNoLegend"
        },
        {
         "id": "w173",
         "kind": "set",
-        "var": "ThemeLink",
+        "var": "MapNoLegend",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs173.Settings",
-         "ThemeLink": "@g173.ThemeLink"
+         "MapNoLegend": "@g173.MapNoLegend"
         }
        },
        {
@@ -45933,16 +47320,16 @@
        {
         "id": "g174",
         "kind": "get",
-        "var": "ThemeLine"
+        "var": "MiniRound"
        },
        {
         "id": "w174",
         "kind": "set",
-        "var": "ThemeLine",
+        "var": "MiniRound",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs174.Settings",
-         "ThemeLine": "@g174.ThemeLine"
+         "MiniRound": "@g174.MiniRound"
         }
        },
        {
@@ -45953,16 +47340,16 @@
        {
         "id": "g175",
         "kind": "get",
-        "var": "ThemeInput"
+        "var": "MapOneStyle"
        },
        {
         "id": "w175",
         "kind": "set",
-        "var": "ThemeInput",
+        "var": "MapOneStyle",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs175.Settings",
-         "ThemeInput": "@g175.ThemeInput"
+         "MapOneStyle": "@g175.MapOneStyle"
         }
        },
        {
@@ -45973,16 +47360,16 @@
        {
         "id": "g176",
         "kind": "get",
-        "var": "ThemeArea"
+        "var": "MapHidden"
        },
        {
         "id": "w176",
         "kind": "set",
-        "var": "ThemeArea",
+        "var": "MapHidden",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs176.Settings",
-         "ThemeArea": "@g176.ThemeArea"
+         "MapHidden": "@g176.MapHidden"
         }
        },
        {
@@ -45993,16 +47380,16 @@
        {
         "id": "g177",
         "kind": "get",
-        "var": "ThemeWarn"
+        "var": "MapLitGain"
        },
        {
         "id": "w177",
         "kind": "set",
-        "var": "ThemeWarn",
+        "var": "MapLitGain",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs177.Settings",
-         "ThemeWarn": "@g177.ThemeWarn"
+         "MapLitGain": "@g177.MapLitGain"
         }
        },
        {
@@ -46013,16 +47400,16 @@
        {
         "id": "g178",
         "kind": "get",
-        "var": "ThemeScroll"
+        "var": "NoFavBlock"
        },
        {
         "id": "w178",
         "kind": "set",
-        "var": "ThemeScroll",
+        "var": "NoFavBlock",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs178.Settings",
-         "ThemeScroll": "@g178.ThemeScroll"
+         "NoFavBlock": "@g178.NoFavBlock"
         }
        },
        {
@@ -46033,16 +47420,16 @@
        {
         "id": "g179",
         "kind": "get",
-        "var": "BgAlpha"
+        "var": "ThemeBg"
        },
        {
         "id": "w179",
         "kind": "set",
-        "var": "BgAlpha",
+        "var": "ThemeBg",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs179.Settings",
-         "BgAlpha": "@g179.BgAlpha"
+         "ThemeBg": "@g179.ThemeBg"
         }
        },
        {
@@ -46053,16 +47440,16 @@
        {
         "id": "g180",
         "kind": "get",
-        "var": "TileAlpha"
+        "var": "ThemeAccent"
        },
        {
         "id": "w180",
         "kind": "set",
-        "var": "TileAlpha",
+        "var": "ThemeAccent",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs180.Settings",
-         "TileAlpha": "@g180.TileAlpha"
+         "ThemeAccent": "@g180.ThemeAccent"
         }
        },
        {
@@ -46073,16 +47460,296 @@
        {
         "id": "g181",
         "kind": "get",
-        "var": "BgImgAlpha"
+        "var": "ThemeFill"
        },
        {
         "id": "w181",
         "kind": "set",
-        "var": "BgImgAlpha",
+        "var": "ThemeFill",
         "class": "/Game/Mod/AltUI/SG_AltUI",
         "in": {
          "self": "@gs181.Settings",
-         "BgImgAlpha": "@g181.BgImgAlpha"
+         "ThemeFill": "@g181.ThemeFill"
+        }
+       },
+       {
+        "id": "gs182",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g182",
+        "kind": "get",
+        "var": "ThemeFrame"
+       },
+       {
+        "id": "w182",
+        "kind": "set",
+        "var": "ThemeFrame",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs182.Settings",
+         "ThemeFrame": "@g182.ThemeFrame"
+        }
+       },
+       {
+        "id": "gs183",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g183",
+        "kind": "get",
+        "var": "ThemeWorn"
+       },
+       {
+        "id": "w183",
+        "kind": "set",
+        "var": "ThemeWorn",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs183.Settings",
+         "ThemeWorn": "@g183.ThemeWorn"
+        }
+       },
+       {
+        "id": "gs184",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g184",
+        "kind": "get",
+        "var": "ThemeRow"
+       },
+       {
+        "id": "w184",
+        "kind": "set",
+        "var": "ThemeRow",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs184.Settings",
+         "ThemeRow": "@g184.ThemeRow"
+        }
+       },
+       {
+        "id": "gs185",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g185",
+        "kind": "get",
+        "var": "ThemeText"
+       },
+       {
+        "id": "w185",
+        "kind": "set",
+        "var": "ThemeText",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs185.Settings",
+         "ThemeText": "@g185.ThemeText"
+        }
+       },
+       {
+        "id": "gs186",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g186",
+        "kind": "get",
+        "var": "ThemeHead"
+       },
+       {
+        "id": "w186",
+        "kind": "set",
+        "var": "ThemeHead",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs186.Settings",
+         "ThemeHead": "@g186.ThemeHead"
+        }
+       },
+       {
+        "id": "gs187",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g187",
+        "kind": "get",
+        "var": "ThemeLink"
+       },
+       {
+        "id": "w187",
+        "kind": "set",
+        "var": "ThemeLink",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs187.Settings",
+         "ThemeLink": "@g187.ThemeLink"
+        }
+       },
+       {
+        "id": "gs188",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g188",
+        "kind": "get",
+        "var": "ThemeLine"
+       },
+       {
+        "id": "w188",
+        "kind": "set",
+        "var": "ThemeLine",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs188.Settings",
+         "ThemeLine": "@g188.ThemeLine"
+        }
+       },
+       {
+        "id": "gs189",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g189",
+        "kind": "get",
+        "var": "ThemeInput"
+       },
+       {
+        "id": "w189",
+        "kind": "set",
+        "var": "ThemeInput",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs189.Settings",
+         "ThemeInput": "@g189.ThemeInput"
+        }
+       },
+       {
+        "id": "gs190",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g190",
+        "kind": "get",
+        "var": "ThemeArea"
+       },
+       {
+        "id": "w190",
+        "kind": "set",
+        "var": "ThemeArea",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs190.Settings",
+         "ThemeArea": "@g190.ThemeArea"
+        }
+       },
+       {
+        "id": "gs191",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g191",
+        "kind": "get",
+        "var": "ThemeWarn"
+       },
+       {
+        "id": "w191",
+        "kind": "set",
+        "var": "ThemeWarn",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs191.Settings",
+         "ThemeWarn": "@g191.ThemeWarn"
+        }
+       },
+       {
+        "id": "gs192",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g192",
+        "kind": "get",
+        "var": "ThemeScroll"
+       },
+       {
+        "id": "w192",
+        "kind": "set",
+        "var": "ThemeScroll",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs192.Settings",
+         "ThemeScroll": "@g192.ThemeScroll"
+        }
+       },
+       {
+        "id": "gs193",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g193",
+        "kind": "get",
+        "var": "BgAlpha"
+       },
+       {
+        "id": "w193",
+        "kind": "set",
+        "var": "BgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs193.Settings",
+         "BgAlpha": "@g193.BgAlpha"
+        }
+       },
+       {
+        "id": "gs194",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g194",
+        "kind": "get",
+        "var": "TileAlpha"
+       },
+       {
+        "id": "w194",
+        "kind": "set",
+        "var": "TileAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs194.Settings",
+         "TileAlpha": "@g194.TileAlpha"
+        }
+       },
+       {
+        "id": "gs195",
+        "kind": "get",
+        "var": "Settings"
+       },
+       {
+        "id": "g195",
+        "kind": "get",
+        "var": "BgImgAlpha"
+       },
+       {
+        "id": "w195",
+        "kind": "set",
+        "var": "BgImgAlpha",
+        "class": "/Game/Mod/AltUI/SG_AltUI",
+        "in": {
+         "self": "@gs195.Settings",
+         "BgImgAlpha": "@g195.BgImgAlpha"
         }
        },
        {
@@ -46354,6 +48021,20 @@
         "w179",
         "w180",
         "w181",
+        "w182",
+        "w183",
+        "w184",
+        "w185",
+        "w186",
+        "w187",
+        "w188",
+        "w189",
+        "w190",
+        "w191",
+        "w192",
+        "w193",
+        "w194",
+        "w195",
         "s_LastSlot",
         "s_ThemeSet",
         "s_SaveVersion",
@@ -50828,6 +52509,86 @@
      "name": "Scene Tick"
     },
     {
+     "name": "Map Legend Toggle",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Map Full Key",
+     "inputs": [
+      {
+       "name": "key",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Map Wheel",
+     "inputs": [
+      {
+       "name": "notches",
+       "type": "float"
+      },
+      {
+       "name": "x",
+       "type": "float"
+      },
+      {
+       "name": "y",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Map Press",
+     "inputs": [
+      {
+       "name": "x",
+       "type": "float"
+      },
+      {
+       "name": "y",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Map Move",
+     "inputs": [
+      {
+       "name": "x",
+       "type": "float"
+      },
+      {
+       "name": "y",
+       "type": "float"
+      }
+     ]
+    },
+    {
+     "name": "Map Release",
+     "inputs": [
+      {
+       "name": "x",
+       "type": "float"
+      },
+      {
+       "name": "y",
+       "type": "float"
+      }
+     ]
+    },
+    {
      "name": "Share Tokenize",
      "inputs": [
       {
@@ -54416,6 +56177,289 @@
      ]
     },
     {
+     "name": "Item Mat Slots",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "slots",
+       "type": "struct:/Game/Mod/AltUI/S_ColorSlots"
+      }
+     ]
+    },
+    {
+     "name": "Own Slot Mat",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "mat",
+       "type": "object:/Script/Engine.MaterialInterface"
+      },
+      {
+       "name": "ok",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Mat Of Slot",
+     "inputs": [
+      {
+       "name": "source",
+       "type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "mat",
+       "type": "object:/Script/Engine.MaterialInterface"
+      },
+      {
+       "name": "ok",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Set Slot Mat On",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      },
+      {
+       "name": "source",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Apply Item Mats On",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "mats",
+       "type": "name",
+       "container": "map",
+       "value_type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Restore Slot Mat On",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Slot Set Mat",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      },
+      {
+       "name": "source",
+       "type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Slot Reset Mat",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      }
+     ]
+    },
+    {
+     "name": "Item Reset Mats",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Item Has Own Mat",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Open Mat Picker",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Close Mat Picker"
+    },
+    {
+     "name": "Mat Pick End"
+    },
+    {
+     "name": "Rebuild Mat Pick Bar"
+    },
+    {
+     "name": "Open Mat Pick Menu",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "place",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Mat Pick Row",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      },
+      {
+       "name": "slot",
+       "type": "int"
+      },
+      {
+       "name": "caption",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "action",
+       "type": "name"
+      },
+      {
+       "name": "text",
+       "type": "text"
+      }
+     ],
+     "pure": true
+    },
+    {
+     "name": "Menu Open",
+     "outputs": [
+      {
+       "name": "open",
+       "type": "bool"
+      }
+     ]
+    },
+    {
+     "name": "Reset Dropped Mats",
+     "inputs": [
+      {
+       "name": "next",
+       "type": "name",
+       "container": "map",
+       "value_type": "string"
+      }
+     ]
+    },
+    {
+     "name": "Look Mats",
+     "inputs": [
+      {
+       "name": "snap",
+       "type": "struct:/Game/Mod/AltUI/S_Snapshot"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "mats",
+       "type": "name",
+       "container": "map",
+       "value_type": "string"
+      }
+     ]
+    },
+    {
+     "name": "With Kept Mats",
+     "inputs": [
+      {
+       "name": "next",
+       "type": "name",
+       "container": "map",
+       "value_type": "string"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "mats",
+       "type": "name",
+       "container": "map",
+       "value_type": "string"
+      }
+     ]
+    },
+    {
      "name": "Item Has Own Color",
      "inputs": [
       {
@@ -54502,6 +56546,21 @@
      ]
     },
     {
+     "name": "Fol Apply Slot Mats",
+     "inputs": [
+      {
+       "name": "char",
+       "type": "object:/Game/Project/Classes/Character_Player_Base"
+      },
+      {
+       "name": "mats",
+       "type": "name",
+       "container": "map",
+       "value_type": "string"
+      }
+     ]
+    },
+    {
      "name": "Save Slot Color",
      "inputs": [
       {
@@ -54532,6 +56591,15 @@
     },
     {
      "name": "Restore Piece Color",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ]
+    },
+    {
+     "name": "Relay Game Color",
      "inputs": [
       {
        "name": "name",
@@ -54587,6 +56655,21 @@
      "name": "Poll Game Colors"
     },
     {
+     "name": "Mats Drifted",
+     "inputs": [
+      {
+       "name": "name",
+       "type": "name"
+      }
+     ],
+     "outputs": [
+      {
+       "name": "yes",
+       "type": "bool"
+      }
+     ]
+    },
+    {
      "name": "Wearer Is Player",
      "outputs": [
       {
@@ -54601,6 +56684,12 @@
     },
     {
      "name": "Sync Save Slot Colors"
+    },
+    {
+     "name": "Load Save Slot Mats"
+    },
+    {
+     "name": "Sync Save Slot Mats"
     },
     {
      "name": "Apply Makeup Colors"

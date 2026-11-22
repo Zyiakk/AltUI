@@ -145,7 +145,8 @@ The example mod's lamp has a lead (its state and the on/off switch), the tabs "L
 ## `BPI_AltUIMod`
 
 In your actor's Class Settings, add `BPI_AltUIMod` under *Implemented Interfaces*. It brings four pairs - one per kind
-of value. Fill in the ones your fields use; the others can stay empty.
+of value - and one question for [greying out a field](#greying-out-a-field). Fill in the ones your fields use; the
+others can stay empty.
 
 | Fields | Read | Changed |
 |---|---|---|
@@ -153,6 +154,7 @@ of value. Fill in the ones your fields use; the others can stay empty.
 | `Color` | `Get AltUI Color (Key) -> Color` (linear colour) | `On AltUI Color Changed (Key, Color)` |
 | `Text`, `Info` | `Get AltUI Text (Key) -> Text` (string) | `On AltUI Text Changed (Key, Text)` |
 | `Key` | `Get AltUI Key (Key) -> Pressed` (Key) | `On AltUI Key Changed (Key, Pressed)` |
+| every field but `Header`, `Info` and `Tab` | `Get AltUI Greyed (Key) -> Greyed` (boolean) | - |
 
 * The **Get** functions return the current value of the field with this key. AltUI calls them for every field on screen
   while its entry is shown (the shown tab, open sections; a preset asks for all of them), so keep them cheap: return a
@@ -163,15 +165,38 @@ of value. Fill in the ones your fields use; the others can stay empty.
 * A `Key` field takes any key of the keyboard, Shift, Ctrl and Alt on their own included; a mouse click cancels the wait.
   Test for an empty key with `Is Valid Key`.
 
-The `Key` pair came later than the other three. A mod built with an older copy of `BPI_AltUIMod.uasset` keeps working
-as it is; to use a `Key` field, replace your copy with the one in [`uassets/`](uassets/).
+The `Key` pair came later than the other three, and `Get AltUI Greyed` later still. A mod built with an older copy of
+`BPI_AltUIMod.uasset` keeps working as it is - none of its fields is greyed; to use a `Key` field or grey out fields,
+replace your copy with the one in [`uassets/`](uassets/).
+
+### Greying out a field
+
+Sometimes a field means nothing while another one is set a certain way: a "Second colour" does nothing while the
+pattern is "Solid", a brightness nothing while the light is off. Fill in `Get AltUI Greyed`: return true for the key of
+such a field while it means nothing, false otherwise. AltUI then shows that row greyed out - the same look as a page
+whose actor is missing - and the player cannot change it.
+
+* AltUI asks it together with the Get functions, for every field on screen that has a value (`Toggle`, `Slider`,
+  `Number`, `Choice`, `Color`, `Text`, `Key`, `Button`) - not for headers, info lines and tabs. So the moment the player
+  sets the pattern to "Solid", the colour field goes grey, without reopening the page. Keep it as cheap as the other
+  Get functions: compare a variable, nothing heavy.
+* Left empty, it returns false: nothing is greyed.
+* Presets are not affected: a preset still holds and applies every field, greyed or not (it may set the pattern and the
+  colour together).
+* In the [quick menu](#the-quick-menu), a button or toggle your mod greys out shows greyed out there too and does
+  nothing.
+
+The example lamp greys its "Brightness" slider while the light is off:
+
+1. Open `Get AltUI Greyed` under *Interfaces* in *My Blueprint*.
+2. `Key == Brightness` (`Equal (Name)`) `AND` `NOT LightOn`, into `Greyed`.
 
 Because AltUI asks for the values instead of remembering them, your actor stays the only place they live. Changing
 one from somewhere else - a key of your own, another UI - needs nothing extra; the panel picks it up.
 
 ### The Get functions are yours to fill, not to call
 
-`Get AltUI Value`, `Get AltUI Color`, `Get AltUI Text` and `Get AltUI Key` are asked by AltUI, not by your mod. Open them under
+`Get AltUI Value`, `Get AltUI Color`, `Get AltUI Text`, `Get AltUI Key` and `Get AltUI Greyed` are asked by AltUI, not by your mod. Open them under
 *Interfaces* in your actor's *My Blueprint* panel and make each return your variable for the key it is given. Your
 own graphs have no reason to call them: calling one on `self` only runs your own function again and hands back what
 your variable already holds; wiring anything into `Target` changes nothing about that. When your mod needs a field's
@@ -223,7 +248,8 @@ Running an action calls `On AltUI Changed` on that actor with the action's `Key`
 your buttons use, so a `Switch on Name` over the key handles both. An action needs no entry in `AltUI_Entries`: a mod
 can bring actions only.
 
-While your actor is not in the level, its items stay in the wheel greyed out and do nothing. The example below has
+While your actor is not in the level, its items stay in the wheel greyed out and do nothing - and so does a button or
+toggle your mod [greys out](#greying-out-a-field) at the moment. The example below has
 one action, "Lamp: next colour", with an icon.
 
 ## Presets

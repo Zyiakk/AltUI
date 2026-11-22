@@ -66,7 +66,7 @@ MATH = {
     "MakeLiteralBool": lambda a: bool(a["Value"]),
     # drips (plan 2026-11-04-jodis-sky-drips.md Task 5)
     "Exp": lambda a: math.exp(a["A"]), "Sin": lambda a: math.sin(a["A"]), "Cos": lambda a: math.cos(a["A"]),
-    "Acos": lambda a: math.acos(a["A"]), "FTrunc": lambda a: int(math.trunc(a["A"])), "Abs": lambda a: abs(a["A"]),
+    "Acos": lambda a: math.acos(a["A"]), "FTrunc": lambda a: int(math.trunc(a["A"])), "FFloor": lambda a: int(math.floor(a["A"])), "Abs": lambda a: abs(a["A"]),
     "Dot_VectorVector": lambda a: float(np.dot(a["A"], a["B"])), "NotEqual_FloatFloat": lambda a: a["A"] != a["B"],
     "Divide_IntInt": lambda a: int(int(a["A"]) / int(a["B"])),
     "MakeRotationFromAxes": lambda a: ("axes", np.asarray(a["Forward"], float), np.asarray(a["Right"], float), np.asarray(a["Up"], float)),

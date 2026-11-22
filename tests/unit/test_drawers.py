@@ -2,6 +2,7 @@
 import unittest, os, sys
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "assets", "gen")); sys.path.insert(0, H)
 from test_fol_tab import mgr_graph
+from test_slot_colors_per_save import chains
 import strings, strings_fr
 
 KEYS = ["Drawer_Default", "Drawer_Word", "Menu_Drawer", "Menu_DrawerNew", "Menu_DrawerRemoveHere", "Drawer_DeleteYes"]
@@ -28,7 +29,9 @@ class Drawers(unittest.TestCase):
         b = by_id(mgr_graph("On Item Context")); self.assertEqual(b["mi20"]["in"]["action"], "Drw:Sub"); self.assertEqual(b["mi21"]["in"]["action"], "Drw:RemoveHere")
 
     def test_drawer_rows_skip_close_menu(self):
-        g = mgr_graph("On Menu Action"); self.assertIn(["entry", "bdrw", "drw_a"], g["exec"]); self.assertIn(["bdrw:else", "cm", "blmp", "bscn"], g["exec"])
+        g = mgr_graph("On Menu Action"); ex = chains(g)   # without protocol nodes (a measuring build logs every action)
+        self.assertIn(["entry", "bdrw", "drw_a"], ex); self.assertIn(["bmpk:else", "cm", "blmp", "bscn"], ex)
+        self.assertEqual(next(c for c in ex if c[0] == "bdrw:else")[1], "bmpk")   # then the material menu's rows (MatPick:, keep it open), then Close Menu
         self.assertTrue(calls(mgr_graph("Close Menu"), "RemoveFromParent"))
         self.assertTrue([n for n in mgr_graph("Close Menu")["nodes"] if n.get("var") == "SubMenu"])
 

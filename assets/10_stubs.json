@@ -707,6 +707,12 @@
   },
   {
    "type": "blueprint",
+   "path": "/Game/Project/Actors/Misc/TradingMachine",
+   "mode": "create",
+   "parent": "/Game/Project/Classes/InteractiveActor/InteractiveActor_Base"
+  },
+  {
+   "type": "blueprint",
    "path": "/Game/Project/Actors/Bed",
    "mode": "create",
    "parent": "/Game/Project/Classes/InteractiveActor/InteractiveActor_Base",
@@ -1782,6 +1788,11 @@
      "name": "Materials for Damage",
      "type": "object:/Script/Engine.MaterialInstanceDynamic",
      "container": "array"
+    },
+    {
+     "name": "Materials for Color",
+     "type": "object:/Script/Engine.MaterialInstanceDynamic",
+     "container": "array"
     }
    ],
    "functions": [
@@ -1848,7 +1859,13 @@
      "Group": "None",
      "ColorAdjustable": true,
      "Quality": 2,
-     "Mesh": "/Game/Project/Character/Jodi/Body/Female"
+     "Mesh": "/Game/Project/Character/Jodi/Body/Female",
+     "Materials": [
+      {
+       "SlotName": "AltUITestOverride",
+       "Material": "/Game/Project/Editor/axis_red.axis_red"
+      }
+     ]
     },
     "Dress05": {
      "TypeName": "Dress",

@@ -39,7 +39,7 @@ class Example(unittest.TestCase):
     def test_actor_implements_the_interface(self):
         bp = assets()[MOD + "/BP_AltUIModExample"]
         self.assertEqual(bp.get("interfaces"), [mu.INTERFACE])
-        for f in (mu.GET_VALUE, mu.GET_COLOR, mu.GET_TEXT, mu.GET_KEY): self.assertIn(f, [x["name"] for x in bp["functions"]])
+        for f in (mu.GET_VALUE, mu.GET_COLOR, mu.GET_TEXT, mu.GET_KEY, mu.GET_GREYED): self.assertIn(f, [x["name"] for x in bp["functions"]])
         for e in (mu.ON_CHANGED, mu.ON_COLOR, mu.ON_TEXT, mu.ON_KEY):
             ev = [n for n in bp["event_graph"]["nodes"] if n.get("kind") == "event" and n.get("name") == e]
             self.assertEqual(len(ev), 1, e)

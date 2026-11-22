@@ -53,6 +53,10 @@ def main():
     image_box()
     joint_marker()
     mut_glow()
+    map_tile()
+    map_combine()
+    map_mean()
+    map_circle()
     unreal.log_warning("EDTEST PASS quick sector material saved")
 
 
@@ -186,6 +190,169 @@ def mut_glow():
     MEL.connect_material_expressions(m1, "", m2, "A"); MEL.connect_material_expressions(st, "", m2, "B")
     MEL.connect_material_property(m2, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     MEL.recompile_material(m); EAL.save_asset(GLOW)
+
+
+MAPTILE = "/Game/Mod/AltUI/Mat/M_MapTile"
+MAPTILE_CODE = """float g = 0.12 + 0.88 * saturate(T.b * 2 - 1);   // "Surfaces": a normals capture, floors (z up) light, walls dark
+return lerp(T, float3(g, g, g), saturate(S)) * V.rgb;"""
+
+
+def map_tile():
+    """A tile of the Navigation map (navmap.py): the capture Tex over the image, opaque - a SceneCapture's alpha is no coverage,
+    an image that took it would show holes. Shade 1 turns a normals capture into grey by its up component. Tinted by the vertex
+    colour (ColorAndOpacity: tiles of another floor dimmed)."""
+    if EAL.does_asset_exist(MAPTILE): EAL.delete_asset(MAPTILE)
+    m = AT.create_asset(MAPTILE.rsplit("/", 1)[1], MAPTILE.rsplit("/", 1)[0], unreal.Material, unreal.MaterialFactoryNew())
+    m.set_editor_property("material_domain", unreal.MaterialDomain.MD_UI)
+    m.set_editor_property("blend_mode", unreal.BlendMode.BLEND_OPAQUE)
+    tc = MEL.create_material_expression(m, unreal.MaterialExpressionTextureCoordinate, -1100, 0)
+    tex = MEL.create_material_expression(m, unreal.MaterialExpressionTextureSampleParameter2D, -800, -100)
+    tex.set_editor_property("parameter_name", "Tex"); tex.set_editor_property("texture", unreal.load_asset(ROUND))
+    tex.set_editor_property("sampler_type", unreal.MaterialSamplerType.SAMPLERTYPE_COLOR)
+    # UV kept half a texel inside: the imported PNG wraps, the bilinear filter blended the far edge into a line on every tile edge
+    # (a Custom node: a Clamp node's input did not connect from Python - "Missing Clamp input")
+    cl = MEL.create_material_expression(m, unreal.MaterialExpressionCustom, -950, 0)
+    ci = unreal.CustomInput(); ci.set_editor_property("input_name", "UV"); cl.set_editor_property("inputs", [ci])
+    cl.set_editor_property("output_type", unreal.CustomMaterialOutputType.CMOT_FLOAT2); cl.set_editor_property("code", "return clamp(UV, 0.5 / 512, 1 - 0.5 / 512);")
+    MEL.connect_material_expressions(tc, "", cl, "UV"); MEL.connect_material_expressions(cl, "", tex, "UVs")
+    sh = MEL.create_material_expression(m, unreal.MaterialExpressionScalarParameter, -800, 200)
+    sh.set_editor_property("parameter_name", "Shade"); sh.set_editor_property("default_value", 0.0)
+    vc = MEL.create_material_expression(m, unreal.MaterialExpressionVertexColor, -800, 400)
+    cu = MEL.create_material_expression(m, unreal.MaterialExpressionCustom, -450, 100)
+    ins = []
+    for n in ("T", "S", "V"):
+        ci = unreal.CustomInput(); ci.set_editor_property("input_name", n); ins.append(ci)
+    cu.set_editor_property("inputs", ins); cu.set_editor_property("output_type", unreal.CustomMaterialOutputType.CMOT_FLOAT3); cu.set_editor_property("code", MAPTILE_CODE)
+    MEL.connect_material_expressions(tex, "RGB", cu, "T"); MEL.connect_material_expressions(sh, "", cu, "S"); MEL.connect_material_expressions(vc, "", cu, "V")
+    MEL.connect_material_property(cu, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    MEL.recompile_material(m); EAL.save_asset(MAPTILE)
+
+
+MAPCOMB = "/Game/Mod/AltUI/Mat/M_MapCombine"
+MAPCOMB_CODE = """float px = 1.0 / 512.0;
+float3 g = C * Gain;                               // "lit": the scene's HDR colour brought to the level's brightness (Map Capture Tile)
+float3 cc = lerp(g, g * (1 + g / 16) / (1 + g), Lit);   // ... and a soft tone curve (no burnt-out lamps)
+float d = Texture2DSample(D, DSampler, UV).r;   // distance below the camera (cm); Jodi's floor lies at Cut
+float e = 0;
+float2 lo = px * 0.5, hi = 1 - px * 0.5;          // the neighbours stay inside the tile: a wrap to the far side drew a line on every
+e = max(e, abs(Texture2DSample(D, DSampler, clamp(UV + float2(px, 0), lo, hi)).r - d));   // tile edge (play test 2026-11-19)
+e = max(e, abs(Texture2DSample(D, DSampler, clamp(UV - float2(px, 0), lo, hi)).r - d));
+e = max(e, abs(Texture2DSample(D, DSampler, clamp(UV + float2(0, px), lo, hi)).r - d));
+e = max(e, abs(Texture2DSample(D, DSampler, clamp(UV - float2(0, px), lo, hi)).r - d));
+float below = smoothstep(Cut + 40, Cut + 90, d);   // under her floor: gaps under walls, shafts, lower floors, nothing at all
+float edge = smoothstep(25, 60, e);                // the height jumps: wall lines, furniture outlines
+float lowf = below * Ins;
+float3 dim = cc * lerp(1, 0.16, lowf);             // colour styles: what lies lower at 16 %
+// "surfaces" (Nrm 1): the picture is a normals capture, M_MapTile reads the up component (0.5 = wall, 1 = floor). Scaling it like
+// a colour pushed every lower floor under 0.5 - as dark as a wall and as the empty ground, so only Jodi's own floor was to be seen
+// from above (play test 2026-11-22). Pulled towards 0.5 instead: lower floors stay readable, at about a third.
+float3 nrm = 0.5 + (cc - 0.5) * lerp(1, 0.35, lowf);
+float3 c = lerp(dim, nrm, Nrm);
+return lerp(c, float3(0.04, 0.04, 0.05), edge * 0.9 * Ins);"""
+
+
+def map_combine():
+    """One map tile from its two captures (navmap.py, Map Capture Tile; drawn with DrawMaterialToRenderTarget): Col = the style's
+    colour, Depth = scene depth from the same camera. Inside (Inside 1) what lies more than ~40-90 cm below Jodi's floor (Cut cm
+    below the camera) is darkened and edges where the depth jumps are drawn dark: the rooms stand out. Outside: the colour as it is."""
+    if EAL.does_asset_exist(MAPCOMB): EAL.delete_asset(MAPCOMB)
+    m = AT.create_asset(MAPCOMB.rsplit("/", 1)[1], MAPCOMB.rsplit("/", 1)[0], unreal.Material, unreal.MaterialFactoryNew())
+    m.set_editor_property("shading_model", unreal.MaterialShadingModel.MSM_UNLIT)
+    # AlphaComposite, opacity 0: the colour is added to the (cleared, black) target and the target's alpha 1 stays - the exported PNG
+    # is opaque. Opaque wrote alpha 0 into the target: the tiles were fully transparent in every image viewer (2026-11-22).
+    m.set_editor_property("blend_mode", unreal.BlendMode.BLEND_ALPHA_COMPOSITE)
+    rb = unreal.load_asset(ROUND)
+    tc = MEL.create_material_expression(m, unreal.MaterialExpressionTextureCoordinate, -1100, 0)
+    col = MEL.create_material_expression(m, unreal.MaterialExpressionTextureSampleParameter2D, -800, -250)
+    col.set_editor_property("parameter_name", "Col"); col.set_editor_property("texture", rb)
+    col.set_editor_property("sampler_type", unreal.MaterialSamplerType.SAMPLERTYPE_COLOR)
+    MEL.connect_material_expressions(tc, "", col, "UVs")
+    dep = MEL.create_material_expression(m, unreal.MaterialExpressionTextureObjectParameter, -800, 50)
+    dep.set_editor_property("parameter_name", "Depth"); dep.set_editor_property("texture", rb)
+    ps = {}
+    for i, (n, v) in enumerate((("Cut", 200.0), ("Inside", 1.0), ("Gain", 1.0), ("Lit", 0.0), ("Nrm", 0.0))):
+        q = MEL.create_material_expression(m, unreal.MaterialExpressionScalarParameter, -800, 300 + i * 120)
+        q.set_editor_property("parameter_name", n); q.set_editor_property("default_value", v); ps[n] = q
+    cu = MEL.create_material_expression(m, unreal.MaterialExpressionCustom, -400, 0)
+    ins = []
+    for n in ("UV", "C", "D", "Cut", "Ins", "Gain", "Lit", "Nrm"):
+        ci = unreal.CustomInput(); ci.set_editor_property("input_name", n); ins.append(ci)
+    cu.set_editor_property("inputs", ins); cu.set_editor_property("output_type", unreal.CustomMaterialOutputType.CMOT_FLOAT3); cu.set_editor_property("code", MAPCOMB_CODE)
+    MEL.connect_material_expressions(tc, "", cu, "UV"); MEL.connect_material_expressions(col, "RGB", cu, "C"); MEL.connect_material_expressions(dep, "", cu, "D")
+    MEL.connect_material_expressions(ps["Cut"], "", cu, "Cut"); MEL.connect_material_expressions(ps["Inside"], "", cu, "Ins")
+    MEL.connect_material_expressions(ps["Gain"], "", cu, "Gain"); MEL.connect_material_expressions(ps["Lit"], "", cu, "Lit")
+    MEL.connect_material_expressions(ps["Nrm"], "", cu, "Nrm")
+    MEL.connect_material_property(cu, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    op = MEL.create_material_expression(m, unreal.MaterialExpressionConstant, -400, 300); op.set_editor_property("r", 0.0)
+    MEL.connect_material_property(op, "", unreal.MaterialProperty.MP_OPACITY)
+    MEL.recompile_material(m); EAL.save_asset(MAPCOMB)
+
+
+MAPMEAN = "/Game/Mod/AltUI/Mat/M_MapMean"
+MAPMEAN_CODE = """float a = 0, b = 0;
+for (int i = 0; i < 32; i++) {
+  for (int j = 0; j < 32; j++) {
+    float2 uv = (float2(i, j) + 0.5) / 32.0;
+    a += dot(Texture2DSampleLevel(A, ASampler, uv, 0).rgb, float3(0.2126, 0.7152, 0.0722));
+    b += dot(Texture2DSampleLevel(B, BSampler, uv, 0).rgb, float3(0.2126, 0.7152, 0.0722));
+  }
+}
+return float3(a / 1024.0, b / 1024.0, 0);"""
+
+
+def map_mean():
+    """The mean brightness of two map captures over a 32 x 32 grid (navmap.py, Map Capture Tile: drawn into a 1 x 1 RGBA16f target and
+    read back - ReadRenderTargetRawPixel reads only 8 bit and 16f, RGBA32f gave red): R = A (the lit HDR colour), G = B (the base colour). Their ratio brings "lit" to the level's brightness - a scene
+    capture has no eye adaptation, its fixed exposure leaves dark levels black (play test 2026-11-19, story level)."""
+    if EAL.does_asset_exist(MAPMEAN): EAL.delete_asset(MAPMEAN)
+    m = AT.create_asset(MAPMEAN.rsplit("/", 1)[1], MAPMEAN.rsplit("/", 1)[0], unreal.Material, unreal.MaterialFactoryNew())
+    m.set_editor_property("shading_model", unreal.MaterialShadingModel.MSM_UNLIT)
+    rb = unreal.load_asset(ROUND); ts = {}
+    for i, n in enumerate(("A", "B")):
+        t = MEL.create_material_expression(m, unreal.MaterialExpressionTextureObjectParameter, -800, i * 200)
+        t.set_editor_property("parameter_name", n); t.set_editor_property("texture", rb); ts[n] = t
+    cu = MEL.create_material_expression(m, unreal.MaterialExpressionCustom, -400, 0)
+    ins = []
+    for n in ("A", "B"):
+        ci = unreal.CustomInput(); ci.set_editor_property("input_name", n); ins.append(ci)
+    cu.set_editor_property("inputs", ins); cu.set_editor_property("output_type", unreal.CustomMaterialOutputType.CMOT_FLOAT3); cu.set_editor_property("code", MAPMEAN_CODE)
+    MEL.connect_material_expressions(ts["A"], "", cu, "A"); MEL.connect_material_expressions(ts["B"], "", cu, "B")
+    MEL.connect_material_property(cu, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    MEL.recompile_material(m); EAL.save_asset(MAPMEAN)
+
+
+MAPCIRC = "/Game/Mod/AltUI/Mat/M_MapCircle"
+MAPCIRC_CODE = """float r = length(UV - 0.5) * 2;               // 1 = the edge of the square
+float w = max(fwidth(r), 0.002);
+float inside = 1 - smoothstep(1 - w * 1.5, 1, r);  // soft by about a pixel
+return lerp(1, inside, Rnd);"""
+
+
+def map_circle():
+    """The round minimap (W_MiniMap): effect material of its RetainerBox - the retained picture Texture as it is, its opacity cut
+    to the inscribed circle when Round is 1 (0: the square, unchanged)."""
+    if EAL.does_asset_exist(MAPCIRC): EAL.delete_asset(MAPCIRC)
+    m = AT.create_asset(MAPCIRC.rsplit("/", 1)[1], MAPCIRC.rsplit("/", 1)[0], unreal.Material, unreal.MaterialFactoryNew())
+    m.set_editor_property("material_domain", unreal.MaterialDomain.MD_UI)
+    m.set_editor_property("blend_mode", unreal.BlendMode.BLEND_TRANSLUCENT)
+    tc = MEL.create_material_expression(m, unreal.MaterialExpressionTextureCoordinate, -1100, 0)
+    tex = MEL.create_material_expression(m, unreal.MaterialExpressionTextureSampleParameter2D, -800, -100)
+    tex.set_editor_property("parameter_name", "Texture"); tex.set_editor_property("texture", unreal.load_asset(ROUND))
+    tex.set_editor_property("sampler_type", unreal.MaterialSamplerType.SAMPLERTYPE_COLOR)
+    MEL.connect_material_expressions(tc, "", tex, "UVs")
+    rnd = MEL.create_material_expression(m, unreal.MaterialExpressionScalarParameter, -800, 250)
+    rnd.set_editor_property("parameter_name", "Round"); rnd.set_editor_property("default_value", 0.0)
+    cu = MEL.create_material_expression(m, unreal.MaterialExpressionCustom, -450, 150)
+    ins = []
+    for n in ("UV", "Rnd"):
+        ci = unreal.CustomInput(); ci.set_editor_property("input_name", n); ins.append(ci)
+    cu.set_editor_property("inputs", ins); cu.set_editor_property("output_type", unreal.CustomMaterialOutputType.CMOT_FLOAT1); cu.set_editor_property("code", MAPCIRC_CODE)
+    MEL.connect_material_expressions(tc, "", cu, "UV"); MEL.connect_material_expressions(rnd, "", cu, "Rnd")
+    mul = MEL.create_material_expression(m, unreal.MaterialExpressionMultiply, -200, 100)
+    MEL.connect_material_expressions(tex, "A", mul, "A"); MEL.connect_material_expressions(cu, "", mul, "B")
+    MEL.connect_material_property(tex, "RGB", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    MEL.connect_material_property(mul, "", unreal.MaterialProperty.MP_OPACITY)
+    MEL.recompile_material(m); EAL.save_asset(MAPCIRC)
 
 
 try:

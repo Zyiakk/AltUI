@@ -769,6 +769,136 @@
   },
   {
    "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapArrow",
+   "file": "tex/map_arrow.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapDot",
+   "file": "tex/map_dot.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapBed",
+   "file": "tex/map_bed.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapCross",
+   "file": "tex/map_cross.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapRing",
+   "file": "tex/map_ring.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapDead",
+   "file": "tex/map_dead.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapVend",
+   "file": "tex/map_vend.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapLower",
+   "file": "tex/map_lower.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapRingFrame",
+   "file": "tex/map_frame_round.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
+   "path": "/Game/Mod/AltUI/T_MapHatch",
+   "file": "tex/map_hatch.png",
+   "props": {
+    "CompressionSettings": "TC_EditorIcon",
+    "LODGroup": "TEXTUREGROUP_UI",
+    "MipGenSettings": "TMGS_NoMipmaps",
+    "NeverStream": true,
+    "SRGB": true,
+    "Filter": "TF_Bilinear"
+   }
+  },
+  {
+   "type": "texture",
    "path": "/Game/Mod/AltUI/T_BgNight",
    "file": "tex/bg_night.png",
    "props": {

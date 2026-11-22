@@ -8,7 +8,7 @@ lamp in front of Jodi, and the Mods tab shows one entry, **"Example lamp"**, wit
 | Now | info | shows the lamp's state and the note, updated live |
 | Light | toggle | switches the lamp on and off |
 | Key for on/off | key, L at first | the key that switches the lamp in the game (with the panel closed); right click: none |
-| Brightness | slider, 0 to 20000 in steps of 500 | its intensity |
+| Brightness | slider, 0 to 20000 in steps of 500 | its intensity; greyed out while the light is off (`Get AltUI Greyed`) |
 | Height (cm) | number, -100 to 200 in steps of 10 | how high it hangs in front of her |
 | Colour | choice: Warm, Cold, Red, Custom | its colour |
 | Custom colour | colour, AltUI's palette | the colour for "Custom" - picking one switches the choice to it |

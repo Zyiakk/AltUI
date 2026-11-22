@@ -1,5 +1,39 @@
 # Changelog
 
+## 3.1.0 – 2026-11-22
+
+* **Map.** The Navigation tab has a map of the level, made from pictures AltUI takes from above while Jodi walks - only where
+  she has been, per floor. The pictures are saved, so the map is there again next time; around Jodi they are taken anew once per
+  session, on their own. Wheel zooms, dragging moves it, a click sets a target to teleport to (a click
+  on a bed goes to that bed). Markers for beds, vending machines, followers, other people, zombies, Jason and the dead, with a
+  legend under the map; a click on a legend entry hides that kind. Three styles (base colour, lit, surfaces), "Retake" takes the
+  pictures around Jodi again at once (after the level changed around her), "Fullscreen" fills the screen (also as an action for a key or the wheel).
+  * A minimap in a corner of the screen, square or round, turned with the camera.
+  * Options > Map: the map on / off (off: nothing is recorded or drawn), the legend, the minimap with its corner, shape, size,
+    distance from the edge and view, and "Only take pictures for the active map style" for lighter recording.
+  * The pictures are plain PNG files under `Saved/SaveGames/AltUI/Map/<level>/<style>/` and can be looked at with any viewer.
+* **Material swap.** Right click a worn piece › "Material..." puts the material of any other piece (also from mods, also
+  pieces Jodi does not own) on one of its slots: pick the slot at the top, click a piece to unfold its materials, click one
+  to put it on at once. "✕" on a slot or "Reset material" in the menu brings the original back, Undo works. Swaps are kept
+  per save and go along with looks, outfits, shared files, followers and "look as enemy"; a swapped material can still be
+  coloured. Prints and logos sit where the other piece had them, so plain fabrics, leather or metal work best.
+* Options > Tiles: "Show favourites on top of everything" (on by default). Off, the lists have no favourites block at the top
+  (Clothes, Coiffure, Poses, Appearance, weapon skins); the pieces stay where they are in the list, with their star.
+* "Only favourites" together with the favourites block shows the block alone - before, the same pieces were listed a second
+  time below it (Clothes, Appearance).
+* Mods tab: long field names wrap instead of running over the slider.
+* Clothes tiles of pieces without an icon stay empty. Before, they showed the picture of another piece, which changed
+  while scrolling.
+
+For modders:
+
+* Mods tab: a mod can grey out single fields - `Get AltUI Greyed (Key) -> Greyed` in `BPI_AltUIMod` (a "Second colour"
+  while the pattern is "Solid"). The row is greyed and locked, live as the other fields change; a greyed button or toggle in
+  the quick menu too. Mods built with an older copy of the interface keep working unchanged. Updated
+  `uassets/BPI_AltUIMod.uasset`; the example lamp greys its brightness while the light is off. See MOD_UI.md, "Greying out a field".
+* Extra weapons: [KillingEdge](https://github.com/Zyiakk/KillingEdge) is the worked example (an extra sai with its own
+  attacks); saving, loading, the storage box and challenge maps are now tested with it.
+
 ## 3.0.0 – 2026-11-17
 
 * **Faster level start and main menu.** The image no longer hangs for seconds under the dark layer after loading. Measured

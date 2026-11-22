@@ -30,6 +30,7 @@
 #include "K2Node_InputKey.h"
 #include "K2Node_GetDataTableRow.h"
 #include "K2Node_LoadAsset.h"
+#include "EdGraphNode_Comment.h"
 #include "Engine/DataTable.h"
 #include "Blueprint/UserWidget.h"
 #include "WidgetBlueprint.h"
@@ -199,6 +200,7 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
     else { Err = TEXT("unknown node kind ") + Kind; return false; }
     if (Kind != TEXT("return") && Kind != TEXT("entry") && Ids.Contains(Id)) { Err = TEXT("duplicate node id (FString keys are case-insensitive) ") + Id; return false; }
     Ids.Add(Id, Node);
+    { double PX, PY; if (N->TryGetNumberField(TEXT("x"), PX) && N->TryGetNumberField(TEXT("y"), PY)) { Node->NodePosX = (int32)PX; Node->NodePosY = (int32)PY; } }   // optional layout (else the grid)
     const TSharedPtr<FJsonObject>* Defs = nullptr;
     if (N->TryGetObjectField(TEXT("defaults"), Defs))
       for (const auto& KV : (*Defs)->Values) { UEdGraphPin* P = FindPinFuzzy(Node, KV.Key, EGPD_Input);
@@ -261,6 +263,13 @@ bool BPGenGraph::BuildGraph(UBlueprint* BP, UEdGraph* G, const TSharedPtr<FJsonO
     UE_LOG(LogBPGen, Verbose, TEXT("BPGEN link %s.%s -> %s.%s (linked=%d/%d)"), *AId, *PA->PinName.ToString(), *BId, *PB->PinName.ToString(), PA->LinkedTo.Num(), PB->LinkedTo.Num());
   }
   TLinks += FPlatformTime::Seconds() - T0;
+  // optional comment boxes "comments": [{"text", "x", "y", "w", "h"}] - only for graphs meant to be read in the editor
+  const TArray<TSharedPtr<FJsonValue>>* Comments = nullptr; J->TryGetArrayField(TEXT("comments"), Comments);
+  if (Comments) for (const auto& CV : *Comments) {
+    const TSharedPtr<FJsonObject> C = CV->AsObject(); double CX = 0, CY = 0, CW = 400, CH = 200;
+    C->TryGetNumberField(TEXT("x"), CX); C->TryGetNumberField(TEXT("y"), CY); C->TryGetNumberField(TEXT("w"), CW); C->TryGetNumberField(TEXT("h"), CH);
+    NewNode<UEdGraphNode_Comment>(G, (int32)CX, (int32)CY, [&](UEdGraphNode_Comment* CN) { CN->NodeComment = JS(C, TEXT("text")); CN->NodeWidth = (int32)CW; CN->NodeHeight = (int32)CH; });
+  }
   // once per graph (defaults and links above skip it) - or once per blueprint: the call walks every node of every graph, and in
   // the manager (~590 graphs) each walk left ~100 MB behind until the end of the asset (27 GB, killed by systemd-oomd)
   if (bMarkModified) FBlueprintEditorUtils::MarkBlueprintAsModified(BP);

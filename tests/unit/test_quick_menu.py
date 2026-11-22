@@ -12,7 +12,7 @@ QUICK_STRINGS = ["Lbl_QuickKey", "Lbl_QuickInWheel", "Lbl_QuickAvailable", "Lbl_
 
 class QuickData(unittest.TestCase):
     def test_constants(self):
-        self.assertEqual(ui.QUICK_MAX, 32); self.assertEqual(ui.QUICK_FIXED, ["freecam", "photo", "panel", "posestop", "ragdoll", "ragdolltoggle", "ragdollclear", "ragdollmode", "ragdollaim", "speedtoggle", "folfollow", "folwait", "folallfollow", "folallwait", "folbring", "slowmo", "freeze", "hidejodi", "hideui", "hand", "camheight", "folposestop", "tiltleft", "tiltright", "tiltreset", "camdist", "camtilt", "handtoggle", "fly"])
+        self.assertEqual(ui.QUICK_MAX, 32); self.assertEqual(ui.QUICK_FIXED, ["freecam", "photo", "panel", "posestop", "ragdoll", "ragdolltoggle", "ragdollclear", "ragdollmode", "ragdollaim", "speedtoggle", "folfollow", "folwait", "folallfollow", "folallwait", "folbring", "slowmo", "freeze", "hidejodi", "hideui", "hand", "camheight", "folposestop", "tiltleft", "tiltright", "tiltreset", "camdist", "camtilt", "handtoggle", "fly", "mapfull"])
 
     def test_strings(self):
         for k in QUICK_STRINGS: self.assertEqual(len(STRINGS[k]), len(LANGS), k)
@@ -73,7 +73,7 @@ class QuickData(unittest.TestCase):
         self.assertEqual([n for n, _, _ in mu.ACTION_MEMBERS], ["Caption", "Icon", "Actor", "Key", "Order"])
         run = graph("50_manager_ui.json", "Run Quick Item")
         msgs = [n for n in run["nodes"] if n.get("kind") == "message"]
-        self.assertEqual({n["function"] for n in msgs}, {mu.GET_VALUE, mu.ON_CHANGED})
+        self.assertEqual({n["function"] for n in msgs}, {mu.GET_VALUE, mu.ON_CHANGED, mu.GET_GREYED})   # a greyed field does nothing (2026-11-17)
         for k in ("modfield", "modaction"): self.assertIn("qma", after(run, "qb_" + k))
 
 
@@ -178,7 +178,7 @@ class OwnKeys(unittest.TestCase):
 
     def test_run_only_when_free(self):
         g = graph("50_manager_ui.json", "Bind Run")
-        self.assertEqual(calls(g, "Run Quick Item"), ["run"]); self.assertIn(["entry", "b", "sr", "ensc", "run"], g["exec"])   # ensc: the catalog complete before a run, not on every key
+        self.assertEqual(calls(g, "Run Quick Item"), ["run"]); self.assertIn(["entry", "b", "sr", "qk1", "ensc", "run", "qk0"], g["exec"])   # qk1 / qk0: QFromKey around the run (Map Full Key)   # ensc: the catalog complete before a run, not on every key
         ins = {n["id"]: n["in"] for n in g["nodes"] if "in" in n}
         self.assertEqual(ins["o1"], {"A": "@pnl.ReturnValue", "B": "@gqo.QuickOpen"}); self.assertEqual(ins["pnl"], {"A": "@gpo.PanelOpen", "B": "@cm0.ReturnValue"})   # camera modes: collapsed panel counts as closed
         self.assertEqual(ins["o2"]["B"], "@gso.SceneOn"); self.assertEqual(ins["o3"]["B"], "@ck.yes")

@@ -30,7 +30,7 @@ class DamageSlider(unittest.TestCase):
                 g = self.fns[menu]["graph"]
                 chain = next(c for c in g["exec"] if c and c[0] == "cc_fe:Completed")
                 self.assertLess(chain.index(after), chain.index("adr")); self.assertLess(chain.index("adr"), chain.index(before))
-                self.assertIn(["brc:else", "adr"], g["exec"])   # no own colour: the slider still comes
+                self.assertIn(["bmo:else", "adr"], g["exec"])   # no own material (and no own colour): the slider still comes
                 self.assertEqual(next(n for n in g["nodes"] if n["id"] == "adr")["function"], "Add Damage Row")
 
     def test_row_left_out_for_a_worn_piece_without_damage_map(self):

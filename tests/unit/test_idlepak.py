@@ -2,6 +2,7 @@
 import unittest, os, sys, tempfile, shutil
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "scripts"))
 import idlepak, idle_mods, bodypak
+import realmods
 from pak11_extract import Pak
 from uasset_pkg import Package, Export
 
@@ -98,11 +99,9 @@ class Convert(unittest.TestCase):
 
 class RealMod(unittest.TestCase):
     def test_the_installed_replacer(self):
-        arch = os.environ.get("TKA_MOD_ARCHIVE")
-        src = os.path.join(os.path.dirname(arch or "."), "library", "override", "Jodi_Idle_Adjustment_qhlys_P.pak")
+        src = realmods.find("Jodi_Idle_Adjustment_qhlys_P.pak")
         altui = os.path.join(H, "..", "..", "build", "AltUI.pak")
-        real = os.path.exists(src) and (os.stat(src).st_blocks > 0 or os.path.getsize(src) == 0)   # not a placeholder
-        if not (arch and real and os.path.exists(altui)): self.skipTest("no archive / no AltUI build")
+        if not (src and os.path.exists(altui)): self.skipTest("real mod pak (TKA_MOD_STORE / TKA_MOD_ARCHIVE) or AltUI build missing")
         d = tempfile.mkdtemp(); self.addCleanup(shutil.rmtree, d, ignore_errors=True)
         log = idlepak.convert(src, name="IdleAdjustment", out_dir=d, altui=altui)
         self.assertIn("Normal_Normal", log["templates"]); self.assertEqual(log["verify"], [])

@@ -8,13 +8,18 @@ from slots import SLOTS
 FEMALE_MESH = "/Game/Project/Character/Jodi/Body/Female"   # skeletal mesh that ships with the mod kit (stub rows only)
 
 
-def row(t, group="None", icon=None, color=True, mesh=None):
+def row(t, group="None", icon=None, color=True, mesh=None, materials=None):
     r = {"TypeName": t, "Group": group, "ColorAdjustable": color, "Quality": 2}
     if mesh: r["Mesh"] = mesh   # editor test: a row with a real mesh, so the walk over its material slots is exercised
+    if materials: r["Materials"] = [{"SlotName": n, "Material": m} for n, m in materials]   # the row's material overrides (colour variants)
     return r
 
+
+# editor test (test_slot_mats): an override on a slot name the kit mesh does not have - inert until the test gives the mesh that slot
+OVERRIDE_SLOT = "AltUITestOverride"; OVERRIDE_MAT = "/Game/Project/Editor/axis_red.axis_red"   # MaterialStruct.Material is a MaterialInstance; this one takes MainColor
+
 test_clothes = {
-    "Briefs03": row("Briefs", mesh=FEMALE_MESH), "Dress05": row("Dress", "Lace"), "Casual_Mina_Neck": row("Neck", "Kpop"),
+    "Briefs03": row("Briefs", mesh=FEMALE_MESH, materials=[(OVERRIDE_SLOT, OVERRIDE_MAT)]), "Dress05": row("Dress", "Lace"), "Casual_Mina_Neck": row("Neck", "Kpop"),
     "Casual_Mina_Necklace": row("Necklace"), "SpikeBoots": row("Boots"), "Weird": row("Nonsense", color=False),
     "Zeta_Neck": row("Neck"), "Alpha_Neck": row("Neck", "Kpop"),
     # sorted insert (binary search) + equal sort keys keep table order (first 24 characters identical -> B before A)
@@ -119,6 +124,7 @@ assets = [
     # Navigation tab: the save bed; Save Point Name = its Department's Description, set on BeginPlay (bytecode 2026-10-27)
     blueprint(P_DESCBASE, E_ACTOR, variables=[var("Description", "text")]),   # room signs (Department) - Navigation: "near: ..."
     blueprint(P_DEPT, P_DESCBASE),
+    blueprint(P_TRADING, P_INTERACTIVE),   # the map's vending machine markers (GetAllActorsOfClass)
     blueprint(P_BED, P_INTERACTIVE, variables=[var("Save Point Name", "text"), var("Department", "object:" + P_DEPT)]),
     blueprint(P_ITEMCOMP,mode="augment", functions=[fn("Is Locked", outputs=[param("Yes", "bool")], pure=True)]),
     blueprint(P_PWCOMP, mode="augment", variables=[var("Password", "string")]),
@@ -234,7 +240,8 @@ assets = [
               functions=[fn("Has This Clothes", [param("clothes", "name")], [param("yes", "bool")], pure=True),
                          fn("Add Item And Save", [param("name", "name")], [param("new clothes", "bool")])]),
     blueprint(P_CC, "/Script/Engine.SkeletalMeshComponent",
-              variables=[var("Color Adjustable", "bool"), var("Clothes Name", "name"), var("Type", "name"), var("Damage", "float"), var("Materials for Damage", "object:/Script/Engine.MaterialInstanceDynamic", "array")],
+              variables=[var("Color Adjustable", "bool"), var("Clothes Name", "name"), var("Type", "name"), var("Damage", "float"), var("Materials for Damage", "object:/Script/Engine.MaterialInstanceDynamic", "array"),
+                         var("Materials for Color", "object:/Script/Engine.MaterialInstanceDynamic", "array")],
               functions=[fn("Change Color", [param("Color", S_LINCOLOR)]),
                          fn("Change Damage", [param("Value", "float"), param("save", "bool")]),   # scalar "Damage" on every damage material + Player.Store Clothes Damage
                          fn("Is Damaged", outputs=[param("yes", "bool")], pure=True)]),   # Damage > 0.1 (Repair Clothes, followers' badge)

@@ -42,7 +42,7 @@ class HairSearch(unittest.TestCase):
 
     def test_rebuild_filters_both_passes(self):
         g = self.u["Rebuild Hair Body"]["graph"]; n = {x["id"]: x for x in g["nodes"]}   # Rebuild Hair = panel guard around it
-        self.assertEqual(n["ffm"]["function"], "Hair Matches"); self.assertEqual(n["ffa"]["in"]["B"], "@ffm.yes"); self.assertEqual(n["bf"]["in"]["Condition"], "@ffa.ReturnValue")
+        self.assertEqual(n["ffm"]["function"], "Hair Matches"); self.assertEqual(n["ffa0"]["in"]["B"], "@ffm.yes"); self.assertEqual(n["ffa"]["in"]["A"], "@ffa0.ReturnValue"); self.assertEqual(n["bf"]["in"]["Condition"], "@ffa.ReturnValue")
         self.assertEqual(n["efm"]["function"], "Hair Matches"); self.assertEqual(n["be"]["in"]["Condition"], "@efm.yes")
         self.assertTrue(any(c[:3] == ["fe", "be", "th_tp"] or c[:2] == ["fe", "be"] for c in g["exec"]))
         self.assertEqual(n["xi"]["in"]["action"], "ClearHairSearch")

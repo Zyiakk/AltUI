@@ -37,11 +37,16 @@ def main():
     try: back = _j.loads(out)
     except Exception: back = {"unparsable": out[:200]}
     expect("snap roundtrip", norm(back), norm(_j.loads(sf.encode(look))))
-    of = {"Pieces": {"A": [255, 0, 10, 255], "B": [1, 2, 3, 4]}, "SlotColors": {"A#0": [0.5, 0.5, 0.5, 1.0]}}
+    of = {"Pieces": {"A": [255, 0, 10, 255], "B": [1, 2, 3, 4]}, "SlotColors": {"A#0": [0.5, 0.5, 0.5, 1.0]}, "SlotMats": {"A#1": "B#2"}}
     mgr.call_method("Test Share Outfit Roundtrip", args=(sf.encode(of),)); out = str(mgr.get_editor_property("TmpStr"))
     try: back = _j.loads(out)
     except Exception: back = {"unparsable": out[:200]}
     expect("outfit roundtrip", norm(back), norm(of))
+    old = {"Pieces": of["Pieces"], "SlotColors": of["SlotColors"]}   # a file from before SlotMats reads as an empty map
+    mgr.call_method("Test Share Outfit Roundtrip", args=(sf.encode(old),)); out = str(mgr.get_editor_property("TmpStr"))
+    try: back = _j.loads(out)
+    except Exception: back = {"unparsable": out[:200]}
+    expect("outfit roundtrip without SlotMats", norm(back), norm(dict(old, SlotMats={})))
     # a look as shared: slot / make-up colours only of its own pieces and rows (the save's colour history stays at home)
     lk = sf.sample_look(4)["data"]; worn = lk["Worn"][0]
     lk.update({"Makeup": {"Eyebrow": {"List": ["Eyebrow_01"]}, "Lips": {"List": ["Lips_2"]}},

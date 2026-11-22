@@ -22,9 +22,9 @@ VALUE_TYPES = ["str", "num", "bool", "color", "bcolor", "strs", "nums", "map_col
 SNAP_SCHEMA = [("Worn", "strs"), ("Makeup", "map_list"), ("Skin", "str"), ("Hair", "str"), ("Colors", "map_color"), ("HairColor", "color"),
                ("Boobs", "num"), ("Waist", "num"), ("Hip", "num"), ("Body", "str"), ("Scales", "nums"), ("SlotColors", "map_color"),
                ("EyeColors", "map_color"), ("MakeupColors", "map_color"), ("Face", "map_num"), ("FaceAdd", "bool"), ("Mutation", "mut"),
-               ("OilOn", "bool"), ("Oil", "num")]
+               ("OilOn", "bool"), ("Oil", "num"), ("SlotMats", "map_str")]
 MUT_SCHEMA = [("Color", "num"), ("Glow", "num"), ("Veins", "bool"), ("Eyes", "bool"), ("Skin", "str"), ("Story", "bool")]
-OUTFIT_SCHEMA = [("Pieces", "map_bcolor"), ("SlotColors", "map_color")]   # the game's Outfit_Struct.clothes + AltUI's OutfitColors of it
+OUTFIT_SCHEMA = [("Pieces", "map_bcolor"), ("SlotColors", "map_color"), ("SlotMats", "map_str")]   # the game's Outfit_Struct.clothes + AltUI's OutfitColors / OutfitMats of it
 # part 2 (internal design notes): field names are the members of the saved structs
 FACE_SCHEMA = [("Values", "map_num"), ("FaceAdd", "bool")]                                       # S_Face
 BODYP_SCHEMA = [("Body", "str"), ("Factors", "nums"), ("Boobs", "num"), ("Waist", "num")]        # S_BodyPreset
@@ -59,5 +59,5 @@ def sample_look(i):
                      "Colors": {w: [0.5, 0.25, 0.125, 1.0] for w in worn}, "HairColor": [0.2, 0.1, 0.05, 1.0], "Boobs": 0.5, "Waist": 0.25, "Hip": 0.0,
                      "Body": "BodyAltUI_Test", "Scales": [1.0] * 17, "SlotColors": {w + "#0": [1.0, 0.0, 0.0, 1.0] for w in worn[:6]},
                      "EyeColors": {"Iris": [0.1, 0.2, 0.3, 1.0]}, "MakeupColors": {}, "Face": {"Smile": 0.5}, "FaceAdd": False,
-                     "Mutation": {"Color": 0.0, "Glow": 0.0, "Veins": False, "Eyes": False, "Skin": "None", "Story": False}, "OilOn": False, "Oil": 0.0},
+                     "Mutation": {"Color": 0.0, "Glow": 0.0, "Veins": False, "Eyes": False, "Skin": "None", "Story": False}, "OilOn": False, "Oil": 0.0, "SlotMats": {worn[0] + "#1": worn[1] + "#0"}},
             "refs": [{"type": "clothes", "item": w, "label": "Piece %d" % k, "mod": "Mod_%d" % (k % 3)} for k, w in enumerate(worn)]}

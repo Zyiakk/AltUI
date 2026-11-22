@@ -37,7 +37,7 @@ class PerSave(unittest.TestCase):
         g = fn_graph("Sync Save Slot Colors"); nodes = {n["id"]: n for n in g["nodes"]}
         self.assertEqual(nodes["ok"]["in"], {"A": "@wip.yes", "B": "@gld.SlotColorsLoaded"})
         self.assertIn(["entry", "bok", "sc0", "keys", "sk", "fk"], chains(g))
-        self.assertIn(["fo:Completed", "bch", "swn", "cdt"], chains(g))   # a change writes TKAPlayer at once (Save Worn)
+        self.assertIn(["fo:Completed", "ssm", "bch", "swn", "cdt"], chains(g))   # Sync Save Slot Mats first; a change writes TKAPlayer at once (Save Worn)
         self.assertEqual(nodes["any"]["in"], {"A": "@gch.SyncChanged", "B": "@gdt.GameColorDirty"})
 
     def test_a_game_colour_altui_changed_reaches_tkaplayer(self):
@@ -57,7 +57,7 @@ class PerSave(unittest.TestCase):
     def test_migration_only_once_and_only_on_the_players_figure(self):
         g = fn_graph("Load Save Slot Colors"); nodes = {n["id"]: n for n in g["nodes"]}
         self.assertEqual(nodes["mig"]["in"], {"A": "@wip.yes", "B": "@nps.ReturnValue"})
-        self.assertIn(["entry", "bmig", "ssl", "spt", "sld1", "sv1"], chains(g))
+        self.assertIn(["entry", "bmig", "ssl", "spt", "sld1", "sv1", "lsm1"], chains(g))
 
     @unittest.skipUnless(os.environ.get("ALTUI_COLORLOG") == "1", "protocol only with ALTUI_COLORLOG=1")
     def test_protocol(self):

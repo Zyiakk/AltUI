@@ -573,6 +573,69 @@ T_ALTUI = M + "/T_AltUI"
 TAB_ICONS = dict({k: M + "/T_Tab" + k for k in TAB_ICON_DRAW}, Poses=T_POSE)   # page -> texture; Poses uses the pose tiles' stick figure
 
 
+# ---------------- map markers (Navigation tab map, navmap.py): white, tinted per marker ----------------
+def map_arrow(d, S, W, C):
+    """Jodi on the map: an arrowhead pointing up (the widget turns it by her yaw), notched at the back."""
+    d.polygon(_pts(S, [(0.5, 0.06), (0.86, 0.92), (0.5, 0.72), (0.14, 0.92)]), fill=W)
+
+
+def map_dot(d, S, W, C): d.ellipse(_pts(S, [(0.18, 0.18), (0.82, 0.82)]), fill=W)          # followers / enemies
+
+
+def map_bed(d, S, W, C):
+    """A save bed from above: the frame, the pillow at the head end (top) cut out."""
+    d.rounded_rectangle(_pts(S, [(0.24, 0.06), (0.76, 0.94)]), radius=S * 0.06, fill=W)
+    d.rounded_rectangle(_pts(S, [(0.32, 0.13), (0.68, 0.30)]), radius=S * 0.04, fill=C)
+
+
+def map_cross(d, S, W, C):
+    """The click target: a ring with four ticks."""
+    lw = max(2, int(S * 0.07)); d.ellipse(_pts(S, [(0.26, 0.26), (0.74, 0.74)]), outline=W, width=lw)
+    for a, b in (((0.5, 0.02), (0.5, 0.26)), ((0.5, 0.74), (0.5, 0.98)), ((0.02, 0.5), (0.26, 0.5)), ((0.74, 0.5), (0.98, 0.5))): d.line(_pts(S, [a, b]), fill=W, width=lw)
+
+
+def map_ring(d, S, W, C):
+    """A hostile human (Jason): a thick ring - stands apart from the zombies' dots."""
+    d.ellipse(_pts(S, [(0.12, 0.12), (0.88, 0.88)]), outline=W, width=max(3, int(S * 0.17)))
+
+
+def map_dead(d, S, W, C):
+    """A dead figure: a small X."""
+    lw = max(3, int(S * 0.13))
+    for a, b in (((0.24, 0.24), (0.76, 0.76)), ((0.76, 0.24), (0.24, 0.76))): d.line(_pts(S, [a, b]), fill=W, width=lw)
+
+
+def map_vend(d, S, W, C):
+    """A vending machine from the front: the cabinet, its window cut out, a coin slot below."""
+    d.rounded_rectangle(_pts(S, [(0.20, 0.04), (0.80, 0.96)]), radius=S * 0.06, fill=W)
+    d.rectangle(_pts(S, [(0.29, 0.13), (0.71, 0.56)]), fill=C)
+    d.rectangle(_pts(S, [(0.29, 0.70), (0.71, 0.80)]), fill=C)
+
+
+def map_lower(d, S, W, C):
+    """Legend swatch "lower": the dark shading of what lies below Jodi's floor with one edge line (as M_MapCombine draws them)."""
+    d.rectangle(_pts(S, [(0.0, 0.0), (1.0, 1.0)]), fill=(52, 52, 58, 255))
+    d.line(_pts(S, [(0.0, 0.62), (1.0, 0.30)]), fill=(150, 150, 158, 255), width=max(2, int(S * 0.06)))
+
+
+def map_frame_round(d, S, W, C):
+    """The round minimap's rim: a ring on the edge, inside and corners clear (tinted like the square frame)."""
+    d.ellipse(_pts(S, [(0.0, 0.0), (1.0, 1.0)]), outline=W, width=max(2, int(S * 0.025)))
+
+
+def map_hatch(path, size=32):
+    """The map ground where nothing is recorded yet: fine white diagonal lines on clear, tiles seamlessly; W_NavMap tints them with
+    the text colour, faint, over the panel's background colour (play test 2026-11-19)."""
+    im = Image.new("RGBA", (size, size), (255, 255, 255, 0)); d = ImageDraw.Draw(im)
+    for o in range(-size, size + 1, size // 2): d.line([(o, size), (o + size, 0)], fill=(255, 255, 255, 255), width=2)
+    im.save(path)
+
+
+MAP_GLYPHS = (("map_arrow", map_arrow, "T_MapArrow"), ("map_dot", map_dot, "T_MapDot"), ("map_bed", map_bed, "T_MapBed"), ("map_cross", map_cross, "T_MapCross"),
+              ("map_ring", map_ring, "T_MapRing"), ("map_dead", map_dead, "T_MapDead"), ("map_vend", map_vend, "T_MapVend"), ("map_lower", map_lower, "T_MapLower"))
+T_MAPHATCH = M + "/T_MapHatch"; T_MAPRINGFRAME = M + "/T_MapRingFrame"
+
+
 def build(assets_dir):
     """Writes the PNGs under <assets_dir>/tex and returns the asset list (file relative to assets_dir)."""
     os.makedirs(os.path.join(assets_dir, "tex"), exist_ok=True)
@@ -592,6 +655,8 @@ def build(assets_dir):
     for k, f in TAB_ICON_DRAW.items(): _glyph(os.path.join(assets_dir, "tex", "tab_%s.png" % k.lower()), f)
     _glyph(os.path.join(assets_dir, "tex", "altui.png"), altui_panel)
     for f, fn_ in (("arrow_up", arrow_up), ("arrow_down", arrow_down), ("camheight", cam_height), ("tilt_left", tilt_left), ("tilt_right", tilt_right), ("camtilt", cam_tilt), ("arrow_far", arrow_far), ("arrow_near", arrow_near), ("camdist", cam_dist), ("fold_open", fold_open), ("fold_closed", fold_closed)): _glyph(os.path.join(assets_dir, "tex", f + ".png"), fn_, size=64)
+    for f, fn_, _ in MAP_GLYPHS: _glyph(os.path.join(assets_dir, "tex", f + ".png"), fn_, size=64)
+    _glyph(os.path.join(assets_dir, "tex", "map_frame_round.png"), map_frame_round, size=256); map_hatch(os.path.join(assets_dir, "tex", "map_hatch.png"))
     return [{"type": "texture", "path": T_ROUNDBOX, "file": "tex/roundbox.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_ROUNDFRAME, "file": "tex/roundframe.png", "props": TEX_PROPS},
             {"type": "texture", "path": T_CHECK_ON, "file": "tex/check_on.png", "props": TEX_PROPS},
@@ -630,7 +695,10 @@ def build(assets_dir):
             {"type": "texture", "path": M + "/T_FoldOpen", "file": "tex/fold_open.png", "props": TEX_PROPS},
             {"type": "texture", "path": M + "/T_FoldClosed", "file": "tex/fold_closed.png", "props": TEX_PROPS},
             {"type": "texture", "path": M + "/T_CamDist", "file": "tex/camdist.png", "props": TEX_PROPS}] + \
-           [{"type": "texture", "path": M + "/T_Tab" + k, "file": "tex/tab_%s.png" % k.lower(), "props": TEX_PROPS} for k in TAB_ICON_DRAW]
+           [{"type": "texture", "path": M + "/T_Tab" + k, "file": "tex/tab_%s.png" % k.lower(), "props": TEX_PROPS} for k in TAB_ICON_DRAW] + \
+           [{"type": "texture", "path": M + "/" + t, "file": "tex/%s.png" % f, "props": TEX_PROPS} for f, _, t in MAP_GLYPHS] + \
+           [{"type": "texture", "path": T_MAPRINGFRAME, "file": "tex/map_frame_round.png", "props": TEX_PROPS},
+            {"type": "texture", "path": T_MAPHATCH, "file": "tex/map_hatch.png", "props": TEX_PROPS}]   # Slate tiles it (Brush Tiling=Both); textures wrap by default
 
 
 if __name__ == "__main__":

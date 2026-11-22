@@ -176,5 +176,7 @@ def structs():
                            param("Outfit", "name", "array"),
                            # the look's breast / waist (Makeup Data Boobs Size / Waist): set as the figure's breasts size / waist adjust, which its
                            # anim reads (Get Boobs Size / Get Waist Adjust); 0 = an old record (as before: the follower rolls nothing in Init Npc Appearance)
-                           param("Boobs", "float"), param("Waist", "float")]),
+                           param("Boobs", "float"), param("Waist", "float"),
+                           # AltUI's material swaps of its pieces (<piece>#<slot> -> "<source piece>#<source slot>"); empty = none / an old record
+                           param("SlotMats", "name", "map", value_type="string")]),
             blueprint(SG_FOL, "/Script/Engine.SaveGame", variables=[var("Followers", "struct:" + S_FOL, "array"), var("Counter", "int")])]

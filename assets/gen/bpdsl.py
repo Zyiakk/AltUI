@@ -83,6 +83,7 @@ P_ARCH_T = "/Game/Project/Maps/JodisOffice/Computer/Jodi_Archives"; P_ARCH_S = "
 P_NOTE_SAVE = "/Game/Project/Classes/Save/Note_Save"; P_SETTINGS_SAVE = "/Game/Project/Classes/Save/Settings_Save"; P_PWCOMP = "/Game/Project/Classes/Items/ItemComp_Password"; P_ZOMBIE = "/Game/Project/Zombie/Zombie_Base"; P_SHATTERER = "/Game/Project/Zombie/Shatterer"
 P_AICTRL = "/Game/Project/Classes/Controller/AI_Controller"; P_ZOMBIECTRL = "/Game/Project/Classes/Controller/Zombie_Controller"   # Enemies tab (stubs: gen_stubs.py)
 P_ZOMBIE_AIMODE = "/Game/Project/Classes/Enum/Zombie_AIMode"   # byte values: 0 None, 1 NoSoul, 2 Inactive, 3 Active, 4 ChasePlayer, 5 Following, 6 Patrol (Names array, not the NewEnumeratorN names)
+P_TRADING = "/Game/Project/Actors/Misc/TradingMachine"   # vending machines (also _Ammo / _Refresh): map markers
 P_INTERACTIVE = "/Game/Project/Classes/InteractiveActor/InteractiveActor_Base"; P_ITEMCOMP = "/Game/Project/Classes/Items/ItemComponent"
 P_WEAPON = "/Game/Project/Actors/Weapons/Weapon_Base"; P_GUN = "/Game/Project/Actors/Weapons/Weapon_Gun_Base"; P_EQUIPBASE = "/Game/Project/Actors/Weapons/Equipment/Gun_Equipment_Base"; P_MAGCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Mag_Comp"; P_OPTICSCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Optics_Comp"; P_BARRELCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Barrel_Comp"; P_GRIPCOMP = "/Game/Project/Actors/Weapons/Equipment/Gun_Grip_Comp"
 P_PRESET_SAVE = "/Game/Project/Classes/Save/MakeupPreset_Save"; P_PRESET_S = "/Game/Project/Classes/Struct/MakeupPreset_Struct"

@@ -437,6 +437,59 @@
      }
     },
     {
+     "name": "Get AltUI Greyed",
+     "graph": {
+      "nodes": [
+       {
+        "id": "gon",
+        "kind": "get",
+        "var": "LightOn"
+       },
+       {
+        "id": "off",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "Not_PreBool",
+        "in": {
+         "A": "@gon.LightOn"
+        }
+       },
+       {
+        "id": "kb",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "EqualEqual_NameName",
+        "in": {
+         "A": "@entry.Key",
+         "B": "Brightness"
+        }
+       },
+       {
+        "id": "gr",
+        "kind": "call",
+        "class": "/Script/Engine.KismetMathLibrary",
+        "function": "BooleanAND",
+        "in": {
+         "A": "@kb.ReturnValue",
+         "B": "@off.ReturnValue"
+        }
+       }
+      ],
+      "links": [
+       [
+        "gr.ReturnValue",
+        "return.Greyed"
+       ]
+      ],
+      "exec": [
+       [
+        "entry",
+        "return"
+       ]
+      ]
+     }
+    },
+    {
      "name": "Apply",
      "graph": {
       "nodes": [

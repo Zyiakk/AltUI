@@ -60,7 +60,9 @@ Two routes, as for bodies: convert a replacer with `weaponpak.pyz` – the playe
 
 ### Extra weapons
 
-*Tested so far in the game: the weapon appears and can be held and swung. Saving, loading and the storage box are not tested yet.*
+*Tested in the game with [KillingEdge](https://github.com/Zyiakk/KillingEdge) 0.1.0: the weapon appears in the inventory, can be held and used with its own attacks, stays in a save and in the storage box, and can be taken into a challenge map. Removing the mod is safe: a save with the weapon then loads without it.*
+
+**Example:** [KillingEdge](https://github.com/Zyiakk/KillingEdge) adds a sai as an extra weapon with its own attack montages; its `assets/gen/gen_killingedge.py` builds both tables, the weapon and pickup classes and the montage choice.
 
 A new weapon, one that replaces none of the game's, is a pair of row tables in your mod folder: `Mod_ExtraItemTable` (row structure `ItemStruct`) and `Mod_ExtraWeaponTable` (row structure `WeaponStruct`). AltUI appends their rows to the game's `ItemTable` and `WeaponTable` each time it starts, in the main menu and at the start of each level, after its game version check has passed. A row that already exists stays as it is. So prefix your row names: a name that matches one of the game's rows or another mod's is not added, and AltUI's game version check then reports an unknown game version. After that the weapon is an ordinary item. It works only with AltUI installed, and `Tables` in your `TKA_Mod_Table` stays empty.
 
